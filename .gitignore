@@ -9,7 +9,6 @@ lerna-debug.log*
 
 node_modules
 .DS_Store
-dist
 dist-ssr
 coverage
 *.local
@@ -25,7 +24,6 @@ coverage
 *.sw?
 
 *.tsbuildinfo
-
 .eslintcache
 
 # Cypress
@@ -37,6 +35,7 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+<<<<<<< HEAD
 
 # 依赖包（永远不上传）
 node_modules/
@@ -64,3 +63,5 @@ pnpm-debug.log*
 
 # 系统文件
 .DS_Store
+=======
+>>>>>>> 6b58feba9e53bf49e36582378004bd54a7dbfcd6
