@@ -29,15 +29,16 @@ export class OCRService {
     }
 
     try {
-      const keysUrl = new URL('/ocr/keys.txt', import.meta.url).href;
+      // 保持相对路径，这样部署后会自动匹配你的域名
+      const keysUrl = '/ocr/keys.txt'; 
       
-      // ⚡️ 使用 github.moeyy.xyz 代理地址，它支持跨域 (CORS)
       const [detModel, recModel, keysText] = await Promise.all([
-        fetch('https://github.moeyy.xyz/https://github.com/Drloudx/hxsngh/releases/download/v1.0.0/det.onnx').then(res => {
+        // ⚡️ 重点：直接写相对路径。通过 _redirects 文件在后台跳转
+        fetch('/ocr/det.onnx').then(res => {
           if (!res.ok) throw new Error(`检测模型加载失败: ${res.status}`);
           return res.arrayBuffer();
         }),
-        fetch('https://github.moeyy.xyz/https://github.com/Drloudx/hxsngh/releases/download/v1.0.0/rec.onnx').then(res => {
+        fetch('/ocr/rec.onnx').then(res => {
           if (!res.ok) throw new Error(`识别模型加载失败: ${res.status}`);
           return res.arrayBuffer();
         }),
@@ -55,11 +56,11 @@ export class OCRService {
       this.keys = keysText.split('\n').map(k => k.trim());
       console.log('OCR 核心引擎就绪');
     } catch (e) {
+      console.error('OCR 初始化详细错误:', e);
       this.initPromise = null;
       throw e;
     }
   }
-
   /**
    * 核心识别函数
    */
