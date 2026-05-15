@@ -30,8 +30,8 @@ export class OCRService {
 
     try {
       const [detModel, recModel, keysText] = await Promise.all([
-        fetch('/ocr/det.onnx').then(res => res.arrayBuffer()),
-        fetch('/ocr/rec.onnx').then(res => res.arrayBuffer()),
+        fetch('https://github.com/Drloudx/hxsngh/releases/download/v1.0.0/det.onnx').then(res => res.arrayBuffer()),
+        fetch('https://github.com/Drloudx/hxsngh/releases/download/v1.0.0/rec.onnx').then(res => res.arrayBuffer()),
         fetch('/ocr/keys.txt').then(res => res.text())
       ]);
 
