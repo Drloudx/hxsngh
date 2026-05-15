@@ -33,13 +33,12 @@ export class OCRService {
       const keysUrl = new URL('/ocr/keys.txt', import.meta.url).href;
       
       const [detModel, recModel, keysText] = await Promise.all([
-        // ⚡️ 关键修改点：改用相对路径，触发 Cloudflare _redirects 代理
-        fetch('/models/det.onnx').then(res => {
-          if (!res.ok) throw new Error(`模型下载失败: ${res.status}`);
+        fetch('/models/det.onnx', { redirect: 'follow' }).then(res => {
+          if (!res.ok) throw new Error(`Status: ${res.status}`);
           return res.arrayBuffer();
         }),
-        fetch('/models/rec.onnx').then(res => {
-          if (!res.ok) throw new Error(`模型下载失败: ${res.status}`);
+        fetch('/models/rec.onnx', { redirect: 'follow' }).then(res => {
+          if (!res.ok) throw new Error(`Status: ${res.status}`);
           return res.arrayBuffer();
         }),
         fetch(keysUrl).then(res => res.text())
