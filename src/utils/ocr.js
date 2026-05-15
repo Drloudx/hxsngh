@@ -30,9 +30,9 @@ export class OCRService {
 
     try {
       const [detModel, recModel, keysText] = await Promise.all([
-        fetch('https://github.com/Drloudx/hxsngh/releases/download/v1.0.0/det.onnx').then(res => res.arrayBuffer()),
-        fetch('https://github.com/Drloudx/hxsngh/releases/download/v1.0.0/rec.onnx').then(res => res.arrayBuffer()),
-        fetch('/ocr/keys.txt').then(res => res.text())
+        fetch('https://fastly.jsdelivr.net/gh/Drloudx/hxsngh@v1.0.0/det.onnx').then(res => res.arrayBuffer()),
+        fetch('https://fastly.jsdelivr.net/gh/Drloudx/hxsngh@v1.0.0/rec.onnx').then(res => res.arrayBuffer()),
+        fetch(keysUrl).then(res => res.text())
       ]);
 
       const sessionOptions = { 
