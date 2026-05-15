@@ -5,7 +5,8 @@ import fs from 'fs'
 import path from 'path'
 
 export default defineConfig({
-  base: '/hxsngh/',
+  // 关键改动：改为相对路径，适配 Cloudflare Pages 根目录部署
+  base: './', 
   plugins: [
     vue(),
     {
