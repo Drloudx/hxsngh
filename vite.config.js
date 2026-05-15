@@ -11,14 +11,11 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  assetsInclude: [],
+  // 👇 关键配置：强制不打包 wasm 文件
   build: {
     assetsInlineLimit: 0,
     rollupOptions: {
-      external: [
-        /onnxruntime-web/,
-        /ort-wasm/
-      ]
+      external: [/onnxruntime-web/, /ort-wasm/]
     }
   }
 })
