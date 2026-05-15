@@ -20,47 +20,45 @@ export class OCRService {
   }
 
  async _internalInit() {
-    if (!window.cv || !window.cv.Mat) {
-      await new Promise(resolve => {
-        const check = setInterval(() => {
-          if (window.cv && window.cv.Mat) { clearInterval(check); resolve(); }
-        }, 50);
-      });
-    }
-
-    try {
-      // 保持相对路径，这样部署后会自动匹配你的域名
-      const keysUrl = '/ocr/keys.txt'; 
-      
-      const [detModel, recModel, keysText] = await Promise.all([
-        // ⚡️ 重点：直接写相对路径。通过 _redirects 文件在后台跳转
-        fetch('/ocr/det.onnx').then(res => {
-          if (!res.ok) throw new Error(`检测模型加载失败: ${res.status}`);
-          return res.arrayBuffer();
-        }),
-        fetch('/ocr/rec.onnx').then(res => {
-          if (!res.ok) throw new Error(`识别模型加载失败: ${res.status}`);
-          return res.arrayBuffer();
-        }),
-        fetch(keysUrl).then(res => res.text())
-      ]);
-
-      const sessionOptions = { 
-        executionProviders: ['wasm'],
-        graphOptimizationLevel: 'all',
-        enableCpuMemArena: true
-      };
-
-      this.detSession = await ort.InferenceSession.create(detModel, sessionOptions);
-      this.recSession = await ort.InferenceSession.create(recModel, sessionOptions);
-      this.keys = keysText.split('\n').map(k => k.trim());
-      console.log('OCR 核心引擎就绪');
-    } catch (e) {
-      console.error('OCR 初始化详细错误:', e);
-      this.initPromise = null;
-      throw e;
-    }
+  if (!window.cv || !window.cv.Mat) {
+    await new Promise(resolve => {
+      const check = setInterval(() => {
+        if (window.cv && window.cv.Mat) { clearInterval(check); resolve(); }
+      }, 50);
+    });
   }
+
+  try {
+    const keysUrl = '/ocr/keys.txt';
+    
+    // ⚡️ 纯净的相对路径，让 Cloudflare 去做幕后黑手
+    const [detModel, recModel, keysText] = await Promise.all([
+      fetch('/ocr/det.onnx').then(res => {
+        if (!res.ok) throw new Error(`检测模型加载失败 状态码: ${res.status}`);
+        return res.arrayBuffer();
+      }),
+      fetch('/ocr/rec.onnx').then(res => {
+        if (!res.ok) throw new Error(`识别模型加载失败 状态码: ${res.status}`);
+        return res.arrayBuffer();
+      }),
+      fetch(keysUrl).then(res => res.text())
+    ]);
+
+    const sessionOptions = { 
+      executionProviders: ['wasm'],
+      graphOptimizationLevel: 'all',
+      enableCpuMemArena: true
+    };
+
+    this.detSession = await ort.InferenceSession.create(detModel, sessionOptions);
+    this.recSession = await ort.InferenceSession.create(recModel, sessionOptions);
+    this.keys = keysText.split('\n').map(k => k.trim());
+    console.log('OCR 核心引擎就绪');
+  } catch (e) {
+    this.initPromise = null;
+    throw e;
+  }
+}
   /**
    * 核心识别函数
    */
