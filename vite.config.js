@@ -1,27 +1,24 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-// https://vite.dev/config/
 export default defineConfig({
   base: '/hxsngh/',
-  plugins: [
-    vue(),
-    vueDevTools(),
-  ],
+  plugins: [vue(), vueDevTools()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-
-  
-  assetsInclude: ['**/*.onnx', '**/*.wasm'],
+  assetsInclude: [],
   build: {
+    assetsInlineLimit: 0,
     rollupOptions: {
-      external: [/\.onnx$/, /\.wasm$/]
+      external: [
+        /onnxruntime-web/,
+        /ort-wasm/
+      ]
     }
   }
 })
