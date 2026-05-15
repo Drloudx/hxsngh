@@ -29,6 +29,8 @@ export class OCRService {
     }
 
     try {
+      const keysUrl = new URL('/ocr/keys.txt', import.meta.url).href;
+      
       const [detModel, recModel, keysText] = await Promise.all([
         fetch('https://fastly.jsdelivr.net/gh/Drloudx/hxsngh@v1.0.0/det.onnx').then(res => res.arrayBuffer()),
         fetch('https://fastly.jsdelivr.net/gh/Drloudx/hxsngh@v1.0.0/rec.onnx').then(res => res.arrayBuffer()),
