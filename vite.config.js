@@ -17,6 +17,7 @@ export default defineConfig({
     }
   },
 
+  
   assetsInclude: ['**/*.onnx', '**/*.wasm'],
   build: {
     rollupOptions: {
