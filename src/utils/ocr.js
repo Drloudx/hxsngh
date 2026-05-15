@@ -1,8 +1,7 @@
 import * as ort from 'onnxruntime-web';
 
 ort.env.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.26.0/dist/';
-// 限制为 1 个线程以确保在所有浏览器环境下的绝对稳定性，配合串行识别
-ort.env.wasm.numThreads = 1;
+ort.env.wasm.numThreads = 1; 
 
 export class OCRService {
   constructor() {
