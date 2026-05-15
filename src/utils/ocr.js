@@ -29,16 +29,16 @@ export class OCRService {
     }
 
     try {
-      // 保持 keys.txt 原样或改为相对路径
       const keysUrl = new URL('/ocr/keys.txt', import.meta.url).href;
       
+      // ⚡️ 使用 github.moeyy.xyz 代理地址，它支持跨域 (CORS)
       const [detModel, recModel, keysText] = await Promise.all([
-        fetch('/models/det.onnx', { redirect: 'follow' }).then(res => {
-          if (!res.ok) throw new Error(`Status: ${res.status}`);
+        fetch('https://github.moeyy.xyz/https://github.com/Drloudx/hxsngh/releases/download/v1.0.0/det.onnx').then(res => {
+          if (!res.ok) throw new Error(`检测模型加载失败: ${res.status}`);
           return res.arrayBuffer();
         }),
-        fetch('/models/rec.onnx', { redirect: 'follow' }).then(res => {
-          if (!res.ok) throw new Error(`Status: ${res.status}`);
+        fetch('https://github.moeyy.xyz/https://github.com/Drloudx/hxsngh/releases/download/v1.0.0/rec.onnx').then(res => {
+          if (!res.ok) throw new Error(`识别模型加载失败: ${res.status}`);
           return res.arrayBuffer();
         }),
         fetch(keysUrl).then(res => res.text())
@@ -55,7 +55,6 @@ export class OCRService {
       this.keys = keysText.split('\n').map(k => k.trim());
       console.log('OCR 核心引擎就绪');
     } catch (e) {
-      console.error('OCR 初始化失败:', e); // 建议加上日志方便调试
       this.initPromise = null;
       throw e;
     }
