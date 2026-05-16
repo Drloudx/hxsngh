@@ -230,7 +230,7 @@ export class OCRService {
   }
 
   /**
-   * 文字识别
+   * 文字识别（已移除对比度增强与拉普拉斯锐化高耗能算法）
    */
   async recognize(src, box) {
     const padding = 3;
@@ -251,16 +251,13 @@ export class OCRService {
     const warped = new window.cv.Mat();
     window.cv.warpPerspective(src, warped, M, new window.cv.Size(width, height));
 
-    const enhanced = new window.cv.Mat();
-    warped.convertTo(enhanced, -1, 1.3, 15);
-    const sharpened = new window.cv.Mat();
-    const kernel = window.cv.matFromArray(3, 3, window.cv.CV_32F, [0, -1, 0, -1, 5, -1, 0, -1, 0]);
-    window.cv.filter2D(enhanced, sharpened, -1, kernel);
-
+    // 💡 核心优化点：直接跳过旧代码中的 enhanced 和 sharpened 图像矩阵计算
     const recHeight = 48;
     const recWidth = Math.floor(width * (recHeight / height));
     const resized = new window.cv.Mat();
-    window.cv.resize(sharpened, resized, new window.cv.Size(recWidth, recHeight), 0, 0, window.cv.INTER_CUBIC);
+
+    // 直接传入透视变换后的原始切片 warped
+    window.cv.resize(warped, resized, new window.cv.Size(recWidth, recHeight), 0, 0, window.cv.INTER_CUBIC);
 
     const size = recHeight * recWidth;
     const input = new Float32Array(3 * size);
@@ -292,8 +289,8 @@ export class OCRService {
       lastIdx = maxIdx;
     }
 
-    dstPoints.delete(); srcPoints.delete(); M.delete(); warped.delete();
-    enhanced.delete(); sharpened.delete(); kernel.delete(); resized.delete();
+    // 💡 清理内存：仅销毁实际开辟的本地矩阵，防止单线程 GC 阻塞
+    dstPoints.delete(); srcPoints.delete(); M.delete(); warped.delete(); resized.delete();
     return text;
   }
 
