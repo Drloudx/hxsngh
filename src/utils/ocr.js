@@ -1,7 +1,8 @@
 import * as ort from 'onnxruntime-web';
 
 ort.env.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.26.0/dist/';
-ort.env.wasm.numThreads = 1; 
+// 限制为 1 个线程以确保在所有浏览器环境下的绝对稳定性，配合串行识别
+ort.env.wasm.numThreads = 1;
 
 export class OCRService {
   constructor() {
@@ -19,7 +20,6 @@ export class OCRService {
     return this.initPromise;
   }
 
-<<<<<<< HEAD
   async _internalInit() {
     if (!window.cv || !window.cv.Mat) {
       await new Promise(resolve => {
@@ -75,7 +75,7 @@ export class OCRService {
         enableCpuMemArena: true
       };
 
-      // 5. 将组装回来的完整完整 ArrayBuffer 塞给 ONNX Runtime
+      // 5. 将组装回来的完整 ArrayBuffer 塞给 ONNX Runtime
       this.detSession = await ort.InferenceSession.create(detBuffer.buffer, sessionOptions);
       this.recSession = await ort.InferenceSession.create(recBuffer.buffer, sessionOptions);
       this.keys = keysText.split('\n').map(k => k.trim());
@@ -86,48 +86,8 @@ export class OCRService {
       this.initPromise = null;
       throw e;
     }
-=======
- async _internalInit() {
-  if (!window.cv || !window.cv.Mat) {
-    await new Promise(resolve => {
-      const check = setInterval(() => {
-        if (window.cv && window.cv.Mat) { clearInterval(check); resolve(); }
-      }, 50);
-    });
->>>>>>> a93ccab741a631f1acfec523d2a941e227c5f5e7
   }
 
-  try {
-    const keysUrl = '/ocr/keys.txt';
-    
-    // ⚡️ 纯净的相对路径，让 Cloudflare 去做幕后黑手
-    const [detModel, recModel, keysText] = await Promise.all([
-      fetch('/ocr/det.onnx').then(res => {
-        if (!res.ok) throw new Error(`检测模型加载失败 状态码: ${res.status}`);
-        return res.arrayBuffer();
-      }),
-      fetch('/ocr/rec.onnx').then(res => {
-        if (!res.ok) throw new Error(`识别模型加载失败 状态码: ${res.status}`);
-        return res.arrayBuffer();
-      }),
-      fetch(keysUrl).then(res => res.text())
-    ]);
-
-    const sessionOptions = { 
-      executionProviders: ['wasm'],
-      graphOptimizationLevel: 'all',
-      enableCpuMemArena: true
-    };
-
-    this.detSession = await ort.InferenceSession.create(detModel, sessionOptions);
-    this.recSession = await ort.InferenceSession.create(recModel, sessionOptions);
-    this.keys = keysText.split('\n').map(k => k.trim());
-    console.log('OCR 核心引擎就绪');
-  } catch (e) {
-    this.initPromise = null;
-    throw e;
-  }
-}
   /**
    * 核心识别函数
    */
@@ -136,36 +96,38 @@ export class OCRService {
     this.isProcessing = true;
 
     try {
+      if (!imageElement.complete || imageElement.naturalWidth === 0) {
+        await new Promise((resolve, reject) => {
+          imageElement.onload = () => resolve();
+          imageElement.onerror = () => reject(new Error('图片加载失败，无法进行 OCR 识别'));
+        });
+      }
+
       await this.init();
 
-      // --- ⚡️ 优化：使用 Canvas 进行硬件级 ROI 裁剪和初步降采样 ---
       const roiCanvas = document.createElement('canvas');
       const roiCtx = roiCanvas.getContext('2d', { alpha: false });
-      
+
       const srcX = Math.floor(imageElement.width * 0.10);
       const srcY = Math.floor(imageElement.height * 0.30);
       const srcW = Math.floor(imageElement.width * 0.80);
       const srcH = Math.floor(imageElement.height * 0.30);
 
-      // 将 ROI 区域长边限制在 960px，利用 Canvas 硬件加速完成第一次 Downsample
       const targetLimit = 960;
       const ratio = targetLimit / Math.max(srcW, srcH);
       const drawW = srcW * ratio;
       const drawH = srcH * ratio;
-      
+
       roiCanvas.width = drawW;
       roiCanvas.height = drawH;
       roiCtx.imageSmoothingEnabled = true;
       roiCtx.imageSmoothingQuality = 'high';
       roiCtx.drawImage(imageElement, srcX, srcY, srcW, srcH, 0, 0, drawW, drawH);
 
-      // 将降采样后的图像送入 OpenCV
       const src = window.cv.imread(roiCanvas);
 
-      // 1. 文本检测 (由于已经降采样过，这里的 detect 会非常快)
       const boxes = await this.detect(src);
-      
-      // 2. ⚡️ 优化：严格串行识别，避免 Session 锁死
+
       const matchedTags = [];
       const allFoundTexts = [];
 
@@ -173,8 +135,7 @@ export class OCRService {
         const text = await this.recognize(src, box);
         if (text) {
           let cleanText = text.trim();
-          
-          // 像素风补全
+
           const corrections = [
               [/山肠|山月永|服|山腋|山脈/, '山脉'],
               [/也系|地票/, '地系'],
@@ -186,13 +147,13 @@ export class OCRService {
           ];
           corrections.forEach(([regex, replacement]) => { cleanText = cleanText.replace(regex, replacement); });
           if (cleanText === '灵') cleanText = '魔灵';
-          
+
           allFoundTexts.push(cleanText);
 
           possibleTags.forEach(tag => {
             if (cleanText === tag || (cleanText.includes(tag) && cleanText.length <= tag.length + 1)) {
               matchedTags.push(tag);
-            } 
+            }
             else if (tag === '山脉' && (cleanText === '山' || cleanText === '脉')) {
               matchedTags.push(tag);
             }
@@ -216,7 +177,7 @@ export class OCRService {
       return { matched: [...new Set(matchedTags)], allTexts: allFoundTexts };
 
     } finally {
-      this.isProcessing = false; // 释放锁
+      this.isProcessing = false;
     }
   }
 
@@ -226,22 +187,20 @@ export class OCRService {
   async detect(src) {
     const width = src.cols;
     const height = src.rows;
-    // 由于外部已经降采样到 960，这里直接使用 640 或 480 进行进一步加速
-    const targetSize = 480; 
+    const targetSize = 480;
     const ratio = targetSize / Math.max(width, height);
     const newWidth = Math.ceil((width * ratio) / 32) * 32;
     const newHeight = Math.ceil((height * ratio) / 32) * 32;
 
     const resized = new window.cv.Mat();
     window.cv.resize(src, resized, new window.cv.Size(newWidth, newHeight), 0, 0, window.cv.INTER_LINEAR);
-    
+
     const size = newHeight * newWidth;
     const input = new Float32Array(3 * size);
     const data = resized.data;
-    // 极致优化转换循环
     for (let i = 0; i < size; i++) {
-      const j = i << 2; // i * 4
-      input[i] = (data[j] * 0.003921568 - 0.485) * 4.36681; // /255, -0.485, /0.229
+      const j = i << 2;
+      input[i] = (data[j] * 0.003921568 - 0.485) * 4.36681;
       input[i + size] = (data[j+1] * 0.003921568 - 0.456) * 4.46428;
       input[i + 2 * size] = (data[j+2] * 0.003921568 - 0.406) * 4.44444;
     }
@@ -292,7 +251,6 @@ export class OCRService {
     const warped = new window.cv.Mat();
     window.cv.warpPerspective(src, warped, M, new window.cv.Size(width, height));
 
-    // 高质量识别预处理
     const enhanced = new window.cv.Mat();
     warped.convertTo(enhanced, -1, 1.3, 15);
     const sharpened = new window.cv.Mat();
@@ -302,7 +260,6 @@ export class OCRService {
     const recHeight = 48;
     const recWidth = Math.floor(width * (recHeight / height));
     const resized = new window.cv.Mat();
-    // 强制使用高质量插值
     window.cv.resize(sharpened, resized, new window.cv.Size(recWidth, recHeight), 0, 0, window.cv.INTER_CUBIC);
 
     const size = recHeight * recWidth;
@@ -310,7 +267,7 @@ export class OCRService {
     const data = resized.data;
     for (let i = 0; i < size; i++) {
       const j = i << 2;
-      input[i] = (data[j] * 0.003921568 - 0.5) * 2; // (x/255 - 0.5) / 0.5
+      input[i] = (data[j] * 0.003921568 - 0.5) * 2;
       input[i + size] = (data[j+1] * 0.003921568 - 0.5) * 2;
       input[i + 2 * size] = (data[j+2] * 0.003921568 - 0.5) * 2;
     }
@@ -335,7 +292,7 @@ export class OCRService {
       lastIdx = maxIdx;
     }
 
-    dstPoints.delete(); srcPoints.delete(); M.delete(); warped.delete(); 
+    dstPoints.delete(); srcPoints.delete(); M.delete(); warped.delete();
     enhanced.delete(); sharpened.delete(); kernel.delete(); resized.delete();
     return text;
   }
