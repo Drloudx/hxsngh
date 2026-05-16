@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 /* /index.html 200
+=======
+/ocr/det.onnx https://github.com/Drloudx/hxsngh/releases/download/v1.0.0/det.onnx 200
+/ocr/rec.onnx https://github.com/Drloudx/hxsngh/releases/download/v1.0.0/rec.onnx 200
+/* /index.html 200
+>>>>>>> a93ccab741a631f1acfec523d2a941e227c5f5e7

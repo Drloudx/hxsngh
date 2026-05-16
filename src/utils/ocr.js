@@ -1,8 +1,7 @@
 import * as ort from 'onnxruntime-web';
 
 ort.env.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.26.0/dist/';
-// 限制为 1 个线程以确保在所有浏览器环境下的绝对稳定性，配合串行识别
-ort.env.wasm.numThreads = 1;
+ort.env.wasm.numThreads = 1; 
 
 export class OCRService {
   constructor() {
@@ -20,6 +19,7 @@ export class OCRService {
     return this.initPromise;
   }
 
+<<<<<<< HEAD
   async _internalInit() {
     if (!window.cv || !window.cv.Mat) {
       await new Promise(resolve => {
@@ -86,8 +86,48 @@ export class OCRService {
       this.initPromise = null;
       throw e;
     }
+=======
+ async _internalInit() {
+  if (!window.cv || !window.cv.Mat) {
+    await new Promise(resolve => {
+      const check = setInterval(() => {
+        if (window.cv && window.cv.Mat) { clearInterval(check); resolve(); }
+      }, 50);
+    });
+>>>>>>> a93ccab741a631f1acfec523d2a941e227c5f5e7
   }
 
+  try {
+    const keysUrl = '/ocr/keys.txt';
+    
+    // ⚡️ 纯净的相对路径，让 Cloudflare 去做幕后黑手
+    const [detModel, recModel, keysText] = await Promise.all([
+      fetch('/ocr/det.onnx').then(res => {
+        if (!res.ok) throw new Error(`检测模型加载失败 状态码: ${res.status}`);
+        return res.arrayBuffer();
+      }),
+      fetch('/ocr/rec.onnx').then(res => {
+        if (!res.ok) throw new Error(`识别模型加载失败 状态码: ${res.status}`);
+        return res.arrayBuffer();
+      }),
+      fetch(keysUrl).then(res => res.text())
+    ]);
+
+    const sessionOptions = { 
+      executionProviders: ['wasm'],
+      graphOptimizationLevel: 'all',
+      enableCpuMemArena: true
+    };
+
+    this.detSession = await ort.InferenceSession.create(detModel, sessionOptions);
+    this.recSession = await ort.InferenceSession.create(recModel, sessionOptions);
+    this.keys = keysText.split('\n').map(k => k.trim());
+    console.log('OCR 核心引擎就绪');
+  } catch (e) {
+    this.initPromise = null;
+    throw e;
+  }
+}
   /**
    * 核心识别函数
    */
