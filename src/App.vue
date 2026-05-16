@@ -310,7 +310,7 @@ body {
 .title-with-logo {
   display: flex;
   align-items: center;
-  font-size: 1.10rem;
+  font-size: 1.05rem;
   margin: 0;
 }
 
