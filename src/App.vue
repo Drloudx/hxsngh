@@ -181,8 +181,7 @@ const getBadge = (minR) => {
         <button
           class="btn-upload"
           @click="triggerUpload"
-          :disabled="isOcrLoading || ocrStatus === 'loading'"
-        >
+          :disabled="isOcrLoading" >
           {{ isOcrLoading ? '识别中...' : '上传截图' }}
         </button>
         <button class="btn-reset" @click="resetTags">重置</button>
