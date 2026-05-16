@@ -30,23 +30,59 @@ export class OCRService {
     }
 
     try {
-      const [detModel, recModel, keysText] = await Promise.all([
-        fetch('/ocr/det.onnx').then(res => res.arrayBuffer()),
-        fetch('/ocr/rec.onnx').then(res => res.arrayBuffer()),
+      console.log('🚀 开始并行下载模型碎片...');
+
+      // 1. 对应你 public/ocr/ 下实际的 5 个碎片文件名
+      const detParts = ['det_part_00', 'det_part_01', 'det_part_02', 'det_part_03', 'det_part_04'];
+      const recParts = ['rec_part_00', 'rec_part_01', 'rec_part_02', 'rec_part_03', 'rec_part_04'];
+
+      // 2. 使用纯相对路径并发下载，无跨域问题，速度拉满
+      const [detBuffers, recBuffers, keysText] = await Promise.all([
+        Promise.all(detParts.map(part => fetch(`/ocr/${part}`).then(res => {
+          if (!res.ok) throw new Error(`碎片 ${part} 下载失败`);
+          return res.arrayBuffer();
+        }))),
+        Promise.all(recParts.map(part => fetch(`/ocr/${part}`).then(res => {
+          if (!res.ok) throw new Error(`碎片 ${part} 下载失败`);
+          return res.arrayBuffer();
+        }))),
         fetch('/ocr/keys.txt').then(res => res.text())
       ]);
 
-      const sessionOptions = { 
+      console.log('📦 碎片下载完成，开始内存拼装...');
+
+      // 3. 动态拼接 det.onnx 的二进制流
+      const totalDetLength = detBuffers.reduce((sum, buf) => sum + buf.byteLength, 0);
+      const detBuffer = new Uint8Array(totalDetLength);
+      let detOffset = 0;
+      for (const buf of detBuffers) {
+        detBuffer.set(new Uint8Array(buf), detOffset);
+        detOffset += buf.byteLength;
+      }
+
+      // 4. 动态拼接 rec.onnx 的二进制流
+      const totalRecLength = recBuffers.reduce((sum, buf) => sum + buf.byteLength, 0);
+      const recBuffer = new Uint8Array(totalRecLength);
+      let recOffset = 0;
+      for (const buf of recBuffers) {
+        recBuffer.set(new Uint8Array(buf), recOffset);
+        recOffset += buf.byteLength;
+      }
+
+      const sessionOptions = {
         executionProviders: ['wasm'],
         graphOptimizationLevel: 'all',
         enableCpuMemArena: true
       };
 
-      this.detSession = await ort.InferenceSession.create(detModel, sessionOptions);
-      this.recSession = await ort.InferenceSession.create(recModel, sessionOptions);
+      // 5. 将组装回来的完整完整 ArrayBuffer 塞给 ONNX Runtime
+      this.detSession = await ort.InferenceSession.create(detBuffer.buffer, sessionOptions);
+      this.recSession = await ort.InferenceSession.create(recBuffer.buffer, sessionOptions);
       this.keys = keysText.split('\n').map(k => k.trim());
-      console.log('OCR 核心引擎就绪');
+
+      console.log('🎉 OCR 核心引擎组装成功并就绪！');
     } catch (e) {
+      console.error('❌ OCR 初始化失败:', e);
       this.initPromise = null;
       throw e;
     }
