@@ -9,6 +9,18 @@ const isOcrLoading = ref(false)
 const fileInput = ref(null)
 const ocrService = new OCRService()
 
+// 💡 核心优化：网页一挂载，立刻在后台静默预热引擎（并行下载模型碎片并提前在内存中组装）
+onMounted(() => {
+  console.log('🌐 网页已挂载，开始在后台静默预热 OCR 引擎...')
+  ocrService.init()
+    .then(() => {
+      console.log('✨ 后台预热成功！ocr模型已加载，随时可识别。')
+    })
+    .catch((err) => {
+      console.error('❌ 后台预热失败（可能网络抖动，用户上传时会重新尝试）:', err)
+    })
+})
+
 const tagsByCol = computed(() => {
   const result = {}
   filterCols.forEach(col => {
@@ -56,12 +68,13 @@ const handleFileUpload = async (event) => {
       const img = new Image()
       img.onload = async () => {
         try {
+          // 因为 init() 在 onMounted 里已经跑过了，这里进去会瞬间通过，直接开始扫描
           const result = await ocrService.recognizeTags(img, possibleTagsList.value)
           const { matched, allTexts } = result
-          
+
           // 在应用新识别结果前，先清空之前勾选的标签
           selectedTags.value = []
-          
+
           matched.forEach(tag => {
             if (!selectedTags.value.includes(tag)) {
               selectedTags.value.push(tag)
@@ -119,11 +132,11 @@ const filteredResults = computed(() => {
     let f = allData.filter(r => c.every(tag => isMatch(r, tag)))
     if (f.length === 0) return null
     let minR = Math.min(...f.map(r => r.稀有度))
-    return { 
-      c, 
-      f: f.sort((a, b) => b.稀有度 - a.稀有度), 
-      minR, 
-      w: minR * 100 + c.length 
+    return {
+      c,
+      f: f.sort((a, b) => b.稀有度 - a.稀有度),
+      minR,
+      w: minR * 100 + c.length
     }
   }).filter(x => x).sort((a, b) => b.w - a.w)
 })
@@ -161,11 +174,11 @@ const getBadge = (minR) => {
       <div v-for="col in filterCols" :key="col" class="filter-group">
         <div class="filter-label">{{ col }}</div>
         <div class="tags-container">
-          <span 
-            v-for="val in tagsByCol[col]" 
-            :key="val" 
-            class="tag" 
-            :class="{ 
+          <span
+            v-for="val in tagsByCol[col]"
+            :key="val"
+            class="tag"
+            :class="{
                 active: selectedTags.includes(val),
                 'tag-rarity-3': val === '传说',
                 'tag-rarity-2': val === '史诗'
