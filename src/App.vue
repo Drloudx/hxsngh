@@ -9,15 +9,22 @@ const isOcrLoading = ref(false)
 const fileInput = ref(null)
 const ocrService = new OCRService()
 
-// 💡 核心优化：网页一挂载，立刻在后台静默预热引擎（并行下载模型碎片并提前在内存中组装）
+// OCR 核心模型加载状态: 'loading' | 'ready' | 'error'
+const ocrStatus = ref('loading')
+
+// 网页一挂载，立刻在后台静默预热引擎（并行下载模型碎片并提前在内存中组装）
 onMounted(() => {
   console.log('🌐 网页已挂载，开始在后台静默预热 OCR 引擎...')
+  ocrStatus.value = 'loading'
+
   ocrService.init()
     .then(() => {
       console.log('✨ 后台预热成功！ocr模型已加载，随时可识别。')
+      ocrStatus.value = 'ready'
     })
     .catch((err) => {
       console.error('❌ 后台预热失败（可能网络抖动，用户上传时会重新尝试）:', err)
+      ocrStatus.value = 'error'
     })
 })
 
@@ -68,7 +75,13 @@ const handleFileUpload = async (event) => {
       const img = new Image()
       img.onload = async () => {
         try {
-          // 因为 init() 在 onMounted 里已经跑过了，这里进去会瞬间通过，直接开始扫描
+          // 如果之前加载失败了，在此处尝试二次初始化
+          if (ocrStatus.value !== 'ready') {
+            ocrStatus.value = 'loading'
+            await ocrService.init()
+            ocrStatus.value = 'ready'
+          }
+
           const result = await ocrService.recognizeTags(img, possibleTagsList.value)
           const { matched, allTexts } = result
 
@@ -86,6 +99,7 @@ const handleFileUpload = async (event) => {
           alert(`识别完毕！\n\n识别出的原始文字：\n${allDetected}\n\n成功匹配的标签：\n${matchedText}`)
         } catch (err) {
           console.error('OCR recognition failed:', err)
+          ocrStatus.value = 'error'
           alert(`识别失败！\n\n错误原因：${err.message}`)
         } finally {
           isOcrLoading.value = false
@@ -103,10 +117,8 @@ const handleFileUpload = async (event) => {
 
 // 检查角色是否匹配某个标签
 const isMatch = (role, tag) => {
-  // 星级特殊逻辑
   if (tag === '传说') return role.稀有度 === 3
   if (tag === '史诗') return role.稀有度 === 2
-  // 普通字段匹配
   return role.职业 === tag || role.种族 === tag || role.属性 === tag || role.地区 === tag
 }
 
@@ -128,7 +140,6 @@ const filteredResults = computed(() => {
   }
 
   return combos.map(c => {
-    // 过滤出同时满足组合中所有标签的角色
     let f = allData.filter(r => c.every(tag => isMatch(r, tag)))
     if (f.length === 0) return null
     let minR = Math.min(...f.map(r => r.稀有度))
@@ -160,9 +171,18 @@ const getBadge = (minR) => {
       <h2 class="title-with-logo">
         <img src="/logo1.png" alt="Logo" class="header-logo" />
         指定招募分析
+
+        <span class="ocr-status-tag" :class="'status-' + ocrStatus">
+          <span class="status-dot"></span>
+          {{ ocrStatus === 'loading' ? 'OCR核心加载中' : ocrStatus === 'ready' ? 'OCR就绪' : 'OCR加载失败' }}
+        </span>
       </h2>
       <div class="header-btns">
-        <button class="btn-upload" @click="triggerUpload" :disabled="isOcrLoading">
+        <button
+          class="btn-upload"
+          @click="triggerUpload"
+          :disabled="isOcrLoading || ocrStatus === 'loading'"
+        >
           {{ isOcrLoading ? '识别中...' : '上传截图' }}
         </button>
         <button class="btn-reset" @click="resetTags">重置</button>
@@ -204,7 +224,7 @@ const getBadge = (minR) => {
         <div v-for="(item, index) in filteredResults" :key="index" class="combo-card">
           <div class="combo-header">
             <div class="combo-tags-box">
-              <span class="tag-count-badge">{{ item.c.length }}词条</span>
+              <span class="tag-count-badge"> {{ item.c.length }}词条 </span>
               <template v-for="(t, idx) in item.c" :key="t">
                 <span class="combo-name-blue">{{ t }}</span>
                 <span v-if="idx < item.c.length - 1" class="plus-sign">+</span>
@@ -278,6 +298,7 @@ body {
   margin: 0 auto;
 }
 
+/* 🎯 优化：顶栏恢复 space-between，让两端对齐 */
 .header-bar {
   display: flex;
   justify-content: space-between;
@@ -285,9 +306,34 @@ body {
   margin-bottom: 15px;
 }
 
+/* 🎯 优化：让标题、状态标签紧密挨着，不再被 margin-right: auto 强行推开 */
+.title-with-logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.10rem;
+  margin: 0;
+}
+
+/* 🎯 优化：OCR状态标签，通过 margin-left 控制它与标题的固定间距 */
+.ocr-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-left: 12px; /* 💡 控制标题与OCR状态的固定间距 */
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+/* 🎯 优化：右侧按钮组，通过 gap 控制两个按钮之间的固定间距 */
 .header-btns {
   display: flex;
-  gap: 8px;
+  gap: 8px; /* 💡 两个按钮之间的间距 */
+  flex-shrink: 0;
+  margin-left: 12px; /* 💡 兜底间距，防止极窄屏下死死贴着OCR标签 */
 }
 
 .header-logo {
@@ -297,31 +343,71 @@ body {
   vertical-align: middle;
 }
 
-.title-with-logo {
-  display: flex;
-  align-items: center;
-  font-size: 1.3rem;
-  margin: 0;
+.ocr-status-tag .status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
 }
 
+.ocr-status-tag.status-loading {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.ocr-status-tag.status-loading .status-dot {
+  background: #94a3b8;
+  animation: status-blink 1.2s infinite ease-in-out;
+}
+
+.ocr-status-tag.status-ready {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.ocr-status-tag.status-ready .status-dot {
+  background: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+}
+
+.ocr-status-tag.status-error {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.ocr-status-tag.status-error .status-dot {
+  background: #ef4444;
+}
+
+@keyframes status-blink {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* 🎯 优化：将按钮左右内边距从 14px 缩小到 8px，紧凑精致 */
 .btn-reset {
-  padding: 6px 14px;
+  padding: 6px 8px; /* 💡 缩减了左右 Padding */
   background: #ef4444;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 13px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
+/* 🎯 优化：将按钮左右内边距从 14px 缩小到 8px */
 .btn-upload {
-  padding: 6px 14px;
+  padding: 6px 8px; /* 💡 缩减了左右 Padding */
   background: var(--success);
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 13px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .btn-upload:disabled {
@@ -375,7 +461,6 @@ body {
   font-weight: 600;
 }
 
-/* 星级标签特殊颜色 */
 .tag-rarity-3.active {
     background: #ffedd5;
     color: var(--gold);
@@ -397,7 +482,7 @@ body {
   border-left: 4px solid var(--primary);
 }
 
-/* 组合卡片核心优化 */
+/* 组合卡片 */
 .combo-card {
   width: 100% !important;
   background: #fff;
@@ -483,7 +568,7 @@ body {
   white-space: nowrap;
 }
 
-/* 表格优化：强制撑满并固定布局 */
+/* 表格布局 */
 .result-table {
   width: 100% !important;
   border-collapse: collapse;
