@@ -33,6 +33,11 @@ const tagsByCol = computed(() => {
   filterCols.forEach(col => {
     if (col === '星级') {
       result[col] = ['传说', '史诗']
+    } else if (col === '地区') {
+      const regions = [...new Set(allData.map(i => i[col]))]
+      // 确保“星界”在列表且排在第一位
+      const otherRegions = regions.filter(r => r !== '星界')
+      result[col] = ['星界', ...otherRegions]
     } else {
       result[col] = [...new Set(allData.map(i => i[col]))]
     }

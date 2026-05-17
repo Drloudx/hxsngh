@@ -166,6 +166,9 @@ export class OCRService {
             else if (tag === '魔灵' && (cleanText.includes('魔') || cleanText === '灵')) {
               matchedTags.push(tag);
             }
+            else if (tag === '星界' && (cleanText.includes('星') || cleanText.includes('界'))) {
+              matchedTags.push(tag);
+            }
             else if (tag.endsWith('灵') && cleanText.length >= 2) {
               if (cleanText.includes(tag[0])) matchedTags.push(tag);
             }
