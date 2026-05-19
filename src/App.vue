@@ -9,6 +9,10 @@ const isMatchingLoading = ref(false)
 const fileInput = ref(null)
 const imageMatcher = new ImageMatcher()
 
+// 🌟 新增：控制自定义弹窗状态
+const showResultModal = ref(false)
+const matchResultTags = ref([]) // 存储成功匹配到的标签数组
+
 // 匹配引擎加载状态: 'loading' | 'ready' | 'error'
 const engineStatus = ref('loading')
 
@@ -37,14 +41,6 @@ const tagsByCol = computed(() => {
     }
   });
   return result
-})
-
-const possibleTagsList = computed(() => {
-  const tags = []
-  filterCols.forEach(col => {
-    tags.push(...tagsByCol.value[col])
-  })
-  return tags
 })
 
 const toggleTag = (val) => {
@@ -90,12 +86,14 @@ const handleFileUpload = async (event) => {
             }
           })
 
-          const matchedText = matched.length > 0 ? matched.join('、') : '无'
-          alert(`匹配完毕！\n\n成功匹配的标签：\n${matchedText}`)
+          // 🌟 核心修改：不再调用 alert，而是将结果写入变量并打开自定义弹窗
+          matchResultTags.value = matched
+          showResultModal.value = true
+
         } catch (err) {
           console.error('Matching failed:', err)
           engineStatus.value = 'error'
-          alert(`识别失败！\n\n错误原因：${err.message}`)
+          alert(`识别失败！\n\n错误原因：${err.message}`) // 错误提示可保留或按同样逻辑修改
         } finally {
           isMatchingLoading.value = false
         }
@@ -137,21 +135,13 @@ const filteredResults = computed(() => {
   return combos.map(c => {
     let f = allData.filter(r => c.every(tag => isMatch(r, tag)))
     if (f.length === 0) return null
-
-    // 计算保底星级：只要混入2星，minR就是2（依然挂“资深保底”标签）
     let minR = Math.min(...f.map(r => r.稀有度))
-
-    // 🌟 新增判定：检查当前组合的候选池里是否存在 3 星（金）角色
     let hasGold = f.some(r => r.稀有度 === 3) ? 1 : 0
 
     return {
       c,
       f: f.sort((a, b) => b.稀有度 - a.稀有度),
       minR,
-      // 🌟 核心修复：重构权重计算公式
-      // 1. minR * 100 代表大段位：100%必出3星的“顶级招募”得 300 分，依然永远排在最前面。
-      // 2. hasGold * 10 代表含金量：同样是2星保底，有概率出3星的组合额外加 10 分。
-      // 3. c.length * 0.1 代表词条数：词条数量只作为极微弱的微调分，不再能决定大局。
       w: minR * 100 + hasGold * 10 + c.length * 0.1
     }
   }).filter(x => x).sort((a, b) => b.w - a.w)
@@ -266,6 +256,39 @@ const getBadge = (minR) => {
         </div>
       </template>
     </div>
+
+    <div v-if="showResultModal" class="custom-modal-overlay" @click.self="showResultModal = false">
+      <div class="custom-modal-card">
+        <div class="modal-header">
+          <h3>hxsngh.pages.dev 提示</h3>
+        </div>
+        <div class="modal-body">
+          <p class="modal-title-text">匹配完毕！</p>
+          <p class="modal-sub-text">成功匹配的标签：</p>
+
+          <div class="modal-tags-grid">
+            <template v-if="matchResultTags.length > 0">
+              <span
+                v-for="tag in matchResultTags"
+                :key="tag"
+                class="tag active"
+                :class="{
+                  'tag-rarity-3': tag === '传说',
+                  'tag-rarity-2': tag === '史诗'
+                }"
+              >
+                {{ tag }}
+              </span>
+            </template>
+            <span v-else class="no-tag-hint">无</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn-confirm" @click="showResultModal = false">确定</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -626,5 +649,119 @@ body {
   background: #fff;
   border-radius: 12px;
   font-size: 14px;
+}
+/* 🌟 完美版：文本居中，标签框整体居中但内部靠左 */
+.custom-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.custom-modal-card {
+  background: #ffffff;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-header {
+  padding: 16px 20px 10px 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-sub);
+  font-weight: 500;
+  text-align: center; /* 网页域名提示保持居中 */
+}
+
+.modal-body {
+  padding: 24px 20px;
+  text-align: center;  /* 💡 核心：让红色和文字部分（你的红色区域）实现居中 */
+}
+
+.modal-title-text {
+  margin: 0 0 6px 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--success);
+}
+
+.modal-sub-text {
+  margin: 0 0 16px 0;
+  font-size: 13px;
+  color: var(--text-sub);
+}
+
+/* 💡 核心：标签灰色底框（你的黄色区域） */
+.modal-tags-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-start; /* 💡 核心：让框内的标签严格靠左对齐，不居中 */
+  background: #f8fafc;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #f1f5f9;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;            /* 兜底，防止继承父级居中 */
+}
+
+.no-tag-hint {
+  font-size: 13px;
+  color: var(--text-sub);
+  width: 100%;
+  text-align: center;          /* 如果没有标签，提示字可以居中 */
+}
+
+.modal-footer {
+  padding: 12px 20px 20px 20px;
+  display: flex;
+  justify-content: center;     /* 按钮保持居中 */
+}
+
+/* 按钮样式 */
+.modal-btn-confirm {
+  padding: 10px 40px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+  transition: all 0.2s;
+}
+
+.modal-btn-confirm:hover {
+  background: #2563eb;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+}
+
+/* 动效 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 </style>
