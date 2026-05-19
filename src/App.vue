@@ -169,7 +169,7 @@ const getBadge = (minR) => {
 
         <span class="ocr-status-tag" :class="'status-' + engineStatus">
           <span class="status-dot"></span>
-          {{ engineStatus === 'loading' ? '匹配模板加载中' : engineStatus === 'error' ? '引擎加载失败' : '' }}
+          {{ engineStatus === 'loading' ? '匹配模板加载中' : engineStatus === 'ready' ? '图像识别已就绪' : '引擎加载失败' }}
         </span>
       </h2>
       <div class="header-btns">
