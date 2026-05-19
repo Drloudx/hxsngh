@@ -1,30 +1,29 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import allData from './assets/data.json'
-import { OCRService } from './utils/ocr'
+import { ImageMatcher } from './utils/imageMatcher'
 
 const filterCols = ['星级', '职业', '种族', '属性', '地区']
 const selectedTags = ref([])
-const isOcrLoading = ref(false)
+const isMatchingLoading = ref(false)
 const fileInput = ref(null)
-const ocrService = new OCRService()
+const imageMatcher = new ImageMatcher()
 
-// OCR 核心模型加载状态: 'loading' | 'ready' | 'error'
-const ocrStatus = ref('loading')
+// 匹配引擎加载状态: 'loading' | 'ready' | 'error'
+const engineStatus = ref('loading')
 
-// 网页一挂载，立刻在后台静默预热引擎（并行下载模型碎片并提前在内存中组装）
 onMounted(() => {
-  console.log('🌐 网页已挂载，开始在后台静默预热 OCR 引擎...')
-  ocrStatus.value = 'loading'
+  console.log('🌐 网页已挂载，开始在后台静默预热匹配引擎...')
+  engineStatus.value = 'loading'
 
-  ocrService.init()
+  imageMatcher.init()
     .then(() => {
-      console.log('✨ 后台预热成功！ocr模型已加载，随时可识别。')
-      ocrStatus.value = 'ready'
+      console.log('✨ 后台预热成功！匹配模型已加载，随时可识别。')
+      engineStatus.value = 'ready'
     })
     .catch((err) => {
-      console.error('❌ 后台预热失败（可能网络抖动，用户上传时会重新尝试）:', err)
-      ocrStatus.value = 'error'
+      console.error('❌ 后台预热失败:', err)
+      engineStatus.value = 'error'
     })
 })
 
@@ -33,11 +32,6 @@ const tagsByCol = computed(() => {
   filterCols.forEach(col => {
     if (col === '星级') {
       result[col] = ['传说', '史诗']
-    } else if (col === '地区') {
-      const regions = [...new Set(allData.map(i => i[col]))]
-      // 确保“星界”在列表且排在第一位
-      const otherRegions = regions.filter(r => r !== '星界')
-      result[col] = ['星界', ...otherRegions]
     } else {
       result[col] = [...new Set(allData.map(i => i[col]))]
     }
@@ -73,26 +67,23 @@ const handleFileUpload = async (event) => {
   const file = event.target.files[0]
   if (!file) return
 
-  isOcrLoading.value = true
+  isMatchingLoading.value = true
   try {
     const reader = new FileReader()
     reader.onload = async (e) => {
       const img = new Image()
       img.onload = async () => {
         try {
-          // 如果之前加载失败了，在此处尝试二次初始化
-          if (ocrStatus.value !== 'ready') {
-            ocrStatus.value = 'loading'
-            await ocrService.init()
-            ocrStatus.value = 'ready'
+          if (engineStatus.value !== 'ready') {
+            engineStatus.value = 'loading'
+            await imageMatcher.init()
+            engineStatus.value = 'ready'
           }
 
-          const result = await ocrService.recognizeTags(img, possibleTagsList.value)
-          const { matched, allTexts } = result
+          const result = await imageMatcher.match(img)
+          const { matched } = result
 
-          // 在应用新识别结果前，先清空之前勾选的标签
           selectedTags.value = []
-
           matched.forEach(tag => {
             if (!selectedTags.value.includes(tag)) {
               selectedTags.value.push(tag)
@@ -100,14 +91,13 @@ const handleFileUpload = async (event) => {
           })
 
           const matchedText = matched.length > 0 ? matched.join('、') : '无'
-          const allDetected = allTexts.length > 0 ? allTexts.join(' | ') : '未检测到文字'
-          alert(`识别完毕！\n\n识别出的原始文字：\n${allDetected}\n\n成功匹配的标签：\n${matchedText}`)
+          alert(`匹配完毕！\n\n成功匹配的标签：\n${matchedText}`)
         } catch (err) {
-          console.error('OCR recognition failed:', err)
-          ocrStatus.value = 'error'
+          console.error('Matching failed:', err)
+          engineStatus.value = 'error'
           alert(`识别失败！\n\n错误原因：${err.message}`)
         } finally {
-          isOcrLoading.value = false
+          isMatchingLoading.value = false
         }
       }
       img.src = e.target.result
@@ -115,7 +105,7 @@ const handleFileUpload = async (event) => {
     reader.readAsDataURL(file)
   } catch (err) {
     console.error('File upload failed:', err)
-    isOcrLoading.value = false
+    isMatchingLoading.value = false
   }
   event.target.value = ''
 }
@@ -147,12 +137,22 @@ const filteredResults = computed(() => {
   return combos.map(c => {
     let f = allData.filter(r => c.every(tag => isMatch(r, tag)))
     if (f.length === 0) return null
+
+    // 计算保底星级：只要混入2星，minR就是2（依然挂“资深保底”标签）
     let minR = Math.min(...f.map(r => r.稀有度))
+
+    // 🌟 新增判定：检查当前组合的候选池里是否存在 3 星（金）角色
+    let hasGold = f.some(r => r.稀有度 === 3) ? 1 : 0
+
     return {
       c,
       f: f.sort((a, b) => b.稀有度 - a.稀有度),
       minR,
-      w: minR * 100 + c.length
+      // 🌟 核心修复：重构权重计算公式
+      // 1. minR * 100 代表大段位：100%必出3星的“顶级招募”得 300 分，依然永远排在最前面。
+      // 2. hasGold * 10 代表含金量：同样是2星保底，有概率出3星的组合额外加 10 分。
+      // 3. c.length * 0.1 代表词条数：词条数量只作为极微弱的微调分，不再能决定大局。
+      w: minR * 100 + hasGold * 10 + c.length * 0.1
     }
   }).filter(x => x).sort((a, b) => b.w - a.w)
 })
@@ -177,17 +177,17 @@ const getBadge = (minR) => {
         <img src="/logo1.png" alt="Logo" class="header-logo" />
         指定招募分析
 
-        <span class="ocr-status-tag" :class="'status-' + ocrStatus">
+        <span class="ocr-status-tag" :class="'status-' + engineStatus">
           <span class="status-dot"></span>
-          {{ ocrStatus === 'loading' ? 'OCR核心加载中' : ocrStatus === 'ready' ? 'OCR就绪' : 'OCR加载失败' }}
+          {{ engineStatus === 'loading' ? '匹配引擎加载中' : engineStatus === 'error' ? '引擎加载失败' : '' }}
         </span>
       </h2>
       <div class="header-btns">
         <button
           class="btn-upload"
           @click="triggerUpload"
-          :disabled="isOcrLoading" >
-          {{ isOcrLoading ? '识别中...' : '上传截图' }}
+          :disabled="isMatchingLoading" >
+          {{ isMatchingLoading ? '识别中...' : '上传截图' }}
         </button>
         <button class="btn-reset" @click="resetTags">重置</button>
       </div>
