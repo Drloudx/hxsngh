@@ -1,7 +1,7 @@
 export class ImageMatcher {
   constructor() {
     this.templates = [
-        // 1440x3200 阵营
+        // 1440x3200
         { name: '射手', url: '/images/job_01_shes_hou.png', refW: 1440 },
         { name: '法师', url: '/images/job_02_fa_shi.png', refW: 1440 },
         { name: '光系', url: '/images/ele_01_guang.png', refW: 1440 },
@@ -16,18 +16,19 @@ export class ImageMatcher {
         { name: '沙漠', url: '/images/region_08_sha_mo.png', refW: 1440 },
         { name: '生灵', url: '/images/race_02_sheng_ling.png', refW: 1440 },
         { name: '亡灵', url: '/images/race_05_wang_ling.png', refW: 1440 },
-        // 1280x2844 阵营
+        // 1280x2844
         { name: '战士', url: '/images/job_03_zhan_shi.png', refW: 1280 },
         { name: '牧师', url: '/images/job_04_mu_shi.png', refW: 1280 },
         { name: '神灵', url: '/images/race_01_shen_ling.png', refW: 1280 },
-        // 1224x2688 阵营
+        { name: '史诗', url: '/images/star_02_shi_shi.png', refW: 1280 },
+        // 1224x2688
         { name: '传说', url: '/images/star_01_chuan_shuo.png', refW: 1224 },
         { name: '星界', url: '/images/region_01_xing_jie.png', refW: 1224 },
         { name: '暗系', url: '/images/ele_02_an.png', refW: 1224 },
         { name: '魔灵', url: '/images/race_03_mo_ling.png', refW: 1224 },
-        // 1116 阵营
+        // 1116
         { name: '器灵', url: '/images/race_04_qi_ling.png', refW: 1116 },
-        // 1064 阵营
+        // 1064
         { name: '地系', url: '/images/ele_04_di.png', refW: 1064 }
 
 
