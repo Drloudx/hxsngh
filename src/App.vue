@@ -358,11 +358,11 @@ const getBadge = (minR) => {
       </div>
     </div>
 
-    <!-- 🌟 新增：官方公告弹窗 -->
+    <!-- 新增：公告弹窗 -->
     <div v-if="showNoticeModal" class="custom-modal-overlay" @click.self="showNoticeModal = false">
       <div class="custom-modal-card">
         <div class="modal-header">
-          <h3>官方公告</h3>
+          <h3>公告</h3>
         </div>
         <div class="modal-body notice-body">
           <div class="notice-list">
