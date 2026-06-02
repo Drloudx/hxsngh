@@ -9,8 +9,36 @@ const isMatchingLoading = ref(false)
 const fileInput = ref(null)
 const imageMatcher = new ImageMatcher()
 
+// 🌟 新增：设置与深色模式状态
+const isSettingsOpen = ref(false)
+const isDarkMode = ref(false)
+
+const toggleTheme = () => {
+  isDarkMode.value = !isDarkMode.value
+  if (isDarkMode.value) {
+    document.documentElement.classList.add('dark-mode')
+  } else {
+    document.documentElement.classList.remove('dark-mode')
+  }
+}
+
+const toggleSettings = () => {
+  isSettingsOpen.value = !isSettingsOpen.value
+}
+
+// 点击外部关闭下拉菜单
+onMounted(() => {
+  window.addEventListener('click', (e) => {
+    if (!e.target.closest('.settings-container')) {
+      isSettingsOpen.value = false
+    }
+  })
+})
+
 // 🌟 新增：控制自定义弹窗状态
 const showResultModal = ref(false)
+const showFeedbackModal = ref(false) // 🌟 反馈弹窗
+const showNoticeModal = ref(false)   // 🌟 公告弹窗
 const matchResultTags = ref([]) // 存储成功匹配到的标签数组
 
 // 匹配引擎加载状态: 'loading' | 'ready' | 'error'
@@ -165,14 +193,35 @@ const getBadge = (minR) => {
     <div class="header-bar">
       <h2 class="title-with-logo">
         <img src="/logo1.png" alt="Logo" class="header-logo" />
-        指定招募分析
-
+        指定招募工具
         <span class="ocr-status-tag" :class="'status-' + engineStatus">
           <span class="status-dot"></span>
-          {{ engineStatus === 'loading' ? '匹配模板加载中' : engineStatus === 'ready' ? '图像识别已就绪' : '引擎加载失败' }}
+          {{ engineStatus === 'loading' ? '' : engineStatus === 'ready' ? '' : '引擎加载失败' }}
         </span>
       </h2>
       <div class="header-btns">
+        <!-- 🌟 新增：设置下拉菜单 -->
+        <div class="settings-container">
+          <button class="btn-icon" @click.stop="toggleSettings">
+            <img src="/setting.svg" alt="设置" />
+          </button>
+          
+          <div v-if="isSettingsOpen" class="settings-dropdown glass-card">
+            <div class="dropdown-item" @click="toggleTheme">
+              <img :src="isDarkMode ? '/theme-light.svg' : '/theme-dark.svg'" class="item-icon" />
+              <span>{{ isDarkMode ? '浅色模式' : '深色模式' }}</span>
+            </div>
+            <div class="dropdown-item" @click="showFeedbackModal = true; isSettingsOpen = false">
+              <img src="/feedback.svg" class="item-icon" />
+              <span>反馈/建议</span>
+            </div>
+            <div class="dropdown-item" @click="showNoticeModal = true; isSettingsOpen = false">
+              <img src="/announcement.svg" class="item-icon" />
+              <span>公告</span>
+            </div>
+          </div>
+        </div>
+
         <button
           class="btn-upload"
           @click="triggerUpload"
@@ -260,7 +309,7 @@ const getBadge = (minR) => {
     <div v-if="showResultModal" class="custom-modal-overlay" @click.self="showResultModal = false">
       <div class="custom-modal-card">
         <div class="modal-header">
-          <h3>hxsngh.pages.dev 提示</h3>
+          <h3>识别结果</h3>
         </div>
         <div class="modal-body">
           <p class="modal-title-text">匹配完毕！</p>
@@ -289,6 +338,58 @@ const getBadge = (minR) => {
       </div>
     </div>
 
+    <!-- 🌟 新增：反馈建议弹窗 -->
+    <div v-if="showFeedbackModal" class="custom-modal-overlay" @click.self="showFeedbackModal = false">
+      <div class="custom-modal-card">
+        <div class="modal-header">
+          <h3>反馈/建议</h3>
+        </div>
+        <div class="modal-body feedback-body">
+          <p class="modal-title-text">💬 遇到问题？联系反馈</p>
+          <div class="feedback-content">
+            <p>方式一：【 <a href="https://qm.qq.com/q/cUvhuRHvhK" target="_blank">QQ联系</a> 】</p>
+            <p>方式二：【 <a href="https://f.kdocs.cn/g/y4Uu95na/" target="_blank">填写在线表单</a> 】</p>
+            <p class="hint-text">如有建议，建议使用QQ联系，更方便交流</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn-confirm" @click="showFeedbackModal = false">确定</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🌟 新增：官方公告弹窗 -->
+    <div v-if="showNoticeModal" class="custom-modal-overlay" @click.self="showNoticeModal = false">
+      <div class="custom-modal-card">
+        <div class="modal-header">
+          <h3>官方公告</h3>
+        </div>
+        <div class="modal-body notice-body">
+          <div class="notice-list">
+            <div class="notice-item">
+              <span class="notice-date">6.1</span>
+              <p>补充了“雪原”标签的识别</p>
+            </div>
+            <div class="notice-item">
+              <span class="notice-date">5.22</span>
+              <p>补充了“史诗”标签的识别</p>
+            </div>
+            <div class="notice-item">
+              <span class="notice-date">5.17</span>
+              <p>添加了地区标签“星界”</p>
+            </div>
+            <div class="notice-item">
+              <span class="notice-date">5.16</span>
+              <p>修复了“佣兵枪手”标签错误，属性由“地系”更正为“火系”</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn-confirm" @click="showNoticeModal = false">确定</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -298,9 +399,29 @@ const getBadge = (minR) => {
   --gold: #f97316;
   --purple: #a855f7;
   --bg: #f8fafc;
+  --card-bg: #ffffff;
   --text-main: #1e293b;
   --text-sub: #64748b;
   --success: #10b981;
+  --border-color: #f1f5f9;
+  --header-bg: #ffffff;
+  --dropdown-hover: #f1f5f9;
+  --modal-overlay: rgba(15, 23, 42, 0.4);
+  /* 🌟 新增：图标颜色过滤器 (#1e293b) */
+  --icon-filter: brightness(0) saturate(100%) invert(13%) sepia(13%) saturate(3665%) hue-rotate(189deg) brightness(91%) contrast(92%);
+}
+
+.dark-mode {
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text-main: #f8fafc;
+  --text-sub: #94a3b8;
+  --border-color: #334155;
+  --header-bg: #1e293b;
+  --dropdown-hover: #334155;
+  --modal-overlay: rgba(0, 0, 0, 0.6);
+  /* 🌟 暗色模式下图标填充色改为 #cbd5e1 */
+  --icon-filter: brightness(0) saturate(100%) invert(91%) sepia(5%) saturate(542%) hue-rotate(181deg) brightness(96%) contrast(87%);
 }
 
 body {
@@ -310,6 +431,7 @@ body {
   color: var(--text-main);
   margin: 0;
   display: block !important;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 #app {
@@ -331,6 +453,95 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+}
+
+/* 🌟 新增：设置容器 */
+.settings-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  padding: 6px; /* 💡 缩减 Padding 从 8px 到 6px */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.btn-icon:hover {
+  background-color: var(--dropdown-hover);
+}
+
+.btn-icon img {
+  width: 24px;  /* 💡 增大图标尺寸 从 20px 到 24px */
+  height: 24px;
+  filter: var(--icon-filter);
+}
+
+.settings-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  width: 160px;
+  z-index: 1000;
+  border: 1px solid var(--border-color);
+  animation: slideDown 0.2s ease-out;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode .glass-card {
+  background: rgba(30, 41, 59, 0.8);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-main);
+  transition: background-color 0.2s;
+  gap: 10px;
+}
+
+.dropdown-item:first-child {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.dropdown-item:last-child {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.dropdown-item:hover {
+  background-color: var(--dropdown-hover);
+}
+
+.item-icon {
+  width: 22px;  /* 💡 增大下拉菜单图标 从 18px 到 22px */
+  height: 22px;
+  filter: var(--icon-filter);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* 🎯 优化：让标题、状态标签紧密挨着，不再被 margin-right: auto 强行推开 */
@@ -358,6 +569,7 @@ body {
 /* 🎯 优化：右侧按钮组，通过 gap 控制两个按钮之间的固定间距 */
 .header-btns {
   display: flex;
+  align-items: center;
   gap: 8px; /* 💡 两个按钮之间的间距 */
   flex-shrink: 0;
   margin-left: 12px; /* 💡 兜底间距，防止极窄屏下死死贴着OCR标签 */
@@ -378,18 +590,23 @@ body {
 }
 
 .ocr-status-tag.status-loading {
-  background: #f1f5f9;
-  color: #64748b;
+  background: var(--border-color);
+  color: var(--text-sub);
 }
 
 .ocr-status-tag.status-loading .status-dot {
-  background: #94a3b8;
+  background: var(--text-sub);
   animation: status-blink 1.2s infinite ease-in-out;
 }
 
 .ocr-status-tag.status-ready {
   background: #ecfdf5;
   color: #059669;
+}
+
+.dark-mode .ocr-status-tag.status-ready {
+  background: rgba(5, 150, 105, 0.2);
+  color: #34d399;
 }
 
 .ocr-status-tag.status-ready .status-dot {
@@ -400,6 +617,11 @@ body {
 .ocr-status-tag.status-error {
   background: #fef2f2;
   color: #dc2626;
+}
+
+.dark-mode .ocr-status-tag.status-error {
+  background: rgba(220, 38, 38, 0.2);
+  color: #f87171;
 }
 
 .ocr-status-tag.status-error .status-dot {
@@ -444,11 +666,12 @@ body {
 
 /* 标签选择区 */
 .filter-section {
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 12px;
   padding: 15px;
   margin-bottom: 15px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
 }
 
 .filter-group {
@@ -474,11 +697,12 @@ body {
 
 .tag {
   padding: 4px 10px;
-  background: #f1f5f9;
+  background: var(--bg);
   border-radius: 6px;
   cursor: pointer;
   font-size: 12px;
-  border: 1px solid transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
 }
 
 .tag.active {
@@ -488,15 +712,25 @@ body {
   font-weight: 600;
 }
 
+.dark-mode .tag.active {
+  background: rgba(59, 130, 246, 0.2);
+}
+
 .tag-rarity-3.active {
     background: #ffedd5;
     color: var(--gold);
     border-color: var(--gold);
 }
+.dark-mode .tag-rarity-3.active {
+    background: rgba(249, 115, 22, 0.2);
+}
 .tag-rarity-2.active {
     background: #f3e8ff;
     color: var(--purple);
     border-color: var(--purple);
+}
+.dark-mode .tag-rarity-2.active {
+    background: rgba(168, 85, 247, 0.2);
 }
 
 .result-stats {
@@ -509,15 +743,20 @@ body {
   border-left: 4px solid var(--primary);
 }
 
+.dark-mode .result-stats {
+  background: rgba(59, 130, 246, 0.1);
+  color: #93c5fd;
+}
+
 /* 组合卡片 */
 .combo-card {
   width: 100% !important;
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 12px;
   margin-bottom: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  border: 1px solid #f1f5f9;
+  border: 1px solid var(--border-color);
 }
 
 .combo-header {
@@ -525,8 +764,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fff;
-  border-bottom: 1px solid #f8fafc;
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
   flex-wrap: wrap;
   gap: 8px;
 }
@@ -541,7 +780,7 @@ body {
 }
 
 .tag-count-badge {
-  background: #64748b;
+  background: var(--text-sub);
   color: #fff;
   padding: 2px 6px;
   border-radius: 12px;
@@ -560,8 +799,12 @@ body {
   white-space: nowrap;
 }
 
+.dark-mode .combo-name-blue {
+  background: rgba(59, 130, 246, 0.2);
+}
+
 .plus-sign {
-  color: #cbd5e1;
+  color: var(--text-sub);
   font-size: 12px;
 }
 
@@ -590,7 +833,7 @@ body {
 }
 
 .people-count {
-  color: #94a3b8;
+  color: var(--text-sub);
   font-size: 11px;
   white-space: nowrap;
 }
@@ -603,20 +846,23 @@ body {
 }
 
 .result-table th {
-  background: #fafafa;
-  color: #94a3b8;
+  background: var(--bg);
+  color: var(--text-sub);
   font-size: 11px;
   text-align: left;
   padding: 8px 12px;
   font-weight: 400;
+  vertical-align: middle;
 }
 
 .result-table td {
   padding: 10px 12px;
   font-size: 13px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--border-color);
   overflow: visible !important;
   white-space: nowrap;
+  color: var(--text-main);
+  vertical-align: middle;
 }
 
 .col-name {
@@ -629,26 +875,34 @@ body {
   width: 14%;
 }
 
-.col-rarity {
-  width: 10%;
-  text-align: center;
+/* 🌟 稀有度列对齐优化：确保表头星号与下方数字严格中心对齐 */
+.result-table th.col-rarity,
+.result-table td.col-rarity {
+  text-align: center !important;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+  width: 40px !important; /* 💡 给定固定宽度确保对齐更稳固 */
 }
 
-.rarity-3 {
-  color: var(--gold);
+/* 🌟 恢复稀有度颜色区分 */
+.result-table td.rarity-3 {
+  color: var(--gold) !important;
+  font-weight: bold;
 }
 
-.rarity-2 {
-  color: var(--purple);
+.result-table td.rarity-2 {
+  color: var(--purple) !important;
+  font-weight: bold;
 }
 
 .no-data {
   text-align: center;
   padding: 50px;
-  color: #94a3b8;
-  background: #fff;
+  color: var(--text-sub);
+  background: var(--card-bg);
   border-radius: 12px;
   font-size: 14px;
+  border: 1px solid var(--border-color);
 }
 /* 🌟 完美版：文本居中，标签框整体居中但内部靠左 */
 .custom-modal-overlay {
@@ -657,7 +911,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(15, 23, 42, 0.4);
+  background: var(--modal-overlay);
   backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
@@ -667,18 +921,19 @@ body {
 }
 
 .custom-modal-card {
-  background: #ffffff;
+  background: var(--card-bg);
   width: 90%;
   max-width: 400px;
   border-radius: 16px;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   overflow: hidden;
   animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 1px solid var(--border-color);
 }
 
 .modal-header {
   padding: 16px 20px 10px 20px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .modal-header h3 {
@@ -713,10 +968,10 @@ body {
   flex-wrap: wrap;
   gap: 8px;
   justify-content: flex-start; /* 💡 核心：让框内的标签严格靠左对齐，不居中 */
-  background: #f8fafc;
+  background: var(--bg);
   padding: 14px;
   border-radius: 10px;
-  border: 1px solid #f1f5f9;
+  border: 1px solid var(--border-color);
   width: 100%;
   box-sizing: border-box;
   text-align: left;            /* 兜底，防止继承父级居中 */
@@ -752,6 +1007,66 @@ body {
 .modal-btn-confirm:hover {
   background: #2563eb;
   box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+}
+
+/* 🌟 弹窗内容样式优化 */
+.feedback-body, .notice-body {
+  text-align: left !important;
+  padding: 20px 24px !important;
+}
+
+.feedback-content p {
+  margin: 12px 0;
+  font-size: 14px;
+  color: var(--text-main);
+}
+
+.feedback-content a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: bold;
+  border-bottom: 1px solid var(--primary);
+  padding-bottom: 2px;
+}
+
+.feedback-content .hint-text {
+  font-size: 12px;
+  color: var(--text-sub);
+  margin-top: 20px;
+  background: var(--bg);
+  padding: 10px;
+  border-radius: 8px;
+  line-height: 1.5;
+}
+
+.notice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.notice-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.notice-date {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--primary);
+  background: var(--bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+  min-width: 40px;
+  text-align: center;
+}
+
+.notice-item p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-main);
 }
 
 /* 动效 */

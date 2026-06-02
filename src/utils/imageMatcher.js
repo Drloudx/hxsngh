@@ -1,41 +1,41 @@
 export class ImageMatcher {
   constructor() {
     this.templates = [
-        // 1440x3200
-        { name: '射手', url: '/images/job_01_shes_hou.png', refW: 1440 },
-        { name: '法师', url: '/images/job_02_fa_shi.png', refW: 1440 },
-        { name: '光系', url: '/images/ele_01_guang.png', refW: 1440 },
-        { name: '风系', url: '/images/ele_03_feng.png', refW: 1440 },
-        { name: '火系', url: '/images/ele_05_huo.png', refW: 1440 },
-        { name: '水系', url: '/images/ele_06_shui.png', refW: 1440 },
-        { name: '平原', url: '/images/region_02_ping_yuan.png', refW: 1440 },
-        { name: '森林', url: '/images/region_03_sen_lin.png', refW: 1440 },
-        { name: '沙滩', url: '/images/region_04_sha_tan.png', refW: 1440 },
-        { name: '海洋', url: '/images/region_05_hai_yang.png', refW: 1440 },
-        { name: '山脉', url: '/images/region_06_shan_mai.png', refW: 1440 },
-        { name: '沙漠', url: '/images/region_08_sha_mo.png', refW: 1440 },
-        { name: '生灵', url: '/images/race_02_sheng_ling.png', refW: 1440 },
-        { name: '亡灵', url: '/images/race_05_wang_ling.png', refW: 1440 },
-        // 1280x2844
-        { name: '战士', url: '/images/job_03_zhan_shi.png', refW: 1280 },
-        { name: '牧师', url: '/images/job_04_mu_shi.png', refW: 1280 },
-        { name: '神灵', url: '/images/race_01_shen_ling.png', refW: 1280 },
-        { name: '史诗', url: '/images/star_02_shi_shi.png', refW: 1280 },
-        // 1224x2688
-        { name: '传说', url: '/images/star_01_chuan_shuo.png', refW: 1224 },
-        { name: '星界', url: '/images/region_01_xing_jie.png', refW: 1224 },
-        { name: '暗系', url: '/images/ele_02_an.png', refW: 1224 },
-        { name: '魔灵', url: '/images/race_03_mo_ling.png', refW: 1224 },
-        // 1116
-        { name: '器灵', url: '/images/race_04_qi_ling.png', refW: 1116 },
-        // 1064
-        { name: '地系', url: '/images/ele_04_di.png', refW: 1064 }
-
-
-    ];
+          // 1440x3200
+          { name: '射手', url: './images/job_01_shes_hou.png', refW: 1440 },
+          { name: '法师', url: './images/job_02_fa_shi.png', refW: 1440 },
+          { name: '光系', url: './images/ele_01_guang.png', refW: 1440 },
+          { name: '风系', url: './images/ele_03_feng.png', refW: 1440 },
+          { name: '火系', url: './images/ele_05_huo.png', refW: 1440 },
+          { name: '水系', url: './images/ele_06_shui.png', refW: 1440 },
+          { name: '平原', url: './images/region_02_ping_yuan.png', refW: 1440 },
+          { name: '森林', url: './images/region_03_sen_lin.png', refW: 1440 },
+          { name: '沙滩', url: './images/region_04_sha_tan.png', refW: 1440 },
+          { name: '海洋', url: './images/region_05_hai_yuan.png', refW: 1440 },
+          { name: '山脉', url: './images/region_06_shan_mai.png', refW: 1440 },
+          { name: '沙漠', url: './images/region_08_sha_mo.png', refW: 1440 },
+          { name: '生灵', url: './images/race_02_sheng_ling.png', refW: 1440 },
+          { name: '亡灵', url: './images/race_05_wang_ling.png', refW: 1440 },
+          // 1280x2844
+          { name: '战士', url: './images/job_03_zhan_shi.png', refW: 1280 },
+          { name: '牧师', url: './images/job_04_mu_shi.png', refW: 1280 },
+          { name: '神灵', url: './images/race_01_shen_ling.png', refW: 1280 },
+          { name: '史诗', url: './images/star_02_shi_shi.png', refW: 1280 },
+          // 1224x2688
+          { name: '传说', url: './images/star_01_chuan_shuo.png', refW: 1224 },
+          { name: '星界', url: './images/region_01_xing_jie.png', refW: 1224 },
+          { name: '暗系', url: './images/ele_02_an.png', refW: 1224 },
+          { name: '魔灵', url: './images/race_03_mo_ling.png', refW: 1224 },
+          // 1116
+          { name: '器灵', url: './images/race_04_qi_ling.png', refW: 1116 },
+          // 1080*2400
+          { name: '雪原', url: './images/region_07_xue_yuan.png', refW: 1080 },
+          // 1064
+          { name: '地系', url: './images/ele_04_di.png', refW: 1064 }
+        ];
     this.templateMats = {};
     this.isInitialized = false;
-    // 💡 升级：将全局基准提到 1080 宽。在 1080 像素下，去均值算法能清晰抓住字体边缘
+    // 将全局基准提到 1080 宽
     this.referenceWidth = 1080;
   }
 
@@ -86,13 +86,14 @@ export class ImageMatcher {
   }
 
   loadImage(url) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = (e) => reject(e);
-      img.src = url;
-    });
-  }
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = (e) => reject(e);
+    img.src = url;
+  });
+}
 
   async match(imageElement) {
     if (!this.isInitialized) await this.init();
