@@ -367,6 +367,10 @@ const getBadge = (minR) => {
         <div class="modal-body notice-body">
           <div class="notice-list">
             <div class="notice-item">
+              <span class="notice-date">6.2</span>
+              <p>加入设置的下拉菜单，添加了深色模式，反馈入口，更新详细</p>
+            </div>
+            <div class="notice-item">
               <span class="notice-date">6.1</span>
               <p>补充了“雪原”标签的识别</p>
             </div>
