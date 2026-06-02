@@ -11,7 +11,7 @@ export class ImageMatcher {
           { name: '平原', url: './images/region_02_ping_yuan.png', refW: 1440 },
           { name: '森林', url: './images/region_03_sen_lin.png', refW: 1440 },
           { name: '沙滩', url: './images/region_04_sha_tan.png', refW: 1440 },
-          { name: '海洋', url: './images/region_05_hai_yuan.png', refW: 1440 },
+          { name: '海洋', url: './images/region_05_hai_yang.png', refW: 1440 },
           { name: '山脉', url: './images/region_06_shan_mai.png', refW: 1440 },
           { name: '沙漠', url: './images/region_08_sha_mo.png', refW: 1440 },
           { name: '生灵', url: './images/race_02_sheng_ling.png', refW: 1440 },
