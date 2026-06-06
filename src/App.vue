@@ -197,7 +197,7 @@ const getBadge = (minR) => {
           <h1 class="main-title">指定招募工具</h1>
           <span class="ocr-status-tag" :class="'status-' + engineStatus">
             <span class="status-dot"></span>
-            {{ engineStatus === 'loading' ? '引擎预加载中' : engineStatus === 'ready' ? '分析引擎就绪' : '引擎加载失败' }}
+            {{ engineStatus === 'loading' ? '识别模块预加载中' : engineStatus === 'ready' ? '识别模块就绪' : '识别模块加载失败' }}
           </span>
         </div>
       </div>
@@ -258,12 +258,12 @@ const getBadge = (minR) => {
 
   <div class="footer-gifs">
     <div class="gif-group left-group">
-      <img src="/gif/lzx.gif" alt="lzx" class="bottom-gif" />
-      <img src="/gif/cl.gif" alt="cl" class="bottom-gif" />
+      <div class="bottom-gif-div" style="background-image: url('/gif/lzx.gif');"></div>
+      <div class="bottom-gif-div" style="background-image: url('/gif/cl.gif');"></div>
     </div>
     <div class="gif-group right-group">
-      <img src="/gif/ysgz.gif" alt="ysgz" class="bottom-gif" />
-      <img src="/gif/hfmn.gif" alt="hfmn" class="bottom-gif" />
+      <div class="bottom-gif-div" style="background-image: url('/gif/ysgz.gif');"></div>
+      <div class="bottom-gif-div" style="background-image: url('/gif/hfmn.gif');"></div>
     </div>
   </div>
 
@@ -827,22 +827,28 @@ body {
   width: 45%;
 }
 
-.bottom-gif {
+/* 废弃原本的 .bottom-gif 样式，换成 div 背景图样式 */
+.bottom-gif-div {
   height: 40px;
-  width: auto;
-  object-fit: contain;
-  /* ⚡️ 顺便在 filter 后面追加一个 opacity(0.99)，防反色效果更强 */
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) opacity(0.99) !important;
+  width: 40px; /* 💡 如果各个小人比例不同，可以给特定的 div 调整宽度，或者配合 aspect-ratio */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
   transition: transform 0.3s ease;
-  pointer-events: auto;
+  pointer-events: auto; /* 恢复鼠标事件，使悬浮动效生效 */
 
-  /* ⚡️ 新增：专门制裁手机浏览器的强行反色 */
-  mix-blend-mode: normal !important;   /* 强制混合模式为正常，打断浏览器的底层滤镜 */
-  isolation: isolate !important;       /* 创建独立的渲染层，防止被外层的流氓反色滤镜穿透 */
+  /* 阻断可能的颜色调整 */
+  forced-color-adjust: none !important;
 }
-/* 保持原本的悬浮微调动效 */
-.bottom-gif:hover {
+
+.bottom-gif-div:hover {
   transform: scale(1.1) translateY(-5px);
+}
+
+/* 兜底确保它在开启暗色模式时不受到任何反色干扰 */
+.dark-mode .bottom-gif-div {
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4)) !important;
 }
 
 .left-group { justify-content: flex-start; }
