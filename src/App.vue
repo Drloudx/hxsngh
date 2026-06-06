@@ -831,17 +831,27 @@ body {
   height: 40px;
   width: auto;
   object-fit: contain;
-  /* 基础阴影 */
+
+  /* 1. 基础软阴影 */
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
   transition: transform 0.3s ease;
   pointer-events: auto;
 
-  /* 标准防色彩调整属性 */
+  /* 2. 核心大招：强制独立图层渲染，阻止流氓浏览器进行像素混合 */
+  isolation: isolate !important;
+  transform: translateZ(0);
+
+  /* 3. 终极防御：如果 Via 强行给图片降低亮度或反色，我们利用 mix-blend-mode
+        在浅色（白底）强制黑夜下把图片的色彩透明通道提取出来，防止变成灰黑色块 */
+  mix-blend-mode: normal !important;
+
+  /* 4. 强力阻止设备和浏览器内核的强色彩调整 */
   forced-color-adjust: none !important;
   forced-colors: none !important;
+  color-scheme: light !important; /* 强制告诉浏览器这个元素只认浅色渲染 */
 }
 
-/* 保持原本的悬浮微调动效 */
+/* 保持悬浮微调动效 */
 .bottom-gif:hover {
   transform: scale(1.1) translateY(-5px) translateZ(0) !important;
 }
@@ -855,24 +865,22 @@ body {
 
 
 
-/* 专治 Via 等手机浏览器浅色强行夜间模式的补丁 - 终极安全版 */
-@media (prefers-color-scheme: dark) {
-  .bottom-gif {
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
-    -webkit-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
-    mix-blend-mode: normal !important;
-    isolation: isolate !important;
-    transform: translateZ(0) !important; /* 强制送入显卡渲染，屏蔽 Via 滤镜 */
-  }
-}
-
-/* 兜底：如果系统是浅色，但网页被手动切成了深色，同样防住手机浏览器的强制变暗 */
+/* 专治 Via 等手机浏览器浅色强行夜间模式 */
 .dark-mode .bottom-gif {
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
   -webkit-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
-  mix-blend-mode: normal !important;
-  isolation: isolate !important;
   transform: translateZ(0) !important;
+}
+
+/* ⚡️ 针对 Via 浅色强制夜间的【双重滤镜清洗】：
+   利用 -webkit-printing 或高优先级的无条件覆盖，无论 Via 怎么注入，
+   都强制把小人的图片滤镜重置为初始明亮状态，并在 GPU 层强行以正常模式混合 */
+@media screen and (min-width: 0px) {
+  .bottom-gif {
+    /* 强行对冲 Via 注入的“变暗”滤镜，把亮度和对比度调高，让小人白回来 */
+    brightness(1.0) contrast(1.0) !important;
+    -webkit-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) brightness(1.0) !important;
+  }
 }
 
 </style>
