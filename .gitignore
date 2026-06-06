@@ -35,33 +35,3 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
-<<<<<<< HEAD
-
-# 依赖包（永远不上传）
-node_modules/
-
-# 打包产物
-dist-ssr/
-*.local
-
-# 编辑器配置
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# 环境变量
-.env
-.env.*
-!.env.example
-
-# 日志
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# 系统文件
-.DS_Store
-=======
->>>>>>> 6b58feba9e53bf49e36582378004bd54a7dbfcd6

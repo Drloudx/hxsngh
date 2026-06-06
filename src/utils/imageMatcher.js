@@ -35,65 +35,93 @@ export class ImageMatcher {
         ];
     this.templateMats = {};
     this.isInitialized = false;
-    // 将全局基准提到 1080 宽
-    this.referenceWidth = 1080;
+    this.initPromise = null;
+    this.referenceWidth = 800; // 降低基准分辨率，显著提升性能
   }
 
   async init() {
     if (this.isInitialized) return;
+    if (this.initPromise) return this.initPromise;
 
-    if (!window.cv || !window.cv.Mat) {
-      await new Promise(resolve => {
-        const check = setInterval(() => {
-          if (window.cv && window.cv.Mat) {
-            clearInterval(check);
-            resolve();
-          }
-        }, 100);
+    this.initPromise = (async () => {
+      console.log('📦 ImageMatcher: 开始预热...');
+
+      const loadPromises = this.templates.map(async (item) => {
+        try {
+          const img = await this.loadImage(item.url);
+          return { name: item.name, img, refW: item.refW };
+        } catch (err) {
+          console.error(`❌ 模板下载失败: ${item.name}`, err);
+          return null;
+        }
       });
-    }
 
-    const loadPromises = this.templates.map(async (item) => {
-      try {
-        const img = await this.loadImage(item.url);
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
+      if (!window.cv || !window.cv.Mat) {
+        console.log('⏳ ImageMatcher: 等待本地 OpenCV.js 就绪...');
+        await new Promise((resolve, reject) => {
+          const timeout = setTimeout(() => {
+            clearInterval(check);
+            reject(new Error("本地 OpenCV.js 加载超时。请确认 public/opencv.js 文件存在。"));
+          }, 15000);
 
-        const rawMat = window.cv.imread(canvas);
-
-        const scale = this.referenceWidth / item.refW;
-        const scaledMat = new window.cv.Mat();
-        const newSize = new window.cv.Size(
-          Math.max(1, Math.floor(rawMat.cols * scale)),
-          Math.max(1, Math.floor(rawMat.rows * scale))
-        );
-
-        window.cv.resize(rawMat, scaledMat, newSize, 0, 0, window.cv.INTER_AREA);
-        this.templateMats[item.name] = scaledMat;
-
-        rawMat.delete();
-        console.log(`📏 模板预热: ${item.name} 对齐至 1080 基准`);
-      } catch (err) {
-        console.warn(`⚠️ 模板加载失败: ${item.name}`, err);
+          const check = setInterval(() => {
+            if (window.cv && window.cv.Mat) {
+              clearInterval(check);
+              clearTimeout(timeout);
+              resolve();
+            }
+          }, 50);
+        });
       }
-    });
 
-    await Promise.all(loadPromises);
-    this.isInitialized = true;
+      console.log('✅ OpenCV.js 已就绪，开始处理模板矩阵...');
+
+      const results = await Promise.all(loadPromises);
+      
+      for (const res of results) {
+        if (!res) continue;
+        try {
+          const { name, img, refW } = res;
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+
+          const rawMat = window.cv.imread(canvas);
+          const scale = this.referenceWidth / refW;
+          const scaledMat = new window.cv.Mat();
+          const newSize = new window.cv.Size(
+            Math.max(1, Math.floor(rawMat.cols * scale)),
+            Math.max(1, Math.floor(rawMat.rows * scale))
+          );
+
+          window.cv.resize(rawMat, scaledMat, newSize, 0, 0, window.cv.INTER_AREA);
+          this.templateMats[name] = scaledMat;
+
+          rawMat.delete();
+          console.log(`📏 模板就绪: ${name}`);
+        } catch (err) {
+          console.warn(`⚠️ 模板矩阵处理失败: ${res.name}`, err);
+        }
+      }
+
+      this.isInitialized = true;
+      console.log('✨ ImageMatcher: 引擎完全就绪');
+    })();
+
+    return this.initPromise;
   }
 
   loadImage(url) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = () => resolve(img);
-    img.onerror = (e) => reject(e);
-    img.src = url;
-  });
-}
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => resolve(img);
+      img.onerror = (e) => reject(e);
+      img.src = url;
+    });
+  }
 
   async match(imageElement) {
     if (!this.isInitialized) await this.init();
@@ -109,7 +137,6 @@ export class ImageMatcher {
     const matchedTags = [];
     const debugLogs = [];
 
-    // 局部裁剪（ROI）
     const roiRect = new window.cv.Rect(
       Math.floor(src.cols * 0.2),
       Math.floor(src.rows * 0.35),
@@ -120,26 +147,15 @@ export class ImageMatcher {
 
     const dst = new window.cv.Mat();
     const emptyMask = new window.cv.Mat();
-
-    // 💡 核心修正：死死锁定对边框/纯色极度免疫、只看文字图案轮廓的 TM_CCOEFF_NORMED 算法
     const algo = window.cv.TM_CCOEFF_NORMED;
 
     const entries = Object.entries(this.templateMats);
-    let loopCount = 0;
 
     for (const [name, templ] of entries) {
       try {
-        loopCount++;
-        // 每 3 个标签让出 1ms 呼吸时间
-        if (loopCount % 3 === 0) {
-          await new Promise(resolve => setTimeout(resolve, 1));
-        }
-
         window.cv.matchTemplate(roi, templ, dst, algo, emptyMask);
         const result = window.cv.minMaxLoc(dst, emptyMask);
 
-        // 💡 重点：换回相关系数算法后，没有出现的标签分值会直接暴跌。
-        // 我们把及格线严厉地卡在 0.82。只有真正存在的标签才能越过这条线！
         if (result.maxVal > 0.82) {
           matchedTags.push(name);
           debugLogs.push(`匹配成功: ${name} (系数: ${result.maxVal.toFixed(2)})`);
@@ -149,7 +165,6 @@ export class ImageMatcher {
       }
     }
 
-    // 垃圾回收
     dst.delete();
     emptyMask.delete();
     roi.delete();
