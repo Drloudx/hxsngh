@@ -190,25 +190,23 @@ const getBadge = (minR) => {
 <template>
   <div class="container">
     <div class="header-bar">
-      <!-- 左侧：品牌与状态区 -->
       <div class="brand-status-section">
         <img src="/logo1.png" alt="Logo" class="header-logo" />
         <div class="title-container">
           <h1 class="main-title">指定招募工具</h1>
           <span class="ocr-status-tag" :class="'status-' + engineStatus">
             <span class="status-dot"></span>
-            {{ engineStatus === 'loading' ? '识别模块预加载中' : engineStatus === 'ready' ? '识别模块就绪' : '识别模块加载失败' }}
+            {{ engineStatus === 'loading' ? '引擎预加载中' : engineStatus === 'ready' ? '分析引擎就绪' : '引擎加载失败' }}
           </span>
         </div>
       </div>
 
-      <!-- 右侧：操作按钮区 -->
       <div class="header-btns">
         <div class="settings-container">
           <button class="btn-icon" @click.stop="toggleSettings" title="设置">
             <img src="/setting.svg" alt="设置" />
           </button>
-          
+
           <div v-if="isSettingsOpen" class="settings-dropdown glass-card">
             <div class="dropdown-item" @click="toggleTheme">
               <img :src="isDarkMode ? '/theme-light.svg' : '/theme-dark.svg'" class="item-icon" />
@@ -237,37 +235,44 @@ const getBadge = (minR) => {
     </div>
 
     <div class="filter-section">
-  <div v-for="col in filterCols" :key="col" class="filter-group">
-    <div class="filter-label">{{ col }}</div>
-    <div class="tags-container">
-      <span
-        v-for="val in tagsByCol[col]"
-        :key="val"
-        class="tag"
-        :class="{
-            active: selectedTags.includes(val),
-            'tag-rarity-3': val === '传说',
-            'tag-rarity-2': val === '史诗'
-        }"
-        @click="toggleTag(val)"
-      >
-        {{ val }}
-      </span>
-    </div>
-  </div>
+      <div v-for="col in filterCols" :key="col" class="filter-group">
+        <div class="filter-label">{{ col }}</div>
+        <div class="tags-container">
+          <span
+            v-for="val in tagsByCol[col]"
+            :key="val"
+            class="tag"
+            :class="{
+                active: selectedTags.includes(val),
+                'tag-rarity-3': val === '传说',
+                'tag-rarity-2': val === '史诗'
+            }"
+            @click="toggleTag(val)"
+          >
+            {{ val }}
+          </span>
+        </div>
+      </div>
 
-  <div class="footer-gifs">
-    <div class="gif-group left-group">
-      <img src="/gif/lzx.gif" alt="lzx" class="bottom-gif" />
-      <img src="/gif/cl.gif" alt="cl" class="bottom-gif" />
+      <div class="footer-gifs">
+        <div class="gif-group left-group">
+          <div class="gif-wrapper">
+            <img src="/gif/lzx.gif" alt="lzx" class="bottom-gif" />
+          </div>
+          <div class="gif-wrapper">
+            <img src="/gif/cl.gif" alt="cl" class="bottom-gif" />
+          </div>
+        </div>
+        <div class="gif-group right-group">
+          <div class="gif-wrapper">
+            <img src="/gif/ysgz.gif" alt="ysgz" class="bottom-gif" />
+          </div>
+          <div class="gif-wrapper">
+            <img src="/gif/hfmn.gif" alt="hfmn" class="bottom-gif" />
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="gif-group right-group">
-      <img src="/gif/ysgz.gif" alt="ysgz" class="bottom-gif" />
-      <img src="/gif/hfmn.gif" alt="hfmn" class="bottom-gif" />
-    </div>
-  </div>
-
-</div>
 
     <div class="result-stats">{{ statsText }}</div>
 
@@ -321,7 +326,6 @@ const getBadge = (minR) => {
       </template>
     </div>
 
-    <!-- 识别结果弹窗 -->
     <div v-if="showResultModal" class="custom-modal-overlay" @click.self="showResultModal = false">
       <div class="custom-modal-card">
         <div class="modal-header">
@@ -353,7 +357,6 @@ const getBadge = (minR) => {
       </div>
     </div>
 
-    <!-- 反馈建议弹窗 -->
     <div v-if="showFeedbackModal" class="custom-modal-overlay" @click.self="showFeedbackModal = false">
       <div class="custom-modal-card">
         <div class="modal-header">
@@ -373,11 +376,7 @@ const getBadge = (minR) => {
       </div>
     </div>
 
-    <!-- 🌟 公告弹窗组件（已抽离到单独文件） -->
     <NoticeModal :show="showNoticeModal" @close="showNoticeModal = false" />
-
-
-
   </div>
 </template>
 
@@ -444,12 +443,11 @@ body {
   width: 100% !important;
   max-width: 800px;
   margin: 0 auto;
-  /* ⚡️ 新增：让 container 撑开占满剩余空间，把 gifs 顶到最下面 */
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-/* 确保结果区域能正常伸缩 */
+
 #resultsArea {
   flex: 1;
 }
@@ -522,7 +520,7 @@ body {
   color: #059669;
 }
 .dark-mode .ocr-status-tag.status-ready {
-  background: rgba(5, 46, 22, 0.6) !important; /* 💡 极深绿色背景，视觉更舒适 */
+  background: rgba(5, 46, 22, 0.6) !important;
   color: #34d399 !important;
   border: 1px solid rgba(52, 211, 153, 0.2);
 }
@@ -555,7 +553,6 @@ body {
   flex-shrink: 0;
 }
 
-/* 设置图标按钮 */
 .settings-container {
   position: relative;
   display: flex;
@@ -584,7 +581,6 @@ body {
   filter: var(--icon-filter);
 }
 
-/* 玻璃拟态下拉菜单 */
 .settings-dropdown {
   position: absolute;
   top: 100%;
@@ -660,11 +656,11 @@ body {
 
 /* 标签选择区 */
 .filter-section {
-  position: relative; /* ⚡️ 核心：让内部的 GIF 容器可以以此为基准进行定位 */
+  position: relative;
   background: var(--card-bg);
   border-radius: 12px;
   padding: 15px;
-  padding-bottom: 30px; /* ⚡️ 核心：底部留出空间，防止 GIF 遮挡最后一排标签 */
+  padding-bottom: 30px;
   margin-bottom: 15px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   border: 1px solid var(--border-color);
@@ -803,21 +799,21 @@ body {
 .feedback-content a { color: var(--primary); font-weight: bold; }
 .feedback-content .hint-text { font-size: 12px; color: var(--text-sub); margin-top: 20px; background: var(--bg); padding: 10px; border-radius: 8px; }
 
-/* 🌟 底部 GIF 展示区样式 */
-/* 🌟 修改：将底部 GIF 展示区改为固定定位，死死贴在屏幕最下方 */
+/* ==========================================================================
+   🛡️ 终极保护容器样式（完美兼顾 PC 浅色/深色 与 手机流氓反色）
+   ========================================================================== */
 .footer-gifs {
-  position: absolute; /* ⚡️ 核心：改为绝对定位，脱离文档流不占位 */
-  bottom: 0;          /* ⚡️ 死死贴在标签面板的底边上，绝对不会超出去 */
+  position: absolute;
+  bottom: 0;
   left: 0;
   width: 100%;
   box-sizing: border-box;
-
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 0 15px;    /* 保持和面板左右内边距一致 */
+  padding: 0 15px;
   z-index: 5;
-  pointer-events: none; /* 穿透点击，防止小人半透明区域挡住标签的点击事件 */
+  pointer-events: none;
 }
 
 .gif-group {
@@ -827,28 +823,59 @@ body {
   width: 45%;
 }
 
+/* 保护套容器：回归正常的堆叠上下文 */
+.gif-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
 .bottom-gif {
   height: 40px;
   width: auto;
   object-fit: contain;
-
-  /* 1. 基础软阴影 */
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
-  transition: transform 0.3s ease;
   pointer-events: auto;
 
-  /* 2. 核心大招：强制独立图层渲染，阻止流氓浏览器进行像素混合 */
-  isolation: isolate !important;
+  /* ⚡️ 核心改动 1：基础滤镜只留投影，去掉全局 invert 干扰，确保 PC 浅色模式绝对正常 */
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
+  -webkit-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
+
   transform: translateZ(0);
+  transition: transform 0.3s ease;
+  z-index: 2;
+}
 
-  /* 3. 终极防御：如果 Via 强行给图片降低亮度或反色，我们利用 mix-blend-mode
-        在浅色（白底）强制黑夜下把图片的色彩透明通道提取出来，防止变成灰黑色块 */
-  mix-blend-mode: normal !important;
+/* ⚡️ 核心改动 2：利用流氓浏览器对图片反色、但对某些特定的 CSS 特效（如特定混合模式的空背景层）
+   处理不一致的物理特性，为小人专门挂载一个防反色的阴影庇护所 */
+.gif-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
 
-  /* 4. 强力阻止设备和浏览器内核的强色彩调整 */
-  forced-color-adjust: none !important;
-  forced-colors: none !important;
-  color-scheme: light !important; /* 强制告诉浏览器这个元素只认浅色渲染 */
+  /* 建立高斯模糊的半透明中性层，用来吸收并对冲 Via 浏览器的全局强行反色矩阵 */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+
+  /* 强制该环境探测层与背后的主题色进行中和 */
+  mix-blend-mode: overlay;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 用户在电脑/手机上主动点击切换到我们原生的 dark-mode 暗黑样式时 */
+.dark-mode .bottom-gif {
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25)) brightness(1.1) !important;
+  -webkit-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25)) brightness(1.1) !important;
+}
+.dark-mode .gif-wrapper::before {
+  background: rgba(0, 0, 0, 0.1);
+  mix-blend-mode: normal;
 }
 
 /* 保持悬浮微调动效 */
@@ -859,25 +886,7 @@ body {
 .left-group { justify-content: flex-start; }
 .right-group { justify-content: flex-end; }
 
-/* 动效 */
+/* 基础动效 */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-
-
-/* 专治 Via 等手机浏览器浅色强行夜间模式 */
-.dark-mode .bottom-gif {
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
-  -webkit-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
-  transform: translateZ(0) !important;
-}
-
-/* 正确写法：filter 里面包含 brightness */
-@media screen and (min-width: 0px) {
-  .bottom-gif {
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) brightness(1.0) contrast(1.0) !important;
-    -webkit-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) brightness(1.0) !important;
-  }
-}
-
 </style>
