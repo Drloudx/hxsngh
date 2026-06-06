@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import allData from './assets/data.json'
 import { ImageMatcher } from './utils/imageMatcher'
+import NoticeModal from './components/NoticeModal.vue'
 
 const filterCols = ['星级', '职业', '种族', '属性', '地区']
 const selectedTags = ref([])
@@ -9,7 +10,7 @@ const isMatchingLoading = ref(false)
 const fileInput = ref(null)
 const imageMatcher = new ImageMatcher()
 
-// 🌟 新增：设置与深色模式状态
+// 设置与深色模式状态
 const isSettingsOpen = ref(false)
 const isDarkMode = ref(false)
 
@@ -35,11 +36,11 @@ onMounted(() => {
   })
 })
 
-// 🌟 新增：控制自定义弹窗状态
+// 控制弹窗状态
 const showResultModal = ref(false)
-const showFeedbackModal = ref(false) // 🌟 反馈弹窗
-const showNoticeModal = ref(false)   // 🌟 公告弹窗
-const matchResultTags = ref([]) // 存储成功匹配到的标签数组
+const showFeedbackModal = ref(false)
+const showNoticeModal = ref(false)
+const matchResultTags = ref([])
 
 // 匹配引擎加载状态: 'loading' | 'ready' | 'error'
 const engineStatus = ref('loading')
@@ -114,14 +115,13 @@ const handleFileUpload = async (event) => {
             }
           })
 
-          // 🌟 核心修改：不再调用 alert，而是将结果写入变量并打开自定义弹窗
           matchResultTags.value = matched
           showResultModal.value = true
 
         } catch (err) {
           console.error('Matching failed:', err)
           engineStatus.value = 'error'
-          alert(`识别失败！\n\n错误原因：${err.message}`) // 错误提示可保留或按同样逻辑修改
+          alert(`识别失败！\n\n错误原因：${err.message}`)
         } finally {
           isMatchingLoading.value = false
         }
@@ -136,7 +136,6 @@ const handleFileUpload = async (event) => {
   event.target.value = ''
 }
 
-// 检查角色是否匹配某个标签
 const isMatch = (role, tag) => {
   if (tag === '传说') return role.稀有度 === 3
   if (tag === '史诗') return role.稀有度 === 2
@@ -191,18 +190,22 @@ const getBadge = (minR) => {
 <template>
   <div class="container">
     <div class="header-bar">
-      <h2 class="title-with-logo">
+      <!-- 左侧：品牌与状态区 -->
+      <div class="brand-status-section">
         <img src="/logo1.png" alt="Logo" class="header-logo" />
-        指定招募工具
-        <span class="ocr-status-tag" :class="'status-' + engineStatus">
-          <span class="status-dot"></span>
-          {{ engineStatus === 'loading' ? '' : engineStatus === 'ready' ? '' : '引擎加载失败' }}
-        </span>
-      </h2>
+        <div class="title-container">
+          <h1 class="main-title">指定招募工具</h1>
+          <span class="ocr-status-tag" :class="'status-' + engineStatus">
+            <span class="status-dot"></span>
+            {{ engineStatus === 'loading' ? '引擎预加载中' : engineStatus === 'ready' ? '分析引擎就绪' : '引擎加载失败' }}
+          </span>
+        </div>
+      </div>
+
+      <!-- 右侧：操作按钮区 -->
       <div class="header-btns">
-        <!-- 🌟 新增：设置下拉菜单 -->
         <div class="settings-container">
-          <button class="btn-icon" @click.stop="toggleSettings">
+          <button class="btn-icon" @click.stop="toggleSettings" title="设置">
             <img src="/setting.svg" alt="设置" />
           </button>
           
@@ -234,25 +237,37 @@ const getBadge = (minR) => {
     </div>
 
     <div class="filter-section">
-      <div v-for="col in filterCols" :key="col" class="filter-group">
-        <div class="filter-label">{{ col }}</div>
-        <div class="tags-container">
-          <span
-            v-for="val in tagsByCol[col]"
-            :key="val"
-            class="tag"
-            :class="{
-                active: selectedTags.includes(val),
-                'tag-rarity-3': val === '传说',
-                'tag-rarity-2': val === '史诗'
-            }"
-            @click="toggleTag(val)"
-          >
-            {{ val }}
-          </span>
-        </div>
-      </div>
+  <div v-for="col in filterCols" :key="col" class="filter-group">
+    <div class="filter-label">{{ col }}</div>
+    <div class="tags-container">
+      <span
+        v-for="val in tagsByCol[col]"
+        :key="val"
+        class="tag"
+        :class="{
+            active: selectedTags.includes(val),
+            'tag-rarity-3': val === '传说',
+            'tag-rarity-2': val === '史诗'
+        }"
+        @click="toggleTag(val)"
+      >
+        {{ val }}
+      </span>
     </div>
+  </div>
+
+  <div class="footer-gifs">
+    <div class="gif-group left-group">
+      <img src="/gif/lzx.gif" alt="lzx" class="bottom-gif" />
+      <img src="/gif/cl.gif" alt="cl" class="bottom-gif" />
+    </div>
+    <div class="gif-group right-group">
+      <img src="/gif/ysgz.gif" alt="ysgz" class="bottom-gif" />
+      <img src="/gif/hfmn.gif" alt="hfmn" class="bottom-gif" />
+    </div>
+  </div>
+
+</div>
 
     <div class="result-stats">{{ statsText }}</div>
 
@@ -306,6 +321,7 @@ const getBadge = (minR) => {
       </template>
     </div>
 
+    <!-- 识别结果弹窗 -->
     <div v-if="showResultModal" class="custom-modal-overlay" @click.self="showResultModal = false">
       <div class="custom-modal-card">
         <div class="modal-header">
@@ -314,7 +330,6 @@ const getBadge = (minR) => {
         <div class="modal-body">
           <p class="modal-title-text">匹配完毕！</p>
           <p class="modal-sub-text">成功匹配的标签：</p>
-
           <div class="modal-tags-grid">
             <template v-if="matchResultTags.length > 0">
               <span
@@ -338,7 +353,7 @@ const getBadge = (minR) => {
       </div>
     </div>
 
-    <!-- 🌟 新增：反馈建议弹窗 -->
+    <!-- 反馈建议弹窗 -->
     <div v-if="showFeedbackModal" class="custom-modal-overlay" @click.self="showFeedbackModal = false">
       <div class="custom-modal-card">
         <div class="modal-header">
@@ -358,46 +373,27 @@ const getBadge = (minR) => {
       </div>
     </div>
 
-    <!-- 新增：公告弹窗 -->
-    <div v-if="showNoticeModal" class="custom-modal-overlay" @click.self="showNoticeModal = false">
-      <div class="custom-modal-card">
-        <div class="modal-header">
-          <h3>公告</h3>
-        </div>
-        <div class="modal-body notice-body">
-          <div class="notice-list">
-            <div class="notice-item">
-              <span class="notice-date">6.2</span>
-              <p>加入设置的下拉菜单，添加了深色模式，反馈入口，更新详细</p>
-            </div>
-            <div class="notice-item">
-              <span class="notice-date">6.1</span>
-              <p>补充了“雪原”标签的识别</p>
-            </div>
-            <div class="notice-item">
-              <span class="notice-date">5.22</span>
-              <p>补充了“史诗”标签的识别</p>
-            </div>
-            <div class="notice-item">
-              <span class="notice-date">5.17</span>
-              <p>添加了地区标签“星界”</p>
-            </div>
-            <div class="notice-item">
-              <span class="notice-date">5.16</span>
-              <p>修复了“佣兵枪手”标签错误，属性由“地系”更正为“火系”</p>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="modal-btn-confirm" @click="showNoticeModal = false">确定</button>
-        </div>
-      </div>
-    </div>
+    <!-- 🌟 公告弹窗组件（已抽离到单独文件） -->
+    <NoticeModal :show="showNoticeModal" @close="showNoticeModal = false" />
+
+
 
   </div>
 </template>
 
 <style>
+@font-face {
+  font-family: 'HarmonyOS_Bold';
+  src: url('/fonts/HarmonyOS_Sans_Bold.ttf') format('truetype');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'HarmonyOS_Regular';
+  src: url('/fonts/HarmonyOS_Sans_Regular.ttf') format('truetype');
+  font-weight: normal;
+}
+
 :root {
   --primary: #3b82f6;
   --gold: #f97316;
@@ -411,7 +407,6 @@ const getBadge = (minR) => {
   --header-bg: #ffffff;
   --dropdown-hover: #f1f5f9;
   --modal-overlay: rgba(15, 23, 42, 0.4);
-  /* 🌟 新增：图标颜色过滤器 (#1e293b) */
   --icon-filter: brightness(0) saturate(100%) invert(13%) sepia(13%) saturate(3665%) hue-rotate(189deg) brightness(91%) contrast(92%);
 }
 
@@ -424,14 +419,14 @@ const getBadge = (minR) => {
   --header-bg: #1e293b;
   --dropdown-hover: #334155;
   --modal-overlay: rgba(0, 0, 0, 0.6);
-  /* 🌟 暗色模式下图标填充色改为 #cbd5e1 */
   --icon-filter: brightness(0) saturate(100%) invert(91%) sepia(5%) saturate(542%) hue-rotate(181deg) brightness(96%) contrast(87%);
 }
 
 body {
-  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'HarmonyOS_Regular', "PingFang SC", "Microsoft YaHei", sans-serif;
   background: var(--bg);
   padding: 15px;
+  padding-bottom: 15px !important;
   color: var(--text-main);
   margin: 0;
   display: block !important;
@@ -449,17 +444,118 @@ body {
   width: 100% !important;
   max-width: 800px;
   margin: 0 auto;
+  /* ⚡️ 新增：让 container 撑开占满剩余空间，把 gifs 顶到最下面 */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+/* 确保结果区域能正常伸缩 */
+#resultsArea {
+  flex: 1;
 }
 
-/* 🎯 优化：顶栏恢复 space-between，让两端对齐 */
+/* 🎯 顶栏布局 */
 .header-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 0;
+  padding: 10px 0;
 }
 
-/* 🌟 新增：设置容器 */
+.brand-status-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.main-title {
+  margin: 0;
+  padding: 0;
+  font-family: 'HarmonyOS_Bold', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-main);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+/* 🟢 状态标签 */
+.ocr-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-left: -6px;
+}
+
+.ocr-status-tag .status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ocr-status-tag.status-loading {
+  background: var(--border-color);
+  color: var(--text-sub);
+}
+.ocr-status-tag.status-loading .status-dot {
+  background: var(--text-sub);
+  animation: status-blink 1.2s infinite ease-in-out;
+}
+
+.ocr-status-tag.status-ready {
+  background: #ecfdf5;
+  color: #059669;
+}
+.dark-mode .ocr-status-tag.status-ready {
+  background: rgba(5, 46, 22, 0.6) !important; /* 💡 极深绿色背景，视觉更舒适 */
+  color: #34d399 !important;
+  border: 1px solid rgba(52, 211, 153, 0.2);
+}
+.ocr-status-tag.status-ready .status-dot {
+  background: #10b981;
+  box-shadow: 0 0 4px rgba(16, 185, 129, 0.6);
+}
+
+.ocr-status-tag.status-error {
+  background: #fef2f2;
+  color: #dc2626;
+}
+.dark-mode .ocr-status-tag.status-error {
+  background: rgba(220, 38, 38, 0.2) !important;
+  color: #f87171 !important;
+}
+.ocr-status-tag.status-error .status-dot {
+  background: #ef4444;
+}
+
+@keyframes status-blink {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.header-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* 设置图标按钮 */
 .settings-container {
   position: relative;
   display: flex;
@@ -469,7 +565,7 @@ body {
 .btn-icon {
   background: none;
   border: none;
-  padding: 6px; /* 💡 缩减 Padding 从 8px 到 6px */
+  padding: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -483,11 +579,12 @@ body {
 }
 
 .btn-icon img {
-  width: 24px;  /* 💡 增大图标尺寸 从 20px 到 24px */
+  width: 24px;
   height: 24px;
   filter: var(--icon-filter);
 }
 
+/* 玻璃拟态下拉菜单 */
 .settings-dropdown {
   position: absolute;
   top: 100%;
@@ -523,22 +620,12 @@ body {
   gap: 10px;
 }
 
-.dropdown-item:first-child {
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-}
-
-.dropdown-item:last-child {
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-}
-
-.dropdown-item:hover {
-  background-color: var(--dropdown-hover);
-}
+.dropdown-item:first-child { border-top-left-radius: 12px; border-top-right-radius: 12px; }
+.dropdown-item:last-child { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+.dropdown-item:hover { background-color: var(--dropdown-hover); }
 
 .item-icon {
-  width: 22px;  /* 💡 增大下拉菜单图标 从 18px 到 22px */
+  width: 22px;
   height: 22px;
   filter: var(--icon-filter);
 }
@@ -548,99 +635,16 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 🎯 优化：让标题、状态标签紧密挨着，不再被 margin-right: auto 强行推开 */
-.title-with-logo {
-  display: flex;
-  align-items: center;
-  font-size: 1.05rem;
-  margin: 0;
-}
-
-/* 🎯 优化：OCR状态标签，通过 margin-left 控制它与标题的固定间距 */
-.ocr-status-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  padding: 3px 8px;
-  border-radius: 20px;
-  margin-left: 12px; /* 💡 控制标题与OCR状态的固定间距 */
-  font-weight: 500;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
-
-/* 🎯 优化：右侧按钮组，通过 gap 控制两个按钮之间的固定间距 */
-.header-btns {
-  display: flex;
-  align-items: center;
-  gap: 8px; /* 💡 两个按钮之间的间距 */
-  flex-shrink: 0;
-  margin-left: 12px; /* 💡 兜底间距，防止极窄屏下死死贴着OCR标签 */
-}
-
 .header-logo {
-  width: 30px;
-  height: 30px;
-  margin-right: 8px;
-  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
-.ocr-status-tag .status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.ocr-status-tag.status-loading {
-  background: var(--border-color);
-  color: var(--text-sub);
-}
-
-.ocr-status-tag.status-loading .status-dot {
-  background: var(--text-sub);
-  animation: status-blink 1.2s infinite ease-in-out;
-}
-
-.ocr-status-tag.status-ready {
-  background: #ecfdf5;
-  color: #059669;
-}
-
-.dark-mode .ocr-status-tag.status-ready {
-  background: rgba(5, 150, 105, 0.2);
-  color: #34d399;
-}
-
-.ocr-status-tag.status-ready .status-dot {
-  background: #10b981;
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
-}
-
-.ocr-status-tag.status-error {
-  background: #fef2f2;
-  color: #dc2626;
-}
-
-.dark-mode .ocr-status-tag.status-error {
-  background: rgba(220, 38, 38, 0.2);
-  color: #f87171;
-}
-
-.ocr-status-tag.status-error .status-dot {
-  background: #ef4444;
-}
-
-@keyframes status-blink {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
-/* 🎯 优化：将按钮左右内边距从 14px 缩小到 8px，紧凑精致 */
-.btn-reset {
-  padding: 6px 8px; /* 💡 缩减了左右 Padding */
-  background: #ef4444;
+.btn-reset, .btn-upload {
+  padding: 6px 8px;
   color: white;
   border: none;
   border-radius: 6px;
@@ -650,54 +654,25 @@ body {
   flex-shrink: 0;
 }
 
-/* 🎯 优化：将按钮左右内边距从 14px 缩小到 8px */
-.btn-upload {
-  padding: 6px 8px; /* 💡 缩减了左右 Padding */
-  background: var(--success);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.btn-upload:disabled {
-  background: #94a3b8;
-  cursor: not-allowed;
-}
+.btn-reset { background: #ef4444; }
+.btn-upload { background: var(--success); }
+.btn-upload:disabled { background: #94a3b8; cursor: not-allowed; }
 
 /* 标签选择区 */
 .filter-section {
+  position: relative; /* ⚡️ 核心：让内部的 GIF 容器可以以此为基准进行定位 */
   background: var(--card-bg);
   border-radius: 12px;
   padding: 15px;
+  padding-bottom: 30px; /* ⚡️ 核心：底部留出空间，防止 GIF 遮挡最后一排标签 */
   margin-bottom: 15px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   border: 1px solid var(--border-color);
 }
 
-.filter-group {
-  margin-bottom: 10px;
-  display: flex;
-  align-items: flex-start;
-}
-
-.filter-label {
-  font-weight: 600;
-  width: 50px;
-  color: var(--text-sub);
-  font-size: 13px;
-  padding-top: 6px;
-  flex-shrink: 0;
-}
-
-.tags-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
+.filter-group { margin-bottom: 10px; display: flex; align-items: flex-start; }
+.filter-label { font-weight: 600; width: 50px; color: var(--text-sub); font-size: 13px; padding-top: 6px; flex-shrink: 0; }
+.tags-container { display: flex; flex-wrap: wrap; gap: 6px; }
 
 .tag {
   padding: 4px 10px;
@@ -709,33 +684,12 @@ body {
   color: var(--text-main);
 }
 
-.tag.active {
-  background: #dbeafe;
-  color: var(--primary);
-  border-color: var(--primary);
-  font-weight: 600;
-}
-
-.dark-mode .tag.active {
-  background: rgba(59, 130, 246, 0.2);
-}
-
-.tag-rarity-3.active {
-    background: #ffedd5;
-    color: var(--gold);
-    border-color: var(--gold);
-}
-.dark-mode .tag-rarity-3.active {
-    background: rgba(249, 115, 22, 0.2);
-}
-.tag-rarity-2.active {
-    background: #f3e8ff;
-    color: var(--purple);
-    border-color: var(--purple);
-}
-.dark-mode .tag-rarity-2.active {
-    background: rgba(168, 85, 247, 0.2);
-}
+.tag.active { background: #dbeafe; color: var(--primary); border-color: var(--primary); font-weight: 600; }
+.dark-mode .tag.active { background: rgba(59, 130, 246, 0.2); }
+.tag-rarity-3.active { background: #ffedd5; color: var(--gold); border-color: var(--gold); }
+.dark-mode .tag-rarity-3.active { background: rgba(249, 115, 22, 0.2); }
+.tag-rarity-2.active { background: #f3e8ff; color: var(--purple); border-color: var(--purple); }
+.dark-mode .tag-rarity-2.active { background: rgba(168, 85, 247, 0.2); }
 
 .result-stats {
   margin-bottom: 15px;
@@ -747,14 +701,11 @@ body {
   border-left: 4px solid var(--primary);
 }
 
-.dark-mode .result-stats {
-  background: rgba(59, 130, 246, 0.1);
-  color: #93c5fd;
-}
+.dark-mode .result-stats { background: rgba(59, 130, 246, 0.1); color: #93c5fd; }
 
 /* 组合卡片 */
 .combo-card {
-  width: 100% !important;
+  width: 100%;
   background: var(--card-bg);
   border-radius: 12px;
   margin-bottom: 12px;
@@ -774,141 +725,30 @@ body {
   gap: 8px;
 }
 
-.combo-tags-box {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-wrap: wrap;
-  flex: 1;
-  min-width: 200px;
-}
+.combo-tags-box { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; flex: 1; min-width: 200px; }
+.tag-count-badge { background: var(--text-sub); color: #fff; padding: 2px 6px; border-radius: 12px; font-size: 10px; flex-shrink: 0; margin-right: 4px; }
+.combo-name-blue { color: var(--primary); font-weight: bold; background: #eff6ff; padding: 2px 8px; border-radius: 4px; font-size: 13px; white-space: nowrap; }
+.dark-mode .combo-name-blue { background: rgba(59, 130, 246, 0.2); }
+.plus-sign { color: var(--text-sub); font-size: 12px; }
+.status-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.badge-guarantee { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; color: #fff; white-space: nowrap; }
+.badge-top { background: #f97316; }
+.badge-senior { background: #a855f7; }
+.people-count { color: var(--text-sub); font-size: 11px; white-space: nowrap; }
 
-.tag-count-badge {
-  background: var(--text-sub);
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 12px;
-  font-size: 10px;
-  flex-shrink: 0;
-  margin-right: 4px;
-}
+/* 表格 */
+.result-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.result-table th { background: var(--bg); color: var(--text-sub); font-size: 11px; text-align: left; padding: 8px 12px; font-weight: 400; }
+.result-table td { padding: 10px 12px; font-size: 13px; border-top: 1px solid var(--border-color); white-space: nowrap; color: var(--text-main); }
+.col-name { width: 30%; font-weight: 600; }
+.col-other { width: 14%; }
+.result-table th.col-rarity, .result-table td.col-rarity { text-align: center; width: 40px; }
+.result-table td.rarity-3 { color: var(--gold); font-weight: bold; }
+.result-table td.rarity-2 { color: var(--purple); font-weight: bold; }
 
-.combo-name-blue {
-  color: var(--primary);
-  font-weight: bold;
-  background: #eff6ff;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 13px;
-  white-space: nowrap;
-}
+.no-data { text-align: center; padding: 50px; color: var(--text-sub); background: var(--card-bg); border-radius: 12px; font-size: 14px; border: 1px solid var(--border-color); }
 
-.dark-mode .combo-name-blue {
-  background: rgba(59, 130, 246, 0.2);
-}
-
-.plus-sign {
-  color: var(--text-sub);
-  font-size: 12px;
-}
-
-.status-right {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
-.badge-guarantee {
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: bold;
-  color: #fff;
-  white-space: nowrap;
-}
-
-.badge-top {
-  background: #f97316;
-}
-
-.badge-senior {
-  background: #a855f7;
-}
-
-.people-count {
-  color: var(--text-sub);
-  font-size: 11px;
-  white-space: nowrap;
-}
-
-/* 表格布局 */
-.result-table {
-  width: 100% !important;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
-
-.result-table th {
-  background: var(--bg);
-  color: var(--text-sub);
-  font-size: 11px;
-  text-align: left;
-  padding: 8px 12px;
-  font-weight: 400;
-  vertical-align: middle;
-}
-
-.result-table td {
-  padding: 10px 12px;
-  font-size: 13px;
-  border-top: 1px solid var(--border-color);
-  overflow: visible !important;
-  white-space: nowrap;
-  color: var(--text-main);
-  vertical-align: middle;
-}
-
-.col-name {
-  width: 30% !important;
-  font-weight: 600;
-  white-space: nowrap !important;
-}
-
-.col-other {
-  width: 14%;
-}
-
-/* 🌟 稀有度列对齐优化：确保表头星号与下方数字严格中心对齐 */
-.result-table th.col-rarity,
-.result-table td.col-rarity {
-  text-align: center !important;
-  padding-left: 4px !important;
-  padding-right: 4px !important;
-  width: 40px !important; /* 💡 给定固定宽度确保对齐更稳固 */
-}
-
-/* 🌟 恢复稀有度颜色区分 */
-.result-table td.rarity-3 {
-  color: var(--gold) !important;
-  font-weight: bold;
-}
-
-.result-table td.rarity-2 {
-  color: var(--purple) !important;
-  font-weight: bold;
-}
-
-.no-data {
-  text-align: center;
-  padding: 50px;
-  color: var(--text-sub);
-  background: var(--card-bg);
-  border-radius: 12px;
-  font-size: 14px;
-  border: 1px solid var(--border-color);
-}
-/* 🌟 完美版：文本居中，标签框整体居中但内部靠左 */
+/* 弹窗通用基础样式 */
 .custom-modal-overlay {
   position: fixed;
   top: 0;
@@ -929,158 +769,83 @@ body {
   width: 90%;
   max-width: 400px;
   border-radius: 16px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   border: 1px solid var(--border-color);
 }
 
-.modal-header {
-  padding: 16px 20px 10px 20px;
-  border-bottom: 1px solid var(--border-color);
-}
+.modal-header { padding: 16px 20px 10px 20px; border-bottom: 1px solid var(--border-color); text-align: center; }
+.modal-header h3 { margin: 0; font-size: 14px; color: var(--text-sub); font-weight: 500; }
 
-.modal-header h3 {
-  margin: 0;
-  font-size: 14px;
-  color: var(--text-sub);
-  font-weight: 500;
-  text-align: center; /* 网页域名提示保持居中 */
-}
+.modal-body { padding: 24px 20px; text-align: center; }
+.modal-title-text { margin: 0 0 6px 0; font-size: 20px; font-weight: bold; color: var(--success); }
+.modal-sub-text { margin: 0 0 16px 0; font-size: 13px; color: var(--text-sub); }
 
-.modal-body {
-  padding: 24px 20px;
-  text-align: center;  /* 💡 核心：让红色和文字部分（你的红色区域）实现居中 */
-}
-
-.modal-title-text {
-  margin: 0 0 6px 0;
-  font-size: 20px;
-  font-weight: bold;
-  color: var(--success);
-}
-
-.modal-sub-text {
-  margin: 0 0 16px 0;
-  font-size: 13px;
-  color: var(--text-sub);
-}
-
-/* 💡 核心：标签灰色底框（你的黄色区域） */
 .modal-tags-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  justify-content: flex-start; /* 💡 核心：让框内的标签严格靠左对齐，不居中 */
+  justify-content: flex-start;
   background: var(--bg);
   padding: 14px;
   border-radius: 10px;
   border: 1px solid var(--border-color);
   width: 100%;
   box-sizing: border-box;
-  text-align: left;            /* 兜底，防止继承父级居中 */
 }
 
-.no-tag-hint {
-  font-size: 13px;
-  color: var(--text-sub);
+.modal-footer { padding: 12px 20px 20px 20px; display: flex; justify-content: center; }
+.modal-btn-confirm { padding: 10px 40px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+
+.feedback-body { text-align: left; padding: 20px 24px; }
+.feedback-content p { margin: 12px 0; font-size: 14px; }
+.feedback-content a { color: var(--primary); font-weight: bold; }
+.feedback-content .hint-text { font-size: 12px; color: var(--text-sub); margin-top: 20px; background: var(--bg); padding: 10px; border-radius: 8px; }
+
+/* 🌟 底部 GIF 展示区样式 */
+/* 🌟 修改：将底部 GIF 展示区改为固定定位，死死贴在屏幕最下方 */
+.footer-gifs {
+  position: absolute; /* ⚡️ 核心：改为绝对定位，脱离文档流不占位 */
+  bottom: 0;          /* ⚡️ 死死贴在标签面板的底边上，绝对不会超出去 */
+  left: 0;
   width: 100%;
-  text-align: center;          /* 如果没有标签，提示字可以居中 */
-}
+  box-sizing: border-box;
 
-.modal-footer {
-  padding: 12px 20px 20px 20px;
   display: flex;
-  justify-content: center;     /* 按钮保持居中 */
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 15px;    /* 保持和面板左右内边距一致 */
+  z-index: 5;
+  pointer-events: none; /* 穿透点击，防止小人半透明区域挡住标签的点击事件 */
 }
 
-/* 按钮样式 */
-.modal-btn-confirm {
-  padding: 10px 40px;
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
-  transition: all 0.2s;
-}
-
-.modal-btn-confirm:hover {
-  background: #2563eb;
-  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
-}
-
-/* 🌟 弹窗内容样式优化 */
-.feedback-body, .notice-body {
-  text-align: left !important;
-  padding: 20px 24px !important;
-}
-
-.feedback-content p {
-  margin: 12px 0;
-  font-size: 14px;
-  color: var(--text-main);
-}
-
-.feedback-content a {
-  color: var(--primary);
-  text-decoration: none;
-  font-weight: bold;
-  border-bottom: 1px solid var(--primary);
-  padding-bottom: 2px;
-}
-
-.feedback-content .hint-text {
-  font-size: 12px;
-  color: var(--text-sub);
-  margin-top: 20px;
-  background: var(--bg);
-  padding: 10px;
-  border-radius: 8px;
-  line-height: 1.5;
-}
-
-.notice-list {
+.gif-group {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  align-items: flex-end;
+  gap: 15px;
+  width: 45%;
 }
 
-.notice-item {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
+.bottom-gif {
+  /* ⚡️ 核心修改：统一高度为 60px，宽度设为 auto 保持原始比例不拉伸 */
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+  transition: transform 0.3s ease;
+  pointer-events: auto; /* 恢复图片自身的鼠标事件，让悬浮动效生效 */
 }
 
-.notice-date {
-  font-size: 12px;
-  font-weight: bold;
-  color: var(--primary);
-  background: var(--bg);
-  padding: 2px 8px;
-  border-radius: 4px;
-  min-width: 40px;
-  text-align: center;
+/* 保持原本的悬浮微调动效 */
+.bottom-gif:hover {
+  transform: scale(1.1) translateY(-5px);
 }
 
-.notice-item p {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--text-main);
-}
+.left-group { justify-content: flex-start; }
+.right-group { justify-content: flex-end; }
 
 /* 动效 */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes scaleUp {
-  from { transform: scale(0.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 </style>
