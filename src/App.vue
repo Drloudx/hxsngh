@@ -872,13 +872,10 @@ body {
   transform: translateZ(0) !important;
 }
 
-/* ⚡️ 针对 Via 浅色强制夜间的【双重滤镜清洗】：
-   利用 -webkit-printing 或高优先级的无条件覆盖，无论 Via 怎么注入，
-   都强制把小人的图片滤镜重置为初始明亮状态，并在 GPU 层强行以正常模式混合 */
+/* 正确写法：filter 里面包含 brightness */
 @media screen and (min-width: 0px) {
   .bottom-gif {
-    /* 强行对冲 Via 注入的“变暗”滤镜，把亮度和对比度调高，让小人白回来 */
-    brightness(1.0) contrast(1.0) !important;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) brightness(1.0) contrast(1.0) !important;
     -webkit-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) brightness(1.0) !important;
   }
 }
