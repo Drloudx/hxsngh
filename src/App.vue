@@ -190,6 +190,7 @@ const getBadge = (minR) => {
 <template>
   <div class="container">
     <div class="header-bar">
+      <!-- 左侧：品牌与状态区 -->
       <div class="brand-status-section">
         <img src="/logo1.png" alt="Logo" class="header-logo" />
         <div class="title-container">
@@ -201,6 +202,7 @@ const getBadge = (minR) => {
         </div>
       </div>
 
+      <!-- 右侧：操作按钮区 -->
       <div class="header-btns">
         <div class="settings-container">
           <button class="btn-icon" @click.stop="toggleSettings" title="设置">
@@ -235,44 +237,45 @@ const getBadge = (minR) => {
     </div>
 
     <div class="filter-section">
-      <div v-for="col in filterCols" :key="col" class="filter-group">
-        <div class="filter-label">{{ col }}</div>
-        <div class="tags-container">
-          <span
-            v-for="val in tagsByCol[col]"
-            :key="val"
-            class="tag"
-            :class="{
-                active: selectedTags.includes(val),
-                'tag-rarity-3': val === '传说',
-                'tag-rarity-2': val === '史诗'
-            }"
-            @click="toggleTag(val)"
-          >
-            {{ val }}
-          </span>
-        </div>
-      </div>
+  <div v-for="col in filterCols" :key="col" class="filter-group">
+    <div class="filter-label">{{ col }}</div>
+    <div class="tags-container">
+      <span
+        v-for="val in tagsByCol[col]"
+        :key="val"
+        class="tag"
+        :class="{
+            active: selectedTags.includes(val),
+            'tag-rarity-3': val === '传说',
+            'tag-rarity-2': val === '史诗'
+        }"
+        @click="toggleTag(val)"
+      >
+        {{ val }}
+      </span>
+    </div>
+  </div>
 
-      <div class="footer-gifs">
-        <div class="gif-group left-group">
-          <div class="gif-wrapper">
-            <img src="/gif/lzx.gif" alt="lzx" class="bottom-gif" />
-          </div>
-          <div class="gif-wrapper">
-            <img src="/gif/cl.gif" alt="cl" class="bottom-gif" />
-          </div>
-        </div>
-        <div class="gif-group right-group">
-          <div class="gif-wrapper">
-            <img src="/gif/ysgz.gif" alt="ysgz" class="bottom-gif" />
-          </div>
-          <div class="gif-wrapper">
-            <img src="/gif/hfmn.gif" alt="hfmn" class="bottom-gif" />
-          </div>
-        </div>
+  <div class="footer-gifs">
+    <div class="gif-group left-group">
+      <div class="gif-wrapper">
+        <img src="/gif/lzx.gif" alt="lzx" class="bottom-gif" />
+      </div>
+      <div class="gif-wrapper">
+        <img src="/gif/cl.gif" alt="cl" class="bottom-gif" />
       </div>
     </div>
+    <div class="gif-group right-group">
+      <div class="gif-wrapper">
+        <img src="/gif/ysgz.gif" alt="ysgz" class="bottom-gif" />
+      </div>
+      <div class="gif-wrapper">
+        <img src="/gif/hfmn.gif" alt="hfmn" class="bottom-gif" />
+      </div>
+    </div>
+  </div>
+
+</div>
 
     <div class="result-stats">{{ statsText }}</div>
 
@@ -326,6 +329,7 @@ const getBadge = (minR) => {
       </template>
     </div>
 
+    <!-- 识别结果弹窗 -->
     <div v-if="showResultModal" class="custom-modal-overlay" @click.self="showResultModal = false">
       <div class="custom-modal-card">
         <div class="modal-header">
@@ -357,6 +361,7 @@ const getBadge = (minR) => {
       </div>
     </div>
 
+    <!-- 反馈建议弹窗 -->
     <div v-if="showFeedbackModal" class="custom-modal-overlay" @click.self="showFeedbackModal = false">
       <div class="custom-modal-card">
         <div class="modal-header">
@@ -376,7 +381,11 @@ const getBadge = (minR) => {
       </div>
     </div>
 
+    <!-- 🌟 公告弹窗组件（已抽离到单独文件） -->
     <NoticeModal :show="showNoticeModal" @close="showNoticeModal = false" />
+
+
+
   </div>
 </template>
 
@@ -443,11 +452,12 @@ body {
   width: 100% !important;
   max-width: 800px;
   margin: 0 auto;
+  /* ⚡️ 新增：让 container 撑开占满剩余空间，把 gifs 顶到最下面 */
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-
+/* 确保结果区域能正常伸缩 */
 #resultsArea {
   flex: 1;
 }
@@ -520,7 +530,7 @@ body {
   color: #059669;
 }
 .dark-mode .ocr-status-tag.status-ready {
-  background: rgba(5, 46, 22, 0.6) !important;
+  background: rgba(5, 46, 22, 0.6) !important; /* 💡 极深绿色背景，视觉更舒适 */
   color: #34d399 !important;
   border: 1px solid rgba(52, 211, 153, 0.2);
 }
@@ -553,6 +563,7 @@ body {
   flex-shrink: 0;
 }
 
+/* 设置图标按钮 */
 .settings-container {
   position: relative;
   display: flex;
@@ -581,6 +592,7 @@ body {
   filter: var(--icon-filter);
 }
 
+/* 玻璃拟态下拉菜单 */
 .settings-dropdown {
   position: absolute;
   top: 100%;
@@ -656,11 +668,11 @@ body {
 
 /* 标签选择区 */
 .filter-section {
-  position: relative;
+  position: relative; /* ⚡️ 核心：让内部的 GIF 容器可以以此为基准进行定位 */
   background: var(--card-bg);
   border-radius: 12px;
   padding: 15px;
-  padding-bottom: 30px;
+  padding-bottom: 30px; /* ⚡️ 核心：底部留出空间，防止 GIF 遮挡最后一排标签 */
   margin-bottom: 15px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   border: 1px solid var(--border-color);
@@ -799,9 +811,9 @@ body {
 .feedback-content a { color: var(--primary); font-weight: bold; }
 .feedback-content .hint-text { font-size: 12px; color: var(--text-sub); margin-top: 20px; background: var(--bg); padding: 10px; border-radius: 8px; }
 
-/* ==========================================================================
-   🛡️ 终极保护容器样式（完美兼顾 PC 浅色/深色 与 手机流氓反色）
-   ========================================================================== */
+/* 🌟 底部 GIF 展示区样式 */
+/* 🌟 修改：将底部 GIF 展示区改为固定定位，死死贴在屏幕最下方 */
+/* 🌟 底部 GIF 展示区样式 */
 .footer-gifs {
   position: absolute;
   bottom: 0;
@@ -816,77 +828,81 @@ body {
   pointer-events: none;
 }
 
+/* ⚡️ 核心改造：左右各形成一条无形的、不占位、无视觉背景的长条轨道 */
 .gif-group {
   display: flex;
   align-items: flex-end;
   gap: 15px;
   width: 45%;
+  background: transparent !important;
 }
 
-/* 保护套容器：回归正常的堆叠上下文 */
+/* 🛡️ 隐形防线：不设任何边框、圆角、背景色、阴影。完全透明，实现无缝视觉效果 */
 .gif-wrapper {
   position: relative;
   display: inline-flex;
   align-items: flex-end;
   justify-content: center;
-}
+  background: transparent !important; /* 强制完全透明，没有任何白色方块 */
 
-.bottom-gif {
-  height: 40px;
-  width: auto;
-  object-fit: contain;
-  pointer-events: auto;
-
-  /* ⚡️ 核心改动 1：基础滤镜只留投影，去掉全局 invert 干扰，确保 PC 浅色模式绝对正常 */
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
-  -webkit-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
-
+  /* 🪄 以下两行建立独立的层叠上下文，骗过 Via 的颜色反转引擎 */
+  isolation: isolate;
   transform: translateZ(0);
-  transition: transform 0.3s ease;
-  z-index: 2;
+
+  pointer-events: auto;
 }
 
-/* ⚡️ 核心改动 2：利用流氓浏览器对图片反色、但对某些特定的 CSS 特效（如特定混合模式的空背景层）
-   处理不一致的物理特性，为小人专门挂载一个防反色的阴影庇护所 */
+/* 🧙‍♂️ 伪元素环境伪装器：为小人背后铺设一层肉眼不可见的复合环境层，彻底阻断手机流氓反色 */
 .gif-wrapper::before {
   content: '';
   position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  border-radius: 50%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 
-  /* 建立高斯模糊的半透明中性层，用来吸收并对冲 Via 浏览器的全局强行反色矩阵 */
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(0px);
-  -webkit-backdrop-filter: blur(0px);
+  /* 使用几乎不计的 0.005 极度微弱半透明白色，肉眼完全看不见，但浏览器渲染管线会判定这里有色彩填充，从而放弃一刀切取反 */
+  background: rgba(255, 255, 255, 0.005) !important;
 
-  /* 强制该环境探测层与背后的主题色进行中和 */
-  mix-blend-mode: overlay;
-  z-index: 1;
+  /* 叠加滤镜进一步锁定当前图层色彩 */
+  backdrop-filter: brightness(1) contrast(1);
+  -webkit-backdrop-filter: brightness(1) contrast(1);
+
+  z-index: -1;
   pointer-events: none;
 }
 
-/* 用户在电脑/手机上主动点击切换到我们原生的 dark-mode 暗黑样式时 */
-.dark-mode .bottom-gif {
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25)) brightness(1.1) !important;
-  -webkit-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25)) brightness(1.1) !important;
-}
-.dark-mode .gif-wrapper::before {
-  background: rgba(0, 0, 0, 0.1);
-  mix-blend-mode: normal;
+.bottom-gif {
+  height: 40px; /* 恢复原版大小 */
+  width: auto;
+  object-fit: contain;
+  display: block;
+
+  /* 彻底清理任何会引发反色副作用的混合滤镜 */
+  filter: none !important;
+  -webkit-filter: none !important;
+
+  transition: transform 0.3s ease;
 }
 
-/* 保持悬浮微调动效 */
+/* 🌙 当主动切换为你系统原生的“深色模式”时 */
+.dark-mode .bottom-gif {
+  /* 仅柔和地降低一点点亮度，使它融入暗黑背景，没有任何突兀白边 */
+  filter: brightness(0.85) !important;
+}
+.dark-mode .gif-wrapper::before {
+  background: rgba(0, 0, 0, 0.005) !important;
+}
+
+/* 保持原本的纯粹悬浮微调动效 */
 .bottom-gif:hover {
-  transform: scale(1.1) translateY(-5px) translateZ(0) !important;
+  transform: scale(1.1) translateY(-5px);
 }
 
 .left-group { justify-content: flex-start; }
 .right-group { justify-content: flex-end; }
 
-/* 基础动效 */
+/* 动效 */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 </style>
