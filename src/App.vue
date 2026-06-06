@@ -852,14 +852,27 @@ body {
 @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 
-/* 防止反色的魔法代码 */
-/* 防止反色的魔法代码 */
+/* 防止反色 */
 @media (prefers-color-scheme: dark) {
+  /* 增加判定条件：
+    1. 网页处于浅色模式：html:not(.dark-mode)
+    2. 只有当浏览器对 html 进行了反色处理，或者处于特定手机夜间模式时才触发
+  */
+  html:not(.dark-mode)[style*="invert"],
+  html:not(.dark-mode)[data-theme*="dark"],
   html:not(.dark-mode) .bottom-gif {
-    /* 1. 强行再次反色，把浏览器的反色给“吐”出来，并修正色调 */
-    filter: invert(1) hue-rotate(180deg) drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
-    /* 2. 双重保险：顺便在这里也塞上阻止色彩调整的声明 */
+    /* ⚡️核心改动：把主动反色，改为直接强制清除一切滤镜，并使用标准不反色声明
+    */
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
     forced-color-adjust: none !important;
+    -webkit-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
+  }
+}
+
+/* 针对某些直接在 img 上加滤镜的手机浏览器 */
+@media (prefers-color-scheme: dark) {
+  html:not(.dark-mode) img.bottom-gif[style*="invert"] {
+    filter: invert(1) hue-rotate(180deg) drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
   }
 }
 
