@@ -831,17 +831,19 @@ body {
   height: 40px;
   width: auto;
   object-fit: contain;
+  /* 基础阴影 */
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
   transition: transform 0.3s ease;
   pointer-events: auto;
 
-  /* 👇 核心：强力阻止浏览器在夜间模式下对该元素进行反色或变暗 */
-  forced-color-adjust: none; /* 标准属性：阻止强行色彩调整 */
-  forced-colors: none;
+  /* 标准防色彩调整属性 */
+  forced-color-adjust: none !important;
+  forced-colors: none !important;
 }
+
 /* 保持原本的悬浮微调动效 */
 .bottom-gif:hover {
-  transform: scale(1.1) translateY(-5px);
+  transform: scale(1.1) translateY(-5px) translateZ(0) !important;
 }
 
 .left-group { justify-content: flex-start; }
@@ -852,28 +854,25 @@ body {
 @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 
-/* 防止反色 */
+
+/* 专治 Via 等手机浏览器浅色强行夜间模式的补丁 - 终极安全版 */
 @media (prefers-color-scheme: dark) {
-  /* 增加判定条件：
-    1. 网页处于浅色模式：html:not(.dark-mode)
-    2. 只有当浏览器对 html 进行了反色处理，或者处于特定手机夜间模式时才触发
-  */
-  html:not(.dark-mode)[style*="invert"],
-  html:not(.dark-mode)[data-theme*="dark"],
-  html:not(.dark-mode) .bottom-gif {
-    /* ⚡️核心改动：把主动反色，改为直接强制清除一切滤镜，并使用标准不反色声明
-    */
+  .bottom-gif {
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
-    forced-color-adjust: none !important;
     -webkit-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
+    mix-blend-mode: normal !important;
+    isolation: isolate !important;
+    transform: translateZ(0) !important; /* 强制送入显卡渲染，屏蔽 Via 滤镜 */
   }
 }
 
-/* 针对某些直接在 img 上加滤镜的手机浏览器 */
-@media (prefers-color-scheme: dark) {
-  html:not(.dark-mode) img.bottom-gif[style*="invert"] {
-    filter: invert(1) hue-rotate(180deg) drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
-  }
+/* 兜底：如果系统是浅色，但网页被手动切成了深色，同样防住手机浏览器的强制变暗 */
+.dark-mode .bottom-gif {
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
+  -webkit-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
+  mix-blend-mode: normal !important;
+  isolation: isolate !important;
+  transform: translateZ(0) !important;
 }
 
 </style>
