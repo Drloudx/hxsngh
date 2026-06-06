@@ -828,15 +828,18 @@ body {
 }
 
 .bottom-gif {
-  /* ⚡️ 核心修改：统一高度为 60px，宽度设为 auto 保持原始比例不拉伸 */
   height: 40px;
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+  /* ⚡️ 顺便在 filter 后面追加一个 opacity(0.99)，防反色效果更强 */
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) opacity(0.99) !important;
   transition: transform 0.3s ease;
-  pointer-events: auto; /* 恢复图片自身的鼠标事件，让悬浮动效生效 */
-}
+  pointer-events: auto;
 
+  /* ⚡️ 新增：专门制裁手机浏览器的强行反色 */
+  mix-blend-mode: normal !important;   /* 强制混合模式为正常，打断浏览器的底层滤镜 */
+  isolation: isolate !important;       /* 创建独立的渲染层，防止被外层的流氓反色滤镜穿透 */
+}
 /* 保持原本的悬浮微调动效 */
 .bottom-gif:hover {
   transform: scale(1.1) translateY(-5px);
