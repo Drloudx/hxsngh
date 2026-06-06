@@ -258,12 +258,12 @@ const getBadge = (minR) => {
 
   <div class="footer-gifs">
     <div class="gif-group left-group">
-      <div class="bottom-gif-div" style="background-image: url('/gif/lzx.gif');"></div>
-      <div class="bottom-gif-div" style="background-image: url('/gif/cl.gif');"></div>
+      <img src="/gif/lzx.gif" alt="lzx" class="bottom-gif" />
+      <img src="/gif/cl.gif" alt="cl" class="bottom-gif" />
     </div>
     <div class="gif-group right-group">
-      <div class="bottom-gif-div" style="background-image: url('/gif/ysgz.gif');"></div>
-      <div class="bottom-gif-div" style="background-image: url('/gif/hfmn.gif');"></div>
+      <img src="/gif/ysgz.gif" alt="ysgz" class="bottom-gif" />
+      <img src="/gif/hfmn.gif" alt="hfmn" class="bottom-gif" />
     </div>
   </div>
 
@@ -827,28 +827,21 @@ body {
   width: 45%;
 }
 
-/* 废弃原本的 .bottom-gif 样式，换成 div 背景图样式 */
-.bottom-gif-div {
+.bottom-gif {
   height: 40px;
-  width: 40px; /* 💡 如果各个小人比例不同，可以给特定的 div 调整宽度，或者配合 aspect-ratio */
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: bottom;
+  width: auto;
+  object-fit: contain;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
   transition: transform 0.3s ease;
-  pointer-events: auto; /* 恢复鼠标事件，使悬浮动效生效 */
+  pointer-events: auto;
 
-  /* 阻断可能的颜色调整 */
-  forced-color-adjust: none !important;
+  /* 👇 核心：强力阻止浏览器在夜间模式下对该元素进行反色或变暗 */
+  forced-color-adjust: none; /* 标准属性：阻止强行色彩调整 */
+  forced-colors: none;
 }
-
-.bottom-gif-div:hover {
+/* 保持原本的悬浮微调动效 */
+.bottom-gif:hover {
   transform: scale(1.1) translateY(-5px);
-}
-
-/* 兜底确保它在开启暗色模式时不受到任何反色干扰 */
-.dark-mode .bottom-gif-div {
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4)) !important;
 }
 
 .left-group { justify-content: flex-start; }
@@ -857,4 +850,17 @@ body {
 /* 动效 */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+
+/* 防止反色的魔法代码 */
+/* 防止反色的魔法代码 */
+@media (prefers-color-scheme: dark) {
+  html:not(.dark-mode) .bottom-gif {
+    /* 1. 强行再次反色，把浏览器的反色给“吐”出来，并修正色调 */
+    filter: invert(1) hue-rotate(180deg) drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)) !important;
+    /* 2. 双重保险：顺便在这里也塞上阻止色彩调整的声明 */
+    forced-color-adjust: none !important;
+  }
+}
+
 </style>
