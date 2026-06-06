@@ -211,7 +211,7 @@ const getBadge = (minR) => {
           <h1 class="main-title">指定招募工具</h1>
           <span class="ocr-status-tag" :class="'status-' + engineStatus">
             <span class="status-dot"></span>
-            {{ engineStatus === 'loading' ? '识别模块预加载中' : engineStatus === 'ready' ? '识别模块引擎就绪' : '识别模块加载失败' }}
+            {{ engineStatus === 'loading' ? '识别模块预加载中' : engineStatus === 'ready' ? '识别模块就绪' : '识别模块加载失败' }}
           </span>
         </div>
       </div>
