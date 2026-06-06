@@ -14,6 +14,9 @@ const imageMatcher = new ImageMatcher()
 const isSettingsOpen = ref(false)
 const isDarkMode = ref(false)
 
+// 🟢 Via 浏览器检测（用于隐藏 GIF）
+const isViaBrowser = ref(false)
+
 const toggleTheme = () => {
   isDarkMode.value = !isDarkMode.value
   if (isDarkMode.value) {
@@ -27,15 +30,6 @@ const toggleSettings = () => {
   isSettingsOpen.value = !isSettingsOpen.value
 }
 
-// 点击外部关闭下拉菜单
-onMounted(() => {
-  window.addEventListener('click', (e) => {
-    if (!e.target.closest('.settings-container')) {
-      isSettingsOpen.value = false
-    }
-  })
-})
-
 // 控制弹窗状态
 const showResultModal = ref(false)
 const showFeedbackModal = ref(false)
@@ -46,6 +40,20 @@ const matchResultTags = ref([])
 const engineStatus = ref('loading')
 
 onMounted(() => {
+  // 🧩 Via 浏览器检测（放在最前面，确保隐藏逻辑优先）
+  const ua = navigator.userAgent.toLowerCase()
+  if (ua.includes('via')) {
+    isViaBrowser.value = true
+    console.log('🕶️ 检测到 Via 浏览器，已自动隐藏底部 GIF（避免反色问题）')
+  }
+
+  // 点击外部关闭设置下拉菜单（原有逻辑）
+  window.addEventListener('click', (e) => {
+    if (!e.target.closest('.settings-container')) {
+      isSettingsOpen.value = false
+    }
+  })
+
   console.log('🌐 网页已挂载，开始在后台静默预热匹配引擎...')
   engineStatus.value = 'loading'
 
@@ -237,45 +245,37 @@ const getBadge = (minR) => {
     </div>
 
     <div class="filter-section">
-  <div v-for="col in filterCols" :key="col" class="filter-group">
-    <div class="filter-label">{{ col }}</div>
-    <div class="tags-container">
-      <span
-        v-for="val in tagsByCol[col]"
-        :key="val"
-        class="tag"
-        :class="{
-            active: selectedTags.includes(val),
-            'tag-rarity-3': val === '传说',
-            'tag-rarity-2': val === '史诗'
-        }"
-        @click="toggleTag(val)"
-      >
-        {{ val }}
-      </span>
-    </div>
-  </div>
+      <div v-for="col in filterCols" :key="col" class="filter-group">
+        <div class="filter-label">{{ col }}</div>
+        <div class="tags-container">
+          <span
+            v-for="val in tagsByCol[col]"
+            :key="val"
+            class="tag"
+            :class="{
+                active: selectedTags.includes(val),
+                'tag-rarity-3': val === '传说',
+                'tag-rarity-2': val === '史诗'
+            }"
+            @click="toggleTag(val)"
+          >
+            {{ val }}
+          </span>
+        </div>
+      </div>
 
-  <div class="footer-gifs">
-    <div class="gif-group left-group">
-      <div class="gif-wrapper">
-        <img src="/gif/lzx.gif" alt="lzx" class="bottom-gif" />
-      </div>
-      <div class="gif-wrapper">
-        <img src="/gif/cl.gif" alt="cl" class="bottom-gif" />
-      </div>
-    </div>
-    <div class="gif-group right-group">
-      <div class="gif-wrapper">
-        <img src="/gif/ysgz.gif" alt="ysgz" class="bottom-gif" />
-      </div>
-      <div class="gif-wrapper">
-        <img src="/gif/hfmn.gif" alt="hfmn" class="bottom-gif" />
+      <!-- 🧩 底部 GIF 展示区：仅在非 Via 浏览器时显示（避免夜间模式反色问题） -->
+      <div v-if="!isViaBrowser" class="footer-gifs">
+        <div class="gif-group left-group">
+          <img src="/gif/lzx.gif" alt="lzx" class="bottom-gif" />
+          <img src="/gif/cl.gif" alt="cl" class="bottom-gif" />
+        </div>
+        <div class="gif-group right-group">
+          <img src="/gif/ysgz.gif" alt="ysgz" class="bottom-gif" />
+          <img src="/gif/hfmn.gif" alt="hfmn" class="bottom-gif" />
+        </div>
       </div>
     </div>
-  </div>
-
-</div>
 
     <div class="result-stats">{{ statsText }}</div>
 
@@ -381,11 +381,8 @@ const getBadge = (minR) => {
       </div>
     </div>
 
-    <!-- 🌟 公告弹窗组件（已抽离到单独文件） -->
+    <!-- 公告弹窗组件（已抽离到单独文件） -->
     <NoticeModal :show="showNoticeModal" @close="showNoticeModal = false" />
-
-
-
   </div>
 </template>
 
@@ -452,7 +449,7 @@ body {
   width: 100% !important;
   max-width: 800px;
   margin: 0 auto;
-  /* ⚡️ 新增：让 container 撑开占满剩余空间，把 gifs 顶到最下面 */
+  /* 让 container 撑开占满剩余空间，把 gifs 顶到最下面 */
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -530,7 +527,7 @@ body {
   color: #059669;
 }
 .dark-mode .ocr-status-tag.status-ready {
-  background: rgba(5, 46, 22, 0.6) !important; /* 💡 极深绿色背景，视觉更舒适 */
+  background: rgba(5, 46, 22, 0.6) !important; /* 极深绿色背景，视觉更舒适 */
   color: #34d399 !important;
   border: 1px solid rgba(52, 211, 153, 0.2);
 }
@@ -592,7 +589,7 @@ body {
   filter: var(--icon-filter);
 }
 
-/* 玻璃拟态下拉菜单 */
+/* 下拉菜单 */
 .settings-dropdown {
   position: absolute;
   top: 100%;
@@ -600,8 +597,12 @@ body {
   margin-top: 8px;
   width: 160px;
   z-index: 1000;
-  border: 1px solid var(--border-color);
+  background: #ffffff;           /* 纯白背景，不透明 */
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 12px;           /* 保留圆角（如有需要） */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* 普通阴影，无玻璃感 */
   animation: slideDown 0.2s ease-out;
+
 }
 
 .glass-card {
@@ -668,11 +669,11 @@ body {
 
 /* 标签选择区 */
 .filter-section {
-  position: relative; /* ⚡️ 核心：让内部的 GIF 容器可以以此为基准进行定位 */
+  position: relative; /* 让内部的 GIF 容器可以以此为基准进行定位 */
   background: var(--card-bg);
   border-radius: 12px;
   padding: 15px;
-  padding-bottom: 30px; /* ⚡️ 核心：底部留出空间，防止 GIF 遮挡最后一排标签 */
+  padding-bottom: 30px; /* 底部留出空间，防止 GIF 遮挡最后一排标签 */
   margin-bottom: 15px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   border: 1px solid var(--border-color);
@@ -811,9 +812,7 @@ body {
 .feedback-content a { color: var(--primary); font-weight: bold; }
 .feedback-content .hint-text { font-size: 12px; color: var(--text-sub); margin-top: 20px; background: var(--bg); padding: 10px; border-radius: 8px; }
 
-/* 🌟 底部 GIF 展示区样式 */
-/* 🌟 修改：将底部 GIF 展示区改为固定定位，死死贴在屏幕最下方 */
-/* 🌟 底部 GIF 展示区样式 */
+/* 底部 GIF 展示区样式（绝对定位 + 穿透点击） */
 .footer-gifs {
   position: absolute;
   bottom: 0;
@@ -835,40 +834,14 @@ body {
   width: 45%;
 }
 
-.gif-wrapper {
-  position: relative;
-  display: inline-flex;
-  align-items: flex-end;
-  justify-content: center;
-  /* ⚡️ 关键：在这里建立一个新的图层隔离，这是防止被外部干扰的最强屏障 */
-  isolation: isolate;
-  pointer-events: auto;
-}
-
 .bottom-gif {
   height: 40px;
   width: auto;
   object-fit: contain;
-  display: block;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
   transition: transform 0.3s ease;
-
-  /* 绝对禁用任何反色，PC 浅色/深色都由下面的 CSS 变量决定 */
-  filter: none !important;
-  -webkit-filter: none !important;
+  pointer-events: auto;
 }
-
-/* 🌙 网页自带的暗黑模式控制：只调亮度，不搞反色 */
-.dark-mode .bottom-gif {
-  /* 网页暗黑模式下，只把小人调暗一点，不要动色相，这样就不会和任何反色引擎冲突 */
-  filter: brightness(0.8) !important;
-  -webkit-filter: brightness(0.8) !important;
-}
-
-/* ⚠️ 重要：不要再加 @media (prefers-color-scheme: dark) 滤镜了！
-   如果 Via 还是要反色，那是因为它强行对 img 标签下了“反色指令”。
-   如果这样还反色，说明你的 GIF 原图本身就是“透明通道”有问题，
-   或者是 Via 识别到了它是“纯色背景 GIF”并强行处理。
-*/
 
 .bottom-gif:hover {
   transform: scale(1.1) translateY(-5px);
