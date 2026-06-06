@@ -197,7 +197,7 @@ const getBadge = (minR) => {
           <h1 class="main-title">指定招募工具</h1>
           <span class="ocr-status-tag" :class="'status-' + engineStatus">
             <span class="status-dot"></span>
-            {{ engineStatus === 'loading' ? '引擎预加载中' : engineStatus === 'ready' ? '分析引擎就绪' : '引擎加载失败' }}
+            {{ engineStatus === 'loading' ? '识别模块预加载中' : engineStatus === 'ready' ? '识别模块引擎就绪' : '识别模块加载失败' }}
           </span>
         </div>
       </div>
@@ -828,73 +828,48 @@ body {
   pointer-events: none;
 }
 
-/* ⚡️ 核心改造：左右各形成一条无形的、不占位、无视觉背景的长条轨道 */
 .gif-group {
   display: flex;
   align-items: flex-end;
   gap: 15px;
   width: 45%;
-  background: transparent !important;
 }
 
-/* 🛡️ 隐形防线：不设任何边框、圆角、背景色、阴影。完全透明，实现无缝视觉效果 */
 .gif-wrapper {
   position: relative;
   display: inline-flex;
   align-items: flex-end;
   justify-content: center;
-  background: transparent !important; /* 强制完全透明，没有任何白色方块 */
-
-  /* 🪄 以下两行建立独立的层叠上下文，骗过 Via 的颜色反转引擎 */
+  /* ⚡️ 关键：在这里建立一个新的图层隔离，这是防止被外部干扰的最强屏障 */
   isolation: isolate;
-  transform: translateZ(0);
-
   pointer-events: auto;
 }
 
-/* 🧙‍♂️ 伪元素环境伪装器：为小人背后铺设一层肉眼不可见的复合环境层，彻底阻断手机流氓反色 */
-.gif-wrapper::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  /* 使用几乎不计的 0.005 极度微弱半透明白色，肉眼完全看不见，但浏览器渲染管线会判定这里有色彩填充，从而放弃一刀切取反 */
-  background: rgba(255, 255, 255, 0.005) !important;
-
-  /* 叠加滤镜进一步锁定当前图层色彩 */
-  backdrop-filter: brightness(1) contrast(1);
-  -webkit-backdrop-filter: brightness(1) contrast(1);
-
-  z-index: -1;
-  pointer-events: none;
-}
-
 .bottom-gif {
-  height: 40px; /* 恢复原版大小 */
+  height: 40px;
   width: auto;
   object-fit: contain;
   display: block;
+  transition: transform 0.3s ease;
 
-  /* 彻底清理任何会引发反色副作用的混合滤镜 */
+  /* 绝对禁用任何反色，PC 浅色/深色都由下面的 CSS 变量决定 */
   filter: none !important;
   -webkit-filter: none !important;
-
-  transition: transform 0.3s ease;
 }
 
-/* 🌙 当主动切换为你系统原生的“深色模式”时 */
+/* 🌙 网页自带的暗黑模式控制：只调亮度，不搞反色 */
 .dark-mode .bottom-gif {
-  /* 仅柔和地降低一点点亮度，使它融入暗黑背景，没有任何突兀白边 */
-  filter: brightness(0.85) !important;
-}
-.dark-mode .gif-wrapper::before {
-  background: rgba(0, 0, 0, 0.005) !important;
+  /* 网页暗黑模式下，只把小人调暗一点，不要动色相，这样就不会和任何反色引擎冲突 */
+  filter: brightness(0.8) !important;
+  -webkit-filter: brightness(0.8) !important;
 }
 
-/* 保持原本的纯粹悬浮微调动效 */
+/* ⚠️ 重要：不要再加 @media (prefers-color-scheme: dark) 滤镜了！
+   如果 Via 还是要反色，那是因为它强行对 img 标签下了“反色指令”。
+   如果这样还反色，说明你的 GIF 原图本身就是“透明通道”有问题，
+   或者是 Via 识别到了它是“纯色背景 GIF”并强行处理。
+*/
+
 .bottom-gif:hover {
   transform: scale(1.1) translateY(-5px);
 }
