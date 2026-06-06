@@ -14,8 +14,8 @@ const imageMatcher = new ImageMatcher()
 const isSettingsOpen = ref(false)
 const isDarkMode = ref(false)
 
-// 🟢 Via 浏览器检测（用于隐藏 GIF）
-const isViaBrowser = ref(false)
+// GIF 显示状态（默认 true，并从 localStorage 读取）
+const showGifs = ref(true)
 
 const toggleTheme = () => {
   isDarkMode.value = !isDarkMode.value
@@ -26,9 +26,29 @@ const toggleTheme = () => {
   }
 }
 
+const toggleGifs = () => {
+  showGifs.value = !showGifs.value
+  localStorage.setItem('recruit_tool_showGifs', showGifs.value)
+}
+
 const toggleSettings = () => {
   isSettingsOpen.value = !isSettingsOpen.value
 }
+
+// 点击外部关闭下拉菜单 & 读取本地存储的 GIF 状态
+onMounted(() => {
+  // 读取 GIF 显隐状态
+  const savedShowGifs = localStorage.getItem('recruit_tool_showGifs')
+  if (savedShowGifs !== null) {
+    showGifs.value = savedShowGifs === 'true'
+  }
+
+  window.addEventListener('click', (e) => {
+    if (!e.target.closest('.settings-container')) {
+      isSettingsOpen.value = false
+    }
+  })
+})
 
 // 控制弹窗状态
 const showResultModal = ref(false)
@@ -40,20 +60,6 @@ const matchResultTags = ref([])
 const engineStatus = ref('loading')
 
 onMounted(() => {
-  // 🧩 Via 浏览器检测（放在最前面，确保隐藏逻辑优先）
-  const ua = navigator.userAgent.toLowerCase()
-  if (ua.includes('via')) {
-    isViaBrowser.value = true
-    console.log('🕶️ 检测到 Via 浏览器，已自动隐藏底部 GIF（避免反色问题）')
-  }
-
-  // 点击外部关闭设置下拉菜单（原有逻辑）
-  window.addEventListener('click', (e) => {
-    if (!e.target.closest('.settings-container')) {
-      isSettingsOpen.value = false
-    }
-  })
-
   console.log('🌐 网页已挂载，开始在后台静默预热匹配引擎...')
   engineStatus.value = 'loading'
 
@@ -217,10 +223,15 @@ const getBadge = (minR) => {
             <img src="/setting.svg" alt="设置" />
           </button>
 
-          <div v-if="isSettingsOpen" class="settings-dropdown glass-card">
+          <div v-if="isSettingsOpen" class="settings-dropdown">
             <div class="dropdown-item" @click="toggleTheme">
               <img :src="isDarkMode ? '/theme-light.svg' : '/theme-dark.svg'" class="item-icon" />
               <span>{{ isDarkMode ? '浅色模式' : '深色模式' }}</span>
+            </div>
+            <div class="dropdown-item" @click="toggleGifs">
+              <!-- 修正图标逻辑：显示GIF时显示“隐藏”图标，隐藏GIF时显示“显示”图标 -->
+              <img :src="showGifs ? '/visibility-off.svg' : '/visibility.svg'" class="item-icon" />
+              <span>{{ showGifs ? '隐藏GIF动画' : '显示GIF动画' }}</span>
             </div>
             <div class="dropdown-item" @click="showFeedbackModal = true; isSettingsOpen = false">
               <img src="/feedback.svg" class="item-icon" />
@@ -244,7 +255,8 @@ const getBadge = (minR) => {
       <input type="file" ref="fileInput" @change="handleFileUpload" accept="image/*" style="display: none">
     </div>
 
-    <div class="filter-section">
+    <!-- 给 filter-section 添加动态类，用于控制底部间距 -->
+    <div class="filter-section" :class="{ 'no-gifs': !showGifs }">
       <div v-for="col in filterCols" :key="col" class="filter-group">
         <div class="filter-label">{{ col }}</div>
         <div class="tags-container">
@@ -264,8 +276,8 @@ const getBadge = (minR) => {
         </div>
       </div>
 
-      <!-- 🧩 底部 GIF 展示区：仅在非 Via 浏览器时显示（避免夜间模式反色问题） -->
-      <div v-if="!isViaBrowser" class="footer-gifs">
+      <!-- GIF 容器，使用 v-show 控制显隐 -->
+      <div class="footer-gifs" v-show="showGifs">
         <div class="gif-group left-group">
           <img src="/gif/lzx.gif" alt="lzx" class="bottom-gif" />
           <img src="/gif/cl.gif" alt="cl" class="bottom-gif" />
@@ -381,7 +393,7 @@ const getBadge = (minR) => {
       </div>
     </div>
 
-    <!-- 公告弹窗组件（已抽离到单独文件） -->
+    <!-- 公告弹窗 -->
     <NoticeModal :show="showNoticeModal" @close="showNoticeModal = false" />
   </div>
 </template>
@@ -449,17 +461,14 @@ body {
   width: 100% !important;
   max-width: 800px;
   margin: 0 auto;
-  /* 让 container 撑开占满剩余空间，把 gifs 顶到最下面 */
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-/* 确保结果区域能正常伸缩 */
 #resultsArea {
   flex: 1;
 }
 
-/* 🎯 顶栏布局 */
 .header-bar {
   display: flex;
   justify-content: space-between;
@@ -493,7 +502,6 @@ body {
   line-height: 1.2;
 }
 
-/* 🟢 状态标签 */
 .ocr-status-tag {
   display: inline-flex;
   align-items: center;
@@ -527,7 +535,7 @@ body {
   color: #059669;
 }
 .dark-mode .ocr-status-tag.status-ready {
-  background: rgba(5, 46, 22, 0.6) !important; /* 极深绿色背景，视觉更舒适 */
+  background: rgba(5, 46, 22, 0.6) !important;
   color: #34d399 !important;
   border: 1px solid rgba(52, 211, 153, 0.2);
 }
@@ -560,7 +568,6 @@ body {
   flex-shrink: 0;
 }
 
-/* 设置图标按钮 */
 .settings-container {
   position: relative;
   display: flex;
@@ -589,7 +596,7 @@ body {
   filter: var(--icon-filter);
 }
 
-/* 下拉菜单 */
+/* 下拉菜单 — 纯色背景，无玻璃态 */
 .settings-dropdown {
   position: absolute;
   top: 100%;
@@ -597,25 +604,11 @@ body {
   margin-top: 8px;
   width: 160px;
   z-index: 1000;
-  background: #ffffff;           /* 纯白背景，不透明 */
-  border: 1px solid var(--border-color, #e2e8f0);
-  border-radius: 12px;           /* 保留圆角（如有需要） */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* 普通阴影，无玻璃感 */
-  animation: slideDown 0.2s ease-out;
-
-}
-
-.glass-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: var(--card-bg);
   border-radius: 12px;
+  border: 1px solid var(--border-color);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-.dark-mode .glass-card {
-  background: rgba(30, 41, 59, 0.8);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.2s ease-out;
 }
 
 .dropdown-item {
@@ -667,16 +660,21 @@ body {
 .btn-upload { background: var(--success); }
 .btn-upload:disabled { background: #94a3b8; cursor: not-allowed; }
 
-/* 标签选择区 */
 .filter-section {
-  position: relative; /* 让内部的 GIF 容器可以以此为基准进行定位 */
+  position: relative;
   background: var(--card-bg);
   border-radius: 12px;
   padding: 15px;
-  padding-bottom: 30px; /* 底部留出空间，防止 GIF 遮挡最后一排标签 */
+  padding-bottom: 30px;   /* 为 GIF 预留空间，默认有 GIF */
   margin-bottom: 15px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   border: 1px solid var(--border-color);
+  transition: padding-bottom 0.2s ease;
+}
+
+/* 当 GIF 隐藏时，去掉底部预留空间 */
+.filter-section.no-gifs {
+  padding-bottom: 15px;
 }
 
 .filter-group { margin-bottom: 10px; display: flex; align-items: flex-start; }
@@ -712,7 +710,6 @@ body {
 
 .dark-mode .result-stats { background: rgba(59, 130, 246, 0.1); color: #93c5fd; }
 
-/* 组合卡片 */
 .combo-card {
   width: 100%;
   background: var(--card-bg);
@@ -745,7 +742,6 @@ body {
 .badge-senior { background: #a855f7; }
 .people-count { color: var(--text-sub); font-size: 11px; white-space: nowrap; }
 
-/* 表格 */
 .result-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .result-table th { background: var(--bg); color: var(--text-sub); font-size: 11px; text-align: left; padding: 8px 12px; font-weight: 400; }
 .result-table td { padding: 10px 12px; font-size: 13px; border-top: 1px solid var(--border-color); white-space: nowrap; color: var(--text-main); }
@@ -757,7 +753,6 @@ body {
 
 .no-data { text-align: center; padding: 50px; color: var(--text-sub); background: var(--card-bg); border-radius: 12px; font-size: 14px; border: 1px solid var(--border-color); }
 
-/* 弹窗通用基础样式 */
 .custom-modal-overlay {
   position: fixed;
   top: 0;
@@ -812,7 +807,6 @@ body {
 .feedback-content a { color: var(--primary); font-weight: bold; }
 .feedback-content .hint-text { font-size: 12px; color: var(--text-sub); margin-top: 20px; background: var(--bg); padding: 10px; border-radius: 8px; }
 
-/* 底部 GIF 展示区样式（绝对定位 + 穿透点击） */
 .footer-gifs {
   position: absolute;
   bottom: 0;
@@ -850,7 +844,6 @@ body {
 .left-group { justify-content: flex-start; }
 .right-group { justify-content: flex-end; }
 
-/* 动效 */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 </style>
