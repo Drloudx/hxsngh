@@ -100,7 +100,7 @@ const isGroupExpanded = (rarity) => expandedGroups.value.indexOf(rarity) >= 0
 
 const noticeVersion = computed(() => {
   if (notices.length === 0) return ''
-  const latest = notices[0]
+  const latest = notices.filter(n => !n.pinned)[0]
   return latest.date + '-' + (latest.title || '')
 })
 const markNoticeRead = () => {

@@ -1,6 +1,12 @@
 ﻿<script setup>
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits, computed } from 'vue'
 import notices from '../assets/notices.json'
+
+const sortedNotices = computed(() => {
+  const pinned = notices.filter(n => n.pinned)
+  const normal = notices.filter(n => !n.pinned)
+  return [...pinned, ...normal]
+})
 
 const props = defineProps({
   show: Boolean
@@ -37,9 +43,13 @@ const rules = [
       </div>
       <div class="modal-body notice-body">
         <div class="notice-list">
-          <div v-for="(item, idx) in notices" :key="idx" class="notice-item">
+          <div v-for="(item, idx) in sortedNotices" :key="idx" class="notice-item">
             <div class="notice-header">
-              <span class="notice-date">{{ item.date }}</span>
+              <span class="notice-date" :class="{
+                'notice-pinned': item.pinned
+              }">{{ item.pinned ?
+                '置顶' : item.date
+              }}</span>
               <span v-if="item.title" class="notice-title">{{ item.title }}</span>
             </div>
             <ul class="notice-lines">
@@ -96,6 +106,13 @@ const rules = [
   background: rgba(59, 130, 246, 0.1);
   padding: 2px 8px;
   border-radius: 4px;
+  min-width: 36px;
+  text-align: center;
+}
+
+.notice-pinned {
+  background: rgba(249, 115, 22, 0.15) !important;
+  color: #f97316 !important;
   min-width: 36px;
   text-align: center;
 }
