@@ -1,6 +1,7 @@
-<script setup>
+﻿<script setup>
 import { ref, computed, onMounted } from 'vue'
 import allData from './assets/data.json'
+import notices from './assets/notices.json'
 import { ImageMatcher } from './utils/imageMatcher'
 import NoticeModal from './components/NoticeModal.vue'
 
@@ -43,6 +44,16 @@ onMounted(() => {
     showGifs.value = savedShowGifs === 'true'
   }
 
+  const savedUnowned = localStorage.getItem('unowned_characters')
+  if (savedUnowned) {
+    try { unownedChars.value = JSON.parse(savedUnowned) } catch(e) {}
+  }
+
+  const savedNoticeVer = localStorage.getItem('saved_notice_version')
+  if (noticeVersion.value && noticeVersion.value !== savedNoticeVer) {
+    showNoticeModal.value = true
+  }
+
   window.addEventListener('click', (e) => {
     if (!e.target.closest('.settings-container')) {
       isSettingsOpen.value = false
@@ -53,8 +64,50 @@ onMounted(() => {
 // 控制弹窗状态
 const showResultModal = ref(false)
 const showFeedbackModal = ref(false)
+const showWishModal = ref(false)
+const unownedChars = ref([])
 const showNoticeModal = ref(false)
 const matchResultTags = ref([])
+
+const rarityMap = { 3: '传说', 2: '史诗', 1: '稀有', 0: '普通' }
+const wishGroups = computed(() => [3, 2, 1, 0].map(r => ({ title: rarityMap[r], rarity: r, characters: allData.filter(c => c.稀有度 === r) })))
+
+const toggleUnowned = (name) => {
+  const idx = unownedChars.value.indexOf(name)
+  if (idx >= 0) {
+    unownedChars.value.splice(idx, 1)
+  } else {
+    unownedChars.value.push(name)
+  }
+  localStorage.setItem('unowned_characters', JSON.stringify(unownedChars.value))
+}
+
+const isUnowned = (name) => unownedChars.value.indexOf(name) >= 0
+
+const searchQuery = ref('')
+const expandedGroups = ref([3, 2, 1, 0])
+const filteredWishGroups = computed(() => {
+  if (!searchQuery.value) return wishGroups.value
+  const q = searchQuery.value
+  return wishGroups.value.map(g => ({ ...g, characters: g.characters.filter(c => { let i=0; for(let j=0;j<c.角色名.length&&i<q.length;j++){if(c.角色名[j]===q[i])i++} return i===q.length; }) }))
+})
+
+const toggleGroup = (rarity) => {
+  const idx = expandedGroups.value.indexOf(rarity)
+  if (idx >= 0) { expandedGroups.value.splice(idx, 1) } else { expandedGroups.value.push(rarity) }
+}
+const isGroupExpanded = (rarity) => expandedGroups.value.indexOf(rarity) >= 0
+
+const noticeVersion = computed(() => {
+  if (notices.length === 0) return ''
+  const latest = notices[0]
+  return latest.date + '-' + (latest.title || '')
+})
+const markNoticeRead = () => {
+  localStorage.setItem('saved_notice_version', noticeVersion.value)
+}
+
+
 
 // 匹配引擎加载状态: 'loading' | 'ready' | 'error'
 const engineStatus = ref('loading')
@@ -178,12 +231,13 @@ const filteredResults = computed(() => {
     if (f.length === 0) return null
     let minR = Math.min(...f.map(r => r.稀有度))
     let hasGold = f.some(r => r.稀有度 === 3) ? 1 : 0
+    let unownedBonus = (minR >= 2 && f.some(r => unownedChars.value.includes(r.角色名))) ? 1000 : 0
 
     return {
       c,
       f: f.sort((a, b) => b.稀有度 - a.稀有度),
       minR,
-      w: minR * 100 + hasGold * 10 + c.length * 0.1
+      w: minR * 100 + hasGold * 10 + c.length * 0.1 + unownedBonus
     }
   }).filter(x => x).sort((a, b) => b.w - a.w)
 })
@@ -237,9 +291,13 @@ const getBadge = (minR) => {
               <img src="/feedback.svg" class="item-icon" />
               <span>反馈/建议</span>
             </div>
-            <div class="dropdown-item" @click="showNoticeModal = true; isSettingsOpen = false">
+            <div class="dropdown-item" @click="showNoticeModal = true; isSettingsOpen = false; markNoticeRead()">
               <img src="/announcement.svg" class="item-icon" />
               <span>公告</span>
+            </div>
+            <div class="dropdown-item" @click="showWishModal = true; isSettingsOpen = false">
+              <img src="/wish.svg" class="item-icon" />
+              <span>心愿招募</span>
             </div>
           </div>
         </div>
@@ -328,7 +386,9 @@ const getBadge = (minR) => {
             </thead>
             <tbody>
               <tr v-for="r in item.f" :key="r.角色名">
-                <td class="col-name" :class="'rarity-' + r.稀有度">{{ r.角色名 }}</td>
+                <td class="col-name" :class="'rarity-' + r.稀有度">
+                  {{ r.角色名 }}<img v-if="isUnowned(r.角色名)" src="/mid_ico_map_0001.png" class="unowned-icon" />
+                </td>
                 <td class="col-other">{{ r.职业 }}</td>
                 <td class="col-other">{{ r.种族 }}</td>
                 <td class="col-other">{{ r.属性 }}</td>
@@ -394,7 +454,42 @@ const getBadge = (minR) => {
     </div>
 
     <!-- 公告弹窗 -->
-    <NoticeModal :show="showNoticeModal" @close="showNoticeModal = false" />
+    <NoticeModal :show="showNoticeModal" @close="showNoticeModal = false; markNoticeRead()" />
+
+    <!-- 心愿招募弹窗 -->
+    <div v-if="showWishModal" class="custom-modal-overlay" @click.self="showWishModal = false">
+      <div class="custom-modal-card wish-modal-card">
+        <div class="modal-header">
+          <h3>心愿招募</h3>
+        </div>
+        <div class="modal-body wish-modal-body">
+          <div class="wish-search-box">
+            <img src="/search.svg" class="search-icon" />
+            <input type="text" v-model="searchQuery" placeholder="搜索角色名称..." class="wish-search-input" />
+          </div>
+          <div v-for="group in filteredWishGroups" :key="group.rarity" class="wish-group">
+            <div class="wish-group-title" :class="'wish-title-' + group.rarity" @click="toggleGroup(group.rarity)">
+              <span>{{ group.title }}</span>
+              <img src="/up.svg" class="collapse-icon" :class="{ collapsed: !isGroupExpanded(group.rarity) }" />
+            </div>
+            <div v-if="isGroupExpanded(group.rarity)" class="wish-tags-container">
+              <span
+                v-for="char in group.characters"
+                :key="char.角色名"
+                class="wish-tag"
+                :class="'wish-tag-rarity-' + group.rarity + (isUnowned(char.角色名) ? ' wish-tag-unowned' : '')"
+                @click="toggleUnowned(char.角色名)"
+              >
+                {{ char.角色名 }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn-confirm" @click="showWishModal = false">确定</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -846,4 +941,225 @@ body {
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* 心愿招募弹窗 */
+.wish-modal-card {
+  max-width: 500px !important;
+}
+
+.wish-modal-body {
+  max-height: 420px;
+  overflow-y: auto;
+  text-align: left !important;
+  padding: 16px 20px !important;
+}
+
+.wish-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+.wish-modal-body::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 10px;
+}
+
+.wish-group {
+  margin-bottom: 20px;
+}
+
+.wish-group:last-child {
+  margin-bottom: 0;
+}
+
+.wish-group-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.wish-title-3 { color: #f97316; }
+.wish-title-2 { color: #a855f7; }
+.wish-title-1 { color: #79C37A; }
+.wish-title-0 { color: #7FAECB; }
+
+.wish-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.wish-tag {
+  width: 76px;
+  text-align: center;
+  padding: 5px 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1.5px solid transparent;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.wish-tag-rarity-3 {
+  background: #fff7ed;
+  color: #c2410c;
+  border-color: #fed7aa;
+}
+
+.wish-tag-rarity-2 {
+  background: #faf5ff;
+  color: #7e22ce;
+  border-color: #e9d5ff;
+}
+
+.wish-tag-rarity-1 {
+  background: #f0fdf4;
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+
+.wish-tag-rarity-0 {
+  background: #f0f9ff;
+  color: #1d4ed8;
+  border-color: #bae6fd;
+}
+
+.dark-mode .wish-tag-rarity-3 {
+  background: rgba(249, 115, 22, 0.15);
+  color: #fb923c;
+  border-color: rgba(249, 115, 22, 0.3);
+}
+
+.dark-mode .wish-tag-rarity-2 {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.dark-mode .wish-tag-rarity-1 {
+  background: rgba(121, 195, 122, 0.15);
+  color: #86efac;
+  border-color: rgba(121, 195, 122, 0.3);
+}
+
+.dark-mode .wish-tag-rarity-0 {
+  background: rgba(127, 174, 203, 0.15);
+  color: #93c5fd;
+  border-color: rgba(127, 174, 203, 0.3);
+}
+
+.wish-tag.wish-tag-unowned {
+  border-width: 2px;
+  font-weight: 700;
+}
+
+.wish-tag-rarity-3.wish-tag-unowned {
+  background: #f97316;
+  color: #fff;
+  border-color: #f97316;
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.3);
+}
+
+.wish-tag-rarity-2.wish-tag-unowned {
+  background: #a855f7;
+  color: #fff;
+  border-color: #a855f7;
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.3);
+}
+
+.wish-tag-rarity-1.wish-tag-unowned {
+  background: #79C37A;
+  color: #fff;
+  border-color: #79C37A;
+  box-shadow: 0 0 0 2px rgba(121, 195, 122, 0.3);
+}
+
+.wish-tag-rarity-0.wish-tag-unowned {
+  background: #7FAECB;
+  color: #fff;
+  border-color: #7FAECB;
+  box-shadow: 0 0 0 2px rgba(127, 174, 203, 0.3);
+}
+
+.dark-mode .wish-tag-rarity-3.wish-tag-unowned {
+  background: #ea580c;
+  color: #fff;
+  border-color: #ea580c;
+}
+
+.dark-mode .wish-tag-rarity-2.wish-tag-unowned {
+  background: #9333ea;
+  color: #fff;
+  border-color: #9333ea;
+}
+
+.dark-mode .wish-tag-rarity-1.wish-tag-unowned {
+  background: #16a34a;
+  color: #fff;
+  border-color: #16a34a;
+}
+
+.dark-mode .wish-tag-rarity-0.wish-tag-unowned {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
+.unowned-icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+.wish-search-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+
+.search-icon {
+  width: 16px;
+  height: 16px;
+  filter: var(--icon-filter);
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.wish-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13px;
+  color: var(--text-main);
+  font-family: inherit;
+}
+
+.wish-search-input::placeholder {
+  color: var(--text-sub);
+}
+
+.collapse-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.25s ease;
+  margin-left: auto;
+  filter: var(--icon-filter);
+  flex-shrink: 0;
+}
+
+.collapse-icon.collapsed {
+  transform: rotate(180deg);
+}
+
 </style>
