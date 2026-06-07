@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { defineProps, defineEmits } from 'vue'
 import notices from '../assets/notices.json'
 
@@ -7,6 +7,26 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close'])
+
+const renderLine = (text) => {
+  // 公告文本颜色标记规则
+// 格式：[ 正则匹配符号, 颜色代码 ]
+// 使用方法：==文字== 红色、~~文字~~ 橙色、##文字## 绿色...以此类推
+const rules = [
+  [/==(.+?)==/g, '#ef4444'],   // 🔴 红色 - 重要警告/紧急更新
+  [/~~(.+?)~~/g, '#f97316'],   // 🟠 橙色 - 优化/功能调整
+  [/##(.+?)##/g, '#22c55e'],   // 🟢 绿色 - 修复BUG/成功提示
+  [/{{(.+?)}}/g, '#3b82f6'],   // 🔵 蓝色 - 新增功能
+  [/\[\[(.+?)\]\]/g, '#a855f7'], // 🟣 紫色 - 高级/史诗/特殊内容
+  [/\(\((.+?)\)\)/g, '#ec4899'], // 🩷 粉色 - 提示/温馨提醒
+  [/<<(.+?)>>/g, '#64748b'],     // ⚫ 灰色 - 备注/次要说明
+  [/%%(.+?)%%/g, '#eab308'],     // 🟡 金色 - 高亮重点/顶级内容
+];
+  for (const [re, color] of rules) {
+    text = text.replace(re, '<span style="color:' + color + '">$1</span>');
+  }
+  return text;
+};
 </script>
 
 <template>
@@ -23,7 +43,7 @@ const emit = defineEmits(['close'])
               <span v-if="item.title" class="notice-title">{{ item.title }}</span>
             </div>
             <ul class="notice-lines">
-              <li v-for="(line, lIdx) in item.lines" :key="lIdx">{{ line }}</li>
+              <li v-for="(line, lIdx) in item.lines" :key="lIdx" v-html="renderLine(line)"></li>
             </ul>
           </div>
         </div>
