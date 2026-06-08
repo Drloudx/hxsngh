@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { ref, computed, onMounted } from 'vue'
 import allData from './assets/data.json'
 import notices from './assets/notices.json'
@@ -49,6 +49,22 @@ onMounted(() => {
     try { unownedChars.value = JSON.parse(savedUnowned) } catch(e) {}
   }
 
+  const checkShell = () => {
+    const a = document.documentElement.getAttribute("data-app-shell") === "true"
+    isInApp.value = a
+    if (a) {
+      const s = localStorage.getItem('update_skip_date')
+      const d = new Date(); const t = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')
+      if (s !== t) setTimeout(() => checkUpdate(true), 2000)
+    }
+  }
+  checkShell()
+  if (!isInApp.value) {
+    const o = new MutationObserver(() => {
+      if (document.documentElement.getAttribute("data-app-shell") === "true") { checkShell(); o.disconnect() }
+    })
+    o.observe(document.documentElement, { attributes: true, attributeFilter: ["data-app-shell"] })
+  }
   const savedNoticeVer = localStorage.getItem('saved_notice_version')
   if (noticeVersion.value && noticeVersion.value !== savedNoticeVer) {
     showNoticeModal.value = true
@@ -68,6 +84,13 @@ const showWishModal = ref(false)
 const unownedChars = ref([])
 const showNoticeModal = ref(false)
 const matchResultTags = ref([])
+const showUpdateModal = ref(false)
+const updateInfo = ref(null)
+const updateError = ref('')
+const isCheckingUpdate = ref(false)
+const downloadProgress = ref(0)
+const downloadStatus = ref('idle')
+const isInApp = ref(false)
 
 const rarityMap = { 3: '传说', 2: '史诗', 1: '稀有', 0: '普通' }
 const wishGroups = computed(() => [3, 2, 1, 0].map(r => ({ title: rarityMap[r], rarity: r, characters: allData.filter(c => c.稀有度 === r) })))
@@ -97,6 +120,58 @@ const toggleGroup = (rarity) => {
   if (idx >= 0) { expandedGroups.value.splice(idx, 1) } else { expandedGroups.value.push(rarity) }
 }
 const isGroupExpanded = (rarity) => expandedGroups.value.indexOf(rarity) >= 0
+
+const compareVersions = (v1, v2) => {
+  const p = (v) => v.replace('v','').split('.').map(Number)
+  const a = p(v1), b = p(v2)
+  for (let i = 0; i < 3; i++) {
+    if ((a[i]||0) > (b[i]||0)) return 1
+    if ((a[i]||0) < (b[i]||0)) return -1
+  }
+  return 0
+}
+
+const setUpUpdateCallbacks = () => {
+  window.__updateProgress = (d, t) => {
+    if (t > 0) {
+      downloadProgress.value = Math.round(d/t*100)
+    } else {
+      downloadProgress.value = 99
+    }
+  }
+  window.__updateComplete = () => { downloadStatus.value = 'complete'; downloadProgress.value = 100 }
+  window.__updateError = (m) => { downloadStatus.value = 'error'; updateError.value = m; downloadProgress.value = 0 }
+}
+
+const checkUpdate = async (silent) => {
+  isCheckingUpdate.value = true; updateError.value = ''
+  try {
+    const r = await fetch('https://api.github.com/repos/Drloudx/hxsngh/releases/latest')
+    if (!r.ok) throw new Error('请求失败: '+r.status)
+    const d = await r.json()
+    const l = d.tag_name || 'v0.0.0'
+    const c = (window.__APP_VERSION__ || '0.0.0').replace(/^v?/,'v')
+    if (compareVersions(l, c) > 0) {
+      const apk = (d.assets||[]).find(a => a.name.endsWith('.apk'))
+      if (!apk) throw new Error('未找到APK下载链接')
+      updateInfo.value = { version: l, body: d.body||'暂无更新说明', apkUrl: apk.browser_download_url }
+      showUpdateModal.value = true; setUpUpdateCallbacks()
+    } else if (!silent) { alert('当前已是最新版本') }
+  } catch(e) { if (!silent) alert('检查更新失败: '+e.message) }
+  finally { isCheckingUpdate.value = false }
+}
+
+const startDownload = () => {
+  if (!updateInfo.value?.apkUrl) return
+  downloadStatus.value = 'downloading'; downloadProgress.value = 0
+  window.__downloadUrl = updateInfo.value.apkUrl
+}
+
+const skipUpdateToday = () => {
+  const d = new Date()
+  const s = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')
+  localStorage.setItem('update_skip_date', s); showUpdateModal.value = false
+}
 
 const noticeVersion = computed(() => {
   if (notices.length === 0) return ''
@@ -299,6 +374,10 @@ const getBadge = (minR) => {
               <img src="/ui/wish.svg" class="item-icon" />
               <span>心愿招募</span>
             </div>
+            <div class="dropdown-item app-only" @click="isSettingsOpen = false; checkUpdate(false)">
+              <img src="/ui/update.svg" class="item-icon" />
+              <span>检测更新</span>
+            </div>
           </div>
         </div>
 
@@ -445,6 +524,7 @@ const getBadge = (minR) => {
             <p>方式一：【 <a href="https://qm.qq.com/q/cUvhuRHvhK" target="_blank">QQ联系</a> 】</p>
             <p>方式二：【 <a href="https://f.kdocs.cn/g/y4Uu95na/" target="_blank">填写在线表单</a> 】</p>
             <p class="hint-text">如有建议，建议使用QQ联系，更方便交流</p>
+            <p style="margin-top:8px"><a href="https://qun.qq.com/universal-share/share?ac=1&authKey=4xp%2BlCmM2Q2gVIvW6a14yOEVtT%2BPLsY9DwmNSDRVTBkp8xcNO%2FTRo%2FOksMb528aW&busi_data=eyJncm91cENvZGUiOiI5NjQ3Njg3OTkiLCJ0b2tlbiI6Im1abkR4eDNDb09HeDZtV2QvNi9ZOTlMNWRhQVQxSDVGK2hSUmlmdkd6bm9hNGRIYjZnWFB6QitBd1A5NVhscmMiLCJ1aW4iOiIxOTY1MTYxNjQzIn0%3D&data=CcXqRPXmezEwvtBwz950aSAyBxYHidOpffYEE8nD1EB-WDcAI-CLzvlLLIavd-lpEuHEP9fCXE5i5Sh3aGjUmw&svctype=4&tempid=h5_group_info" target="_blank" style="color:#3b82f6;font-weight:bold">点击链接加入群聊【幻想少女公会助手反馈交流群】</a></p>
           </div>
         </div>
         <div class="modal-footer">
@@ -491,6 +571,29 @@ const getBadge = (minR) => {
       </div>
     </div>
   </div>
+    <!-- 更新弹窗 -->
+    <div v-if="showUpdateModal" class="custom-modal-overlay" @click.self="showUpdateModal = false">
+      <div class="custom-modal-card">
+        <div class="modal-header">
+          <h3>发现新版本</h3>
+        </div>
+        <div class="modal-body update-modal-body">
+          <div class="update-version" v-if="updateInfo">{{ updateInfo.version }}</div>
+          <div class="update-changelog" v-if="updateInfo">{{ updateInfo.body }}</div>
+          <div class="update-progress" v-if="downloadStatus === 'downloading'">
+            <div class="update-progress-bar"><div class="update-progress-fill" :style="{ width: downloadProgress + '%' }"></div></div>
+            <div class="update-progress-text">{{ downloadProgress }}%</div>
+          </div>
+          <div class="update-done" v-if="downloadStatus === 'complete'">下载完成，正在准备安装...</div>
+          <div class="update-error" v-if="downloadStatus === 'error'">下载失败: {{ updateError }}</div>
+        </div>
+        <div class="modal-footer update-footer">
+          <button class="update-skip-btn" @click="skipUpdateToday">今日不提醒</button>
+          <button class="modal-btn-confirm" @click="startDownload" v-if="downloadStatus !== 'downloading'">更新</button>
+          <button class="modal-btn-confirm" disabled v-else>{{ downloadProgress > 0 ? downloadProgress + "%" : "下载中..." }}</button>
+        </div>
+      </div>
+    </div>
 </template>
 
 <style>
@@ -550,6 +653,17 @@ body {
   margin: 0 !important;
   padding: 0 !important;
   display: block !important;
+}
+
+/* 套壳 WebView 安全区域 */
+html[data-app-shell="true"] {
+  background: var(--bg);
+}
+html[data-app-shell="true"] body {
+  background: var(--bg);
+}
+html[data-app-shell="true"] #app {
+  padding-top: 8px !important;
 }
 
 .container {
@@ -1162,4 +1276,92 @@ body {
   transform: rotate(180deg);
 }
 
+
+/* 更新弹窗 */
+.update-modal-body {
+  max-height: 420px;
+  overflow-y: auto;
+  text-align: left !important;
+  padding: 16px 20px !important;
+}
+
+.update-version {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.update-changelog {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-main);
+  white-space: pre-wrap;
+  background: var(--bg);
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.update-progress {
+  margin-top: 12px;
+}
+
+.update-progress-bar {
+  height: 6px;
+  background: var(--border-color);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.update-progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.update-progress-text {
+  font-size: 12px;
+  color: var(--text-sub);
+  text-align: center;
+  margin-top: 4px;
+}
+
+.update-done {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--success);
+  text-align: center;
+}
+
+.update-error {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #ef4444;
+  text-align: center;
+}
+
+.update-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px !important;
+}
+
+.update-skip-btn {
+  background: none;
+  border: none;
+  color: var(--text-sub);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 8px 12px;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.update-skip-btn:hover {
+  color: var(--text-main);
+}
+html:not([data-app-shell="true"]) .app-only { display: none !important; }
 </style>
