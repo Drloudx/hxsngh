@@ -274,29 +274,29 @@ const getBadge = (minR) => {
       <div class="header-btns">
         <div class="settings-container">
           <button class="btn-icon" @click.stop="toggleSettings" title="设置">
-            <img src="/setting.svg" alt="设置" />
+            <img src="/ui/setting.svg" alt="设置" />
           </button>
 
           <div v-if="isSettingsOpen" class="settings-dropdown">
             <div class="dropdown-item" @click="toggleTheme">
-              <img :src="isDarkMode ? '/theme-light.svg' : '/theme-dark.svg'" class="item-icon" />
+              <img :src="isDarkMode ? '/ui/theme-light.svg' : '/ui/theme-dark.svg'" class="item-icon" />
               <span>{{ isDarkMode ? '浅色模式' : '深色模式' }}</span>
             </div>
             <div class="dropdown-item" @click="toggleGifs">
               <!-- 修正图标逻辑：显示GIF时显示“隐藏”图标，隐藏GIF时显示“显示”图标 -->
-              <img :src="showGifs ? '/visibility-off.svg' : '/visibility.svg'" class="item-icon" />
+              <img :src="showGifs ? '/ui/visibility-off.svg' : '/ui/visibility.svg'" class="item-icon" />
               <span>{{ showGifs ? '隐藏GIF动画' : '显示GIF动画' }}</span>
             </div>
             <div class="dropdown-item" @click="showFeedbackModal = true; isSettingsOpen = false">
-              <img src="/feedback.svg" class="item-icon" />
+              <img src="/ui/feedback.svg" class="item-icon" />
               <span>反馈/建议</span>
             </div>
             <div class="dropdown-item" @click="showNoticeModal = true; isSettingsOpen = false; markNoticeRead()">
-              <img src="/announcement.svg" class="item-icon" />
+              <img src="/ui/announcement.svg" class="item-icon" />
               <span>公告</span>
             </div>
             <div class="dropdown-item" @click="showWishModal = true; isSettingsOpen = false">
-              <img src="/wish.svg" class="item-icon" />
+              <img src="/ui/wish.svg" class="item-icon" />
               <span>心愿招募</span>
             </div>
           </div>
@@ -464,13 +464,13 @@ const getBadge = (minR) => {
         </div>
         <div class="modal-body wish-modal-body">
           <div class="wish-search-box">
-            <img src="/search.svg" class="search-icon" />
+            <img src="/ui/search.svg" class="search-icon" />
             <input type="text" v-model="searchQuery" placeholder="搜索角色名称..." class="wish-search-input" />
           </div>
           <div v-for="group in filteredWishGroups" :key="group.rarity" class="wish-group">
             <div class="wish-group-title" :class="'wish-title-' + group.rarity" @click="toggleGroup(group.rarity)">
               <span>{{ group.title }}</span>
-              <img src="/up.svg" class="collapse-icon" :class="{ collapsed: !isGroupExpanded(group.rarity) }" />
+              <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !isGroupExpanded(group.rarity) }" />
             </div>
             <div v-if="isGroupExpanded(group.rarity)" class="wish-tags-container">
               <span
