@@ -337,7 +337,7 @@ const markNoticeRead = () => {
         </div>
 
         <div class="modal-body donate-body" v-else>
-          <p class="donate-hint">感谢您的支持，赞助将用于服务器维护</p>
+          <p class="donate-hint">感谢您的支持，赞助将用于工具维护</p>
           <div class="donate-qrs">
             <div class="qr-item">
               <img src="/ui/Alipay.jpg" alt="支付宝" />
