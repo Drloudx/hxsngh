@@ -97,8 +97,13 @@ export class ImageMatcher {
           );
 
           window.cv.resize(rawMat, scaledMat, newSize, 0, 0, window.cv.INTER_AREA);
-          this.templateMats[name] = scaledMat;
+          
+          // 优化：灰度化处理，减少计算量并抗干扰
+          const grayMat = new window.cv.Mat();
+          window.cv.cvtColor(scaledMat, grayMat, window.cv.COLOR_RGBA2GRAY);
+          this.templateMats[name] = grayMat;
 
+          scaledMat.delete();
           rawMat.delete();
           console.log(`📏 模板就绪: ${name}`);
         } catch (err) {
@@ -143,7 +148,12 @@ export class ImageMatcher {
       Math.floor(src.cols * 0.6),
       Math.floor(src.rows * 0.35)
     );
-    const roi = src.roi(roiRect);
+    const roiRaw = src.roi(roiRect);
+    
+    // 优化：ROI 灰度化，匹配灰度模板
+    const roi = new window.cv.Mat();
+    window.cv.cvtColor(roiRaw, roi, window.cv.COLOR_RGBA2GRAY);
+    roiRaw.delete();
 
     const dst = new window.cv.Mat();
     const emptyMask = new window.cv.Mat();
@@ -177,5 +187,7 @@ export class ImageMatcher {
     return {
       matched: [...new Set(matchedTags)]
     };
-  }
-}
+    }
+    }
+
+    export const imageMatcher = new ImageMatcher()
