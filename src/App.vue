@@ -1,17 +1,60 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import allData from './assets/data.json'
+import { ref, computed, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import notices from './assets/notices.json'
-import { ImageMatcher } from './utils/imageMatcher'
 import NoticeModal from './components/NoticeModal.vue'
+import UpdateModal from './components/UpdateModal.vue'
+import BackToTop from './components/BackToTop.vue'
+import { fetchLatestRelease, compareVersions, isUpdateSkippedToday } from './utils/version'
+import { imageMatcher } from './utils/imageMatcher'
 
-const filterCols = ['星级', '职业', '种族', '属性', '地区']
-const selectedTags = ref([])
-const isMatchingLoading = ref(false)
-const fileInput = ref(null)
-const imageMatcher = new ImageMatcher()
+const route = useRoute()
+const router = useRouter()
 
-// 设置与深色模式状态
+// 匹配引擎状态映射到全局
+const engineStatus = ref('loading')
+
+onMounted(() => {
+  // 全局一次性初始化引擎
+  console.log('🌐 App已挂载，开始全局初始化匹配引擎...')
+  imageMatcher.init()
+    .then(() => {
+      console.log('✨ 全局引擎预热成功！')
+      engineStatus.value = 'ready'
+    })
+    .catch((err) => {
+      console.error('❌ 全局引擎预热失败:', err)
+      engineStatus.value = 'error'
+    })
+
+  // 读取 GIF 显隐状态
+  const savedShowGifs = localStorage.getItem('recruit_tool_showGifs')
+  if (savedShowGifs !== null) {
+    showGifs.value = savedShowGifs === 'true'
+  }
+
+  // 检查是否在 App 内
+  const checkShell = () => {
+    const a = document.documentElement.getAttribute("data-app-shell") === "true"
+    isInApp.value = a
+    if (a && !isUpdateSkippedToday()) {
+      setTimeout(() => checkUpdate(true), 2000)
+    }
+  }
+  checkShell()
+
+  // 监听公告
+  const savedNoticeVer = localStorage.getItem('saved_notice_version')
+  if (noticeVersion.value && noticeVersion.value !== savedNoticeVer) {
+    showNoticeModal.value = true
+  }
+
+  window.addEventListener('click', (e) => {
+    if (!e.target.closest('.settings-container')) isSettingsOpen.value = false
+    if (!e.target.closest('.mode-switcher-container')) isModeDropdownOpen.value = false
+  })
+})
+
 const isSettingsOpen = ref(false)
 const isDarkMode = ref(false)
 
@@ -34,314 +77,121 @@ const toggleGifs = () => {
 
 const toggleSettings = () => {
   isSettingsOpen.value = !isSettingsOpen.value
+  if (isSettingsOpen.value) isModeDropdownOpen.value = false
 }
 
-// 点击外部关闭下拉菜单 & 读取本地存储的 GIF 状态
-onMounted(() => {
-  // 读取 GIF 显隐状态
-  const savedShowGifs = localStorage.getItem('recruit_tool_showGifs')
-  if (savedShowGifs !== null) {
-    showGifs.value = savedShowGifs === 'true'
-  }
+// 模式切换
+const isModeDropdownOpen = ref(false)
+const modes = [
+  { id: 'recruit', name: '指定招募工具', shortName: '招募', path: '/recruit' },
+  { id: 'talent', name: '天赋筛选工具', shortName: '天赋', path: '/talent' },
+  { id: 'support', name: '支援筛选工具', shortName: '支援', path: '/support' }
+]
 
-  const savedUnowned = localStorage.getItem('unowned_characters')
-  if (savedUnowned) {
-    try { unownedChars.value = JSON.parse(savedUnowned) } catch(e) {}
-  }
-
-  const checkShell = () => {
-    const a = document.documentElement.getAttribute("data-app-shell") === "true"
-    isInApp.value = a
-    if (a) {
-      const s = localStorage.getItem('update_skip_date')
-      const d = new Date(); const t = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')
-      if (s !== t) setTimeout(() => checkUpdate(true), 2000)
-    }
-  }
-  checkShell()
-  if (!isInApp.value) {
-    const o = new MutationObserver(() => {
-      if (document.documentElement.getAttribute("data-app-shell") === "true") { checkShell(); o.disconnect() }
-    })
-    o.observe(document.documentElement, { attributes: true, attributeFilter: ["data-app-shell"] })
-  }
-  const savedNoticeVer = localStorage.getItem('saved_notice_version')
-  if (noticeVersion.value && noticeVersion.value !== savedNoticeVer) {
-    showNoticeModal.value = true
-  }
-
-  window.addEventListener('click', (e) => {
-    if (!e.target.closest('.settings-container')) {
-      isSettingsOpen.value = false
-    }
-  })
+const currentModeInfo = computed(() => {
+  const m = modes.find(m => route.path.startsWith(m.path))
+  return m || modes[0]
 })
 
-// 控制弹窗状态
-const showResultModal = ref(false)
+const toggleModeDropdown = () => {
+  isModeDropdownOpen.value = !isModeDropdownOpen.value
+  if (isModeDropdownOpen.value) isSettingsOpen.value = false
+}
+
+const switchMode = (mode) => {
+  if (mode.id === 'support') {
+    showSupportModal.value = true
+    isModeDropdownOpen.value = false
+    return
+  }
+  router.push(mode.path)
+  isModeDropdownOpen.value = false
+}
+
+// 全局弹窗状态
 const showFeedbackModal = ref(false)
-const showWishModal = ref(false)
-const unownedChars = ref([])
 const showNoticeModal = ref(false)
-const matchResultTags = ref([])
 const showUpdateModal = ref(false)
+const showAboutModal = ref(false)
+const showSupportModal = ref(false)
+const showDonateSection = ref(false)
 const updateInfo = ref(null)
-const updateError = ref('')
-const isCheckingUpdate = ref(false)
-const downloadProgress = ref(0)
-const downloadStatus = ref('idle')
 const isInApp = ref(false)
 
-const rarityMap = { 3: '传说', 2: '史诗', 1: '稀有', 0: '普通' }
-const wishGroups = computed(() => [3, 2, 1, 0].map(r => ({ title: rarityMap[r], rarity: r, characters: allData.filter(c => c.稀有度 === r) })))
-
-const toggleUnowned = (name) => {
-  const idx = unownedChars.value.indexOf(name)
-  if (idx >= 0) {
-    unownedChars.value.splice(idx, 1)
-  } else {
-    unownedChars.value.push(name)
-  }
-  localStorage.setItem('unowned_characters', JSON.stringify(unownedChars.value))
-}
-
-const isUnowned = (name) => unownedChars.value.indexOf(name) >= 0
-
-const searchQuery = ref('')
-const expandedGroups = ref([3, 2, 1, 0])
-const filteredWishGroups = computed(() => {
-  if (!searchQuery.value) return wishGroups.value
-  const q = searchQuery.value
-  return wishGroups.value.map(g => ({ ...g, characters: g.characters.filter(c => { let i=0; for(let j=0;j<c.角色名.length&&i<q.length;j++){if(c.角色名[j]===q[i])i++} return i===q.length; }) }))
-})
-
-const toggleGroup = (rarity) => {
-  const idx = expandedGroups.value.indexOf(rarity)
-  if (idx >= 0) { expandedGroups.value.splice(idx, 1) } else { expandedGroups.value.push(rarity) }
-}
-const isGroupExpanded = (rarity) => expandedGroups.value.indexOf(rarity) >= 0
-
-const compareVersions = (v1, v2) => {
-  const p = (v) => v.replace('v','').split('.').map(Number)
-  const a = p(v1), b = p(v2)
-  for (let i = 0; i < 3; i++) {
-    if ((a[i]||0) > (b[i]||0)) return 1
-    if ((a[i]||0) < (b[i]||0)) return -1
-  }
-  return 0
-}
-
-const setUpUpdateCallbacks = () => {
-  window.__updateProgress = (d, t) => {
-    if (t > 0) {
-      downloadProgress.value = Math.round(d/t*100)
-    } else {
-      downloadProgress.value = 99
-    }
-  }
-  window.__updateComplete = () => { downloadStatus.value = 'complete'; downloadProgress.value = 100 }
-  window.__updateError = (m) => { downloadStatus.value = 'error'; updateError.value = m; downloadProgress.value = 0 }
-}
+// 引用当前视图组件
+const viewRef = ref(null)
 
 const checkUpdate = async (silent) => {
-  isCheckingUpdate.value = true; updateError.value = ''
   try {
-    const r = await fetch('https://api.github.com/repos/Drloudx/hxsngh/releases/latest')
-    if (!r.ok) throw new Error('请求失败: '+r.status)
-    const d = await r.json()
-    const l = d.tag_name || 'v0.0.0'
-    const c = (window.__APP_VERSION__ || '0.0.0').replace(/^v?/,'v')
-    if (compareVersions(l, c) > 0) {
-      const apk = (d.assets||[]).find(a => a.name.endsWith('.apk'))
-      if (!apk) throw new Error('未找到APK下载链接')
-      updateInfo.value = { version: l, body: d.body||'暂无更新说明', apkUrl: apk.browser_download_url }
-      showUpdateModal.value = true; setUpUpdateCallbacks()
-    } else if (!silent) { alert('当前已是最新版本') }
-  } catch(e) { if (!silent) alert('检查更新失败: '+e.message) }
-  finally { isCheckingUpdate.value = false }
-}
-
-const startDownload = () => {
-  if (!updateInfo.value?.apkUrl) return
-  downloadStatus.value = 'downloading'; downloadProgress.value = 0
-  window.__downloadUrl = updateInfo.value.apkUrl
-}
-
-const skipUpdateToday = () => {
-  const d = new Date()
-  const s = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')
-  localStorage.setItem('update_skip_date', s); showUpdateModal.value = false
+    const info = await fetchLatestRelease()
+    const currentVer = (window.__APP_VERSION__ || '0.0.0').replace(/^v?/, 'v')
+    if (compareVersions(info.version, currentVer) > 0) {
+      updateInfo.value = info
+      showUpdateModal.value = true
+    } else if (!silent) {
+      alert('当前已是最新版本')
+    }
+  } catch (e) {
+    if (!silent) alert('检查更新失败: ' + e.message)
+  }
 }
 
 const noticeVersion = computed(() => {
-  if (notices.length === 0) return ''
+  if (!notices || notices.length === 0) return ''
   const latest = notices.filter(n => !n.pinned)[0]
-  return latest.date + '-' + (latest.title || '')
+  return latest ? latest.date + '-' + (latest.title || '') : ''
 })
+
 const markNoticeRead = () => {
   localStorage.setItem('saved_notice_version', noticeVersion.value)
-}
-
-
-
-// 匹配引擎加载状态: 'loading' | 'ready' | 'error'
-const engineStatus = ref('loading')
-
-onMounted(() => {
-  console.log('🌐 网页已挂载，开始在后台静默预热匹配引擎...')
-  engineStatus.value = 'loading'
-
-  imageMatcher.init()
-    .then(() => {
-      console.log('✨ 后台预热成功！匹配模型已加载，随时可识别。')
-      engineStatus.value = 'ready'
-    })
-    .catch((err) => {
-      console.error('❌ 后台预热失败:', err)
-      engineStatus.value = 'error'
-    })
-})
-
-const tagsByCol = computed(() => {
-  const result = {}
-  filterCols.forEach(col => {
-    if (col === '星级') {
-      result[col] = ['传说', '史诗']
-    } else {
-      result[col] = [...new Set(allData.map(i => i[col]))]
-    }
-  });
-  return result
-})
-
-const toggleTag = (val) => {
-  if (selectedTags.value.includes(val)) {
-    selectedTags.value = selectedTags.value.filter(t => t !== val)
-  } else {
-    selectedTags.value.push(val)
-  }
-}
-
-const resetTags = () => {
-  selectedTags.value = []
-}
-
-const triggerUpload = () => {
-  fileInput.value.click()
-}
-
-const handleFileUpload = async (event) => {
-  const file = event.target.files[0]
-  if (!file) return
-
-  isMatchingLoading.value = true
-  try {
-    const reader = new FileReader()
-    reader.onload = async (e) => {
-      const img = new Image()
-      img.onload = async () => {
-        try {
-          if (engineStatus.value !== 'ready') {
-            engineStatus.value = 'loading'
-            await imageMatcher.init()
-            engineStatus.value = 'ready'
-          }
-
-          const result = await imageMatcher.match(img)
-          const { matched } = result
-
-          selectedTags.value = []
-          matched.forEach(tag => {
-            if (!selectedTags.value.includes(tag)) {
-              selectedTags.value.push(tag)
-            }
-          })
-
-          matchResultTags.value = matched
-          showResultModal.value = true
-
-        } catch (err) {
-          console.error('Matching failed:', err)
-          engineStatus.value = 'error'
-          alert(`识别失败！\n\n错误原因：${err.message}`)
-        } finally {
-          isMatchingLoading.value = false
-        }
-      }
-      img.src = e.target.result
-    }
-    reader.readAsDataURL(file)
-  } catch (err) {
-    console.error('File upload failed:', err)
-    isMatchingLoading.value = false
-  }
-  event.target.value = ''
-}
-
-const isMatch = (role, tag) => {
-  if (tag === '传说') return role.稀有度 === 3
-  if (tag === '史诗') return role.稀有度 === 2
-  return role.职业 === tag || role.种族 === tag || role.属性 === tag || role.地区 === tag
-}
-
-const getCombos = (arr, n) => {
-  let res = []
-  const f = (s, p) => {
-    if (p.length === n) { res.push(p); return; }
-    for (let i = s; i < arr.length; i++) f(i + 1, [...p, arr[i]]);
-  }
-  f(0, []); return res;
-}
-
-const filteredResults = computed(() => {
-  if (selectedTags.value.length === 0) return []
-
-  let combos = []
-  for (let i = 1; i <= Math.min(selectedTags.value.length, 3); i++) {
-    combos.push(...getCombos(selectedTags.value, i))
-  }
-
-  return combos.map(c => {
-    let f = allData.filter(r => c.every(tag => isMatch(r, tag)))
-    if (f.length === 0) return null
-    let minR = Math.min(...f.map(r => r.稀有度))
-    let hasGold = f.some(r => r.稀有度 === 3) ? 1 : 0
-    let unownedBonus = (minR >= 2 && f.some(r => unownedChars.value.includes(r.角色名))) ? 1000 : 0
-
-    return {
-      c,
-      f: f.sort((a, b) => b.稀有度 - a.稀有度),
-      minR,
-      w: minR * 100 + hasGold * 10 + c.length * 0.1 + unownedBonus
-    }
-  }).filter(x => x).sort((a, b) => b.w - a.w)
-})
-
-const statsText = computed(() => {
-  if (selectedTags.value.length === 0) return '请点击标签开始'
-  const guaranteeCount = filteredResults.value.filter(x => x.minR >= 2).length
-  return `分析完毕：发现 ${guaranteeCount} 组保底组合`
-})
-
-const getBadge = (minR) => {
-  if (minR >= 3) return { text: '顶级招募', class: 'badge-top' }
-  if (minR >= 2) return { text: '资深保底', class: 'badge-senior' }
-  return null
 }
 </script>
 
 <template>
   <div class="container">
     <div class="header-bar">
-      <!-- 左侧：品牌与状态区 -->
+      <!-- 左侧：logo与状态区 -->
       <div class="brand-status-section">
         <img src="/logo1.png" alt="Logo" class="header-logo" />
         <div class="title-container">
-          <h1 class="main-title">指定招募工具</h1>
-          <span class="ocr-status-tag" :class="'status-' + engineStatus">
-            <span class="status-dot"></span>
-            {{ engineStatus === 'loading' ? '识别模块预加载中' : engineStatus === 'ready' ? '识别模块就绪' : '识别模块加载失败' }}
-          </span>
+          <div class="title-main-info">
+            <h1 class="main-title">{{ currentModeInfo.name }}</h1>
+            <div class="status-row">
+              <!-- 招募模式特有状态 -->
+              <span v-if="route.name === 'recruit' && viewRef" class="ocr-status-tag" :class="'status-' + engineStatus">
+                <span class="status-dot"></span>
+                {{ engineStatus === 'loading' ? '识别模块预加载中' : engineStatus === 'ready' ? '识别模块就绪' : '识别模块加载失败' }}
+              </span>
+              <!-- 天赋模式特有展示 -->
+              <div v-else-if="route.name === 'talent'" class="talent-header-gifs">
+                <img src="/ui/TB20011.png" class="header-gif" />
+                <img src="/ui/TB20012.png" class="header-gif" />
+                <img src="/ui/TB20013.png" class="header-gif" />
+                <img src="/ui/TB20014.png" class="header-gif" />
+              </div>
+            </div>
+          </div>
+
+          <div class="mode-switcher-container" @click.stop="toggleModeDropdown">
+            <div class="mode-switcher-text-row">
+              <span class="mode-switcher-text">{{ currentModeInfo.shortName }}</span>
+            </div>
+            <div class="mode-switcher-arrow-row">
+              <img src="/ui/up.svg" class="mode-switcher-arrow" :class="{ 'is-open': isModeDropdownOpen }" />
+            </div>
+
+            <div v-if="isModeDropdownOpen" class="mode-dropdown">
+              <div 
+                v-for="mode in modes" 
+                :key="mode.id" 
+                class="mode-dropdown-item"
+                :class="{ active: currentModeInfo.id === mode.id }"
+                @click.stop="switchMode(mode)"
+              >
+                {{ mode.name }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -357,8 +207,7 @@ const getBadge = (minR) => {
               <img :src="isDarkMode ? '/ui/theme-light.svg' : '/ui/theme-dark.svg'" class="item-icon" />
               <span>{{ isDarkMode ? '浅色模式' : '深色模式' }}</span>
             </div>
-            <div class="dropdown-item" @click="toggleGifs">
-              <!-- 修正图标逻辑：显示GIF时显示“隐藏”图标，隐藏GIF时显示“显示”图标 -->
+            <div class="dropdown-item" @click="toggleGifs" v-if="route.name === 'recruit'">
               <img :src="showGifs ? '/ui/visibility-off.svg' : '/ui/visibility.svg'" class="item-icon" />
               <span>{{ showGifs ? '隐藏GIF动画' : '显示GIF动画' }}</span>
             </div>
@@ -370,149 +219,39 @@ const getBadge = (minR) => {
               <img src="/ui/announcement.svg" class="item-icon" />
               <span>公告</span>
             </div>
-            <div class="dropdown-item" @click="showWishModal = true; isSettingsOpen = false">
+            <div class="dropdown-item" @click="viewRef.openWishModal(); isSettingsOpen = false" v-if="route.name === 'recruit' && viewRef">
               <img src="/ui/wish.svg" class="item-icon" />
               <span>心愿招募</span>
             </div>
-            <div class="dropdown-item app-only" @click="isSettingsOpen = false; checkUpdate(false)">
+            <div class="dropdown-item app-only" @click="isSettingsOpen = false; checkUpdate(false)" v-if="route.name === 'recruit'">
               <img src="/ui/update.svg" class="item-icon" />
               <span>检测更新</span>
             </div>
-          </div>
-        </div>
-
-        <button
-          class="btn-upload"
-          @click="triggerUpload"
-          :disabled="isMatchingLoading" >
-          {{ isMatchingLoading ? '识别中...' : '上传截图' }}
-        </button>
-        <button class="btn-reset" @click="resetTags">重置</button>
-      </div>
-      <input type="file" ref="fileInput" @change="handleFileUpload" accept="image/*" style="display: none">
-    </div>
-
-    <!-- 给 filter-section 添加动态类，用于控制底部间距 -->
-    <div class="filter-section" :class="{ 'no-gifs': !showGifs }">
-      <div v-for="col in filterCols" :key="col" class="filter-group">
-        <div class="filter-label">{{ col }}</div>
-        <div class="tags-container">
-          <span
-            v-for="val in tagsByCol[col]"
-            :key="val"
-            class="tag"
-            :class="{
-                active: selectedTags.includes(val),
-                'tag-rarity-3': val === '传说',
-                'tag-rarity-2': val === '史诗'
-            }"
-            @click="toggleTag(val)"
-          >
-            {{ val }}
-          </span>
-        </div>
-      </div>
-
-      <!-- GIF 容器，使用 v-show 控制显隐 -->
-      <div class="footer-gifs" v-show="showGifs">
-        <div class="gif-group left-group">
-          <img src="/gif/lzx.gif" alt="lzx" class="bottom-gif" />
-          <img src="/gif/cl.gif" alt="cl" class="bottom-gif" />
-        </div>
-        <div class="gif-group right-group">
-          <img src="/gif/ysgz.gif" alt="ysgz" class="bottom-gif" />
-          <img src="/gif/hfmn.gif" alt="hfmn" class="bottom-gif" />
-        </div>
-      </div>
-    </div>
-
-    <div class="result-stats">{{ statsText }}</div>
-
-    <div id="resultsArea">
-      <template v-if="selectedTags.length === 0">
-        <div class="no-data">未选择任何标签</div>
-      </template>
-      <template v-else-if="filteredResults.length === 0">
-        <div class="no-data">无匹配组合</div>
-      </template>
-      <template v-else>
-        <div v-for="(item, index) in filteredResults" :key="index" class="combo-card">
-          <div class="combo-header">
-            <div class="combo-tags-box">
-              <span class="tag-count-badge"> {{ item.c.length }}词条 </span>
-              <template v-for="(t, idx) in item.c" :key="t">
-                <span class="combo-name-blue">{{ t }}</span>
-                <span v-if="idx < item.c.length - 1" class="plus-sign">+</span>
-              </template>
-            </div>
-            <div class="status-right">
-              <span v-if="getBadge(item.minR)" class="badge-guarantee" :class="getBadge(item.minR).class">
-                {{ getBadge(item.minR).text }}
-              </span>
-              <span class="people-count">{{ item.f.length }}人</span>
+            <div class="dropdown-item" @click="showAboutModal = true; isSettingsOpen = false">
+              <img src="/ui/we.svg" class="item-icon" />
+              <span>关于我们</span>
             </div>
           </div>
-          <table class="result-table">
-            <thead>
-              <tr>
-                <th class="col-name">角色</th>
-                <th class="col-other">职业</th>
-                <th class="col-other">种族</th>
-                <th class="col-other">属性</th>
-                <th class="col-other">地区</th>
-                <th class="col-rarity">★</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="r in item.f" :key="r.角色名">
-                <td class="col-name" :class="'rarity-' + r.稀有度">
-                  {{ r.角色名 }}<img v-if="isUnowned(r.角色名)" src="/mid_ico_map_0001.png" class="unowned-icon" />
-                </td>
-                <td class="col-other">{{ r.职业 }}</td>
-                <td class="col-other">{{ r.种族 }}</td>
-                <td class="col-other">{{ r.属性 }}</td>
-                <td class="col-other">{{ r.地区 }}</td>
-                <td class="col-rarity" :class="'rarity-' + r.稀有度">{{ r.稀有度 }}</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
-      </template>
-    </div>
 
-    <!-- 识别结果弹窗 -->
-    <div v-if="showResultModal" class="custom-modal-overlay" @click.self="showResultModal = false">
-      <div class="custom-modal-card">
-        <div class="modal-header">
-          <h3>识别结果</h3>
-        </div>
-        <div class="modal-body">
-          <p class="modal-title-text">匹配完毕！</p>
-          <p class="modal-sub-text">成功匹配的标签：</p>
-          <div class="modal-tags-grid">
-            <template v-if="matchResultTags.length > 0">
-              <span
-                v-for="tag in matchResultTags"
-                :key="tag"
-                class="tag active"
-                :class="{
-                  'tag-rarity-3': tag === '传说',
-                  'tag-rarity-2': tag === '史诗'
-                }"
-              >
-                {{ tag }}
-              </span>
-            </template>
-            <span v-else class="no-tag-hint">无</span>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="modal-btn-confirm" @click="showResultModal = false">确定</button>
-        </div>
+        <template v-if="route.name === 'recruit' && viewRef">
+          <button
+            class="btn-upload"
+            @click="viewRef.triggerUpload()"
+            :disabled="viewRef.isMatchingLoading" >
+            {{ viewRef.isMatchingLoading ? '识别中...' : '上传截图' }}
+          </button>
+          <button class="btn-reset" @click="viewRef.resetTags()">重置</button>
+        </template>
       </div>
     </div>
 
-    <!-- 反馈建议弹窗 -->
+    <!-- 路由内容区域 -->
+    <router-view v-slot="{ Component }">
+      <component :is="Component" ref="viewRef" :showGifs="showGifs" :engineStatus="engineStatus" />
+    </router-view>
+
+    <!-- 反馈建议弹窗 (全局) -->
     <div v-if="showFeedbackModal" class="custom-modal-overlay" @click.self="showFeedbackModal = false">
       <div class="custom-modal-card">
         <div class="modal-header">
@@ -524,7 +263,7 @@ const getBadge = (minR) => {
             <p>方式一：【 <a href="https://qm.qq.com/q/cUvhuRHvhK" target="_blank">QQ联系</a> 】</p>
             <p>方式二：【 <a href="https://f.kdocs.cn/g/y4Uu95na/" target="_blank">填写在线表单</a> 】</p>
             <p class="hint-text">如有建议，建议使用QQ联系，更方便交流</p>
-            <p style="margin-top:8px"><a href="https://qun.qq.com/universal-share/share?ac=1&authKey=4xp%2BlCmM2Q2gVIvW6a14yOEVtT%2BPLsY9DwmNSDRVTBkp8xcNO%2FTRo%2FOksMb528aW&busi_data=eyJncm91cENvZGUiOiI5NjQ3Njg3OTkiLCJ0b2tlbiI6Im1abkR4eDNDb09HeDZtV2QvNi9ZOTlMNWRhQVQxSDVGK2hSUmlmdkd6bm9hNGRIYjZnWFB6QitBd1A5NVhscmMiLCJ1aW4iOiIxOTY1MTYxNjQzIn0%3D&data=CcXqRPXmezEwvtBwz950aSAyBxYHidOpffYEE8nD1EB-WDcAI-CLzvlLLIavd-lpEuHEP9fCXE5i5Sh3aGjUmw&svctype=4&tempid=h5_group_info" target="_blank" style="color:#3b82f6;font-weight:bold">点击链接加入群聊【幻想少女公会助手反馈交流群】</a></p>
+            <p style="margin-top:8px"><a href="https://qun.qq.com/universal-share/share?ac=1&authKey=..." target="_blank" style="color:#3b82f6;font-weight:bold">点击链接加入群聊【幻想少女公会助手反馈交流群】</a></p>
           </div>
         </div>
         <div class="modal-footer">
@@ -533,67 +272,96 @@ const getBadge = (minR) => {
       </div>
     </div>
 
-    <!-- 公告弹窗 -->
+    <!-- 公告弹窗 (全局) -->
     <NoticeModal :show="showNoticeModal" @close="showNoticeModal = false; markNoticeRead()" />
 
-    <!-- 心愿招募弹窗 -->
-    <div v-if="showWishModal" class="custom-modal-overlay" @click.self="showWishModal = false">
-      <div class="custom-modal-card wish-modal-card">
-        <div class="modal-header">
-          <h3>心愿招募</h3>
-        </div>
-        <div class="modal-body wish-modal-body">
-          <div class="wish-search-box">
-            <img src="/ui/search.svg" class="search-icon" />
-            <input type="text" v-model="searchQuery" placeholder="搜索角色名称..." class="wish-search-input" />
-          </div>
-          <div v-for="group in filteredWishGroups" :key="group.rarity" class="wish-group">
-            <div class="wish-group-title" :class="'wish-title-' + group.rarity" @click="toggleGroup(group.rarity)">
-              <span>{{ group.title }}</span>
-              <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !isGroupExpanded(group.rarity) }" />
-            </div>
-            <div v-if="isGroupExpanded(group.rarity)" class="wish-tags-container">
-              <span
-                v-for="char in group.characters"
-                :key="char.角色名"
-                class="wish-tag"
-                :class="'wish-tag-rarity-' + group.rarity + (isUnowned(char.角色名) ? ' wish-tag-unowned' : '')"
-                @click="toggleUnowned(char.角色名)"
-              >
-                {{ char.角色名 }}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="modal-btn-confirm" @click="showWishModal = false">确定</button>
-        </div>
-      </div>
-    </div>
-  </div>
-    <!-- 更新弹窗 -->
-    <div v-if="showUpdateModal" class="custom-modal-overlay" @click.self="showUpdateModal = false">
+    <!-- 支援筛选正在建设弹窗 (全局) -->
+    <div v-if="showSupportModal" class="custom-modal-overlay" @click.self="showSupportModal = false">
       <div class="custom-modal-card">
         <div class="modal-header">
-          <h3>发现新版本</h3>
+          <h3>系统提示</h3>
         </div>
-        <div class="modal-body update-modal-body">
-          <div class="update-version" v-if="updateInfo">{{ updateInfo.version }}</div>
-          <div class="update-changelog" v-if="updateInfo">{{ updateInfo.body }}</div>
-          <div class="update-progress" v-if="downloadStatus === 'downloading'">
-            <div class="update-progress-bar"><div class="update-progress-fill" :style="{ width: downloadProgress + '%' }"></div></div>
-            <div class="update-progress-text">{{ downloadProgress }}%</div>
-          </div>
-          <div class="update-done" v-if="downloadStatus === 'complete'">下载完成，正在准备安装...</div>
-          <div class="update-error" v-if="downloadStatus === 'error'">下载失败: {{ updateError }}</div>
+        <div class="modal-body">
+          <p class="modal-title-text">当前页面正在建设中</p>
+          <p class="modal-sub-text">支援筛选工具目前正在全力开发中，敬请期待！</p>
         </div>
-        <div class="modal-footer update-footer">
-          <button class="update-skip-btn" @click="skipUpdateToday">今日不提醒</button>
-          <button class="modal-btn-confirm" @click="startDownload" v-if="downloadStatus !== 'downloading'">更新</button>
-          <button class="modal-btn-confirm" disabled v-else>{{ downloadProgress > 0 ? downloadProgress + "%" : "下载中..." }}</button>
+        <div class="modal-footer">
+          <button class="modal-btn-confirm" @click="showSupportModal = false">确定</button>
         </div>
       </div>
     </div>
+
+    <!-- 关于我们弹窗 (全局) -->
+    <div v-if="showAboutModal" class="custom-modal-overlay" @click.self="showAboutModal = false; showDonateSection = false">
+      <div class="custom-modal-card about-modal-card">
+        <div class="modal-header about-header">
+          <h3>关于我们</h3>
+          <button class="donate-btn-top" @click="showDonateSection = !showDonateSection">
+            {{ showDonateSection ? '返回' : '赞助' }}
+          </button>
+        </div>
+        
+        <div class="modal-body about-body" v-if="!showDonateSection">
+          <div class="author-section">
+            <img src="/ui/author_avatar.jpg" class="about-logo" />
+            <h4 class="author-name">云汐渚梦</h4>
+            <div class="social-links">
+              <a href="https://www.taptap.cn/user/34448185?share_id=06714cbc47ff&utm_medium=share&utm_source=copylink" target="_blank" class="social-item taptap">
+                <span class="social-icon">T</span>
+                TapTap
+              </a>
+              <a href="https://b23.tv/xGNrRhf" target="_blank" class="social-item bilibili">
+                <span class="social-icon">B</span>
+                Bilibili
+              </a>
+            </div>
+          </div>
+
+          <div class="credits-section">
+            <div class="credits-title">感谢名单</div>
+            <div class="credits-list">
+              <div class="credit-item">
+                <span class="credit-name">TapTap 留白</span>
+                <span class="credit-desc">最初角色数据源</span>
+              </div>
+              <div class="credit-item">
+                <span class="credit-name">Lance</span>
+                <span class="credit-desc">天赋数据</span>
+              </div>
+              <div class="credit-item">
+                <span class="credit-name">幺蛾子</span>
+                <span class="credit-desc">天赋推荐支持</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-body donate-body" v-else>
+          <p class="donate-hint">感谢您的支持，赞助将用于服务器维护</p>
+          <div class="donate-qrs">
+            <div class="qr-item">
+              <img src="/ui/Alipay.jpg" alt="支付宝" />
+              <span>支付宝</span>
+            </div>
+            <div class="qr-item">
+              <img src="/ui/WeChatPay.png" alt="微信支付" />
+              <span>微信支付</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="modal-btn-confirm" @click="showAboutModal = false; showDonateSection = false">关闭</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 更新弹窗 (全局) -->
+    <UpdateModal :show="showUpdateModal" :updateInfo="updateInfo" @close="showUpdateModal = false" />
+
+    <!-- 回到顶部按钮 (全局) -->
+    <BackToTop />
+  </div>
 </template>
 
 <style>
@@ -628,8 +396,8 @@ const getBadge = (minR) => {
 .dark-mode {
   --bg: #0f172a;
   --card-bg: #1e293b;
-  --text-main: #f8fafc;
-  --text-sub: #94a3b8;
+  --text-main: #cbd5e1;
+  --text-sub: #b8c6dd;
   --border-color: #334155;
   --header-bg: #1e293b;
   --dropdown-hover: #334155;
@@ -674,9 +442,6 @@ html[data-app-shell="true"] #app {
   display: flex;
   flex-direction: column;
 }
-#resultsArea {
-  flex: 1;
-}
 
 .header-bar {
   display: flex;
@@ -684,20 +449,18 @@ html[data-app-shell="true"] #app {
   align-items: center;
   margin-bottom: 0;
   padding: 10px 0;
+  min-height: 54px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--bg);
 }
 
 .brand-status-section {
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-
-.title-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 3px;
+  gap: 8px;
+  min-width: 180px;
 }
 
 .main-title {
@@ -711,6 +474,16 @@ html[data-app-shell="true"] #app {
   line-height: 1.2;
 }
 
+.talent-header-gifs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.header-gif {
+  height: 20px;
+  width: auto;
+  object-fit: contain;
+}
 .ocr-status-tag {
   display: inline-flex;
   align-items: center;
@@ -805,11 +578,9 @@ html[data-app-shell="true"] #app {
   filter: var(--icon-filter);
 }
 
-/* 下拉菜单 — 纯色背景，无玻璃态 */
-.settings-dropdown {
+.settings-dropdown, .mode-dropdown {
   position: absolute;
   top: 100%;
-  right: 0;
   margin-top: 8px;
   width: 160px;
   z-index: 1000;
@@ -818,9 +589,19 @@ html[data-app-shell="true"] #app {
   border: 1px solid var(--border-color);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   animation: slideDown 0.2s ease-out;
+  overflow: hidden;
 }
 
-.dropdown-item {
+.settings-dropdown {
+  right: 0;
+}
+
+.mode-dropdown {
+  left: 0;
+  min-width: 120px;
+}
+
+.dropdown-item, .mode-dropdown-item {
   display: flex;
   align-items: center;
   padding: 12px 16px;
@@ -831,9 +612,19 @@ html[data-app-shell="true"] #app {
   gap: 10px;
 }
 
-.dropdown-item:first-child { border-top-left-radius: 12px; border-top-right-radius: 12px; }
-.dropdown-item:last-child { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
-.dropdown-item:hover { background-color: var(--dropdown-hover); }
+.dropdown-item:hover, .mode-dropdown-item:hover {
+  background-color: var(--dropdown-hover);
+}
+
+.mode-dropdown-item.active {
+  color: var(--primary);
+  font-weight: 600;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.dark-mode .mode-dropdown-item.active {
+  background: rgba(59, 130, 246, 0.15);
+}
 
 .item-icon {
   width: 22px;
@@ -869,99 +660,6 @@ html[data-app-shell="true"] #app {
 .btn-upload { background: var(--success); }
 .btn-upload:disabled { background: #94a3b8; cursor: not-allowed; }
 
-.filter-section {
-  position: relative;
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 15px;
-  padding-bottom: 30px;   /* 为 GIF 预留空间，默认有 GIF */
-  margin-bottom: 15px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  border: 1px solid var(--border-color);
-  transition: padding-bottom 0.2s ease;
-}
-
-/* 当 GIF 隐藏时，去掉底部预留空间 */
-.filter-section.no-gifs {
-  padding-bottom: 15px;
-}
-
-.filter-group { margin-bottom: 10px; display: flex; align-items: flex-start; }
-.filter-label { font-weight: 600; width: 50px; color: var(--text-sub); font-size: 13px; padding-top: 6px; flex-shrink: 0; }
-.tags-container { display: flex; flex-wrap: wrap; gap: 6px; }
-
-.tag {
-  padding: 4px 10px;
-  background: var(--bg);
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 12px;
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
-}
-
-.tag.active { background: #dbeafe; color: var(--primary); border-color: var(--primary); font-weight: 600; }
-.dark-mode .tag.active { background: rgba(59, 130, 246, 0.2); }
-.tag-rarity-3.active { background: #ffedd5; color: var(--gold); border-color: var(--gold); }
-.dark-mode .tag-rarity-3.active { background: rgba(249, 115, 22, 0.2); }
-.tag-rarity-2.active { background: #f3e8ff; color: var(--purple); border-color: var(--purple); }
-.dark-mode .tag-rarity-2.active { background: rgba(168, 85, 247, 0.2); }
-
-.result-stats {
-  margin-bottom: 15px;
-  font-size: 13px;
-  padding: 10px 15px;
-  background: #eff6ff;
-  border-radius: 8px;
-  color: #1e40af;
-  border-left: 4px solid var(--primary);
-}
-
-.dark-mode .result-stats { background: rgba(59, 130, 246, 0.1); color: #93c5fd; }
-
-.combo-card {
-  width: 100%;
-  background: var(--card-bg);
-  border-radius: 12px;
-  margin-bottom: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  border: 1px solid var(--border-color);
-}
-
-.combo-header {
-  padding: 10px 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--card-bg);
-  border-bottom: 1px solid var(--border-color);
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.combo-tags-box { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; flex: 1; min-width: 200px; }
-.tag-count-badge { background: var(--text-sub); color: #fff; padding: 2px 6px; border-radius: 12px; font-size: 10px; flex-shrink: 0; margin-right: 4px; }
-.combo-name-blue { color: var(--primary); font-weight: bold; background: #eff6ff; padding: 2px 8px; border-radius: 4px; font-size: 13px; white-space: nowrap; }
-.dark-mode .combo-name-blue { background: rgba(59, 130, 246, 0.2); }
-.plus-sign { color: var(--text-sub); font-size: 12px; }
-.status-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-.badge-guarantee { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; color: #fff; white-space: nowrap; }
-.badge-top { background: #f97316; }
-.badge-senior { background: #a855f7; }
-.people-count { color: var(--text-sub); font-size: 11px; white-space: nowrap; }
-
-.result-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-.result-table th { background: var(--bg); color: var(--text-sub); font-size: 11px; text-align: left; padding: 8px 12px; font-weight: 400; }
-.result-table td { padding: 10px 12px; font-size: 13px; border-top: 1px solid var(--border-color); white-space: nowrap; color: var(--text-main); }
-.col-name { width: 30%; font-weight: 600; }
-.col-other { width: 14%; }
-.result-table th.col-rarity, .result-table td.col-rarity { text-align: center; width: 40px; }
-.result-table td.rarity-3 { color: var(--gold); font-weight: bold; }
-.result-table td.rarity-2 { color: var(--purple); font-weight: bold; }
-
-.no-data { text-align: center; padding: 50px; color: var(--text-sub); background: var(--card-bg); border-radius: 12px; font-size: 14px; border: 1px solid var(--border-color); }
-
 .custom-modal-overlay {
   position: fixed;
   top: 0;
@@ -995,19 +693,6 @@ html[data-app-shell="true"] #app {
 .modal-title-text { margin: 0 0 6px 0; font-size: 20px; font-weight: bold; color: var(--success); }
 .modal-sub-text { margin: 0 0 16px 0; font-size: 13px; color: var(--text-sub); }
 
-.modal-tags-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: flex-start;
-  background: var(--bg);
-  padding: 14px;
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
-  width: 100%;
-  box-sizing: border-box;
-}
-
 .modal-footer { padding: 12px 20px 20px 20px; display: flex; justify-content: center; }
 .modal-btn-confirm { padding: 10px 40px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
 
@@ -1016,352 +701,179 @@ html[data-app-shell="true"] #app {
 .feedback-content a { color: var(--primary); font-weight: bold; }
 .feedback-content .hint-text { font-size: 12px; color: var(--text-sub); margin-top: 20px; background: var(--bg); padding: 10px; border-radius: 8px; }
 
-.footer-gifs {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 0 15px;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.gif-group {
-  display: flex;
-  align-items: flex-end;
-  gap: 15px;
-  width: 45%;
-}
-
-.bottom-gif {
-  height: 40px;
-  width: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
-  transition: transform 0.3s ease;
-  pointer-events: auto;
-}
-
-.bottom-gif:hover {
-  transform: scale(1.1) translateY(-5px);
-}
-
-.left-group { justify-content: flex-start; }
-.right-group { justify-content: flex-end; }
-
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-/* 心愿招募弹窗 */
-.wish-modal-card {
-  max-width: 500px !important;
-}
+/* 模式切换器 */
+.title-container { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex: 1; }
+.title-main-info { display: flex; flex-direction: column; gap: 2px; }
+.status-row { display: flex; align-items: center; width: 100%; height: 20px; }
+.mode-switcher-container { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; margin-left: auto; }
+.mode-switcher-text-row { height: 20px; display: flex; align-items: center; justify-content: center; }
+.mode-switcher-arrow-row { height: 20px; display: flex; align-items: center; justify-content: center; }
+.mode-switcher-text { font-family: 'HarmonyOS_Bold', sans-serif; font-size: 10px; font-weight: 800; color: var(--text-main); border: 1px solid #000; padding: 1px 4px; border-radius: 3px; white-space: nowrap; }
+.dark-mode .mode-switcher-text { border-color: #f8fafc; }
+.mode-switcher-arrow { width: 12px; height: 12px; filter: var(--icon-filter); transition: transform 0.2s; transform: rotate(180deg); cursor: pointer; }
+.mode-switcher-arrow.is-open { transform: rotate(0deg); }
 
-.wish-modal-body {
-  max-height: 420px;
+html:not([data-app-shell="true"]) .app-only { display: none !important; }
+.about-modal-card {
+  max-width: 450px;
+  max-height: 90vh;
   overflow-y: auto;
-  text-align: left !important;
-  padding: 16px 20px !important;
 }
-
-.wish-modal-body::-webkit-scrollbar {
-  width: 6px;
-}
-.wish-modal-body::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 10px;
-}
-
-.wish-group {
-  margin-bottom: 20px;
-}
-
-.wish-group:last-child {
-  margin-bottom: 0;
-}
-
-.wish-group-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 15px;
-  font-weight: 800;
-  margin-bottom: 8px;
-  padding-bottom: 4px;
-  border-bottom: 2px solid var(--border-color);
-}
-
-.wish-title-3 { color: #f97316; }
-.wish-title-2 { color: #a855f7; }
-.wish-title-1 { color: #79C37A; }
-.wish-title-0 { color: #7FAECB; }
-
-.wish-tags-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.wish-tag {
-  width: 76px;
-  text-align: center;
-  padding: 5px 4px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  border: 1.5px solid transparent;
-  transition: all 0.2s ease;
-  user-select: none;
-}
-
-.wish-tag-rarity-3 {
-  background: #fff7ed;
-  color: #c2410c;
-  border-color: #fed7aa;
-}
-
-.wish-tag-rarity-2 {
-  background: #faf5ff;
-  color: #7e22ce;
-  border-color: #e9d5ff;
-}
-
-.wish-tag-rarity-1 {
-  background: #f0fdf4;
-  color: #15803d;
-  border-color: #bbf7d0;
-}
-
-.wish-tag-rarity-0 {
-  background: #f0f9ff;
-  color: #1d4ed8;
-  border-color: #bae6fd;
-}
-
-.dark-mode .wish-tag-rarity-3 {
-  background: rgba(249, 115, 22, 0.15);
-  color: #fb923c;
-  border-color: rgba(249, 115, 22, 0.3);
-}
-
-.dark-mode .wish-tag-rarity-2 {
-  background: rgba(168, 85, 247, 0.15);
-  color: #c084fc;
-  border-color: rgba(168, 85, 247, 0.3);
-}
-
-.dark-mode .wish-tag-rarity-1 {
-  background: rgba(121, 195, 122, 0.15);
-  color: #86efac;
-  border-color: rgba(121, 195, 122, 0.3);
-}
-
-.dark-mode .wish-tag-rarity-0 {
-  background: rgba(127, 174, 203, 0.15);
-  color: #93c5fd;
-  border-color: rgba(127, 174, 203, 0.3);
-}
-
-.wish-tag.wish-tag-unowned {
-  border-width: 2px;
-  font-weight: 700;
-}
-
-.wish-tag-rarity-3.wish-tag-unowned {
-  background: #f97316;
-  color: #fff;
-  border-color: #f97316;
-  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.3);
-}
-
-.wish-tag-rarity-2.wish-tag-unowned {
-  background: #a855f7;
-  color: #fff;
-  border-color: #a855f7;
-  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.3);
-}
-
-.wish-tag-rarity-1.wish-tag-unowned {
-  background: #79C37A;
-  color: #fff;
-  border-color: #79C37A;
-  box-shadow: 0 0 0 2px rgba(121, 195, 122, 0.3);
-}
-
-.wish-tag-rarity-0.wish-tag-unowned {
-  background: #7FAECB;
-  color: #fff;
-  border-color: #7FAECB;
-  box-shadow: 0 0 0 2px rgba(127, 174, 203, 0.3);
-}
-
-.dark-mode .wish-tag-rarity-3.wish-tag-unowned {
-  background: #ea580c;
-  color: #fff;
-  border-color: #ea580c;
-}
-
-.dark-mode .wish-tag-rarity-2.wish-tag-unowned {
-  background: #9333ea;
-  color: #fff;
-  border-color: #9333ea;
-}
-
-.dark-mode .wish-tag-rarity-1.wish-tag-unowned {
-  background: #16a34a;
-  color: #fff;
-  border-color: #16a34a;
-}
-
-.dark-mode .wish-tag-rarity-0.wish-tag-unowned {
-  background: #2563eb;
-  color: #fff;
-  border-color: #2563eb;
-}
-
-.unowned-icon {
-  width: 16px;
-  height: 16px;
-  vertical-align: middle;
-  margin-left: 4px;
-}
-
-.wish-search-box {
-  display: flex;
-  align-items: center;
-  margin-bottom: 14px;
-  background: var(--bg);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 6px 10px;
-}
-
-.search-icon {
-  width: 16px;
-  height: 16px;
-  filter: var(--icon-filter);
-  margin-right: 8px;
-  flex-shrink: 0;
-}
-
-.wish-search-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 13px;
-  color: var(--text-main);
-  font-family: inherit;
-}
-
-.wish-search-input::placeholder {
-  color: var(--text-sub);
-}
-
-.collapse-icon {
-  width: 14px;
-  height: 14px;
-  transition: transform 0.25s ease;
-  margin-left: auto;
-  filter: var(--icon-filter);
-  flex-shrink: 0;
-}
-
-.collapse-icon.collapsed {
-  transform: rotate(180deg);
-}
-
-
-/* 更新弹窗 */
-.update-modal-body {
-  max-height: 420px;
-  overflow-y: auto;
-  text-align: left !important;
-  padding: 16px 20px !important;
-}
-
-.update-version {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text-main);
-  margin-bottom: 12px;
-}
-
-.update-changelog {
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--text-main);
-  white-space: pre-wrap;
-  background: var(--bg);
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-}
-
-.update-progress {
-  margin-top: 12px;
-}
-
-.update-progress-bar {
-  height: 6px;
-  background: var(--border-color);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.update-progress-fill {
-  height: 100%;
-  background: var(--primary);
-  border-radius: 3px;
-  transition: width 0.3s ease;
-}
-
-.update-progress-text {
-  font-size: 12px;
-  color: var(--text-sub);
-  text-align: center;
-  margin-top: 4px;
-}
-
-.update-done {
-  margin-top: 12px;
-  font-size: 13px;
-  color: var(--success);
-  text-align: center;
-}
-
-.update-error {
-  margin-top: 12px;
-  font-size: 13px;
-  color: #ef4444;
-  text-align: center;
-}
-
-.update-footer {
+.about-header {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px !important;
+  position: relative;
 }
-
-.update-skip-btn {
-  background: none;
-  border: none;
-  color: var(--text-sub);
-  font-size: 13px;
+.donate-btn-top {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fef3c7;
+  color: #d97706;
+  border: 1px solid #fbbf24;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
   cursor: pointer;
-  padding: 8px 12px;
-  text-decoration: underline;
-  transition: color 0.2s;
+  transition: all 0.2s;
 }
-
-.update-skip-btn:hover {
+.dark-mode .donate-btn-top {
+  background: rgba(217, 119, 6, 0.2);
+  color: #fbbf24;
+}
+.donate-btn-top:hover {
+  background: #fcd34d;
+  color: #92400e;
+}
+.about-body {
+  padding: 20px !important;
+  text-align: left !important;
+}
+.author-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.about-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+.author-name {
+  margin: 0 0 12px 0;
+  font-size: 18px;
   color: var(--text-main);
 }
-html:not([data-app-shell="true"]) .app-only { display: none !important; }
+.social-links {
+  display: flex;
+  gap: 12px;
+}
+.social-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.social-icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
+}
+.taptap {
+  background: #00cccc20;
+  color: #008a8a;
+}
+.taptap .social-icon { background: #00cccc; }
+.bilibili {
+  background: #fb729920;
+  color: #e83e6d;
+}
+.bilibili .social-icon { background: #fb7299; }
+
+.credits-section {
+  background: var(--bg);
+  padding: 16px;
+  border-radius: 12px;
+}
+.credits-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--text-sub);
+  margin-bottom: 12px;
+  text-align: center;
+}
+.credits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.credit-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+.credit-name {
+  color: var(--text-main);
+  font-weight: 600;
+}
+.credit-desc {
+  color: var(--text-sub);
+  font-size: 12px;
+}
+
+.donate-body {
+  padding: 30px 20px !important;
+}
+.donate-hint {
+  font-size: 14px;
+  color: var(--text-sub);
+  margin-bottom: 20px;
+}
+.donate-qrs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+.qr-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.qr-item img {
+  width: 240px;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 4px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.qr-item span {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-main);
+}
 </style>
