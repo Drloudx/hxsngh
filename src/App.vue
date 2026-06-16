@@ -223,7 +223,7 @@ const markNoticeRead = () => {
               <img src="/ui/wish.svg" class="item-icon" />
               <span>心愿招募</span>
             </div>
-            <div class="dropdown-item app-only" @click="isSettingsOpen = false; checkUpdate(false)" v-if="route.name === 'recruit'">
+            <div class="dropdown-item app-only" @click="isSettingsOpen = true ; checkUpdate(false)" v-if="route.name === 'recruit'">
               <img src="/ui/update.svg" class="item-icon" />
               <span>检测更新</span>
             </div>
@@ -391,6 +391,7 @@ const markNoticeRead = () => {
   --dropdown-hover: #f1f5f9;
   --modal-overlay: rgba(15, 23, 42, 0.4);
   --icon-filter: brightness(0) saturate(100%) invert(13%) sepia(13%) saturate(3665%) hue-rotate(189deg) brightness(91%) contrast(92%);
+  --header-padding-top: 15px;
 }
 
 .dark-mode {
@@ -405,15 +406,26 @@ const markNoticeRead = () => {
   --icon-filter: brightness(0) saturate(100%) invert(91%) sepia(5%) saturate(542%) hue-rotate(181deg) brightness(96%) contrast(87%);
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  overscroll-behavior: none;
+}
+
 body {
   font-family: 'HarmonyOS_Regular', "PingFang SC", "Microsoft YaHei", sans-serif;
   background: var(--bg);
-  padding: 15px;
-  padding-bottom: 15px !important;
+  padding: 0;
   color: var(--text-main);
   margin: 0;
   display: block !important;
   transition: background-color 0.3s, color 0.3s;
+  min-height: 100vh;
+  /* 核心修复：禁用系统级回弹效果 */
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 #app {
@@ -426,12 +438,13 @@ body {
 /* 套壳 WebView 安全区域 */
 html[data-app-shell="true"] {
   background: var(--bg);
+  --header-padding-top: calc(var(--status-bar-height, 24px) + 8px);
 }
 html[data-app-shell="true"] body {
   background: var(--bg);
 }
 html[data-app-shell="true"] #app {
-  padding-top: 8px !important;
+  padding-top: 0 !important;
 }
 
 .container {
@@ -441,6 +454,7 @@ html[data-app-shell="true"] #app {
   flex: 1;
   display: flex;
   flex-direction: column;
+  padding: calc(var(--header-padding-top) + 64px) 15px 15px 15px; /* 顶部留出固定栏高度 */
 }
 
 .header-bar {
@@ -448,12 +462,20 @@ html[data-app-shell="true"] #app {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0;
-  padding: 10px 0;
-  min-height: 54px;
-  position: sticky;
+  padding: var(--header-padding-top) 15px 10px 15px;
+  height: calc(var(--header-padding-top) + 64px);
+  position: fixed;
   top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 800px;
   z-index: 1000;
   background: var(--bg);
+  box-sizing: border-box;
+  /* 增强固定稳定性 */
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .brand-status-section {

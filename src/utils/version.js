@@ -18,12 +18,19 @@ export const compareVersions = (v1, v2) => {
  * 检查更新
  * @returns {Promise<Object|null>} 返回更新信息或 null
  */
+
 export const fetchLatestRelease = async () => {
   try {
-    const r = await fetch('https://api.github.com/repos/Drloudx/hxsngh/releases/latest')
+    // 1. 修改为 Gitee 的最新 Release API 地址
+    const r = await fetch('https://gitee.com/api/v5/repos/ccyconner/hxsngh/releases/latest')
     if (!r.ok) throw new Error('请求失败: ' + r.status)
     const d = await r.json()
+
+    // 2. Gitee 的版本号字段同样是 tag_name
     const latestVersion = d.tag_name || 'v0.0.0'
+
+    // 3. Gitee 的附件字段叫 assets，但结构与 GitHub 略有差异
+    // Gitee 的下载链接字段是 browser_download_url
     const apk = (d.assets || []).find(a => a.name.endsWith('.apk'))
     
     return {

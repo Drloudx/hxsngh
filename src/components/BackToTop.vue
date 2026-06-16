@@ -4,7 +4,8 @@ import { ref, onMounted, onUnmounted } from 'vue'
 const show = ref(false)
 
 const handleScroll = () => {
-  show.value = window.scrollY > 300
+  const scrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  show.value = scrollTop > 300
 }
 
 const scrollToTop = () => {
