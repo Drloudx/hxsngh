@@ -6,8 +6,21 @@
     "lines": [
       "遇到问题请及时在设置（齿轮）中==反馈/建议==进行反馈",
       "如果想要什么新功能的话，也请在==反馈/建议==进行反馈",
-      "APP下载地址：<a href=\"/%E5%B9%BB%E6%83%B3%E5%B0%91%E5%A5%B3%E5%85%AC%E4%BC%9A%E5%8A%A9%E6%89%8B1.0.1.apk\" download class=\"notice-link\" style=\"color:#3b82f6\">点击下载</a>",
+      "APP下载地址：<a href=\"/hxsvghv1.0.2.apk\" download class=\"notice-link\" style=\"color:#3b82f6\">点击下载</a>",
       "幻想少女公会助手交流反馈群：<a href=\"https://qun.qq.com/universal-share/share?ac=1&authKey=4xp%2BlCmM2Q2gVIvW6a14yOEVtT%2BPLsY9DwmNSDRVTBkp8xcNO%2FTRo%2FOksMb528aW&busi_data=eyJncm91cENvZGUiOiI5NjQ3Njg3OTkiLCJ0b2tlbiI6Im1abkR4eDNDb09HeDZtV2QvNi9ZOTlMNWRhQVQxSDVGK2hSUmlmdkd6bm9hNGRIYjZnWFB6QitBd1A5NVhscmMiLCJ1aW4iOiIxOTY1MTYxNjQzIn0%3D&data=CcXqRPXmezEwvtBwz950aSAyBxYHidOpffYEE8nD1EB-WDcAI-CLzvlLLIavd-lpEuHEP9fCXE5i5Sh3aGjUmw&svctype=4&tempid=h5_group_info\" style=\"color:#3b82f6\">964768799</a>"
+    ]
+  },
+  {
+    "date": "6.16",
+    "title": "天赋筛选工具上线！ 功能更新   优化",
+    "lines": [
+      "%%优化指定招募工具识别速度，可做到上传秒识别%%",
+      "通过指定招募工具右边的切换按键可以进入天赋筛选工具",
+      "可以通过天赋详细、天赋名称、角色名等进行天赋搜索",
+      "点击来源可以快速获取获取该天赋角色的筛选标签",
+      "可以通过非专属/非通用天赋下方的+进行组合天赋，可以筛选出能出该组合天赋的角色",
+      "{{添加“回到顶部”功能按键}}",
+      "{{添加“关于我们”菜单}}"
     ]
   },
   {
