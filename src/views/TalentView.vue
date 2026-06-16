@@ -264,9 +264,9 @@ import { ref, computed, watch, onMounted, onUnmounted, reactive } from 'vue'
 import talents from '@/assets/talent.json'
 import characters from '@/assets/character.json'
 
-const JOB_KEYWORDS = ['战士', '射手', '法师', '牧师', '刺客', '骑士']
-const RACE_KEYWORDS = ['亡灵', '不死族', '羽族', '神族', '巨魔', '人类', '精灵', '兽人', '龙族', '恶魔']
-const ATTR_KEYWORDS = ['地系', '暗系', '水系', '火系', '风系', '光系', '雷系']
+const JOB_KEYWORDS = ['战士', '射手', '法师', '牧师']
+const RACE_KEYWORDS = []
+const ATTR_KEYWORDS = ['光系', '暗系', '风系', '地系', '火系', '水系']
 
 const searchQuery = ref('')
 const selectedCharacter = ref(null)
@@ -350,10 +350,8 @@ const modalDerivedTagsGrouped = computed(() => {
     if (c.职业 && c.职业 !== baseSource) {
       jobSet.add(c.职业)
     }
-    if (c.细分种族 && c.细分种族 !== baseSource && c.细分种族 !== '生灵') {
+    if (c.细分种族 && c.细分种族 !== baseSource) {
       raceSet.add(c.细分种族)
-    } else if (c.种族 && c.种族 !== baseSource && c.种族 !== '生灵') {
-      raceSet.add(c.种族)
     }
     if (c.属性 && c.属性 !== baseSource) {
       attrSet.add(c.属性)
@@ -403,6 +401,7 @@ const filteredModalTalents = computed(() => {
     const secondCat = t.二级类目 || ''
 
     if (firstCat === '通用天赋') return true
+    if (secondCat === baseSource) return false
 
     return targetHeros.some(hero => {
       return secondCat === hero.角色名 ||
@@ -423,47 +422,64 @@ const filteredModalTalents = computed(() => {
     )
   }
 
-  const bucketRace = []
-  const bucketJob = []
-  const bucketAttr = []
-  const bucketGeneral = []
-  const bucketOthers = []
+  // 辅助分类函数
+  const classify = (t) => {
+    const first = t.一级类目 || ''
+    const second = t.二级类目 || ''
+    if (first === '通用天赋') return 'general'
+    const isRace = characters.some(c => c.种族 === second || c.细分种族 === second)
+    const isJob = characters.some(c => c.职业 === second)
+    const isAttr = characters.some(c => c.属性 === second)
+    if (isRace) return 'race'
+    if (isJob) return 'job'
+    if (isAttr) return 'attr'
+    return 'other'
+  }
 
-  searchedTalents.forEach(t => {
-    const firstCat = t.一级类目 || ''
-    const secondCat = t.二级类目 || ''
+  const sortByPriority = (a, b) => (a.优先级 || 99) - (b.优先级 || 99)
 
-    if (firstCat === '通用天赋') {
-      bucketGeneral.push(t)
-    } else {
-      const isRace = characters.some(c => c.种族 === secondCat || c.细分种族 === secondCat)
-      const isJob = characters.some(c => c.职业 === secondCat)
-      const isAttr = characters.some(c => c.属性 === secondCat)
-
-      if (isRace) {
-        bucketRace.push(t)
-      } else if (isJob) {
-        bucketJob.push(t)
-      } else if (isAttr) {
-        bucketAttr.push(t)
+  if (activeModalFilterTags.value.length > 0) {
+    // 有激活标签：匹配标签的天赋整体排在最前面，其余按原分组顺序
+    const matched = []
+    const unmatched = []
+    searchedTalents.forEach(t => {
+      const match = activeModalFilterTags.value.some(tag => t.二级类目 === tag)
+      if (match) {
+        matched.push(t)
       } else {
-        bucketOthers.push(t)
+        unmatched.push(t)
       }
-    }
-  })
+    })
+    matched.sort(sortByPriority)
 
-  const sortFunc = (arr) => arr.sort((a, b) => (a.优先级 || 99) - (b.优先级 || 99))
-
-  return [
-    ...sortFunc(bucketRace),
-    ...sortFunc(bucketJob),
-    ...sortFunc(bucketAttr),
-    ...sortFunc(bucketOthers),
-    ...sortFunc(bucketGeneral)
-  ]
+    // 未匹配的按原分组排列
+    const race = [], job = [], attr = [], other = [], general = []
+    unmatched.forEach(t => {
+      const type = classify(t)
+      if (type === 'race') race.push(t)
+      else if (type === 'job') job.push(t)
+      else if (type === 'attr') attr.push(t)
+      else if (type === 'other') other.push(t)
+      else general.push(t)
+    })
+    ;[race, job, attr, other, general].forEach(arr => arr.sort(sortByPriority))
+    return [...matched, ...race, ...job, ...attr, ...other, ...general]
+  } else {
+    // 无激活标签：默认分桶排序
+    const race = [], job = [], attr = [], other = [], general = []
+    searchedTalents.forEach(t => {
+      const type = classify(t)
+      if (type === 'race') race.push(t)
+      else if (type === 'job') job.push(t)
+      else if (type === 'attr') attr.push(t)
+      else if (type === 'other') other.push(t)
+      else general.push(t)
+    })
+    ;[race, job, attr, other, general].forEach(arr => arr.sort(sortByPriority))
+    return [...race, ...job, ...attr, ...other, ...general]
+  }
 })
 
-// =================【已完全修复：还原纯正种族输出，拒绝自作聪明清洗】=================
 const getMatchedHeros = (item) => {
   const baseSource = item.二级类目
   const combs = selectedCombinations[item.天赋名称] || []
@@ -495,7 +511,7 @@ const getMatchedHeros = (item) => {
     return {
       ...hero,
       职业: hero.职业 ? hero.职业.trim() : '',
-      种族: hero.种族 ? hero.种族.trim() : '', // 直接提取标准的生灵/器灵/魔灵/亡灵等种族大类
+      种族: hero.种族 ? hero.种族.trim() : '',
       属性: hero.属性 ? hero.属性.trim() : ''
     }
   })
@@ -668,11 +684,17 @@ const getTypeTag = (t) => {
 .talent-search-wrapper {
   background: var(--bg);
   padding: 10px 0;
-  margin-bottom: 8px;
+  margin-bottom: 0;
   box-sizing: border-box;
   position: sticky;
-  top: 74px; /* 54px header min-height + 20px header padding */
+  top: calc(var(--header-padding-top) + 54px);
   z-index: 999;
+  width: 100%;
+}
+
+.talent-search-wrapper::before,
+.talent-search-wrapper::after {
+  content: none;
 }
 
 .talent-search-box {
@@ -955,7 +977,7 @@ const getTypeTag = (t) => {
 .combination-plus-btn:hover .plus-icon { opacity: 1; }
 .combination-minus-btn:hover .minus-icon { opacity: 1; }
 
-/* ================= 完美展现右侧图的流式布局样式 ================= */
+/* ================= 匹配角色展示区 ================= */
 .matched-characters-row {
   display: flex;
   flex-direction: column;
@@ -1039,7 +1061,7 @@ const getTypeTag = (t) => {
   padding: 4px 0;
 }
 
-/* ================= 拟态毛玻璃弹窗部分 ================= */
+/* ================= 弹窗部分 ================= */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -1138,18 +1160,17 @@ const getTypeTag = (t) => {
   font-weight: 600;
 }
 
-/* ================= 优化后的紧凑分组流动布局 ================= */
 .filter-tags-flex-container {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px 0; /* 允许纵向换行，横向间距由包裹容器来掌控 */
+  gap: 6px 0;
 }
 
 .filter-group-wrapper {
   display: inline-flex;
   align-items: center;
-  flex-wrap: nowrap; /* 确保分组标签和它右侧的竖线永远绑定在一起，绝不拆散换行 */
+  flex-wrap: nowrap;
 }
 
 .filter-group-zone {
@@ -1162,7 +1183,7 @@ const getTypeTag = (t) => {
   width: 1px;
   height: 14px;
   background: rgba(0, 0, 0, 0.12);
-  margin: 0 10px; /* 调整竖线左右间距，使其美观不拥挤 */
+  margin: 0 10px;
   flex-shrink: 0;
 }
 
@@ -1290,7 +1311,7 @@ const getTypeTag = (t) => {
   to { transform: rotate(360deg); }
 }
 
-/* 深色模式硬核适配（云母微晶质感） */
+/* 深色模式适配 */
 .dark-mode .talent-effect {
   background: rgba(64, 158, 255, 0.08);
 }
@@ -1334,8 +1355,6 @@ const getTypeTag = (t) => {
   border-color: #60a5fa;
   background: rgba(96, 165, 250, 0.15);
 }
-
-/* 深色模式弹窗云母质感 */
 .dark-mode .modal-overlay {
   background: rgba(15, 23, 42, 0.6);
 }
@@ -1391,21 +1410,6 @@ const getTypeTag = (t) => {
 .dark-mode .match-title {
   color: #94a3b8;
 }
-.dark-mode .matched-hero-tag {
-  background: rgba(255,255,255,0.02);
-  border-color: rgba(255,255,255,0.08);
-}
-.dark-mode .hero-split-labels {
-  background: rgba(0,0,0,0.15);
-  border-color: transparent;
-}
-.dark-mode .added-comb-tag {
-  background: #334155;
-  color: #f1f5f9;
-  border-color: #475569;
-}
-
-/* 匹配角色卡片深色适配 */
 .dark-mode .matched-hero-card {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.1);
@@ -1416,7 +1420,6 @@ const getTypeTag = (t) => {
 .dark-mode .hero-name-span {
   color: #f8fafc;
 }
-/* 覆盖稀有度颜色在深色模式下的对比度（可选，如果默认颜色已经够亮则不改） */
 .dark-mode .label-job {
   background-color: rgba(37, 99, 235, 0.2);
   color: #93c5fd;
