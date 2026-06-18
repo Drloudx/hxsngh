@@ -85,7 +85,7 @@ const isModeDropdownOpen = ref(false)
 const modes = [
   { id: 'recruit', name: '指定招募工具', shortName: '招募', path: '/recruit' },
   { id: 'talent', name: '天赋筛选工具', shortName: '天赋', path: '/talent' },
-  { id: 'support', name: '支援筛选工具', shortName: '支援', path: '/support' }
+  { id: 'prefix', name: '怪物前缀工具', shortName: '前缀', path: '/prefix' }
 ]
 
 const currentModeInfo = computed(() => {
@@ -99,11 +99,6 @@ const toggleModeDropdown = () => {
 }
 
 const switchMode = (mode) => {
-  if (mode.id === 'support') {
-    showSupportModal.value = true
-    isModeDropdownOpen.value = false
-    return
-  }
   router.push(mode.path)
   isModeDropdownOpen.value = false
 }
@@ -113,8 +108,9 @@ const showFeedbackModal = ref(false)
 const showNoticeModal = ref(false)
 const showUpdateModal = ref(false)
 const showAboutModal = ref(false)
-const showSupportModal = ref(false)
 const showDonateSection = ref(false)
+const showVersionAlert = ref(false)
+const versionAlertMessage = ref('')
 const updateInfo = ref(null)
 const isInApp = ref(false)
 
@@ -129,10 +125,14 @@ const checkUpdate = async (silent) => {
       updateInfo.value = info
       showUpdateModal.value = true
     } else if (!silent) {
-      alert('当前已是最新版本')
+      versionAlertMessage.value = '当前已是最新版本'
+      showVersionAlert.value = true
     }
   } catch (e) {
-    if (!silent) alert('检查更新失败: ' + e.message)
+    if (!silent) {
+      versionAlertMessage.value = '检查更新失败: ' + e.message
+      showVersionAlert.value = true
+    }
   }
 }
 
@@ -168,6 +168,13 @@ const markNoticeRead = () => {
                 <img src="/ui/TB20012.png" class="header-gif" />
                 <img src="/ui/TB20013.png" class="header-gif" />
                 <img src="/ui/TB20014.png" class="header-gif" />
+              </div>
+              <!-- 前缀模式特有展示 -->
+              <div v-else-if="route.name === 'prefix'" class="talent-header-gifs">
+                <img src="/ui/mid_btn_duiwu_00000.png" class="header-gif" />
+                <img src="/ui/mid_btn_duiwu_10001.png" class="header-gif" />
+                <img src="/ui/mid_btn_duiwu_40001.png" class="header-gif" />
+                <img src="/ui/mid_btn_duiwu_50001.png" class="header-gif" />
               </div>
             </div>
           </div>
@@ -223,7 +230,7 @@ const markNoticeRead = () => {
               <img src="/ui/wish.svg" class="item-icon" />
               <span>心愿招募</span>
             </div>
-            <div class="dropdown-item app-only" @click="isSettingsOpen = true ; checkUpdate(false)" v-if="route.name === 'recruit'">
+            <div class="dropdown-item app-only" @click="isSettingsOpen = true ; checkUpdate(false)">
               <img src="/ui/update.svg" class="item-icon" />
               <span>检测更新</span>
             </div>
@@ -274,22 +281,6 @@ const markNoticeRead = () => {
 
     <!-- 公告弹窗 (全局) -->
     <NoticeModal :show="showNoticeModal" @close="showNoticeModal = false; markNoticeRead()" />
-
-    <!-- 支援筛选正在建设弹窗 (全局) -->
-    <div v-if="showSupportModal" class="custom-modal-overlay" @click.self="showSupportModal = false">
-      <div class="custom-modal-card">
-        <div class="modal-header">
-          <h3>系统提示</h3>
-        </div>
-        <div class="modal-body">
-          <p class="modal-title-text">当前页面正在建设中</p>
-          <p class="modal-sub-text">支援筛选工具目前正在全力开发中，敬请期待！</p>
-        </div>
-        <div class="modal-footer">
-          <button class="modal-btn-confirm" @click="showSupportModal = false">确定</button>
-        </div>
-      </div>
-    </div>
 
     <!-- 关于我们弹窗 (全局) -->
     <div v-if="showAboutModal" class="custom-modal-overlay" @click.self="showAboutModal = false; showDonateSection = false">
@@ -359,6 +350,21 @@ const markNoticeRead = () => {
     <!-- 更新弹窗 (全局) -->
     <UpdateModal :show="showUpdateModal" :updateInfo="updateInfo" @close="showUpdateModal = false" />
 
+    <!-- 版本提示弹窗 (全局) -->
+    <div v-if="showVersionAlert" class="custom-modal-overlay" @click.self="showVersionAlert = false">
+      <div class="custom-modal-card">
+        <div class="modal-header">
+          <h3>系统提示</h3>
+        </div>
+        <div class="modal-body">
+          <p class="modal-title-text" style="color:var(--text-main);font-size:16px">{{ versionAlertMessage }}</p>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn-confirm" @click="showVersionAlert = false">确定</button>
+        </div>
+      </div>
+    </div>
+
     <!-- 回到顶部按钮 (全局) -->
     <BackToTop />
   </div>
@@ -381,6 +387,17 @@ const markNoticeRead = () => {
   --primary: #3b82f6;
   --gold: #f97316;
   --purple: #a855f7;
+  --blue: #7FAECB;
+  --green: #79C37A;
+  --gold-light: #ffedd5;
+  --purple-light: #f3e8ff;
+  --blue-light: #e0f2fe;
+  --green-light: #d1fae5;
+  --gold-text: #c2410c;
+  --purple-text: #7e22ce;
+  --blue-text: #1d4ed8;
+  --green-text: #065f46;
+  --remark-text:#dd7738;
   --bg: #f8fafc;
   --card-bg: #ffffff;
   --text-main: #1e293b;
