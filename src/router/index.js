@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import RecruitView from '../views/RecruitView.vue'
 import TalentView from '../views/TalentView.vue'
+import PrefixView from '../views/PrefixView.vue'
 
 const routes = [
   {
@@ -20,19 +21,23 @@ const routes = [
     meta: { title: '天赋筛选工具', shortName: '天赋' }
   },
   {
-    path: '/support',
-    name: 'support',
-    component: () => import('../views/RecruitView.vue'), // Placeholder
-    beforeEnter: (to, from, next) => {
-      alert('当前功能正在建设中')
-      next(false)
-    }
+    path: '/prefix',
+    name: 'prefix',
+    component: PrefixView,
+    meta: { title: '怪物前缀', shortName: '前缀' }
   }
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes
+})
+
+// 百度统计：路由切换时上报页面路径
+router.afterEach((to) => {
+  if (window._hmt) {
+    window._hmt.push(['_trackPageview', to.fullPath])
+  }
 })
 
 export default router

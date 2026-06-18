@@ -687,7 +687,7 @@ const getTypeTag = (t) => {
   margin-bottom: 0;
   box-sizing: border-box;
   position: sticky;
-  top: calc(var(--header-padding-top) + 54px);
+  top: calc(var(--header-padding-top) + 64px);
   z-index: 999;
   width: 100%;
 }
