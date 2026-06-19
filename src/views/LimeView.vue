@@ -133,7 +133,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import limeData from '@/assets/LimeDataTable.json'
 import worldMapData from '@/assets/WorldMapDataTable.json'
 
@@ -147,6 +147,19 @@ const colorPaletteVars = {
 
 // 初始化时尝试从本地存储读取，如果读取不到再用空数组
 const myOwnedList = ref(JSON.parse(localStorage.getItem('my_owned_limes')) || [])
+
+// 监听从 App 的导入数据事件，刷新拥有列表
+const onLimeDataImported = () => {
+  myOwnedList.value = JSON.parse(localStorage.getItem('my_owned_limes')) || []
+}
+
+onMounted(() => {
+  window.addEventListener('lime-data-imported', onLimeDataImported)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('lime-data-imported', onLimeDataImported)
+})
 
 const isOwned = (id) => {
   return myOwnedList.value.includes(id)

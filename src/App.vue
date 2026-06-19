@@ -57,6 +57,42 @@ onMounted(() => {
 
 const isSettingsOpen = ref(false)
 const isDarkMode = ref(false)
+const limeFileInput = ref(null)
+
+const exportLimeData = () => {
+  const raw = localStorage.getItem('my_owned_limes')
+  const data = raw || '[]'
+  const blob = new Blob([data], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `lime_owned_data_${new Date().toISOString().slice(0, 10)}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+const triggerLimeImport = () => {
+  limeFileInput.value?.click()
+}
+
+const handleLimeImport = (event) => {
+  const file = event.target.files[0]
+  if (!file) return
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result)
+      if (!Array.isArray(data)) throw new Error('数据格式错误：应为数组')
+      localStorage.setItem('my_owned_limes', JSON.stringify(data))
+      window.dispatchEvent(new CustomEvent('lime-data-imported'))
+      showMessage('提示', '导入成功！', 'success')
+    } catch (err) {
+      showMessage('导入失败', '导入失败：' + err.message, 'error')
+    }
+  }
+  reader.readAsText(file)
+  event.target.value = ''
+}
 
 // GIF 显示状态（默认 true，并从 localStorage 读取）
 const showGifs = ref(true)
@@ -112,6 +148,18 @@ const showAboutModal = ref(false)
 const showDonateSection = ref(false)
 const showVersionAlert = ref(false)
 const versionAlertMessage = ref('')
+
+// 通用消息弹窗（替代 alert）
+const showMessageModal = ref(false)
+const messageModalTitle = ref('')
+const messageModalText = ref('')
+const messageModalType = ref('info') // info | success | error
+const showMessage = (title, text, type = 'info') => {
+  messageModalTitle.value = title
+  messageModalText.value = text
+  messageModalType.value = type
+  showMessageModal.value = true
+}
 const updateInfo = ref(null)
 const isInApp = ref(false)
 
@@ -258,6 +306,11 @@ const markNoticeRead = () => {
           </button>
           <button class="btn-reset" @click="viewRef.resetTags()">重置</button>
         </template>
+        <template v-if="route.name === 'lime'">
+          <button class="btn-lime-export" @click="exportLimeData">导出数据</button>
+          <button class="btn-lime-import" @click="triggerLimeImport">导入数据</button>
+          <input type="file" ref="limeFileInput" @change="handleLimeImport" accept=".json" style="display:none" />
+        </template>
       </div>
     </div>
 
@@ -377,6 +430,23 @@ const markNoticeRead = () => {
         </div>
         <div class="modal-footer">
           <button class="modal-btn-confirm" @click="showVersionAlert = false">确定</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 通用消息弹窗（替代 alert，统一风格） -->
+    <div v-if="showMessageModal" class="custom-modal-overlay" @click.self="showMessageModal = false">
+      <div class="custom-modal-card">
+        <div class="modal-header">
+          <h3>{{ messageModalTitle }}</h3>
+        </div>
+        <div class="modal-body">
+          <p class="modal-title-text" :style="{ color: messageModalType === 'error' ? '#ef4444' : messageModalType === 'success' ? 'var(--success)' : 'var(--text-main)', fontSize: '16px' }">
+            {{ messageModalText }}
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn-confirm" @click="showMessageModal = false">确定</button>
         </div>
       </div>
     </div>
@@ -716,6 +786,21 @@ html[data-app-shell="true"] #app {
 .btn-reset { background: #ef4444; }
 .btn-upload { background: var(--success); }
 .btn-upload:disabled { background: #94a3b8; cursor: not-allowed; }
+
+.btn-lime-export, .btn-lime-import {
+  padding: 8px 6px;
+  font-size: 12px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+.btn-lime-export { background: #3b82f6; }
+.btn-lime-import { background: #10b981; }
+.btn-lime-export:hover, .btn-lime-import:hover { filter: brightness(1.1); }
 
 .custom-modal-overlay {
   position: fixed;
