@@ -17,6 +17,8 @@ const unownedChars = ref([])
 const showResultModal = ref(false)
 const matchResultTags = ref([])
 const showWishModal = ref(false)
+const showErrorModal = ref(false)
+const errorModalMessage = ref('')
 const searchQuery = ref('')
 const expandedGroups = ref([3, 2, 1, 0])
 
@@ -113,7 +115,9 @@ const handleFileUpload = async (event) => {
 
         } catch (err) {
           console.error('Matching failed:', err)
-          alert(`识别失败！\n\n错误原因：${err.message}`)
+          // 改用弹窗而非 alert
+          showErrorModal.value = true
+          errorModalMessage.value = `识别失败！\n\n错误原因：${err.message}`
         } finally {
           isMatchingLoading.value = false
         }
@@ -343,6 +347,21 @@ defineExpose({
         </div>
         <div class="modal-footer">
           <button class="modal-btn-confirm" @click="showWishModal = false">确定</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 识别错误弹窗 -->
+    <div v-if="showErrorModal" class="custom-modal-overlay" @click.self="showErrorModal = false">
+      <div class="custom-modal-card">
+        <div class="modal-header">
+          <h3>识别失败</h3>
+        </div>
+        <div class="modal-body">
+          <p class="modal-title-text" style="color:#ef4444;font-size:16px;white-space:pre-line">{{ errorModalMessage }}</p>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn-confirm" @click="showErrorModal = false">确定</button>
         </div>
       </div>
     </div>
