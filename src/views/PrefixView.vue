@@ -34,19 +34,46 @@
       <div
         v-for="group in displayGroups"
         :key="group[0].Name"
-        class="talent-card"
+        :class="['talent-card', { 'dropdown-open': openLevelDropdown === group[0].Name }]"
       >
         <div class="prefix-card-header">
           <span class="prefix-name">{{ group[0].Name }}</span>
-          <div class="step-tabs">
-            <span
-              v-for="(s, si) in stepLabels"
-              :key="s.key"
-              :class="['step-tab', s.key.toLowerCase(), { active: getActiveStep(group) === s.key }]"
-              @click="setActiveStep(group[0].Name, s.key)"
-            >
-              {{ s.label }}
-            </span>
+          <div class="card-actions">
+            <div class="step-tabs">
+              <span
+                v-for="(s, si) in stepLabels"
+                :key="s.key"
+                :class="['step-tab', s.key.toLowerCase(), { active: getActiveStep(group) === s.key }]"
+                @click="setActiveStep(group[0].Name, s.key)"
+              >
+                {{ s.label }}
+              </span>
+            </div>
+            <div class="level-section" @click.stop>
+              <div class="level-input-wrapper">
+                <input
+                  type="number"
+                  class="level-input"
+                  :value="getDisplayLevel(group[0].Name)"
+                  @input="onLevelInput(group[0].Name, ($event.target).value)"
+                  min="0"
+                />
+                <div class="level-dropdown-trigger" @click="toggleLevelDropdown(group[0].Name)">
+                  <img src="/ui/up.svg" class="level-arrow" :class="{ collapsed: openLevelDropdown !== group[0].Name }" />
+                </div>
+                <div v-if="openLevelDropdown === group[0].Name" class="level-dropdown-menu">
+                  <div
+                    v-for="preset in PRESET_LEVELS"
+                    :key="preset"
+                    class="level-dropdown-item"
+                    :class="{ active: getDisplayLevel(group[0].Name) == preset }"
+                    @click="selectLevel(group[0].Name, preset)"
+                  >
+                    {{ preset }}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -94,7 +121,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import prefixData from '@/assets/PrefixDataTable.json'
 
 const STEP_ORDER = ['C', 'B', 'A', 'S']
@@ -104,6 +131,9 @@ const stepLabels = [
   { key: 'A', label: '紫' },
   { key: 'S', label: '橙' }
 ]
+
+const PRESET_LEVELS = [100, 120, 130, 140, 160, 170, 180, 200, 210]
+const DEFAULT_LEVEL = 200
 
 const rawGroups = computed(() => {
   const map = new Map()
@@ -144,6 +174,59 @@ const getActiveStep = (group) => {
 const setActiveStep = (name, step) => {
   activeSteps.value[name] = step
 }
+
+// ===== 等级系统 =====
+const cardLevels = ref({})
+const openLevelDropdown = ref(null)
+
+const getDisplayLevel = (name) => {
+  // 输入框显示原始值，支持空字符串以便用户删光后继续输入
+  const v = cardLevels.value[name]
+  return v !== undefined ? v : DEFAULT_LEVEL
+}
+
+const getCardLevel = (name) => {
+  const v = cardLevels.value[name]
+  if (v === undefined || v === null) return DEFAULT_LEVEL
+  if (v === '') return 0
+  const num = parseInt(v)
+  if (isNaN(num) || num <= 0) return 0
+  return num
+}
+
+const onLevelInput = (name, val) => {
+  // 允许输入任意值，包括空字符串
+  cardLevels.value[name] = val
+}
+
+const getSafeLevel = (name) => {
+  const v = cardLevels.value[name]
+  if (v === undefined || v === null || v === '') return DEFAULT_LEVEL
+  const num = parseInt(v)
+  if (isNaN(num)) return DEFAULT_LEVEL
+  return Math.max(0, num)
+}
+
+const toggleLevelDropdown = (name) => {
+  openLevelDropdown.value = openLevelDropdown.value === name ? null : name
+}
+
+const selectLevel = (name, level) => {
+  cardLevels.value[name] = level
+  openLevelDropdown.value = null
+}
+
+const handleGlobalClick = () => {
+  openLevelDropdown.value = null
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleGlobalClick)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleGlobalClick)
+})
 
 const toggleNameTag = (name) => {
   activeNameTag.value = activeNameTag.value === name ? null : name
@@ -190,13 +273,21 @@ const getCurrentItem = (group, step) => {
 const getEffectLines = (group, step) => {
   const item = getCurrentItem(group, step)
   if (!item || !item.Effect) return []
+  const name = group[0]?.Name
+  const level = getCardLevel(name)
+
   let text = item.Effect
+  const compute = (val) => {
+    const v = parseInt(val)
+    if (!v || v === 0) return 0
+    return Math.ceil(level / v)
+  }
   text = text
-    .replace(/\{0\}/g, item.Value0 ?? '')
-    .replace(/\{1\}/g, item.Value1 ?? '')
-    .replace(/\{2\}/g, item.Value2 ?? '')
-    .replace(/\{3\}/g, item.Value3 ?? '')
-    .replace(/\{4\}/g, item.Value4 ?? '')
+    .replace(/\{0\}/g, compute(item.Value0))
+    .replace(/\{1\}/g, compute(item.Value1))
+    .replace(/\{2\}/g, compute(item.Value2))
+    .replace(/\{3\}/g, compute(item.Value3))
+    .replace(/\{4\}/g, compute(item.Value4))
   return text.split('\n').filter(Boolean)
 }
 
@@ -390,42 +481,57 @@ const closeLimitModal = () => {
   flex-direction: column;
   gap: 12px;
   transition: all 0.2s ease;
+  position: relative;
+  z-index: 1;
 }
 .talent-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
+.talent-card.dropdown-open {
+  z-index: 50;
+}
 
-/* ===== 卡片头部 ===== */
+/* ===== 卡片头部（一行排列：名称 + 切换 + 等级） ===== */
 .prefix-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 6px;
 }
 
 .prefix-name {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--text-main);
-  margin-right: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 /* ===== 品质切换标签 ===== */
 .step-tabs {
   display: flex;
-  gap: 6px;
+  gap: 4px;
 }
 
 .step-tab {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 5px 18px;
-  font-size: 13px;
+  padding: 4px 14px;
+  font-size: 12px;
   font-weight: 700;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
   user-select: none;
   background: #e2e8f0;
@@ -439,22 +545,114 @@ const closeLimitModal = () => {
 .step-tab.c.active {
   background: var(--green-light);
   color: var(--green);
-  box-shadow: 0 2px 6px rgba(121, 195, 122, 0.4);
 }
 .step-tab.b.active {
   background: var(--blue-light);
   color: var(--blue);
-  box-shadow: 0 2px 6px rgba(127, 174, 203, 0.4);
 }
 .step-tab.a.active {
   background: var(--purple-light);
   color: var(--purple);
-  box-shadow: 0 2px 6px rgba(168, 85, 247, 0.4);
 }
 .step-tab.s.active {
   background: var(--gold-light);
   color: var(--gold);
-  box-shadow: 0 2px 6px rgba(249, 115, 22, 0.4);
+}
+
+/* ===== 等级输入与下拉 ===== */
+.level-section {
+  display: flex;
+  align-items: center;
+}
+
+.level-input-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 1px 1px 1px 4px;
+  gap: 0;
+}
+
+.level-input {
+  width: 36px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+  text-align: center;
+  -moz-appearance: textfield;
+  padding: 2px 0;
+}
+.level-input::-webkit-outer-spin-button,
+.level-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.level-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 20px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+.level-dropdown-trigger:hover {
+  background: var(--dropdown-hover);
+}
+
+.level-arrow {
+  width: 9px;
+  height: 9px;
+  filter: var(--icon-filter);
+  transition: transform 0.25s ease;
+}
+.level-arrow.collapsed {
+  transform: rotate(180deg);
+}
+
+.level-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 3px;
+  min-width: 48px;
+  background: var(--card-bg);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  z-index: 9999;
+  overflow: hidden;
+  animation: slideDown 0.15s ease-out;
+}
+
+.level-dropdown-item {
+  padding: 5px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.level-dropdown-item:hover {
+  background: var(--dropdown-hover);
+}
+.level-dropdown-item.active {
+  color: var(--primary);
+  background: rgba(59, 130, 246, 0.08);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== 效果文本 ===== */
@@ -635,6 +833,20 @@ const closeLimitModal = () => {
 .dark-mode .step-tab {
   background: rgba(255, 255, 255, 0.08);
   color: #94a3b8;
+}
+.dark-mode .level-input {
+  background: transparent;
+  color: var(--text-main);
+}
+.dark-mode .level-dropdown-menu {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+.dark-mode .level-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.dark-mode .level-dropdown-item.active {
+  background: rgba(59, 130, 246, 0.2);
 }
 .dark-mode .bottom-tag {
   background: var(--green);
