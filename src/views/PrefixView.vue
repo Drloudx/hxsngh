@@ -51,6 +51,7 @@
             </div>
             <div class="level-section" @click.stop>
               <div class="level-input-wrapper">
+                <span class="level-label">等级</span>
                 <input
                   type="number"
                   class="level-input"
@@ -119,7 +120,6 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import prefixData from '@/assets/PrefixDataTable.json'
@@ -492,12 +492,14 @@ const closeLimitModal = () => {
   z-index: 50;
 }
 
-/* ===== 卡片头部（一行排列：名称 + 切换 + 等级） ===== */
+/* ===== 卡片头部（自适应换行+换行左对齐） ===== */
 .prefix-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
+  gap: 8px;
+  flex-wrap: wrap;
+  row-gap: 6px;
 }
 
 .prefix-name {
@@ -507,8 +509,7 @@ const closeLimitModal = () => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex-shrink: 1;
-  min-width: 0;
+  flex: 1 1 auto;
 }
 
 .card-actions {
@@ -528,7 +529,7 @@ const closeLimitModal = () => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 14px;
+  padding: 4px 10px;
   font-size: 12px;
   font-weight: 700;
   border-radius: 5px;
@@ -572,8 +573,17 @@ const closeLimitModal = () => {
   background: var(--bg);
   border: 1px solid var(--border-color);
   border-radius: 5px;
-  padding: 1px 1px 1px 4px;
+  padding: 2px 2px 2px 8px;
   gap: 0;
+}
+
+.level-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-right: 4px;
+  white-space: nowrap;
+  opacity: 0.85;
 }
 
 .level-input {

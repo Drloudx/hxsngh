@@ -323,6 +323,14 @@ const markNoticeRead = () => {
                 <span class="credit-name">幺蛾子</span>
                 <span class="credit-desc">天赋推荐支持</span>
               </div>
+              <div class="credit-item">
+                <span class="credit-name">来年祈风信</span>
+                <span class="credit-desc">数据支持</span>
+              </div>
+              <div class="credit-item">
+                <span class="credit-name">山酒</span>
+                <span class="credit-desc">数据支持</span>
+              </div>
             </div>
           </div>
         </div>
