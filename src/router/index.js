@@ -2,6 +2,9 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import RecruitView from '../views/RecruitView.vue'
 import TalentView from '../views/TalentView.vue'
 import PrefixView from '../views/PrefixView.vue'
+import LimeView from '../views/LimeView.vue'
+
+
 
 const routes = [
   {
@@ -25,6 +28,12 @@ const routes = [
     name: 'prefix',
     component: PrefixView,
     meta: { title: '怪物前缀', shortName: '前缀' }
+  },
+{
+    path: '/lime',
+    name: 'lime',
+    component: LimeView,
+    meta: { title: '莱姆图鉴', shortName: '莱姆' }
   }
 ]
 

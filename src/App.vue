@@ -85,7 +85,8 @@ const isModeDropdownOpen = ref(false)
 const modes = [
   { id: 'recruit', name: '指定招募工具', shortName: '招募', path: '/recruit' },
   { id: 'talent', name: '天赋筛选工具', shortName: '天赋', path: '/talent' },
-  { id: 'prefix', name: '怪物前缀工具', shortName: '前缀', path: '/prefix' }
+  { id: 'lime', name: '莱姆图鉴', shortName: '莱姆', path: '/lime' },
+  { id: 'prefix', name: '怪物前缀', shortName: '前缀', path: '/prefix' }
 ]
 
 const currentModeInfo = computed(() => {
@@ -171,6 +172,13 @@ const markNoticeRead = () => {
               </div>
               <!-- 前缀模式特有展示 -->
               <div v-else-if="route.name === 'prefix'" class="talent-header-gifs">
+                <img src="/ui/mid_btn_duiwu_00000.png" class="header-gif" />
+                <img src="/ui/mid_btn_duiwu_10001.png" class="header-gif" />
+                <img src="/ui/mid_btn_duiwu_40001.png" class="header-gif" />
+                <img src="/ui/mid_btn_duiwu_50001.png" class="header-gif" />
+              </div>
+              <!-- 莱姆模式特有展示 -->
+              <div v-else-if="route.name === 'lime'" class="talent-header-gifs">
                 <img src="/ui/mid_btn_duiwu_00000.png" class="header-gif" />
                 <img src="/ui/mid_btn_duiwu_10001.png" class="header-gif" />
                 <img src="/ui/mid_btn_duiwu_40001.png" class="header-gif" />
@@ -270,7 +278,7 @@ const markNoticeRead = () => {
             <p>方式一：【 <a href="https://qm.qq.com/q/cUvhuRHvhK" target="_blank">QQ联系</a> 】</p>
             <p>方式二：【 <a href="https://f.kdocs.cn/g/y4Uu95na/" target="_blank">填写在线表单</a> 】</p>
             <p class="hint-text">如有建议，建议使用QQ联系，更方便交流</p>
-            <p style="margin-top:8px"><a href="https://qun.qq.com/universal-share/share?ac=1&authKey=..." target="_blank" style="color:#3b82f6;font-weight:bold">点击链接加入群聊【幻想少女公会助手反馈交流群】</a></p>
+            <p style="margin-top:8px"><a href="https://qun.qq.com/universal-share/share?ac=1&authKey=4xp%2BlCmM2Q2gVIvW6a14yOEVtT%2BPLsY9DwmNSDRVTBkp8xcNO%2FTRo%2FOksMb528aW&busi_data=eyJncm91cENvZGUiOiI5NjQ3Njg3OTkiLCJ0b2tlbiI6Im1abkR4eDNDb09HeDZtV2QvNi9ZOTlMNWRhQVQxSDVGK2hSUmlmdkd6bm9hNGRIYjZnWFB6QitBd1A5NVhscmMiLCJ1aW4iOiIxOTY1MTYxNjQzIn0%3D&data=CcXqRPXmezEwvtBwz950aSAyBxYHidOpffYEE8nD1EB-WDcAI-CLzvlLLIavd-lpEuHEP9fCXE5i5Sh3aGjUmw&svctype=4&tempid=h5_group_info" target="_blank" style="color:#3b82f6;font-weight:bold">点击链接加入群聊【幻想少女公会助手反馈交流群】</a></p>
           </div>
         </div>
         <div class="modal-footer">
@@ -393,6 +401,7 @@ const markNoticeRead = () => {
 
 :root {
   --primary: #3b82f6;
+  --red: #f43f5e;
   --gold: #f97316;
   --purple: #a855f7;
   --blue: #7FAECB;
@@ -519,6 +528,7 @@ html[data-app-shell="true"] #app {
   color: var(--text-main);
   white-space: nowrap;
   line-height: 1.2;
+
 }
 
 .talent-header-gifs {
