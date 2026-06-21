@@ -7,7 +7,7 @@
 export const compareVersions = (v1, v2) => {
   const p = (v) => (v || '').replace('v', '').split('.').map(Number)
   const a = p(v1), b = p(v2)
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 4; i++) {
     if ((a[i] || 0) > (b[i] || 0)) return 1
     if ((a[i] || 0) < (b[i] || 0)) return -1
   }

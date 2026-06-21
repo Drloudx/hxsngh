@@ -198,21 +198,46 @@ defineExpose({
     <div class="filter-section" :class="{ 'no-gifs': !showGifs }">
       <div v-for="col in filterCols" :key="col" class="filter-group">
         <div class="filter-label">{{ col }}</div>
-        <div class="tags-container">
-          <span
-            v-for="val in tagsByCol[col]"
-            :key="val"
-            class="tag"
-            :class="{
-                active: selectedTags.includes(val),
-                'tag-rarity-3': val === '传说',
-                'tag-rarity-2': val === '史诗'
-            }"
-            @click="toggleTag(val)"
-          >
-            {{ val }}
-          </span>
-        </div>
+        <template v-if="col === '星级'">
+          <div class="tags-container tags-row">
+            <div class="tags-inner">
+              <span
+                v-for="val in tagsByCol[col]"
+                :key="val"
+                class="tag"
+                :class="{
+                    active: selectedTags.includes(val),
+                    'tag-rarity-3': val === '传说',
+                    'tag-rarity-2': val === '史诗'
+                }"
+                @click="toggleTag(val)"
+              >
+                {{ val }}
+              </span>
+            </div>
+            <span class="tag wish-btn" @click="showWishModal = true">
+              <i class="wish-btn-icon"></i>
+              <span>心愿</span>
+            </span>
+          </div>
+        </template>
+        <template v-else>
+          <div class="tags-container">
+            <span
+              v-for="val in tagsByCol[col]"
+              :key="val"
+              class="tag"
+              :class="{
+                  active: selectedTags.includes(val),
+                  'tag-rarity-3': val === '传说',
+                  'tag-rarity-2': val === '史诗'
+              }"
+              @click="toggleTag(val)"
+            >
+              {{ val }}
+            </span>
+          </div>
+        </template>
       </div>
 
       <!-- GIF 容器，使用 v-show 控制显隐 -->
@@ -327,6 +352,7 @@ defineExpose({
             <img src="/ui/search.svg" class="search-icon" />
             <input type="text" v-model="searchQuery" placeholder="搜索角色名称..." class="wish-search-input" />
           </div>
+          <p class="wish-tip-text">可标记未拥有的角色，当保底组合出现标记角色后，当前组合会进行置顶</p>
           <div v-for="group in filteredWishGroups" :key="group.rarity" class="wish-group">
             <div class="wish-group-title" :class="'wish-title-' + group.rarity" @click="toggleGroup(group.rarity)">
               <span>{{ group.title }}</span>
@@ -519,7 +545,7 @@ defineExpose({
 .dark-mode .wish-tag-rarity-2 { background: rgba(168, 85, 247, 0.15); color: #c084fc; border-color: rgba(168, 85, 247, 0.3); }
 .dark-mode .wish-tag-rarity-1 { background: rgba(127, 174, 203, 0.15); color: #93c5fd; border-color: rgba(127, 174, 203, 0.3); }
 .dark-mode .wish-tag-rarity-0 { background: rgba(127, 174, 203, 0.15); color: #93c5fd; border-color: rgba(127, 174, 203, 0.3); }
-.wish-tag.wish-tag-unowned { border-width: 2px; font-weight: 700; }
+.wish-tag.wish-tag-unowned {  font-weight: 700; }
 .wish-tag-rarity-3.wish-tag-unowned { background: #f97316; color: #fff; border-color: #f97316; box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.3); }
 .wish-tag-rarity-2.wish-tag-unowned { background: #a855f7; color: #fff; border-color: #a855f7; box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.3); }
 .wish-tag-rarity-1.wish-tag-unowned { background: #7FAECB; color: #fff; border-color: #7FAECB; box-shadow: 0 0 0 2px rgba(127, 174, 203, 0.3); }
@@ -543,5 +569,54 @@ defineExpose({
 }
 .modal-tags-grid .tag {
   margin: 0;
+}
+
+/* 心愿招募按钮：嵌入星级标签行右侧 */
+/* 星级行：左侧标签，右侧心愿按钮 */
+.tags-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.tags-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.wish-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0px;
+  background: var(--card-bg);
+  color: #f97316;
+  border: 1px solid #f97316;
+  font-weight: 800;
+  font-size: 15px;
+  padding: 3px 8px 3px 3px;
+  flex-shrink: 0;
+}
+.wish-btn:hover {
+  background: #fff7ed;
+}
+.dark-mode .wish-btn:hover {
+  background: rgba(249, 115, 22, 0.1);
+}
+.wish-btn-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: #e1624f;
+  mask: url(/ui/wish.svg) no-repeat center / contain;
+  -webkit-mask: url(/ui/wish.svg) no-repeat center / contain;
+}
+.wish-tip-text {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin: 6px 0 14px 0;
+  line-height: 1.5;
+}
+.dark-mode .wish-tip-text {
+  color: #a1aebf;
 }
 </style>

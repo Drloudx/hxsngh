@@ -43,10 +43,18 @@ const router = createRouter({
 })
 
 // 百度统计：路由切换时上报页面路径
+// 区分网页端 vs App（Capacitor 套壳 WebView）
 router.afterEach((to) => {
-  if (window._hmt) {
-    window._hmt.push(['_trackPageview', to.fullPath])
-  }
+  if (!window._hmt) return;
+  // 首页根路径直接跳过，不上报（会被 redirect 到 /recruit）
+  if (to.fullPath === '/') return;
+  // 用户未授权统计，不上报
+  if (window.__baidu_authorized === false) return;
+
+  const isCapApp = window.Capacitor && window.Capacitor.isNativePlatform();
+  let reportPath = to.fullPath;
+  if (isCapApp) reportPath = '/app' + reportPath;
+  _hmt.push(['_trackPageview', reportPath]);
 })
 
 export default router

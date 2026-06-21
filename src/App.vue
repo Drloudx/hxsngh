@@ -5,8 +5,12 @@ import notices from './assets/notices.json'
 import NoticeModal from './components/NoticeModal.vue'
 import UpdateModal from './components/UpdateModal.vue'
 import BackToTop from './components/BackToTop.vue'
+import PrivacyModal from './components/PrivacyModal.vue'
+import AboutModal from './components/AboutModal.vue'
+import HotUpdateModal from './components/HotUpdateModal.vue'
 import { fetchLatestRelease, compareVersions, isUpdateSkippedToday } from './utils/version'
 import { imageMatcher } from './utils/imageMatcher'
+import { exportData, importData } from './utils/dataTransfer'
 
 const route = useRoute()
 const router = useRouter()
@@ -33,20 +37,52 @@ onMounted(() => {
     showGifs.value = savedShowGifs === 'true'
   }
 
+  // 初始化百度统计授权状态
+  initBaiduAuth()
+
+  // 缓存 APK 版本到 localStorage（供热更后页面重载时稳定读取）
+  const apkVer = window.__APP_VERSION__
+  if (apkVer && apkVer !== '0.0.0') {
+    localStorage.setItem('apk_cached_version', apkVer)
+  }
+
+  // 初始化百度统计页面标识
+  updateBaiduPage()
+
   // 检查是否在 App 内
   const checkShell = () => {
-    const a = document.documentElement.getAttribute("data-app-shell") === "true"
-    isInApp.value = a
-    if (a && !isUpdateSkippedToday()) {
+    const cap = window.Capacitor?.isNativePlatform?.() ?? false
+    const attr = document.documentElement.getAttribute("data-app-shell") === "true"
+    const hotPath = window.location.href.includes('files/www/') || window.location.href.includes('/data/')
+    isInApp.value = cap || attr || hotPath
+    if (isInApp.value && !isUpdateSkippedToday()) {
       setTimeout(() => checkUpdate(true), 2000)
     }
   }
   checkShell()
 
-  // 监听公告
-  const savedNoticeVer = localStorage.getItem('saved_notice_version')
-  if (noticeVersion.value && noticeVersion.value !== savedNoticeVer) {
-    showNoticeModal.value = true
+  // 隐私优先：App 首次启动弹窗，网页版不弹窗，默认开启统计
+  const savedPrivacy = localStorage.getItem('privacy_accepted')
+  if (savedPrivacy === null && isInApp.value) {
+    // App 首次启动，弹隐私政策
+    setTimeout(() => {
+      showPrivacyModal.value = true
+      isFirstLaunchPrivacy.value = true
+    }, 500)
+  } else {
+    // 网页版第一次访问：标记为已同意，默认开启统计
+    if (savedPrivacy === null && !isInApp.value) {
+      localStorage.setItem('privacy_accepted', 'true')
+      if (!baiduAuthorized.value) {
+        baiduAuthorized.value = true
+        localStorage.setItem('baidu_authorized', 'true')
+        window.__baidu_authorized = true
+      }
+    }
+    // 已处理过隐私，正常检查公告
+    checkNoticeAfterPrivacy()
+    // 隐私就绪后，检查热更新
+    checkForHotUpdate()
   }
 
   window.addEventListener('click', (e) => {
@@ -60,38 +96,24 @@ const isDarkMode = ref(false)
 const limeFileInput = ref(null)
 
 const exportLimeData = () => {
-  const raw = localStorage.getItem('my_owned_limes')
-  const data = raw || '[]'
-  const blob = new Blob([data], { type: 'application/json' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `lime_owned_data_${new Date().toISOString().slice(0, 10)}.json`
-  a.click()
-  URL.revokeObjectURL(url)
+  exportData(JSON.parse(localStorage.getItem('my_owned_limes') || '[]'),
+    `lime_owned_data_${new Date().toISOString().slice(0, 10)}.json`)
 }
 
 const triggerLimeImport = () => {
   limeFileInput.value?.click()
 }
 
-const handleLimeImport = (event) => {
-  const file = event.target.files[0]
-  if (!file) return
-  const reader = new FileReader()
-  reader.onload = (e) => {
-    try {
-      const data = JSON.parse(e.target.result)
-      if (!Array.isArray(data)) throw new Error('数据格式错误：应为数组')
-      localStorage.setItem('my_owned_limes', JSON.stringify(data))
-      window.dispatchEvent(new CustomEvent('lime-data-imported'))
-      showMessage('提示', '导入成功！', 'success')
-    } catch (err) {
-      showMessage('导入失败', '导入失败：' + err.message, 'error')
-    }
+const handleLimeImport = async (event) => {
+  try {
+    const data = await importData(event)
+    if (!Array.isArray(data)) throw new Error('数据格式错误：应为数组')
+    localStorage.setItem('my_owned_limes', JSON.stringify(data))
+    window.dispatchEvent(new CustomEvent('lime-data-imported'))
+    showMessage('提示', '导入成功！', 'success')
+  } catch (err) {
+    showMessage('导入失败', '导入失败：' + err.message, 'error')
   }
-  reader.readAsText(file)
-  event.target.value = ''
 }
 
 // GIF 显示状态（默认 true，并从 localStorage 读取）
@@ -145,7 +167,8 @@ const showFeedbackModal = ref(false)
 const showNoticeModal = ref(false)
 const showUpdateModal = ref(false)
 const showAboutModal = ref(false)
-const showDonateSection = ref(false)
+const showDonateModal = ref(false)
+const showPrivacyModal = ref(false)
 const showVersionAlert = ref(false)
 const versionAlertMessage = ref('')
 
@@ -160,16 +183,100 @@ const showMessage = (title, text, type = 'info') => {
   messageModalType.value = type
   showMessageModal.value = true
 }
+const baiduAuthorized = ref(localStorage.getItem('baidu_authorized') === 'true')
+
+const initBaiduAuth = () => {
+  window.__baidu_authorized = baiduAuthorized.value
+}
+
+const toggleBaiduAuth = () => {
+  baiduAuthorized.value = !baiduAuthorized.value
+  localStorage.setItem('baidu_authorized', baiduAuthorized.value)
+  window.__baidu_authorized = baiduAuthorized.value
+}
+
+const updateBaiduPage = () => {
+  const pageMap = {
+    'recruit': '指定招募',
+    'talent': '天赋筛选',
+    'lime': '莱姆图鉴',
+    'prefix': '怪物前缀',
+  }
+  window.__baidu_page = pageMap[route.name] || route.name || 'unknown'
+}
+
+// 路由变化时更新百度统计页面标识
+watch(() => route.name, updateBaiduPage)
+
+// 首次启动隐私同意标记
+const isFirstLaunchPrivacy = ref(false)
+
+// 隐私同意后，再检查公告
+const checkNoticeAfterPrivacy = () => {
+  const savedNoticeVer = localStorage.getItem('saved_notice_version')
+  if (noticeVersion.value && noticeVersion.value !== savedNoticeVer) {
+    showNoticeModal.value = true
+  }
+}
+
+const agreeToPrivacy = () => {
+  localStorage.setItem('privacy_accepted', 'true')
+  if (!baiduAuthorized.value) {
+    baiduAuthorized.value = true
+    localStorage.setItem('baidu_authorized', 'true')
+    window.__baidu_authorized = true
+  }
+  showPrivacyModal.value = false
+  isFirstLaunchPrivacy.value = false
+  checkNoticeAfterPrivacy()
+  checkForHotUpdate()
+}
+
+const disagreePrivacy = () => {
+  localStorage.setItem('privacy_accepted', 'true')
+  if (baiduAuthorized.value) {
+    baiduAuthorized.value = false
+    localStorage.setItem('baidu_authorized', 'false')
+    window.__baidu_authorized = false
+  }
+  showPrivacyModal.value = false
+  isFirstLaunchPrivacy.value = false
+  checkNoticeAfterPrivacy()
+  checkForHotUpdate()
+}
+
 const updateInfo = ref(null)
 const isInApp = ref(false)
+const showHotUpdate = ref(false)     // 控制热更新弹窗
+const hotUpdateManifest = ref(null)  // 预检测到的热更信息
 
 // 引用当前视图组件
 const viewRef = ref(null)
 
+// 检查热更新（静默检测，有更新才弹窗）
+const checkForHotUpdate = async () => {
+  if (!isInApp.value) return
+  // 延迟一会儿等页面稳定
+  await new Promise(r => setTimeout(r, 1500))
+  const { checkHotUpdate } = await import('./utils/hotupdate')
+  const m = await checkHotUpdate()
+  if (m) {
+    hotUpdateManifest.value = m
+    showHotUpdate.value = true // 有更新才弹窗
+  }
+}
+
+// 热更新应用完毕后通知 Java 清缓存后重载（比 JS 重载更稳定）
+const onHotUpdateApplied = () => {
+  window.__hotUpdateReady = true
+}
 const checkUpdate = async (silent) => {
   try {
     const info = await fetchLatestRelease()
-    const currentVer = (window.__APP_VERSION__ || '0.0.0').replace(/^v?/, 'v')
+    // 优先用 localStorage 持久化的版本，避免 Java 异步注入未完成时读到 0.0.0
+    const cachedVer = localStorage.getItem('apk_cached_version')
+    const curVer = window.__APP_VERSION__ || cachedVer || '0.0.0'
+    const currentVer = curVer.replace(/^v?/, 'v')
     if (compareVersions(info.version, currentVer) > 0) {
       updateInfo.value = info
       showUpdateModal.value = true
@@ -227,10 +334,10 @@ const markNoticeRead = () => {
               </div>
               <!-- 莱姆模式特有展示 -->
               <div v-else-if="route.name === 'lime'" class="talent-header-gifs">
-                <img src="/ui/mid_btn_duiwu_00000.png" class="header-gif" />
-                <img src="/ui/mid_btn_duiwu_10001.png" class="header-gif" />
-                <img src="/ui/mid_btn_duiwu_40001.png" class="header-gif" />
-                <img src="/ui/mid_btn_duiwu_50001.png" class="header-gif" />
+                <img src="/limeui/LM02027.png" class="header-gif" />
+                <img src="/limeui/LM03033.png" class="header-gif" />
+                <img src="/limeui/LM02020.png" class="header-gif" />
+                <img src="/limeui/LM02016.png" class="header-gif" />
               </div>
             </div>
           </div>
@@ -282,17 +389,21 @@ const markNoticeRead = () => {
               <img src="/ui/announcement.svg" class="item-icon" />
               <span>公告</span>
             </div>
-            <div class="dropdown-item" @click="viewRef.openWishModal(); isSettingsOpen = false" v-if="route.name === 'recruit' && viewRef">
-              <img src="/ui/wish.svg" class="item-icon" />
-              <span>心愿招募</span>
-            </div>
             <div class="dropdown-item app-only" @click="isSettingsOpen = true ; checkUpdate(false)">
               <img src="/ui/update.svg" class="item-icon" />
               <span>检测更新</span>
             </div>
+            <div class="dropdown-item" @click="showPrivacyModal = true; isSettingsOpen = false">
+              <img src="/ui/privacy.svg" class="item-icon" />
+              <span>隐私政策</span>
+            </div>
             <div class="dropdown-item" @click="showAboutModal = true; isSettingsOpen = false">
               <img src="/ui/we.svg" class="item-icon" />
               <span>关于我们</span>
+            </div>
+            <div class="dropdown-item donate-entry" @click="showDonateModal = true; isSettingsOpen = false">
+              <img src="/ui/sponsor.svg" class="item-icon" />
+              <span>赞助支持</span>
             </div>
           </div>
         </div>
@@ -344,59 +455,39 @@ const markNoticeRead = () => {
     <NoticeModal :show="showNoticeModal" @close="showNoticeModal = false; markNoticeRead()" />
 
     <!-- 关于我们弹窗 (全局) -->
-    <div v-if="showAboutModal" class="custom-modal-overlay" @click.self="showAboutModal = false; showDonateSection = false">
+    <AboutModal :show="showAboutModal" @close="showAboutModal = false" />
+
+    <!-- 隐私政策弹窗（App首次启动同意 / 设置页查看 两种模式） -->
+    <PrivacyModal
+      :show="showPrivacyModal"
+      :is-first-launch="isFirstLaunchPrivacy"
+      :is-in-app="isInApp"
+      :baidu-authorized="baiduAuthorized"
+      @toggle-auth="toggleBaiduAuth"
+      @agree="agreeToPrivacy"
+      @disagree="disagreePrivacy"
+      @close="showPrivacyModal = false"
+    />
+
+    <!-- 更新弹窗 (全局) -->
+    <UpdateModal :show="showUpdateModal" :updateInfo="updateInfo" @close="showUpdateModal = false" />
+
+    <!-- 热更新弹窗 (全局) -->
+    <HotUpdateModal
+      v-if="showHotUpdate"
+      :pre-checked-manifest="hotUpdateManifest"
+      @close="showHotUpdate = false; hotUpdateManifest = null"
+      @apply="onHotUpdateApplied"
+    />
+
+    <!-- 赞助支持弹窗 (全局) -->
+    <div v-if="showDonateModal" class="custom-modal-overlay" @click.self="showDonateModal = false">
       <div class="custom-modal-card about-modal-card">
-        <div class="modal-header about-header">
-          <h3>关于我们</h3>
-          <button class="donate-btn-top" @click="showDonateSection = !showDonateSection">
-            {{ showDonateSection ? '返回' : '赞助' }}
-          </button>
+        <div class="modal-header about-header" style="position:relative">
+          <h3>赞助支持</h3>
+          <button class="modal-close-btn" @click="showDonateModal = false">✕</button>
         </div>
-        
-        <div class="modal-body about-body" v-if="!showDonateSection">
-          <div class="author-section">
-            <img src="/ui/author_avatar.jpg" class="about-logo" />
-            <h4 class="author-name">云汐渚梦</h4>
-            <div class="social-links">
-              <a href="https://www.taptap.cn/user/34448185?share_id=06714cbc47ff&utm_medium=share&utm_source=copylink" target="_blank" class="social-item taptap">
-                <span class="social-icon">T</span>
-                TapTap
-              </a>
-              <a href="https://b23.tv/xGNrRhf" target="_blank" class="social-item bilibili">
-                <span class="social-icon">B</span>
-                Bilibili
-              </a>
-            </div>
-          </div>
-
-          <div class="credits-section">
-            <div class="credits-title">感谢名单</div>
-            <div class="credits-list">
-              <div class="credit-item">
-                <span class="credit-name">TapTap 留白</span>
-                <span class="credit-desc">最初角色数据源</span>
-              </div>
-              <div class="credit-item">
-                <span class="credit-name">Lance</span>
-                <span class="credit-desc">天赋数据</span>
-              </div>
-              <div class="credit-item">
-                <span class="credit-name">幺蛾子</span>
-                <span class="credit-desc">天赋推荐支持</span>
-              </div>
-              <div class="credit-item">
-                <span class="credit-name">来年祈风信</span>
-                <span class="credit-desc">数据支持</span>
-              </div>
-              <div class="credit-item">
-                <span class="credit-name">山酒</span>
-                <span class="credit-desc">数据支持</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-body donate-body" v-else>
+        <div class="modal-body donate-body">
           <p class="donate-hint">感谢您的支持，赞助将用于工具维护</p>
           <div class="donate-qrs">
             <div class="qr-item">
@@ -409,15 +500,11 @@ const markNoticeRead = () => {
             </div>
           </div>
         </div>
-
         <div class="modal-footer">
-          <button class="modal-btn-confirm" @click="showAboutModal = false; showDonateSection = false">关闭</button>
+          <button class="modal-btn-confirm" @click="showDonateModal = false">关闭</button>
         </div>
       </div>
     </div>
-
-    <!-- 更新弹窗 (全局) -->
-    <UpdateModal :show="showUpdateModal" :updateInfo="updateInfo" @close="showUpdateModal = false" />
 
     <!-- 版本提示弹窗 (全局) -->
     <div v-if="showVersionAlert" class="custom-modal-overlay" @click.self="showVersionAlert = false">
@@ -496,6 +583,8 @@ const markNoticeRead = () => {
   --modal-overlay: rgba(15, 23, 42, 0.4);
   --icon-filter: brightness(0) saturate(100%) invert(13%) sepia(13%) saturate(3665%) hue-rotate(189deg) brightness(91%) contrast(92%);
   --header-padding-top: 15px;
+  --status-bar-height: 0px;
+
 }
 
 .dark-mode {
@@ -859,131 +948,35 @@ html[data-app-shell="true"] #app {
 .mode-switcher-arrow.is-open { transform: rotate(0deg); }
 
 html:not([data-app-shell="true"]) .app-only { display: none !important; }
+
+/* 赞助支持入口分割线 */
+.donate-entry {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  margin-top: 4px;
+}
+
+/* 赞助支持弹窗 */
+.modal-close-btn {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--text-sub);
+  cursor: pointer;
+  padding: 4px 8px;
+  z-index: 2;
+}
+.modal-close-btn:hover {
+  color: var(--text-main);
+}
 .about-modal-card {
   max-width: 450px;
   max-height: 90vh;
   overflow-y: auto;
 }
-.about-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-.donate-btn-top {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #fef3c7;
-  color: #d97706;
-  border: 1px solid #fbbf24;
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.dark-mode .donate-btn-top {
-  background: rgba(217, 119, 6, 0.2);
-  color: #fbbf24;
-}
-.donate-btn-top:hover {
-  background: #fcd34d;
-  color: #92400e;
-}
-.about-body {
-  padding: 20px !important;
-  text-align: left !important;
-}
-.author-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 24px;
-}
-.about-logo {
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
-  margin-bottom: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-.author-name {
-  margin: 0 0 12px 0;
-  font-size: 18px;
-  color: var(--text-main);
-}
-.social-links {
-  display: flex;
-  gap: 12px;
-}
-.social-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.2s;
-}
-.social-icon {
-  width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-size: 10px;
-  font-weight: bold;
-  color: white;
-}
-.taptap {
-  background: #00cccc20;
-  color: #008a8a;
-}
-.taptap .social-icon { background: #00cccc; }
-.bilibili {
-  background: #fb729920;
-  color: #e83e6d;
-}
-.bilibili .social-icon { background: #fb7299; }
-
-.credits-section {
-  background: var(--bg);
-  padding: 16px;
-  border-radius: 12px;
-}
-.credits-title {
-  font-size: 14px;
-  font-weight: bold;
-  color: var(--text-sub);
-  margin-bottom: 12px;
-  text-align: center;
-}
-.credits-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.credit-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-}
-.credit-name {
-  color: var(--text-main);
-  font-weight: 600;
-}
-.credit-desc {
-  color: var(--text-sub);
-  font-size: 12px;
-}
-
 .donate-body {
   padding: 30px 20px !important;
 }
