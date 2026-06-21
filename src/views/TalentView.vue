@@ -7,7 +7,7 @@
           type="text"
           v-model="searchQuery"
           @input="handleInput"
-          placeholder="搜索关键字(天赋详细、天赋名、角色名)..."
+          placeholder="搜索关键词(天赋详细、天赋名、角色名)..."
           class="talent-search-input"
         />
       </div>

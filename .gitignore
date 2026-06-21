@@ -38,3 +38,18 @@ __screenshots__/
 
 # Android
 android/
+
+# Python
+.venv/
+venv/
+env/
+*.venv
+
+# Claude
+.claude/
+
+# build
+dist/
+dist.zip
+*.zip
+hotupdate.json

@@ -565,8 +565,8 @@ const closeDetailModal = () => {
   text-align: center;
   font-weight: 700;
 }
-.lime-card-name-label.ss { color: var(--gold); }
-.lime-card-name-label.s  { color: var(--red); }
+.lime-card-name-label.ss { color: var(--red); }
+.lime-card-name-label.s  { color: var(--gold); }
 .lime-card-name-label.a  { color: var(--purple); }
 .lime-card-name-label.b  { color: var(--blue); }
 .lime-card-name-label.c  { color: var(--green); }
