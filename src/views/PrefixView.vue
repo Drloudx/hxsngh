@@ -1,6 +1,7 @@
 <template>
   <div class="talent-container">
-    <div class="talent-search-wrapper">
+    <div class="talent-sticky-top">
+      <!-- 顶部栏: 搜索框 -->
       <div class="talent-search-box">
         <img src="/ui/search.svg" class="search-icon" />
         <input
@@ -11,7 +12,7 @@
         />
       </div>
 
-      <!-- 前缀分类标签栏 -->
+      <!-- 搜索区域: 词条标签筛选 -->
       <div class="name-tags-section">
         <div class="name-tags-header" @click="toggleNameTagsExpand">
           <span class="name-tags-title">词条标签筛选</span>
@@ -337,25 +338,23 @@ const closeLimitModal = () => {
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
 
-/* ===== 搜索区域 ===== */
-.talent-search-wrapper {
-  background: var(--bg);
-  padding: 10px 0;
-  margin-bottom: 0;
-  box-sizing: border-box;
+.talent-sticky-top {
+  flex-shrink: 0;
   position: sticky;
-  top: calc(var(--header-padding-top) + 64px);
+  top: 0;
   z-index: 999;
-  width: 100%;
+  background: var(--bg);
+  padding-bottom: 10px;
 }
 
-.talent-search-wrapper::before,
-.talent-search-wrapper::after {
-  content: none;
-}
-
+/* ===== 搜索框 ===== */
 .talent-search-box {
   display: flex;
   align-items: center;
@@ -366,10 +365,13 @@ const closeLimitModal = () => {
   gap: 0;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
   transition: border-color 0.2s ease;
+  flex-shrink: 0;
 }
 .talent-search-box:focus-within {
   border-color: #409eff;
 }
+
+/* ===== 词条标签筛选 ===== */
 
 .search-icon {
   width: 18px;
@@ -398,6 +400,9 @@ const closeLimitModal = () => {
   border-radius: 12px;
   padding: 12px 14px;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+  margin-bottom: 10px;
+
 }
 
 .name-tags-header {
@@ -468,6 +473,7 @@ const closeLimitModal = () => {
   flex-direction: column;
   gap: 14px;
   padding: 0;
+  flex: 1;
 }
 
 /* ===== 卡片 ===== */
@@ -815,9 +821,6 @@ const closeLimitModal = () => {
 }
 
 /* ===== 深色模式 ===== */
-.dark-mode .talent-search-wrapper {
-  background: var(--bg);
-}
 .dark-mode .talent-search-box {
   border-color: rgba(255, 255, 255, 0.1);
 }

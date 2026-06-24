@@ -94,10 +94,68 @@ onMounted(() => {
 const isSettingsOpen = ref(false)
 const isDarkMode = ref(false)
 const limeFileInput = ref(null)
+const universalFileInput = ref(null)
 
 const exportLimeData = () => {
   exportData(JSON.parse(localStorage.getItem('my_owned_limes') || '[]'),
     `lime_owned_data_${new Date().toISOString().slice(0, 10)}.json`)
+}
+
+// ===== 通用导入导出（合并所有视图数据） =====
+const exportAllData = () => {
+  // 紧凑化天赋管理数据
+  const rawCards = JSON.parse(localStorage.getItem('talent_manager_data') || '[]')
+  const compactTM = Array.isArray(rawCards) ? rawCards.map(card => ({
+    charId: card.baseInfo?.id,
+    talentPages: (card.talentPages || []).map(page => ({
+      slots: (page.slots || []).map(slot => slot && slot.talent ? { id: slot.talent.uid } : null)
+    }))
+  })) : []
+  const mergedData = [
+    { _type: 'lime', data: JSON.parse(localStorage.getItem('my_owned_limes') || '[]') },
+    { _type: 'talent-manage', data: compactTM }
+  ]
+  exportData(mergedData, `full_backup_${new Date().toISOString().slice(0, 10)}.json`)
+}
+
+const triggerUniversalImport = () => {
+  universalFileInput.value?.click()
+}
+
+const dispatchImportItem = (item) => {
+  switch (item._type) {
+    case 'lime':
+      if (Array.isArray(item.data)) {
+        localStorage.setItem('my_owned_limes', JSON.stringify(item.data))
+        window.dispatchEvent(new CustomEvent('lime-data-imported'))
+      }
+      break
+    case 'talent-manage':
+      if (Array.isArray(item.data)) {
+        localStorage.setItem('talent_manager_data', JSON.stringify(item.data))
+        window.dispatchEvent(new CustomEvent('talent-manager-data-imported'))
+      }
+      break
+    default:
+      console.warn('未识别的数据类型:', item._type)
+  }
+}
+
+const handleUniversalImport = async (event) => {
+  try {
+    const data = await importData(event)
+    if (Array.isArray(data)) {
+      data.forEach(item => dispatchImportItem(item))
+      showMessage('提示', `导入成功！共处理 ${data.length} 项数据`, 'success')
+    } else if (data && data._type) {
+      dispatchImportItem(data)
+      showMessage('提示', '导入成功！', 'success')
+    } else {
+      throw new Error('数据格式错误：应为数组或包含 _type 的对象')
+    }
+  } catch (err) {
+    showMessage('导入失败', '导入失败：' + err.message, 'error')
+  }
 }
 
 const triggerLimeImport = () => {
@@ -144,14 +202,18 @@ const modes = [
   { id: 'recruit', name: '指定招募工具', shortName: '招募', path: '/recruit' },
   { id: 'talent', name: '天赋筛选工具', shortName: '天赋', path: '/talent' },
   { id: 'lime', name: '莱姆图鉴', shortName: '莱姆', path: '/lime' },
-  { id: 'prefix', name: '怪物前缀', shortName: '前缀', path: '/prefix' }
+  { id: 'prefix', name: '怪物前缀', shortName: '前缀', path: '/prefix' },
+  { id: 'talent-manage', name: '天赋管理', shortName: '库存', path: '/talent-manage' },
+  { id: 'guide', name: '新人攻略', shortName: '攻略', path: '/guide' },
+  { id: 'subskill', name: '预告：支援筛选', shortName: '预告', path: '/subskill' },
+  { id: 'role', name: '预告：角色图鉴', shortName: '预告', path: '/role' },
+  { id: 'ranking', name: '预告：角色/队伍热度排行', shortName: '预告', path: '/ranking' }
 ]
 
 const currentModeInfo = computed(() => {
-  const m = modes.find(m => route.path.startsWith(m.path))
+  const m = modes.find(m => route.path === m.path || route.path.startsWith(m.path + '/'))
   return m || modes[0]
 })
-
 const toggleModeDropdown = () => {
   isModeDropdownOpen.value = !isModeDropdownOpen.value
   if (isModeDropdownOpen.value) isSettingsOpen.value = false
@@ -201,6 +263,11 @@ const updateBaiduPage = () => {
     'talent': '天赋筛选',
     'lime': '莱姆图鉴',
     'prefix': '怪物前缀',
+    'talent-manage': '天赋管理',
+    'guide': '新人攻略',
+    'subskill': '支援筛选',
+    'role': '角色图鉴',
+    'ranking': '热度排行',
   }
   window.__baidu_page = pageMap[route.name] || route.name || 'unknown'
 }
@@ -261,8 +328,13 @@ const checkForHotUpdate = async () => {
   const { checkHotUpdate } = await import('./utils/hotupdate')
   const m = await checkHotUpdate()
   if (m) {
-    hotUpdateManifest.value = m
-    showHotUpdate.value = true // 有更新才弹窗
+    if (m._needsApkUpdate) {
+      // 大版本不同，不能热更 -> 走 APK 更新流程
+      checkUpdate(true)
+    } else {
+      hotUpdateManifest.value = m
+      showHotUpdate.value = true
+    }
   }
 }
 
@@ -298,46 +370,53 @@ const noticeVersion = computed(() => {
   return latest ? latest.date + '-' + (latest.title || '') : ''
 })
 
-const markNoticeRead = () => {
+const borderNoticeRead = () => {
   localStorage.setItem('saved_notice_version', noticeVersion.value)
 }
 </script>
 
 <template>
-  <div class="container">
-    <div class="header-bar">
-      <!-- 左侧：logo与状态区 -->
+  <div class="layout-wrapper">
+    <div class="app-header">
       <div class="brand-status-section">
         <img src="/logo1.png" alt="Logo" class="header-logo" />
         <div class="title-container">
           <div class="title-main-info">
             <h1 class="main-title">{{ currentModeInfo.name }}</h1>
             <div class="status-row">
-              <!-- 招募模式特有状态 -->
               <span v-if="route.name === 'recruit' && viewRef" class="ocr-status-tag" :class="'status-' + engineStatus">
                 <span class="status-dot"></span>
                 {{ engineStatus === 'loading' ? '识别模块预加载中' : engineStatus === 'ready' ? '识别模块就绪' : '识别模块加载失败' }}
               </span>
-              <!-- 天赋模式特有展示 -->
               <div v-else-if="route.name === 'talent'" class="talent-header-gifs">
                 <img src="/ui/TB20011.png" class="header-gif" />
                 <img src="/ui/TB20012.png" class="header-gif" />
                 <img src="/ui/TB20013.png" class="header-gif" />
                 <img src="/ui/TB20014.png" class="header-gif" />
               </div>
-              <!-- 前缀模式特有展示 -->
               <div v-else-if="route.name === 'prefix'" class="talent-header-gifs">
                 <img src="/ui/mid_btn_duiwu_00000.png" class="header-gif" />
                 <img src="/ui/mid_btn_duiwu_10001.png" class="header-gif" />
                 <img src="/ui/mid_btn_duiwu_40001.png" class="header-gif" />
                 <img src="/ui/mid_btn_duiwu_50001.png" class="header-gif" />
               </div>
-              <!-- 莱姆模式特有展示 -->
               <div v-else-if="route.name === 'lime'" class="talent-header-gifs">
                 <img src="/limeui/LM02027.png" class="header-gif" />
                 <img src="/limeui/LM03033.png" class="header-gif" />
                 <img src="/limeui/LM02020.png" class="header-gif" />
                 <img src="/limeui/LM02016.png" class="header-gif" />
+              </div>
+              <div v-else-if="route.name === 'guide'" class="talent-header-gifs">
+                <img src="/misc/mid_btn_equip_0002.png" class="header-gif" />
+                <img src="/misc/mid_btn_equip_0003.png" class="header-gif" />
+                <img src="/misc/mid_btn_equip_0004.png" class="header-gif" />
+                <img src="/misc/mid_btn_equip_0005.png" class="header-gif" />
+              </div>
+               <div v-else-if="route.name === 'talent-manage'" class="talent-header-gifs">
+                <img src="/ui/TB40012.png" class="header-gif" />
+                <img src="/ui/TB40013.png" class="header-gif" />
+                <img src="/ui/TB40014.png" class="header-gif" />
+                <img src="/ui/TB40016.png" class="header-gif" />
               </div>
             </div>
           </div>
@@ -351,9 +430,9 @@ const markNoticeRead = () => {
             </div>
 
             <div v-if="isModeDropdownOpen" class="mode-dropdown">
-              <div 
-                v-for="mode in modes" 
-                :key="mode.id" 
+              <div
+                v-for="mode in modes"
+                :key="mode.id"
                 class="mode-dropdown-item"
                 :class="{ active: currentModeInfo.id === mode.id }"
                 @click.stop="switchMode(mode)"
@@ -365,7 +444,6 @@ const markNoticeRead = () => {
         </div>
       </div>
 
-      <!-- 右侧：操作按钮区 -->
       <div class="header-btns">
         <div class="settings-container">
           <button class="btn-icon" @click.stop="toggleSettings" title="设置">
@@ -385,7 +463,7 @@ const markNoticeRead = () => {
               <img src="/ui/feedback.svg" class="item-icon" />
               <span>反馈/建议</span>
             </div>
-            <div class="dropdown-item" @click="showNoticeModal = true; isSettingsOpen = false; markNoticeRead()">
+            <div class="dropdown-item" @click="showNoticeModal = true; isSettingsOpen = false; borderNoticeRead()">
               <img src="/ui/announcement.svg" class="item-icon" />
               <span>公告</span>
             </div>
@@ -400,6 +478,14 @@ const markNoticeRead = () => {
             <div class="dropdown-item" @click="showAboutModal = true; isSettingsOpen = false">
               <img src="/ui/we.svg" class="item-icon" />
               <span>关于我们</span>
+            </div>
+              <div class="dropdown-item" @click="exportAllData(); isSettingsOpen = false">
+              <img src="/ui/export .svg" class="item-icon" />
+              <span>导出数据</span>
+            </div>
+            <div class="dropdown-item" @click="triggerUniversalImport(); isSettingsOpen = false">
+              <img src="/ui/output.svg" class="item-icon" />
+              <span>导入数据</span>
             </div>
             <div class="dropdown-item donate-entry" @click="showDonateModal = true; isSettingsOpen = false">
               <img src="/ui/sponsor.svg" class="item-icon" />
@@ -422,15 +508,20 @@ const markNoticeRead = () => {
           <button class="btn-lime-import" @click="triggerLimeImport">导入数据</button>
           <input type="file" ref="limeFileInput" @change="handleLimeImport" accept=".json" style="display:none" />
         </template>
+        <template v-if="route.name === 'talent-manage'">
+          <button class="btn-lime-export" @click="viewRef?.exportTalentManagerData?.()">导出数据</button>
+          <button class="btn-lime-import" @click="viewRef?.triggerTalentDataImport?.()">导入数据</button>
+        </template>
+        <input type="file" ref="universalFileInput" @change="handleUniversalImport" accept=".json" style="display:none" />
       </div>
     </div>
 
-    <!-- 路由内容区域 -->
-    <router-view v-slot="{ Component }">
-      <component :is="Component" ref="viewRef" :showGifs="showGifs" :engineStatus="engineStatus" />
-    </router-view>
+    <div class="app-content">
+      <router-view v-slot="{ Component }">
+        <component :is="Component" ref="viewRef" :showGifs="showGifs" :engineStatus="engineStatus" />
+      </router-view>
+    </div>
 
-    <!-- 反馈建议弹窗 (全局) -->
     <div v-if="showFeedbackModal" class="custom-modal-overlay" @click.self="showFeedbackModal = false">
       <div class="custom-modal-card">
         <div class="modal-header">
@@ -451,13 +542,10 @@ const markNoticeRead = () => {
       </div>
     </div>
 
-    <!-- 公告弹窗 (全局) -->
-    <NoticeModal :show="showNoticeModal" @close="showNoticeModal = false; markNoticeRead()" />
+    <NoticeModal :show="showNoticeModal" @close="showNoticeModal = false; borderNoticeRead()" />
 
-    <!-- 关于我们弹窗 (全局) -->
     <AboutModal :show="showAboutModal" @close="showAboutModal = false" />
 
-    <!-- 隐私政策弹窗（App首次启动同意 / 设置页查看 两种模式） -->
     <PrivacyModal
       :show="showPrivacyModal"
       :is-first-launch="isFirstLaunchPrivacy"
@@ -469,10 +557,8 @@ const markNoticeRead = () => {
       @close="showPrivacyModal = false"
     />
 
-    <!-- 更新弹窗 (全局) -->
     <UpdateModal :show="showUpdateModal" :updateInfo="updateInfo" @close="showUpdateModal = false" />
 
-    <!-- 热更新弹窗 (全局) -->
     <HotUpdateModal
       v-if="showHotUpdate"
       :pre-checked-manifest="hotUpdateManifest"
@@ -480,7 +566,6 @@ const markNoticeRead = () => {
       @apply="onHotUpdateApplied"
     />
 
-    <!-- 赞助支持弹窗 (全局) -->
     <div v-if="showDonateModal" class="custom-modal-overlay" @click.self="showDonateModal = false">
       <div class="custom-modal-card about-modal-card">
         <div class="modal-header about-header" style="position:relative">
@@ -506,7 +591,6 @@ const markNoticeRead = () => {
       </div>
     </div>
 
-    <!-- 版本提示弹窗 (全局) -->
     <div v-if="showVersionAlert" class="custom-modal-overlay" @click.self="showVersionAlert = false">
       <div class="custom-modal-card">
         <div class="modal-header">
@@ -521,7 +605,6 @@ const markNoticeRead = () => {
       </div>
     </div>
 
-    <!-- 通用消息弹窗（替代 alert，统一风格） -->
     <div v-if="showMessageModal" class="custom-modal-overlay" @click.self="showMessageModal = false">
       <div class="custom-modal-card">
         <div class="modal-header">
@@ -538,7 +621,6 @@ const markNoticeRead = () => {
       </div>
     </div>
 
-    <!-- 回到顶部按钮 (全局) -->
     <BackToTop />
   </div>
 </template>
@@ -582,9 +664,6 @@ const markNoticeRead = () => {
   --dropdown-hover: #f1f5f9;
   --modal-overlay: rgba(15, 23, 42, 0.4);
   --icon-filter: brightness(0) saturate(100%) invert(13%) sepia(13%) saturate(3665%) hue-rotate(189deg) brightness(91%) contrast(92%);
-  --header-padding-top: 15px;
-  --status-bar-height: 0px;
-
 }
 
 .dark-mode {
@@ -614,9 +693,10 @@ body {
   color: var(--text-main);
   margin: 0;
   display: block !important;
+  overflow-x: hidden;
+  overflow-y: hidden;
   transition: background-color 0.3s, color 0.3s;
   min-height: 100vh;
-  /* 核心修复：禁用系统级回弹效果 */
   overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -625,96 +705,139 @@ body {
   max-width: none !important;
   margin: 0 !important;
   padding: 0 !important;
-  display: block !important;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-/* 套壳 WebView 安全区域 */
-html[data-app-shell="true"] {
-  background: var(--bg);
-  --header-padding-top: calc(var(--status-bar-height, 24px) + 8px);
-}
-html[data-app-shell="true"] body {
-  background: var(--bg);
-}
-html[data-app-shell="true"] #app {
-  padding-top: 0 !important;
-}
-
-.container {
+/* ===== 顶层 flex 容器 ===== */
+.layout-wrapper {
   width: 100% !important;
   max-width: 800px;
   margin: 0 auto;
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: calc(var(--header-padding-top) + 64px) 15px 15px 15px; /* 顶部留出固定栏高度 */
+  min-height: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
-.header-bar {
+/* ===== 顶栏：利用 space-between 完美将左右两端推开 ===== */
+.app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0;
-  padding: var(--header-padding-top) 15px 10px 15px;
-  height: calc(var(--header-padding-top) + 64px);
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 800px;
-  z-index: 1000;
+  padding: 10px 15px;
+  flex-shrink: 0;
   background: var(--bg);
+  position: relative;
+  z-index: 100;
+  width: 100%;
   box-sizing: border-box;
-  /* 增强固定稳定性 */
-  backface-visibility: hidden;
-  will-change: transform;
 }
 
+/* ===== 内容区 ===== */
+.app-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0 15px 15px 15px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 0;
+  overflow-x: hidden;
+}
+
+/* ===== 左侧：移除 flex: 1，添加绝对防挤压 ===== */
 .brand-status-section {
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-width: 180px;
+  gap: clamp(6px, 1.5vw, 10px);
+  min-width: 0;
+  flex-shrink: 0;
 }
 
+/* Logo 大小支持响应式缩小 */
+.header-logo {
+  width: clamp(28px, 8vw, 36px);
+  height: clamp(28px, 8vw, 36px);
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* 标题与状态彻底转为列排版，绝不横向挤压 */
+.title-main-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+/* 标题容器：变成自然的紧凑横向流，不再两端强行撑开 */
+.title-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* 主要标题：加入物理防折行，确保未到极限前不触发胡乱缩小 */
 .main-title {
   margin: 0;
   padding: 0;
   font-family: 'HarmonyOS_Bold', sans-serif;
-  font-size: 16px;
+  font-size: clamp(13px, 3.8vw, 16px);
   font-weight: 800;
   color: var(--text-main);
   white-space: nowrap;
   line-height: 1.2;
+}
 
+.status-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 18px;
+  min-width: 0;
 }
 
 .talent-header-gifs {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
+  min-width: 0;
+  flex-shrink: 1;
+  overflow: hidden;
 }
+
 .header-gif {
-  height: 20px;
+  height: clamp(14px, 4.5vw, 18px);
   width: auto;
   object-fit: contain;
 }
+
+/* 状态标签字体及 Padding 自适应 */
 .ocr-status-tag {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  padding: 1px 6px;
+  gap: 4px;
+  font-size: clamp(9px, 2.8vw, 11px);
+  padding: 1px clamp(3px, 1vw, 6px);
   border-radius: 4px;
   font-weight: 600;
   transition: all 0.3s ease;
-  margin-left: -6px;
+  white-space: nowrap;
 }
 
 .ocr-status-tag .status-dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -759,11 +882,20 @@ html[data-app-shell="true"] #app {
   50% { opacity: 1; }
 }
 
+/* ===== 右侧：操作按钮容器添加防挤压 ===== */
 .header-btns {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
+  gap: 6px;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.header-btns button {
+  font-size: clamp(11px, 2.8vw, 13px) !important;
+  padding: 6px clamp(4px, 1.2vw, 8px) !important;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .settings-container {
@@ -775,7 +907,7 @@ html[data-app-shell="true"] #app {
 .btn-icon {
   background: none;
   border: none;
-  padding: 6px;
+  padding: 0;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -808,14 +940,8 @@ html[data-app-shell="true"] #app {
   overflow: hidden;
 }
 
-.settings-dropdown {
-  right: 0;
-}
-
-.mode-dropdown {
-  left: 0;
-  min-width: 120px;
-}
+.settings-dropdown { right: 0; }
+.mode-dropdown { left: 0; min-width: 120px; }
 
 .dropdown-item, .mode-dropdown-item {
   display: flex;
@@ -828,187 +954,106 @@ html[data-app-shell="true"] #app {
   gap: 10px;
 }
 
-.dropdown-item:hover, .mode-dropdown-item:hover {
-  background-color: var(--dropdown-hover);
-}
-
-.mode-dropdown-item.active {
-  color: var(--primary);
-  font-weight: 600;
-  background: rgba(59, 130, 246, 0.05);
-}
-
-.dark-mode .mode-dropdown-item.active {
-  background: rgba(59, 130, 246, 0.15);
-}
-
-.item-icon {
-  width: 22px;
-  height: 22px;
-  filter: var(--icon-filter);
-}
+.dropdown-item:hover, .mode-dropdown-item:hover { background-color: var(--dropdown-hover); }
+.mode-dropdown-item.active { color: var(--primary); font-weight: 600; background: rgba(59, 130, 246, 0.05); }
+.dark-mode .mode-dropdown-item.active { background: rgba(59, 130, 246, 0.15); }
+.item-icon { width: 22px; height: 22px; filter: var(--icon-filter); }
 
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.header-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
 .btn-reset, .btn-upload {
-  padding: 6px 8px;
+  padding: 8px 14px;
+  font-size: clamp(13px, 2.8vw, 14px);
+  font-family: inherit;
+  line-height: 1.4;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 13px;
   white-space: nowrap;
   flex-shrink: 0;
 }
-
 .btn-reset { background: #ef4444; }
 .btn-upload { background: var(--success); }
 .btn-upload:disabled { background: #94a3b8; cursor: not-allowed; }
 
 .btn-lime-export, .btn-lime-import {
-  padding: 8px 6px;
-  font-size: 12px;
+  padding: 6px 8px;
+  font-size: clamp(11px, 2.5vw, 12px);
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   white-space: nowrap;
-  flex-shrink: 0;
   font-family: inherit;
 }
 .btn-lime-export { background: #3b82f6; }
 .btn-lime-import { background: #10b981; }
 .btn-lime-export:hover, .btn-lime-import:hover { filter: brightness(1.1); }
 
-.custom-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: var(--modal-overlay);
-  backdrop-filter: blur(4px);
+/* ===== 右侧模式切换盒子 ===== */
+.mode-switcher-container {
+  position: relative;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  z-index: 9999;
-  animation: fadeIn 0.2s ease-out;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 2px 4px;
 }
-
-.custom-modal-card {
-  background: var(--card-bg);
-  width: 90%;
-  max-width: 400px;
-  border-radius: 16px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border: 1px solid var(--border-color);
+.mode-switcher-text-row { height: 16px; display: flex; align-items: center; justify-content: center; }
+.mode-switcher-arrow-row { height: 12px; display: flex; align-items: center; justify-content: center; }
+.mode-switcher-text {
+  font-family: 'HarmonyOS_Bold', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-main);
+  border: 1px solid currentColor;
+  padding: 0px 3px;
+  border-radius: 3px;
+  white-space: nowrap;
 }
+.mode-switcher-arrow { width: 11px; height: 11px; filter: var(--icon-filter); transition: transform 0.2s; transform: rotate(180deg); cursor: pointer; }
+.mode-switcher-arrow.is-open { transform: rotate(0deg); }
 
+/* 下方其余模态框与组件样式保持不变 */
+.custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-overlay); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 9999; animation: fadeIn 0.2s ease-out; }
+.custom-modal-card { background: var(--card-bg); width: 90%; max-width: 400px; border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); overflow: hidden; animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); border: 1px solid var(--border-color); }
 .modal-header { padding: 16px 20px 10px 20px; border-bottom: 1px solid var(--border-color); text-align: center; }
 .modal-header h3 { margin: 0; font-size: 14px; color: var(--text-sub); font-weight: 500; }
-
 .modal-body { padding: 24px 20px; text-align: center; }
 .modal-title-text { margin: 0 0 6px 0; font-size: 20px; font-weight: bold; color: var(--success); }
-.modal-sub-text { margin: 0 0 16px 0; font-size: 13px; color: var(--text-sub); }
-
 .modal-footer { padding: 12px 20px 20px 20px; display: flex; justify-content: center; }
 .modal-btn-confirm { padding: 10px 40px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
-
 .feedback-body { text-align: left; padding: 20px 24px; }
 .feedback-content p { margin: 12px 0; font-size: 14px; }
 .feedback-content a { color: var(--primary); font-weight: bold; }
 .feedback-content .hint-text { font-size: 12px; color: var(--text-sub); margin-top: 20px; background: var(--bg); padding: 10px; border-radius: 8px; }
-
+html:not([data-app-shell="true"]) .app-only { display: none !important; }
+.donate-entry { border-top: 1px solid rgba(0, 0, 0, 0.06); margin-top: 4px; }
+.modal-close-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 18px; color: var(--text-sub); cursor: pointer; padding: 4px 8px; z-index: 2; }
+.modal-close-btn:hover { color: var(--text-main); }
+.about-modal-card { max-width: 450px; max-height: 90vh; overflow-y: auto; }
+.donate-body { padding: 30px 20px !important; }
+.donate-hint { font-size: 14px; color: var(--text-sub); margin-bottom: 20px; }
+.donate-qrs { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+.qr-item { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.qr-item img { width: 240px; height: auto; border-radius: 8px; border: 1px solid var(--border-color); padding: 4px; background: white; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+.qr-item span { font-size: 13px; font-weight: 500; color: var(--text-main); }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-/* 模式切换器 */
-.title-container { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex: 1; }
-.title-main-info { display: flex; flex-direction: column; gap: 2px; }
-.status-row { display: flex; align-items: center; width: 100%; height: 20px; }
-.mode-switcher-container { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; margin-left: auto; }
-.mode-switcher-text-row { height: 20px; display: flex; align-items: center; justify-content: center; }
-.mode-switcher-arrow-row { height: 20px; display: flex; align-items: center; justify-content: center; }
-.mode-switcher-text { font-family: 'HarmonyOS_Bold', sans-serif; font-size: 10px; font-weight: 800; color: var(--text-main); border: 1px solid #000; padding: 1px 4px; border-radius: 3px; white-space: nowrap; }
-.dark-mode .mode-switcher-text { border-color: #f8fafc; }
-.mode-switcher-arrow { width: 12px; height: 12px; filter: var(--icon-filter); transition: transform 0.2s; transform: rotate(180deg); cursor: pointer; }
-.mode-switcher-arrow.is-open { transform: rotate(0deg); }
-
-html:not([data-app-shell="true"]) .app-only { display: none !important; }
-
-/* 赞助支持入口分割线 */
-.donate-entry {
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  margin-top: 4px;
-}
-
-/* 赞助支持弹窗 */
-.modal-close-btn {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  font-size: 18px;
-  color: var(--text-sub);
-  cursor: pointer;
-  padding: 4px 8px;
-  z-index: 2;
-}
-.modal-close-btn:hover {
-  color: var(--text-main);
-}
-.about-modal-card {
-  max-width: 450px;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-.donate-body {
-  padding: 30px 20px !important;
-}
-.donate-hint {
-  font-size: 14px;
-  color: var(--text-sub);
-  margin-bottom: 20px;
-}
-.donate-qrs {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-}
-.qr-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-.qr-item img {
-  width: 240px;
-  height: auto;
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-  padding: 4px;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-.qr-item span {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-main);
+@media (max-width: 480px) {
+  .app-header { padding: 4px 15px 8px 15px; }
+  .header-logo { width: 32px; height: 32px; }
+  .main-title { font-size: clamp(11px, 3vw, 14px); }
+  .btn-icon img { width: 20px; height: 20px; }
+  .btn-lime-export, .btn-lime-import { padding: 5px 6px; font-size: 11px; }
+  .header-gif { height: 16px; }
+  .ocr-status-tag { font-size: 10px; padding: 1px 4px; }
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div class="talent-container">
-    <div class="talent-search-wrapper">
+    <div class="talent-sticky-top">
+      <!-- 顶部栏: 搜索框 -->
       <div class="talent-search-box">
         <img src="/ui/search.svg" class="search-icon" />
         <input
@@ -11,26 +12,35 @@
           class="talent-search-input"
         />
       </div>
-
-      <div v-if="selectedCharacter" class="selected-char-bar">
-        <button class="clear-char-btn" @click="clearSelectedCharacter">
-          清除绑定: {{ selectedCharacter.角色名 }} ✕
-        </button>
+      <div class="talent-sub-header">
+        <span class="talent-hint-text">可通过空格，中英文，进行多次搜索，例：热血，恐怖</span>
       </div>
+      <!-- 搜索区域: 角色绑定/建议 -->
+      <div class="talent-suggest-area">
+        <div v-if="selectedCharacter" class="selected-char-bar">
+          <button class="clear-char-btn" @click="clearSelectedCharacter">
+            清除绑定: {{ selectedCharacter.角色名 }} ✕
+          </button>
+        </div>
 
-      <div v-if="suggestedCharacters.length > 0 && !selectedCharacter" class="char-suggest-bar">
-        <span class="suggest-title">是否查找角色：</span>
-        <div class="suggest-tags-list">
-          <span
-            v-for="char in suggestedCharacters"
-            :key="char.角色名"
-            :class="['suggest-char-tag', `wish-rarity-color-${char.稀有度}`]"
-            @click="selectCharacter(char)"
-          >
-            {{ char.角色名 }}
-          </span>
+        <div v-if="suggestedCharacters.length > 0 && !selectedCharacter" class="char-suggest-bar">
+          <div class="suggest-header" @click="toggleSuggestExpand">
+            <span class="suggest-title">是否查找角色：</span>
+            <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !suggestExpanded }" />
+          </div>
+          <div v-if="suggestExpanded" class="suggest-tags-list">
+            <span
+              v-for="char in suggestedCharacters"
+              :key="char.角色名"
+              :class="['suggest-char-tag', `wish-rarity-color-${char.稀有度}`]"
+              @click="selectCharacter(char)"
+            >
+              {{ char.角色名 }}
+            </span>
+          </div>
         </div>
       </div>
+
     </div>
 
     <div class="talent-list">
@@ -517,21 +527,20 @@ const getMatchedHeros = (item) => {
   })
 }
 
+const suggestExpanded = ref(true)
+const toggleSuggestExpand = () => {
+  suggestExpanded.value = !suggestExpanded.value
+}
+
 const suggestedCharacters = computed(() => {
   const q = searchQuery.value.trim().toLowerCase()
   if (!q) return []
 
+  // 只按角色名匹配，不影响下面的天赋搜索
   return characters.filter(c => {
     const charName = (c.角色名 || '').toLowerCase()
-    const job = (c.职业 || '').toLowerCase()
-    const race = (c.种族 || '').toLowerCase()
-    const subRace = (c.细分种族 || '').toLowerCase()
-
-    return charName.includes(q) ||
-           job.includes(q) ||
-           race.includes(q) ||
-           subRace.includes(q) ||
-           q.split('').every(char => charName.includes(char) || job.includes(char))
+    // 完整子串匹配 + 逐字匹配（"星射" → 匹配"星灵射手"）
+    return charName.includes(q) || q.split('').every(ch => charName.includes(ch))
   })
 })
 
@@ -588,13 +597,12 @@ const sortedTalents = computed(() => {
     return [...talents].sort((a, b) => (a.优先级 || 99) - (b.优先级 || 99))
   }
 
-  const queryStr = q.toLowerCase()
+  // 支持多词搜索：按空格、逗号、中文逗号分割，所有关键词都必须匹配
+  const keywords = q.toLowerCase().split(/[\s,，]+/).filter(Boolean)
   const filtered = talents.filter(t => {
-    return (t.一级类目 || '').toLowerCase().includes(queryStr) ||
-           (t.二级类目 || '').toLowerCase().includes(queryStr) ||
-           (t.天赋名称 || '').toLowerCase().includes(queryStr) ||
-           (t.天赋效果 || '').toLowerCase().includes(queryStr) ||
-           (t.备注 || '').toLowerCase().includes(queryStr)
+    const fields = [(t.一级类目 || '').toLowerCase(), (t.二级类目 || '').toLowerCase(),
+                    (t.天赋名称 || '').toLowerCase(), (t.天赋效果 || '').toLowerCase()]
+    return keywords.some(kw => fields.some(f => f.includes(kw)))
   })
 
   return filtered.sort((a, b) => (a.优先级 || 99) - (b.优先级 || 99))
@@ -679,22 +687,20 @@ const getTypeTag = (t) => {
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
 
-.talent-search-wrapper {
-  background: var(--bg);
-  padding: 10px 0;
-  margin-bottom: 0;
-  box-sizing: border-box;
+.talent-sticky-top {
+  flex-shrink: 0;
   position: sticky;
-  top: calc(var(--header-padding-top) + 64px);
+  top: 0;
   z-index: 999;
-  width: 100%;
-}
-
-.talent-search-wrapper::before,
-.talent-search-wrapper::after {
-  content: none;
+  background: var(--bg);
+  padding-bottom: 10px;
 }
 
 .talent-search-box {
@@ -707,7 +713,13 @@ const getTypeTag = (t) => {
   gap: 0;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
   transition: border-color 0.2s ease;
+  flex-shrink: 0;
 }
+
+.talent-suggest-area {
+  flex-shrink: 0;
+}
+
 .talent-search-box:focus-within {
   border-color: #409eff;
 }
@@ -753,19 +765,34 @@ const getTypeTag = (t) => {
 }
 
 .char-suggest-bar {
-  display: flex;
-  align-items: center;
   font-size: 13px;
   padding: 8px 4px 0 4px;
 }
+.suggest-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
 .suggest-title {
   color: var(--text-sub);
+}
+.suggest-header .collapse-icon {
+  width: 14px;
+  height: 14px;
+  filter: var(--icon-filter);
+  transition: transform 0.25s ease;
   flex-shrink: 0;
+}
+.suggest-header .collapse-icon.collapsed {
+  transform: rotate(180deg);
 }
 .suggest-tags-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: 8px;
 }
 .suggest-char-tag {
   background: #e0f2fe;
@@ -786,6 +813,7 @@ const getTypeTag = (t) => {
   flex-direction: column;
   gap: 14px;
   padding: 0;
+  flex: 1;
 }
 
 .talent-card {
@@ -1315,9 +1343,6 @@ const getTypeTag = (t) => {
 .dark-mode .talent-effect {
   background: rgba(64, 158, 255, 0.08);
 }
-.dark-mode .talent-search-wrapper {
-  background: var(--bg);
-}
 .dark-mode .talent-search-box {
   border-color: rgba(255, 255, 255, 0.1);
 }
@@ -1435,4 +1460,6 @@ const getTypeTag = (t) => {
   color: #fdba74;
   border-color: rgba(234, 88, 12, 0.3);
 }
+.talent-sub-header { text-align: center;  flex-shrink: 0; }
+.talent-hint-text {   text-align: center; font-size: 12px; color: var(--text-sub); opacity: 0.8; }
 </style>

@@ -69,6 +69,11 @@ export const checkHotUpdate = async () => {
 
     if (compareVersions(manifest.version, currentVer) > 0) {
       manifest._currentVer = currentVer
+      // 检查大版本号（前3段）是否一致：不一致则不能热更，需要升级APK
+      const curParts = currentVer.split('.').map(Number)
+      const newParts = manifest.version.replace('v', '').split('.').map(Number)
+      const baseMatch = curParts[0] === newParts[0] && curParts[1] === newParts[1] && curParts[2] === newParts[2]
+      manifest._needsApkUpdate = !baseMatch
       return manifest
     }
     return null

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>角色数据工具测试</title>
+</head>
+<body>
+  <h3>角色数据查询测试</h3>
+  <p id="loadTip" style="color: #666;">正在加载数据...</p>
+  <div>
+    <input type="text" id="roleName" value="星界守卫" placeholder="输入角色名称">
+    <button onclick="searchRole()" id="searchBtn" disabled>查询</button>
+  </div>
+  <br>
+  <pre id="result" style="background:#f5f5f5;padding:10px;white-space: pre-wrap;max-height: 85vh;overflow: auto;"></pre>
+
+  <script>
+    // ==============================================
+    // 1. 底层通用工具函数
+    // ==============================================
+    function splitIdName(str = '') {
+      if (!str) return { id: '', name: '' }
+      const [id, name = ''] = str.split(',')
+      return { id: id.trim(), name: name.trim() }
+    }
+
+    function isAlienRole(roleId = '') {
+      return roleId.includes('_')
+    }
+
+    function formatRoleDisplayName(name = '', skinName = '') {
+      return skinName ? `[${skinName}]${name}` : name
+    }
+
+    function createMapById(list = [], keyField = 'IDs') {
+      const map = new Map()
+      list.forEach(item => {
+        if (item[keyField]) map.set(item[keyField], item)
+      })
+      return map
+    }
+
+    function extractDataArray(jsonData) {
+      if (Array.isArray(jsonData)) return jsonData
+      if (jsonData.DataTable && Array.isArray(jsonData.DataTable)) return jsonData.DataTable
+      console.warn('数据格式不兼容，返回空数组', jsonData)
+      return []
+    }
+
+    function replacePlaceholders(text = '', values = []) {
+      return text.replace(/\{(\d+)\}/g, (match, idx) => {
+        const num = Number(idx)
+        return values[num] !== undefined ? values[num] : match
+      })
+    }
+
+    // ==============================================
+    // 2. 业务组装函数
+    // ==============================================
+    function buildBaseInfo(raw = {}) {
+      const raceInfo = splitIdName(raw.Race)
+      const normalAttackInfo = splitIdName(raw.NormalAttack)
+      const displayName = formatRoleDisplayName(raw.Name, raw.SkinName)
+      const tags = [
+        raw.Type ?? '',
+        raw.Class ?? '',
+        raw.Element ?? '',
+        raw.Map ?? ''
+      ].filter(Boolean)
+
+      return {
+        id: raw.IDs ?? '',
+        name: raw.Name ?? '未知角色',
+        displayName,
+        skinName: raw.SkinName ?? '',
+        isAlien: isAlienRole(raw.IDs),
+        step: raw.Step ?? '',
+        type: raw.Type ?? '',
+        class: raw.Class ?? '',
+        element: raw.Element ?? '',
+        map: raw.Map ?? '',
+        race: raceInfo,
+        normalAttack: normalAttackInfo,
+        source: raw.Source ?? '',
+        background: raw.Background ?? '',
+        characterRole: raw.CharacterRole ?? '',
+        tags,
+        filterTags: raw.FilterTags ? raw.FilterTags.split(',') : []
+      }
+    }
+
+    function buildSupportSkills(raw = {}, supportMap = new Map()) {
+      const characteristicInfo = splitIdName(raw.Characteristic)
+      const subClassInfo = splitIdName(raw.SubClass)
+      const featureInfo = splitIdName(raw.Feature)
+      const starMap = { '性格': 3, '称号': 4, '特性': 5 }
+
+      const fillSkillData = (info, type) => {
+        const rawSkill = supportMap.get(info.id) || {}
+        const valueList = [rawSkill.Value0, rawSkill.Value1, rawSkill.Value2]
+        return {
+          id: info.id,
+          name: info.name || rawSkill.Name || '',
+          type,
+          star: starMap[type] || 0,
+          icon: rawSkill.Icon ?? '',
+          description: rawSkill.Description ?? '',
+          formattedDesc: replacePlaceholders(rawSkill.Description, valueList),
+          value0: rawSkill.Value0 ?? 0,
+          value1: rawSkill.Value1 ?? 0,
+          value2: rawSkill.Value2 ?? 0,
+          filterTags: rawSkill.FilterTags ? rawSkill.FilterTags.split(',') : []
+        }
+      }
+
+      return {
+        characteristic: fillSkillData(characteristicInfo, '性格'),
+        subClass: fillSkillData(subClassInfo, '称号'),
+        feature: fillSkillData(featureInfo, '特性')
+      }
+    }
+
+    function buildActiveSkills(roleId = '', skillList = []) {
+      return skillList
+        .filter(skill => skill.IDs === roleId)
+        .map(skill => {
+          const valueList = []
+          valueList[2] = skill.Value
+          valueList[4] = skill.ExtraValue1
+          valueList[5] = skill.ExtraValue2
+          valueList[6] = skill.ExtraValue3
+
+          return {
+            id: skill.IDs ?? '',
+            owner: skill.Owner ?? '',
+            name: skill.Name ?? '',
+            skillType: skill.SkillType ?? '',
+            actionType: skill.ActionType ?? '',
+            targetType: skill.TargetType ?? '',
+            target: skill.Target ?? '',
+            maxTarget: skill.MaxTarget ?? 0,
+            times: skill.Times ?? 1,
+            value: skill.Value ?? 0,
+            extraValue1: skill.ExtraValue1 ?? 0,
+            extraValue2: skill.ExtraValue2 ?? 0,
+            extraValue3: skill.ExtraValue3 ?? 0,
+            description: skill.Description ?? '',
+            formattedDesc: replacePlaceholders(skill.Description, valueList),
+            icon: skill.Icon ?? '',
+            isFullScreen: !!skill.FullScreen,
+            isMove: !!skill.Move,
+            positiveTags: skill.PositiveTags ? skill.PositiveTags.split(',') : [],
+            negativeTags: skill.NegativeTags ? skill.NegativeTags.split(',') : []
+          }
+        })
+    }
+
+    function buildTalents(baseInfo = {}, talentList = []) {
+      const result = {
+        exclusive: [],
+        race: [],
+        class: [],
+        element: [],
+        common: []
+      }
+
+      talentList.forEach(talent => {
+        const valueList = [talent.Value0, talent.Value1, talent.Value2]
+        talent.formattedEffect = replacePlaceholders(talent.Effect, valueList)
+
+        if (talent.SpecifyRoleIDs === baseInfo.id) {
+          result.exclusive.push(talent)
+          return
+        }
+        if (talent.SpecifyRoleIDs) return
+        if (talent.Race && talent.Race === baseInfo.race.name) {
+          result.race.push(talent)
+        }
+        if (talent.Class && talent.Class === baseInfo.class) {
+          result.class.push(talent)
+        }
+        if (talent.Element && talent.Element === baseInfo.element) {
+          result.element.push(talent)
+        }
+        if (!talent.Race && !talent.Class && !talent.Element) {
+          result.common.push(talent)
+        }
+      })
+
+      return result
+    }
+
+    function buildRelics(roleId = '', relicList = []) {
+      return relicList.filter(relic => relic.SpecifyRoleIDs === roleId)
+    }
+
+    function buildNotes(roleId = '', noteList = []) {
+      return noteList.filter(note => note.SpecifyRoleIDs === roleId)
+    }
+
+    // ==============================================
+    // 3. 对外主接口
+    // ==============================================
+    function getFullCharacter(rawRole = {}, datasets = {}) {
+      const {
+        supportList = [],
+        skillList = [],
+        talentList = [],
+        relicList = [],
+        noteList = []
+      } = datasets
+
+      const supportMap = createMapById(supportList)
+      const baseInfo = buildBaseInfo(rawRole)
+
+      return {
+        ...baseInfo,
+        supportSkills: buildSupportSkills(rawRole, supportMap),
+        activeSkills: buildActiveSkills(baseInfo.id, skillList),
+        talents: buildTalents(baseInfo, talentList),
+        relics: buildRelics(baseInfo.id, relicList),
+        notes: buildNotes(baseInfo.id, noteList)
+      }
+    }
+
+    function getFullCharacterList(rawRoleList = [], datasets = {}) {
+      const supportMap = createMapById(datasets.supportList || [])
+      const skillList = datasets.skillList || []
+      const talentList = datasets.talentList || []
+      const relicList = datasets.relicList || []
+      const noteList = datasets.noteList || []
+
+      return rawRoleList.map(rawRole => {
+        const baseInfo = buildBaseInfo(rawRole)
+        return {
+          ...baseInfo,
+          supportSkills: buildSupportSkills(rawRole, supportMap),
+          activeSkills: buildActiveSkills(baseInfo.id, skillList),
+          talents: buildTalents(baseInfo, talentList),
+          relics: buildRelics(baseInfo.id, relicList),
+          notes: buildNotes(baseInfo.id, noteList)
+        }
+      })
+    }
+
+    function getCharacterById(roleId = '', rawRoleList = [], datasets = {}) {
+      const raw = rawRoleList.find(item => item.IDs === roleId)
+      return raw ? getFullCharacter(raw, datasets) : null
+    }
+
+    function getCharacterByName(name = '', rawRoleList = [], datasets = {}, fuzzy = false) {
+      if (!name) return null
+
+      const raw = rawRoleList.find(item => {
+        const hasSkin = !!item.SkinName
+        const displayName = formatRoleDisplayName(item.Name, item.SkinName)
+
+        if (fuzzy) {
+          return item.Name?.includes(name) || displayName.includes(name)
+        }
+        if (hasSkin) {
+          return displayName === name
+        } else {
+          return item.Name === name
+        }
+      })
+
+      return raw ? getFullCharacter(raw, datasets) : null
+    }
+
+    function searchCharactersByName(keyword = '', rawRoleList = [], datasets = {}) {
+      if (!keyword) return []
+
+      const matchedRaw = rawRoleList.filter(item => {
+        const displayName = formatRoleDisplayName(item.Name, item.SkinName)
+        return item.Name?.includes(keyword) || displayName.includes(keyword)
+      })
+
+      return matchedRaw.map(raw => getFullCharacter(raw, datasets))
+    }
+
+    // ==============================================
+    // 4. 页面数据加载与交互
+    // ==============================================
+    let rawRoleList = []
+    let datasets = {}
+
+    async function loadJSON(path) {
+      const res = await fetch(path)
+      if (!res.ok) throw new Error(`加载失败: ${path}`)
+      return res.json()
+    }
+
+    // 兜底测试数据
+    function getFallbackData() {
+      const roles = [
+        {
+          "IDs": "M51201", "Name": "星界守卫", "Step": "A", "Type": "神灵",
+          "Class": "战士", "Element": "暗系", "Map": "星界",
+          "Race": "BD20015,神族", "NormalAttack": "BD30001,普通攻击",
+          "Characteristic": "BD10431,忍耐", "SubClass": "BD51016,复仇者",
+          "Feature": "BD40931,群星祝福", "SkinName": "",
+          "FilterTags": "反击输出,技能治疗"
+        },
+        {
+          "IDs": "M51201_001", "Name": "星界守卫", "Step": "A", "Type": "神灵",
+          "Class": "战士", "Element": "水系", "Map": "雪原",
+          "Race": "BD20015,神族", "NormalAttack": "BD30001,普通攻击",
+          "Characteristic": "BD10431_001,忍耐", "SubClass": "BD51043,凛冽者",
+          "Feature": "BD40931_001,极寒祝福", "SkinName": "极寒",
+          "FilterTags": "反击输出,冰冷,技能治疗"
+        }
+      ]
+      const support = [
+        { "IDs": "BD10431", "Name": "忍耐", "Type": "性格", "Value0": 3,
+          "Description": "【反击】受到攻击后使自身下次反击伤害+{0}。" },
+        { "IDs": "BD10431_001", "Name": "忍耐", "Type": "性格", "Value0": 4,
+          "Description": "【反击】造成冰冷后使自身下次反击伤害+{0}。" },
+        { "IDs": "BD51016", "Name": "复仇者", "Type": "称号", "Value0": 8,
+          "Description": "【反击】造成反击伤害+{0}。" },
+        { "IDs": "BD51043", "Name": "凛冽者", "Type": "称号", "Value0": 2,
+          "Description": "【减益】受到攻击后对目标造成{0}层冰冷。" },
+        { "IDs": "BD40931", "Name": "群星祝福", "Type": "特性", "Value0": 3,
+          "Description": "【反击】进行反击后使自身获得{0}点魔力。" },
+        { "IDs": "BD40931_001", "Name": "极寒祝福", "Type": "特性", "Value0": 8,
+          "Description": "【反击】进行反击后对目标造成{0}层冰冷。" }
+      ]
+      const skills = [
+        {
+          "IDs": "M51201", "Name": "星界守护", "SkillType": "辅助",
+          "ActionType": "生命恢复", "Value": 12, "ExtraValue1": 1,
+          "Description": "星界守卫操纵星界之力环绕自身，使自身恢复{2}点生命，并使自身反击距离+{4}。"
+        }
+      ]
+      const talents = [
+        { "IDs": "TF00001", "Name": "星界反噬", "Value0": 8,
+          "Effect": "进行反击后每次反击对目标造成{0}层恐惧。",
+          "SpecifyRoleIDs": "M51201", "Race": "", "Class": "", "Element": "" },
+        { "IDs": "TF00002", "Name": "极寒反噬", "Value0": 2,
+          "Effect": "对冰冷目标造成反击次数+{0}。",
+          "SpecifyRoleIDs": "M51201_001", "Race": "", "Class": "", "Element": "" },
+        { "IDs": "TF10101_001", "Name": "护卫大师", "Value0": 1,
+          "Effect": "友方全体目标受到全部伤害-{0}。",
+          "SpecifyRoleIDs": "", "Race": "", "Class": "战士", "Element": "" },
+        { "IDs": "TF14201_001", "Name": "永恒生命", "Value0": 5, "Value1": 20, "Value2": 1,
+          "Effect": "生命+{0}，每{1}级使自身生命+{2}。",
+          "SpecifyRoleIDs": "", "Race": "神族", "Class": "", "Element": "" },
+        { "IDs": "TF10008_001", "Name": "好运连连", "Value0": 2, "Value1": 50,
+          "Effect": "幸运+{0}，幸运不低于{1}点时效果翻倍。",
+          "SpecifyRoleIDs": "", "Race": "", "Class": "", "Element": "" }
+      ]
+      const relics = [
+        { "IDs": "XD13001_001", "Name": "星门坐标", "SpecifyRoleIDs": "M51201", "Effect": "造成反击伤害+1。" },
+        { "IDs": "XD13001_053", "Name": "极寒坐标", "SpecifyRoleIDs": "M51201_001", "Effect": "造成冰冷层数+1。" }
+      ]
+      return { roles, support, skills, talents, relics }
+    }
+
+    async function initData() {
+      const tipEl = document.getElementById('loadTip')
+      const btnEl = document.getElementById('searchBtn')
+      const resultEl = document.getElementById('result')
+
+      try {
+        const [roleJson, skillJson, talentJson, subSkillJson, relicJson] = await Promise.all([
+          loadJSON('./src/assets/RoleDataTable.json'),
+          loadJSON('./src/assets/UniqueDataTable.json'),
+          loadJSON('./src/assets/TalentDataTable.json'),
+          loadJSON('./src/assets/SubSkillDataTable.json'),
+          loadJSON('./src/assets/RelicsDataTable.json')
+        ])
+
+        rawRoleList = extractDataArray(roleJson)
+        datasets = {
+          supportList: extractDataArray(subSkillJson),
+          skillList: extractDataArray(skillJson),
+          talentList: extractDataArray(talentJson),
+          relicList: extractDataArray(relicJson)
+        }
+
+        tipEl.textContent = `✅ 数据加载完成，共 ${rawRoleList.length} 个角色`
+        btnEl.disabled = false
+        searchRole()
+      } catch (err) {
+        console.warn('外部JSON加载失败，使用内置测试数据', err)
+        const fb = getFallbackData()
+        rawRoleList = fb.roles
+        datasets = {
+          supportList: fb.support,
+          skillList: fb.skills,
+          talentList: fb.talents,
+          relicList: fb.relics
+        }
+
+        tipEl.textContent = '⚠️ 外部JSON加载失败，已使用内置测试数据。请用Live Server打开并确认路径。'
+        btnEl.disabled = false
+        searchRole()
+      }
+    }
+
+    function searchRole() {
+      const name = document.getElementById('roleName').value.trim()
+      const resultEl = document.getElementById('result')
+
+      if (!name) {
+        resultEl.textContent = '请输入角色名称'
+        return
+      }
+
+      const data = getCharacterByName(name, rawRoleList, datasets)
+      if (!data) {
+        resultEl.textContent = '未找到该角色\n\n测试输入：\n本体：星界守卫\n异化：[极寒]星界守卫'
+        return
+      }
+
+      resultEl.textContent = JSON.stringify(data, null, 2)
+    }
+
+    window.onload = initData
+  </script>
+</body>
+</html>

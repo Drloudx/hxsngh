@@ -1,6 +1,7 @@
 <template>
   <div class="talent-container" :style="colorPaletteVars">
-    <div class="talent-search-wrapper">
+    <div class="talent-sticky-top">
+      <!-- 顶部栏: 搜索框 -->
       <div class="talent-search-box">
         <img src="/ui/search.svg" class="search-icon" />
         <input
@@ -11,7 +12,7 @@
         />
       </div>
 
-      <!-- 统一的筛选卡片 -->
+      <!-- 搜索区域: 出现区域筛选 -->
       <div class="name-tags-section">
         <!-- 第一行：状态筛选按钮 + 数量统计 + 展开收起箭头 -->
         <div class="status-filter-row">
@@ -334,20 +335,23 @@ const closeDetailModal = () => {
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
 
-/* ===== 搜索栏组件 ===== */
-.talent-search-wrapper {
-  background: var(--bg);
-  padding: 10px 0;
-  margin-bottom: 0;
-  box-sizing: border-box;
+.talent-sticky-top {
+  flex-shrink: 0;
   position: sticky;
-  top: calc(var(--header-padding-top) + 64px);
+  top: 0;
   z-index: 999;
-  width: 100%;
+  background: var(--bg);
+  padding-bottom: 10px;
 }
 
+/* ===== 搜索框 ===== */
 .talent-search-box {
   display: flex;
   align-items: center;
@@ -357,6 +361,11 @@ const closeDetailModal = () => {
   padding: 10px 14px;
   gap: 0;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.2s ease;
+  flex-shrink: 0;
+}
+.talent-search-box:focus-within {
+  border-color: #409eff;
 }
 
 .search-icon {
@@ -375,6 +384,7 @@ const closeDetailModal = () => {
   background: transparent;
   font-size: 15px;
   color: var(--text-main);
+  font-family: inherit;
 }
 
 /* ===== 筛选面板卡片统一配置 ===== */
@@ -385,6 +395,7 @@ const closeDetailModal = () => {
   border-radius: 12px;
   padding: 12px 14px;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
 }
 
 /* 第一行：状态组与右侧区域布局 */
@@ -526,7 +537,7 @@ const closeDetailModal = () => {
   grid-template-columns: repeat(4, 1fr);
   gap: 16px 12px;
   width: 100%;
-  padding-top: 14px;
+  flex: 1;
 }
 
 .lime-grid-card {

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>天赋数据完整列表查询器（上传JSON版）</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* 品质标签样式 */
+.step-tag {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  margin-right: 8px;
+}
+/* 分组卡片 */
+.group-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+.group-title {
+  font-size: 18px;
+  font-weight: bold;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+.talent-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+.talent-name-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.effect-original {
+  font-size: 13px;
+  color: #666;
+  margin: 4px 0;
+}
+.effect-format {
+  font-size: 14px;
+  color: #16a34a;
+}
+.val-row {
+  font-size: 12px;
+  color: #777;
+  margin-top: 4px;
+}
+.file-box {
+  border: 2px dashed #ccc;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+</style>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-2xl md:text-3xl font-bold text-center mb-6 text-gray-900">全量天赋纵向列表查询器</h1>
+
+  <!-- 文件上传区域 -->
+  <div class="bg-white rounded-lg shadow p-4 mb-6">
+    <h2 class="font-bold mb-3">1. 上传 TalentDataTable.json 文件（双击html直接打开，无404跨域问题）</h2>
+    <div class="file-box">
+      <label class="block mb-2 font-medium">选择 TalentDataTable.json</label>
+      <input type="file" accept=".json" id="fileTalent">
+    </div>
+    <div class="mt-3 flex gap-3 items-center">
+      <button id="parseBtn" class="bg-green-600 text-white px-4 py-2 rounded" disabled>加载并渲染全部天赋</button>
+      <span id="loadTip" class="text-sm"></span>
+    </div>
+  </div>
+
+  <!-- 顶部统计栏 -->
+  <div class="bg-white rounded-lg shadow p-4 mb-6 hidden" id="statWrap">
+    <div class="text-xl font-bold mb-2">天赋总数：<span id="totalNum">0</span></div>
+    <div class="flex flex-wrap gap-4 text-sm text-gray-600" id="groupCountBox"></div>
+    <div class="flex gap-3 mt-4">
+      <button id="showAllBtn" class="bg-blue-600 text-white px-4 py-2 rounded">展示全部品质（S/A/B/C）</button>
+      <button id="showTopBtn" class="bg-emerald-500 text-white px-4 py-2 rounded">仅展示同名最高品质</button>
+    </div>
+  </div>
+
+  <!-- 天赋纵向渲染容器 -->
+  <div id="renderWrap"></div>
+</div>
+
+<script>
+// ===================== 复用你角色项目通用底层工具函数（完全一致） =====================
+function extractDataArray(jsonData) {
+  if (Array.isArray(jsonData)) return jsonData
+  if (jsonData.DataTable && Array.isArray(jsonData.DataTable)) return jsonData.DataTable
+  console.warn('数据格式不兼容，返回空数组', jsonData)
+  return []
+}
+
+function replacePlaceholders(text = '', values = []) {
+  return text.replace(/\{(\d+)\}/g, (match, idx) => {
+    const num = Number(idx)
+    return values[num] !== undefined ? values[num] : match
+  })
+}
+
+// 天赋品质配置
+function getTalentStepConfig(step = '') {
+  const TalentStepConfig = {
+    S: { weight: 4, color: '#f97316', label: 'S' },
+    A: { weight: 3, color: '#a855f7', label: 'A' },
+    B: { weight: 2, color: '#7FAECB', label: 'B' },
+    C: { weight: 1, color: '#79C37A', label: 'C' },
+    '': { weight: 0, color: '#999999', label: '未知' }
+  }
+  return TalentStepConfig[step] ?? TalentStepConfig['']
+}
+
+// 排序：同名天赋S→A→B→C从上到下
+function sortTalentAllQuality(talentArr = []) {
+  const nameMap = new Map()
+  talentArr.forEach(item => {
+    const name = item.Name || '无名天赋'
+    if (!nameMap.has(name)) nameMap.set(name, [])
+    nameMap.get(name).push(item)
+  })
+  const final = []
+  nameMap.forEach(list => {
+    list.sort((a, b) => {
+      const wa = getTalentStepConfig(a.Step).weight
+      const wb = getTalentStepConfig(b.Step).weight
+      return wb - wa
+    })
+    final.push(...list)
+  })
+  return final
+}
+
+// 去重：只保留同名最高品质
+function filterTalentOnlyTopQuality(talentArr = []) {
+  const nameMap = new Map()
+  talentArr.forEach(item => {
+    const name = item.Name || '无名天赋'
+    const currentWeight = getTalentStepConfig(item.Step).weight
+    if (!nameMap.has(name)) {
+      nameMap.set(name, item)
+      return
+    }
+    const existItem = nameMap.get(name)
+    const existWeight = getTalentStepConfig(existItem.Step).weight
+    if (currentWeight > existWeight) {
+      nameMap.set(name, item)
+    }
+  })
+  return Array.from(nameMap.values())
+}
+
+// 全局分组处理：自动生成formattedEffect、分5大类
+function getAllTalentsGrouped(talentList = []) {
+  const allGroup = {
+    exclusive: [],
+    race: [],
+    class: [],
+    element: [],
+    common: []
+  }
+  talentList.forEach(talent => {
+    const valueList = [talent.Value0, talent.Value1, talent.Value2]
+    talent.formattedEffect = replacePlaceholders(talent.Effect, valueList)
+    if (talent.SpecifyRoleIDs) {
+      allGroup.exclusive.push(talent)
+      return
+    }
+    if (talent.Race) allGroup.race.push(talent)
+    if (talent.Class) allGroup.class.push(talent)
+    if (talent.Element) allGroup.element.push(talent)
+    if (!talent.Race && !talent.Class && !talent.Element) allGroup.common.push(talent)
+  })
+  Object.keys(allGroup).forEach(key => {
+    allGroup[key] = sortTalentAllQuality(allGroup[key])
+  })
+  return allGroup
+}
+
+function getAllTalentsGroupedOnlyTopQuality(talentList = []) {
+  const allGroup = {
+    exclusive: [],
+    race: [],
+    class: [],
+    element: [],
+    common: []
+  }
+  talentList.forEach(talent => {
+    const valueList = [talent.Value0, talent.Value1, talent.Value2]
+    talent.formattedEffect = replacePlaceholders(talent.Effect, valueList)
+    if (talent.SpecifyRoleIDs) {
+      allGroup.exclusive.push(talent)
+      return
+    }
+    if (talent.Race) allGroup.race.push(talent)
+    if (talent.Class) allGroup.class.push(talent)
+    if (talent.Element) allGroup.element.push(talent)
+    if (!talent.Race && !talent.Class && !talent.Element) allGroup.common.push(talent)
+  })
+  Object.keys(allGroup).forEach(key => {
+    allGroup[key] = filterTalentOnlyTopQuality(allGroup[key])
+  })
+  return allGroup
+}
+
+// ===================== 页面DOM绑定 =====================
+const fileInput = document.getElementById('fileTalent')
+const parseBtn = document.getElementById('parseBtn')
+const loadTip = document.getElementById('loadTip')
+const statWrap = document.getElementById('statWrap')
+const totalNumDom = document.getElementById('totalNum')
+const groupCountBox = document.getElementById('groupCountBox')
+const renderWrap = document.getElementById('renderWrap')
+const showAllBtn = document.getElementById('showAllBtn')
+const showTopBtn = document.getElementById('showTopBtn')
+
+// 缓存上传解析后的原始天赋数组
+let rawTalentData = []
+// 全局开关：控制是否显示S/A品质标签（可自行修改true/false）
+const SHOW_STEP_LABEL = false
+
+// 文件选中后启用解析按钮
+fileInput.addEventListener('change', () => {
+  parseBtn.disabled = fileInput.files.length === 0
+  loadTip.textContent = ''
+})
+
+// 读取上传本地JSON文件（和角色查询器完全一致FileReader方案，无fetch）
+function readUploadJson(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = e => {
+      try {
+        const json = JSON.parse(e.target.result)
+        resolve(extractDataArray(json))
+      } catch (err) {
+        reject(`JSON语法错误：${err.message}`)
+      }
+    }
+    reader.onerror = () => reject('文件读取失败')
+    reader.readAsText(file)
+  })
+}
+
+// 页面渲染主函数
+function renderAllTalent(isOnlyTop = false) {
+  if (!rawTalentData.length) {
+    renderWrap.innerHTML = '<div class="text-red-500">暂无天赋数据，请重新上传文件</div>'
+    return
+  }
+  // 选择展示模式
+  const groupData = isOnlyTop ? getAllTalentsGroupedOnlyTopQuality(rawTalentData) : getAllTalentsGrouped(rawTalentData)
+  // 计算总条数
+  const allArr = [...groupData.exclusive, ...groupData.race, ...groupData.class, ...groupData.element, ...groupData.common]
+  totalNumDom.textContent = allArr.length
+  // 分组名称映射
+  const groupNameMap = {
+    exclusive: '专属天赋',
+    race: '种族天赋',
+    class: '职业天赋',
+    element: '属性天赋',
+    common: '通用天赋'
+  }
+  // 渲染分组统计文字
+  let countHtml = ''
+  Object.keys(groupData).forEach(key => {
+    countHtml += `<div>${groupNameMap[key]}：${groupData[key].length} 条</div>`
+  })
+  groupCountBox.innerHTML = countHtml
+  // 清空容器，纵向渲染所有分组
+  renderWrap.innerHTML = ''
+  Object.keys(groupData).forEach(key => {
+    const list = groupData[key]
+    const title = groupNameMap[key]
+    let itemHtml = ''
+    list.forEach(talent => {
+      const stepCfg = getTalentStepConfig(talent.Step)
+      // 控制品质标签是否显示
+      let stepDom = ''
+      if (SHOW_STEP_LABEL) {
+        stepDom = `<span class="step-tag" style="background:${stepCfg.color}">${stepCfg.label}</span>`
+      }
+      itemHtml += `
+        <div class="talent-item">
+          <div class="talent-name-row">
+            ${stepDom}
+            <strong>${talent.Name}</strong>
+          </div>
+          <div class="effect-original">原始文本：${talent.Effect}</div>
+          <div class="effect-format">替换后：${talent.formattedEffect}</div>
+          <div class="val-row">Value0:${talent.Value0} Value1:${talent.Value1} Value2:${talent.Value2}</div>
+        </div>
+      `
+    })
+    const cardHtml = `
+      <div class="group-card">
+        <h3 class="group-title">${title}（${list.length}）</h3>
+        ${itemHtml || '<div class="text-gray-400">暂无该分类天赋</div>'}
+      </div>
+    `
+    renderWrap.innerHTML += cardHtml
+  })
+}
+
+// 解析按钮点击事件
+parseBtn.addEventListener('click', async () => {
+  const file = fileInput.files[0]
+  loadTip.textContent = '正在解析天赋数据...'
+  loadTip.className = 'text-blue-600'
+  try {
+    rawTalentData = await readUploadJson(file)
+    loadTip.textContent = `解析成功，共读取 ${rawTalentData.length} 条天赋`
+    loadTip.className = 'text-green-600'
+    statWrap.classList.remove('hidden')
+    // 默认渲染全部品质
+    renderAllTalent(false)
+  } catch (err) {
+    loadTip.textContent = err
+    loadTip.className = 'text-red-500'
+    statWrap.classList.add('hidden')
+    renderWrap.innerHTML = ''
+  }
+})
+
+// 切换按钮绑定
+showAllBtn.addEventListener('click', () => renderAllTalent(false))
+showTopBtn.addEventListener('click', () => renderAllTalent(true))
+</script>
+</body>
+</html>
