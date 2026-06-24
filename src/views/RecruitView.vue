@@ -253,9 +253,10 @@ defineExpose({
       </div>
     </div>
 
-    <div class="result-stats">{{ statsText }}</div>
+    <div class="content-area">
+      <div class="result-stats">{{ statsText }}</div>
 
-    <div id="resultsArea">
+      <div id="resultsArea">
       <template v-if="selectedTags.length === 0">
         <div class="no-data">未选择任何标签</div>
       </template>
@@ -305,6 +306,7 @@ defineExpose({
           </table>
         </div>
       </template>
+    </div>
     </div>
 
     <input type="file" ref="fileInput" @change="handleFileUpload" accept="image/*" style="display: none">
@@ -397,6 +399,18 @@ defineExpose({
 <style scoped>
 .recruit-view {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.content-area {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .filter-section {
@@ -409,6 +423,7 @@ defineExpose({
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   border: 1px solid var(--border-color);
   transition: padding-bottom 0.2s ease;
+  flex-shrink: 0;
 }
 
 .filter-section.no-gifs { padding-bottom: 15px; }
@@ -434,6 +449,7 @@ defineExpose({
 .dark-mode .tag-rarity-2.active { background: rgba(168, 85, 247, 0.2); }
 
 .result-stats {
+  flex-shrink: 0;
   margin-bottom: 15px;
   font-size: 13px;
   padding: 10px 15px;
@@ -441,6 +457,10 @@ defineExpose({
   border-radius: 8px;
   color: #1e40af;
   border-left: 4px solid var(--primary);
+}
+
+#resultsArea {
+  flex: 1;
 }
 
 .dark-mode .result-stats { background: rgba(59, 130, 246, 0.1); color: #93c5fd; }

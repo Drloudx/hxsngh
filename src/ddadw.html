@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>角色数据查询器 - 读取本地上传JSON</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+.tag {
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  color: white;
+  margin-right: 0.25rem;
+  margin-bottom: 0.25rem;
+  display: inline-block;
+}
+.tag-race { background: #6366f1; }
+.tag-class { background: #ea580c; }
+.tag-element { background: #0284c7; }
+.tag-map { background: #16a34a; }
+.tag-alien { background: #dc2626; }
+.section-title {
+  font-size: 1.125rem;
+  font-weight: bold;
+  border-left: 4px solid #3b82f6;
+  padding-left: 0.5rem;
+  margin: 0.75rem 0;
+  color: #1f2937;
+}
+.skill-card, .talent-card {
+  background: #f9fafb;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 0.5rem;
+}
+.file-box {
+  border: 2px dashed #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom:8px;
+}
+</style>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<div class="max-w-5xl mx-auto">
+  <h1 class="text-2xl md:text-3xl font-bold text-center mb-6 text-gray-900">角色完整数据查询器</h1>
+
+  <!-- 文件上传区域（仅5个必填JSON，无Note表） -->
+  <div class="bg-white rounded-lg shadow p-4 mb-6">
+    <h2 class="font-bold mb-3">1. 上传5个数据表JSON文件（双击html直接使用，无需本地服务）</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <div class="file-box">
+        <label>RoleDataTable.json 角色主表</label>
+        <input type="file" accept=".json" id="fileRole">
+      </div>
+      <div class="file-box">
+        <label>SubSkillDataTable.json 支援技能</label>
+        <input type="file" accept=".json" id="fileSubSkill">
+      </div>
+      <div class="file-box">
+        <label>UniqueDataTable.json 主动技能</label>
+        <input type="file" accept=".json" id="fileUnique">
+      </div>
+      <div class="file-box">
+        <label>TalentDataTable.json 天赋</label>
+        <input type="file" accept=".json" id="fileTalent">
+      </div>
+      <div class="file-box">
+        <label>RelicsDataTable.json 角色心得表</label>
+        <input type="file" accept=".json" id="fileRelics">
+      </div>
+    </div>
+    <div class="mt-3">
+      <button id="parseBtn" class="bg-green-600 text-white px-4 py-2 rounded" disabled>解析数据</button>
+      <span id="loadTip" class="ml-3 text-sm"></span>
+    </div>
+  </div>
+
+  <!-- 搜索区域 -->
+  <div class="bg-white rounded-lg shadow p-4 mb-6 hidden" id="searchWrap">
+    <div class="flex flex-wrap gap-3 items-end">
+      <div class="flex-1 min-w-[220px]">
+        <label class="block text-sm text-gray-600 mb-1">搜索关键词 / 角色ID</label>
+        <input id="searchInput" type="text" class="w-full border rounded px-3 py-2 outline-blue-400" placeholder="输入角色ID/角色名/异化[皮肤]全名">
+      </div>
+      <div class="w-44">
+        <label class="block text-sm text-gray-600 mb-1">搜索模式</label>
+        <select id="searchMode" class="w-full border rounded px-3 py-2">
+          <option value="id">ID精确查询</option>
+          <option value="exactName">名称精确匹配</option>
+          <option value="fuzzyName">名称模糊单条</option>
+          <option value="keyword">关键词批量搜索</option>
+        </select>
+      </div>
+      <button id="searchBtn" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition">开始查询</button>
+    </div>
+  </div>
+
+  <!-- 提示文本 -->
+  <div id="tipText" class="mb-4 text-gray-600 hidden"></div>
+
+  <!-- 角色卡片渲染容器 -->
+  <div id="resultContainer"></div>
+</div>
+
+<script>
+// ===================== 你提供完整原版数据组装工具函数（原样保留 + 补全缺失buildNotes） =====================
+/**
+ * 角色数据组装工具
+ * 【数据表对应说明】
+ * 1. RoleDataTable.json       角色主表：基础属性、职业、种族、属性、地区、支援技能ID、皮肤信息
+ * 2. SubSkillDataTable.json   支援技能表：性格/称号/特性，包含描述+Value0~Value2数值
+ * 3. UniqueDataTable.json     主动技能表：角色专属主动技能、技能描述、各项数值参数
+ * 4. TalentDataTable.json     天赋表：专属/职业/种族/属性/通用天赋，带占位符效果文本
+ * 5. RelicsDataTable.json     角色心得表：角色心得数据
+ *
+ * 字段规则约定：
+ * - ID格式：普通角色=纯数字ID，异化角色=ID_001（带下划线）
+ * - 复合字段格式："ID,名称"，统一用splitIdName()拆分
+ * - 文本占位符：{0} {1} {2} 依次对应 Value0 Value1 Value2
+ */
+
+function splitIdName(str = '') {
+  if (!str) return { id: '', name: '' }
+  const [id, name = ''] = str.split(',')
+  return { id: id.trim(), name: name.trim() }
+}
+
+function isAlienRole(roleId = '') {
+  return roleId.includes('_')
+}
+
+function formatRoleDisplayName(name = '', skinName = '') {
+  return skinName ? `[${skinName}]${name}` : name
+}
+
+function createMapById(list = [], keyField = 'IDs') {
+  const map = new Map()
+  list.forEach(item => {
+    if (item[keyField]) map.set(item[keyField], item)
+  })
+  return map
+}
+
+function extractDataArray(jsonData) {
+  if (Array.isArray(jsonData)) return jsonData
+  if (jsonData.DataTable && Array.isArray(jsonData.DataTable)) return jsonData.DataTable
+  console.warn('数据格式不兼容，返回空数组', jsonData)
+  return []
+}
+
+function replacePlaceholders(text = '', values = []) {
+  return text.replace(/\{(\d+)\}/g, (match, idx) => {
+    const num = Number(idx)
+    return values[num] !== undefined ? values[num] : match
+  })
+}
+
+function buildBaseInfo(raw = {}) {
+  const raceInfo = splitIdName(raw.Race)
+  const normalAttackInfo = splitIdName(raw.NormalAttack)
+  const displayName = formatRoleDisplayName(raw.Name, raw.SkinName)
+
+  const tags = [
+    raw.Type ?? '',
+    raw.Class ?? '',
+    raw.Element ?? '',
+    raw.Map ?? ''
+  ].filter(Boolean)
+
+  return {
+    id: raw.IDs ?? '',
+    name: raw.Name ?? '未知角色',
+    displayName,
+    skinName: raw.SkinName ?? '',
+    isAlien: isAlienRole(raw.IDs),
+    step: raw.Step ?? '',
+    type: raw.Type ?? '',
+    class: raw.Class ?? '',
+    element: raw.Element ?? '',
+    map: raw.Map ?? '',
+    race: raceInfo,
+    normalAttack: normalAttackInfo,
+    source: raw.Source ?? '',
+    background: raw.Background ?? '',
+    characterRole: raw.CharacterRole ?? '',
+    tags,
+    filterTags: raw.FilterTags ? raw.FilterTags.split(',') : []
+  }
+}
+
+function buildSupportSkills(raw = {}, supportMap = new Map()) {
+  const characteristicInfo = splitIdName(raw.Characteristic)
+  const subClassInfo = splitIdName(raw.SubClass)
+  const featureInfo = splitIdName(raw.Feature)
+
+  const starMap = { '性格': 3, '称号': 4, '特性': 5 }
+
+  const fillSkillData = (info, type) => {
+    const rawSkill = supportMap.get(info.id) || {}
+    const valueList = [rawSkill.Value0, rawSkill.Value1, rawSkill.Value2]
+
+    return {
+      id: info.id,
+      name: info.name || rawSkill.Name || '',
+      type,
+      star: starMap[type] || 0,
+      icon: rawSkill.Icon ?? '',
+      description: rawSkill.Description ?? '',
+      formattedDesc: replacePlaceholders(rawSkill.Description, valueList),
+      value0: rawSkill.Value0 ?? 0,
+      value1: rawSkill.Value1 ?? 0,
+      value2: rawSkill.Value2 ?? 0,
+      filterTags: rawSkill.FilterTags ? rawSkill.FilterTags.split(',') : []
+    }
+  }
+
+  return {
+    characteristic: fillSkillData(characteristicInfo, '性格'),
+    subClass: fillSkillData(subClassInfo, '称号'),
+    feature: fillSkillData(featureInfo, '特性')
+  }
+}
+
+function buildActiveSkills(roleId = '', skillList = []) {
+  return skillList
+    .filter(skill => skill.IDs === roleId)
+    .map(skill => {
+      const valueList = []
+      valueList[1] = skill.Times
+      valueList[2] = skill.Value
+      valueList[3] = skill.StatusLayer
+      valueList[4] = skill.ExtraValue1
+      valueList[5] = skill.ExtraValue2
+      valueList[6] = skill.ExtraValue3
+
+      return {
+        id: skill.IDs ?? '',
+        owner: skill.Owner ?? '',
+        name: skill.Name ?? '',
+        skillType: skill.SkillType ?? '',
+        actionType: skill.ActionType ?? '',
+        targetType: skill.TargetType ?? '',
+        target: skill.Target ?? '',
+        maxTarget: skill.MaxTarget ?? 0,
+        times: skill.Times ?? 1,
+        value: skill.Value ?? 0,
+        extraValue1: skill.ExtraValue1 ?? 0,
+        extraValue2: skill.ExtraValue2 ?? 0,
+        extraValue3: skill.ExtraValue3 ?? 0,
+        description: skill.Description ?? '',
+        formattedDesc: replacePlaceholders(skill.Description, valueList),
+        icon: skill.Icon ?? '',
+        isFullScreen: !!skill.FullScreen,
+        isMove: !!skill.Move,
+        positiveTags: skill.PositiveTags ? skill.PositiveTags.split(',') : [],
+        negativeTags: skill.NegativeTags ? skill.NegativeTags.split(',') : []
+      }
+    })
+}
+
+function buildTalents(baseInfo = {}, talentList = []) {
+  const result = {
+    exclusive: [],
+    race: [],
+    class: [],
+    element: [],
+    common: []
+  }
+
+  talentList.forEach(talent => {
+    const valueList = [talent.Value0, talent.Value1, talent.Value2]
+    talent.formattedEffect = replacePlaceholders(talent.Effect, valueList)
+
+    if (talent.SpecifyRoleIDs === baseInfo.id) {
+      result.exclusive.push(talent)
+      return
+    }
+    if (talent.SpecifyRoleIDs) return
+
+    if (talent.Race && talent.Race === baseInfo.race.name) {
+      result.race.push(talent)
+    }
+    if (talent.Class && talent.Class === baseInfo.class) {
+      result.class.push(talent)
+    }
+    if (talent.Element && talent.Element === baseInfo.element) {
+      result.element.push(talent)
+    }
+    if (!talent.Race && !talent.Class && !talent.Element) {
+      result.common.push(talent)
+    }
+  })
+
+  return result
+}
+
+/**
+ * 筛选当前角色的心得
+ * 数据源：RelicsDataTable.json
+ * 筛选条件：Relics.SpecifyRoleIDs === 角色ID
+ * @param {string} roleId 角色ID
+ * @param {Array} relicList RelicsDataTable数组
+ * @returns {Array} 角色专心得数组
+ */
+function buildRelics(roleId = '', relicList = []) {
+  return relicList.filter(relic => relic.SpecifyRoleIDs === roleId)
+}
+
+/**
+ * 补全缺失函数：上层getFullCharacter依赖，项目无独立Note表，仅占位返回空
+ * @param {string} roleId
+ * @param {Array} noteList
+ * @returns {Array}
+ */
+function buildNotes(roleId = '', noteList = []) {
+  return []
+}
+
+function getFullCharacter(rawRole = {}, datasets = {}) {
+  const {
+    supportList = [],
+    skillList = [],
+    talentList = [],
+    relicList = [],
+    noteList = []
+  } = datasets
+
+  const supportMap = createMapById(supportList)
+  const baseInfo = buildBaseInfo(rawRole)
+
+  return {
+    ...baseInfo,
+    supportSkills: buildSupportSkills(rawRole, supportMap),
+    activeSkills: buildActiveSkills(baseInfo.id, skillList),
+    talents: buildTalents(baseInfo, talentList),
+    relics: buildRelics(baseInfo.id, relicList),
+    notes: buildNotes(baseInfo.id, noteList)
+  }
+}
+
+function getFullCharacterList(rawRoleList = [], datasets = {}) {
+  const supportMap = createMapById(datasets.supportList || [])
+  const skillList = datasets.skillList || []
+  const talentList = datasets.talentList || []
+  const relicList = datasets.relicList || []
+  const noteList = datasets.noteList || []
+
+  return rawRoleList.map(rawRole => {
+    const baseInfo = buildBaseInfo(rawRole)
+    return {
+      ...baseInfo,
+      supportSkills: buildSupportSkills(rawRole, supportMap),
+      activeSkills: buildActiveSkills(baseInfo.id, skillList),
+      talents: buildTalents(baseInfo, talentList),
+      relics: buildRelics(baseInfo.id, relicList),
+      notes: buildNotes(baseInfo.id, noteList)
+    }
+  })
+}
+
+function getCharacterById(roleId = '', rawRoleList = [], datasets = {}) {
+  const raw = rawRoleList.find(item => item.IDs === roleId)
+  return raw ? getFullCharacter(raw, datasets) : null
+}
+
+function getCharacterByName(name = '', rawRoleList = [], datasets = {}, fuzzy = false) {
+  if (!name) return null
+
+  const raw = rawRoleList.find(item => {
+    const hasSkin = !!item.SkinName
+    const displayName = formatRoleDisplayName(item.Name, item.SkinName)
+
+    if (fuzzy) {
+      return item.Name?.includes(name) || displayName.includes(name)
+    }
+    if (hasSkin) {
+      return displayName === name
+    } else {
+      return item.Name === name
+    }
+  })
+
+  return raw ? getFullCharacter(raw, datasets) : null
+}
+
+function searchCharactersByName(keyword = '', rawRoleList = [], datasets = {}) {
+  if (!keyword) return []
+
+  const matchedRaw = rawRoleList.filter(item => {
+    const displayName = formatRoleDisplayName(item.Name, item.SkinName)
+    return item.Name?.includes(keyword) || displayName.includes(keyword)
+  })
+
+  return matchedRaw.map(raw => getFullCharacter(raw, datasets))
+}
+
+// ===================== 页面渲染函数（修复心得undefined、标题错误） =====================
+function renderCharacterCard(char) {
+  const tagHtml = char.tags.map((t,i)=>{
+    const cls = ['tag-race','tag-class','tag-element','tag-map'][i] || ''
+    return `<span class="tag ${cls}">${t}</span>`
+  }).join('')
+  const filterTagHtml = char.filterTags.map(t=>`<span class="tag bg-gray-400">${t}</span>`).join('')
+  const alienBadge = char.isAlien ? `<span class="tag tag-alien">异化角色</span>` : ''
+
+  function renderSupportSkill(skill) {
+    return `
+      <div class="skill-card">
+        <div class="font-bold">${skill.type} · ${skill.name} <span class="text-amber-500">${skill.star}星</span></div>
+        <div class="text-sm text-gray-500 mt-1">原始描述：${skill.description}</div>
+        <div class="text-green-600 mt-1">效果：${skill.formattedDesc}</div>
+        <div class="text-xs mt-1 text-gray-400">数值：V0=${skill.value0}, V1=${skill.value1}, V2=${skill.value2}</div>
+      </div>
+    `
+  }
+  const supportHtml = [
+    renderSupportSkill(char.supportSkills.characteristic),
+    renderSupportSkill(char.supportSkills.subClass),
+    renderSupportSkill(char.supportSkills.feature)
+  ].join('')
+
+  const activeHtml = char.activeSkills.length ? char.activeSkills.map(sk=>`
+    <div class="skill-card">
+      <div class="font-bold">${sk.name} <span class="text-blue-500">${sk.skillType}</span></div>
+      <div class="text-sm">目标：${sk.targetType} | 最大目标${sk.maxTarget} | 释放次数${sk.times}</div>
+      <div class="text-sm text-gray-500 mt-1">原始文本：${sk.description}</div>
+      <div class="text-green-600 mt-1">效果：${sk.formattedDesc}</div>
+      <div class="text-xs mt-1">正向标签：${sk.positiveTags.join('、')} | 负面标签：${sk.negativeTags.join('、')}</div>
+    </div>
+  `).join('') : '<div class="text-gray-400">无专属主动技能</div>'
+
+  function renderTalentGroup(title, list) {
+    if(!list.length) return ''
+    const listHtml = list.map(t=>`
+      <div class="talent-card">
+        <div class="font-bold">${t.Name}</div>
+        <div class="text-green-600">${t.formattedEffect}</div>
+      </div>
+    `).join('')
+    return `<div><div class="font-semibold text-gray-700 my-2">${title}</div>${listHtml}</div>`
+  }
+  const talentHtml = [
+    renderTalentGroup('专属天赋', char.talents.exclusive),
+    renderTalentGroup('种族天赋', char.talents.race),
+    renderTalentGroup('职业天赋', char.talents.class),
+    renderTalentGroup('属性天赋', char.talents.element),
+    renderTalentGroup('通用天赋', char.talents.common)
+  ].join('') || '<div class="text-gray-400">无匹配天赋</div>'
+
+  // 修复心得渲染：读取Relics的Name、Effect字段，解决undefined
+  const storyHtml = char.relics.length ? char.relics.map(item=>{
+    const storyTitle = item.Name ?? '无名心得';
+    const storyContent = item.Effect?.trim() || '无文字描述';
+    return `
+      <div class="border-l-2 border-gray-300 pl-3 py-1 my-2">
+        <div class="font-semibold">${storyTitle}</div>
+        <div class="text-gray-600 text-sm">${storyContent}</div>
+      </div>
+    `
+  }).join('') : '<div class="text-gray-400">暂无角色心得</div>'
+
+  return `
+    <div class="bg-white rounded-lg shadow-md p-5 mb-6">
+      <div class="border-b pb-4 mb-4">
+        <div class="flex flex-wrap items-center gap-2 mb-2">
+          <h2 class="text-xl font-bold text-gray-900">${char.displayName}</h2>
+          ${alienBadge}
+          <span class="tag bg-yellow-500">${char.step}稀有度</span>
+        </div>
+        <div class="text-sm text-gray-500 mb-2">角色ID：${char.id} | 定位：${char.characterRole} | 获取途径：${char.source}</div>
+        <div class="mb-2">${tagHtml}</div>
+        <div class="mb-2">玩法标签：${filterTagHtml}</div>
+        <div class="text-sm mt-2 text-gray-700"><span class="font-semibold">角色背景：</span>${char.background}</div>
+        <div class="text-sm mt-1 text-gray-600">种族细分：${char.race.name}（ID:${char.race.id}）| 普攻：${char.normalAttack.name}</div>
+      </div>
+      <h3 class="section-title">支援技能（性格/称号/特性）</h3>${supportHtml}
+      <h3 class="section-title">专属主动技能</h3>${activeHtml}
+      <h3 class="section-title">天赋列表（按分类）</h3>${talentHtml}
+      <h3 class="section-title">角色心得</h3>${storyHtml}
+    </div>
+  `
+}
+
+// ===================== 文件上传&解析逻辑（移除Note相关全部代码） =====================
+const fileEls = {
+  role: document.getElementById('fileRole'),
+  subSkill: document.getElementById('fileSubSkill'),
+  unique: document.getElementById('fileUnique'),
+  talent: document.getElementById('fileTalent'),
+  relics: document.getElementById('fileRelics')
+}
+const parseBtn = document.getElementById('parseBtn')
+const loadTip = document.getElementById('loadTip')
+const searchWrap = document.getElementById('searchWrap')
+const searchInput = document.getElementById('searchInput')
+const searchMode = document.getElementById('searchMode')
+const searchBtn = document.getElementById('searchBtn')
+const resultContainer = document.getElementById('resultContainer')
+const tipText = document.getElementById('tipText')
+
+// 缓存解析后的数据集，noteList固定空数组
+let datasets = {
+  roleList: [],
+  supportList: [],
+  skillList: [],
+  talentList: [],
+  relicList: [],
+  noteList: []
+}
+
+// 全部文件选中后启用解析按钮
+function checkAllFileSelected() {
+  const allSelected = Object.values(fileEls).every(el => el.files.length > 0)
+  parseBtn.disabled = !allSelected
+}
+Object.values(fileEls).forEach(el => el.addEventListener('change', checkAllFileSelected))
+
+// 读取上传的单个JSON文件
+function readUploadJson(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = e => {
+      try {
+        const raw = JSON.parse(e.target.result)
+        resolve(extractDataArray(raw))
+      } catch (err) {
+        reject(`JSON解析失败: ${err.message}`)
+      }
+    }
+    reader.onerror = () => reject('文件读取失败')
+    reader.readAsText(file)
+  })
+}
+
+// 解析按钮点击：读取5个必填表
+parseBtn.addEventListener('click', async () => {
+  loadTip.textContent = '正在解析所有数据表...'
+  loadTip.className = 'text-blue-600'
+  try {
+    datasets.roleList = await readUploadJson(fileEls.role.files[0])
+    datasets.supportList = await readUploadJson(fileEls.subSkill.files[0])
+    datasets.skillList = await readUploadJson(fileEls.unique.files[0])
+    datasets.talentList = await readUploadJson(fileEls.talent.files[0])
+    datasets.relicList = await readUploadJson(fileEls.relics.files[0])
+    // 无独立心得表，noteList永久空数组
+    datasets.noteList = []
+    loadTip.textContent = `解析完成！共加载 ${datasets.roleList.length} 个角色`
+    loadTip.className = 'text-green-600'
+    searchWrap.classList.remove('hidden')
+  } catch (err) {
+    loadTip.textContent = err
+    loadTip.className = 'text-red-600'
+  }
+})
+
+// 搜索执行逻辑
+searchBtn.addEventListener('click', ()=>{
+  const keyword = searchInput.value.trim()
+  const mode = searchMode.value
+  resultContainer.innerHTML = ''
+  tipText.classList.add('hidden')
+  if(!keyword) {
+    tipText.textContent = '请输入搜索关键词或角色ID'
+    tipText.classList.remove('hidden')
+    return
+  }
+
+  let resultList = []
+  switch(mode) {
+    case 'id': {
+      const char = getCharacterById(keyword, datasets.roleList, datasets)
+      if(char) resultList = [char]
+      break
+    }
+    case 'exactName': {
+      const char = getCharacterByName(keyword, datasets.roleList, datasets, false)
+      if(char) resultList = [char]
+      break
+    }
+    case 'fuzzyName': {
+      const char = getCharacterByName(keyword, datasets.roleList, datasets, true)
+      if(char) resultList = [char]
+      break
+    }
+    case 'keyword':
+      resultList = searchCharactersByName(keyword, datasets.roleList, datasets)
+      break
+  }
+
+  if(!resultList.length) {
+    tipText.textContent = `未查询到匹配【${keyword}】的角色`
+    tipText.classList.remove('hidden')
+    return
+  }
+  tipText.textContent = `共查询到 ${resultList.length} 条匹配角色数据`
+  tipText.classList.remove('hidden')
+  resultContainer.innerHTML = resultList.map(c=>renderCharacterCard(c)).join('')
+})
+// 回车快捷搜索
+searchInput.addEventListener('keydown', e=>e.key === 'Enter' && searchBtn.click())
+</script>
+</body>
+</html>

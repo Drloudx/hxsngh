@@ -3,8 +3,11 @@ import RecruitView from '../views/RecruitView.vue'
 import TalentView from '../views/TalentView.vue'
 import PrefixView from '../views/PrefixView.vue'
 import LimeView from '../views/LimeView.vue'
-
-
+import TalentManageView from '../views/TalentManageView.vue'
+import GuideView from '../views/GuideView.vue'
+import SubSkillView from '../views/SubSkillView.vue'
+import RoleView from '../views/RoleView.vue'
+import RankingView from '../views/RankingView.vue'
 
 const routes = [
   {
@@ -34,6 +37,36 @@ const routes = [
     name: 'lime',
     component: LimeView,
     meta: { title: '莱姆图鉴', shortName: '莱姆' }
+  },
+  {
+    path: '/talent-manage',
+    name: 'talent-manage',
+    component: TalentManageView,
+    meta: { title: '天赋管理', shortName: '库存' }
+  },
+  {
+    path: '/guide',
+    name: 'guide',
+    component: GuideView,
+    meta: { title: '新人攻略', shortName: '攻略' }
+  },
+  {
+    path: '/subskill',
+    name: 'subskill',
+    component: SubSkillView,
+    meta: { title: '预告：支援筛选', shortName: '预告' }
+  },
+  {
+    path: '/role',
+    name: 'role',
+    component: RoleView,
+    meta: { title: '预告：角色图鉴', shortName: '预告' }
+  },
+  {
+    path: '/ranking',
+    name: 'ranking',
+    component: RankingView,
+    meta: { title: '预告：热度排行', shortName: '预告' }
   }
 ]
 
@@ -42,18 +75,18 @@ const router = createRouter({
   routes
 })
 
-// 百度统计：路由切换时上报页面路径
-// 区分网页端 vs App（Capacitor 套壳 WebView）
+// 百度统计：路由切换时上报，网页端正常上报，App 端路径加 /app 前缀
 router.afterEach((to) => {
   if (!window._hmt) return;
-  // 首页根路径直接跳过，不上报（会被 redirect 到 /recruit）
   if (to.fullPath === '/') return;
-  // 用户未授权统计，不上报
   if (window.__baidu_authorized === false) return;
 
-  const isCapApp = window.Capacitor && window.Capacitor.isNativePlatform();
+  const isApp = (window.Capacitor && window.Capacitor.isNativePlatform()) ||
+                document.documentElement.getAttribute("data-app-shell") === "true" ||
+                window.location.href.includes('files/www/') ||
+                window.location.href.includes('/data/')
   let reportPath = to.fullPath;
-  if (isCapApp) reportPath = '/app' + reportPath;
+  if (isApp) reportPath = '/app' + reportPath;
   _hmt.push(['_trackPageview', reportPath]);
 })
 

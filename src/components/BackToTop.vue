@@ -3,24 +3,26 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 const show = ref(false)
 
-const handleScroll = () => {
-  const scrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-  show.value = scrollTop > 300
+const handleScroll = (e) => {
+  const el = e.target
+  if (el.matches('.talent-container, .recruit-view')) {
+    show.value = el.scrollTop > 300
+  }
 }
 
 const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  })
+  const el = document.querySelector('.talent-container, .recruit-view')
+  if (el) {
+    el.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 }
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
+  document.addEventListener('scroll', handleScroll, { capture: true, passive: true })
 })
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
+  document.removeEventListener('scroll', handleScroll, { capture: true })
 })
 </script>
 
