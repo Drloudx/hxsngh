@@ -12,7 +12,7 @@
         <div class="placeholder-title">当前页面正在建设中</div>
         <div class="placeholder-title">角色/队伍热度排行</div>
         <div class="placeholder-title1">这里可以上传自己所用的角色及支援天赋</div>
-        <div class="placeholder-title1">然后会展示一个该工具用户所用角色比例排行及支援和天赋比例</div>
+        <div class="placeholder-title1">然后会展示一个该工具用户所用角色比例排行及支援和天赋比例排行</div>
         <div class="placeholder-title">如果有什么想法，可以加群交流</div>
           <p class="qq-link-wrap" style="margin-top:8px">
             <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=4xp%2BlCmM2Q2gVIvW6a14yOEVtT%2BPLsY9DwmNSDRVTBkp8xcNO%2FTRo%2FOksMb528aW&busi_data=eyJncm91cENvZGUiOiI5NjQ3Njg3OTkiLCJ0b2tlbiI6Im1abkR4eDNDb09HeDZtV2QvNi9ZOTlMNWRhQVQxSDVGK2hSUmlmdkd6bm9hNGRIYjZnWFB6QitBd1A5NVhscmMiLCJ1aW4iOiIxOTY1MTYxNjQzIn0%3D&data=CcXqRPXmezEwvtBwz950aSAyBxYHidOpffYEE8nD1EB-WDcAI-CLzvlLLIavd-lpEuHEP9fCXE5i5Sh3aGjUmw&svctype=4&tempid=h5_group_info" target="_blank" style="color:#3b82f6;font-weight:bold">点击链接加入群聊【幻想少女公会助手反馈交流群】</a>
