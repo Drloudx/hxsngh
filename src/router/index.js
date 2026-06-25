@@ -88,6 +88,7 @@ router.afterEach((to) => {
   let reportPath = to.fullPath;
   if (isApp) reportPath = '/app' + reportPath;
   _hmt.push(['_trackPageview', reportPath]);
+
 })
 
 export default router
