@@ -26,10 +26,10 @@
 .talent-container {
   width: 100%; max-width: 800px; margin: 0 auto; padding: 0;
   box-sizing: border-box; display: flex; flex-direction: column; flex: 1;
-  min-height: 0; overflow-y: auto;
+  min-height: 0; overflow: hidden;
 }
 .talent-sticky-top {
-  flex-shrink: 0; position: sticky; top: 0; z-index: 999;
+  flex-shrink: 0;
   background: var(--bg); padding-bottom: 10px;
 }
 .talent-search-box {
@@ -41,7 +41,7 @@
 .talent-search-box:focus-within { border-color: #409eff; }
 .search-icon { width: 18px; height: 18px; filter: var(--icon-filter); margin-right: 10px; flex-shrink: 0; opacity: 0.7; }
 .talent-search-input { flex: 1; border: none; outline: none; background: transparent; font-size: 15px; color: var(--text-main); font-family: inherit; }
-.sandbox-role-list { flex: 1; }
+.sandbox-role-list { flex: 1; overflow-y: auto; padding-bottom: 15px; }
 .sandbox-empty-state { text-align: center; padding: 60px 20px; }
 .placeholder-title { font-size: 18px; font-weight: 700; color: var(--text-main); margin: 12px 0 6px; }
 .placeholder-desc { font-size: 14px; color: var(--text-sub); }

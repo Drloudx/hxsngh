@@ -5,13 +5,13 @@ const show = ref(false)
 
 const handleScroll = (e) => {
   const el = e.target
-  if (el.matches('.talent-container, .recruit-view')) {
+  if (el.matches('.talent-list, .lime-grid-container, .sandbox-role-list, .recruit-view')) {
     show.value = el.scrollTop > 300
   }
 }
 
 const scrollToTop = () => {
-  const el = document.querySelector('.talent-container, .recruit-view')
+  const el = document.querySelector('.talent-list, .lime-grid-container, .sandbox-role-list, .recruit-view')
   if (el) {
     el.scrollTo({ top: 0, behavior: 'smooth' })
   }

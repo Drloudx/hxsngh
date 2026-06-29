@@ -13,7 +13,10 @@ export const exportData = (data, fileName) => {
   const json = JSON.stringify(data)
 
   // App 内：设标志让 Java 写文件 + 分享
-  if (window.location.href.startsWith('file://')) {
+  const isApp = window.location.hostname === 'hxsngh.app' ||
+                window.location.href.startsWith('file://') ||
+                document.documentElement.dataset.appShell === 'true'
+  if (isApp) {
     window.__exportData = json
     window.__exportFileName = fileName || 'export.json'
     window.__exportReady = true

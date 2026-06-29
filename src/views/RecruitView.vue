@@ -505,7 +505,7 @@ defineExpose({
 .result-table th.col-rarity, .result-table td.col-rarity { text-align: center; width: 40px; }
 .result-table td.rarity-3 { color: var(--gold); font-weight: bold; }
 .result-table td.rarity-2 { color: var(--purple); font-weight: bold; }
-.result-table td.rarity-1 { color: #7FAECB; font-weight: bold; }
+.result-table td.rarity-1 { color: #3b82f6; font-weight: bold; }
 .result-table td.rarity-0 { color: #79C37A; font-weight: bold; }
 
 .no-data { text-align: center; padding: 50px; color: var(--text-sub); background: var(--card-bg); border-radius: 12px; font-size: 14px; border: 1px solid var(--border-color); }
@@ -553,7 +553,7 @@ defineExpose({
 .wish-group-title { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 800; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 2px solid var(--border-color); }
 .wish-title-3 { color: #f97316; }
 .wish-title-2 { color: #a855f7; }
-.wish-title-1 { color: #7FAECB; }
+.wish-title-1 { color: #3b82f6; }
 .wish-title-0 { color: #79C37A; }
 .wish-tags-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 .wish-tag { text-align: center; padding: 5px 4px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; border: 1.5px solid transparent; transition: all 0.2s ease; user-select: none; min-width: 0; }
@@ -568,7 +568,7 @@ defineExpose({
 .wish-tag.wish-tag-unowned {  font-weight: 700; }
 .wish-tag-rarity-3.wish-tag-unowned { background: #f97316; color: #fff; border-color: #f97316; box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.3); }
 .wish-tag-rarity-2.wish-tag-unowned { background: #a855f7; color: #fff; border-color: #a855f7; box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.3); }
-.wish-tag-rarity-1.wish-tag-unowned { background: #7FAECB; color: #fff; border-color: #7FAECB; box-shadow: 0 0 0 2px rgba(127, 174, 203, 0.3); }
+.wish-tag-rarity-1.wish-tag-unowned { background: #3b82f6; color: #fff; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(127, 174, 203, 0.3); }
 .wish-tag-rarity-0.wish-tag-unowned { background: #79C37A; color: #fff; border-color: #79C37A; box-shadow: 0 0 0 2px rgba(121, 195, 122, 0.3); }
 .unowned-icon { width: 16px; height: 16px; vertical-align: middle; margin-left: 4px; }
 .wish-search-box { display: flex; align-items: center; margin-bottom: 14px; background: var(--bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 6px 10px; }

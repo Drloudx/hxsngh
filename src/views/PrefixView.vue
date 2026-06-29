@@ -342,14 +342,11 @@ const closeLimitModal = () => {
   flex-direction: column;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .talent-sticky-top {
   flex-shrink: 0;
-  position: sticky;
-  top: 0;
-  z-index: 999;
   background: var(--bg);
   padding-bottom: 10px;
 }
@@ -474,6 +471,8 @@ const closeLimitModal = () => {
   gap: 14px;
   padding: 0;
   flex: 1;
+  overflow-y: auto;
+  padding-bottom: 15px;
 }
 
 /* ===== 卡片 ===== */
@@ -486,9 +485,10 @@ const closeLimitModal = () => {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
   position: relative;
   z-index: 1;
+  flex-shrink: 0;
 }
 .talent-card:hover {
   transform: translateY(-2px);

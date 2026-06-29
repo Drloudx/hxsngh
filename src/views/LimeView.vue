@@ -59,7 +59,7 @@
       </div>
     </div>
 
-    <!-- 莱姆列表 -->
+    <!-- 莱姆 4 列网格列表 -->
     <div class="lime-grid-container">
       <div
         v-for="lime in filteredLimes"
@@ -68,13 +68,13 @@
       >
         <div
           class="lime-avatar-slot"
-          :style="{ backgroundImage: `url(${getFramePath(lime.Step)})` }"
+          :style="{ backgroundColor: getStepConfig(lime.Step).lightBg }"
           @click="openDetailModal(lime)"
         >
           <img :src="`/lime/${lime.IDs}.png`" :alt="lime.Name" class="lime-avatar-img" />
         </div>
 
-        <div class="lime-card-name-label" :class="lime.Step.toLowerCase()">
+        <div class="lime-card-name-label" :style="{ color: getStepConfig(lime.Step).color }">
           {{ lime.Name }}
         </div>
 
@@ -93,39 +93,43 @@
       </div>
     </div>
 
-    <!-- 详情弹窗 -->
+    <!-- 详情弹窗 (与遗物详情一致的现代卡片风格) -->
     <div v-if="detailModal.visible" class="modal-overlay" @click.self="closeDetailModal">
-      <div class="modal-window lime-detail-window">
-        <div class="game-modal-header">
+      <div class="relic-detail-window">
+        <div class="relic-modal-header">
           <div class="header-badges-container">
             <span v-for="(tag, i) in getHeaderBadges(detailModal.data)" :key="i" class="area-type-badge">
               {{ tag }}
             </span>
           </div>
-          <h2 class="centered-modal-title">{{ detailModal.data.Name }}</h2>
-          <button class="game-modal-close" @click="closeDetailModal">✕</button>
+          <h2 class="centered-modal-title" :style="{ color: getStepConfig(detailModal.data.Step).color }">
+            {{ detailModal.data.Name }}
+          </h2>
+          <button class="relic-modal-close" @click="closeDetailModal">✕</button>
         </div>
 
-        <div class="game-modal-body">
-          <div class="detail-card-preview" :style="{ backgroundImage: `url(${getFramePath(detailModal.data.Step)})` }">
-            <img :src="`/lime/${detailModal.data.IDs}.png`" class="detail-lime-avatar" />
+        <div class="relic-modal-body">
+          <div class="relic-detail-preview" :style="{ backgroundColor: getStepConfig(detailModal.data.Step).lightBg }">
+            <img :src="`/lime/${detailModal.data.IDs}.png`" class="relic-detail-img" />
           </div>
 
-          <div class="detail-description-box">
-            <p class="description-text">{{ detailModal.data.Description }}</p>
+          <div class="relic-details-grid grid-2-col">
+            <div class="relic-detail-stat">
+              <span class="stat-label">发现时奖励：</span>
+              <span class="stat-value" style="color: #16a34a;">
+                {{ parseRewardName(detailModal.data.RewardIDs) }} +{{ detailModal.data.RewardNum }}
+              </span>
+            </div>
+            <div class="relic-detail-stat">
+              <span class="stat-label">出现地图：</span>
+              <span class="stat-value text-ellipsis" :title="getLimeSourceMaps(detailModal.data)">
+                {{ getLimeSourceMaps(detailModal.data) }}
+              </span>
+            </div>
           </div>
 
-          <div class="detail-reward-box">
-            <span class="reward-title">发现时：</span>
-            <span class="reward-content">
-              {{ parseRewardName(detailModal.data.RewardIDs) }} +{{ detailModal.data.RewardNum }}
-            </span>
-          </div>
-
-          <!-- 来源展示（纯文字形式，已处理“世界”和“多区域逗号分隔”） -->
-          <div class="detail-source-box">
-            <span class="source-title">来源：</span>
-            <span class="source-content">{{ getLimeSourceMaps(detailModal.data) }}</span>
+          <div class="relic-description-box">
+            <p class="relic-description-text">{{ detailModal.data.Description }}</p>
           </div>
         </div>
       </div>
@@ -142,14 +146,25 @@ const colorPaletteVars = {
   '--gold': '#f97316',
   '--red': '#f43f5e',
   '--purple': '#a855f7',
-  '--blue': '#7FAECB',
-  '--green': '#79C37A'
+  '--blue': '#60a5fa',
+  '--green': '#16a34a'
 }
 
-// 初始化时尝试从本地存储读取，如果读取不到再用空数组
+// 预设品质色彩搭配
+const getStepConfig = (step) => {
+  const map = {
+    'SS': { label: 'SS', color: '#f43f5e', lightBg: 'rgba(244, 63, 94, 0.1)' },
+    'S': { label: 'S', color: '#f97316', lightBg: 'rgba(249, 115, 22, 0.1)' },
+    'A': { label: 'A', color: '#a855f7', lightBg: 'rgba(168, 85, 247, 0.1)' },
+    'B': { label: 'B', color: '#60a5fa', lightBg: 'rgba(96, 165, 250, 0.1)' },
+    'C': { label: 'C', color: '#16a34a', lightBg: 'rgba(22, 163, 74, 0.1)' }
+  }
+  return map[step] || { label: step, color: '#64748b', lightBg: 'rgba(100, 116, 139, 0.1)' }
+}
+
+// 初始化时尝试从本地存储读取
 const myOwnedList = ref(JSON.parse(localStorage.getItem('my_owned_limes')) || [])
 
-// 监听从 App 的导入数据事件，刷新拥有列表
 const onLimeDataImported = () => {
   myOwnedList.value = JSON.parse(localStorage.getItem('my_owned_limes')) || []
 }
@@ -199,13 +214,12 @@ const sortedLimes = computed(() => {
     const weightA = STEP_PRIORITY[a.Step] || 99
     const weightB = STEP_PRIORITY[b.Step] || 99
     if (weightA !== weightB) {
-      return weightA - weightB
+      return weightA - weightB // 稀有度升序：C > B > A > S > SS
     }
     return a.IDs.localeCompare(b.IDs)
   })
 })
 
-// 解析新表的 Type 标签（去掉“星界”）
 const mapTypesList = computed(() => {
   const maps = worldMapData.DataTable || worldMapData || []
   const types = maps
@@ -214,27 +228,22 @@ const mapTypesList = computed(() => {
   return Array.from(new Set(types))
 })
 
-// 根据单个 Type 获取所有属于该类型的地图名称
 const getMapsByType = (type) => {
   if (!type) return []
   const maps = worldMapData.DataTable || worldMapData || []
   return maps.filter(m => m.Type === type).map(m => m.Name)
 }
 
-// 解析弹窗里莱姆对应的地图来源纯文字
 const getLimeSourceMaps = (limeItem) => {
   if (!limeItem || !limeItem.AreaType) return '未知'
-
   if (limeItem.AreaType === '世界') {
     return '全部地图'
   }
-
   const types = limeItem.AreaType.split(/[\s,，]+/).filter(Boolean)
   let allMatchedMaps = []
   types.forEach(t => {
     allMatchedMaps.push(...getMapsByType(t))
   })
-
   allMatchedMaps = Array.from(new Set(allMatchedMaps))
   return allMatchedMaps.length ? allMatchedMaps.join('，') : limeItem.AreaType
 }
@@ -244,40 +253,25 @@ const activeBgTag = ref(null)
 const tagsExpanded = ref(true)
 const detailModal = ref({ visible: false, data: {} })
 
-const getFramePath = (step) => {
-  const stepMap = {
-    'C': 'mid_int_laimu_0001.png',
-    'B': 'mid_int_laimu_0002.png',
-    'A': 'mid_int_laimu_0003.png',
-    'S': 'mid_int_laimu_0004.png',
-    'SS': 'mid_int_laimu_0005.png'
-  }
-  return `/limeui/${stepMap[step] || 'mid_int_laimu_0001.png'}`
+const parseRewardName = (rewardIdStr) => {
+  if (!rewardIdStr) return '无'
+  return rewardIdStr.includes(',') ? rewardIdStr.split(',')[1] : rewardIdStr
 }
 
 const getHeaderBadges = (item) => {
   if (!item) return []
   const badges = []
-
   if (item.AreaType && item.AreaType !== '无' && item.AreaType !== '不限') {
     const bgs = item.AreaType.split(/[\s,，]+/).filter(Boolean)
     badges.push(...bgs)
   }
-
   if (item.Block && item.Block !== '不限' && item.Block !== '能量') {
     badges.push(item.Block)
   }
-
   if (badges.length === 0 && item.AreaType) {
     badges.push(item.AreaType)
   }
-
   return badges
-}
-
-const parseRewardName = (rewardIdStr) => {
-  if (!rewardIdStr) return '无'
-  return rewardIdStr.includes(',') ? rewardIdStr.split(',')[1] : rewardIdStr
 }
 
 const toggleBgTag = (name) => {
@@ -287,7 +281,6 @@ const toggleTagsExpand = () => {
   tagsExpanded.value = !tagsExpanded.value
 }
 
-// 多维复合过滤逻辑
 const filteredLimes = computed(() => {
   return sortedLimes.value.filter(item => {
     const q = searchQuery.value.trim().toLowerCase()
@@ -339,14 +332,11 @@ const closeDetailModal = () => {
   flex-direction: column;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .talent-sticky-top {
   flex-shrink: 0;
-  position: sticky;
-  top: 0;
-  z-index: 999;
   background: var(--bg);
   padding-bottom: 10px;
 }
@@ -531,37 +521,51 @@ const closeDetailModal = () => {
   color: var(--text-main);
 }
 
-/* ===== 莱姆卡片区域 ===== */
+/* ===== 莱姆卡片区域 (4列网格) ===== */
 .lime-grid-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px 12px;
+  grid-auto-rows: min-content;
+  align-content: start;
+  gap: 14px 10px;
   width: 100%;
   flex: 1;
+  overflow-y: auto;
+  padding-bottom: 15px;
 }
 
 .lime-grid-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer;
+  min-width: 0;
+}
+.lime-grid-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary);
 }
 
 .lime-avatar-slot {
   width: 100%;
-  aspect-ratio: 0.802 / 1;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: center;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  padding: 10% 10% 18% 10%;
-  cursor: pointer;
+  padding: 10%;
   transition: transform 0.15s ease;
 }
 .lime-avatar-slot:hover {
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 
 .lime-avatar-img {
@@ -572,51 +576,53 @@ const closeDetailModal = () => {
 
 .lime-card-name-label {
   font-size: 13px;
-  margin-top: 6px;
-  text-align: center;
   font-weight: 700;
+  margin-top: 8px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
-.lime-card-name-label.ss { color: var(--red); }
-.lime-card-name-label.s  { color: var(--gold); }
-.lime-card-name-label.a  { color: var(--purple); }
-.lime-card-name-label.b  { color: var(--blue); }
-.lime-card-name-label.c  { color: var(--green); }
 
-/* ===== 核心修复：复选勾选标签深色模式适配 ===== */
+/* ===== 勾选标签样式 ===== */
 .owned-status-tag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
-  margin-top: 5px;
-  padding: 2px 7px;
+  font-size: 10px;
+  margin-top: 6px;
+  padding: 2px 5px;
   border-radius: 5px;
   font-weight: 600;
-  /* 基础绿色主题：浅色下是明亮绿，深色模式下利用内联半透明防止晃眼 */
-  background: rgba(22, 163, 74, 0.15);
+  background: rgba(34, 197, 94, 0.08);
   color: #16a34a;
-  border: 1px solid rgba(22, 163, 74, 0.25);
+  border: 1px solid rgba(34, 197, 94, 0.15);
   cursor: pointer;
   user-select: none;
   transition: all 0.15s ease;
+  white-space: nowrap;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .owned-status-tag .checkbox-box {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border: 1px solid #16a34a;
   border-radius: 2px;
-  margin-right: 5px;
+  margin-right: 4px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   position: relative;
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .owned-status-tag .checkbox-box::after {
   content: "✓";
-  font-size: 9px;
+  font-size: 8px;
   font-weight: bold;
   color: #16a34a;
   position: absolute;
@@ -625,11 +631,14 @@ const closeDetailModal = () => {
   transform: translate(-50%, -50%);
 }
 
-/* 未拥有状态下的深色模式适配 */
 .owned-status-tag.not-owned {
-  background: rgba(220, 38, 38, 0.12);
-  color: #ef4444;
-  border-color: rgba(220, 38, 38, 0.25);
+  background: rgba(100, 116, 139, 0.08);
+  color: #64748b;
+  border-color: rgba(100, 116, 139, 0.15);
+}
+
+.owned-status-tag.not-owned .checkbox-box {
+  border-color: #64748b;
 }
 
 .owned-status-tag.not-owned .checkbox-box {
@@ -645,41 +654,158 @@ const closeDetailModal = () => {
   border-color: currentColor;
 }
 
-/* ===== 详细内容弹窗布局与名字居中 ===== */
+/* ===== 详细内容网格弹窗 (现代卡片风格) ===== */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(15, 23, 42, 0.5);
-  backdrop-filter: blur(8px);
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2000;
 }
 
-.lime-detail-window {
-  background: #ece4d3;
+.relic-detail-window {
+  background: var(--card-bg);
   width: 90%;
-  max-width: 380px;
-  border: 4px solid #7d6756;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  max-width: 360px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  border: 1px solid var(--border-color);
 }
 
-.game-modal-header {
-  background: #bfb299;
-  padding: 12px 14px;
+.relic-modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
-  border-bottom: 2px solid #7d6756;
+  justify-content: space-between;
   position: relative;
   min-height: 24px;
+}
+
+.centered-modal-title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.relic-modal-close {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.relic-modal-close:hover {
+  color: #ef4444;
+}
+
+.relic-modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.relic-detail-preview {
+  width: 110px;
+  height: 110px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.relic-detail-img {
+  width: 95%;
+  height: 95%;
+  object-fit: contain;
+}
+
+.relic-details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.grid-2-col {
+  grid-template-columns: repeat(2, 1fr) !important;
+}
+
+.relic-detail-stat {
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text-sub);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.stat-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+  text-align: center;
+  width: 100%;
+}
+
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.relic-description-box {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-sizing: border-box;
+}
+
+.relic-description-text {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-main);
+  line-height: 1.6;
+  text-align: left;
 }
 
 .header-badges-container {
@@ -689,122 +815,14 @@ const closeDetailModal = () => {
 }
 
 .area-type-badge {
-  background: #3f95e6;
-  color: #fff;
-  font-size: 11px;
-  padding: 2px 6px;
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  font-size: 10px;
+  padding: 1px 5px;
   border-radius: 4px;
-  font-weight: bold;
+  font-weight: 700;
   white-space: nowrap;
-}
-
-.centered-modal-title {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  margin: 0;
-  font-size: 16px;
-  color: #31261d;
-  font-weight: bold;
-  white-space: nowrap;
-  text-align: center;
-  z-index: 1;
-}
-
-.game-modal-close {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
-  border: none;
-  font-size: 18px;
-  color: #5d4f43;
-  cursor: pointer;
-  z-index: 2;
-}
-
-.game-modal-body {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.detail-card-preview {
-  width: 135px;
-  height: 168px;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 10px 18px 10px;
-  box-sizing: border-box;
-}
-
-.detail-lime-avatar {
-  width: 95%;
-  height: 95%;
-  object-fit: contain;
-}
-
-.detail-description-box {
-  width: 100%;
-  background: #f5f0e6;
-  border: 1px solid #d2c7b5;
-  border-radius: 6px;
-  padding: 10px 12px;
-  margin-top: 14px;
-  box-sizing: border-box;
-}
-
-.description-text {
-  margin: 0;
-  font-size: 13px;
-  color: #554433;
-  line-height: 1.5;
-}
-
-.detail-reward-box {
-  width: 100%;
-  background: #f5f0e6;
-  border: 1px solid #d2c7b5;
-  border-radius: 6px;
-  padding: 8px 12px;
-  margin-top: 8px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-}
-
-.reward-title {
-  font-size: 13px;
-  color: #705b49;
-  font-weight: bold;
-}
-.reward-content {
-  font-size: 13px;
-  color: #1a8844;
-  font-weight: bold;
-}
-
-/* 弹窗最后一行纯文本来源样式 */
-.detail-source-box {
-  width: 100%;
-  margin-top: 10px;
-  padding: 2px 4px;
-  font-size: 13px;
-  line-height: 1.4;
-  box-sizing: border-box;
-}
-.source-title {
-  font-weight: bold;
-  color: #705b49;
-}
-.source-content {
-  color: #554433;
 }
 
 .no-data {
