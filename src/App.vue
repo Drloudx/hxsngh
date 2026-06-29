@@ -54,7 +54,8 @@ onMounted(() => {
     const cap = window.Capacitor?.isNativePlatform?.() ?? false
     const attr = document.documentElement.getAttribute("data-app-shell") === "true"
     const hotPath = window.location.href.includes('files/www/') || window.location.href.includes('/data/')
-    isInApp.value = cap || attr || hotPath
+    const isCustomHost = window.location.hostname === 'hxsngh.app'
+    isInApp.value = cap || attr || hotPath || isCustomHost
     if (isInApp.value && !isUpdateSkippedToday()) {
       setTimeout(() => checkUpdate(true), 2000)
     }
@@ -201,11 +202,13 @@ const isModeDropdownOpen = ref(false)
 const modes = [
   { id: 'recruit', name: '指定招募工具', shortName: '招募', path: '/recruit' },
   { id: 'talent', name: '天赋筛选工具', shortName: '天赋', path: '/talent' },
+  { id: 'subskill', name: '支援筛选工具', shortName: '支援', path: '/subskill' },
+  { id: 'talent-manage', name: '天赋管理', shortName: '库存', path: '/talent-manage' },
   { id: 'lime', name: '莱姆图鉴', shortName: '莱姆', path: '/lime' },
   { id: 'prefix', name: '怪物前缀', shortName: '前缀', path: '/prefix' },
-  { id: 'talent-manage', name: '天赋管理', shortName: '库存', path: '/talent-manage' },
+  { id: 'foretell', name: '预言图鉴', shortName: '预言', path: '/foretell' },
+  { id: 'dungeon-relics', name: '星界秘境遗物图鉴', shortName: '遗物', path: '/dungeon-relics' },
   { id: 'guide', name: '新人攻略', shortName: '攻略', path: '/guide' },
-  { id: 'subskill', name: '预告：支援筛选', shortName: '预告', path: '/subskill' },
   { id: 'role', name: '预告：角色图鉴', shortName: '预告', path: '/role' },
   { id: 'ranking', name: '预告：角色/队伍热度排行', shortName: '预告', path: '/ranking' }
 ]
@@ -263,6 +266,8 @@ const updateBaiduPage = () => {
     'talent': '天赋筛选',
     'lime': '莱姆图鉴',
     'prefix': '怪物前缀',
+    'foretell': '预言图鉴',
+    'dungeon-relics': '星界秘境遗物图鉴',
     'talent-manage': '天赋管理',
     'guide': '新人攻略',
     'subskill': '支援筛选',
@@ -322,14 +327,13 @@ const viewRef = ref(null)
 
 // 检查热更新（静默检测，有更新才弹窗）
 const checkForHotUpdate = async () => {
-  if (!isInApp.value) return
-  // 延迟一会儿等页面稳定
+  if (!isInApp.value) { console.log('[HotUpdate] 非 App 环境，跳过'); return }
   await new Promise(r => setTimeout(r, 1500))
   const { checkHotUpdate } = await import('./utils/hotupdate')
   const m = await checkHotUpdate()
+  console.log('[HotUpdate] 检测结果:', m ? '有更新 version=' + m.version + ' needApk=' + m._needsApkUpdate : '无更新')
   if (m) {
     if (m._needsApkUpdate) {
-      // 大版本不同，不能热更 -> 走 APK 更新流程
       checkUpdate(true)
     } else {
       hotUpdateManifest.value = m
@@ -400,11 +404,17 @@ const borderNoticeRead = () => {
                 <img src="/ui/mid_btn_duiwu_40001.png" class="header-gif" />
                 <img src="/ui/mid_btn_duiwu_50001.png" class="header-gif" />
               </div>
+              <div v-else-if="route.name === 'subskill'" class="talent-header-gifs">
+                <img src="/Skill/TB00025.png" class="header-gif" />
+                <img src="/Skill/TB00026.png" class="header-gif" />
+                <img src="/Skill/TB00027.png" class="header-gif" />
+                <img src="/Skill/TB00031.png" class="header-gif" />
+              </div>
               <div v-else-if="route.name === 'lime'" class="talent-header-gifs">
-                <img src="/limeui/LM02027.png" class="header-gif" />
-                <img src="/limeui/LM03033.png" class="header-gif" />
-                <img src="/limeui/LM02020.png" class="header-gif" />
-                <img src="/limeui/LM02016.png" class="header-gif" />
+                <img src="/lime/LM02027B.png" class="header-gif" />
+                <img src="/lime/LM03033B.png" class="header-gif" />
+                <img src="/lime/LM02020B.png" class="header-gif" />
+                <img src="/lime/LM02016B.png" class="header-gif" />
               </div>
               <div v-else-if="route.name === 'guide'" class="talent-header-gifs">
                 <img src="/misc/mid_btn_equip_0002.png" class="header-gif" />
@@ -417,6 +427,18 @@ const borderNoticeRead = () => {
                 <img src="/ui/TB40013.png" class="header-gif" />
                 <img src="/ui/TB40014.png" class="header-gif" />
                 <img src="/ui/TB40016.png" class="header-gif" />
+              </div>
+              <div v-else-if="route.name === 'foretell'" class="talent-header-gifs">
+                <img src="/Foretell/YY00005.png" class="header-gif" />
+                <img src="/Foretell/YY00002.png" class="header-gif" />
+                <img src="/Foretell/YY00003.png" class="header-gif" />
+                <img src="/Foretell/YY00004.png" class="header-gif" />
+              </div>
+              <div v-else-if="route.name === 'dungeon-relics'" class="talent-header-gifs">
+                <img src="/DungeonRelics/YW00022_311.png" class="header-gif" />
+                <img src="/DungeonRelics/YW00022_401.png" class="header-gif" />
+                <img src="/DungeonRelics/YW00003_321.png" class="header-gif" />
+                <img src="/DungeonRelics/YW00009_301.png" class="header-gif" />
               </div>
             </div>
           </div>
@@ -643,7 +665,7 @@ const borderNoticeRead = () => {
   --red: #f43f5e;
   --gold: #f97316;
   --purple: #a855f7;
-  --blue: #7FAECB;
+  --blue: #3b82f6;
   --green: #79C37A;
   --gold-light: #ffedd5;
   --purple-light: #f3e8ff;

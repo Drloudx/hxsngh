@@ -851,10 +851,24 @@ const confirmBatchDelete = () => {
 
 // ===== 全部展开/收起 =====
 const expandAllCards = () => {
-  addedCards.value.forEach(card => { card.isExpanded = true })
+  addedCards.value.forEach(card => {
+    card.isExpanded = true
+    card.talentPages.forEach(p => {
+      p.slots.forEach(s => {
+        if (s.talent) s.talentExpand = true
+      })
+    })
+  })
 }
 const collapseAllCards = () => {
-  addedCards.value.forEach(card => { card.isExpanded = false })
+  addedCards.value.forEach(card => {
+    card.isExpanded = false
+    card.talentPages.forEach(p => {
+      p.slots.forEach(s => {
+        if (s.talent) s.talentExpand = false
+      })
+    })
+  })
 }
 
 const totalUniqueTalentCount = computed(() => {
@@ -1081,13 +1095,10 @@ defineExpose({ exportTalentManagerData, triggerTalentDataImport })
   flex-direction: column;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
+  overflow: hidden;
 }
 .talent-sticky-top {
   flex-shrink: 0;
-  position: sticky;
-  top: 0;
-  z-index: 999;
   background: var(--bg);
   padding-bottom: 10px;
 }
@@ -1308,6 +1319,10 @@ defineExpose({ exportTalentManagerData, triggerTalentDataImport })
   flex-direction: column;
   gap: 14px;
   padding: 0px 2px 2px 2px;
+  overflow-y: auto;
+  padding-bottom: 15px;
+  flex: 1;
+  min-height: 0;
 }
 .sandbox-role-card {
   background: var(--card-bg);
@@ -1315,7 +1330,8 @@ defineExpose({ exportTalentManagerData, triggerTalentDataImport })
   border-radius: 14px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
   overflow: hidden;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  flex-shrink: 0;
 }
 .card-header-summary {
   display: flex;

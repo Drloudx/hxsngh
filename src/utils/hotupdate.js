@@ -52,7 +52,7 @@ export const checkHotUpdate = async () => {
     const savedVer = localStorage.getItem('local_web_version')
     const apkVer = (window.__APP_VERSION__ || savedVer || '1.0.5').replace(/^v?/, '')
 
-    // 如果发现本地保存的版本比当前环境还低（比如覆盖安装了老APK），重置它
+    // 如果发现本地保存的版本比当前 APK 还低，重置为 APK 版本
     if (!savedVer || compareVersions(apkVer, savedVer) > 0) {
       localStorage.setItem('local_web_version', apkVer)
       localStorage.setItem('hotupdate_version', apkVer)
@@ -67,15 +67,19 @@ export const checkHotUpdate = async () => {
     const manifest = await resp.json()
     console.log('[HotUpdate] 远程最新版本:', manifest.version)
 
+    console.log('[HotUpdate] 版本比较:', manifest.version, 'vs', currentVer, '结果:', compareVersions(manifest.version, currentVer))
     if (compareVersions(manifest.version, currentVer) > 0) {
       manifest._currentVer = currentVer
-      // 检查大版本号（前3段）是否一致：不一致则不能热更，需要升级APK
-      const curParts = currentVer.split('.').map(Number)
-      const newParts = manifest.version.replace('v', '').split('.').map(Number)
+      // 补全到4段，不足补0：如 "1.0.11" → [1,0,11,0]
+      const pad4 = (v) => { const a = v.replace('v','').split('.').map(Number); while (a.length < 4) a.push(0); return a }
+      const curParts = pad4(currentVer)
+      const newParts = pad4(manifest.version)
       const baseMatch = curParts[0] === newParts[0] && curParts[1] === newParts[1] && curParts[2] === newParts[2]
       manifest._needsApkUpdate = !baseMatch
+      console.log('[HotUpdate]  baseMatch:', baseMatch, 'needsApk:', manifest._needsApkUpdate)
       return manifest
     }
+    console.log('[HotUpdate] 远程版本不高于本地，无更新')
     return null
   } catch (e) {
     console.warn('[HotUpdate] check failed:', e)

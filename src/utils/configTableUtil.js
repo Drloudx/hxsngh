@@ -314,6 +314,16 @@ function buildRelics(roleId = '', relicList = []) {
   return relicList.filter(relic => relic.SpecifyRoleIDs === roleId)
 }
 
+/**
+ * 组装角色心得笔记 (安全兜底，避免全局 buildNotes 未定义时崩溃)
+ */
+function buildNotes(roleId = '', noteList = []) {
+  if (typeof window !== 'undefined' && typeof window.buildNotes === 'function') {
+    return window.buildNotes(roleId, noteList)
+  }
+  return []
+}
+
 
 // ==============================================
 // 对外导出：上层业务调用入口
@@ -453,7 +463,7 @@ function getTalentStepConfig(step = '') {
   const TalentStepConfig = {
     S: { weight: 4, color: '#f97316', label: 'S' },
     A: { weight: 3, color: '#a855f7', label: 'A' },
-    B: { weight: 2, color: '#7FAECB', label: 'B' },
+    B: { weight: 2, color: '#3b82f6', label: 'B' },
     C: { weight: 1, color: '#79C37A', label: 'C' },
     '': { weight: 0, color: '#999999', label: '未知' }
   }
@@ -588,7 +598,8 @@ function getAllTalentsGroupedOnlyTopQuality(talentList = []) {
 export const getTalentSourceLabel = (talent, allChars = []) => {
   // 1. 专属天赋：绑定SpecifyRoleIDs，找到对应角色名
   if (talent.SpecifyRoleIDs) {
-    const bindRole = allChars.find(c => c.id === talent.SpecifyRoleIDs)
+    const targetId = String(talent.SpecifyRoleIDs).trim().toLowerCase()
+    const bindRole = allChars.find(c => String(c.id).trim().toLowerCase() === targetId)
     return bindRole ? bindRole.displayName : `专属(${talent.SpecifyRoleIDs})`
   }
   // 2. 种族天赋
@@ -597,11 +608,11 @@ export const getTalentSourceLabel = (talent, allChars = []) => {
   }
   // 3. 职业天赋
   if (talent.Class) {
-    return `${talent.Class}职业`
+    return `${talent.Class}`
   }
   // 4. 属性天赋
   if (talent.Element) {
-    return `${talent.Element}属性`
+    return `${talent.Element}`
   }
   // 5. 无任何限制 = 通用天赋
   return '通用'
