@@ -323,32 +323,35 @@ const selectableProphecies = computed(() => {
 
 // 预估四叶草计算公式
 const calculatedClovers = computed(() => {
-  let total = 34
   // 幸运 (YY00011_005) 预言 Value 乘数 (默认为1)
   const luckyItem = rawForetells.value.find(item => item.IDs === 'YY00011_005')
   const luckyVal = luckyItem ? (luckyItem.Value !== undefined ? luckyItem.Value : 1) : 1
-  total *= luckyVal
+  const base = 34 * luckyVal
 
-  // 分别乘上已添加天赋的对应倍率
+  let harvestCoef = 0
+  let treasureCoef = 0
+  let vaultMult = 1
+
+  // 分别乘上已添加预言的对应倍率
   addedCalcItems.value.forEach(item => {
     if (item.Name === '丰收') {
-      if (item.Step === 'B') total *= 2
-      else if (item.Step === 'A') total *= 3
-      else if (item.Step === 'S') total *= 4
-      else if (item.Step === 'SS') total *= 6
+      if (item.Step === 'B') harvestCoef = 1
+      else if (item.Step === 'A') harvestCoef = 2
+      else if (item.Step === 'S') harvestCoef = 3
+      else if (item.Step === 'SS') harvestCoef = 5
     } else if (item.Name === '藏宝') {
-      if (item.Step === 'B') total *= 2
-      else if (item.Step === 'A') total *= 3
-      else if (item.Step === 'S') total *= 4
-      else if (item.Step === 'SS') total *= 6
+      if (item.Step === 'B') treasureCoef = 1
+      else if (item.Step === 'A') treasureCoef = 2
+      else if (item.Step === 'S') treasureCoef = 3
+      else if (item.Step === 'SS') treasureCoef = 5
     } else if (item.Name === '秘藏') {
-      if (item.Step === 'B') total *= 2 // 蓝色位阶
-      else if (item.Step === 'A') total *= 3 // 紫色位阶
-      else if (item.Step === 'S') total *= 4 // 橙色位阶
+      if (item.Step === 'B') vaultMult = 2 // 蓝色位阶
+      else if (item.Step === 'A') vaultMult = 3 // 紫色位阶
+      else if (item.Step === 'S') vaultMult = 4 // 橙色位阶
     }
   })
 
-  return total
+  return base * (1 + harvestCoef + treasureCoef) * vaultMult
 })
 
 const saveCalcItems = () => {
