@@ -30,6 +30,8 @@ export class ImageMatcher {
           { name: '器灵', url: './images/race_04_qi_ling.png', refW: 1116 },
           // 1080*2400
           { name: '雪原', url: './images/region_07_xue_yuan.png', refW: 1080 },
+          // 1084*2412
+          { name: '火山', url: './images/region_08_huo_shan.png', refW: 1080 },
           // 1064
           { name: '地系', url: './images/ele_04_di.png', refW: 1064 }
         ];
