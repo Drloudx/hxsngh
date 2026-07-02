@@ -204,12 +204,12 @@ const modes = [
   { id: 'talent', name: '天赋筛选工具', shortName: '天赋', path: '/talent' },
   { id: 'subskill', name: '支援筛选工具', shortName: '支援', path: '/subskill' },
   { id: 'talent-manage', name: '天赋管理', shortName: '库存', path: '/talent-manage' },
+  { id: 'role', name: '角色图鉴', shortName: '角色', path: '/role' },
   { id: 'lime', name: '莱姆图鉴', shortName: '莱姆', path: '/lime' },
   { id: 'prefix', name: '怪物前缀', shortName: '前缀', path: '/prefix' },
   { id: 'foretell', name: '预言图鉴', shortName: '预言', path: '/foretell' },
   { id: 'dungeon-relics', name: '星界秘境遗物图鉴', shortName: '遗物', path: '/dungeon-relics' },
   { id: 'guide', name: '新人攻略', shortName: '攻略', path: '/guide' },
-  { id: 'role', name: '预告：角色图鉴', shortName: '预告', path: '/role' },
   { id: 'ranking', name: '预告：角色/队伍热度排行', shortName: '预告', path: '/ranking' }
 ]
 
@@ -417,6 +417,12 @@ const borderNoticeRead = () => {
                 <img src="/lime/LM02016B.png" class="header-gif" />
               </div>
               <div v-else-if="route.name === 'guide'" class="talent-header-gifs">
+                <img src="/misc/mid_btn_equip_0002.png" class="header-gif" />
+                <img src="/misc/mid_btn_equip_0003.png" class="header-gif" />
+                <img src="/misc/mid_btn_equip_0004.png" class="header-gif" />
+                <img src="/misc/mid_btn_equip_0005.png" class="header-gif" />
+              </div>
+              <div v-else-if="route.name === 'role'" class="talent-header-gifs">
                 <img src="/misc/mid_btn_equip_0002.png" class="header-gif" />
                 <img src="/misc/mid_btn_equip_0003.png" class="header-gif" />
                 <img src="/misc/mid_btn_equip_0004.png" class="header-gif" />

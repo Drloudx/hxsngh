@@ -122,7 +122,7 @@
             </div>
             <div class="relic-detail-stat">
               <span class="stat-label">出现地图：</span>
-              <span class="stat-value text-ellipsis" :title="getLimeSourceMaps(detailModal.data)">
+              <span class="stat-value" style="word-break: break-all; white-space: normal;" :title="getLimeSourceMaps(detailModal.data)">
                 {{ getLimeSourceMaps(detailModal.data) }}
               </span>
             </div>
@@ -572,6 +572,9 @@ const closeDetailModal = () => {
   width: 90%;
   height: 90%;
   object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .lime-card-name-label {
@@ -744,6 +747,9 @@ const closeDetailModal = () => {
   width: 95%;
   height: 95%;
   object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .relic-details-grid {

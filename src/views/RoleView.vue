@@ -1,52 +1,1651 @@
 <template>
-  <div class="talent-container">
-    <div class="talent-sticky-top">
-      <div class="talent-search-box">
-        <img src="/ui/search.svg" class="search-icon" />
-        <input type="text" placeholder="搜索角色..." class="talent-search-input" />
+  <div class="role-container">
+    <!-- Search and Filter Header -->
+    <div class="role-sticky-top">
+      <div class="role-search-row">
+        <!-- Search bar -->
+        <div class="role-search-box">
+          <img src="/ui/search.svg" class="search-icon" />
+          <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="搜索角色名字、描述..."
+            class="role-search-input"
+          />
+        </div>
+        <!-- Collapse Toggle Button (Smaller font and padding) -->
+        <button class="filter-toggle-btn" @click="tagsExpanded = !tagsExpanded">
+          <span class="filter-toggle-text">筛选</span>
+          <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !tagsExpanded }" />
+        </button>
+      </div>
+
+      <!-- Filters Panel (Collapsible) -->
+      <div v-show="tagsExpanded" class="filter-panel">
+        <!-- Rarity Row -->
+        <div class="filter-row">
+          <span class="filter-label">稀有度</span>
+          <div class="filter-options">
+            <span
+              v-for="opt in stepOptions"
+              :key="opt.value"
+              :class="['tag', selectedStep === opt.value ? 'active' : '']"
+              @click="toggleFilter('step', opt.value)"
+            >
+              {{ opt.label }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Class Row -->
+        <div class="filter-row">
+          <span class="filter-label">职业</span>
+          <div class="filter-options">
+            <span
+              v-for="opt in classOptions"
+              :key="opt.value"
+              :class="['tag', selectedClass === opt.value ? 'active' : '']"
+              @click="toggleFilter('class', opt.value)"
+            >
+              {{ opt.label }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Race/Type Row -->
+        <div class="filter-row">
+          <span class="filter-label">种族</span>
+          <div class="filter-options">
+            <span
+              v-for="opt in typeOptions"
+              :key="opt.value"
+              :class="['tag', selectedType === opt.value ? 'active' : '']"
+              @click="toggleFilter('type', opt.value)"
+            >
+              {{ opt.label }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Element Row -->
+        <div class="filter-row">
+          <span class="filter-label">属性</span>
+          <div class="filter-options">
+            <span
+              v-for="opt in elementOptions"
+              :key="opt.value"
+              :class="['tag', selectedElement === opt.value ? 'active' : '']"
+              @click="toggleFilter('element', opt.value)"
+            >
+              {{ opt.label }}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="sandbox-role-list">
-      <div class="sandbox-empty-state">
-        <div class="placeholder-title">角色图鉴</div>
-        <div class="placeholder-desc">当前页面正在建设中</div>
-        <div class="placeholder-title">如果有什么想法，可以加群交流</div>
-          <p class="qq-link-wrap" style="margin-top:8px">
-            <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=4xp%2BlCmM2Q2gVIvW6a14yOEVtT%2BPLsY9DwmNSDRVTBkp8xcNO%2FTRo%2FOksMb528aW&busi_data=eyJncm91cENvZGUiOiI5NjQ3Njg3OTkiLCJ0b2tlbiI6Im1abkR4eDNDb09HeDZtV2QvNi9ZOTlMNWRhQVQxSDVGK2hSUmlmdkd6bm9hNGRIYjZnWFB6QitBd1A5NVhscmMiLCJ1aW4iOiIxOTY1MTYxNjQzIn0%3D&data=CcXqRPXmezEwvtBwz950aSAyBxYHidOpffYEE8nD1EB-WDcAI-CLzvlLLIavd-lpEuHEP9fCXE5i5Sh3aGjUmw&svctype=4&tempid=h5_group_info" target="_blank" style="color:#3b82f6;font-weight:bold">点击链接加入群聊【幻想少女公会助手反馈交流群】</a>
-          </p>
+
+    <!-- Character 4-column Grid List (Lazy loading enabled) -->
+    <div class="role-grid-container" @scroll="handleGridScroll">
+      <div
+        v-for="char in pagedCharacters"
+        :key="char.id"
+        class="role-grid-card"
+        @click="openDetail(char)"
+      >
+        <div
+          class="role-avatar-slot"
+          :style="{ borderColor: getStepConfig(char.step).color }"
+        >
+          <img
+            :src="`/RoleCard/${char.id.replace(/^M/, 'MD')}.png`"
+            :alt="char.displayName"
+            class="role-avatar-img game-sprite"
+            @error="handleCardError"
+          />
+        </div>
+        <!-- Card Name Label: Wrapping allowed for long names -->
+        <div class="role-card-name-label" :style="{ color: getStepConfig(char.step).color }">
+          {{ char.displayName }}
+        </div>
       </div>
+
+      <div v-if="pagedCharacters.length === 0" class="no-data">
+        未找到匹配的角色数据
+      </div>
+    </div>
+
+    <!-- Whole-page scrollable detail overlay -->
+    <div
+      v-if="selectedChar"
+      class="role-detail-overlay"
+    >
+      <div class="role-detail-wrapper">
+        <!-- Close Button (sticky float at top right) -->
+        <div class="close-btn-sticky-wrapper">
+          <button class="role-detail-close" @click="closeDetail">✕</button>
+        </div>
+
+        <!-- Title centered -->
+        <h2 class="detail-title" :style="{ color: getStepConfig(selectedChar.step).color }">
+          {{ selectedChar.displayName }}
+        </h2>
+
+        <!-- Character full portrait draw card (Vertical layout, scaled down further) -->
+        <div
+          class="detail-portrait-card"
+          :style="{ backgroundColor: getStepConfig(selectedChar.step).bg }"
+        >
+          <img
+            :src="`/RoleDraw/${selectedChar.id}_1__single_part1_1@1.png`"
+            :alt="selectedChar.displayName"
+            class="detail-portrait-img game-sprite"
+            @error="handleDrawError"
+          />
+        </div>
+
+        <!-- 4 basic tags (Uniform color & less rounded) -->
+        <div class="detail-tags-container">
+          <span class="detail-tag">{{ selectedChar.type }}</span>
+          <span class="detail-tag">{{ selectedChar.class }}</span>
+          <span class="detail-tag">{{ selectedChar.element }}</span>
+          <span class="detail-tag">{{ selectedChar.map || '未知地区' }}</span>
+        </div>
+
+        <!-- Metadata info -->
+        <div class="detail-metadata">
+          <p><strong>角色名称：</strong>{{ selectedChar.displayName }}</p>
+          <p><strong>定位：</strong>{{ selectedChar.characterRole || '未知' }}</p>
+          <p><strong>场景：</strong>{{ selectedChar.background || '暂无场景信息' }}</p>
+        </div>
+
+        <!-- Details Section -->
+        <div class="detail-sections-container">
+          
+          <!-- 1. Active Skills (专属主动技能) -->
+          <div class="detail-section">
+            <h3 class="section-title">专属技能</h3>
+            <div v-if="selectedChar.activeSkills.length === 0" class="empty-sub-section">无专属技能</div>
+            <div
+              v-for="sk in selectedChar.activeSkills"
+              :key="sk.name"
+              class="detail-card-item"
+            >
+              <div class="card-item-header">
+                <div class="card-item-icon-box">
+                  <img :src="`/Skill/${sk.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" />
+                </div>
+                <div class="card-item-meta">
+                  <span class="card-item-name">{{ sk.name }}</span>
+                  <span class="card-item-badge bg-blue">{{ sk.skillType }}</span>
+                </div>
+              </div>
+              <div class="card-item-desc">{{ sk.formattedDesc }}</div>
+              <div class="card-item-sub">
+                目标：{{ sk.targetType }} | 目标数：{{ sk.maxTarget }} | 释放次数：{{ sk.times }}
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Normal Attack (普通攻击/治疗) -->
+          <div class="detail-section">
+            <h3 class="section-title">普通攻击</h3>
+            <div v-if="!normalAttackDetail" class="empty-sub-section">无普通攻击数据</div>
+            <div v-else class="detail-card-item">
+              <div class="card-item-header">
+                <div class="card-item-icon-box">
+                  <img :src="`/Skill/${normalAttackDetail.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" />
+                </div>
+                <div class="card-item-meta">
+                  <span class="card-item-name">{{ normalAttackDetail.name }}</span>
+                  <span class="card-item-badge bg-green">{{ normalAttackDetail.type }}</span>
+                </div>
+              </div>
+              <div class="card-item-desc">{{ normalAttackDetail.formattedDesc }}</div>
+            </div>
+          </div>
+
+          <!-- 3. Race (细分种族) -->
+          <div class="detail-section">
+            <h3 class="section-title">种族特性</h3>
+            <div v-if="!raceDetail" class="empty-sub-section">无种族数据</div>
+            <div v-else class="detail-card-item">
+              <div class="card-item-header">
+                <div class="card-item-icon-box">
+                  <img :src="`/Skill/${raceDetail.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" />
+                </div>
+                <div class="card-item-meta">
+                  <span class="card-item-name">{{ raceDetail.name }}</span>
+                  <span class="card-item-badge bg-purple">{{ raceDetail.type }}</span>
+                </div>
+              </div>
+              <div class="card-item-desc">{{ raceDetail.formattedDesc }}</div>
+            </div>
+          </div>
+
+          <!-- 4. Support Skills (支援技能) -->
+          <div class="detail-section">
+            <h3 class="section-title">支援技能</h3>
+            <div class="support-skills-grid">
+              <div
+                v-for="sk in supportSkillsList"
+                :key="sk.type"
+                class="detail-card-item"
+              >
+                <div class="card-item-header">
+                  <div class="card-item-icon-box">
+                    <img :src="`/Skill/${sk.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" />
+                  </div>
+                  <div class="card-item-meta">
+                    <span class="card-item-name">{{ sk.name }}</span>
+                    <span class="card-item-badge bg-amber">{{ sk.type }} · {{ sk.star }}星</span>
+                  </div>
+                </div>
+                <div class="card-item-desc">{{ sk.formattedDesc }}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Relics / Insights (角色心得 & 全部心得) -->
+          <div class="detail-section">
+            <h3 class="section-title">角色心得</h3>
+            
+            <!-- Exclusive Relics -->
+            <div v-if="selectedChar.relics.length === 0" class="empty-sub-section">暂无角色专属心得</div>
+            <div
+              v-for="relic in selectedChar.relics"
+              :key="relic.IDs"
+              class="relic-item"
+            >
+              <div class="relic-header">
+                <div class="relic-title-left">
+                  <img :src="`/Relics/${relic.IDs}.png`" class="relic-icon game-sprite" @error="handleRelicIconError" />
+                  <span class="relic-name" :style="{ color: getStepConfig(relic.Step).color }">{{ relic.Name }}</span>
+                </div>
+                <span class="relic-badge" :style="{ color: getStepConfig(relic.Step).color, borderColor: getStepConfig(relic.Step).color }">
+                  {{ relic.Step }}阶
+                </span>
+              </div>
+              <div class="relic-effect">{{ formatRelicEffect(relic.Effect, relic.MaxLevel) }}</div>
+            </div>
+
+            <!-- Expandable Edible Relics (全部心得 - Wrapped feeling with scroll) -->
+            <div class="accordion-item edible-relics-accordion" style="margin-top: 10px;">
+              <div class="accordion-header" @click="edibleRelicsExpanded = !edibleRelicsExpanded">
+                <span>全部心得 ({{ allEdibleRelics.length }})</span>
+                <img src="/ui/up.svg" class="accordion-arrow" :class="{ collapsed: !edibleRelicsExpanded }" />
+              </div>
+              <div v-show="edibleRelicsExpanded" class="edible-relics-content">
+                <!-- Tabs: 职业 placed in front of 种族 (职业, 种族, 属性) -->
+                <div class="relics-filter-tabs">
+                  <button
+                    :class="['relics-tab-btn', { active: activeRelicsTab === '职业' }]"
+                    @click="activeRelicsTab = '职业'"
+                  >
+                    {{ selectedChar.class }}
+                  </button>
+                  <button
+                    :class="['relics-tab-btn', { active: activeRelicsTab === '种族' }]"
+                    @click="activeRelicsTab = '种族'"
+                  >
+                    {{ selectedChar.type }}
+                  </button>
+                  <button
+                    :class="['relics-tab-btn', { active: activeRelicsTab === '属性' }]"
+                    @click="activeRelicsTab = '属性'"
+                  >
+                    {{ selectedChar.element }}
+                  </button>
+                </div>
+
+                <!-- Relics List (Clover style rows) -->
+                <div class="edible-relics-list">
+                  <div v-if="filteredEdibleRelics.length === 0" class="empty-sub-section">
+                    当前无匹配的心得
+                  </div>
+                  <div
+                    v-for="relic in filteredEdibleRelics"
+                    :key="relic.IDs"
+                    class="clover-added-item"
+                  >
+                    <div class="clover-item-left">
+                      <img :src="`/Relics/${relic.IDs}.png`" class="clover-item-icon game-sprite" @error="handleRelicIconError" />
+                      <div class="clover-item-text">
+                        <div class="clover-item-line1">
+                          <span class="clover-item-name" :style="{ color: getStepConfig(relic.Step).color }">{{ relic.Name }}</span>
+                          <span class="clover-item-source-name">{{ getRelicSourceRoleName(relic) }}</span>
+                        </div>
+                        <!-- Bracket layout removed, display matching Class/Race/SubRace value directly -->
+                        <div class="clover-item-line2">
+                          {{ activeRelicsTab === '职业' ? relic.Class : (activeRelicsTab === '种族' ? relic.Race : relic.SubRace) }} 角色 {{ formatRelicEffect(relic.Effect, relic.MaxLevel) }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Talents (天赋列表 - Quality-sorted within same name) -->
+          <div class="detail-section">
+            <h3 class="section-title">天赋列表</h3>
+            <div class="talents-accordion">
+              <!-- Exclusive Talents -->
+              <div class="accordion-item">
+                <div class="accordion-header" @click="toggleTalentExpand('exclusive')">
+                  <span>专属天赋 ({{ sortedExclusiveTalents.length }})</span>
+                  <img src="/ui/up.svg" class="accordion-arrow" :class="{ collapsed: !talentExpanded.exclusive }" />
+                </div>
+                <div v-if="talentExpanded.exclusive" class="accordion-content">
+                  <div v-if="sortedExclusiveTalents.length === 0" class="empty-sub-section">无专属天赋</div>
+                  <div v-for="t in sortedExclusiveTalents" :key="t.Name + t.Step" class="talent-item">
+                    <div class="talent-item-name" :style="{ color: getStepConfig(t.Step).color }">
+                      {{ t.Name }}
+                    </div>
+                    <div class="talent-item-effect">{{ t.formattedEffect }}</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Race Talents -->
+              <div class="accordion-item">
+                <div class="accordion-header" @click="toggleTalentExpand('race')">
+                  <span>种族天赋 ({{ sortedRaceTalents.length }})</span>
+                  <img src="/ui/up.svg" class="accordion-arrow" :class="{ collapsed: !talentExpanded.race }" />
+                </div>
+                <div v-if="talentExpanded.race" class="accordion-content">
+                  <div v-if="sortedRaceTalents.length === 0" class="empty-sub-section">无种族天赋</div>
+                  <div v-for="t in sortedRaceTalents" :key="t.Name + t.Step" class="talent-item">
+                    <div class="talent-item-name" :style="{ color: getStepConfig(t.Step).color }">
+                      {{ t.Name }}
+                    </div>
+                    <div class="talent-item-effect">{{ t.formattedEffect }}</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Class Talents -->
+              <div class="accordion-item">
+                <div class="accordion-header" @click="toggleTalentExpand('class')">
+                  <span>职业天赋 ({{ sortedClassTalents.length }})</span>
+                  <img src="/ui/up.svg" class="accordion-arrow" :class="{ collapsed: !talentExpanded.class }" />
+                </div>
+                <div v-if="talentExpanded.class" class="accordion-content">
+                  <div v-if="sortedClassTalents.length === 0" class="empty-sub-section">无职业天赋</div>
+                  <div v-for="t in sortedClassTalents" :key="t.Name + t.Step" class="talent-item">
+                    <div class="talent-item-name" :style="{ color: getStepConfig(t.Step).color }">
+                      {{ t.Name }}
+                    </div>
+                    <div class="talent-item-effect">{{ t.formattedEffect }}</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Element Talents -->
+              <div class="accordion-item">
+                <div class="accordion-header" @click="toggleTalentExpand('element')">
+                  <span>属性天赋 ({{ sortedElementTalents.length }})</span>
+                  <img src="/ui/up.svg" class="accordion-arrow" :class="{ collapsed: !talentExpanded.element }" />
+                </div>
+                <div v-if="talentExpanded.element" class="accordion-content">
+                  <div v-if="sortedElementTalents.length === 0" class="empty-sub-section">无属性天赋</div>
+                  <div v-for="t in sortedElementTalents" :key="t.Name + t.Step" class="talent-item">
+                    <div class="talent-item-name" :style="{ color: getStepConfig(t.Step).color }">
+                      {{ t.Name }}
+                    </div>
+                    <div class="talent-item-effect">{{ t.formattedEffect }}</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Common Talents -->
+              <div class="accordion-item">
+                <div class="accordion-header" @click="toggleTalentExpand('common')">
+                  <span>通用天赋 ({{ sortedCommonTalents.length }})</span>
+                  <img src="/ui/up.svg" class="accordion-arrow" :class="{ collapsed: !talentExpanded.common }" />
+                </div>
+                <div v-if="talentExpanded.common" class="accordion-content">
+                  <div v-if="sortedCommonTalents.length === 0" class="empty-sub-section">无通用天赋</div>
+                  <div v-for="t in sortedCommonTalents" :key="t.Name + t.Step" class="talent-item">
+                    <div class="talent-item-name" :style="{ color: getStepConfig(t.Step).color }">
+                      {{ t.Name }}
+                    </div>
+                    <div class="talent-item-effect">{{ t.formattedEffect }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, computed, watch } from 'vue'
+import rawRoles from '@/assets/RoleDataTable.json'
+import rawSubSkills from '@/assets/SubSkillDataTable.json'
+import rawUniqueSkills from '@/assets/UniqueDataTable.json'
+import rawTalents from '@/assets/TalentDataTable.json'
+import rawRelics from '@/assets/RelicsDataTable.json'
+import * as configUtil from '@/utils/configTableUtil.js'
+
+// ==============================================
+// 开关配置：未实装角色及相关数据隐藏 (仅供代码配置)
+// ==============================================
+const HIDE_UNRELEASED_CHARACTERS = ref(true) // 未实装角色隐藏开关
+
+// Options for search criteria
+const stepOptions = [
+  { label: '全部', value: 'all' },
+  { label: '普通', value: 'C' },
+  { label: '稀有', value: 'B' },
+  { label: '史诗', value: 'A' },
+  { label: '传说', value: 'S' }
+]
+
+const classOptions = [
+  { label: '全部', value: 'all' },
+  { label: '战士', value: '战士' },
+  { label: '射手', value: '射手' },
+  { label: '法师', value: '法师' },
+  { label: '牧师', value: '牧师' }
+]
+
+const typeOptions = [
+  { label: '全部', value: 'all' },
+  { label: '生灵', value: '生灵' },
+  { label: '器灵', value: '器灵' },
+  { label: '魔灵', value: '魔灵' },
+  { label: '亡灵', value: '亡灵' },
+  { label: '神灵', value: '神灵' }
+]
+
+const elementOptions = [
+  { label: '全部', value: 'all' },
+  { label: '地系', value: '地系' },
+  { label: '风系', value: '风系' },
+  { label: '水系', value: '水系' },
+  { label: '火系', value: '火系' },
+  { label: '光系', value: '光系' },
+  { label: '暗系', value: '暗系' }
+]
+
+// Search and expand states
+const searchQuery = ref('')
+const selectedStep = ref('all')
+const selectedClass = ref('all')
+const selectedType = ref('all')
+const selectedElement = ref('all')
+const tagsExpanded = ref(false) // 默认收起
+
+const STEP_PRIORITY = { 'S': 4, 'A': 3, 'B': 2, 'C': 1 }
+
+// Setup full dataset
+const rawRoleArr = configUtil.extractDataArray(rawRoles)
+const rawSupportArr = configUtil.extractDataArray(rawSubSkills)
+const rawSkillArr = configUtil.extractDataArray(rawUniqueSkills)
+const rawTalentArr = configUtil.extractDataArray(rawTalents)
+const rawRelicArr = configUtil.extractDataArray(rawRelics)
+
+const datasets = {
+  supportList: rawSupportArr,
+  skillList: rawSkillArr,
+  talentList: rawTalentArr,
+  relicList: rawRelicArr,
+  noteList: []
+}
+
+// ==============================================
+// 配置：手动屏蔽的角色 ID 列表 (便于随时注释恢复)
+// ==============================================
+const BLOCKED_CHARACTER_IDS = [
+  'M23301_001', // [熔岩]史莱姆王
+  'M11303_002', // [熔岩]雪人骑士
+]
+
+// Assembled characters
+const allCharacters = ref(configUtil.getFullCharacterList(rawRoleArr, datasets).filter(c => !BLOCKED_CHARACTER_IDS.includes(c.id)))
+
+// Switch filter: We DO NOT hide any characters inside RoleDataTable.json, keeping M11301_000 etc.
+const visibleCharacters = computed(() => {
+  return allCharacters.value
+})
+
+// Switch filter: Hide unreleased relics
+const isUnreleasedRelic = (relic) => {
+  if (!relic.SpecifyRoleIDs) return false
+  // If character is not present in our characters list, it is considered unreleased.
+  // This correctly preserves real skin characters (like M12205_000, M51303_000) that are present in allCharacters.
+  const exists = allCharacters.value.some(c => c.id === relic.SpecifyRoleIDs)
+  return !exists
+}
+
+const visibleRelics = computed(() => {
+  let list = rawRelicArr
+  if (HIDE_UNRELEASED_CHARACTERS.value) {
+    list = list.filter(relic => !isUnreleasedRelic(relic))
+  }
+  return list
+})
+
+// Filter logic
+const filteredCharacters = computed(() => {
+  return visibleCharacters.value.filter(char => {
+    const q = searchQuery.value.trim().toLowerCase()
+    const matchesSearch = !q ||
+      char.displayName.toLowerCase().includes(q) ||
+      char.name.toLowerCase().includes(q) ||
+      (char.background && char.background.toLowerCase().includes(q)) ||
+      (char.normalAttack && char.normalAttack.name.toLowerCase().includes(q)) ||
+      (char.race && char.race.name.toLowerCase().includes(q)) ||
+      char.activeSkills.some(sk => sk.name.toLowerCase().includes(q))
+
+    const matchesStep = selectedStep.value === 'all' || char.step === selectedStep.value
+    const matchesClass = selectedClass.value === 'all' || char.class === selectedClass.value
+    const matchesType = selectedType.value === 'all' || char.type === selectedType.value
+    const matchesElement = selectedElement.value === 'all' || char.element === selectedElement.value
+
+    return matchesSearch && matchesStep && matchesClass && matchesType && matchesElement
+  })
+})
+
+// Build a map of base ID to the highest step priority among all versions of that base ID.
+// This allows us to keep normal and alien characters grouped next to each other within the same rarity tier block.
+const basePriorityMap = computed(() => {
+  const map = {}
+  allCharacters.value.forEach(char => {
+    const baseId = char.id.split('_')[0]
+    const priority = STEP_PRIORITY[char.step] || 0
+    if (!map[baseId] || priority > map[baseId]) {
+      map[baseId] = priority
+    }
+  })
+  return map
+})
+
+// Sort logic:
+// 1. Put "假人" at the end (dummy checked via Name/DisplayName containing "假人").
+// 2. Sort by basePriority of character group descending (keeping S, A, B, C blocks).
+// 3. Keep normal/alien characters next to each other by grouping baseId alphabetically.
+// 4. Within the same base ID group, sort by full ID (normal character first, then alien skins).
+const sortedCharacters = computed(() => {
+  return [...filteredCharacters.value].sort((a, b) => {
+    const isDummyA = a.name && (a.name.includes('假人') || a.displayName.includes('假人'))
+    const isDummyB = b.name && (b.name.includes('假人') || b.displayName.includes('假人'))
+    if (isDummyA !== isDummyB) {
+      return isDummyA ? 1 : -1
+    }
+
+    const baseIdA = a.id.split('_')[0]
+    const baseIdB = b.id.split('_')[0]
+    
+    const prioA = basePriorityMap.value[baseIdA] || 0
+    const prioB = basePriorityMap.value[baseIdB] || 0
+    
+    if (prioA !== prioB) {
+      return prioB - prioA // Group by rarity block
+    }
+
+    if (baseIdA !== baseIdB) {
+      return baseIdA.localeCompare(baseIdB) // Keep versions adjacent
+    }
+
+    return a.id.localeCompare(b.id) // Normal first, then alien versions
+  })
+})
+
+// Lazy loading grid pagination
+const displayLimit = ref(24) // Initial 24 characters loaded (6 rows of 4)
+const pagedCharacters = computed(() => {
+  return sortedCharacters.value.slice(0, displayLimit.value)
+})
+
+const handleGridScroll = (e) => {
+  const el = e.target
+  if (el.scrollHeight - el.scrollTop - el.clientHeight < 100) {
+    if (displayLimit.value < sortedCharacters.value.length) {
+      displayLimit.value += 24
+    }
+  }
+}
+
+// Reset page limit when filters/search changes
+watch(searchQuery, () => {
+  displayLimit.value = 24
+})
+
+// Toggling filter state
+const toggleFilter = (type, value) => {
+  displayLimit.value = 24 // Reset lazy loading limit
+  if (type === 'step') {
+    selectedStep.value = selectedStep.value === value ? 'all' : value
+  } else if (type === 'class') {
+    selectedClass.value = selectedClass.value === value ? 'all' : value
+  } else if (type === 'type') {
+    selectedType.value = selectedType.value === value ? 'all' : value
+  } else if (type === 'element') {
+    selectedElement.value = selectedElement.value === value ? 'all' : value
+  }
+}
+
+// Detail states
+const selectedChar = ref(null)
+const edibleRelicsExpanded = ref(false) // 全部心得默认收起
+const activeRelicsTab = ref('职业') // Default to 职业 (First tab)
+
+const normalAttackDetail = computed(() => {
+  if (!selectedChar.value || !selectedChar.value.normalAttack) return null
+  return getSubSkillDetail(selectedChar.value.normalAttack.id) || {
+    name: selectedChar.value.normalAttack.name,
+    formattedDesc: '无描述',
+    type: '普攻',
+    icon: 'TB00011'
+  }
+})
+
+const raceDetail = computed(() => {
+  if (!selectedChar.value || !selectedChar.value.race) return null
+  return getSubSkillDetail(selectedChar.value.race.id) || {
+    name: selectedChar.value.race.name,
+    formattedDesc: '无描述',
+    type: '种族',
+    icon: 'TB20011'
+  }
+})
+
+const supportSkillsList = computed(() => {
+  if (!selectedChar.value) return []
+  const skills = selectedChar.value.supportSkills
+  return [
+    skills.characteristic,
+    skills.subClass,
+    skills.feature
+  ].filter(Boolean)
+})
+
+// Accordion open states
+const talentExpanded = ref({
+  exclusive: false,
+  race: false,
+  class: false,
+  element: false,
+  common: false
+})
+
+const toggleTalentExpand = (key) => {
+  talentExpanded.value[key] = !talentExpanded.value[key]
+}
+
+// Helper: sort talents with same Name placing higher quality (Step) on top
+const sortTalents = (talents) => {
+  const stepOrder = { 'S': 4, 'A': 3, 'B': 2, 'C': 1 }
+  return [...talents].sort((a, b) => {
+    const nameCompare = a.Name.localeCompare(b.Name)
+    if (nameCompare !== 0) {
+      return nameCompare
+    }
+    const stepA = stepOrder[a.Step] || 0
+    const stepB = stepOrder[b.Step] || 0
+    return stepB - stepA
+  })
+}
+
+// Sorted talent computed properties
+const sortedExclusiveTalents = computed(() => {
+  if (!selectedChar.value || !selectedChar.value.talents) return []
+  return sortTalents(selectedChar.value.talents.exclusive)
+})
+const sortedRaceTalents = computed(() => {
+  if (!selectedChar.value || !selectedChar.value.talents) return []
+  return sortTalents(selectedChar.value.talents.race)
+})
+const sortedClassTalents = computed(() => {
+  if (!selectedChar.value || !selectedChar.value.talents) return []
+  return sortTalents(selectedChar.value.talents.class)
+})
+const sortedElementTalents = computed(() => {
+  if (!selectedChar.value || !selectedChar.value.talents) return []
+  return sortTalents(selectedChar.value.talents.element)
+})
+const sortedCommonTalents = computed(() => {
+  if (!selectedChar.value || !selectedChar.value.talents) return []
+  return sortTalents(selectedChar.value.talents.common)
+})
+
+// Relics helper: Sort relics by Step descending and Name ascending
+const sortRelics = (list) => {
+  const stepOrder = { 'S': 3, 'A': 2, 'B': 1, 'C': 0 }
+  return [...list].sort((a, b) => {
+    const wa = stepOrder[a.Step] || 0
+    const wb = stepOrder[b.Step] || 0
+    if (wa !== wb) return wb - wa
+    return a.Name.localeCompare(b.Name)
+  })
+}
+
+// Relics helper: Resolve display source role name for a relic
+const getRelicSourceRoleName = (relic) => {
+  if (!relic.SpecifyRoleIDs) return '通用'
+  const char = allCharacters.value.find(c => c.id === relic.SpecifyRoleIDs)
+  return char ? char.displayName : relic.SpecifyRoleIDs
+}
+
+// Relics helper: check if a relic matches character tags using direct database matching
+// - 种族 (Race) matches relic.Race field
+// - 职业 (Class) matches relic.Class field
+// - 属性 (Element) matches relic.SubRace field
+const isRelicMatch = (relic, char, tab) => {
+  if (tab === '种族') {
+    return relic.Race === char.type
+  }
+  if (tab === '职业') {
+    return relic.Class === char.class
+  }
+  if (tab === '属性') {
+    return relic.SubRace === char.element
+  }
+  return false
+}
+
+// Relics helper: find all edible relics matching character tags (Excluding exclusive)
+const allEdibleRelics = computed(() => {
+  if (!selectedChar.value) return []
+  const char = selectedChar.value
+  return visibleRelics.value.filter(relic => 
+    isRelicMatch(relic, char, '种族') ||
+    isRelicMatch(relic, char, '职业') ||
+    isRelicMatch(relic, char, '属性')
+  )
+})
+
+// Relics helper: Filter edible relics by current tab (种族 / 职业 / 属性)
+const filteredEdibleRelics = computed(() => {
+  if (!selectedChar.value) return []
+  const char = selectedChar.value
+  const list = visibleRelics.value.filter(relic => isRelicMatch(relic, char, activeRelicsTab.value))
+  return sortRelics(list)
+})
+
+// Helper: parse a subskill detailed info
+const getSubSkillDetail = (id) => {
+  if (!id) return null
+  const rawSkill = rawSupportArr.find(item => item.IDs === id)
+  if (!rawSkill) return null
+  const valueList = [rawSkill.Value0, rawSkill.Value1, rawSkill.Value2]
+  return {
+    id: rawSkill.IDs,
+    name: rawSkill.Name,
+    type: rawSkill.Type,
+    icon: rawSkill.Icon || 'TB00001',
+    description: rawSkill.Description,
+    formattedDesc: configUtil.replacePlaceholders(rawSkill.Description, valueList),
+    value0: rawSkill.Value0 ?? 0,
+    value1: rawSkill.Value1 ?? 0,
+    value2: rawSkill.Value2 ?? 0
+  }
+}
+
+// Helper: format relic/insight description (attr+2 -> attr+2/4/6/8)
+const formatRelicEffect = (effectText, maxLevel = 3) => {
+  if (!effectText) return '无描述'
+  const finalLevel = maxLevel ?? 3
+  return effectText.replace(/(\d+(?:\.\d+)?)/g, (match) => {
+    const baseVal = parseFloat(match)
+    if (isNaN(baseVal)) return match
+    const values = []
+    for (let i = 0; i <= finalLevel; i++) {
+      values.push(baseVal * (i + 1))
+    }
+    return values.join('/')
+  })
+}
+
+// Color and background helper
+const getStepConfig = (step) => {
+  const map = {
+    'S': { label: '传说', color: '#f97316', bg: 'rgba(249, 115, 22, 0.1)' },
+    'A': { label: '史诗', color: '#a855f7', bg: 'rgba(168, 85, 247, 0.1)' },
+    'B': { label: '稀有', color: '#3b82f6', bg: 'rgba(59, 130, 246, 0.1)' },
+    'C': { label: '普通', color: '#10b981', bg: 'rgba(16, 185, 129, 0.1)' }
+  }
+  return map[step] || { label: step, color: '#64748b', bg: 'rgba(100, 116, 139, 0.1)' }
+}
+
+
+
+const openDetail = (char) => {
+  // Reset states
+  talentExpanded.value = {
+    exclusive: false,
+    race: false,
+    class: false,
+    element: false,
+    common: false
+  }
+  edibleRelicsExpanded.value = false
+  activeRelicsTab.value = '职业' // Default to 职业 (First tab)
+  selectedChar.value = char
+}
+
+const closeDetail = () => {
+  selectedChar.value = null
+}
+
+// Image fallback handlers
+const handleCardError = (e) => {
+  e.target.src = '/Header/M00000.png'
+}
+
+const handleDrawError = (e) => {
+  e.target.src = '/Header/M00000.png'
+}
+
+const handleSkillIconError = (e) => {
+  e.target.src = '/Skill/TB00001.png'
+}
+
+const handleRelicIconError = (e) => {
+  e.target.src = '/Relics/Mark.png'
+}
 </script>
 
 <style scoped>
-.talent-container {
-  width: 100%; max-width: 800px; margin: 0 auto; padding: 0;
-  box-sizing: border-box; display: flex; flex-direction: column; flex: 1;
-  min-height: 0; overflow: hidden;
+/* ===== CSS pixel rendering helper ===== */
+.game-sprite {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
-.talent-sticky-top {
+
+/* ===== Page Container ===== */
+.role-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.role-sticky-top {
   flex-shrink: 0;
-  background: var(--bg); padding-bottom: 10px;
+  background: var(--bg);
+  padding-bottom: 10px;
+  z-index: 10;
 }
-.talent-search-box {
-  display: flex; align-items: center; background: var(--card-bg);
-  border: 1px solid var(--border-color); border-radius: 12px;
-  padding: 10px 14px; box-shadow: inset 0 1px 4px rgba(0,0,0,0.06);
+
+/* ===== Search row with Collapse Button ===== */
+.role-search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.role-search-box {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.06);
   transition: border-color 0.2s ease;
+  flex: 1;
+  min-width: 0;
 }
-.talent-search-box:focus-within { border-color: #409eff; }
-.search-icon { width: 18px; height: 18px; filter: var(--icon-filter); margin-right: 10px; flex-shrink: 0; opacity: 0.7; }
-.talent-search-input { flex: 1; border: none; outline: none; background: transparent; font-size: 15px; color: var(--text-main); font-family: inherit; }
-.sandbox-role-list { flex: 1; overflow-y: auto; padding-bottom: 15px; }
-.sandbox-empty-state { text-align: center; padding: 60px 20px; }
-.placeholder-title { font-size: 18px; font-weight: 700; color: var(--text-main); margin: 12px 0 6px; }
-.placeholder-desc { font-size: 14px; color: var(--text-sub); }
-.qq-link-wrap {
+.role-search-box:focus-within {
+  border-color: var(--primary);
+}
+
+.search-icon {
+  width: 18px;
+  height: 18px;
+  filter: var(--icon-filter);
+  margin-right: 10px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.role-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  color: var(--text-main);
+  font-family: inherit;
+}
+
+/* Toggle button styled smaller */
+.filter-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px; /* Less rounded */
+  padding: 6px 10px; /* Reduced padding */
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  color: var(--text-main);
+  height: 38px;
+}
+.filter-toggle-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.filter-toggle-text {
+  font-size: 12px; /* Smaller text size */
+  font-weight: 600;
+}
+
+.collapse-icon {
+  width: 12px;
+  height: 12px;
+  filter: var(--icon-filter);
+  transition: transform 0.25s ease;
+}
+.collapse-icon.collapsed {
+  transform: rotate(180deg);
+}
+
+/* ===== Filters Panel ===== */
+.filter-panel {
+  margin-top: 10px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.filter-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-sub);
+  width: 45px;
+  flex-shrink: 0;
+}
+
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+}
+
+/* ===== Filter Option Tag (Same click style as RecruitView.vue, active tag bold removed) ===== */
+.tag {
+  padding: 3px 8px;
+  background: var(--bg);
+  border-radius: 4px; /* Less rounded! */
+  cursor: pointer;
+  font-size: 11px; /* Smaller font! */
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  transition: all 0.15s ease;
+  user-select: none;
+}
+@media (hover: hover) {
+  .tag:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+}
+.tag.active {
+  background: #dbeafe;
+  color: var(--primary);
+  border-color: var(--primary);
+  /* font-weight: 600; -> Removed bold font as requested */
+}
+.dark-mode .tag.active {
+  background: rgba(59, 130, 246, 0.2);
+}
+
+/* ===== Grid Container (4 columns) ===== */
+.role-grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: min-content;
+  align-content: start;
+  gap: 12px 8px;
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 2px 20px 2px;
+}
+
+.role-grid-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  min-width: 0;
+  overflow: hidden;
+}
+.role-grid-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary);
+}
+
+.role-avatar-slot {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  border: 1.5px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--bg);
+}
+
+.role-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+.role-grid-card:hover .role-avatar-img {
+  transform: scale(1.04);
+}
+
+/* Wrapping allowed for characters display name on card */
+.role-card-name-label {
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 6px;
+  margin-bottom: 2px;
+  text-align: center;
+  white-space: normal; /* Wrapping enabled! */
+  word-break: break-all;
+  width: 100%;
+  line-height: 1.3;
+}
+
+/* ===== Scrollable Detail Overlay ===== */
+.role-detail-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  z-index: 100;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 16px;
+  animation: slideIn 0.25s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.role-detail-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 40px;
+}
+
+/* Fixed/sticky close button at top-right */
+.close-btn-sticky-wrapper {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  height: 0;
+  z-index: 1010;
+  pointer-events: none;
+}
+
+.role-detail-close {
+  pointer-events: auto;
+  margin-top: 2px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-sub);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+  z-index: 10;
+  transition: all 0.15s ease;
+}
+.role-detail-close:hover {
+  color: var(--red);
+  border-color: var(--red);
+  transform: scale(1.05);
+}
+
+.detail-title {
+  font-size: 20px;
+  font-weight: 800;
+  text-align: center;
+  margin: 4px 45px 16px 45px;
+}
+
+/* Portrait Card: Shrunk down further */
+.detail-portrait-card {
+  width: 100%;
+  max-width: 260px; /* Reduced from 360px */
+  margin: 0 auto 16px auto;
+  border-radius: 8px; /* Less rounded! */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.detail-portrait-img {
+  width: 100%;
+  height: auto;
+  max-height: 280px; /* Reduced from 380px */
+  object-fit: contain;
+}
+
+/* ===== Detail Tags (Uniform styled blue/gray & less rounded) ===== */
+.detail-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.detail-tag {
+  padding: 3px 10px;
+  border-radius: 4px; /* Less rounded! */
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary);
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.18);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+/* ===== Metadata Info ===== */
+.detail-metadata {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px; /* Less rounded */
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--text-main);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+.detail-metadata p {
+  margin: 6px 0;
   text-align: left;
-  padding: 0 10px;
+}
+.detail-metadata p strong {
+  color: var(--text-sub);
+}
+
+/* ===== Detail Sections layout ===== */
+.detail-sections-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detail-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-main);
+  border-left: 4px solid var(--primary);
+  padding-left: 8px;
+  margin: 0 0 10px 0;
+  text-align: left;
+}
+
+.empty-sub-section {
+  font-size: 13px;
+  color: var(--text-sub);
+  text-align: center;
+  padding: 15px 0;
+  background: var(--card-bg);
+  border: 1px dashed var(--border-color);
+  border-radius: 8px;
+}
+
+/* ===== Detail Card Items (Text wraps enabled) ===== */
+.detail-card-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px; /* Less rounded */
+  padding: 12px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+.card-item-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap; /* Wrap allowed */
+}
+
+.card-item-icon-box {
+  width: 32px;
+  height: 32px;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.card-item-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  flex-wrap: wrap; /* Wrap allowed */
+}
+
+.card-item-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: normal; /* Wrap allowed! */
+  word-break: break-all;
+}
+
+.card-item-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.bg-blue { background: #3b82f6; }
+.bg-green { background: #10b981; }
+.bg-purple { background: #8b5cf6; }
+.bg-amber { background: #f59e0b; }
+
+.card-item-desc {
+  font-size: 13px;
+  color: var(--text-main);
+  line-height: 1.5;
+  text-align: left;
+  white-space: normal; /* Wrap allowed */
+  word-break: break-all;
+}
+
+.card-item-sub {
+  font-size: 11px;
+  color: var(--text-sub);
+  text-align: left;
+  white-space: normal;
+  word-break: break-all;
+}
+
+/* ===== Support Skills Grid ===== */
+.support-skills-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ===== Relics Items (With icons and Step colors) ===== */
+.relic-item {
+  background: var(--card-bg);
+  border-left: 3px solid var(--primary);
+  border-top: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 0 8px 8px 0; /* Less rounded */
+  padding: 12px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+  text-align: left;
+}
+
+.relic-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.relic-title-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.relic-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.relic-name {
+  font-size: 14px;
+  font-weight: 700;
+  white-space: normal;
+  word-break: break-all;
+}
+
+.relic-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid;
+}
+
+.relic-effect {
+  font-size: 13px;
+  color: var(--text-main);
+  line-height: 1.4;
+  white-space: normal;
+  word-break: break-all;
+}
+
+/* ===== Edible Relics Accordion (Sense of wrapping/encapsulation) ===== */
+.edible-relics-accordion {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--card-bg);
+}
+
+/* Enclosed background for list contents */
+.edible-relics-content {
+  background: var(--bg); /* Darker contrast background */
+  padding: 12px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Clover style filter tabs */
+.relics-filter-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--card-bg);
+  padding: 2px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 6px;
+  width: fit-content;
+  align-self: flex-start;
+}
+
+.relics-tab-btn {
+  padding: 4px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  border: none;
+  background: transparent;
+  color: var(--text-sub);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.relics-tab-btn:hover {
+  color: var(--text-main);
+}
+.relics-tab-btn.active {
+  background: var(--bg);
+  color: var(--primary);
+  box-shadow: 0 1.5px 4px rgba(0,0,0,0.06);
+}
+
+/* Scrollable container for relics list packaging */
+.edible-relics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px; /* Enclosed height limits scroll */
+  overflow-y: auto;
+  padding: 12px 10px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: inset 0 1.5px 4px rgba(0, 0, 0, 0.04);
+}
+
+.edible-relics-list::-webkit-scrollbar {
+  width: 4px;
+}
+.edible-relics-list::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.clover-added-item {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg); /* Cards sit cleanly */
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 10px;
+  text-align: left;
+  box-shadow: 0 1.5px 3px rgba(0,0,0,0.02);
+}
+
+.clover-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.clover-item-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.clover-item-text {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.clover-item-line1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.clover-item-name {
+  font-size: 13px;
+  font-weight: 700;
+  white-space: normal;
+  word-break: break-all;
+}
+
+.clover-item-source-name {
+  font-size: 11px;
+  color: var(--text-sub);
+  white-space: nowrap;
+  margin-left: 8px;
+}
+
+.clover-item-line2 {
+  font-size: 11px;
+  color: var(--text-sub);
+  margin-top: 2px;
+  white-space: normal;
+  word-break: break-all;
+  line-height: 1.4;
+}
+
+/* ===== Talents Accordion ===== */
+.talents-accordion {
+  border: 1px solid var(--border-color);
+  border-radius: 8px; /* Less rounded */
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+
+.accordion-item {
+  border-bottom: 1px solid var(--border-color);
+}
+.accordion-item:last-child {
+  border-bottom: none;
+}
+
+.accordion-header {
+  background: var(--card-bg);
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+.accordion-header:hover {
+  background: var(--bg);
+}
+
+.accordion-arrow {
+  width: 14px;
+  height: 14px;
+  filter: var(--icon-filter);
+  transition: transform 0.2s ease;
+}
+.accordion-arrow.collapsed {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  background: var(--bg);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.talent-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 10px;
+  text-align: left;
+}
+
+.talent-item-name {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  white-space: normal;
+  word-break: break-all;
+}
+
+.talent-step-label {
+  font-size: 11px;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.talent-item-effect {
+  font-size: 12px;
+  color: var(--text-main);
+  line-height: 1.4;
+  white-space: normal;
+  word-break: break-all;
+}
+
+
+
+/* ===== General Helper Styles ===== */
+.no-data {
+  grid-column: span 4;
+  text-align: center;
+  padding: 60px 0;
+  color: var(--text-sub);
+  font-size: 14px;
 }
 </style>

@@ -317,6 +317,14 @@ const JOB_KEYWORDS = ['战士', '射手', '法师', '牧师']
 const RACE_KEYWORDS = []
 const ATTR_KEYWORDS = ['光系', '暗系', '风系', '地系', '火系', '水系']
 
+// ==============================================
+// 配置：手动屏蔽的角色 ID 列表 (便于随时注释恢复)
+// ==============================================
+const BLOCKED_CHARACTER_IDS = [
+  'M23301_001', // [熔岩]史莱姆王
+  'M11303_002', // [熔岩]雪人骑士
+]
+
 const searchQuery = ref('')
 const selectedCharacter = ref(null)
 const displayLimit = ref(20)
@@ -820,7 +828,7 @@ onMounted(() => {
     relicList: [],
     noteList: []
   }
-  const fullCharacters = configUtil.getFullCharacterList(rawRoleArr, fullDatasets)
+  const fullCharacters = configUtil.getFullCharacterList(rawRoleArr, fullDatasets).filter(c => !BLOCKED_CHARACTER_IDS.includes(c.id))
   allCharacters.value = fullCharacters
 
   const cleanTalentList = rawTalentArr.map((t, idx) => {
@@ -843,7 +851,7 @@ onMounted(() => {
     const rawLabel = configUtil.getTalentSourceLabel(base, fullCharacters)
     base.sourceLabel = (rawLabel || '').replace('职业', '').replace('属性', '')
     return base
-  })
+  }).filter(t => !BLOCKED_CHARACTER_IDS.includes(t.SpecifyRoleIDs))
 
   const sortedCleanList = sortTalentAllQuality(cleanTalentList)
 
