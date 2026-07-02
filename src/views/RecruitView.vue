@@ -62,7 +62,7 @@ const tagsByCol = computed(() => {
     if (col === '星级') {
       result[col] = ['传说', '史诗']
     } else {
-      result[col] = [...new Set(allData.map(i => i[col]))]
+      result[col] = [...new Set(allData.map(i => i[col]))].filter(val => val !== undefined && val !== null && String(val).trim() !== '')
     }
   });
   return result
