@@ -1,6 +1,14 @@
 {
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 8945499362298318457
+  },
   "m_Name": "WorldMapDataTable",
-  "m_Name1": "地图数据",
   "DataTable": [
     {
       "IDs": "A00000",
@@ -209,6 +217,22 @@
       "Desc": "看似平静的沙海暗藏陷阱，无情的流沙能瞬息间吞噬任何失足者的生命。",
       "DescI2": "Map/Map_Text_13",
       "Element": "风系,火系,光系"
+    },
+    {
+      "IDs": "A00002",
+      "Name": "熔岩通道",
+      "NameI2": "Map/Map_Name_14",
+      "Type": "火山",
+      "InitialDiffi": 41,
+      "UnlockReqirement": 0,
+      "PreviousMap": "",
+      "ExoticOriginMap": "废弃矿洞",
+      "MapEffect1": "原始",
+      "MapEffect2": "火山",
+      "MapEffect3": "疯狂",
+      "Desc": "灼热的熔岩从洞穴缝隙中涌出，稍不留神就可能被烧成灰烬。",
+      "DescI2": "Map/Map_Text_14",
+      "Element": "地系,火系,暗系"
     }
   ]
 }
