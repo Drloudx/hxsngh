@@ -589,6 +589,9 @@ onMounted(() => {
   height: 32px;
   object-fit: contain;
   border-radius: 6px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .prophecy-name {
@@ -675,6 +678,9 @@ onMounted(() => {
   width: 22px;
   height: 22px;
   object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .calculator-title {
@@ -729,6 +735,9 @@ onMounted(() => {
   object-fit: contain;
   border-radius: 6px;
   flex-shrink: 0;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .calc-item-text {
@@ -972,6 +981,9 @@ onMounted(() => {
   object-fit: contain;
   border-radius: 6px;
   flex-shrink: 0;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .sel-text {

@@ -5,15 +5,28 @@ const show = ref(false)
 
 const handleScroll = (e) => {
   const el = e.target
-  if (el.matches('.talent-list, .lime-grid-container, .sandbox-role-list, .recruit-view')) {
+  if (el.matches('.talent-list, .lime-grid-container, .sandbox-role-list, .recruit-view, .role-grid-container, .role-detail-overlay')) {
     show.value = el.scrollTop > 300
   }
 }
 
 const scrollToTop = () => {
-  const el = document.querySelector('.talent-list, .lime-grid-container, .sandbox-role-list, .recruit-view')
-  if (el) {
-    el.scrollTo({ top: 0, behavior: 'smooth' })
+  const elements = document.querySelectorAll('.talent-list, .lime-grid-container, .sandbox-role-list, .recruit-view, .role-grid-container, .role-detail-overlay')
+  let target = null
+  for (const el of elements) {
+    if (el.matches('.role-detail-overlay') && el.offsetParent !== null) {
+      target = el
+      break
+    }
+    if (el.offsetParent !== null && el.scrollTop > 100) {
+      target = el
+    }
+  }
+  if (!target) {
+    target = Array.from(elements).find(el => el.offsetParent !== null)
+  }
+  if (target) {
+    target.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
 

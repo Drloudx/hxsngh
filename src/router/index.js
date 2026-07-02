@@ -22,7 +22,7 @@ const routes = [
   { path: '/dungeon-relics', name: 'dungeon-relics', component: DungeonRelicsView, meta: { title: '星界秘境遗物图鉴', shortName: '遗物' } },
   { path: '/talent-manage', name: 'talent-manage', component: TalentManageView, meta: { title: '天赋管理', shortName: '库存' } },
   { path: '/guide', name: 'guide', component: GuideView, meta: { title: '新人攻略', shortName: '攻略' } },
-  { path: '/role', name: 'role', component: RoleView, meta: { title: '预告：角色图鉴', shortName: '预告' } },
+  { path: '/role', name: 'role', component: RoleView, meta: { title: '角色图鉴', shortName: '角色' } },
   { path: '/ranking', name: 'ranking', component: RankingView, meta: { title: '预告：热度排行', shortName: '预告' } }
 ]
 

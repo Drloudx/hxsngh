@@ -334,6 +334,9 @@ const closeDetailModal = () => {
   width: 90%;
   height: 90%;
   object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 /* 遗物名字 */
@@ -355,7 +358,9 @@ const closeDetailModal = () => {
   gap: 2px;
   margin-top: 6px;
   width: 100%;
-  text-align: center;
+  text-align: left;
+  padding-left: 10px;
+  box-sizing: border-box;
 }
 
 .stat-line {
@@ -448,6 +453,9 @@ const closeDetailModal = () => {
   width: 95%;
   height: 95%;
   object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .relic-details-grid {

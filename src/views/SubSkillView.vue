@@ -141,7 +141,6 @@
                 <span v-if="hero.class" class="h-lbl label-job">{{ hero.class }}</span>
                 <span v-if="hero.type" class="h-lbl label-race">{{ hero.type }}</span>
                 <span v-if="hero.element" class="h-lbl label-attr">{{ hero.element }}</span>
-                <span v-if="hero.source" class="hero-source-text">来源: {{ hero.source }}</span>
               </div>
             </div>
             <div v-if="sourceMatchedCharacters.length === 0" class="matched-hero-none">
@@ -159,6 +158,14 @@ import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
 import rawRoles from '@/assets/RoleDataTable.json'
 import rawSupportSkills from '@/assets/SubSkillDataTable.json'
+
+// ==============================================
+// 配置：手动屏蔽的角色 ID 列表 (便于随时注释恢复)
+// ==============================================
+const BLOCKED_CHARACTER_IDS = [
+  'M23301_001', // [熔岩]史莱姆王
+  'M11303_002', // [熔岩]雪人骑士
+]
 
 // 筛选响应式变量
 const selectedStar = ref(null)
@@ -340,7 +347,7 @@ onMounted(() => {
     noteList: []
   }
 
-  const fullCharacters = configUtil.getFullCharacterList(rawRoleArr, fullDatasets)
+  const fullCharacters = configUtil.getFullCharacterList(rawRoleArr, fullDatasets).filter(c => !BLOCKED_CHARACTER_IDS.includes(c.id))
   allCharacters.value = fullCharacters
 
   const list = []
