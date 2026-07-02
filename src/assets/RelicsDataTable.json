@@ -1,6 +1,14 @@
 {
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -6795086293771376136
+  },
   "m_Name": "RelicsDataTable",
-  "m_Name": "心得数据",
   "DataTable": [
     {
       "IDs": "XD11001_003",
@@ -219,6 +227,24 @@
       "SpecifyRoleIDs": "M11203_000"
     },
     {
+      "IDs": "XD13001_068",
+      "Name": "纵火指南",
+      "NameI2": "Relics/Relics_Name_XD13001_068",
+      "Step": "A",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "战士",
+      "Race": "",
+      "SubRace": "",
+      "MaxLevel": 3,
+      "Effect": "造成灼烧层数+1。",
+      "EffectI2": "Relics/Relics_Des_55",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M21201_002"
+    },
+    {
       "IDs": "XD14001_005",
       "Name": "神圣誓约",
       "NameI2": "Relics/Relics_Name_XD14001_005",
@@ -284,8 +310,8 @@
       "Race": "",
       "SubRace": "",
       "MaxLevel": 3,
-      "Effect": "受到灼烧层数-1。",
-      "EffectI2": "Relics/Relics_Des_65",
+      "Effect": "造成灼烧层数+1。",
+      "EffectI2": "Relics/Relics_Des_55",
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M11303_002"
@@ -325,6 +351,24 @@
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M11306"
+    },
+    {
+      "IDs": "XD04001_011",
+      "Name": "弹反精通",
+      "NameI2": "Relics/Relics_Name_XD04001_011",
+      "Step": "S",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "战士",
+      "Race": "",
+      "SubRace": "",
+      "MaxLevel": 3,
+      "Effect": "造成反击伤害+1。",
+      "EffectI2": "Relics/Relics_Des_22",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M11304_001"
     },
     {
       "IDs": "XD11001_016",
@@ -813,6 +857,24 @@
       "SpecifyRoleIDs": "M12207_000"
     },
     {
+      "IDs": "XD13001_069",
+      "Name": "焚烧解析",
+      "NameI2": "Relics/Relics_Name_XD13001_069",
+      "Step": "A",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "射手",
+      "Race": "",
+      "SubRace": "",
+      "MaxLevel": 3,
+      "Effect": "造成灼烧层数+1。",
+      "EffectI2": "Relics/Relics_Des_55",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M22201_002"
+    },
+    {
       "IDs": "XD14001_002",
       "Name": "风行法典",
       "NameI2": "Relics/Relics_Name_XD14001_002",
@@ -865,6 +927,24 @@
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M12205_001"
+    },
+    {
+      "IDs": "XD04002_092",
+      "Name": "灵魂之火",
+      "NameI2": "Relics/Relics_Name_XD04002_092",
+      "Step": "S",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "射手",
+      "Race": "",
+      "SubRace": "",
+      "MaxLevel": 3,
+      "Effect": "造成灼烧层数+1。",
+      "EffectI2": "Relics/Relics_Des_55",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M41301_001"
     },
     {
       "IDs": "XD11001_012",
@@ -1173,6 +1253,24 @@
       "SpecifyRoleIDs": "M14206"
     },
     {
+      "IDs": "XD13001_067",
+      "Name": "充分燃烧",
+      "NameI2": "Relics/Relics_Name_XD13001_067",
+      "Step": "A",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "生灵",
+      "SubRace": "",
+      "MaxLevel": 3,
+      "Effect": "造成灼烧层数+1。",
+      "EffectI2": "Relics/Relics_Des_55",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M14206_002"
+    },
+    {
       "IDs": "XD13001_036",
       "Name": "秘制法门",
       "NameI2": "Relics/Relics_Name_XD13001_036",
@@ -1311,7 +1409,7 @@
       "SubRace": "",
       "MaxLevel": 3,
       "Effect": "造成灼烧层数+1。",
-      "EffectI2": "Relics/Relics_Des_24",
+      "EffectI2": "Relics/Relics_Des_55",
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M13310"
@@ -1371,6 +1469,24 @@
       "SpecifyRoleIDs": "M22203"
     },
     {
+      "IDs": "XD13001_070",
+      "Name": "燃烧奥秘",
+      "NameI2": "Relics/Relics_Name_XD13001_070",
+      "Step": "A",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "魔灵",
+      "SubRace": "",
+      "MaxLevel": 3,
+      "Effect": "造成灼烧层数+1。",
+      "EffectI2": "Relics/Relics_Des_55",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M22202_002"
+    },
+    {
       "IDs": "XD14001_010",
       "Name": "终极防御",
       "NameI2": "Relics/Relics_Name_XD14001_010",
@@ -1423,6 +1539,24 @@
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M23301"
+    },
+    {
+      "IDs": "XD14001_056",
+      "Name": "熔岩法典",
+      "NameI2": "Relics/Relics_Name_XD14001_056",
+      "Step": "S",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "魔灵",
+      "SubRace": "",
+      "MaxLevel": 3,
+      "Effect": "造成灼烧层数+1。",
+      "EffectI2": "Relics/Relics_Des_55",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M23301_001"
     },
     {
       "IDs": "XD13001_014",
@@ -1549,6 +1683,24 @@
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M34301"
+    },
+    {
+      "IDs": "XD14001_057",
+      "Name": "冲浪指南",
+      "NameI2": "Relics/Relics_Name_XD14001_057",
+      "Step": "S",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "器灵",
+      "SubRace": "",
+      "MaxLevel": 3,
+      "Effect": "造成滋润层数+1。",
+      "EffectI2": "Relics/Relics_Des_50",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M31301_000"
     },
     {
       "IDs": "XD13001_027",
@@ -2343,6 +2495,24 @@
       "SpecifyRoleIDs": "M31302_000"
     },
     {
+      "IDs": "XD14001_055",
+      "Name": "分光剑谱",
+      "NameI2": "Relics/Relics_Name_XD14001_055",
+      "Step": "S",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "",
+      "SubRace": "风系",
+      "MaxLevel": 3,
+      "Effect": "造成普通伤害+1。",
+      "EffectI2": "Relics/Relics_Des_17",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M52301_000"
+    },
+    {
       "IDs": "XD11001_011",
       "Name": "舞棍技法",
       "NameI2": "Relics/Relics_Name_XD11001_011",
@@ -2649,6 +2819,42 @@
       "SpecifyRoleIDs": "M11009"
     },
     {
+      "IDs": "XD01001_011",
+      "Name": "锻炼心得",
+      "NameI2": "Relics/Relics_Name_XD01001_011",
+      "Step": "C",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "",
+      "SubRace": "火系",
+      "MaxLevel": 3,
+      "Effect": "力量+2。",
+      "EffectI2": "Relics/Relics_Des_04",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M11007_002"
+    },
+    {
+      "IDs": "XD01001_092",
+      "Name": "隐蔽心得",
+      "NameI2": "Relics/Relics_Name_XD01001_092",
+      "Step": "C",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "",
+      "SubRace": "火系",
+      "MaxLevel": 3,
+      "Effect": "敏捷+2。",
+      "EffectI2": "Relics/Relics_Des_05",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M12004_002"
+    },
+    {
       "IDs": "XD12001_011",
       "Name": "狼灵日记",
       "NameI2": "Relics/Relics_Name_XD12001_011",
@@ -2701,6 +2907,42 @@
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M13107"
+    },
+    {
+      "IDs": "XD02001_031",
+      "Name": "武器图鉴",
+      "NameI2": "Relics/Relics_Name_XD02001_031",
+      "Step": "B",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "",
+      "SubRace": "火系",
+      "MaxLevel": 3,
+      "Effect": "生命+4。",
+      "EffectI2": "Relics/Relics_Des_07",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M11106_002"
+    },
+    {
+      "IDs": "XD02001_052",
+      "Name": "魔纹入门",
+      "NameI2": "Relics/Relics_Name_XD02001_052",
+      "Step": "B",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "",
+      "SubRace": "火系",
+      "MaxLevel": 3,
+      "Effect": "生命+4。",
+      "EffectI2": "Relics/Relics_Des_07",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M12102_002"
     },
     {
       "IDs": "XD13001_044",
@@ -2845,6 +3087,24 @@
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M21301_000"
+    },
+    {
+      "IDs": "XD14001_054",
+      "Name": "烈阳秘法",
+      "NameI2": "Relics/Relics_Name_XD14001_054",
+      "Step": "S",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "",
+      "SubRace": "火系",
+      "MaxLevel": 3,
+      "Effect": "造成灼烧层数+1。",
+      "EffectI2": "Relics/Relics_Des_55",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M13303_002"
     },
     {
       "IDs": "XD11001_005",
