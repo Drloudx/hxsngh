@@ -12,7 +12,7 @@
         />
       </div>
       <div class="talent-sub-header">
-        <span class="talent-hint-text">可通过空格，中英文逗号，进行多次搜索，例：冰冷，鼓舞</span>
+        <span class="talent-hint-text">可通过空格，中英文逗号，进行多词搜索，例：冰冷，鼓舞</span>
       </div>
 
       <div class="talent-suggest-area">
