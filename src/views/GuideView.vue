@@ -40,6 +40,34 @@
             </button>
           </div>
         </div>
+
+        <!-- 攻略合集 -->
+        <div v-for="(group, idx) in guidesList" :key="group.title" class="talent-card strategy-group-card" :class="{ 'first-group-card': idx === 0 }">
+          <div class="group-header-row">
+            <span class="group-title">{{ group.title }}</span>
+            <span class="group-author">by {{ group.author }}</span>
+          </div>
+          <div class="group-links-list">
+            <div
+              v-for="item in group.list"
+              :key="item.title"
+              class="guide-link-card"
+              @click="openLink(item.url)"
+            >
+              <div class="link-card-content-area">
+                <span class="link-title">{{ item.title }}</span>
+                <div v-if="item.img" class="link-img-slot" :class="{ 'placeholder-slot': item.img === '/misc/placeholder.png' }">
+                  <img v-if="item.img !== '/misc/placeholder.png'" :src="item.img" class="link-thumbnail" />
+                  <div v-else class="link-placeholder-box">
+                    <span>(暂无预览图，改名即可显示)</span>
+                  </div>
+                </div>
+              </div>
+              <img src="/ui/right.svg" class="link-arrow-icon" />
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <div
@@ -99,6 +127,77 @@ const imagesList = [
   '/misc/ylgl3.png',
   '/misc/ylgl4.png'
 ]
+
+const guidesList = [
+  {
+    author: '空白',
+    title: '空白合集',
+    list: [
+      {
+        title: '【攻略】专天剑仙养成攻略(极简版)',
+        url: 'https://www.taptap.cn/moment/821847725967409310?share_id=0e595784f632&utm_medium=share&utm_source=copylink',
+        img: '/misc/kb1.webp'
+      },
+      {
+        title: '【攻略】净化史菇龙培养攻略(极简版)',
+        url: 'https://www.taptap.cn/moment/821144627905037281?share_id=ae4f1140f662&utm_medium=share&utm_source=copylink',
+        img: '/misc/kb2.webp'
+      },
+      {
+        title: '【攻略】恶意冰邪队，从入门到入土',
+        url: 'https://www.taptap.cn/moment/794308378267487774?share_id=b780e41c234d&utm_medium=share&utm_source=copylink',
+        img: '/misc/kb3.webp'
+      }
+    ]
+  },
+  {
+    author: '葱伴土豆泥',
+    title: '葱伴土豆泥合集',
+    list: [
+      {
+        title: '【攻略】公主飞升传（开篇）——超越巨灵的顶级开荒阵容！',
+        url: 'https://www.taptap.cn/moment/806995105993982429?share_id=7611f09abc16&utm_medium=share&utm_source=copylink',
+        img: '/misc/tdn1.webp'
+      },
+      {
+        title: '【攻略】平民焚决——热血巨灵枪',
+        url: 'https://www.taptap.cn/moment/789557923113075768?share_id=e6bcb3cc99f7&utm_medium=share&utm_source=copylink',
+        img: '/misc/tdn2.webp'
+      },
+      {
+        title: '【攻略】拉条自由！——水晶菇、彩贝无天赋单人自体五大拉条全队',
+        url: 'https://www.taptap.cn/moment/804366638940948955?share_id=28c7d780efee&utm_medium=share&utm_source=copylink',
+        img: '/misc/tdn3.webp'
+      }
+    ]
+  },
+  {
+    author: 'lanceyy',
+    title: 'lanceyy',
+    list: [
+      {
+        title: '【攻略】鼓舞幸运兔异化魔术 单拉人马/战祭/彩贝 双招财刷钱刷装',
+        url: 'https://www.taptap.cn/moment/790590727292715354?share_id=6e1ee8bd5815&utm_medium=share&utm_source=copylink',
+        img: '/misc/lan1.webp'
+      }
+    ]
+  },
+  {
+    author: '纯爱战士虎鲸',
+    title: '纯爱战士虎鲸',
+    list: [
+      {
+        title: '冰剑攻略2.0震撼来袭',
+        url: 'https://www.taptap.cn/moment/819020737686798410?share_id=3e519b21d365&utm_medium=share&utm_source=copylink',
+        img: '/misc/hj1.webp'
+      }
+    ]
+  }
+]
+
+const openLink = (url) => {
+  window.open(url, '_blank')
+}
 
 const currentIndex = ref(0)
 const isImageModalOpen = ref(false)
@@ -232,5 +331,125 @@ const handleMouseUp = () => { isDragging = false }
 .modal-arrow-right { right: 12px; }
 .modal-arrow-color { width: 32px; height: 32px; filter: brightness(0) invert(1) !important; opacity: 0.75; }
 .image-modal-close { position: absolute; top: 14px; right: 14px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); font-size: 15px; color: #ffffff; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 220; }
+.strategy-group-card {
+  margin-top: 16px;
+}
+
+.group-header-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.group-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.first-group-card .group-title {
+  color: #000000;
+}
+.dark-mode .first-group-card .group-title {
+  color: #ffffff;
+}
+
+.group-author {
+  font-size: 12.5px;
+  color: var(--text-sub);
+  font-weight: 600;
+}
+
+.group-links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.guide-link-card {
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  gap: 12px;
+}
+
+.guide-link-card:hover {
+  border-color: var(--primary);
+  background: rgba(59, 130, 246, 0.04);
+  transform: translateY(-2px);
+}
+
+.link-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #2563eb;
+  line-height: 1.4;
+  text-align: left;
+}
+.dark-mode .link-title {
+  color: #60a5fa;
+}
+
+.link-arrow-icon {
+  width: 14px;
+  height: 14px;
+  filter: var(--icon-filter);
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.link-card-content-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.link-img-slot {
+  width: 100%;
+  height: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.link-img-slot.placeholder-slot {
+  height: 32px;
+  background: transparent;
+  border: 1px dashed var(--border-color);
+}
+
+.link-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.link-placeholder-box {
+  font-size: 12px;
+  color: var(--text-sub);
+  font-weight: 600;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 600px) { .talent-card { padding: 14px; border-radius: 16px; } .image-slide-window { height: 170px; } .arrow-svg-icon { width: 20px; height: 20px; } .modal-arrow-color { width: 28px; height: 28px; } .modal-arrow-left { left: 6px; } .modal-arrow-right { right: 6px; } }
 </style>

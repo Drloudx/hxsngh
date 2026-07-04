@@ -359,7 +359,7 @@ const closeDetailModal = () => {
   margin-top: 6px;
   width: 100%;
   text-align: left;
-  padding-left: 10px;
+  padding-left: 1px;
   box-sizing: border-box;
 }
 

@@ -90,6 +90,101 @@ onMounted(() => {
     if (!e.target.closest('.settings-container')) isSettingsOpen.value = false
     if (!e.target.closest('.mode-switcher-container')) isModeDropdownOpen.value = false
   })
+
+  // ===== 侧滑/物理返回键全局弹窗拦截处理（双保险模式） =====
+  const modalSelectors = [
+    '.detail-modal-overlay',
+    '.relic-modal-overlay',
+    '.image-region-overlay',
+    '.source-modal-overlay',
+    '.talent-modal-overlay',
+    '.custom-modal-overlay',
+    '.modal-overlay',
+    '.modal-backdrop',
+    '.dialog-overlay',
+    '.wish-modal-overlay',
+    '.result-modal-overlay',
+    '.about-modal-card',
+    '[class*="modal-overlay"]',
+    '[class*="modal-backdrop"]',
+    '[class*="dialog-overlay"]'
+  ]
+
+  const getVisibleModal = () => {
+    for (const selector of modalSelectors) {
+      const el = document.querySelector(selector)
+      if (el && el.style.display !== 'none' && getComputedStyle(el).display !== 'none') {
+        return el
+      }
+    }
+    return null
+  }
+
+  const closeActiveModal = (modalEl) => {
+    if (!modalEl) return false
+    // 1. 优先点击关闭按钮
+    const closeBtn = modalEl.querySelector(
+      '.relic-modal-close, .image-modal-close, .close-btn, .modal-close-btn, .modal-close, button[class*="close"]'
+    ) || document.querySelector(
+      '.relic-modal-close, .image-modal-close, .close-btn, .modal-close-btn, .modal-close, button[class*="close"]'
+    )
+    if (closeBtn) {
+      closeBtn.click()
+      return true
+    }
+    // 2. 备用直接点击遮罩层本身
+    modalEl.click()
+    return true
+  }
+
+  let isBacking = false
+
+  const syncModalHistoryState = () => {
+    const modalEl = getVisibleModal()
+    const hasModal = !!modalEl
+    const isStateModal = history.state?.modalOpen === true
+    
+    if (hasModal && !isStateModal) {
+      history.pushState({ modalOpen: true }, '')
+    } else if (!hasModal && isStateModal && !isBacking) {
+      isBacking = true
+      history.back()
+    }
+  }
+
+  const observer = new MutationObserver(() => {
+    setTimeout(syncModalHistoryState, 50)
+  })
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['style', 'class']
+  })
+
+  window.addEventListener('popstate', (e) => {
+    const isStateModal = e.state?.modalOpen === true
+    const modalEl = getVisibleModal()
+    
+    if (isBacking) {
+      isBacking = false
+      return
+    }
+    
+    if (!isStateModal && modalEl) {
+      closeActiveModal(modalEl)
+    }
+  })
+
+  // 暴露给原生安卓壳子的全局方法
+  window.onAndroidBack = () => {
+    const modalEl = getVisibleModal()
+    if (modalEl) {
+      closeActiveModal(modalEl)
+      return true // 已拦截并关闭弹窗
+    }
+    return false // 交给原生安卓处理
+  }
 })
 
 const isSettingsOpen = ref(false)
@@ -203,6 +298,7 @@ const modes = [
   { id: 'recruit', name: '指定招募工具', shortName: '招募', path: '/recruit' },
   { id: 'talent', name: '天赋筛选工具', shortName: '天赋', path: '/talent' },
   { id: 'subskill', name: '支援筛选工具', shortName: '支援', path: '/subskill' },
+  { id: 'equip', name: '装备筛选工具', shortName: '装备', path: '/equip' },
   { id: 'talent-manage', name: '天赋管理', shortName: '库存', path: '/talent-manage' },
   { id: 'role', name: '角色图鉴', shortName: '角色', path: '/role' },
   { id: 'lime', name: '莱姆图鉴', shortName: '莱姆', path: '/lime' },
@@ -268,6 +364,7 @@ const updateBaiduPage = () => {
     'prefix': '怪物前缀',
     'foretell': '预言图鉴',
     'dungeon-relics': '星界秘境遗物图鉴',
+    'equip': '装备筛选',
     'talent-manage': '天赋管理',
     'guide': '新人攻略',
     'subskill': '支援筛选',
@@ -445,6 +542,12 @@ const borderNoticeRead = () => {
                 <img src="/DungeonRelics/YW00022_401.png" class="header-gif" />
                 <img src="/DungeonRelics/YW00003_321.png" class="header-gif" />
                 <img src="/DungeonRelics/YW00009_301.png" class="header-gif" />
+              </div>
+              <div v-else-if="route.name === 'equip'" class="talent-header-gifs">
+                <img src="/ui/TB20011.png" class="header-gif" />
+                <img src="/ui/TB20012.png" class="header-gif" />
+                <img src="/ui/TB20013.png" class="header-gif" />
+                <img src="/ui/TB20014.png" class="header-gif" />
               </div>
             </div>
           </div>
