@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>地块概率图鉴</title>
+    <style>
+        :root {
+            --bg-main: #f7f9fc;
+            --bg-card: #ffffff;
+            --color-green-bg: #eef7f2;
+            --color-green: #34a853;
+            --color-blue-bg: #eef4fa;
+            --color-blue: #1a73e8;
+            --color-purple-bg: #f5eefa;
+            --color-purple: #a042f5;
+            --color-orange-bg: #fdf5ea;
+            --color-orange: #fa8c16;
+            --color-gold-bg: #fefbe6;
+            --color-gold: #e0a800;
+            --text-main: #333333;
+            --text-sub: #7f8c8d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding: 12px 10px 30px 10px;
+        }
+
+        .page-header {
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        /* 大类箱子 */
+        .category-block {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 10px 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.015);
+            border: 1px solid #ebf0f6;
+        }
+
+        .block-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        /* 👑 核心优化：复刻手绘的横向一整排、允许左右滑动的容器 */
+        .row-scroll-container {
+            display: flex;
+            overflow-x: auto; /* 允许横向滚动 */
+            gap: 8px;         /* 格子之间的间距 */
+            padding: 4px 2px 8px 2px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch; /* iOS 滑动流畅 */
+        }
+
+        /* 隐藏横向滚动条，让视觉更干净 */
+        .row-scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 👑 核心优化：卡片变成真正的“微型小正方形” */
+        .mini-card {
+            flex: 0 0 54px;   /* 严格固定每个格子的宽度只有 54px，不再随屏幕放大 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* 👑 核心优化：图片容器变成超小的 54x54 正方形微章 */
+        .img-box {
+            width: 54px;
+            height: 54px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 4px;
+            border: 1px solid #e8edf3;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .img-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            image-rendering: pixelated;
+        }
+
+        /* 👑 核心优化：概率文字直接置于卡片底部，显眼突出 */
+        .card-rate {
+            font-size: 10px;
+            font-weight: bold;
+            margin-top: 4px;
+            white-space: nowrap;
+        }
+
+        /* 卡片ID改用极小悬浮在图像右上角，不占额外行高 */
+        .tag-id {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            color: rgba(0,0,0,0.4);
+            font-size: 7px;
+            font-family: "Consolas", monospace;
+            transform: scale(0.85);
+        }
+
+        /* 品阶配色：底色与概率文字同步变色 */
+        .q-green .img-box { background-color: var(--color-green-bg); }
+        .q-green .card-rate { color: var(--color-green); }
+
+        .q-blue .img-box { background-color: var(--color-blue-bg); }
+        .q-blue .card-rate { color: var(--color-blue); }
+
+        .q-purple .img-box { background-color: var(--color-purple-bg); }
+        .q-purple .card-rate { color: var(--color-purple); }
+
+        .q-orange .img-box { background-color: var(--color-orange-bg); }
+        .q-orange .card-rate { color: var(--color-orange); }
+
+        .q-gold .img-box { background-color: var(--color-gold-bg); }
+        .q-gold .card-rate { color: var(--color-gold); }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">📊 绿原全地块产出概率墙</div>
+
+    <div class="category-block">
+        <div class="block-title">🟢 普通地块 (滑块查阅)</div>
+        <div class="row-scroll-container" id="green-container"></div>
+    </div>
+
+    <div class="category-block">
+        <div class="block-title">🔵 精英蓝地块</div>
+        <div class="row-scroll-container" id="blue-container"></div>
+    </div>
+
+    <div class="category-block">
+        <div class="block-title">🟣 极寒/地狱紫地块</div>
+        <div class="row-scroll-container" id="purple-container"></div>
+    </div>
+
+    <div class="category-block">
+        <div class="block-title">🟠 首领橙地块</div>
+        <div class="row-scroll-container" id="orange-container"></div>
+    </div>
+
+    <div class="category-block">
+        <div class="block-title">🎁 宝箱与核心装备</div>
+        <div class="row-scroll-container" id="chest-container"></div>
+    </div>
+
+    <div class="category-block">
+        <div class="block-title">⚔️ 营地奇遇与突袭</div>
+        <div class="row-scroll-container" id="event-container"></div>
+    </div>
+
+    <div class="category-block">
+        <div class="block-title">🌌 特殊异界特异点</div>
+        <div class="row-scroll-container" id="special-container"></div>
+    </div>
+
+    <script>
+        // 在数组数据里直接为你加上了 rate（概率）属性
+        const greenBlockData = [
+            { id: "000", rate: "100%" }, // 初始点必定生成
+            { id: "001", rate: "35.5%" },
+            { id: "002", rate: "22.0%" },
+            { id: "101", rate: "12.5%" },
+            { id: "102", rate: "12.5%" },
+            { id: "103", rate: "8.0%" },
+            { id: "104", rate: "8.0%" },
+            { id: "201", rate: "5.0%" },
+            { id: "202", rate: "4.5%" },
+            { id: "203", rate: "3.0%" },
+            { id: "302", rate: "1.5%" },
+            { id: "303", rate: "1.0%" }
+        ];
+
+        const blueBlockData = [
+            { id: "111", rate: "12.0%" },
+            { id: "211", rate: "8.5%" },
+            { id: "311", rate: "3.2%" }
+        ];
+
+        const purpleBlockData = [
+            { id: "221", rate: "4.5%" },
+            { id: "321", rate: "1.8%" }
+        ];
+
+        const orangeBlockData = [
+            { id: "331", rate: "0.5%" }
+        ];
+
+        const chestData = [
+            { id: "003", q: "blue", rate: "15.0%" },
+            { id: "004", q: "green", rate: "45.0%" },
+            { id: "005", q: "blue", rate: "25.0%" },
+            { id: "006", q: "purple", rate: "12.0%" },
+            { id: "007", q: "gold", rate: "3.0%" }
+        ];
+
+        const eventData = [
+            { id: "008", q: "blue", rate: "8.5%" },
+            { id: "009", q: "purple", rate: "4.0%" },
+            { id: "010", q: "purple", rate: "3.5%" },
+            { id: "011", q: "orange", rate: "2.0%" },
+            { id: "012", q: "blue", rate: "6.0%" },
+            { id: "013", q: "orange", rate: "1.5%" },
+            { id: "014", q: "gold", rate: "0.8%" },
+            { id: "016", q: "gold", rate: "0.5%" }
+        ];
+
+        const specialData = [
+            { id: "421", q: "orange", rate: "1.2%" }
+        ];
+
+        // 统一横向卡片生成
+        function generateMiniHTML(id, qClass, rateStr) {
+            const imgUrl = `/AreaBlock/S00001_${id}.png`;
+            return `
+                <div class="mini-card q-${qClass}">
+                    <div class="img-box">
+                        <span class="tag-id">#${id}</span>
+                        <img src="${imgUrl}" alt="${id}">
+                    </div>
+                    <div class="card-rate">${rateStr}</div>
+                </div>
+            `;
+        }
+
+        window.onload = function() {
+            const greenCont = document.getElementById('green-container');
+            greenBlockData.forEach(item => greenCont.innerHTML += generateMiniHTML(item.id, "green", item.rate));
+
+            const blueCont = document.getElementById('blue-container');
+            blueBlockData.forEach(item => blueCont.innerHTML += generateMiniHTML(item.id, "blue", item.rate));
+
+            const purpleCont = document.getElementById('purple-container');
+            purpleBlockData.forEach(item => purpleCont.innerHTML += generateMiniHTML(item.id, "purple", item.rate));
+
+            const orangeCont = document.getElementById('orange-container');
+            orangeBlockData.forEach(item => orangeCont.innerHTML += generateMiniHTML(item.id, "orange", item.rate));
+
+            const chestCont = document.getElementById('chest-container');
+            chestData.forEach(item => chestCont.innerHTML += generateMiniHTML(item.id, item.q, item.rate));
+
+            const eventCont = document.getElementById('event-container');
+            eventData.forEach(item => eventCont.innerHTML += generateMiniHTML(item.id, item.q, item.rate));
+
+            const specCont = document.getElementById('special-container');
+            specialData.forEach(item => specCont.innerHTML += generateMiniHTML(item.id, item.q, item.rate));
+        };
+    </script>
+</body>
+</html>

@@ -303,6 +303,7 @@ const modes = [
   { id: 'role', name: '角色图鉴', shortName: '角色', path: '/role' },
   { id: 'lime', name: '莱姆图鉴', shortName: '莱姆', path: '/lime' },
   { id: 'prefix', name: '怪物前缀', shortName: '前缀', path: '/prefix' },
+  { id: 'areablock', name: '地块图鉴', shortName: '地块', path: '/areablock' },
   { id: 'foretell', name: '预言图鉴', shortName: '预言', path: '/foretell' },
   { id: 'dungeon-relics', name: '星界秘境遗物图鉴', shortName: '遗物', path: '/dungeon-relics' },
   { id: 'guide', name: '新人攻略', shortName: '攻略', path: '/guide' },
@@ -365,6 +366,7 @@ const updateBaiduPage = () => {
     'foretell': '预言图鉴',
     'dungeon-relics': '星界秘境遗物图鉴',
     'equip': '装备筛选',
+    'areablock': '地块图鉴',
     'talent-manage': '天赋管理',
     'guide': '新人攻略',
     'subskill': '支援筛选',
@@ -548,6 +550,12 @@ const borderNoticeRead = () => {
                 <img src="/ui/TB20012.png" class="header-gif" />
                 <img src="/ui/TB20013.png" class="header-gif" />
                 <img src="/ui/TB20014.png" class="header-gif" />
+              </div>
+              <div v-else-if="route.name === 'areablock'" class="talent-header-gifs">
+                <img src="/AreaBlock/S20001_008.png" class="header-gif" />
+                <img src="/AreaBlock/S50002_008.png" class="header-gif" />
+                <img src="/AreaBlock/S00001_008.png" class="header-gif" />
+                <img src="/AreaBlock/S00002_008.png" class="header-gif" />
               </div>
             </div>
           </div>
