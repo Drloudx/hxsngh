@@ -5,13 +5,13 @@ const show = ref(false)
 
 const handleScroll = (e) => {
   const el = e.target
-  if (el.matches('.talent-list, .lime-grid-container, .sandbox-role-list, .recruit-view, .role-grid-container, .role-detail-overlay, .equip-list-container')) {
+  if (el.matches('.talent-list, .lime-grid-container, .sandbox-role-list, .recruit-view, .role-grid-container, .role-detail-overlay, .equip-list-container, .block-list-scroll')) {
     show.value = el.scrollTop > 300
   }
 }
 
 const scrollToTop = () => {
-  const elements = document.querySelectorAll('.talent-list, .lime-grid-container, .sandbox-role-list, .recruit-view, .role-grid-container, .role-detail-overlay, .equip-list-container')
+  const elements = document.querySelectorAll('.talent-list, .lime-grid-container, .sandbox-role-list, .recruit-view, .role-grid-container, .role-detail-overlay, .equip-list-container, .block-list-scroll')
   let target = null
   for (const el of elements) {
     if (el.matches('.role-detail-overlay') && el.offsetParent !== null) {
