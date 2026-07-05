@@ -1,53 +1,59 @@
 import os
-import hashlib
-import json
-import subprocess
-import zipfile
+from tkinter import Tk, filedialog
 
-def get_file_md5(file_path):
-    """计算文件MD5值"""
-    hash_md5 = hashlib.md5()
-    with open(file_path, "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            hash_md5.update(chunk)
-    return hash_md5.hexdigest()
+
+def split_file(target_dir, file_name="dist.zip", chunk_size_mb=9):
+    """
+    只负责将指定目录下的文件切分为指定大小的分卷
+    :param target_dir: 目标目录路径
+    :param file_name: 需要切分的大包文件名，默认 'dist.zip'
+    :param chunk_size_mb: 每个分卷的大小限制（单位：MB），默认 9MB
+    """
+    file_path = os.path.join(target_dir, file_name)
+
+    if not os.path.exists(file_path):
+        print(f"❌ 错误：在目录【{target_dir}】下找不到文件 '{file_name}'。")
+        return
+
+    # 转换成字节数 (1MB = 1024 * 1024 字节)
+    chunk_size = chunk_size_mb * 1024 * 1024
+    part_num = 0
+
+    print(f"📂 目标目录: {target_dir}")
+    print(f"📦 开始切分文件: {file_path}")
+    print(f"📏 设定单卷最大体积: {chunk_size_mb} MB")
+
+    with open(file_path, 'rb') as f:
+        while True:
+            chunk = f.read(chunk_size)
+            if not chunk:
+                break
+
+            part_num += 1
+            # 生成形如：dist.zip.001, dist.zip.002
+            part_name = f"{file_path}.{part_num:03d}"
+
+            with open(part_name, 'wb') as part_file:
+                part_file.write(chunk)
+
+            print(f"  -> 已生成分卷: {part_name} ({len(chunk) / 1024 / 1024:.2f} MB)")
+
+    print(f"✅ 切分完成！总共在目标目录下生成了 {part_num} 个分卷文件。")
+
 
 if __name__ == "__main__":
-    print("【1】执行 npm run build 打包前端")
-    ret = subprocess.run(["npm", "run", "build"], shell=True)
-    if ret.returncode != 0:
-        input("❌ npm打包失败，按回车退出")
-        exit(1)
+    # 1. 初始化 Tkinter 并隐藏主窗口（只用它的弹窗功能）
+    root = Tk()
+    root.withdraw()
 
-    zip_path = "dist.zip"
-    # 删除旧压缩包
-    if os.path.exists(zip_path):
-        os.remove(zip_path)
+    # 2. 弹出文件夹选择框
+    print("请在弹出的窗口中选择 'dist.zip' 所在的文件夹...")
+    selected_directory = filedialog.askdirectory(title="选择 dist.zip 所在的文件夹")
 
-    print("\n【2】打包dist内所有文件（无外层dist文件夹）")
-    dist_folder = "dist"
-    # 新建zip，直接把dist内部文件放到压缩包根目录
-    with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
-        for root, dirs, files in os.walk(dist_folder):
-            for file_name in files:
-                full_file_path = os.path.join(root, file_name)
-                # 去掉外层dist目录前缀，文件直接放在压缩包根层
-                archive_name = os.path.relpath(full_file_path, dist_folder)
-                zf.write(full_file_path, archive_name)
-
-    print("\n【3】计算dist.zip MD5")
-    md5_val = get_file_md5(zip_path)
-    print(f"MD5值：{md5_val}")
-
-    print("\n【4】自动更新hotupdate.json内md5字段")
-    cfg_path = "hotupdate.json"
-    with open(cfg_path, "r", encoding="utf-8") as f:
-        cfg = json.load(f)
-    cfg["md5"] = md5_val
-    with open(cfg_path, "w", encoding="utf-8") as f:
-        json.dump(cfg, f, indent=2, ensure_ascii=False)
-
-    print("\n✅ 全部流程执行完毕！")
-    print("压缩包位置：项目根目录 dist.zip")
-    print("压缩包结构：根目录直接包含index.html，无外层dist文件夹")
-    input("\n按回车键关闭窗口")
+    # 3. 如果用户没有取消选择，则执行切片
+    if selected_directory:
+        # 兼容 Windows 路径斜杠，并去除首尾空格
+        selected_directory = os.path.normpath(selected_directory.strip())
+        split_file(selected_directory, file_name="dist.zip", chunk_size_mb=9)
+    else:
+        print("🛑 已取消选择，未执行任何操作。")

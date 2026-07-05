@@ -88,39 +88,81 @@ export const checkHotUpdate = async () => {
 }
 
 /**
- * 下载并解压热更包
+ * 下载并解压热更包（已升级支持多分卷安全下载）
  */
 export const applyHotUpdate = async (manifest, onProgress) => {
-
-  // 1. 下载 dist.zip
   onProgress?.(0)
-  const resp = await fetch(manifest.downloadUrl + '?t=' + Date.now())
-  if (!resp.ok) throw new Error('下载热更包失败: HTTP ' + resp.status)
 
-  const total = Number(resp.headers.get('content-length')) || 0
-  const reader = resp.body.getReader()
-  const chunks = []
-  let received = 0
+  // 读取配置文件的分卷数，如果没有该字段则默认为单包模式 (totalParts = 1)
+  const totalParts = manifest.totalParts || 1
+  const isSplitMode = totalParts > 1
 
-  while (true) {
-    const { done, value } = await reader.read()
-    if (done) break
-    chunks.push(value)
-    received += value.length
-    if (total > 0) {
-      onProgress?.(Math.round((received / total) * 40))
+  let merged = null
+
+  if (isSplitMode) {
+    console.log(`[HotUpdate] 检测到分卷模式，共 ${totalParts} 个分卷`)
+    const allChunks = []
+    let totalReceived = 0
+
+    // 循环请求并拼接每个分卷
+    for (let i = 1; i <= totalParts; i++) {
+      // 格式化为 001, 002 等后缀
+      const partSuffix = String(i).padStart(3, '0')
+      const partUrl = `${manifest.downloadUrl}.${partSuffix}?t=${Date.now()}`
+
+      console.log(`[HotUpdate] 开始拉取第 ${i}/${totalParts} 分卷: ${partUrl}`)
+      const resp = await fetch(partUrl)
+      if (!resp.ok) throw new Error(`下载分卷 ${partSuffix} 失败: HTTP ` + resp.status)
+
+      const reader = resp.body.getReader()
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        allChunks.push(value)
+        totalReceived += value.length
+      }
+
+      // 平衡进度条：前 40% 的进度留给下载，按完成的分卷比例推进
+      onProgress?.(Math.round((i / totalParts) * 40))
+    }
+
+    // 分卷整合拼装为完整的 Uint8Array
+    merged = new Uint8Array(totalReceived)
+    let offset = 0
+    for (const chunk of allChunks) {
+      merged.set(chunk, offset)
+      offset += chunk.length
+    }
+
+  } else {
+    // 【保留原全量单包下载逻辑】
+    const resp = await fetch(manifest.downloadUrl + '?t=' + Date.now())
+    if (!resp.ok) throw new Error('下载热更包失败: HTTP ' + resp.status)
+
+    const total = Number(resp.headers.get('content-length')) || 0
+    const reader = resp.body.getReader()
+    const chunks = []
+    let received = 0
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      chunks.push(value)
+      received += value.length
+      if (total > 0) {
+        onProgress?.(Math.round((received / total) * 40))
+      }
+    }
+
+    merged = new Uint8Array(received)
+    let offset = 0
+    for (const chunk of chunks) {
+      merged.set(chunk, offset)
+      offset += chunk.length
     }
   }
 
   onProgress?.(45)
-
-  // 合并 zip 数据为 Uint8Array
-  const merged = new Uint8Array(received)
-  let offset = 0
-  for (const chunk of chunks) {
-    merged.set(chunk, offset)
-    offset += chunk.length
-  }
 
   // 把 zip 数据传 base64 给 Java 处理（绕开 Capacitor 文件系统路径问题）
   let binary = ''
