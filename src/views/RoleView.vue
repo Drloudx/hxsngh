@@ -155,7 +155,7 @@
         <div class="detail-metadata">
           <p><strong>角色名称：</strong>{{ selectedChar.displayName }}</p>
           <p><strong>定位：</strong>{{ selectedChar.characterRole || '未知' }}</p>
-          <p><strong>场景：</strong>{{ selectedChar.background || '暂无场景信息' }}</p>
+          <p><strong>所属：</strong>{{ selectedChar.background || '暂无所属信息' }}</p>
         </div>
 
         <!-- Details Section -->

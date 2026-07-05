@@ -11,6 +11,7 @@ import RankingView from '../views/RankingView.vue'
 import ForetellView from '../views/ForetellView.vue'
 import DungeonRelicsView from '../views/DungeonRelicsView.vue'
 import EquipView from '../views/EquipView.vue'
+import AreaBlockView from '../views/AreaBlockView.vue'
 
 const routes = [
   { path: '/', redirect: '/recruit' },
@@ -22,6 +23,7 @@ const routes = [
   { path: '/foretell', name: 'foretell', component: ForetellView, meta: { title: '预言图鉴', shortName: '预言' } },
   { path: '/dungeon-relics', name: 'dungeon-relics', component: DungeonRelicsView, meta: { title: '星界秘境遗物图鉴', shortName: '遗物' } },
   { path: '/equip', name: 'equip', component: EquipView, meta: { title: '装备筛选工具', shortName: '装备' } },
+  { path: '/areablock', name: 'areablock', component: AreaBlockView, meta: { title: '地块图鉴', shortName: '地块' } },
   { path: '/talent-manage', name: 'talent-manage', component: TalentManageView, meta: { title: '天赋管理', shortName: '库存' } },
   { path: '/guide', name: 'guide', component: GuideView, meta: { title: '新人攻略', shortName: '攻略' } },
   { path: '/role', name: 'role', component: RoleView, meta: { title: '角色图鉴', shortName: '角色' } },
