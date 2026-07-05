@@ -224,18 +224,48 @@
               <span class="stat-value">{{ detailModal.data.AreaName }}</span>
             </div>
             <div class="relic-detail-stat">
-              <span class="stat-label">探索需求属性</span>
-              <span class="stat-value" style="font-size: 11px;">{{ detailModal.data.ExploreAttr || '无' }}</span>
+              <span class="stat-label">探索所需体力</span>
+              <span class="stat-value">{{ getExploreStamina(detailModal.data.ExploreAttr) }}</span>
+            </div>
+            <div 
+              class="relic-detail-stat clickable" 
+              @click="showTimeDetails = !showTimeDetails"
+              title="点击查看各等级段探索时间"
+            >
+              <span class="stat-label">最高等级探索时间</span>
+              <span class="stat-value highlight-blue">
+                {{ getMaxExploreTimeStr(detailModal.data) }}
+              </span>
             </div>
             <div class="relic-detail-stat span-3">
               <span class="stat-label">产出素材</span>
               <span class="stat-value">{{ detailModal.data.IngredientLimit || '无' }}</span>
             </div>
           </div>
+
+          <!-- 折叠展现的所有等级段探索时间 -->
+          <div v-if="showTimeDetails" class="time-details-panel">
+            <div class="time-panel-header">
+              <span class="time-panel-title">各等级段探索时间 (体力消耗: {{ getExploreStamina(detailModal.data.ExploreAttr) }})</span>
+              <span class="time-panel-tip">（点击“最高等级探索时间”可收起）</span>
+            </div>
+            <div class="time-ranges-list">
+              <div 
+                v-for="range in levelRanges" 
+                :key="range.label"
+                :class="['time-range-item', { active: isCurrentRange(range, detailModal.data.AreaName) }]"
+              >
+                <span class="range-label">{{ range.label }}</span>
+                <span class="range-value-blue">
+                  {{ formatTime(getExploreStaminaVal(detailModal.data.ExploreAttr) * 0.5 * range.scale) }}
+                </span>
+              </div>
+            </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </template>
 
 
@@ -294,6 +324,7 @@ const specialSuffixes = ['421']
 
 // 详情弹窗状态
 const detailModal = ref({ visible: false, data: {} })
+const showTimeDetails = ref(false)
 
 // Tabs 定义 (已移除“全部”按键，只保留 4 个切换标签，选中可再次点击取消)
 const tabs = [
@@ -441,6 +472,86 @@ const getSpotProbability = (spot) => {
   if (totalW === 0) return '0.00%'
   const pct = (spot.Weight / totalW) * 100
   return pct.toFixed(2) + '%'
+}
+
+// 各地图对应的最高等级
+const mapMaxLevels = {
+  '新生平原': 100,
+  '广袤草原': 110,
+  '铁血高地': 130,
+  '迷失森林': 120,
+  '幽暗密林': 160,
+  '清凉沙滩': 140,
+  '遗忘之海': 200,
+  '废弃矿洞': 140,
+  '洞穴深处': 180,
+  '荒凉戈壁': 170,
+  '无尽荒漠': 210,
+  '极寒冰原': 110,
+  '熔岩通道': 140
+}
+
+// 时间系数分段
+const levelRanges = [
+  { label: '1 ~ 10 级', scale: 5, range: [1, 10] },
+  { label: '11 ~ 20 级', scale: 10, range: [11, 20] },
+  { label: '21 ~ 30 级', scale: 20, range: [21, 30] },
+  { label: '31 ~ 40 级', scale: 40, range: [31, 40] },
+  { label: '41 ~ 50 级', scale: 60, range: [41, 50] },
+  { label: '51 ~ 100 级', scale: 90, range: [51, 100] },
+  { label: '101 级及以上', scale: 120, range: [101, 999] }
+]
+
+// 获取指定等级对应的时间系数
+const getTimeScale = (lvl) => {
+  if (lvl <= 10) return 5
+  if (lvl <= 20) return 10
+  if (lvl <= 30) return 20
+  if (lvl <= 40) return 40
+  if (lvl <= 50) return 60
+  if (lvl <= 100) return 90
+  return 120
+}
+
+// 格式化时间分钟数：小于60分钟显示分钟；大于60分钟显示小时与分钟；整除只显示小时
+const formatTime = (minutes) => {
+  if (minutes <= 0) return '0分钟'
+  if (minutes < 60) return minutes + '分钟'
+  const hrs = Math.floor(minutes / 60)
+  const mins = minutes % 60
+  if (mins === 0) return hrs + '小时'
+  return `${hrs}小时${mins}分钟`
+}
+
+// 提取体力消耗数值为 Number 格式
+const getExploreStaminaVal = (attr) => {
+  if (!attr) return 0
+  const match = attr.match(/\[(\d+)\]/)
+  return match ? parseInt(match[1], 10) : 0
+}
+
+// 解析探索所需体力（如：从"力量[16]"提取数字"16"）
+const getExploreStamina = (attr) => {
+  if (!attr) return '0'
+  const match = attr.match(/\[(\d+)\]/)
+  return match ? match[1] : attr
+}
+
+// 获取最高等级副本的探索时间字符串
+const getMaxExploreTimeStr = (spot) => {
+  if (!spot) return '0分钟'
+  const stamina = getExploreStaminaVal(spot.ExploreAttr)
+  if (stamina === 0) return '0分钟'
+  const maxLvl = mapMaxLevels[spot.AreaName] || 1
+  const scale = getTimeScale(maxLvl)
+  const totalMinutes = stamina * 0.5 * scale
+  return formatTime(totalMinutes)
+}
+
+// 判断当前等级段是否对应当前地图的最高等级本段
+const isCurrentRange = (range, mapName) => {
+  const maxLvl = mapMaxLevels[mapName] || 0
+  return maxLvl >= range.range[0] && maxLvl <= range.range[1]
 }
 
 // 动态图格宽高样式生成
@@ -660,6 +771,7 @@ const openDetail = (spot) => {
 
 const closeDetail = () => {
   detailModal.value = { visible: false, data: {} }
+  showTimeDetails.value = false
 }
 </script>
 
@@ -1306,5 +1418,91 @@ const closeDetail = () => {
 
 .stat-value.font-bold {
   font-weight: 900;
+}
+
+.relic-detail-stat.clickable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.relic-detail-stat.clickable:hover {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.highlight-blue {
+  color: #2563eb !important;
+  font-weight: 800;
+  text-decoration: underline dotted;
+}
+
+/* 时间详情面板 */
+.time-details-panel {
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 10px;
+  box-sizing: border-box;
+}
+
+.time-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 6px;
+}
+
+.time-panel-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.time-panel-tip {
+  font-size: 10px;
+  color: var(--text-sub);
+}
+
+.time-ranges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.time-range-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  font-size: 12px;
+}
+
+.time-range-item.active {
+  border-color: #2563eb;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.range-label {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.time-range-item.active .range-label::after {
+  content: " (当前地图上限)";
+  font-size: 10px;
+  color: #2563eb;
+  font-weight: normal;
+}
+
+.range-value-blue {
+  color: #2563eb;
+  font-weight: 800;
 }
 </style>
