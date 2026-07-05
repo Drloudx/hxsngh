@@ -157,7 +157,7 @@
           <button class="relic-modal-close" @click="closeDetail">✕</button>
         </div>
 
-        <div class="relic-modal-body">
+        <div class="relic-modal-body" ref="modalBodyRef">
           <!-- 上部预览区：完全居中大图，右侧绝对定位地块轮廓（仅当不是特殊地块时显示轮廓） -->
           <div 
             class="relic-detail-preview flex-row-layout" 
@@ -229,10 +229,13 @@
             </div>
             <div 
               class="relic-detail-stat clickable" 
-              @click="showTimeDetails = !showTimeDetails"
+              @click="toggleTimeDetails"
               title="点击查看各等级段探索时间"
             >
-              <span class="stat-label">最高等级探索时间</span>
+              <span class="stat-label text-wrap-label">
+                <span>最高等级</span>
+                <span>探索时间</span>
+              </span>
               <span class="stat-value highlight-blue">
                 {{ getMaxExploreTimeStr(detailModal.data) }}
               </span>
@@ -246,8 +249,8 @@
           <!-- 折叠展现的所有等级段探索时间 -->
           <div v-if="showTimeDetails" class="time-details-panel">
             <div class="time-panel-header">
-              <span class="time-panel-title">各等级段探索时间 (体力消耗: {{ getExploreStamina(detailModal.data.ExploreAttr) }})</span>
-              <span class="time-panel-tip">（点击“最高等级探索时间”可收起）</span>
+              <div class="time-panel-title">各等级段探索时间 (体力消耗: {{ getExploreStamina(detailModal.data.ExploreAttr) }})</div>
+              <div class="time-panel-tip">（点击“最高等级探索时间”可收起）</div>
             </div>
             <div class="time-ranges-list">
               <div 
@@ -270,7 +273,7 @@
 
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted, nextTick } from 'vue'
 import areaSpotData from '../assets/AreaSpotDataTable.json'
 
 // 提取完整数据
@@ -325,6 +328,7 @@ const specialSuffixes = ['421']
 // 详情弹窗状态
 const detailModal = ref({ visible: false, data: {} })
 const showTimeDetails = ref(false)
+const modalBodyRef = ref(null)
 
 // Tabs 定义 (已移除“全部”按键，只保留 4 个切换标签，选中可再次点击取消)
 const tabs = [
@@ -773,6 +777,19 @@ const closeDetail = () => {
   detailModal.value = { visible: false, data: {} }
   showTimeDetails.value = false
 }
+
+const toggleTimeDetails = async () => {
+  showTimeDetails.value = !showTimeDetails.value
+  if (showTimeDetails.value) {
+    await nextTick()
+    if (modalBodyRef.value) {
+      modalBodyRef.value.scrollTo({
+        top: modalBodyRef.value.scrollHeight,
+        behavior: 'smooth'
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -1209,7 +1226,7 @@ const closeDetail = () => {
   background: var(--modal-overlay);
   backdrop-filter: blur(4px);
   display: flex;
-  align-items: center;
+  align-items: center; /* 恢复垂直居中对齐，使其在未展开时拥有合适的位置 */
   justify-content: center;
   z-index: 999;
 }
@@ -1217,6 +1234,7 @@ const closeDetail = () => {
 .relic-detail-window {
   width: 90%;
   max-width: 440px;
+  max-height: calc(100vh - 140px); /* 限制最高高度，确保在展开拉长时，上下仍能各留出至少 70px 空间避开顶部栏 */
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 20px;
@@ -1272,6 +1290,8 @@ const closeDetail = () => {
   flex-direction: column;
   gap: 16px;
   box-sizing: border-box;
+  overflow-y: auto; /* 支持垂直滚动 */
+  flex: 1; /* 撑开容器使其能正常发生滚动 */
 }
 
 /* 详情上部预览：缩小容器高度以消除大片空余空间，双栏流式布局防止遮挡 */
@@ -1285,6 +1305,7 @@ const closeDetail = () => {
   justify-content: center;
   overflow: hidden;
   padding: 10px 16px;
+  flex-shrink: 0; /* 防止垂直压缩 */
 }
 
 .flex-row-layout {
@@ -1369,6 +1390,7 @@ const closeDetail = () => {
   border-radius: 12px;
   padding: 12px 14px;
   box-sizing: border-box;
+  flex-shrink: 0; /* 防止垂直压缩 */
 }
 
 .relic-description-text {
@@ -1385,6 +1407,7 @@ const closeDetail = () => {
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   width: 100%;
+  flex-shrink: 0; /* 防止垂直压缩 */
 }
 
 .relic-detail-stat {
@@ -1407,6 +1430,20 @@ const closeDetail = () => {
   font-size: 11px;
   color: var(--text-sub);
   font-weight: 600;
+}
+
+.text-wrap-label {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.text-wrap-label span {
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .stat-value {
@@ -1443,14 +1480,15 @@ const closeDetail = () => {
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 12px;
-  margin-top: 10px;
   box-sizing: border-box;
+  flex-shrink: 0; /* 防止垂直压缩 */
 }
 
 .time-panel-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
   margin-bottom: 10px;
   border-bottom: 1px dashed var(--border-color);
   padding-bottom: 6px;
