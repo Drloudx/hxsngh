@@ -12,14 +12,52 @@
             class="equip-search-input"
           />
         </div>
-        <button class="filter-toggle-btn" @click="tagsExpanded = !tagsExpanded">
-          <span class="filter-toggle-text">筛选</span>
-          <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !tagsExpanded }" />
+        <button class="sub-filter-btn" :class="{ active: showSubSearch }" @click="showSubSearch = !showSubSearch">
+          <span class="filter-toggle-text">次筛</span>
+          <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !showSubSearch }" />
         </button>
       </div>
 
+      <!-- 二次筛选输入框 -->
+      <Transition name="slide-fade">
+        <div v-show="showSubSearch" class="sub-search-box">
+          <img src="/ui/search.svg" class="sub-search-icon" />
+          <input
+            type="text"
+            v-model="subSearchQuery"
+            placeholder="结果内二次筛选..."
+            class="sub-search-input"
+          />
+        </div>
+      </Transition>
+
+      <!-- 视图模式切换 -->
+      <div class="sorting-section">
+        <span class="sorting-label">展示效果：</span>
+        <div class="sorting-right-group">
+          <div class="sorting-group">
+            <button
+              :class="['sort-btn', { active: viewMode === 'rough' }]"
+              @click="switchViewMode('rough')"
+            >
+              粗略展示
+            </button>
+            <button
+              :class="['sort-btn', { active: viewMode === 'detail' }]"
+              @click="switchViewMode('detail')"
+            >
+              详细展示
+            </button>
+          </div>
+          <button class="filter-toggle-btn" @click="tagsExpanded = !tagsExpanded">
+            <span class="filter-toggle-text">筛选</span>
+            <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !tagsExpanded }" />
+          </button>
+        </div>
+      </div>
+
       <!-- 筛选面板 -->
-      <div v-show="tagsExpanded" class="filter-panel">
+      <div v-show="tagsExpanded" class="filter-panel" style="margin-bottom: 8px;">
         <!-- 稀有度筛选 -->
         <div class="filter-row">
           <span class="filter-label">稀有度</span>
@@ -111,23 +149,31 @@
         </div>
       </div>
 
-      <!-- 视图模式切换 -->
-      <div class="sorting-section">
-        <span class="sorting-label">展示效果：</span>
-        <div class="sorting-group">
-          <button
-            :class="['sort-btn', { active: viewMode === 'rough' }]"
-            @click="switchViewMode('rough')"
-          >
-            粗略展示
-          </button>
-          <button
-            :class="['sort-btn', { active: viewMode === 'detail' }]"
-            @click="switchViewMode('detail')"
-          >
-            详细展示
-          </button>
+      <!-- 效果标签筛选 -->
+      <div v-if="allDisplayTags.length > 0" class="effect-filter-bar">
+        <div class="effect-filter-header" @click="toggleEffectExpand">
+          <span class="effect-filter-title">查找效果：</span>
+          <div class="effect-toggle-wrapper">
+            <span class="effect-toggle-text">{{ effectExpanded ? '点击收起' : '点击展开' }}</span>
+            <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !effectExpanded }" />
+          </div>
         </div>
+        <div v-if="effectExpanded" class="effect-tags-list">
+          <span
+            v-for="tag in allDisplayTags"
+            :key="tag"
+            :class="['effect-tag', isActiveTag(tag) ? 'active' : '']"
+            @click="toggleFilterTag(tag)"
+          >
+            {{ tag }}
+            <span v-if="isActiveTag(tag)" class="tag-close-x">✕</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- 检索数量统计 -->
+      <div class="search-count-bar">
+        当前检索装备数量：<span class="count-highlight">{{ filteredEquips.length }}</span>
       </div>
     </div>
 
@@ -387,6 +433,8 @@ const attrNameToChinese = {
 
 // 筛选器状态
 const searchQuery = ref('')
+const showSubSearch = ref(false)
+const subSearchQuery = ref('')
 const tagsExpanded = ref(false)
 const selectedStep = ref('all')
 const selectedAttribute = ref('all')
@@ -394,6 +442,11 @@ const selectedClass = ref('all')
 const selectedType = ref('all')
 const selectedMap = ref('all')
 const mapExpanded = ref(false)
+const selectedFilterTags = ref([])
+const effectExpanded = ref(false)
+const toggleEffectExpand = () => {
+  effectExpanded.value = !effectExpanded.value
+}
 const showRareMark = ref(localStorage.getItem('showRareMark') !== 'false')
 const viewMode = ref('rough')
 
@@ -514,14 +567,40 @@ const rawEquips = computed(() => {
   return equipData.DataTable || equipData || []
 })
 
-// 过滤后的装备列表
-const filteredEquips = computed(() => {
-  return rawEquips.value.filter(item => {
+const processedEquips = computed(() => {
+  return rawEquips.value.map(item => {
+    const tags = new Set()
+    for (const key of ['Pure', 'Title', 'Enhance']) {
+      const val = item[key]
+      if (val) {
+        const info = parseBondInfo(val)
+        if (info) {
+          const bObj = bondMap.get(info.name)
+          if (bObj && bObj.Tag) {
+            bObj.Tag.split(/[\s,，]+/).forEach(t => {
+              const clean = t.trim()
+              if (clean) tags.add(clean)
+            })
+          }
+        }
+      }
+    }
+    return {
+      ...item,
+      filterTags: Array.from(tags)
+    }
+  })
+})
+
+// 过滤后的第一层装备列表 (主过滤)
+const primaryFilteredEquips = computed(() => {
+  return processedEquips.value.filter(item => {
     // 搜索过滤
     const q = searchQuery.value.trim().toLowerCase()
     if (q) {
       const matchName = item.Name && item.Name.toLowerCase().includes(q)
       const matchDesc = item.Description && item.Description.toLowerCase().includes(q)
+      const matchTag = item.filterTags && item.filterTags.some(t => t.toLowerCase().includes(q))
       
       let matchBonds = false
       for (const key of ['Pure', 'Title', 'Enhance']) {
@@ -547,7 +626,7 @@ const filteredEquips = computed(() => {
         }
       }
 
-      if (!matchName && !matchDesc && !matchBonds) return false
+      if (!matchName && !matchDesc && !matchBonds && !matchTag) return false
     }
 
     // 稀有度过滤
@@ -585,6 +664,193 @@ const filteredEquips = computed(() => {
     }
 
     return true
+  })
+})
+
+// 效果标签过滤
+const tagFilteredEquips = computed(() => {
+  const list = primaryFilteredEquips.value
+  if (selectedFilterTags.value.length === 0) return list
+  return list.filter(item => {
+    return selectedFilterTags.value.every(tag => item.filterTags && item.filterTags.includes(tag))
+  })
+})
+
+// 提取当前所有的搜索关键词 (包括主搜和次筛)
+const queryKeywords = computed(() => {
+  const qStr = (searchQuery.value || '').trim().toLowerCase()
+  const subQStr = (subSearchQuery.value || '').trim().toLowerCase()
+  return [
+    ...qStr.split(/[\s,，]+/).filter(Boolean),
+    ...subQStr.split(/[\s,，]+/).filter(Boolean)
+  ]
+})
+
+// 判断一个标签是否处于激活选中状态（被手动选中，或正好出现在搜索框词组中）
+const isActiveTag = (tag) => {
+  const lowerTag = tag.toLowerCase()
+  return selectedFilterTags.value.includes(tag) || queryKeywords.value.includes(lowerTag)
+}
+
+// 效果标签池
+const allDisplayTags = computed(() => {
+  const tags = new Set()
+  selectedFilterTags.value.forEach(t => tags.add(t))
+
+  const keywords = queryKeywords.value
+
+  // 获取数据库中的所有唯一有效标签
+  const dbTags = new Set()
+  processedEquips.value.forEach(item => {
+    if (item.filterTags) {
+      item.filterTags.forEach(t => dbTags.add(t))
+    }
+  })
+
+  dbTags.forEach(t => {
+    if (keywords.includes(t.toLowerCase())) {
+      tags.add(t)
+    }
+  })
+
+  filteredEquips.value.forEach(item => {
+    if (item.filterTags) {
+      item.filterTags.forEach(t => tags.add(t))
+    }
+  })
+
+  const combinedList = Array.from(tags)
+
+  const getTagGroupRank = (t) => {
+    if (selectedFilterTags.value.includes(t)) {
+      return 1 // 已选高亮置顶
+    }
+    return 5 // 数据库普通标签
+  }
+
+  // 排序规则：已选中高亮置顶，普通标签按拼音中文排序
+  combinedList.sort((a, b) => {
+    const rankA = getTagGroupRank(a)
+    const rankB = getTagGroupRank(b)
+
+    if (rankA !== rankB) {
+      return rankA - rankB
+    }
+
+    return a.localeCompare(b, 'zh')
+  })
+
+  return combinedList
+})
+
+// 从搜索框和二次筛选中清除特定关键词
+const removeKeywordFromSearch = (tag) => {
+  const lowerTag = tag.toLowerCase()
+  const filterInput = (refVar) => {
+    const val = refVar.value || ''
+    const words = val.split(/[\s,，]+/).filter(Boolean)
+    const filtered = words.filter(w => w.toLowerCase() !== lowerTag)
+    refVar.value = filtered.join(' ')
+  }
+  filterInput(searchQuery)
+  filterInput(subSearchQuery)
+}
+
+// 切换标签筛选状态
+const toggleFilterTag = (tag) => {
+  const lowerTag = tag.toLowerCase()
+  const inSelected = selectedFilterTags.value.includes(tag)
+  const inQuery = queryKeywords.value.includes(lowerTag)
+
+  if (inSelected || inQuery) {
+    if (inSelected) {
+      const idx = selectedFilterTags.value.indexOf(tag)
+      selectedFilterTags.value.splice(idx, 1)
+    }
+    if (inQuery) {
+      removeKeywordFromSearch(tag)
+    }
+  } else {
+    selectedFilterTags.value.push(tag)
+  }
+  displayLimit.value = viewMode.value === 'rough' ? 40 : 15
+}
+
+// 二次过滤后的最终装备列表
+const getStepWeight = (step) => {
+  const weights = { 'SS': 1, 'S': 2, 'A': 3, 'B': 4, 'C': 5 }
+  return weights[step] || 99
+}
+
+const getMapWeight = (map) => {
+  const weights = {
+    '世界': 1,
+    '新生平原': 2,
+    '广袤草原': 3,
+    '铁血高地': 4,
+    '迷失森林': 5,
+    '幽暗密林': 6,
+    '清凉沙滩': 7,
+    '遗忘之海': 8,
+    '废弃矿洞': 9,
+    '洞穴深处': 10,
+    '极寒冰原': 11,
+    '荒凉戈壁': 12,
+    '无尽荒漠': 13,
+    '熔岩通道': 14
+  }
+  return weights[map] || 99
+}
+
+const filteredEquips = computed(() => {
+  const list = tagFilteredEquips.value
+  const subQ = subSearchQuery.value.trim().toLowerCase()
+  
+  let result = list
+  if (subQ) {
+    result = list.filter(item => {
+      const matchName = item.Name && item.Name.toLowerCase().includes(subQ)
+      const matchDesc = item.Description && item.Description.toLowerCase().includes(subQ)
+      const matchTag = item.filterTags && item.filterTags.some(t => t.toLowerCase().includes(subQ))
+      
+      let matchBonds = false
+      for (const key of ['Pure', 'Title', 'Enhance']) {
+        const val = item[key]
+        if (val) {
+          if (val.toLowerCase().includes(subQ)) {
+            matchBonds = true
+            break
+          }
+          const info = parseBondInfo(val)
+          if (info) {
+            const bObj = bondMap.get(info.name)
+            if (bObj) {
+              const matchBondName = bObj.Name && bObj.Name.toLowerCase().includes(subQ)
+              const matchBondBasic = bObj.BasicDescription && bObj.BasicDescription.toLowerCase().includes(subQ)
+              const matchBondEffect = bObj.EffectDescription && bObj.EffectDescription.toLowerCase().includes(subQ)
+              if (matchBondName || matchBondBasic || matchBondEffect) {
+                matchBonds = true
+                break
+              }
+            }
+          }
+        }
+      }
+
+      return matchName || matchDesc || matchBonds || matchTag
+    })
+  }
+
+  // 按品质（Step）排序，相同品质的按地图（AreaName）来排
+  return [...result].sort((a, b) => {
+    const stepA = getStepWeight(a.Step)
+    const stepB = getStepWeight(b.Step)
+    if (stepA !== stepB) {
+      return stepA - stepB // SS(1) < S(2) < A(3) ...
+    }
+    const mapA = getMapWeight(a.AreaName)
+    const mapB = getMapWeight(b.AreaName)
+    return mapA - mapB
   })
 })
 
@@ -635,6 +901,23 @@ const switchViewMode = (mode) => {
 watch(searchQuery, () => {
   displayLimit.value = viewMode.value === 'rough' ? 40 : 15
   resetScroll()
+  subSearchQuery.value = '' // 主检索变了，清空次筛词
+})
+
+watch(subSearchQuery, () => {
+  displayLimit.value = viewMode.value === 'rough' ? 40 : 15
+  resetScroll()
+})
+
+watch(selectedFilterTags, () => {
+  displayLimit.value = viewMode.value === 'rough' ? 40 : 15
+  resetScroll()
+})
+
+watch(showSubSearch, (val) => {
+  if (!val) {
+    subSearchQuery.value = '' // 折叠时清空
+  }
 })
 
 watch(showRareMark, (newVal) => {
@@ -689,6 +972,7 @@ const rareDropsMap = {
   "幽暗密林": ["梦魇魔盔","梦魇魔铠","梦魇魔爪","龙魂战盔","龙魂战甲","龙魂之心","恶意纹章","恶意项链","恶意戒指"],
   "清凉沙滩": ["天使羽弓","天使光环","天使羽翼","泰坦战盔","泰坦战甲","泰坦护手","无瑕权杖","无瑕盾牌","无瑕长袍"],
   "遗忘之海": ["流水项链","流水指环","流水徽章","邪神权杖","邪神之冠","邪神束带","","",""],
+  "废弃矿洞": ["炼狱宝珠","炼狱手套","炼狱腰带","","","","","",""],
   "洞穴深处": ["维生头罩","维生装甲","维生芯片","","","","","",""],
   "极寒冰原": ["冰蛛披肩","冰蛛手套","冰蛛纹章","冰羽利刃","冰羽斗篷","冰羽神靴","","",""],
   "荒凉戈壁": ["光辉权杖","光辉头环","光辉羽织", "光辉圣徽", "光辉之心", "光辉宝戒", "舞姬面纱","舞姬手环","舞姬束带"],
@@ -900,7 +1184,7 @@ const toggleBondExpand = (idx) => {
 .equip-search-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-shrink: 0;
 }
 
@@ -910,10 +1194,11 @@ const toggleBondExpand = (idx) => {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 10px 14px;
+  padding: 10px 10px;
   flex: 1;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
   transition: border-color 0.2s ease;
+  min-width: 0;
 }
 
 .equip-search-box:focus-within {
@@ -934,12 +1219,13 @@ const toggleBondExpand = (idx) => {
   border: none;
   outline: none;
   background: transparent;
-  font-size: 15px;
+  font-size: 13px;
   color: var(--text-main);
   font-family: inherit;
+  min-width: 0;
 }
 
-.filter-toggle-btn {
+.filter-toggle-btn, .sub-filter-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -952,17 +1238,90 @@ const toggleBondExpand = (idx) => {
   box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   transition: all 0.2s ease;
   flex-shrink: 0;
-  color: var(--text-main);
+  color: var(--text-main) !important;
   height: 38px;
 }
-.filter-toggle-btn:hover {
+.filter-toggle-btn:hover, .sub-filter-btn:hover {
   border-color: var(--primary);
+  color: var(--primary) !important;
+}
+.sub-filter-btn.active {
+  border-color: var(--primary);
+  color: var(--primary) !important;
+}
+
+.sorting-right-group .filter-toggle-btn {
+  height: 32px;
+  padding: 4px 10px;
+}
+
+.sub-search-box {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.2s ease;
+}
+.sub-search-box:focus-within {
+  border-color: var(--primary);
+}
+.sub-search-icon {
+  width: 16px;
+  height: 16px;
+  filter: var(--icon-filter);
+  margin-right: 8px;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+.sub-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--text-main);
+  font-family: inherit;
+}
+
+/* 检索统计栏 */
+.search-count-bar {
+  padding: 6px 12px 2px 12px;
+  font-size: 12px;
+  color: var(--text-main); /* 黑色高对比字体 */
+  text-align: left;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+.count-highlight {
   color: var(--primary);
+  font-weight: 800;
+  margin: 0 4px;
+}
+
+.sorting-right-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 过渡动画 */
+.slide-fade-enter-active, .slide-fade-leave-active {
+  transition: all 0.2s ease;
+}
+.slide-fade-enter-from, .slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
 .filter-toggle-text {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 600 !important;
+  color: var(--text-main) !important;
 }
 
 .collapse-icon {
@@ -1236,14 +1595,15 @@ const toggleBondExpand = (idx) => {
 }
 
 .equip-detail-icon-slot {
-  width: 36px;
-  height: 36px;
+  width: 35px;
+  height: 35px;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
-  box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  background: rgba(100, 116, 139, 0.05);
 }
 
 .equip-detail-icon {
@@ -1742,5 +2102,82 @@ const toggleBondExpand = (idx) => {
   height: 14px;
   cursor: pointer;
   accent-color: #f43f5e;
+}
+
+/* 效果标签筛选 */
+.effect-filter-bar {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+  margin-top: 8px;
+  width: 100%;
+}
+
+.effect-filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.effect-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.effect-toggle-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-main);
+  user-select: none;
+}
+
+.effect-filter-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+
+.effect-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.effect-tag {
+  font-size: 11.5px;
+  padding: 4px 8px;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+}
+.effect-tag:hover {
+  border-color: var(--primary);
+  background: var(--card-bg);
+}
+.effect-tag.active {
+  background: var(--primary-light, rgba(249,115,22,0.1)) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+  font-weight: 600;
+}
+
+.tag-close-x {
+  font-size: 10px;
+  opacity: 0.8;
 }
 </style>

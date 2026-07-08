@@ -242,13 +242,16 @@ defineExpose({
 
       <!-- GIF 容器，使用 v-show 控制显隐 -->
       <div class="footer-gifs" v-show="showGifs">
-        <div class="gif-group left-group">
-          <img src="/gif/lzx.gif" alt="lzx" class="bottom-gif" />
-          <img src="/gif/cl.gif" alt="cl" class="bottom-gif" />
-        </div>
-        <div class="gif-group right-group">
-          <img src="/gif/ysgz.gif" alt="ysgz" class="bottom-gif" />
-          <img src="/gif/hfmn.gif" alt="hfmn" class="bottom-gif" />
+        <div class="gifs-center-wrapper">
+          <div class="gif-group left-group">
+            <img src="/gif/cb.gif" alt="lzx" class="bottom-gif game-sprite" />
+            <img src="/gif/cl.gif" alt="cl" class="bottom-gif game-sprite" />
+          </div>
+          <img src="/gif/rest.gif" alt="rest" class="bottom-gif center-gif game-sprite" />
+          <div class="gif-group right-group">
+            <img src="/gif/xs.gif" alt="ysgz" class="bottom-gif game-sprite" />
+            <img src="/gif/ysgz.gif" alt="hfmn" class="bottom-gif game-sprite" />
+          </div>
         </div>
       </div>
     </div>
@@ -393,6 +396,17 @@ defineExpose({
         </div>
       </div>
     </div>
+    <!-- 底部悬浮操作按钮胶囊 -->
+    <div class="bottom-action-pill">
+      <button class="pill-btn pill-btn-secondary" @click="resetTags">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+        重置
+      </button>
+      <button class="pill-btn pill-btn-primary" @click="triggerUpload" :disabled="isMatchingLoading">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        {{ isMatchingLoading ? '识别中...' : '上传截图' }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -517,18 +531,24 @@ defineExpose({
   width: 100%;
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-end;
   padding: 0 15px;
   z-index: 5;
   pointer-events: none;
 }
 
+.gifs-center-wrapper {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 16px; /* 左右 gif 离篝火 10px */
+}
+
 .gif-group {
   display: flex;
   align-items: flex-end;
-  gap: 15px;
-  width: 45%;
+  gap: 14px;
 }
 
 .bottom-gif {
@@ -541,8 +561,20 @@ defineExpose({
 }
 
 .bottom-gif:hover { transform: scale(1.1) translateY(-5px); }
-.left-group { justify-content: flex-start; }
-.right-group { justify-content: flex-end; }
+.left-group { justify-content: flex-end; }
+.right-group { justify-content: flex-start; }
+
+.center-gif {
+  align-self: flex-end;
+  margin-bottom: 0; /* 去掉篝火底部的 2px */
+}
+
+/* 像素画抗模糊清晰渲染 */
+img.game-sprite {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
 
 /* 心愿招募弹窗相关样式 */
 .wish-modal-card { max-width: 500px !important; }
@@ -608,27 +640,38 @@ defineExpose({
   display: inline-flex;
   align-items: center;
   gap: 0px;
-  background: var(--card-bg);
-  color: #f97316;
-  border: 1px solid #f97316;
+  background-color: #fbede5;
+  color: #cf7155;
+  border: 1px solid #f0cec4;
+  border-radius: 6px;
   font-weight: 800;
   font-size: 15px;
   padding: 3px 8px 3px 3px;
   flex-shrink: 0;
+  transition: all 0.2s ease;
 }
 .wish-btn:hover {
-  background: #fff7ed;
+  background-color: #f7e0d3;
+}
+.dark-mode .wish-btn {
+  background-color: rgba(207, 113, 85, 0.15);
+  color: #e58b73;
+  border: 1px solid rgba(240, 206, 196, 0.3);
 }
 .dark-mode .wish-btn:hover {
-  background: rgba(249, 115, 22, 0.1);
+  background-color: rgba(207, 113, 85, 0.25);
 }
 .wish-btn-icon {
   display: block;
   width: 20px;
   height: 20px;
-  background: #e1624f;
+  background: #cf7155;
   mask: url(/ui/wish.svg) no-repeat center / contain;
   -webkit-mask: url(/ui/wish.svg) no-repeat center / contain;
+  transition: background 0.2s ease;
+}
+.dark-mode .wish-btn-icon {
+  background: #e58b73;
 }
 .wish-tip-text {
   font-size: 13px;
@@ -638,5 +681,116 @@ defineExpose({
 }
 .dark-mode .wish-tip-text {
   color: #a1aebf;
+}
+
+/* ========================================= */
+/* 底部悬浮操作按钮胶囊 (同时配置暗色模式适配)  */
+/* ========================================= */
+.bottom-action-pill {
+  position: fixed;
+  bottom: 80px; /* 默认距离底部，避开手势区且防止与回到顶部按钮重合 */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  width: 90%; 
+  max-width: 300px; /* 针对手机屏幕的最合适宽度 */
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 100px; 
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  z-index: 800;
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+
+.dark-mode .bottom-action-pill {
+  background: rgba(30, 41, 59, 0.85); /* 适配暗黑模式 */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.pill-btn {
+  border: none;
+  padding: 10px 0;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s;
+  white-space: nowrap; 
+}
+
+.pill-btn:active {
+  transform: scale(0.96);
+  filter: brightness(0.95);
+}
+
+.pill-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pill-btn-primary {
+  flex: 2; 
+  background: #e1f4e8;
+  color: #42a16d;
+  border: 1px solid #addabd;
+}
+
+.dark-mode .pill-btn-primary {
+  background: rgba(66, 161, 109, 0.15);
+  color: #52c48a;
+  border: 1px solid rgba(173, 218, 189, 0.3);
+}
+
+.pill-btn-secondary {
+  flex: 1; 
+  background: #fbe0e2;
+  color: #c76772;
+  border: 1px solid #f0bcc1;
+}
+
+.dark-mode .pill-btn-secondary {
+  background: rgba(199, 103, 114, 0.15);
+  color: #e07b88;
+  border: 1px solid rgba(240, 188, 193, 0.3);
+}
+
+@media screen and (min-width: 1024px) {
+  .bottom-action-pill {
+    bottom: 40px; /* 电脑端稍微贴底 */
+    gap: 10px;
+    padding: 10px;
+    max-width: 400px;
+  }
+  .pill-btn {
+    padding: 12px 0; 
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .bottom-action-pill {
+    bottom: 20px; /* 移到最下方，避免与菜单按键重叠 */
+    padding: 6px;
+    max-width: 230px; /* 缩窄宽度 */
+  }
+  .pill-btn {
+    padding: 8px 0;
+    font-size: 14px; /* 字号缩小 */
+    gap: 4px;
+  }
+  .pill-btn svg {
+    width: 15px;
+    height: 15px;
+  }
 }
 </style>
