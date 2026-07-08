@@ -11,6 +11,7 @@ import HotUpdateModal from './components/HotUpdateModal.vue'
 import { fetchLatestRelease, compareVersions, isUpdateSkippedToday } from './utils/version'
 import { imageMatcher } from './utils/imageMatcher'
 import { exportData, importData } from './utils/dataTransfer'
+import NavigationMenu from './components/NavigationMenu.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -88,7 +89,8 @@ onMounted(() => {
 
   window.addEventListener('click', (e) => {
     if (!e.target.closest('.settings-container')) isSettingsOpen.value = false
-    if (!e.target.closest('.mode-switcher-container')) isModeDropdownOpen.value = false
+    if (!e.target.closest('.sponsor-container')) isSponsorOpen.value = false
+    if (!e.target.closest('.title-dropdown-trigger') && !e.target.closest('.nav-fab-btn')) isMenuOpen.value = false
   })
 
   // ===== 侧滑/物理返回键全局弹窗拦截处理（双保险模式） =====
@@ -138,15 +140,18 @@ onMounted(() => {
   }
 
   let isBacking = false
+  let isStatePushed = false
 
   const syncModalHistoryState = () => {
     const modalEl = getVisibleModal()
     const hasModal = !!modalEl
     const isStateModal = history.state?.modalOpen === true
     
-    if (hasModal && !isStateModal) {
-      history.pushState({ modalOpen: true }, '')
-    } else if (!hasModal && isStateModal && !isBacking) {
+    if (hasModal && !isStatePushed && !isStateModal) {
+      isStatePushed = true
+      history.pushState({ ...(history.state || {}), modalOpen: true }, '')
+    } else if (!hasModal && (isStatePushed || isStateModal) && !isBacking) {
+      isStatePushed = false
       isBacking = true
       history.back()
     }
@@ -168,12 +173,22 @@ onMounted(() => {
     
     if (isBacking) {
       isBacking = false
+      isStatePushed = false
       return
     }
     
-    if (!isStateModal && modalEl) {
-      closeActiveModal(modalEl)
+    if (!isStateModal) {
+      isStatePushed = false
+      if (modalEl) {
+        closeActiveModal(modalEl)
+      }
     }
+  })
+
+  // 页面切换（路由跳转）后强制重置拦截标记，彻底防止指针偏差
+  router.afterEach(() => {
+    isStatePushed = false
+    isBacking = false
   })
 
   // 暴露给原生安卓壳子的全局方法
@@ -189,13 +204,7 @@ onMounted(() => {
 
 const isSettingsOpen = ref(false)
 const isDarkMode = ref(false)
-const limeFileInput = ref(null)
 const universalFileInput = ref(null)
-
-const exportLimeData = () => {
-  exportData(JSON.parse(localStorage.getItem('my_owned_limes') || '[]'),
-    `lime_owned_data_${new Date().toISOString().slice(0, 10)}.json`)
-}
 
 // ===== 通用导入导出（合并所有视图数据） =====
 const exportAllData = () => {
@@ -254,21 +263,7 @@ const handleUniversalImport = async (event) => {
   }
 }
 
-const triggerLimeImport = () => {
-  limeFileInput.value?.click()
-}
 
-const handleLimeImport = async (event) => {
-  try {
-    const data = await importData(event)
-    if (!Array.isArray(data)) throw new Error('数据格式错误：应为数组')
-    localStorage.setItem('my_owned_limes', JSON.stringify(data))
-    window.dispatchEvent(new CustomEvent('lime-data-imported'))
-    showMessage('提示', '导入成功！', 'success')
-  } catch (err) {
-    showMessage('导入失败', '导入失败：' + err.message, 'error')
-  }
-}
 
 // GIF 显示状态（默认 true，并从 localStorage 读取）
 const showGifs = ref(true)
@@ -289,15 +284,26 @@ const toggleGifs = () => {
 
 const toggleSettings = () => {
   isSettingsOpen.value = !isSettingsOpen.value
-  if (isSettingsOpen.value) isModeDropdownOpen.value = false
+  if (isSettingsOpen.value) {
+    isMenuOpen.value = false
+    isSponsorOpen.value = false
+  }
 }
 
-// 模式切换
-const isModeDropdownOpen = ref(false)
+// 导航与菜单设置
+const isMenuOpen = ref(false)
+const menuMode = ref(localStorage.getItem('recruit_tool_menuMode') || 'top')
+
+const saveMenuMode = () => {
+  localStorage.setItem('recruit_tool_menuMode', menuMode.value)
+}
+
 const modes = [
   { id: 'recruit', name: '指定招募工具', shortName: '招募', path: '/recruit' },
+  { id: 'search', name: '综合检索', shortName: '综合', path: '/search' },
   { id: 'talent', name: '天赋筛选工具', shortName: '天赋', path: '/talent' },
   { id: 'subskill', name: '支援筛选工具', shortName: '支援', path: '/subskill' },
+  { id: 'unique', name: '技能筛选工具', shortName: '技能', path: '/unique' },
   { id: 'equip', name: '装备筛选工具', shortName: '装备', path: '/equip' },
   { id: 'talent-manage', name: '天赋管理', shortName: '库存', path: '/talent-manage' },
   { id: 'role', name: '角色图鉴', shortName: '角色', path: '/role' },
@@ -314,22 +320,43 @@ const currentModeInfo = computed(() => {
   const m = modes.find(m => route.path === m.path || route.path.startsWith(m.path + '/'))
   return m || modes[0]
 })
+
 const toggleModeDropdown = () => {
-  isModeDropdownOpen.value = !isModeDropdownOpen.value
-  if (isModeDropdownOpen.value) isSettingsOpen.value = false
+  isMenuOpen.value = !isMenuOpen.value
+  if (isMenuOpen.value) {
+    isSettingsOpen.value = false
+    isSponsorOpen.value = false
+  }
 }
 
 const switchMode = (mode) => {
   router.push(mode.path)
-  isModeDropdownOpen.value = false
+  isMenuOpen.value = false
+  isSponsorOpen.value = false
 }
 
 // 全局弹窗状态
+const showMenuModeModal = ref(false)
+const setMenuMode = (mode) => {
+  menuMode.value = mode
+  saveMenuMode()
+}
 const showFeedbackModal = ref(false)
 const showNoticeModal = ref(false)
 const showUpdateModal = ref(false)
 const showAboutModal = ref(false)
-const showDonateModal = ref(false)
+const showPaymentModal = ref(false)
+const paymentType = ref('alipay')
+const isSponsorOpen = ref(false)
+const toggleSponsor = () => {
+  isSponsorOpen.value = !isSponsorOpen.value
+  isSettingsOpen.value = false
+}
+const openPaymentModal = (type) => {
+  paymentType.value = type
+  showPaymentModal.value = true
+  isSponsorOpen.value = false
+}
 const showPrivacyModal = ref(false)
 const showVersionAlert = ref(false)
 const versionAlertMessage = ref('')
@@ -483,107 +510,36 @@ const borderNoticeRead = () => {
     <div class="app-header">
       <div class="brand-status-section">
         <img src="/logo1.png" alt="Logo" class="header-logo" />
-        <div class="title-container">
-          <div class="title-main-info">
-            <h1 class="main-title">{{ currentModeInfo.name }}</h1>
-            <div class="status-row">
-              <span v-if="route.name === 'recruit' && viewRef" class="ocr-status-tag" :class="'status-' + engineStatus">
-                <span class="status-dot"></span>
-                {{ engineStatus === 'loading' ? '识别模块预加载中' : engineStatus === 'ready' ? '识别模块就绪' : '识别模块加载失败' }}
-              </span>
-              <div v-else-if="route.name === 'talent'" class="talent-header-gifs">
-                <img src="/ui/TB20011.png" class="header-gif" />
-                <img src="/ui/TB20012.png" class="header-gif" />
-                <img src="/ui/TB20013.png" class="header-gif" />
-                <img src="/ui/TB20014.png" class="header-gif" />
-              </div>
-              <div v-else-if="route.name === 'prefix'" class="talent-header-gifs">
-                <img src="/ui/mid_btn_duiwu_00000.png" class="header-gif" />
-                <img src="/ui/mid_btn_duiwu_10001.png" class="header-gif" />
-                <img src="/ui/mid_btn_duiwu_40001.png" class="header-gif" />
-                <img src="/ui/mid_btn_duiwu_50001.png" class="header-gif" />
-              </div>
-              <div v-else-if="route.name === 'subskill'" class="talent-header-gifs">
-                <img src="/Skill/TB00025.png" class="header-gif" />
-                <img src="/Skill/TB00026.png" class="header-gif" />
-                <img src="/Skill/TB00027.png" class="header-gif" />
-                <img src="/Skill/TB00031.png" class="header-gif" />
-              </div>
-              <div v-else-if="route.name === 'lime'" class="talent-header-gifs">
-                <img src="/lime/LM02027B.png" class="header-gif" />
-                <img src="/lime/LM03033B.png" class="header-gif" />
-                <img src="/lime/LM02020B.png" class="header-gif" />
-                <img src="/lime/LM02016B.png" class="header-gif" />
-              </div>
-              <div v-else-if="route.name === 'guide'" class="talent-header-gifs">
-                <img src="/misc/mid_btn_equip_0002.png" class="header-gif" />
-                <img src="/misc/mid_btn_equip_0003.png" class="header-gif" />
-                <img src="/misc/mid_btn_equip_0004.png" class="header-gif" />
-                <img src="/misc/mid_btn_equip_0005.png" class="header-gif" />
-              </div>
-              <div v-else-if="route.name === 'role'" class="talent-header-gifs">
-                <img src="/misc/mid_btn_equip_0002.png" class="header-gif" />
-                <img src="/misc/mid_btn_equip_0003.png" class="header-gif" />
-                <img src="/misc/mid_btn_equip_0004.png" class="header-gif" />
-                <img src="/misc/mid_btn_equip_0005.png" class="header-gif" />
-              </div>
-               <div v-else-if="route.name === 'talent-manage'" class="talent-header-gifs">
-                <img src="/ui/TB40012.png" class="header-gif" />
-                <img src="/ui/TB40013.png" class="header-gif" />
-                <img src="/ui/TB40014.png" class="header-gif" />
-                <img src="/ui/TB40016.png" class="header-gif" />
-              </div>
-              <div v-else-if="route.name === 'foretell'" class="talent-header-gifs">
-                <img src="/Foretell/YY00005.png" class="header-gif" />
-                <img src="/Foretell/YY00002.png" class="header-gif" />
-                <img src="/Foretell/YY00003.png" class="header-gif" />
-                <img src="/Foretell/YY00004.png" class="header-gif" />
-              </div>
-              <div v-else-if="route.name === 'dungeon-relics'" class="talent-header-gifs">
-                <img src="/DungeonRelics/YW00022_311.png" class="header-gif" />
-                <img src="/DungeonRelics/YW00022_401.png" class="header-gif" />
-                <img src="/DungeonRelics/YW00003_321.png" class="header-gif" />
-                <img src="/DungeonRelics/YW00009_301.png" class="header-gif" />
-              </div>
-              <div v-else-if="route.name === 'equip'" class="talent-header-gifs">
-                <img src="/ui/TB20011.png" class="header-gif" />
-                <img src="/ui/TB20012.png" class="header-gif" />
-                <img src="/ui/TB20013.png" class="header-gif" />
-                <img src="/ui/TB20014.png" class="header-gif" />
-              </div>
-              <div v-else-if="route.name === 'areablock'" class="talent-header-gifs">
-                <img src="/AreaBlock/S20001_008.png" class="header-gif" />
-                <img src="/AreaBlock/S50002_008.png" class="header-gif" />
-                <img src="/AreaBlock/S00001_008.png" class="header-gif" />
-                <img src="/AreaBlock/S00002_008.png" class="header-gif" />
-              </div>
-            </div>
-          </div>
-
-          <div class="mode-switcher-container" @click.stop="toggleModeDropdown">
-            <div class="mode-switcher-text-row">
-              <span class="mode-switcher-text">{{ currentModeInfo.shortName }}</span>
-            </div>
-            <div class="mode-switcher-arrow-row">
-              <img src="/ui/up.svg" class="mode-switcher-arrow" :class="{ 'is-open': isModeDropdownOpen }" />
-            </div>
-
-            <div v-if="isModeDropdownOpen" class="mode-dropdown">
-              <div
-                v-for="mode in modes"
-                :key="mode.id"
-                class="mode-dropdown-item"
-                :class="{ active: currentModeInfo.id === mode.id }"
-                @click.stop="switchMode(mode)"
-              >
-                {{ mode.name }}
-              </div>
-            </div>
-          </div>
+        <div class="title-dropdown-trigger" @click.stop="toggleModeDropdown">
+          <h1 class="main-title">
+            {{ currentModeInfo.name }}
+            <img src="/ui/down-top.svg" class="title-dropdown-arrow" :class="{ 'is-open': isMenuOpen }" />
+          </h1>
         </div>
       </div>
 
       <div class="header-btns">
+        <!-- 赞助按键容器（包含 GIF 和文字以扩大点击面积） -->
+        <div class="sponsor-container" @click.stop="toggleSponsor" style="cursor: pointer;">
+          <!-- 赞助 GIF -->
+          <img v-show="showGifs" src="/gif/zc.gif" alt="zc" class="sponsor-gif game-sprite" />
+          
+          <button class="btn-sponsor" title="赞助">
+            赞助
+          </button>
+          
+          <div v-if="isSponsorOpen" class="settings-dropdown sponsor-dropdown" @click.stop>
+            <div class="dropdown-item" @click="openPaymentModal('alipay')">
+              <img src="/ui/Alipay Payment.svg" class="item-icon" />
+              <span>支付宝</span>
+            </div>
+            <div class="dropdown-item" @click="openPaymentModal('wechat')">
+              <img src="/ui/WeChat Pay.svg" class="item-icon" />
+              <span>微信</span>
+            </div>
+          </div>
+        </div>
+
         <div class="settings-container">
           <button class="btn-icon" @click.stop="toggleSettings" title="设置">
             <img src="/ui/setting.svg" alt="设置" />
@@ -594,7 +550,11 @@ const borderNoticeRead = () => {
               <img :src="isDarkMode ? '/ui/theme-light.svg' : '/ui/theme-dark.svg'" class="item-icon" />
               <span>{{ isDarkMode ? '浅色模式' : '深色模式' }}</span>
             </div>
-            <div class="dropdown-item" @click="toggleGifs" v-if="route.name === 'recruit'">
+            <div class="dropdown-item" @click="showMenuModeModal = true; isSettingsOpen = false">
+              <img src="/ui/menu.svg" class="item-icon" />
+              <span>切换菜单模式</span>
+            </div>
+            <div class="dropdown-item" @click="toggleGifs">
               <img :src="showGifs ? '/ui/visibility-off.svg' : '/ui/visibility.svg'" class="item-icon" />
               <span>{{ showGifs ? '隐藏GIF动画' : '显示GIF动画' }}</span>
             </div>
@@ -626,31 +586,11 @@ const borderNoticeRead = () => {
               <img src="/ui/output.svg" class="item-icon" />
               <span>导入数据</span>
             </div>
-            <div class="dropdown-item donate-entry" @click="showDonateModal = true; isSettingsOpen = false">
-              <img src="/ui/sponsor.svg" class="item-icon" />
-              <span>赞助支持</span>
-            </div>
           </div>
         </div>
 
-        <template v-if="route.name === 'recruit' && viewRef">
-          <button
-            class="btn-upload"
-            @click="viewRef.triggerUpload()"
-            :disabled="viewRef.isMatchingLoading" >
-            {{ viewRef.isMatchingLoading ? '识别中...' : '上传截图' }}
-          </button>
-          <button class="btn-reset" @click="viewRef.resetTags()">重置</button>
-        </template>
-        <template v-if="route.name === 'lime'">
-          <button class="btn-lime-export" @click="exportLimeData">导出数据</button>
-          <button class="btn-lime-import" @click="triggerLimeImport">导入数据</button>
-          <input type="file" ref="limeFileInput" @change="handleLimeImport" accept=".json" style="display:none" />
-        </template>
-        <template v-if="route.name === 'talent-manage'">
-          <button class="btn-lime-export" @click="viewRef?.exportTalentManagerData?.()">导出数据</button>
-          <button class="btn-lime-import" @click="viewRef?.triggerTalentDataImport?.()">导入数据</button>
-        </template>
+
+
         <input type="file" ref="universalFileInput" @change="handleUniversalImport" accept=".json" style="display:none" />
       </div>
     </div>
@@ -683,6 +623,58 @@ const borderNoticeRead = () => {
 
     <NoticeModal :show="showNoticeModal" @close="showNoticeModal = false; borderNoticeRead()" />
 
+    <!-- 导航菜单样式选择弹窗 -->
+    <div v-if="showMenuModeModal" class="custom-modal-overlay" @click.self="showMenuModeModal = false">
+      <div class="custom-modal-card">
+        <div class="modal-header">
+          <h3>切换菜单模式</h3>
+        </div>
+        <div class="modal-body nav-mode-modal-body">
+          <p class="modal-hint">请选择您偏好的导航展示样式：</p>
+          <div class="nav-mode-options">
+            <div
+              class="nav-mode-option-card"
+              :class="{ active: menuMode === 'top' }"
+              @click="setMenuMode('top')"
+            >
+              <div class="option-header">
+                <span class="option-title">顶部菜单</span>
+                <span class="option-check" v-if="menuMode === 'top'">✓</span>
+              </div>
+              <span class="option-desc">下拉面板形式，从顶部标题栏自然展开</span>
+            </div>
+
+            <div
+              class="nav-mode-option-card"
+              :class="{ active: menuMode === 'bottom' }"
+              @click="setMenuMode('bottom')"
+            >
+              <div class="option-header">
+                <span class="option-title">底部菜单</span>
+                <span class="option-check" v-if="menuMode === 'bottom'">✓</span>
+              </div>
+              <span class="option-desc">抽屉卡片形式，从底部向上滑出展现</span>
+            </div>
+
+            <div
+              class="nav-mode-option-card"
+              :class="{ active: menuMode === 'side' }"
+              @click="setMenuMode('side')"
+            >
+              <div class="option-header">
+                <span class="option-title">侧边菜单</span>
+                <span class="option-check" v-if="menuMode === 'side'">✓</span>
+              </div>
+              <span class="option-desc">抽屉菜单形式，从屏幕右侧向左滑出</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn-confirm" @click="showMenuModeModal = false">确定</button>
+        </div>
+      </div>
+    </div>
+
     <AboutModal :show="showAboutModal" @close="showAboutModal = false" />
 
     <PrivacyModal
@@ -705,27 +697,23 @@ const borderNoticeRead = () => {
       @apply="onHotUpdateApplied"
     />
 
-    <div v-if="showDonateModal" class="custom-modal-overlay" @click.self="showDonateModal = false">
+    <div v-if="showPaymentModal" class="custom-modal-overlay" @click.self="showPaymentModal = false">
       <div class="custom-modal-card about-modal-card">
         <div class="modal-header about-header" style="position:relative">
-          <h3>赞助支持</h3>
-          <button class="modal-close-btn" @click="showDonateModal = false">✕</button>
+          <h3>{{ paymentType === 'alipay' ? '支付宝赞助支持' : '微信赞助支持' }}</h3>
+          <button class="modal-close-btn" @click="showPaymentModal = false">✕</button>
         </div>
-        <div class="modal-body donate-body">
-          <p class="donate-hint">感谢您的支持，赞助将用于工具维护</p>
-          <div class="donate-qrs">
-            <div class="qr-item">
-              <img src="/ui/Alipay.jpg" alt="支付宝" />
-              <span>支付宝</span>
-            </div>
-            <div class="qr-item">
-              <img src="/ui/WeChatPay.png" alt="微信支付" />
-              <span>微信支付</span>
+        <div class="modal-body donate-body" style="text-align: center; padding: 20px 24px;">
+          <p class="donate-hint" style="color: var(--text-sub); margin-bottom: 16px; font-size: 14px;">感谢您的慷慨赞助，资金将用于工具维护与功能开发！</p>
+          <div class="donate-qrs" style="display: flex; justify-content: center; margin-top: 15px;">
+            <div class="qr-item" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+              <img :src="paymentType === 'alipay' ? '/ui/Alipay.jpg' : '/ui/WeChatPay.png'" :alt="paymentType === 'alipay' ? '支付宝' : '微信支付'" style="width: 210px; height: auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);" />
+              <span style="font-size: 14px; font-weight: 600; color: var(--text-main); margin-top: 6px;">{{ paymentType === 'alipay' ? '支付宝扫码' : '微信扫码' }}</span>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button class="modal-btn-confirm" @click="showDonateModal = false">关闭</button>
+          <button class="modal-btn-confirm" @click="showPaymentModal = false">关闭</button>
         </div>
       </div>
     </div>
@@ -761,6 +749,16 @@ const borderNoticeRead = () => {
     </div>
 
     <BackToTop />
+
+    <!-- 右下角悬浮切换菜单按钮 -->
+    <div class="nav-fab-btn" @click.stop="isMenuOpen = !isMenuOpen" title="功能导航">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- 全局多样式菜单切换组件 -->
+    <NavigationMenu :isOpen="isMenuOpen" :menuMode="menuMode" @close="isMenuOpen = false" />
   </div>
 </template>
 
@@ -926,16 +924,19 @@ body {
   min-width: 0;
 }
 
-/* 主要标题：加入物理防折行，确保未到极限前不触发胡乱缩小 */
 .main-title {
   margin: 0;
-  padding: 0;
+  padding: 3px 0px;
   font-family: 'HarmonyOS_Bold', sans-serif;
-  font-size: clamp(13px, 3.8vw, 16px);
-  font-weight: 800;
+  font-size: clamp(22px, 2vw, 24px);
+  font-weight: 600;
   color: var(--text-main);
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
   white-space: nowrap;
-  line-height: 1.2;
+  line-height: 1.0;
 }
 
 .status-row {
@@ -1031,8 +1032,8 @@ body {
 }
 
 .header-btns button {
-  font-size: clamp(11px, 2.8vw, 13px) !important;
-  padding: 6px clamp(4px, 1.2vw, 8px) !important;
+  font-size: 13px;
+  padding: 6px 6px;
   white-space: nowrap;
   box-sizing: border-box;
 }
@@ -1133,37 +1134,31 @@ body {
 .btn-lime-import { background: #10b981; }
 .btn-lime-export:hover, .btn-lime-import:hover { filter: brightness(1.1); }
 
-/* ===== 右侧模式切换盒子 ===== */
-.mode-switcher-container {
+.title-dropdown-trigger {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
-  flex-shrink: 0;
-  padding: 2px 4px;
+  user-select: none;
+  min-width: 0;
 }
-.mode-switcher-text-row { height: 16px; display: flex; align-items: center; justify-content: center; }
-.mode-switcher-arrow-row { height: 12px; display: flex; align-items: center; justify-content: center; }
-.mode-switcher-text {
-  font-family: 'HarmonyOS_Bold', sans-serif;
-  font-size: 10px;
-  font-weight: 800;
-  color: var(--text-main);
-  border: 1px solid currentColor;
-  padding: 0px 3px;
-  border-radius: 3px;
-  white-space: nowrap;
+
+.title-dropdown-arrow {
+  width: 14px;
+  height: 14px;
+  filter: var(--icon-filter);
+  transition: transform 0.2s ease;
+  transform: rotate(0deg); /* 收起时：向下 */
+  opacity: 0.85;
 }
-.mode-switcher-arrow { width: 11px; height: 11px; filter: var(--icon-filter); transition: transform 0.2s; transform: rotate(180deg); cursor: pointer; }
-.mode-switcher-arrow.is-open { transform: rotate(0deg); }
+
+.title-dropdown-arrow.is-open {
+  transform: rotate(180deg); /* 展开时：翻转向上 */
+}
 
 /* 下方其余模态框与组件样式保持不变 */
 .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-overlay); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 9999; animation: fadeIn 0.2s ease-out; }
 .custom-modal-card { background: var(--card-bg); width: 90%; max-width: 400px; border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); overflow: hidden; animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); border: 1px solid var(--border-color); }
 .modal-header { padding: 16px 20px 10px 20px; border-bottom: 1px solid var(--border-color); text-align: center; }
-.modal-header h3 { margin: 0; font-size: 14px; color: var(--text-sub); font-weight: 500; }
+.modal-header h3 { margin: 0; font-size: 16px; color: var(--text-main); font-weight: 600; }
 .modal-body { padding: 24px 20px; text-align: center; }
 .modal-title-text { margin: 0 0 6px 0; font-size: 20px; font-weight: bold; color: var(--success); }
 .modal-footer { padding: 12px 20px 20px 20px; display: flex; justify-content: center; }
@@ -1189,10 +1184,170 @@ html:not([data-app-shell="true"]) .app-only { display: none !important; }
 @media (max-width: 480px) {
   .app-header { padding: 4px 15px 8px 15px; }
   .header-logo { width: 32px; height: 32px; }
-  .main-title { font-size: clamp(11px, 3vw, 14px); }
+  .main-title { font-size: clamp(16px, 1vw, 18px); }
   .btn-icon img { width: 20px; height: 20px; }
   .btn-lime-export, .btn-lime-import { padding: 5px 6px; font-size: 11px; }
   .header-gif { height: 16px; }
   .ocr-status-tag { font-size: 10px; padding: 1px 4px; }
+}
+
+/* ===== 右下角悬浮切换菜单按钮 ===== */
+.nav-fab-btn {
+  position: fixed;
+  left: calc(50% + 420px);
+  bottom: 96px; /* 偏上一些，不要和回到顶部按键叠在一起 */
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--card-bg, rgba(255, 255, 255, 0.85));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.6));
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  z-index: 990;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-fab-btn span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: var(--text-main, #333);
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+.nav-fab-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+.nav-fab-btn:active {
+  transform: translateY(-2px);
+  filter: brightness(0.9);
+}
+
+/* 导航菜单样式选择弹窗 */
+.nav-mode-modal-body {
+  text-align: left !important;
+  padding: 20px 24px !important;
+}
+.modal-hint {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-bottom: 16px;
+}
+.nav-mode-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.nav-mode-option-card {
+  padding: 14px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--bg-hover, rgba(0,0,0,0.01));
+}
+.nav-mode-option-card:hover {
+  background: var(--dropdown-hover);
+}
+.nav-mode-option-card.active {
+  border-color: var(--primary);
+  background: rgba(59, 130, 246, 0.04);
+}
+.dark-mode .nav-mode-option-card.active {
+  background: rgba(59, 130, 246, 0.12);
+}
+.option-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.option-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+.option-check {
+  color: var(--primary);
+  font-weight: bold;
+}
+.option-desc {
+  font-size: 12px;
+  color: var(--text-sub);
+}
+
+@media (max-width: 600px) {
+  .nav-fab-btn {
+    right: 16px;
+    left: unset;
+    bottom: 84px; /* 偏上一些，防与回到顶部重叠 */
+    width: 48px;
+    height: 48px;
+    gap: 4px;
+  }
+  .nav-fab-btn span {
+    width: 18px;
+    height: 2px;
+  }
+}
+
+/* ===== 顶部栏赞助按键与 GIF 动效样式 ===== */
+.sponsor-gif {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  margin-right: 0px;
+}
+.sponsor-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.btn-sponsor {
+  background: linear-gradient(135deg, #fef4d8 0%, #f6d48a 100%);
+  color: #a46714;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-weight: bold;
+  padding: 6px 12px !important;
+  font-size: 14px !important;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.btn-sponsor:hover, .sponsor-container:hover .btn-sponsor {
+  filter: brightness(1.08);
+}
+.dark-mode .btn-sponsor {
+  background: linear-gradient(135deg, #443118 0%, #2f210d 100%);
+  color: #f6d48a;
+  border: 1px solid #7d541c;
+}
+.sponsor-dropdown {
+  right: 0;
+  width: 120px !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+}
+.sponsor-dropdown .dropdown-item {
+  padding: 10px 14px !important;
+  font-size: 13px !important;
+  gap: 8px !important;
+}
+.sponsor-dropdown .item-icon {
+  filter: none !important;
 }
 </style>

@@ -6,18 +6,22 @@ import LimeView from '../views/LimeView.vue'
 import TalentManageView from '../views/TalentManageView.vue'
 import GuideView from '../views/GuideView.vue'
 import SubSkillView from '../views/SubSkillView.vue'
+import UniqueView from '../views/UniqueView.vue'
 import RoleView from '../views/RoleView.vue'
 import RankingView from '../views/RankingView.vue'
 import ForetellView from '../views/ForetellView.vue'
 import DungeonRelicsView from '../views/DungeonRelicsView.vue'
 import EquipView from '../views/EquipView.vue'
 import AreaBlockView from '../views/AreaBlockView.vue'
+import SynthesisSearchView from '../views/SynthesisSearchView.vue'
 
 const routes = [
   { path: '/', redirect: '/recruit' },
   { path: '/recruit', name: 'recruit', component: RecruitView, meta: { title: '指定招募工具', shortName: '招募' } },
+  { path: '/search', name: 'search', component: SynthesisSearchView, meta: { title: '综合检索', shortName: '综合' } },
   { path: '/talent', name: 'talent', component: TalentView, meta: { title: '天赋筛选工具', shortName: '天赋' } },
   { path: '/subskill', name: 'subskill', component: SubSkillView, meta: { title: '支援筛选工具', shortName: '支援' } },
+  { path: '/unique', name: 'unique', component: UniqueView, meta: { title: '技能筛选工具', shortName: '技能' } },
   { path: '/lime', name: 'lime', component: LimeView, meta: { title: '莱姆图鉴', shortName: '莱姆' } },
   { path: '/prefix', name: 'prefix', component: PrefixView, meta: { title: '怪物前缀', shortName: '前缀' } },
   { path: '/foretell', name: 'foretell', component: ForetellView, meta: { title: '预言图鉴', shortName: '预言' } },

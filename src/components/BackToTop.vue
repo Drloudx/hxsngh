@@ -57,10 +57,9 @@ onUnmounted(() => {
 <style scoped>
 .back-to-top {
   position: fixed;
-  /* 改动1：取消靠右，改为紧贴卡片右侧，距离右侧0px */
+  /* 取消靠右，改为紧贴卡片右侧 */
   right: unset;
-  left: calc(50% + 420px); /* 根据你卡片宽度微调，紧贴卡片右边 */
-  /* 改动2：距离页面底部固定24px，不会贴浏览器底边 */
+  left: calc(50% + 420px + 5px); /* 微调 5px 以与 54px 的菜单按钮垂直中心对齐 */
   bottom: 24px;
   width: 44px;
   height: 44px;
@@ -116,10 +115,10 @@ onUnmounted(() => {
 
 @media (max-width: 600px) {
   .back-to-top {
-    /* 移动端改回靠右，避免超出屏幕 */
-    right: 16px;
+    /* 移动端对齐底高，并微调 right 确保与菜单中心垂直对齐 */
+    right: 21px;
     left: unset;
-    bottom: 16px;
+    bottom: 25px; /* 和上传截图等按键的底部高度相同 */
     width: 38px;
     height: 38px;
   }

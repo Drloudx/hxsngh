@@ -1,16 +1,35 @@
 <template>
   <div class="talent-container">
     <div class="talent-sticky-top">
-      <div class="talent-search-box">
-        <img src="/ui/search.svg" class="search-icon" />
-        <input
-          type="text"
-          v-model="searchQuery"
-          @input="handleInput"
-          placeholder="搜索关键词(天赋详细、天赋名、角色名)..."
-          class="talent-search-input"
-        />
+      <div class="talent-search-row">
+        <div class="talent-search-box">
+          <img src="/ui/search.svg" class="search-icon" />
+          <input
+            type="text"
+            v-model="searchQuery"
+            @input="handleInput"
+            placeholder="天赋详细、天赋名、角色名..."
+            class="talent-search-input"
+          />
+        </div>
+        <button class="sub-filter-btn" :class="{ active: showSubSearch }" @click="showSubSearch = !showSubSearch">
+          <span class="filter-toggle-text">次筛</span>
+          <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !showSubSearch }" />
+        </button>
       </div>
+
+      <!-- 二次筛选输入框 -->
+      <Transition name="slide-fade">
+        <div v-show="showSubSearch" class="sub-search-box">
+          <img src="/ui/search.svg" class="sub-search-icon" />
+          <input
+            type="text"
+            v-model="subSearchQuery"
+            placeholder="结果内二次筛选..."
+            class="sub-search-input"
+          />
+        </div>
+      </Transition>
       <div class="talent-sub-header">
         <span class="talent-hint-text">可通过空格，中英文逗号，进行多词搜索，例：热血，恐怖</span>
       </div>
@@ -38,6 +57,11 @@
           </div>
         </div>
       </div>
+
+      <!-- 检索数量统计 -->
+      <div class="search-count-bar">
+        当前检索天赋数量：<span class="count-highlight">{{ sortedTalents.length }}</span>
+      </div>
     </div>
 
     <div class="talent-list">
@@ -47,11 +71,12 @@
         class="talent-card"
       >
         <div class="talent-top-bar">
-          <img
-            v-if="item.标签 === '专属' && item.SpecifyRoleIDs"
-            :src="`/Header/${item.SpecifyRoleIDs}.png`"
-            class="talent-char-avatar-standalone"
-          />
+          <div v-if="item.标签 === '专属' && item.SpecifyRoleIDs" class="talent-char-avatar-container">
+            <img
+              :src="`/Header/${item.SpecifyRoleIDs}.png`"
+              class="talent-char-avatar-img game-sprite"
+            />
+          </div>
 
           <span class="talent-name" :style="{ color: getTalentStepConfig(item.step).color }">{{ item.name }}</span>
 
@@ -88,6 +113,7 @@
             </div>
           </div>
 
+          <div class="top-bar-spacer" style="flex: 1;"></div>
           <div class="talent-source-wrapper" @click="openSourceModal(item)">
             <span class="talent-source-label"></span>
             <span class="talent-source">{{ item.sourceLabel }}</span>
@@ -251,11 +277,12 @@
               @click="confirmSelectTalent(t)"
             >
               <div class="mtr-top">
-                <img
-                  v-if="t.标签 === '专属' && t.SpecifyRoleIDs"
-                  :src="`/Header/${t.SpecifyRoleIDs}.png`"
-                  class="talent-char-avatar-standalone"
-                />
+                <div v-if="t.标签 === '专属' && t.SpecifyRoleIDs" class="talent-char-avatar-container">
+                  <img
+                    :src="`/Header/${t.SpecifyRoleIDs}.png`"
+                    class="talent-char-avatar-img game-sprite"
+                  />
+                </div>
 
                 <span class="mtr-name" :style="{ color: getTalentStepConfig(t.step).color }">{{ t.name }}</span>
 
@@ -326,6 +353,8 @@ const BLOCKED_CHARACTER_IDS = [
 ]
 
 const searchQuery = ref('')
+const showSubSearch = ref(false)
+const subSearchQuery = ref('')
 const selectedCharacter = ref(null)
 const displayLimit = ref(20)
 const PAGE_SIZE = 20
@@ -683,7 +712,7 @@ const getCategoryOrder = (t) => {
   return 5                        // 通用
 }
 
-const sortedTalents = computed(() => {
+const primarySortedTalents = computed(() => {
   const q = searchQuery.value.trim()
 
   let baseList = allTalents.value
@@ -765,6 +794,23 @@ const sortedTalents = computed(() => {
   return filtered.sort(sortRule)
 })
 
+// 二次过滤后的最终结果
+const sortedTalents = computed(() => {
+  const list = primarySortedTalents.value
+  const subQ = subSearchQuery.value.trim()
+  if (!subQ) return list
+
+  const keywords = subQ.toLowerCase().split(/[\s,，]+/).filter(Boolean)
+  return list.filter(t => {
+    const fields = [
+      (t.name || '').toLowerCase(),
+      (t.formattedEffect || '').toLowerCase(),
+      (t.sourceLabel || '').toLowerCase()
+    ]
+    return keywords.some(kw => fields.some(f => f.includes(kw)))
+  })
+})
+
 const pagedTalents = computed(() => {
   return sortedTalents.value.slice(0, displayLimit.value)
 })
@@ -790,6 +836,17 @@ const handleInput = () => {
 
 watch(searchQuery, () => {
   displayLimit.value = PAGE_SIZE
+  subSearchQuery.value = '' // 主检索变了，清空次筛词
+})
+
+watch(subSearchQuery, () => {
+  displayLimit.value = PAGE_SIZE
+})
+
+watch(showSubSearch, (val) => {
+  if (!val) {
+    subSearchQuery.value = '' // 折叠时清空
+  }
 })
 
 const initObserver = () => {
@@ -906,15 +963,137 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.talent-search-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.sub-filter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  color: var(--text-main) !important;
+  height: 38px;
+}
+.sub-filter-btn:hover, .sub-filter-btn.active {
+  border-color: var(--primary);
+  color: var(--primary) !important;
+}
+
+.filter-toggle-text {
+  font-size: 12px;
+  font-weight: 600 !important;
+  color: var(--text-main) !important;
+}
+.sub-filter-btn:hover .filter-toggle-text {
+  color: var(--primary) !important;
+}
+
+.collapse-icon {
+  width: 12px;
+  height: 12px;
+  filter: var(--icon-filter);
+  transition: transform 0.25s ease;
+}
+.collapse-icon.collapsed {
+  transform: rotate(180deg);
+}
+
+.sub-search-box {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+.sub-search-box:focus-within {
+  border-color: var(--primary);
+}
+.sub-search-icon {
+  width: 16px;
+  height: 16px;
+  filter: var(--icon-filter);
+  margin-right: 8px;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+.sub-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--text-main);
+  font-family: inherit;
+}
+
+/* 检索统计栏 */
+.search-count-bar {
+  padding: 6px 12px 2px 12px;
+  font-size: 12px;
+  color: var(--text-main); /* 黑色高对比字体 */
+  text-align: left;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+.count-highlight {
+  color: var(--primary);
+  font-weight: 800;
+  margin: 0 4px;
+}
+
+/* 过渡动画 */
+.slide-fade-enter-active, .slide-fade-leave-active {
+  transition: all 0.2s ease;
+}
+.slide-fade-enter-from, .slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
 /* ================= 核心独立平铺样式：对齐 image_427ae4.png ================= */
-.talent-char-avatar-standalone {
-  width: 45px;
-  height: 45px;
-  object-fit: cover;
+.talent-char-avatar-container {
+  width: 35px;
+  height: 35px;
   border-radius: 8px;
   border: 1px solid var(--border-color, #e2e8f0);
-  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.talent-char-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  transform: scale(1.4) translateY(2px);
+}
+
+img.game-sprite {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .talent-skill-icon-standalone {
@@ -998,8 +1177,8 @@ onUnmounted(() => {
 
 .wish-rarity-color-3 { color: #f97316 !important; font-weight: 600; }
 .wish-rarity-color-2 { color: #a855f7 !important; font-weight: 600; }
-.wish-rarity-color-1 { color: #10b981 !important; font-weight: 600; }
-.wish-rarity-color-0 { color: #64748b !important; font-weight: 600; }
+.wish-rarity-color-1 { color: #3b82f6 !important; font-weight: 600; }
+.wish-rarity-color-0 { color: #10b981 !important; font-weight: 600; }
 
 .talent-container {
   width: 100%;
@@ -1012,6 +1191,7 @@ onUnmounted(() => {
   flex: 1;
   min-height: 0;
   overflow: hidden;
+  font-family: 'HarmonyOS Sans SC', sans-serif;
 }
 
 .talent-sticky-top {
@@ -1030,7 +1210,7 @@ onUnmounted(() => {
   gap: 0;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
   transition: border-color 0.2s ease;
-  flex-shrink: 0;
+  flex: 1;
 }
 
 .talent-suggest-area {
@@ -1055,7 +1235,7 @@ onUnmounted(() => {
   border: none;
   outline: none;
   background: transparent;
-  font-size: 15px;
+  font-size: 13px;
   color: var(--text-main);
   font-family: inherit;
 }
@@ -1143,7 +1323,6 @@ onUnmounted(() => {
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 12px;
   transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
   flex-shrink: 0;
 }
@@ -1181,7 +1360,6 @@ onUnmounted(() => {
   font-size: 12px;
   font-weight: 500;
   flex-shrink: 0;
-  margin-left: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -1752,11 +1930,11 @@ onUnmounted(() => {
   color: #fdba74;
   border-color: rgba(234, 88, 12, 0.3);
 }
-.dark-mode .talent-char-avatar-standalone {
+.dark-mode .talent-char-avatar-container {
   border-color: var(--border-color, #334155);
   background: #1e293b;
 }
 
-.talent-sub-header { text-align: center;  flex-shrink: 0; }
-.talent-hint-text {   text-align: center; font-size: 12px; color: var(--text-sub); opacity: 0.8; }
+.talent-sub-header { text-align: center !important; flex-shrink: 0; width: 100% !important; display: block !important; }
+.talent-hint-text { text-align: center !important; font-size: 12px; color: var(--text-sub); opacity: 0.8; display: inline-block !important; }
 </style>

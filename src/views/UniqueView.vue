@@ -8,7 +8,7 @@
             type="text"
             v-model="searchQuery"
             @input="handleInput"
-            placeholder="支援技能详细、角色名..."
+            placeholder="技能名、效果、角色名、类型..."
             class="talent-search-input"
           />
         </div>
@@ -30,23 +30,7 @@
           />
         </div>
       </Transition>
-
-
-      <div class="talent-suggest-area">
-        <div class="sorting-section">
-          <span class="sorting-label">星级筛选：</span>
-          <div class="sorting-group">
-            <button
-              v-for="star in [3, 4, 5]"
-              :key="star"
-              :class="['sort-btn', { active: selectedStar === star }]"
-              @click="toggleStarFilter(star)"
-            >
-              {{ star }}星
-            </button>
-          </div>
-        </div>
-
+      <div class="filter-area">
         <div v-if="selectedCharacter" class="selected-char-bar">
           <button class="clear-char-btn" @click="clearSelectedCharacter">
             清除绑定: {{ selectedCharacter.displayName }} ✕
@@ -95,7 +79,7 @@
 
       <!-- 检索数量统计 -->
       <div class="search-count-bar">
-        当前检索支援技能数量：<span class="count-highlight">{{ sortedSkills.length }}</span>
+        当前检索技能数量：<span class="count-highlight">{{ sortedSkills.length }}</span>
       </div>
     </div>
 
@@ -108,7 +92,7 @@
         <div class="talent-main-content">
           <div class="talent-details-body">
 
-            <!-- 第一行：头像、名称、图标与标签融合通栏 -->
+            <!-- 第一行：头像、名称、图标与来源绑定 -->
             <div class="talent-top-bar">
               <div class="talent-char-avatar-container">
                 <img
@@ -120,19 +104,9 @@
 
               <span class="talent-name" :style="{ color: getTalentStepConfig(item.step).color }">{{ item.name }}</span>
 
-              <div class="skill-mini-box" :title="`支援图标ID: ${item.iconId}`">
+              <div class="skill-mini-box" :title="`技能图标ID: ${item.iconId}`">
                 <img :src="`/Skill/${item.iconId}.png`" class="skill-mini-img" @error="handleIconError" />
               </div>
-
-              <span
-                class="talent-tag"
-                :style="{
-                  color: getTalentStepConfig(item.step).color,
-                  backgroundColor: getTalentStepConfig(item.step).color + '15'
-                }"
-              >
-                {{ item.标签 }}
-              </span>
 
               <div class="top-bar-spacer" style="flex: 1;"></div>
               <div class="talent-source-wrapper" @click="openSourceModal(item)">
@@ -141,9 +115,14 @@
               </div>
             </div>
 
-            <!-- 第二行：详细效果（独占整行，体验极佳） -->
+            <!-- 第二行：详细效果 -->
             <div class="talent-effect">
               {{ item.formattedEffect }}
+            </div>
+
+            <!-- 第三行：技能详情规格参数 -->
+            <div class="skill-specs">
+              目标：{{ item.target }} | 目标数：{{ item.maxTarget }} | 释放次数：{{ item.times }}
             </div>
           </div>
         </div>
@@ -155,23 +134,24 @@
         v-if="pagedSkills.length < sortedSkills.length"
       >
         <div class="loading-spinner"></div>
-        <span>正在加载更多支援技能...</span>
+        <span>正在加载更多技能...</span>
       </div>
 
       <div
         v-if="sortedSkills.length > 0 && pagedSkills.length >= sortedSkills.length"
         class="no-more-data"
       >
-        — 已加载全部支援技能 —
+        — 已加载全部技能 —
       </div>
 
-      <div v-if="sortedSkills.length === 0" class="no-data">未找到匹配的支援技能</div>
+      <div v-if="sortedSkills.length === 0" class="no-data">未找到匹配的技能</div>
     </div>
 
+    <!-- 角色绑定弹窗 -->
     <div v-if="sourceModalVisible" class="modal-overlay" @click.self="closeSourceModal">
       <div class="modal-window">
         <div class="modal-header">
-          <h3>支援来源: {{ currentSource }}</h3>
+          <h3>技能归属: {{ currentSource }}</h3>
           <button class="modal-close-x" @click="closeSourceModal">✕</button>
         </div>
         <div class="modal-body">
@@ -205,24 +185,25 @@
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
 import rawRoles from '@/assets/RoleDataTable.json'
-import rawSupportSkills from '@/assets/SubSkillDataTable.json'
+import rawUniqueSkills from '@/assets/UniqueDataTable.json'
 
-// ==============================================
-// 配置：手动屏蔽的角色 ID 列表 (便于随时注释恢复)
-// ==============================================
+// 配置：手动屏蔽的角色 ID 列表
 const BLOCKED_CHARACTER_IDS = [
   'M23301_001', // [熔岩]史莱姆王
   'M11303_002', // [熔岩]雪人骑士
 ]
 
 // 筛选响应式变量
-const selectedStar = ref(null)
 const searchQuery = ref('')
 const showSubSearch = ref(false)
 const subSearchQuery = ref('')
 const selectedCharacter = ref(null)
 const selectedFilterTags = ref([])
 const globalBracketTags = ref(new Set())
+const effectExpanded = ref(false)
+const toggleEffectExpand = () => {
+  effectExpanded.value = !effectExpanded.value
+}
 
 // 分页逻辑
 const displayLimit = ref(20)
@@ -240,17 +221,6 @@ const allCharacters = ref([])
 const allSkills = ref([])
 
 /**
- * 切换星级筛选状态
- */
-const toggleStarFilter = (star) => {
-  if (selectedStar.value === star) {
-    selectedStar.value = null
-  } else {
-    selectedStar.value = star
-  }
-}
-
-/**
  * 图片加载失败的降级处理器
  */
 const handleIconError = (e) => {
@@ -261,7 +231,6 @@ const handleIconError = (e) => {
 watch(searchQuery, () => {
   displayLimit.value = PAGE_SIZE
   subSearchQuery.value = '' // 主检索变了，清空次筛词
-  selectedFilterTags.value = [] // 重置已选标签
 })
 
 watch(subSearchQuery, () => {
@@ -273,15 +242,6 @@ watch(showSubSearch, (val) => {
     subSearchQuery.value = '' // 折叠时清空
   }
 })
-
-watch(selectedStar, () => {
-  displayLimit.value = PAGE_SIZE
-  selectedFilterTags.value = [] // 重置已选标签
-})
-
-watch(selectedFilterTags, () => {
-  displayLimit.value = PAGE_SIZE
-}, { deep: true })
 
 const getRarityNum = (step = 'C') => {
   const map = { 'S': 3, 'A': 2, 'B': 1, 'C': 0 }
@@ -316,11 +276,6 @@ const toggleSuggestExpand = () => {
   suggestExpanded.value = !suggestExpanded.value
 }
 
-const effectExpanded = ref(false)
-const toggleEffectExpand = () => {
-  effectExpanded.value = !effectExpanded.value
-}
-
 const suggestedCharacters = computed(() => {
   const q = searchQuery.value.trim().toLowerCase()
   if (!q) return []
@@ -332,12 +287,8 @@ const suggestedCharacters = computed(() => {
 })
 
 const primarySortedSkills = computed(() => {
-  const q = searchQuery.value.trim()
+  const q = searchQuery.value.trim().toLowerCase()
   let baseList = allSkills.value
-
-  if (selectedStar.value) {
-    baseList = baseList.filter(s => s.star === selectedStar.value)
-  }
 
   if (selectedCharacter.value) {
     const char = selectedCharacter.value
@@ -352,9 +303,13 @@ const primarySortedSkills = computed(() => {
     const fields = [
       (s.name || '').toLowerCase(),
       (s.formattedEffect || '').toLowerCase(),
-      (s.sourceLabel || '').toLowerCase()
+      (s.sourceLabel || '').toLowerCase(),
+      (s.skillType || '').toLowerCase(),
+      (s.target || '').toLowerCase(),
+      (s.targetType || '').toLowerCase(),
+      (s.actionType || '').toLowerCase()
     ]
-    return fields.some(f => f.includes(q.toLowerCase()))
+    return fields.some(f => f.includes(q))
   })
 
   return filtered
@@ -369,7 +324,6 @@ const tagFilteredSkills = computed(() => {
   )
 })
 
-// 效果标签池（从当前 tagFilteredSkills.value 中提取，并加上已选中的，去重）
 // 提取当前所有的搜索关键词 (包括主搜和次筛)
 const queryKeywords = computed(() => {
   const qStr = (searchQuery.value || '').trim().toLowerCase()
@@ -386,10 +340,9 @@ const isActiveTag = (tag) => {
   return selectedFilterTags.value.includes(tag) || queryKeywords.value.includes(lowerTag)
 }
 
-// 效果标签池（从当前 tagFilteredSkills.value 中提取，并加上已选中的，以及在搜索框内已被激活的，去重，且前置括号内的标志词）
+// 效果标签池
 const allDisplayTags = computed(() => {
   const tags = new Set()
-  // 始终保留已点击选中的标签
   selectedFilterTags.value.forEach(t => tags.add(t))
 
   const keywords = queryKeywords.value
@@ -402,14 +355,12 @@ const allDisplayTags = computed(() => {
     }
   })
 
-  // 如果输入的搜索词本身就是一个真实存在的标签，把它以激活状态加入标签池以显式说明“当前已过滤了该效果”
   dbTags.forEach(t => {
     if (keywords.includes(t.toLowerCase())) {
       tags.add(t)
     }
   })
 
-  // 将当前过滤出的其他可用相关标签放进标签池
   sortedSkills.value.forEach(s => {
     if (s.filterTags) {
       s.filterTags.forEach(t => tags.add(t))
@@ -452,14 +403,12 @@ const allDisplayTags = computed(() => {
 // 从搜索框和二次筛选中清除特定关键词
 const removeKeywordFromSearch = (tag) => {
   const lowerTag = tag.toLowerCase()
-  
   const filterInput = (refVar) => {
     const val = refVar.value || ''
     const words = val.split(/[\s,，]+/).filter(Boolean)
     const filtered = words.filter(w => w.toLowerCase() !== lowerTag)
     refVar.value = filtered.join(' ')
   }
-
   filterInput(searchQuery)
   filterInput(subSearchQuery)
 }
@@ -471,7 +420,6 @@ const toggleFilterTag = (tag) => {
   const inQuery = queryKeywords.value.includes(lowerTag)
 
   if (inSelected || inQuery) {
-    // 处于激活状态，需进行取消选中操作
     if (inSelected) {
       const idx = selectedFilterTags.value.indexOf(tag)
       selectedFilterTags.value.splice(idx, 1)
@@ -480,12 +428,12 @@ const toggleFilterTag = (tag) => {
       removeKeywordFromSearch(tag)
     }
   } else {
-    // 处于未激活状态，将其加入选中列表
     selectedFilterTags.value.push(tag)
   }
+  displayLimit.value = PAGE_SIZE
 }
 
-// 二次过滤后的最终支援技能列表
+// 二次过滤后的最终技能列表
 const sortedSkills = computed(() => {
   const list = tagFilteredSkills.value
   const subQ = subSearchQuery.value.trim()
@@ -495,7 +443,11 @@ const sortedSkills = computed(() => {
     const fields = [
       (s.name || '').toLowerCase(),
       (s.formattedEffect || '').toLowerCase(),
-      (s.sourceLabel || '').toLowerCase()
+      (s.sourceLabel || '').toLowerCase(),
+      (s.skillType || '').toLowerCase(),
+      (s.target || '').toLowerCase(),
+      (s.targetType || '').toLowerCase(),
+      (s.actionType || '').toLowerCase()
     ]
     return fields.some(f => f.includes(subQ.toLowerCase()))
   })
@@ -508,13 +460,11 @@ const pagedSkills = computed(() => {
 const selectCharacter = (char) => {
   selectedCharacter.value = char
   displayLimit.value = PAGE_SIZE
-  selectedFilterTags.value = [] // 重置已选标签
 }
 
 const clearSelectedCharacter = () => {
   selectedCharacter.value = null
   displayLimit.value = PAGE_SIZE
-  selectedFilterTags.value = [] // 重置已选标签
 }
 
 const handleInput = () => {
@@ -554,11 +504,11 @@ onMounted(() => {
   initObserver()
 
   const rawRoleArr = configUtil.extractDataArray(rawRoles)
-  const rawSupportArr = configUtil.extractDataArray(rawSupportSkills)
+  const rawUniqueArr = configUtil.extractDataArray(rawUniqueSkills)
 
   const fullDatasets = {
-    supportList: rawSupportArr,
-    skillList: [],
+    supportList: [],
+    skillList: rawUniqueArr,
     talentList: [],
     relicList: [],
     noteList: []
@@ -570,42 +520,50 @@ onMounted(() => {
   const bTags = new Set()
   const list = []
   fullCharacters.forEach(c => {
-    const skills = [
-      c.supportSkills.characteristic,
-      c.supportSkills.subClass,
-      c.supportSkills.feature
-    ]
-    skills.forEach(s => {
-      if (s && s.id) {
-        // 从描述文本中提取所有 【xxx】 里的标识词
-        const prefixTags = []
-        const regex = /【([^】]+)】/g
-        let m
-        const descText = s.formattedDesc || s.description || ''
-        while ((m = regex.exec(descText)) !== null) {
-          if (m[1]) {
-            const cleanTag = m[1].trim()
-            if (cleanTag && !prefixTags.includes(cleanTag)) {
-              prefixTags.push(cleanTag)
-              bTags.add(cleanTag) // 加入全局首部标识标签库
-            }
+    c.activeSkills.forEach(s => {
+      // 从描述文本中提取所有 【xxx】 里的标识词
+      const prefixTags = []
+      const regex = /【([^】]+)】/g
+      let m
+      const descText = s.formattedDesc || s.description || ''
+      while ((m = regex.exec(descText)) !== null) {
+        if (m[1]) {
+          const cleanTag = m[1].trim()
+          if (cleanTag && !prefixTags.includes(cleanTag)) {
+            prefixTags.push(cleanTag)
+            bTags.add(cleanTag)
           }
         }
-
-        list.push({
-          uid: `${c.id}_${s.star}`,
-          name: s.name || '未命名支援',
-          step: c.step,
-          标签: `${s.star}星`,
-          star: s.star,
-          formattedEffect: s.formattedDesc || '无描述',
-          sourceLabel: c.displayName,
-          character: c,
-          charId: c.id,
-          iconId: s.Icon || s.icon || 'default',
-          filterTags: [...prefixTags, ...(s.filterTags || [])]
-        })
       }
+
+      // 从 positiveTags 和 negativeTags 中提取，并过滤掉含有 Owner 名的标签
+      const ownerName = (s.owner || c.displayName || '').trim()
+      const rawTags = [...(s.positiveTags || []), ...(s.negativeTags || [])]
+      const dbTagsFiltered = rawTags
+        .map(t => t.trim())
+        .filter(t => {
+          if (!t) return false
+          if (ownerName && t.includes(ownerName)) return false
+          return true
+        })
+
+      list.push({
+        uid: s.id,
+        name: s.name || '未命名技能',
+        step: c.step,
+        target: s.target,
+        maxTarget: s.maxTarget,
+        times: s.times,
+        skillType: s.skillType,
+        actionType: s.actionType,
+        targetType: s.targetType,
+        formattedEffect: s.formattedDesc || '无描述',
+        sourceLabel: c.displayName,
+        character: c,
+        charId: c.id,
+        iconId: s.icon || 'default',
+        filterTags: [...prefixTags, ...dbTagsFiltered]
+      })
     })
   })
 
@@ -623,10 +581,7 @@ onMounted(() => {
     if (wa !== wb) {
       return wb - wa
     }
-    if (a.character.id !== b.character.id) {
-      return a.character.id.localeCompare(b.character.id)
-    }
-    return a.star - b.star
+    return a.character.id.localeCompare(b.character.id)
   })
 
   allSkills.value = list
@@ -664,15 +619,6 @@ onUnmounted(() => {
 }
 .sub-filter-btn:hover, .sub-filter-btn.active {
   border-color: var(--primary);
-  color: var(--primary) !important;
-}
-
-.filter-toggle-text {
-  font-size: 12px;
-  font-weight: 600 !important;
-  color: var(--text-main) !important;
-}
-.sub-filter-btn:hover .filter-toggle-text {
   color: var(--primary) !important;
 }
 
@@ -723,7 +669,7 @@ onUnmounted(() => {
 .search-count-bar {
   padding: 6px 12px 2px 12px;
   font-size: 12px;
-  color: var(--text-main);
+  color: var(--text-main); /* 黑色高对比字体 */
   text-align: left;
   font-weight: 600;
   display: flex;
@@ -783,23 +729,6 @@ onUnmounted(() => {
   min-width: 0;
 }
 
-.talent-suggest-area {
-  flex-shrink: 0;
-}
-
-.talent-search-box:focus-within {
-  border-color: #409eff;
-}
-
-.search-icon {
-  width: 18px;
-  height: 18px;
-  filter: var(--icon-filter);
-  margin-right: 10px;
-  flex-shrink: 0;
-  opacity: 0.7;
-}
-
 .talent-search-input {
   flex: 1;
   border: none;
@@ -809,276 +738,6 @@ onUnmounted(() => {
   color: var(--text-main);
   font-family: inherit;
   min-width: 0;
-}
-
-.selected-char-bar {
-  display: flex;
-  padding: 8px 4px 0 4px;
-}
-
-.clear-char-btn {
-  background: #fee2e2;
-  color: #ef4444;
-  border: none;
-  padding: 5px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.2s;
-  white-space: nowrap;
-}
-.clear-char-btn:hover {
-  background: #fca5a5;
-}
-
-.char-suggest-bar {
-  font-size: 13px;
-  padding: 8px 4px 0 4px;
-}
-.suggest-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  user-select: none;
-}
-.suggest-title {
-  color: var(--text-sub);
-}
-.suggest-header .collapse-icon {
-  width: 14px;
-  height: 14px;
-  filter: var(--icon-filter);
-  transition: transform 0.25s ease;
-  flex-shrink: 0;
-}
-.suggest-header .collapse-icon.collapsed {
-  transform: rotate(180deg);
-}
-.suggest-tags-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
-}
-.suggest-char-tag {
-  background: #e0f2fe;
-  padding: 3px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: all 0.2s;
-  border: 1px solid rgba(0, 122, 255, 0.1);
-}
-.suggest-char-tag:hover {
-  background: #bae6fd;
-  transform: translateY(-1px);
-}
-
-.talent-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 0;
-  flex: 1;
-  overflow-y: auto;
-  padding-bottom: 15px;
-}
-
-.talent-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
-  padding: 14px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
-  flex-shrink: 0;
-}
-.talent-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* ================= 核心流式布局容器 ================= */
-.talent-main-content {
-  width: 100%;
-}
-
-.talent-details-body {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 第一行标题栏：各项元素居中对齐 */
-.talent-top-bar {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  width: 100%;
-}
-
-.talent-char-avatar-container {
-  width: 35px;
-  height: 35px;
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-  overflow: hidden;
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.talent-char-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-
-  /* 1. 恢复居中对齐 */
-  object-position: center center;
-
-  /* 2. 先等比放大（比如 1.4 倍，切掉部分空白），然后再垂直向下平移（translateY） */
-  /* 如果向下移得太多，就把 5px 改小（如 3px）；如果还不够，就改大（如 8px） */
-  transform: scale(1.4) translateY(2px);
-}
-
-img.game-sprite {
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-}
-
-/* 支援技能微型图标 */
-.skill-mini-box {
-  width: 25px;
-  height: 25px;
-  background: rgba(0, 0, 0, 0.02);
-  border-radius: 4px;
-  overflow: hidden;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border-color);
-  flex-shrink: 0;
-}
-.skill-mini-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.talent-name {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-main);
-}
-
-.talent-tag {
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  border: none;
-  letter-spacing: 0.5px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.talent-source-wrapper {
-  display: inline-flex;
-  align-items: center;
-  background: #fff7ed;
-  color: #c2410c;
-  padding: 3px 9px;
-  border-radius: 999px;
-  font-size: 12.5px;
-  font-weight: 500;
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.talent-source-wrapper:hover {
-  background: #ffedd5;
-  transform: translateY(-1px);
-}
-
-.source-expand-icon {
-  width: 18px;
-  height: 18px;
-  margin-left: 3px;
-  filter: var(--icon-filter);
-  opacity: 0.8;
-}
-
-/* 第二行：效果详情独占整行 */
-.talent-effect {
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: var(--text-main);
-  white-space: pre-wrap;
-  background: #f8faff;
-  padding: 10px 12px;
-  border-radius: 8px;
-  text-align: left;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* ================= 筛选条样式 ================= */
-.sorting-section {
-  margin-top: 8px;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 6px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-
-.sorting-label {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-sub);
-}
-
-.sorting-group {
-  display: flex;
-  gap: 4px;
-  background: var(--bg);
-  padding: 2px;
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-}
-
-.sort-btn {
-  min-width: 80px;
-  padding: 3px 12px;
-  font-size: 13px;
-  font-weight: 700;
-  border: none;
-  background: transparent;
-  color: var(--text-sub);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  text-align: center;
-}
-.sort-btn:hover {
-  color: var(--text-main);
-}
-.sort-btn.active {
-  background: var(--card-bg);
-  color: var(--primary);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 /* 效果标签筛选 */
@@ -1157,8 +816,233 @@ img.game-sprite {
   opacity: 0.8;
 }
 
-.talent-sub-header { text-align: center !important; flex-shrink: 0; width: 100% !important; display: block !important; }
-.talent-hint-text { text-align: center !important; font-size: 12px; color: var(--text-sub); opacity: 0.8; display: inline-block !important; }
+.talent-sub-header {
+  margin-top: 8px;
+  padding: 0 4px;
+  text-align: center !important;
+  width: 100% !important;
+  display: block !important;
+}
+
+.talent-hint-text {
+  font-size: 12px;
+  color: var(--text-sub);
+  text-align: center !important;
+  display: inline-block !important;
+}
+
+.filter-area {
+  margin-top: 8px;
+}
+
+.selected-char-bar {
+  display: flex;
+  justify-content: flex-start;
+  padding: 2px 4px;
+}
+
+.clear-char-btn {
+  background: #fee2e2;
+  color: #ef4444;
+  border: 1px solid #fecaca;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.clear-char-btn:hover {
+  background: #fecaca;
+}
+
+.char-suggest-bar {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+
+.suggest-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.suggest-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+
+.suggest-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.suggest-char-tag {
+  font-size: 11.5px;
+  padding: 4px 8px;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.suggest-char-tag:hover {
+  border-color: var(--primary);
+  background: var(--card-bg);
+}
+
+.talent-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0px 4px 10px 4p;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.talent-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.talent-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.04);
+}
+
+.talent-main-content {
+  display: flex;
+  gap: 12px;
+}
+
+.talent-details-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.talent-top-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.talent-char-avatar-container {
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.talent-char-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  /* 先等比放大（比如 1.4 倍，切掉部分空白），然后再垂直向下平移（translateY） */
+  /* 如果向下移得太多，就把 5px 改小（如 3px）；如果还不够，就改大（如 8px） */
+  transform: scale(1.4) translateY(2px);
+}
+
+img.game-sprite {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.talent-name {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.skill-mini-box {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  background: rgba(0,0,0,0.02);
+}
+.skill-mini-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.filter-toggle-text {
+  font-size: 12px;
+  font-weight: 600 !important;
+  color: var(--text-main) !important;
+}
+
+.talent-source-wrapper {
+  display: inline-flex;
+  align-items: center;
+  background: #fff7ed;
+  color: #c2410c;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 500;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.talent-source-wrapper:hover {
+  background: #ffedd5;
+  transform: translateY(-1px);
+}
+
+.talent-source {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: inherit;
+}
+
+.source-expand-icon {
+  width: 18px;
+  height: 18px;
+  margin-left: 3px;
+  filter: var(--icon-filter);
+  opacity: 0.8;
+}
+
+.talent-effect {
+  font-size: 13.5px;
+  color: var(--text-main);
+  line-height: 1.5;
+  background: rgba(0,0,0,0.01);
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.02);
+  text-align: left;
+}
+
+.skill-specs {
+  font-size: 11px;
+  color: var(--text-sub);
+  margin-top: 8px;
+  font-weight: 500;
+  padding-top: 8px;
+  text-align: left;
+}
 
 .load-more-sentinel {
   display: flex;
@@ -1167,249 +1051,181 @@ img.game-sprite {
   gap: 8px;
   padding: 20px 0;
   color: var(--text-sub);
-  font-size: 14px;
+  font-size: 13px;
 }
+
 .loading-spinner {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border: 2px solid var(--border-color);
   border-top-color: #409eff;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
+
+.no-more-data {
+  text-align: center;
+  padding: 24px 0;
+  color: var(--text-sub);
+  font-size: 13px;
+  opacity: 0.6;
+}
+
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-.no-more-data, .no-data {
-  text-align: center;
-  padding: 30px 0;
-  color: var(--text-sub);
-  font-size: 14px;
-}
-
-/* ================= 弹窗设计 ================= */
+/* 弹窗遮罩 */
 .modal-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10000;
-  backdrop-filter: blur(2px);
+  z-index: 1000;
 }
 
 .modal-window {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
   width: 90%;
-  max-width: 500px;
-  max-height: 80%;
+  max-width: 420px;
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  animation: modalFadeIn 0.25s ease-out;
-  overflow: hidden;
-}
-@keyframes modalFadeIn {
-  from { opacity: 0; transform: scale(0.96); }
-  to { opacity: 1; transform: scale(1); }
 }
 
 .modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px;
+  padding: 16px 20px;
   border-bottom: 1px solid var(--border-color);
-  flex-shrink: 0;
+  background: var(--bg);
 }
 .modal-header h3 {
   margin: 0;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-main);
 }
+
 .modal-close-x {
-  background: transparent;
   border: none;
+  background: transparent;
   font-size: 18px;
   cursor: pointer;
   color: var(--text-sub);
-  transition: color 0.2s;
-  outline: none;
-}
-.modal-close-x:hover {
-  color: #ef4444;
 }
 
 .modal-body {
-  padding: 16px;
+  padding: 20px;
+  max-height: 60vh;
   overflow-y: auto;
-  flex: 1;
 }
 
 .match-chars-grid {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 6px;
+  gap: 12px;
 }
 
 .matched-hero-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 8px 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-  transition: background-color 0.2s ease;
-}
-.matched-hero-card:hover {
-  background-color: #f8fafc;
+  background: rgba(0,0,0,0.01);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 14px;
 }
 
 .hero-name-span {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 14.5px;
 }
 
 .hero-labels-container {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
-.hero-labels-container .h-lbl {
-  font-size: 11px;
-  font-weight: 500;
-  padding: 2px 8px;
+.h-lbl {
+  font-size: 10.5px;
+  padding: 2px 6px;
   border-radius: 4px;
-  border: 1px solid transparent;
+  font-weight: 500;
 }
-
 .label-job {
-  background-color: #eff6ff;
-  color: #2563eb;
-  border-color: #dbeafe;
+  background: rgba(59,130,246,0.08);
+  color: #3b82f6;
 }
 .label-race {
-  background-color: #f5f3ff;
-  color: #7c3aed;
-  border-color: #ede9fe;
+  background: rgba(168,85,247,0.08);
+  color: #a855f7;
 }
 .label-attr {
-  background-color: #fff7ed;
-  color: #ea580c;
-  border-color: #ffedd5;
-}
-
-.hero-source-text {
-  font-size: 11px;
-  color: #94a3b8;
-  margin-left: 10px;
+  background: rgba(16,185,129,0.08);
+  color: #10b981;
 }
 
 .matched-hero-none {
   text-align: center;
-  padding: 20px;
+  padding: 20px 0;
   color: var(--text-sub);
-  font-size: 13px;
+  font-size: 14px;
 }
 
-/* ================= 暗黑模式样式适配 ================= */
-.dark-mode .star-filter-btn {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.08);
-  color: #94a3b8;
+/* 通用无数据 */
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-sub);
+  font-size: 14px;
 }
-.dark-mode .star-filter-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #f8fafc;
-}
-.dark-mode .star-filter-btn.active {
-  background: rgba(234, 88, 12, 0.2);
-  color: #fdba74;
-  border-color: #ea580c;
-  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
-}
-.dark-mode .star-filter-btn.active .star-icon-mini {
-  color: #fdba74;
-}
-.dark-mode .char-avatar-box {
-  background: rgba(255, 255, 255, 0.05);
-}
-.dark-mode .skill-mini-box {
-  background: rgba(255, 255, 255, 0.04);
-}
-.dark-mode .talent-card {
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
-}
-.dark-mode .talent-tag {
-  backdrop-filter: blur(1px);
-}
-.dark-mode .talent-card:hover {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-}
+
+/* 深色模式适配 */
 .dark-mode .talent-effect {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(64, 158, 255, 0.08);
 }
-.dark-mode .talent-source-wrapper {
-  background: rgba(251, 146, 60, 0.15);
-  color: #ffedd5;
-  border: 1px solid rgba(251, 146, 60, 0.3);
-}
-.dark-mode .talent-source-wrapper:hover {
-  background: rgba(251, 146, 60, 0.25);
+.dark-mode .talent-search-box {
+  border-color: rgba(255, 255, 255, 0.1);
 }
 .dark-mode .suggest-char-tag {
-  background: rgba(0, 122, 255, 0.1);
-  color: #7dd3fc;
-  border-color: rgba(0, 122, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255,255,255,0.1);
 }
 .dark-mode .suggest-char-tag:hover {
-  background: rgba(0, 122, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
 }
 .dark-mode .clear-char-btn {
-  background: rgba(239, 68, 68, 0.15);
-  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.3);
 }
 .dark-mode .clear-char-btn:hover {
-  background: rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.3);
 }
-.dark-mode .load-more-sentinel {
-  color: #64748b;
+.dark-mode .char-suggest-bar {
+  border-color: rgba(255,255,255,0.1);
 }
-.dark-mode .loading-spinner {
+.dark-mode .talent-card {
   border-color: rgba(255,255,255,0.1);
 }
 .dark-mode .matched-hero-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255,255,255,0.1);
 }
-.dark-mode .matched-hero-card:hover {
-  background: rgba(255, 255, 255, 0.08);
+.dark-mode .modal-header {
+  border-bottom-color: rgba(255,255,255,0.1);
 }
-.dark-mode .hero-name-span {
-  color: #f8fafc;
-}
-.dark-mode .label-job {
-  background-color: rgba(37, 99, 235, 0.2);
-  color: #93c5fd;
-  border-color: rgba(37, 99, 235, 0.3);
-}
-.dark-mode .label-race {
-  background-color: rgba(124, 58, 237, 0.2);
-  color: #c4b5fd;
-  border-color: rgba(124, 58, 237, 0.3);
-}
-.dark-mode .label-attr {
-  background-color: rgba(234, 88, 12, 0.2);
-  color: #fdba74;
-  border-color: rgba(234, 88, 12, 0.3);
+.dark-mode .talent-source-wrapper {
+      background: rgba(251, 146, 60, 0.15);
+    color: #ffedd5;
+    border: 1px solid rgba(251, 146, 60, 0.3);
 }
 </style>

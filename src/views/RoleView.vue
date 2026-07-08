@@ -81,6 +81,34 @@
             </span>
           </div>
         </div>
+
+      </div>
+
+      <!-- 效果标签筛选 -->
+      <div v-if="allDisplayTags.length > 0" class="effect-filter-bar">
+        <div class="effect-filter-header" @click="toggleEffectExpand">
+          <span class="effect-filter-title">查找效果：</span>
+          <div class="effect-toggle-wrapper">
+            <span class="effect-toggle-text">{{ effectExpanded ? '点击收起' : '点击展开' }}</span>
+            <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !effectExpanded }" />
+          </div>
+        </div>
+        <div v-if="effectExpanded" class="effect-tags-list">
+          <span
+            v-for="tag in allDisplayTags"
+            :key="tag"
+            :class="['effect-tag', isActiveTag(tag) ? 'active' : '']"
+            @click="toggleFilterTag(tag)"
+          >
+            {{ tag }}
+            <span v-if="isActiveTag(tag)" class="tag-close-x">✕</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- 检索数量统计 -->
+      <div class="search-count-bar">
+        当前检索角色数量：<span class="count-highlight">{{ sortedCharacters.length }}</span>
       </div>
     </div>
 
@@ -482,6 +510,11 @@ const selectedClass = ref('all')
 const selectedType = ref('all')
 const selectedElement = ref('all')
 const tagsExpanded = ref(false) // 默认收起
+const selectedFilterTags = ref([])
+const effectExpanded = ref(false)
+const toggleEffectExpand = () => {
+  effectExpanded.value = !effectExpanded.value
+}
 
 const STEP_PRIORITY = { 'S': 4, 'A': 3, 'B': 2, 'C': 1 }
 
@@ -554,6 +587,113 @@ const filteredCharacters = computed(() => {
   })
 })
 
+const tagFilteredCharacters = computed(() => {
+  const list = filteredCharacters.value
+  if (selectedFilterTags.value.length === 0) return list
+  return list.filter(char =>
+    selectedFilterTags.value.every(tag => char.filterTags && char.filterTags.includes(tag))
+  )
+})
+
+// 提取当前所有的搜索关键词 (包括主搜)
+const queryKeywords = computed(() => {
+  const qStr = (searchQuery.value || '').trim().toLowerCase()
+  return qStr.split(/[\s,，]+/).filter(Boolean)
+})
+
+// 判断一个标签是否处于激活选中状态（被手动选中，或正好出现在搜索框词组中）
+const isActiveTag = (tag) => {
+  const lowerTag = tag.toLowerCase()
+  return selectedFilterTags.value.includes(tag) || queryKeywords.value.includes(lowerTag)
+}
+
+// 效果标签池
+const allDisplayTags = computed(() => {
+  const tags = new Set()
+  selectedFilterTags.value.forEach(t => tags.add(t))
+
+  const keywords = queryKeywords.value
+
+  // 获取数据库中的所有唯一有效标签
+  const dbTags = new Set()
+  allCharacters.value.forEach(c => {
+    if (c.filterTags) {
+      c.filterTags.forEach(t => dbTags.add(t))
+    }
+  })
+
+  dbTags.forEach(t => {
+    if (keywords.includes(t.toLowerCase())) {
+      tags.add(t)
+    }
+  })
+
+  // 绑定至最终结果集 (sortedCharacters)
+  sortedCharacters.value.forEach(c => {
+    if (c.filterTags) {
+      c.filterTags.forEach(t => tags.add(t))
+    }
+  })
+
+  const combinedList = Array.from(tags)
+
+  const getTagGroupRank = (t) => {
+    if (selectedFilterTags.value.includes(t)) {
+      return 1 // 已选高亮置顶
+    }
+    if (t.endsWith('符文')) {
+      return 3 // 符文类标签
+    }
+    if (t.endsWith('相关')) {
+      return 4 // 效果相关标签
+    }
+    return 5 // 普通标签
+  }
+
+  // 排序规则：已选中 > xx符文 > xx相关 > 普通标签，每组内部按拼音中文排序
+  combinedList.sort((a, b) => {
+    const rankA = getTagGroupRank(a)
+    const rankB = getTagGroupRank(b)
+
+    if (rankA !== rankB) {
+      return rankA - rankB
+    }
+
+    return a.localeCompare(b, 'zh')
+  })
+
+  return combinedList
+})
+
+// 从搜索框中清除特定关键词
+const removeKeywordFromSearch = (tag) => {
+  const lowerTag = tag.toLowerCase()
+  const val = searchQuery.value || ''
+  const words = val.split(/[\s,，]+/).filter(Boolean)
+  const filtered = words.filter(w => w.toLowerCase() !== lowerTag)
+  searchQuery.value = filtered.join(' ')
+}
+
+// 切换标签筛选状态
+const toggleFilterTag = (tag) => {
+  const lowerTag = tag.toLowerCase()
+  const inSelected = selectedFilterTags.value.includes(tag)
+  const inQuery = queryKeywords.value.includes(lowerTag)
+
+  if (inSelected || inQuery) {
+    if (inSelected) {
+      const idx = selectedFilterTags.value.indexOf(tag)
+      selectedFilterTags.value.splice(idx, 1)
+    }
+    if (inQuery) {
+      removeKeywordFromSearch(tag)
+    }
+  } else {
+    selectedFilterTags.value.push(tag)
+  }
+  displayLimit.value = 24
+}
+
 // Build a map of base ID to the highest step priority among all versions of that base ID.
 // This allows us to keep normal and alien characters grouped next to each other within the same rarity tier block.
 const basePriorityMap = computed(() => {
@@ -574,7 +714,7 @@ const basePriorityMap = computed(() => {
 // 3. Keep normal/alien characters next to each other by grouping baseId alphabetically.
 // 4. Within the same base ID group, sort by full ID (normal character first, then alien skins).
 const sortedCharacters = computed(() => {
-  return [...filteredCharacters.value].sort((a, b) => {
+  return [...tagFilteredCharacters.value].sort((a, b) => {
     const isDummyA = a.name && (a.name.includes('假人') || a.displayName.includes('假人'))
     const isDummyB = b.name && (b.name.includes('假人') || b.displayName.includes('假人'))
     if (isDummyA !== isDummyB) {
@@ -603,6 +743,30 @@ const sortedCharacters = computed(() => {
 const displayLimit = ref(24) // Initial 24 characters loaded (6 rows of 4)
 const pagedCharacters = computed(() => {
   return sortedCharacters.value.slice(0, displayLimit.value)
+})
+
+watch(searchQuery, () => {
+  displayLimit.value = 24
+})
+
+watch(selectedStep, () => {
+  displayLimit.value = 24
+})
+
+watch(selectedClass, () => {
+  displayLimit.value = 24
+})
+
+watch(selectedType, () => {
+  displayLimit.value = 24
+})
+
+watch(selectedElement, () => {
+  displayLimit.value = 24
+})
+
+watch(selectedFilterTags, () => {
+  displayLimit.value = 24
 })
 
 const handleGridScroll = (e) => {
@@ -855,6 +1019,22 @@ const handleRelicIconError = (e) => {
 </script>
 
 <style scoped>
+/* 检索统计栏 */
+.search-count-bar {
+  padding: 6px 12px 2px 12px;
+  font-size: 12px;
+  color: var(--text-main); /* 黑色高对比字体 */
+  text-align: left;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+.count-highlight {
+  color: var(--primary);
+  font-weight: 800;
+  margin: 0 4px;
+}
+
 /* ===== CSS pixel rendering helper ===== */
 .game-sprite {
   image-rendering: pixelated;
@@ -925,6 +1105,7 @@ const handleRelicIconError = (e) => {
   font-size: 15px;
   color: var(--text-main);
   font-family: inherit;
+  min-width: 0;
 }
 
 /* Toggle button styled smaller */
@@ -1647,5 +1828,82 @@ const handleRelicIconError = (e) => {
   padding: 60px 0;
   color: var(--text-sub);
   font-size: 14px;
+}
+
+/* 效果标签筛选 */
+.effect-filter-bar {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+  margin-top: 8px;
+  width: 100%;
+}
+
+.effect-filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.effect-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.effect-toggle-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-main);
+  user-select: none;
+}
+
+.effect-filter-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+
+.effect-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.effect-tag {
+  font-size: 11.5px;
+  padding: 4px 8px;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+}
+.effect-tag:hover {
+  border-color: var(--primary);
+  background: var(--card-bg);
+}
+.effect-tag.active {
+  background: var(--primary-light, rgba(249,115,22,0.1)) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+  font-weight: 600;
+}
+
+.tag-close-x {
+  font-size: 10px;
+  opacity: 0.8;
 }
 </style>
