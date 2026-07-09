@@ -38,7 +38,19 @@
         :class="['talent-card', { 'dropdown-open': openLevelDropdown === group[0].Name }]"
       >
         <div class="prefix-card-header">
-          <span class="prefix-name">{{ group[0].Name }}</span>
+          <div class="prefix-title-wrapper">
+            <div 
+              v-if="getPrefixIcon(getActiveStepItem(group)?.IDs)" 
+              class="prefix-icon-box"
+              :class="'step-' + getActiveStep(group).toLowerCase()"
+            >
+              <img 
+                :src="getPrefixIcon(getActiveStepItem(group)?.IDs)" 
+                class="prefix-icon-img game-sprite" 
+              />
+            </div>
+            <span class="prefix-name">{{ group[0].Name }}</span>
+          </div>
           <div class="card-actions">
             <div class="step-tabs">
               <span
@@ -170,6 +182,26 @@ const getDefaultStep = (group) => {
 const getActiveStep = (group) => {
   const name = group[0]?.Name
   return activeSteps.value[name] || getDefaultStep(group)
+}
+
+const getActiveStepItem = (group) => {
+  const step = getActiveStep(group)
+  return group.find(item => item.Step === step) || group[0]
+}
+
+const getPrefixIcon = (ids) => {
+  if (!ids) return null
+  const lastTwo = ids.slice(-2)
+  const validNumbers = [
+    '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
+    '11', '12', '13', '15', '16', '17', '18', '19', '20', '21',
+    '22', '23', '24', '25', '26', '27', '28', '29', '30', '31',
+    '32', '33', '34', '35', '36', '37', '38', '39'
+  ]
+  if (validNumbers.includes(lastTwo)) {
+    return `/ParagonPrefix/JH400${lastTwo}.png`
+  }
+  return null
 }
 
 const setActiveStep = (name, step) => {
@@ -614,8 +646,8 @@ const closeLimitModal = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 16px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   cursor: pointer;
   border-radius: 3px;
   transition: background 0.2s;
@@ -625,8 +657,8 @@ const closeLimitModal = () => {
 }
 
 .level-arrow {
-  width: 9px;
-  height: 9px;
+  width: 11px;
+  height: 11px;
   filter: var(--icon-filter);
   transition: transform 0.25s ease;
 }
@@ -638,8 +670,8 @@ const closeLimitModal = () => {
   position: absolute;
   top: 100%;
   right: 0;
-  margin-top: 3px;
-  min-width: 48px;
+  margin-top: 4px;
+  width: 76px;
   background: var(--card-bg);
   border-radius: 8px;
   border: 1px solid var(--border-color);
@@ -650,7 +682,7 @@ const closeLimitModal = () => {
 }
 
 .level-dropdown-item {
-  padding: 5px 10px;
+  padding: 6px 0;
   font-size: 13px;
   font-weight: 600;
   color: var(--text-main);
@@ -880,5 +912,49 @@ const closeLimitModal = () => {
 }
 .dark-mode .modal-header h3 {
   color: #f8fafc;
+}
+
+/* ===== 词条图标样式 ===== */
+.prefix-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.prefix-icon-box {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.prefix-icon-box.step-c {
+  background: #7ac38f;
+}
+.prefix-icon-box.step-b {
+  background: #72b6df;
+}
+.prefix-icon-box.step-a {
+  background: #b284db;
+}
+.prefix-icon-box.step-s {
+  background: #e59f4c;
+}
+
+.prefix-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 </style>
