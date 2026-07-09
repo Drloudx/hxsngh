@@ -430,6 +430,11 @@ import { exportData, importData } from '@/utils/dataTransfer.js'
 import rawRoles from '@/assets/RoleDataTable.json'
 import rawTalents from '@/assets/TalentDataTable.json'
 
+const BLOCKED_CHARACTER_IDS = [
+  'M23301_001', // [熔岩]史莱姆王
+  'M11303_002', // [熔岩]雪人骑士
+]
+
 const allCharacters = ref([])
 const allTalents = ref([])
 
@@ -512,7 +517,11 @@ const loadLocalData = () => {
   if (cache) {
     try {
       const parsed = JSON.parse(cache)
-      addedCards.value = parsed
+      addedCards.value = (parsed || []).filter(card => {
+        if (!card) return false
+        const charId = card.charId || (card.baseInfo && card.baseInfo.id)
+        return !BLOCKED_CHARACTER_IDS.includes(charId)
+      })
     } catch (e) {
       addedCards.value = []
     }
@@ -1025,7 +1034,7 @@ onMounted(() => {
     relicList: [],
     noteList: []
   }
-  allCharacters.value = configUtil.getFullCharacterList(rawRoleArr, fullDatasets)
+  allCharacters.value = configUtil.getFullCharacterList(rawRoleArr, fullDatasets).filter(c => !BLOCKED_CHARACTER_IDS.includes(c.id))
   // 天赋预处理
   const cleanTalentList = rawTalentArr.map((t, idx) => {
     const base = {
