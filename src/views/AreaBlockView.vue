@@ -211,23 +211,12 @@
                 {{ getSpotProbability(detailModal.data) }}
               </span>
             </div>
-            <div class="relic-detail-stat">
-              <span class="stat-label">最低难度</span>
-              <span class="stat-value">{{ detailModal.data.MinDiffi }}</span>
-            </div>
-            <div class="relic-detail-stat">
-              <span class="stat-label">所属区域</span>
-              <span class="stat-value">{{ detailModal.data.AreaType }}</span>
-            </div>
-            <div class="relic-detail-stat">
-              <span class="stat-label">所属地图</span>
-              <span class="stat-value">{{ detailModal.data.AreaName }}</span>
-            </div>
-            <div class="relic-detail-stat">
-              <span class="stat-label">探索所需体力</span>
-              <span class="stat-value">{{ getExploreStamina(detailModal.data.ExploreAttr) }}</span>
+            <div class="relic-detail-stat" v-if="getSpotTab(detailModal.data) !== 'special' && getSuffix(detailModal.data.IDs) !== '000'">
+              <span class="stat-label">体力消耗</span>
+              <span class="stat-value">{{ getSpotStaminaVal(detailModal.data) }}</span>
             </div>
             <div 
+              v-if="shouldShowExploreTime(detailModal.data)"
               class="relic-detail-stat clickable" 
               @click="toggleTimeDetails"
               title="点击查看各等级段探索时间"
@@ -240,16 +229,28 @@
                 {{ getMaxExploreTimeStr(detailModal.data) }}
               </span>
             </div>
-            <div class="relic-detail-stat span-3">
+            <div class="relic-detail-stat">
+              <span class="stat-label">最低难度</span>
+              <span class="stat-value">{{ detailModal.data.MinDiffi }}</span>
+            </div>
+            <div class="relic-detail-stat">
+              <span class="stat-label">所属区域</span>
+              <span class="stat-value">{{ detailModal.data.AreaType }}</span>
+            </div>
+            <div class="relic-detail-stat">
+              <span class="stat-label">所属地图</span>
+              <span class="stat-value">{{ detailModal.data.AreaName }}</span>
+            </div>
+            <div class="relic-detail-stat span-3" v-if="detailModal.data.IngredientLimit && detailModal.data.IngredientLimit !== '无'">
               <span class="stat-label">产出素材</span>
-              <span class="stat-value">{{ detailModal.data.IngredientLimit || '无' }}</span>
+              <span class="stat-value">{{ detailModal.data.IngredientLimit }}</span>
             </div>
           </div>
 
           <!-- 折叠展现的所有等级段探索时间 -->
-          <div v-if="showTimeDetails" class="time-details-panel">
+          <div v-if="showTimeDetails && shouldShowExploreTime(detailModal.data)" class="time-details-panel">
             <div class="time-panel-header">
-              <div class="time-panel-title">各等级段探索时间 (体力消耗: {{ getExploreStamina(detailModal.data.ExploreAttr) }})</div>
+              <div class="time-panel-title">各等级段探索时间 (体力消耗: {{ getSpotStaminaVal(detailModal.data) }})</div>
               <div class="time-panel-tip">（点击“最高等级探索时间”可收起）</div>
             </div>
             <div class="time-ranges-list">
@@ -260,7 +261,7 @@
               >
                 <span class="range-label">{{ range.label }}</span>
                 <span class="range-value-blue">
-                  {{ formatTime(getExploreStaminaVal(detailModal.data.ExploreAttr) * 0.5 * range.scale) }}
+                  {{ formatTime(getSpotStaminaVal(detailModal.data) * 0.5 * range.scale) }}
                 </span>
               </div>
             </div>
@@ -527,24 +528,46 @@ const formatTime = (minutes) => {
   return `${hrs}小时${mins}分钟`
 }
 
-// 提取体力消耗数值为 Number 格式
-const getExploreStaminaVal = (attr) => {
-  if (!attr) return 0
-  const match = attr.match(/\[(\d+)\]/)
-  return match ? parseInt(match[1], 10) : 0
+// 获取地块所在的类别标签
+const getSpotTab = (spot) => {
+  const cfg = getSpotConfig(spot)
+  return cfg ? cfg.tab : ''
 }
 
-// 解析探索所需体力（如：从"力量[16]"提取数字"16"）
-const getExploreStamina = (attr) => {
-  if (!attr) return '0'
-  const match = attr.match(/\[(\d+)\]/)
-  return match ? match[1] : attr
+// 解析地块体力消耗数值
+const getSpotStaminaVal = (spot) => {
+  if (!spot) return 0
+  const suffix = getSuffix(spot.IDs)
+  const tab = getSpotTab(spot)
+  
+  if (tab === 'special') return 0
+  
+  if (tab === 'basic') {
+    if (suffix === '000') return 0
+    if (suffix === '001' || suffix === '002') return 1
+    return (spot.SpotSize || 0) * 2
+  }
+  
+  if (tab === 'equip' || tab === 'event') {
+    return 1
+  }
+  
+  return 0
+}
+
+// 判断是否需要展示探索时间
+const shouldShowExploreTime = (spot) => {
+  if (!spot) return false
+  const tab = getSpotTab(spot)
+  if (tab !== 'basic') return false
+  const suffix = getSuffix(spot.IDs)
+  return suffix !== '000' && suffix !== '001' && suffix !== '002'
 }
 
 // 获取最高等级副本的探索时间字符串
 const getMaxExploreTimeStr = (spot) => {
   if (!spot) return '0分钟'
-  const stamina = getExploreStaminaVal(spot.ExploreAttr)
+  const stamina = getSpotStaminaVal(spot)
   if (stamina === 0) return '0分钟'
   const maxLvl = mapMaxLevels[spot.AreaName] || 1
   const scale = getTimeScale(maxLvl)
