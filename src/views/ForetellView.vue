@@ -182,7 +182,8 @@ const rawForetells = computed(() => {
   // 1. YY00014_002 (B级 - 机遇：地图中的勇者之墓数量+1)
   // 2. YY00014_003 (A级 - 机遇：地图中至少出现1个勇者之墓)
   // 3. YY00008_002 (B级 - 勇者：地图中至少出现1个勇者之墓)
-  return list.filter(item => item.IDs !== 'YY00014_002' && item.IDs !== 'YY00008_002' && item.IDs !== 'YY00014_003')
+  // 4. YY00016_005 (S级 - 魔法：地图中至少出现1个献祭宝箱怪)
+  return list.filter(item => item.IDs !== 'YY00014_002' && item.IDs !== 'YY00008_002' && item.IDs !== 'YY00014_003' && item.IDs !== 'YY00016_005')
 })
 
 // 提取所有唯一预言名称作为过滤标签
