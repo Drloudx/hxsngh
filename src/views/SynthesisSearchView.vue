@@ -66,23 +66,28 @@
       <!-- 1. 支援技能 Tag 筛选栏 -->
       <div v-show="activeTab === 'subskill'" class="effect-filter-bar animate-fade-in" style="margin-top: 8px;">
         <div class="effect-filter-header" @click="subskillTagsExpanded = !subskillTagsExpanded">
-          <span class="effect-filter-title">查找效果（支援技能）：</span>
+          <span class="effect-filter-title">查找效果：</span>
           <div class="effect-expand-trigger">
             <span class="expand-text-hint">{{ subskillTagsExpanded ? '点击折叠' : '点击展开' }}</span>
             <img src="/ui/up.svg" class="arrow-indicator" :class="{ rotated: !subskillTagsExpanded }" />
           </div>
         </div>
-        <div v-show="subskillTagsExpanded" class="effect-tags-content animate-fade-in">
-          <div class="tags-pool-layout">
-            <span
-              v-for="tag in allSubSkillTags"
-              :key="tag"
-              :class="['effect-tag', { active: isSubSkillTagActive(tag) }]"
-              @click="toggleSubSkillTag(tag)"
-            >
-              {{ tag }}
-              <span v-if="isSubSkillTagActive(tag)" class="tag-close-x">✕</span>
-            </span>
+        <div v-show="subskillTagsExpanded" class="effect-tags-content animate-fade-in categorized-effect-tags">
+          <div v-for="(group, idx) in categorizedSubSkillTags" :key="group.name" class="tag-group-container">
+            <div class="tag-group-header">
+              <span class="group-title">{{ group.name }}</span>
+            </div>
+            <div class="effect-tags-list">
+              <span
+                v-for="tag in group.tags"
+                :key="tag"
+                :class="['effect-tag', { active: isSubSkillTagActive(tag) }]"
+                @click="toggleSubSkillTag(tag)"
+              >
+                {{ formatTagText(tag) }}
+                <span v-if="isSubSkillTagActive(tag)" class="tag-close-x">✕</span>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -90,23 +95,28 @@
       <!-- 2. 主动技能 Tag 筛选栏 -->
       <div v-show="activeTab === 'unique'" class="effect-filter-bar animate-fade-in" style="margin-top: 8px;">
         <div class="effect-filter-header" @click="uniqueTagsExpanded = !uniqueTagsExpanded">
-          <span class="effect-filter-title">查找效果（主动技能）：</span>
+          <span class="effect-filter-title">查找效果</span>
           <div class="effect-expand-trigger">
             <span class="expand-text-hint">{{ uniqueTagsExpanded ? '点击折叠' : '点击展开' }}</span>
             <img src="/ui/up.svg" class="arrow-indicator" :class="{ rotated: !uniqueTagsExpanded }" />
           </div>
         </div>
-        <div v-show="uniqueTagsExpanded" class="effect-tags-content animate-fade-in">
-          <div class="tags-pool-layout">
-            <span
-              v-for="tag in allUniqueTags"
-              :key="tag"
-              :class="['effect-tag', { active: isUniqueTagActive(tag) }]"
-              @click="toggleUniqueTag(tag)"
-            >
-              {{ tag }}
-              <span v-if="isUniqueTagActive(tag)" class="tag-close-x">✕</span>
-            </span>
+        <div v-show="uniqueTagsExpanded" class="effect-tags-content animate-fade-in categorized-effect-tags">
+          <div v-for="(group, idx) in categorizedUniqueTags" :key="group.name" class="tag-group-container">
+            <div class="tag-group-header">
+              <span class="group-title">{{ group.name }}</span>
+            </div>
+            <div class="effect-tags-list">
+              <span
+                v-for="tag in group.tags"
+                :key="tag"
+                :class="['effect-tag', { active: isUniqueTagActive(tag) }]"
+                @click="toggleUniqueTag(tag)"
+              >
+                {{ formatTagText(tag) }}
+                <span v-if="isUniqueTagActive(tag)" class="tag-close-x">✕</span>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -114,23 +124,28 @@
       <!-- 3. 装备 Tag 筛选栏 -->
       <div v-show="activeTab === 'equip'" class="effect-filter-bar animate-fade-in" style="margin-top: 8px;">
         <div class="effect-filter-header" @click="equipTagsExpanded = !equipTagsExpanded">
-          <span class="effect-filter-title">查找效果（装备词条）：</span>
+          <span class="effect-filter-title">查找效果</span>
           <div class="effect-expand-trigger">
             <span class="expand-text-hint">{{ equipTagsExpanded ? '点击折叠' : '点击展开' }}</span>
             <img src="/ui/up.svg" class="arrow-indicator" :class="{ rotated: !equipTagsExpanded }" />
           </div>
         </div>
-        <div v-show="equipTagsExpanded" class="effect-tags-content animate-fade-in">
-          <div class="tags-pool-layout">
-            <span
-              v-for="tag in allEquipTags"
-              :key="tag"
-              :class="['effect-tag', { active: isEquipTagActive(tag) }]"
-              @click="toggleEquipTag(tag)"
-            >
-              {{ tag }}
-              <span v-if="isEquipTagActive(tag)" class="tag-close-x">✕</span>
-            </span>
+        <div v-show="equipTagsExpanded" class="effect-tags-content animate-fade-in categorized-effect-tags">
+          <div v-for="(group, idx) in categorizedEquipTags" :key="group.name" class="tag-group-container">
+            <div class="tag-group-header">
+              <span class="group-title">{{ group.name }}</span>
+            </div>
+            <div class="effect-tags-list">
+              <span
+                v-for="tag in group.tags"
+                :key="tag"
+                :class="['effect-tag', { active: isEquipTagActive(tag) }]"
+                @click="toggleEquipTag(tag)"
+              >
+                {{ formatTagText(tag) }}
+                <span v-if="isEquipTagActive(tag)" class="tag-close-x">✕</span>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -693,6 +708,7 @@
 import { ref, computed, watch, onMounted, reactive, nextTick } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
 import BackToTop from '@/components/BackToTop.vue'
+import { getCategoryByTag, getPositiveCategoryByTag } from '@/utils/tagCategories'
 
 // 静态数据库导入
 import rawRoles from '@/assets/RoleDataTable.json'
@@ -1584,7 +1600,7 @@ const allUniqueTags = computed(() => {
     if (item.filterTags) item.filterTags.forEach(t => tags.add(t))
   })
 
-  const list = Array.from(tags)
+  const list = Array.from(tags).filter(t => !t.endsWith('符文'))
   list.sort((a, b) => {
     const ra = getTagSortRank(a, selectedUniqueTags.value)
     const rb = getTagSortRank(b, selectedUniqueTags.value)
@@ -1661,6 +1677,80 @@ const toggleEquipTag = (tag) => {
   }
   resetLimits()
   resetScroll()
+}
+
+// 综合页面各标签大类分组及格式化定义
+const categorizedSubSkillTags = computed(() => {
+  const groups = { "数值": [], "机制": [], "时机": [], "状态": [], "其他": [] }
+  allSubSkillTags.value.forEach(tag => {
+    const category = getCategoryByTag(tag)
+    if (groups[category]) {
+      groups[category].push(tag)
+    } else {
+      groups["其他"].push(tag)
+    }
+  })
+  return Object.entries(groups)
+    .filter(([_, tags]) => tags.length > 0)
+    .map(([name, tags]) => {
+      const sortedTags = [...tags].sort((a, b) => {
+        const lenA = formatTagText(a).length
+        const lenB = formatTagText(b).length
+        return lenB - lenA
+      })
+      return { name, tags: sortedTags }
+    })
+})
+
+const categorizedUniqueTags = computed(() => {
+  const groups = { "数值": [], "机制": [], "时机": [], "状态": [], "其他": [] }
+  allUniqueTags.value.forEach(tag => {
+    const category = getPositiveCategoryByTag(tag)
+    if (groups[category]) {
+      groups[category].push(tag)
+    } else {
+      groups["其他"].push(tag)
+    }
+  })
+  return Object.entries(groups)
+    .filter(([_, tags]) => tags.length > 0)
+    .map(([name, tags]) => {
+      const sortedTags = [...tags].sort((a, b) => {
+        const lenA = formatTagText(a).length
+        const lenB = formatTagText(b).length
+        return lenB - lenA
+      })
+      return { name, tags: sortedTags }
+    })
+})
+
+const categorizedEquipTags = computed(() => {
+  const groups = { "数值": [], "机制": [], "时机": [], "状态": [], "其他": [] }
+  allEquipTags.value.forEach(tag => {
+    const category = getCategoryByTag(tag)
+    if (groups[category]) {
+      groups[category].push(tag)
+    } else {
+      groups["其他"].push(tag)
+    }
+  })
+  return Object.entries(groups)
+    .filter(([_, tags]) => tags.length > 0)
+    .map(([name, tags]) => {
+      const sortedTags = [...tags].sort((a, b) => {
+        const lenA = formatTagText(a).length
+        const lenB = formatTagText(b).length
+        return lenB - lenA
+      })
+      return { name, tags: sortedTags }
+    })
+})
+
+const formatTagText = (tag) => {
+  if (tag.endsWith('相关')) {
+    return tag.slice(0, -2)
+  }
+  return tag
 }
 
 // 清除特定检索词
@@ -2211,17 +2301,25 @@ const handleIconError = (e) => {
 }
 
 .effect-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 12px;
-  color: var(--text-main);
+  font-size: 11.5px;
+  padding: 5px 10px;
   background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.15s ease;
+  color: var(--text-main);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  user-select: none;
+  white-space: nowrap;
+  word-break: keep-all;
+  flex-shrink: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .effect-tag.active {
@@ -3217,5 +3315,147 @@ img.game-sprite {
   background: var(--card-bg);
   color: var(--primary);
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+@media (min-width: 601px) {
+  /* 弹窗整体拉大 */
+  .equip-detail-window {
+    max-width: 480px !important;
+  }
+
+  /* 标题与关闭按钮字号加大 */
+  .centered-modal-title {
+    font-size: 22px !important;
+  }
+  .relic-modal-close {
+    font-size: 22px !important;
+  }
+
+  /* 顶部三栏排布与内容放大 */
+  .modal-top-row {
+    justify-content: space-between !important;
+    gap: 12px !important;
+    padding: 14px !important;
+  }
+  .modal-stars-left {
+    width: 110px !important;
+    gap: 8px !important;
+  }
+  .modal-star-tag {
+    padding: 5px 0 !important;
+    font-size: 13px !important;
+  }
+  
+  /* 中间的图变得更大 */
+  .modal-icon-center {
+    width: 104px !important;
+    height: 104px !important;
+    border-radius: 16px !important;
+    padding: 8px !important;
+  }
+  
+  .modal-tags-right {
+    width: 122px !important;
+    grid-template-columns: repeat(2, 58px) !important;
+    grid-template-rows: repeat(2, 28px) !important;
+    gap: 8px !important;
+  }
+  .modal-info-tag {
+    font-size: 13px !important;
+    border-radius: 8px !important;
+  }
+
+  /* 描述行与属性行字号及内边距放大 */
+  .modal-description-row {
+    font-size: 14px !important;
+    padding: 12px 16px !important;
+    border-radius: 12px !important;
+  }
+  .attribute-cell-box {
+    height: 38px !important;
+    border-radius: 10px !important;
+    gap: 6px !important;
+  }
+  .attr-grid-icon {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  .attr-grid-val {
+    font-size: 13px !important;
+  }
+
+  /* 词条详细与来源部分字号及内边距放大 */
+  .bond-detail-item-box {
+    padding: 12px 16px !important;
+    border-radius: 14px !important;
+    gap: 4px !important;
+  }
+  .bond-item-name {
+    font-size: 16px !important;
+  }
+  .bond-item-type {
+    font-size: 13px !important;
+  }
+  .bond-item-basic-desc {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+  }
+  .expanded-row {
+    font-size: 15px !important;
+    padding: 8px 10px !important;
+    line-height: 1.5 !important;
+  }
+  .bond-collapse-icon {
+    width: 12px !important;
+    height: 12px !important;
+  }
+  .modal-source-section {
+    padding: 12px 16px !important;
+    font-size: 15px !important;
+    border-radius: 14px !important;
+  }
+}
+
+/* 分类标签样式 */
+.categorized-effect-tags {
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+/* 自定义滚动条样式 */
+.categorized-effect-tags::-webkit-scrollbar {
+  width: 4px;
+}
+.categorized-effect-tags::-webkit-scrollbar-thumb {
+  background: var(--border-color, #e2e8f0);
+  border-radius: 2px;
+}
+.categorized-effect-tags::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tag-group-header {
+  margin: 8px 0 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-sub, #64748b);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tag-group-header::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 12px;
+  background: var(--text-sub, #64748b);
+  border-radius: 2px;
+}
+
+.effect-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
 }
 </style>

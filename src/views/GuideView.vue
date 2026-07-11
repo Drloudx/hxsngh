@@ -10,7 +10,7 @@
         <div class="talent-card">
           <div class="download-link-wrapper" @click="handleDownload">
             <div class="title-text-group">
-              <div class="main-title">1：幻想少女新手攻略20260623</div>
+              <div class="main-title">幻想少女新手攻略20260623</div>
               <div class="sub-title-row">
                 <span class="sub-title">（群友制作 @雨落）.xlsx</span>
                 <div class="download-action-inline">
@@ -134,19 +134,51 @@ const guidesList = [
     title: '空白合集',
     list: [
       {
+        title: '加速流剑仙养成攻略',
+        url: 'https://www.taptap.cn/moment/823714731637345966',
+        img: '/misc/kb5.webp'
+      },
+      {
         title: '【攻略】专天剑仙养成攻略(极简版)',
         url: 'https://www.taptap.cn/moment/821847725967409310?share_id=0e595784f632&utm_medium=share&utm_source=copylink',
         img: '/misc/kb1.webp'
       },
       {
-        title: '【攻略】净化史菇龙培养攻略(极简版)',
-        url: 'https://www.taptap.cn/moment/821144627905037281?share_id=ae4f1140f662&utm_medium=share&utm_source=copylink',
+        title: '【攻略】万血流黄金女养成攻略',
+        url: 'https://www.taptap.cn/moment/824051956220690790',
+        img: '/misc/kb4.webp'
+      },
+      {
+        title: '新神飞升--净化史菇龙养成攻略',
+        url: 'https://www.taptap.cn/moment/822678573893552294',
         img: '/misc/kb2.webp'
       },
       {
         title: '【攻略】恶意冰邪队，从入门到入土',
         url: 'https://www.taptap.cn/moment/794308378267487774?share_id=b780e41c234d&utm_medium=share&utm_source=copylink',
         img: '/misc/kb3.webp'
+      }
+    ]
+  },
+    {
+    author: '冰皇晶',
+    title: '冰皇晶',
+    list: [
+      {
+        title: '【攻略】冰火队',
+        url: 'https://www.taptap.cn/moment/825125419110893038',
+        img: '/misc/bjh1.webp'
+      }
+    ]
+  },
+  {
+    author: '来年祈风信',
+    title: '来年祈风信',
+    list: [
+      {
+        title: '【攻略】低配火龙开荒攻略（精简版）',
+        url: 'https://www.taptap.cn/moment/822495039757225902',
+        img: '/misc/fx1.webp'
       }
     ]
   },

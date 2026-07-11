@@ -63,16 +63,23 @@
               <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !effectExpanded }" />
             </div>
           </div>
-          <div v-if="effectExpanded" class="effect-tags-list">
-            <span
-              v-for="tag in allDisplayTags"
-              :key="tag"
-              :class="['effect-tag', isActiveTag(tag) ? 'active' : '']"
-              @click="toggleFilterTag(tag)"
-            >
-              {{ tag }}
-              <span v-if="isActiveTag(tag)" class="tag-close-x">✕</span>
-            </span>
+          <div v-if="effectExpanded" class="categorized-effect-tags">
+            <div v-for="(group, idx) in categorizedTags" :key="group.name" class="tag-group-container">
+              <div class="tag-group-header">
+                <span class="group-title">{{ group.name }}</span>
+              </div>
+              <div class="effect-tags-list">
+                <span
+                  v-for="tag in group.tags"
+                  :key="tag"
+                  :class="['effect-tag', isActiveTag(tag) ? 'active' : '']"
+                  @click="toggleFilterTag(tag)"
+                >
+                  {{ formatTagText(tag) }}
+                  <span v-if="isActiveTag(tag)" class="tag-close-x">✕</span>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -186,6 +193,7 @@ import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
 import rawRoles from '@/assets/RoleDataTable.json'
 import rawUniqueSkills from '@/assets/UniqueDataTable.json'
+import { getPositiveCategoryByTag } from '@/utils/tagCategories'
 
 // 配置：手动屏蔽的角色 ID 列表
 const BLOCKED_CHARACTER_IDS = [
@@ -367,7 +375,7 @@ const allDisplayTags = computed(() => {
     }
   })
 
-  const combinedList = Array.from(tags)
+  const combinedList = Array.from(tags).filter(t => !t.endsWith('符文'))
 
   const getTagGroupRank = (t) => {
     if (selectedFilterTags.value.includes(t)) {
@@ -376,16 +384,13 @@ const allDisplayTags = computed(() => {
     if (globalBracketTags.value.has(t)) {
       return 2 // 【】括号提取出来的标识词
     }
-    if (t.endsWith('符文')) {
-      return 3 // 符文类标签
-    }
     if (t.endsWith('相关')) {
       return 4 // 效果相关标签
     }
     return 5 // 数据库普通标签
   }
 
-  // 排序规则：已选中 > 括号提取 > xx符文 > xx相关 > 数据库普通标签，每组内部按拼音中文排序
+  // 排序规则：已选中 > 括号提取 > xx相关 > 数据库普通标签，每组内部按拼音中文排序
   combinedList.sort((a, b) => {
     const rankA = getTagGroupRank(a)
     const rankB = getTagGroupRank(b)
@@ -399,6 +404,46 @@ const allDisplayTags = computed(() => {
 
   return combinedList
 })
+
+// 效果标签按大类分组
+const categorizedTags = computed(() => {
+  const groups = {
+    "数值": [],
+    "机制": [],
+    "时机": [],
+    "状态": [],
+    "其他": []
+  }
+  
+  allDisplayTags.value.forEach(tag => {
+    const category = getPositiveCategoryByTag(tag)
+    if (groups[category]) {
+      groups[category].push(tag)
+    } else {
+      groups["其他"].push(tag)
+    }
+  })
+  return Object.entries(groups)
+    .filter(([_, tags]) => tags.length > 0)
+    .map(([name, tags]) => {
+      // 过滤和排序：按展示的字符长度降序排序
+      // 注意：UniqueView里可能还有符文过滤等，这里的tags已经是allDisplayTags过滤出来的了，我们只要把展示文本按长度降序排即可
+      const sortedTags = [...tags].sort((a, b) => {
+        const lenA = formatTagText(a).length
+        const lenB = formatTagText(b).length
+        return lenB - lenA
+      })
+      return { name, tags: sortedTags }
+    })
+})
+
+// 辅助函数：格式化显示的标签文本
+const formatTagText = (tag) => {
+  if (tag.endsWith('相关')) {
+    return tag.slice(0, -2)
+  }
+  return tag
+}
 
 // 从搜索框和二次筛选中清除特定关键词
 const removeKeywordFromSearch = (tag) => {
@@ -779,8 +824,11 @@ onUnmounted(() => {
 .effect-tags-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 8px;
+  justify-content: flex-start;
+  align-content: flex-start;
+  gap: 10px 8px;
+  margin-top: 10px;
+  margin-bottom: 6px;
   max-height: 60vh;
   overflow-y: auto;
   padding-right: 4px;
@@ -788,17 +836,24 @@ onUnmounted(() => {
 
 .effect-tag {
   font-size: 11.5px;
-  padding: 4px 8px;
+  padding: 5px 10px;
   background: var(--bg);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.15s ease;
   color: var(--text-main);
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   user-select: none;
+  white-space: nowrap;
+  word-break: keep-all;
+  flex-shrink: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .effect-tag:hover {
   border-color: var(--primary);
@@ -880,18 +935,25 @@ onUnmounted(() => {
 .suggest-tags-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 8px;
+  justify-content: flex-start;
+  align-content: flex-start;
+  gap: 10px 8px;
+  margin-top: 10px;
 }
 
 .suggest-char-tag {
   font-size: 11.5px;
-  padding: 4px 8px;
+  padding: 5px 10px;
   background: var(--bg);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.15s ease;
+  display: inline-flex;
+  white-space: nowrap;
+  word-break: keep-all;
+  flex-shrink: 0;
+  max-width: 100%;
 }
 .suggest-char-tag:hover {
   border-color: var(--primary);
@@ -901,7 +963,7 @@ onUnmounted(() => {
 .talent-list {
   flex: 1;
   overflow-y: auto;
-  padding: 0px 4px 10px 4p;
+  padding: 0px 4px 10px 4px; /* 修正了原先 '4p' 的笔误 */
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -956,8 +1018,6 @@ onUnmounted(() => {
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  /* 先等比放大（比如 1.4 倍，切掉部分空白），然后再垂直向下平移（translateY） */
-  /* 如果向下移得太多，就把 5px 改小（如 3px）；如果还不够，就改大（如 8px） */
   transform: scale(1.4) translateY(2px);
 }
 
@@ -1224,8 +1284,44 @@ img.game-sprite {
   border-bottom-color: rgba(255,255,255,0.1);
 }
 .dark-mode .talent-source-wrapper {
-      background: rgba(251, 146, 60, 0.15);
-    color: #ffedd5;
-    border: 1px solid rgba(251, 146, 60, 0.3);
+  background: rgba(251, 146, 60, 0.15);
+  color: #ffedd5;
+  border: 1px solid rgba(251, 146, 60, 0.3);
+}
+
+/* 分类标签样式 */
+.categorized-effect-tags {
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+/* 自定义滚动条样式 */
+.categorized-effect-tags::-webkit-scrollbar {
+  width: 4px;
+}
+.categorized-effect-tags::-webkit-scrollbar-thumb {
+  background: var(--border-color, #e2e8f0);
+  border-radius: 2px;
+}
+.categorized-effect-tags::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tag-group-header {
+  margin: 8px 0 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-sub, #64748b);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tag-group-header::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 12px;
+  background: var(--text-sub, #64748b);
+  border-radius: 2px;
 }
 </style>

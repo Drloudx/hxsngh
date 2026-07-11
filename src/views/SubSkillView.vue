@@ -79,16 +79,23 @@
               <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !effectExpanded }" />
             </div>
           </div>
-          <div v-if="effectExpanded" class="effect-tags-list">
-            <span
-              v-for="tag in allDisplayTags"
-              :key="tag"
-              :class="['effect-tag', isActiveTag(tag) ? 'active' : '']"
-              @click="toggleFilterTag(tag)"
-            >
-              {{ tag }}
-              <span v-if="isActiveTag(tag)" class="tag-close-x">✕</span>
-            </span>
+          <div v-if="effectExpanded" class="categorized-effect-tags">
+            <div v-for="(group, idx) in categorizedTags" :key="group.name" class="tag-group-container">
+              <div class="tag-group-header">
+                <span class="group-title">{{ group.name }}</span>
+              </div>
+              <div class="effect-tags-list">
+                <span
+                  v-for="tag in group.tags"
+                  :key="tag"
+                  :class="['effect-tag', isActiveTag(tag) ? 'active' : '']"
+                  @click="toggleFilterTag(tag)"
+                >
+                  {{ formatTagText(tag) }}
+                  <span v-if="isActiveTag(tag)" class="tag-close-x">✕</span>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -206,6 +213,7 @@ import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
 import rawRoles from '@/assets/RoleDataTable.json'
 import rawSupportSkills from '@/assets/SubSkillDataTable.json'
+import { getCategoryByTag } from '@/utils/tagCategories'
 
 // ==============================================
 // 配置：手动屏蔽的角色 ID 列表 (便于随时注释恢复)
@@ -448,6 +456,45 @@ const allDisplayTags = computed(() => {
 
   return combinedList
 })
+
+// 效果标签按大类分组
+const categorizedTags = computed(() => {
+  const groups = {
+    "数值": [],
+    "机制": [],
+    "时机": [],
+    "状态": [],
+    "其他": []
+  }
+  
+  allDisplayTags.value.forEach(tag => {
+    const category = getCategoryByTag(tag)
+    if (groups[category]) {
+      groups[category].push(tag)
+    } else {
+      groups["其他"].push(tag)
+    }
+  })
+  
+  return Object.entries(groups)
+    .filter(([_, tags]) => tags.length > 0)
+    .map(([name, tags]) => {
+      const sortedTags = [...tags].sort((a, b) => {
+        const lenA = formatTagText(a).length
+        const lenB = formatTagText(b).length
+        return lenB - lenA
+      })
+      return { name, tags: sortedTags }
+    })
+})
+
+// 辅助函数：格式化显示的标签文本
+const formatTagText = (tag) => {
+  if (tag.endsWith('相关')) {
+    return tag.slice(0, -2)
+  }
+  return tag
+}
 
 // 从搜索框和二次筛选中清除特定关键词
 const removeKeywordFromSearch = (tag) => {
@@ -1129,17 +1176,24 @@ img.game-sprite {
 
 .effect-tag {
   font-size: 11.5px;
-  padding: 4px 8px;
+  padding: 5px 10px;
   background: var(--bg);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.15s ease;
   color: var(--text-main);
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   user-select: none;
+  white-space: nowrap;
+  word-break: keep-all;
+  flex-shrink: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .effect-tag:hover {
   border-color: var(--primary);
@@ -1411,5 +1465,41 @@ img.game-sprite {
   background-color: rgba(234, 88, 12, 0.2);
   color: #fdba74;
   border-color: rgba(234, 88, 12, 0.3);
+}
+
+/* 分类标签样式 */
+.categorized-effect-tags {
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+/* 自定义滚动条样式 */
+.categorized-effect-tags::-webkit-scrollbar {
+  width: 4px;
+}
+.categorized-effect-tags::-webkit-scrollbar-thumb {
+  background: var(--border-color, #e2e8f0);
+  border-radius: 2px;
+}
+.categorized-effect-tags::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tag-group-header {
+  margin: 8px 0 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-sub, #64748b);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tag-group-header::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 12px;
+  background: var(--text-sub, #64748b);
+  border-radius: 2px;
 }
 </style>

@@ -9,6 +9,14 @@
       "幻想少女公会助手交流反馈群：<a href=\"https://qun.qq.com/universal-share/share?ac=1&authKey=4xp%2BlCmM2Q2gVIvW6a14yOEVtT%2BPLsY9DwmNSDRVTBkp8xcNO%2FTRo%2FOksMb528aW&busi_data=eyJncm91cENvZGUiOiI5NjQ3Njg3OTkiLCJ0b2tlbiI6Im1abkR4eDNDb09HeDZtV2QvNi9ZOTlMNWRhQVQxSDVGK2hSUmlmdkd6bm9hNGRIYjZnWFB6QitBd1A5NVhscmMiLCJ1aW4iOiIxOTY1MTYxNjQzIn0%3D&data=CcXqRPXmezEwvtBwz950aSAyBxYHidOpffYEE8nD1EB-WDcAI-CLzvlLLIavd-lpEuHEP9fCXE5i5Sh3aGjUmw&svctype=4&tempid=h5_group_info\" style=\"color:#3b82f6\">964768799</a>"
     ]
   },
+  {
+    "date": "7.11",
+    "title": "优化",
+    "lines": [
+      "修复了顶部和底部导航页面的深色适配问题",
+      "修改了支援、技能、装备页面查找效果里的布局"
+    ]
+  },
    {
     "date": "7.9-2",
     "title": "优化",

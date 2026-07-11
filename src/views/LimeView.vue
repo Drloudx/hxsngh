@@ -531,6 +531,7 @@ const closeDetailModal = () => {
   width: 100%;
   flex: 1;
   overflow-y: auto;
+  padding-top: 4px;
   padding-bottom: 15px;
 }
 
@@ -836,5 +837,58 @@ const closeDetailModal = () => {
   text-align: center;
   padding: 40px 0;
   color: var(--text-sub);
+}
+
+@media (min-width: 601px) {
+  /* 弹窗整体拉大 */
+  .relic-detail-window {
+    max-width: 480px !important;
+  }
+
+  /* 标题与关闭按钮字号加大 */
+  .centered-modal-title {
+    font-size: 22px !important;
+  }
+  .relic-modal-close {
+    font-size: 22px !important;
+  }
+
+  /* 顶部徽章字号加大 */
+  .area-type-badge {
+    font-size: 12px !important;
+    padding: 2px 6px !important;
+    border-radius: 6px !important;
+  }
+
+  /* 预览图片区域放大 */
+  .relic-detail-preview {
+    width: 140px !important;
+    height: 140px !important;
+    border-radius: 20px !important;
+    padding: 12px !important;
+  }
+
+  /* 属性网格与数值字号放大 */
+  .relic-detail-stat {
+    padding: 10px 12px !important;
+    border-radius: 12px !important;
+    gap: 6px !important;
+  }
+  .stat-label {
+    font-size: 13px !important;
+  }
+  .stat-value {
+    font-size: 15px !important;
+  }
+
+  /* 描述行与文本内容放大 */
+  .relic-description-box {
+    padding: 14px 18px !important;
+    border-radius: 14px !important;
+  }
+  .relic-description-text {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+  }
 }
 </style>
