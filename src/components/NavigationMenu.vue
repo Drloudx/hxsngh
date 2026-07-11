@@ -467,3 +467,25 @@ img.game-sprite {
   }
 }
 </style>
+
+<style>
+/* --- 深色模式全局样式 --- */
+.dark-mode .grid-item {
+  background: var(--bg) !important;
+  border-color: var(--border-color) !important;
+}
+.dark-mode .grid-item:hover {
+  background: var(--dropdown-hover) !important;
+  border-color: var(--primary) !important;
+}
+.dark-mode .grid-item.active {
+  background: rgba(59, 130, 246, 0.15) !important;
+  border-color: var(--primary) !important;
+}
+.dark-mode .grid-item-name {
+  color: var(--text-main) !important;
+}
+.dark-mode .grid-item.active .grid-item-name {
+  color: var(--primary) !important;
+}
+</style>
