@@ -189,18 +189,14 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { ref, shallowRef, computed, watch, onMounted, onUnmounted } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
+import { getVisibleCharacters } from '@/utils/characterFilter.js'
 import rawRoles from '@/assets/RoleDataTable.json'
 import rawUniqueSkills from '@/assets/UniqueDataTable.json'
 import { getPositiveCategoryByTag } from '@/utils/tagCategories'
 
-// 配置：手动屏蔽的角色 ID 列表
-const BLOCKED_CHARACTER_IDS = [
-  'M23301_001', // [熔岩]史莱姆王
-  'M11303_002', // [熔岩]雪人骑士
-]
-
+// 移除本地的 BLOCKED_CHARACTER_IDS 依赖
 // 筛选响应式变量
 const searchQuery = ref('')
 const showSubSearch = ref(false)
@@ -225,8 +221,8 @@ const currentSource = ref('')
 const sourceMatchedCharacters = ref([])
 
 // 数据源缓存
-const allCharacters = ref([])
-const allSkills = ref([])
+const allCharacters = shallowRef([])
+const allSkills = shallowRef([])
 
 /**
  * 图片加载失败的降级处理器
@@ -559,7 +555,7 @@ onMounted(() => {
     noteList: []
   }
 
-  const fullCharacters = configUtil.getFullCharacterList(rawRoleArr, fullDatasets).filter(c => !BLOCKED_CHARACTER_IDS.includes(c.id))
+  const fullCharacters = getVisibleCharacters(configUtil.getFullCharacterList(rawRoleArr, fullDatasets))
   allCharacters.value = fullCharacters
 
   const bTags = new Set()
@@ -1135,61 +1131,7 @@ img.game-sprite {
   to { transform: rotate(360deg); }
 }
 
-/* 弹窗遮罩 */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.4);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-window {
-  width: 90%;
-  max-width: 420px;
-  background: var(--card-bg);
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-color);
-  background: var(--bg);
-}
-.modal-header h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-main);
-}
-
-.modal-close-x {
-  border: none;
-  background: transparent;
-  font-size: 18px;
-  cursor: pointer;
-  color: var(--text-sub);
-}
-
-.modal-body {
-  padding: 20px;
-  max-height: 60vh;
-  overflow-y: auto;
-}
-
+/* 弹窗样式已由 common.css 接管 */
 .match-chars-grid {
   display: flex;
   flex-direction: column;

@@ -93,16 +93,23 @@
             <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !effectExpanded }" />
           </div>
         </div>
-        <div v-if="effectExpanded" class="effect-tags-list">
-          <span
-            v-for="tag in allDisplayTags"
-            :key="tag"
-            :class="['effect-tag', isActiveTag(tag) ? 'active' : '']"
-            @click="toggleFilterTag(tag)"
-          >
-            {{ tag }}
-            <span v-if="isActiveTag(tag)" class="tag-close-x">✕</span>
-          </span>
+        <div v-if="effectExpanded" class="categorized-effect-tags">
+          <div v-for="(group, idx) in categorizedTags" :key="group.name" class="tag-group-container">
+            <div class="tag-group-header">
+              <span class="group-title">{{ group.name }}</span>
+            </div>
+            <div class="effect-tags-list">
+              <span
+                v-for="tag in group.tags"
+                :key="tag"
+                :class="['effect-tag', isActiveTag(tag) ? 'active' : '']"
+                @click="toggleFilterTag(tag)"
+              >
+                {{ formatTagText(tag) }}
+                <span v-if="isActiveTag(tag)" class="tag-close-x">✕</span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -179,11 +186,38 @@
           <span class="detail-tag">{{ selectedChar.map || '未知地区' }}</span>
         </div>
 
-        <!-- Metadata info -->
         <div class="detail-metadata">
           <p><strong>角色名称：</strong>{{ selectedChar.displayName }}</p>
           <p><strong>定位：</strong>{{ selectedChar.characterRole || '未知' }}</p>
           <p><strong>所属：</strong>{{ selectedChar.background || '暂无所属信息' }}</p>
+          <div v-if="charBaseAttrs && charBaseAttrs.length > 0" class="role-base-attrs-box" style="margin-top: 10px; border-top: 1px dashed var(--border-color); padding-top: 10px;">
+            <!-- 基础属性标题 与 等级调节器在一行 -->
+            <div class="base-attrs-header-row">
+              <span class="base-attrs-title">基础属性：</span>
+              
+              <div class="level-selector-inline">
+                <span class="level-selector-label">等级</span>
+                <div class="level-input-wrapper-horizontal">
+                  <span class="level-adjust-btn-horizontal down" @click="adjustLevel(-1)">▼</span>
+                  <input
+                    type="number"
+                    v-model.number="charLevel"
+                    min="1"
+                    max="100"
+                    class="level-number-input-horizontal"
+                  />
+                  <span class="level-adjust-btn-horizontal up" @click="adjustLevel(1)">▲</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-card-attributes">
+              <div v-for="attr in charBaseAttrs" :key="attr.key" class="base-attr-tag">
+                <img :src="`/General/${attr.icon}`" class="attr-mini-icon game-sprite" />
+                <span>{{ attr.name }} {{ attr.value }}</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Details Section -->
@@ -293,7 +327,9 @@
                   {{ relic.Step }}阶
                 </span>
               </div>
-              <div class="relic-effect">{{ formatRelicEffect(relic.Effect, relic.MaxLevel) }}</div>
+              <div class="relic-effect">
+                <span v-if="getRelicRequirementPrefix(relic)">{{ getRelicRequirementPrefix(relic) }} 角色 </span>{{ formatRelicEffect(relic.Effect, relic.MaxLevel) }}
+              </div>
             </div>
 
             <!-- Expandable Edible Relics (全部心得 - Wrapped feeling with scroll) -->
@@ -454,19 +490,18 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, shallowRef, computed, watch, onMounted, reactive, nextTick, onUnmounted } from 'vue'
+import { getVisibleCharacters, HIDE_UNRELEASED_CHARACTERS } from '@/utils/characterFilter'
 import rawRoles from '@/assets/RoleDataTable.json'
 import rawSubSkills from '@/assets/SubSkillDataTable.json'
 import rawUniqueSkills from '@/assets/UniqueDataTable.json'
 import rawTalents from '@/assets/TalentDataTable.json'
 import rawRelics from '@/assets/RelicsDataTable.json'
+import rawBasicAttrs from '@/assets/BasicAttrDataTable.json'
 import * as configUtil from '@/utils/configTableUtil.js'
+import { getCategoryByTag } from '@/utils/tagCategories'
 
-// ==============================================
-// 开关配置：未实装角色及相关数据隐藏 (仅供代码配置)
-// ==============================================
-const HIDE_UNRELEASED_CHARACTERS = ref(true) // 未实装角色隐藏开关
-
+// 开关配置统一移至 characterFilter.js
 // Options for search criteria
 const stepOptions = [
   { label: '全部', value: 'all' },
@@ -533,16 +568,8 @@ const datasets = {
   noteList: []
 }
 
-// ==============================================
-// 配置：手动屏蔽的角色 ID 列表 (便于随时注释恢复)
-// ==============================================
-const BLOCKED_CHARACTER_IDS = [
-  'M23301_001', // [熔岩]史莱姆王
-  'M11303_002', // [熔岩]雪人骑士
-]
-
 // Assembled characters
-const allCharacters = ref(configUtil.getFullCharacterList(rawRoleArr, datasets).filter(c => !BLOCKED_CHARACTER_IDS.includes(c.id)))
+const allCharacters = shallowRef(getVisibleCharacters(configUtil.getFullCharacterList(rawRoleArr, datasets)))
 
 // Switch filter: We DO NOT hide any characters inside RoleDataTable.json, keeping M11301_000 etc.
 const visibleCharacters = computed(() => {
@@ -665,6 +692,49 @@ const allDisplayTags = computed(() => {
   return combinedList
 })
 
+// 效果标签分组及长度降序排序
+const categorizedTags = computed(() => {
+  const groups = {
+    "数值": [],
+    "机制": [],
+    "时机": [],
+    "状态": [],
+    "其他": []
+  }
+  
+  allDisplayTags.value.forEach(tag => {
+    const category = getCategoryByTag(tag)
+    if (groups[category]) {
+      groups[category].push(tag)
+    } else {
+      groups["其他"].push(tag)
+    }
+  })
+  
+  return Object.entries(groups)
+    .filter(([_, tags]) => tags.length > 0)
+    .map(([name, tags]) => {
+      // 按展示的字符长度降序排序（长标签排在前面）
+      const sortedTags = [...tags].sort((a, b) => {
+        const lenA = formatTagText(a).length
+        const lenB = formatTagText(b).length
+        return lenB - lenA
+      })
+      return { name, tags: sortedTags }
+    })
+})
+
+// 辅助函数：格式化显示的标签文本，去后缀
+const formatTagText = (tag) => {
+  if (tag.endsWith('相关')) {
+    return tag.slice(0, -2)
+  }
+  if (tag.endsWith('符文')) {
+    return tag.slice(0, -2)
+  }
+  return tag
+}
+
 // 从搜索框中清除特定关键词
 const removeKeywordFromSearch = (tag) => {
   const lowerTag = tag.toLowerCase()
@@ -740,52 +810,52 @@ const sortedCharacters = computed(() => {
 })
 
 // Lazy loading grid pagination
-const displayLimit = ref(24) // Initial 24 characters loaded (6 rows of 4)
+const displayLimit = ref(60) // Initial 60 characters loaded
 const pagedCharacters = computed(() => {
   return sortedCharacters.value.slice(0, displayLimit.value)
 })
 
 watch(searchQuery, () => {
-  displayLimit.value = 24
+  displayLimit.value = 60
 })
 
 watch(selectedStep, () => {
-  displayLimit.value = 24
+  displayLimit.value = 60
 })
 
 watch(selectedClass, () => {
-  displayLimit.value = 24
+  displayLimit.value = 60
 })
 
 watch(selectedType, () => {
-  displayLimit.value = 24
+  displayLimit.value = 60
 })
 
 watch(selectedElement, () => {
-  displayLimit.value = 24
+  displayLimit.value = 60
 })
 
 watch(selectedFilterTags, () => {
-  displayLimit.value = 24
+  displayLimit.value = 60
 })
 
 const handleGridScroll = (e) => {
   const el = e.target
   if (el.scrollHeight - el.scrollTop - el.clientHeight < 100) {
     if (displayLimit.value < sortedCharacters.value.length) {
-      displayLimit.value += 24
+      displayLimit.value += 60
     }
   }
 }
 
 // Reset page limit when filters/search changes
 watch(searchQuery, () => {
-  displayLimit.value = 24
+  displayLimit.value = 60
 })
 
 // Toggling filter state
 const toggleFilter = (type, value) => {
-  displayLimit.value = 24 // Reset lazy loading limit
+  displayLimit.value = 60 // Reset lazy loading limit
   if (type === 'step') {
     selectedStep.value = selectedStep.value === value ? 'all' : value
   } else if (type === 'class') {
@@ -799,6 +869,110 @@ const toggleFilter = (type, value) => {
 
 // Detail states
 const selectedChar = ref(null)
+const charLevel = ref(1)
+
+// Reset level when selected character changes
+watch(selectedChar, () => {
+  charLevel.value = 1
+})
+
+// Bound level input within [1, 100]
+watch(charLevel, (newVal) => {
+  if (typeof newVal !== 'number' || isNaN(newVal)) return
+  if (newVal < 1) charLevel.value = 1
+  if (newVal > 100) charLevel.value = 100
+})
+
+// Adjust character level via buttons
+const adjustLevel = (amount) => {
+  const newVal = (Number(charLevel.value) || 1) + amount
+  charLevel.value = Math.max(1, Math.min(100, newVal))
+}
+
+// 属性与图标/中文名映射 (用于角色图鉴属性卡渲染)
+const charBaseAttrs = computed(() => {
+  if (!selectedChar.value) return []
+
+  const searchNames = [
+    selectedChar.value.class,
+    selectedChar.value.type,
+    selectedChar.value.element,
+    selectedChar.value.map,
+    selectedChar.value.step
+  ].filter(Boolean)
+
+  const sums = {
+    CONS: 0,
+    STR: 0,
+    INT: 0,
+    DEX: 0,
+    SPD: 0,
+    Tough: 0,
+    Weak: 0
+  }
+
+  // 1. 基础值计算
+  const dataTable = rawBasicAttrs.DataTable || []
+  const matchedEntries = []
+  searchNames.forEach(name => {
+    const entry = dataTable.find(item => item.Name === name)
+    if (entry) {
+      matchedEntries.push(entry)
+      sums.CONS += (entry.InitialCONS || 0)
+      sums.STR += (entry.InitialSTR || 0)
+      sums.INT += (entry.InitialINT || 0)
+      sums.DEX += (entry.InitialDEX || 0)
+      sums.SPD += (entry.initialSPD || 0)
+      sums.Tough += (entry.initialTough || 0)
+      sums.Weak += (entry.initialWeak || 0)
+    }
+  })
+
+  // 2. 升级成长加点计算
+  const level = Math.max(1, Math.min(100, Number(charLevel.value) || 1))
+  
+  const nameToKey = {
+    '生命': 'CONS',
+    '力量': 'STR',
+    '精神': 'INT',
+    '敏捷': 'DEX',
+    '速度': 'SPD',
+    '韧性': 'Tough',
+    '弱点': 'Weak'
+  }
+
+  for (let L = 2; L <= level; L++) {
+  // 终极对齐：用目标等级 L 直接模 10
+  const remainder = L % 10;
+  // 如果整除（尾数是0，如10级、20级），代表它是第10档；其余情况余数是几就是第几档
+  const growthSlot = remainder === 0 ? 10 : remainder;
+  const growthKey = `GrowthType${growthSlot}`;
+
+  matchedEntries.forEach(entry => {
+    const attrName = entry[growthKey]
+    if (attrName && nameToKey[attrName]) {
+      sums[nameToKey[attrName]] += 1
+    }
+  })
+}
+
+  // Determine starting mana based on class
+  const isMage = selectedChar.value.class === '法师'
+  const startingMana = isMage ? '10/30' : '0/30'
+
+  return [
+    { key: 'CONS', name: '生命', icon: 'mid_ico_attribute_0003.png', value: sums.CONS },
+    { key: 'STR', name: '力量', icon: 'mid_ico_attribute_0004.png', value: sums.STR },
+    { key: 'INT', name: '精神', icon: 'mid_ico_attribute_0002.png', value: sums.INT },
+    { key: 'DEX', name: '敏捷', icon: 'mid_ico_attribute_0005.png', value: sums.DEX },
+    { key: 'SPD', name: '速度', icon: 'mid_ico_attribute_0001.png', value: sums.SPD },
+    { key: 'Tough', name: '韧性', icon: 'mid_ico_attribute_0009.png', value: sums.Tough },
+    { key: 'Weak', name: '弱点', icon: 'mid_ico_attribute_0008.png', value: sums.Weak },
+    { key: 'Luck', name: '幸运', icon: 'mid_ico_attribute_0010.png', value: 0 },
+    { key: 'InitialMagic', name: '初始魔力', icon: 'mid_ico_attribute_0006.png', value: startingMana }
+  ]
+})
+
 const edibleRelicsExpanded = ref(false) // 全部心得默认收起
 const activeRelicsTab = ref('职业') // Default to 职业 (First tab)
 
@@ -897,6 +1071,12 @@ const getRelicSourceRoleName = (relic) => {
   if (!relic.SpecifyRoleIDs) return '通用'
   const char = allCharacters.value.find(c => c.id === relic.SpecifyRoleIDs)
   return char ? char.displayName : relic.SpecifyRoleIDs
+}
+
+// 获取心得的前缀类型（Class/Race/SubRace）
+const getRelicRequirementPrefix = (relic) => {
+  if (!relic) return ''
+  return relic.Class || relic.Race || relic.SubRace || ''
 }
 
 // Relics helper: check if a relic matches character tags using direct database matching
@@ -1224,6 +1404,12 @@ const handleRelicIconError = (e) => {
   flex: 1;
   overflow-y: auto;
   padding: 10px 2px 20px 2px;
+}
+
+@media (min-width: 768px) {
+  .role-grid-container {
+    grid-template-columns: repeat(6, 1fr);
+  }
 }
 
 .role-grid-card {
@@ -1574,8 +1760,8 @@ const handleRelicIconError = (e) => {
 }
 
 .relic-icon {
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
   border-radius: 4px;
 }
@@ -1879,17 +2065,24 @@ const handleRelicIconError = (e) => {
 
 .effect-tag {
   font-size: 11.5px;
-  padding: 4px 8px;
+  padding: 5px 10px;
   background: var(--bg);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.15s ease;
   color: var(--text-main);
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   user-select: none;
+  white-space: nowrap;
+  word-break: keep-all;
+  flex-shrink: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .effect-tag:hover {
   border-color: var(--primary);
@@ -1906,4 +2099,133 @@ const handleRelicIconError = (e) => {
   font-size: 10px;
   opacity: 0.8;
 }
+
+/* ===== Base Attributes tags (copied from EquipView.vue) ===== */
+.detail-card-attributes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.base-attr-tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.attr-mini-icon {
+  width: 12px;
+  height: 12px;
+}
+
+/* ===== Categorized Effect Tags (copied from EquipView.vue) ===== */
+.categorized-effect-tags {
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.categorized-effect-tags::-webkit-scrollbar {
+  width: 4px;
+}
+.categorized-effect-tags::-webkit-scrollbar-thumb {
+  background: var(--border-color, #e2e8f0);
+  border-radius: 2px;
+}
+.categorized-effect-tags::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tag-group-header {
+  margin: 8px 0 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-sub, #64748b);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tag-group-header::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 12px;
+  background: var(--text-sub, #64748b);
+  border-radius: 2px;
+}
+
+/* ===== 等级调节器样式 ===== */
+.base-attrs-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.base-attrs-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.level-selector-inline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.level-selector-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-sub, #64748b);
+}
+
+.level-input-wrapper-horizontal {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg);
+  padding: 0 4px;
+  height: 24px;
+}
+
+.level-number-input-horizontal {
+  width: 32px;
+  border: none;
+  background: transparent;
+  color: var(--text-main);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+}
+.level-number-input-horizontal::-webkit-outer-spin-button,
+.level-number-input-horizontal::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.level-adjust-btn-horizontal {
+  font-size: 9px;
+  color: var(--text-sub, #64748b);
+  cursor: pointer;
+  padding: 0 6px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transition: color 0.15s ease;
+}
+.level-adjust-btn-horizontal:hover {
+  color: var(--primary);
+}
 </style>
+

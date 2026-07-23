@@ -64,7 +64,12 @@
       </div>
     </div>
 
-    <div class="talent-list">
+    <div v-if="!isDataReady" class="global-loading-state">
+      <div class="global-loading-spinner"></div>
+      <span>正在加载数据...</span>
+    </div>
+
+    <div v-else class="talent-list">
       <div
         v-for="item in pagedTalents"
         :key="item.uid"
@@ -335,8 +340,9 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, onUnmounted, reactive } from 'vue'
+import { ref, shallowRef, computed, watch, onMounted, onUnmounted, reactive } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
+import { getVisibleCharacters, isCharacterBlocked } from '@/utils/characterFilter'
 import rawRoles from '@/assets/RoleDataTable.json'
 import rawTalents from '@/assets/TalentDataTable.json'
 
@@ -344,14 +350,7 @@ const JOB_KEYWORDS = ['战士', '射手', '法师', '牧师']
 const RACE_KEYWORDS = []
 const ATTR_KEYWORDS = ['光系', '暗系', '风系', '地系', '火系', '水系']
 
-// ==============================================
-// 配置：手动屏蔽的角色 ID 列表 (便于随时注释恢复)
-// ==============================================
-const BLOCKED_CHARACTER_IDS = [
-  'M23301_001', // [熔岩]史莱姆王
-  'M11303_002', // [熔岩]雪人骑士
-]
-
+// 移除本地 BLOCKED_CHARACTER_IDS 依赖
 const searchQuery = ref('')
 const showSubSearch = ref(false)
 const subSearchQuery = ref('')
@@ -373,9 +372,11 @@ const sourceMatchedCharacters = ref([])
 const modalSearchQuery = ref('')
 const activeModalFilterTags = ref([])
 
-const allCharacters = ref([])
-const allTalents = ref([])
-const allIndividualTalents = ref([])
+const allCharacters = shallowRef([])
+const allTalents = shallowRef([])
+const allIndividualTalents = shallowRef([])
+
+const isDataReady = ref(false)
 
 const getRarityNum = (step = 'C') => {
   const map = { 'S': 3, 'A': 2, 'B': 1, 'C': 0 }
@@ -876,16 +877,18 @@ watch(loadMoreSentinel, (newVal) => {
 onMounted(() => {
   initObserver()
 
-  const rawRoleArr = configUtil.extractDataArray(rawRoles)
-  const rawTalentArr = configUtil.extractDataArray(rawTalents)
-  const fullDatasets = {
+  // 延迟执行繁重的数据组装逻辑，避免阻塞页面路由切换的动画，实现即时响应
+  setTimeout(() => {
+    const rawRoleArr = configUtil.extractDataArray(rawRoles)
+    const rawTalentArr = configUtil.extractDataArray(rawTalents)
+    const fullDatasets = {
     supportList: [],
     skillList: [],
     talentList: rawTalentArr,
     relicList: [],
     noteList: []
   }
-  const fullCharacters = configUtil.getFullCharacterList(rawRoleArr, fullDatasets).filter(c => !BLOCKED_CHARACTER_IDS.includes(c.id))
+  const fullCharacters = getVisibleCharacters(configUtil.getFullCharacterList(rawRoleArr, fullDatasets))
   allCharacters.value = fullCharacters
 
   const cleanTalentList = rawTalentArr.map((t, idx) => {
@@ -908,7 +911,7 @@ onMounted(() => {
     const rawLabel = configUtil.getTalentSourceLabel(base, fullCharacters)
     base.sourceLabel = (rawLabel || '').replace('职业', '').replace('属性', '')
     return base
-  }).filter(t => !BLOCKED_CHARACTER_IDS.includes(t.SpecifyRoleIDs))
+  }).filter(t => !isCharacterBlocked(t.SpecifyRoleIDs))
 
   const sortedCleanList = sortTalentAllQuality(cleanTalentList)
 
@@ -953,6 +956,9 @@ onMounted(() => {
   })
 
   allTalents.value = groupedCleanList
+  isDataReady.value = true
+  })
+
   window.addEventListener('click', closeAllDropdowns)
 })
 
@@ -1385,6 +1391,7 @@ img.game-sprite {
   padding: 8px 10px;
   border-radius: 8px;
   text-align: left;
+  margin-top: 4px;
 }
 
 .talent-combination-bar {
@@ -1566,87 +1573,7 @@ img.game-sprite {
 }
 
 /* ================= 弹窗部分 ================= */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(15, 23, 42, 0.4);
-  backdrop-filter: blur(16px) saturate(120%);
-  -webkit-backdrop-filter: blur(16px) saturate(120%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-}
-.modal-window {
-  background: var(--card-bg);
-  width: 92%;
-  max-width: 620px;
-  max-height: 82vh;
-  border-radius: 24px;
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-}
-.modal-header {
-  padding: 16px 22px;
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.modal-header h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #0f172a;
-}
-.modal-close-x {
-  background: transparent;
-  border: none;
-  font-size: 18px;
-  color: #94a3b8;
-  cursor: pointer;
-  transition: color 0.15s;
-}
-.modal-close-x:hover {
-  color: #ef4444;
-}
-.modal-body {
-  padding: 20px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.modal-search-box {
-  display: flex;
-  align-items: center;
-  background: var(--bg);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 10px 14px;
-}
-.modal-search-icon {
-  width: 18px;
-  height: 18px;
-  filter: var(--icon-filter);
-  margin-right: 10px;
-  opacity: 0.7;
-}
-.modal-search-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 14px;
-  color: #0f172a;
-}
+/* 弹窗基础样式由 common.css 提供 */
 
 .modal-tags-filter-bar {
   display: flex;
