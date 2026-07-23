@@ -1,7 +1,32 @@
-/* ==========================================================================
-   全局通用样式 (Common Utility Classes)
-   针对视图卡顿与体积过大问题提取的公共样式
-   ========================================================================== */
+/* ====== 0. 全局防字体暴发与页面滚动锁死防范 ====== */
+html, body {
+  -webkit-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+  -moz-text-size-adjust: 100% !important;
+  -ms-text-size-adjust: 100% !important;
+}
+
+/* 防止大字体下各类页面的顶部筛选卡片占用过多屏幕高度导致下方列表被挤压且无法触摸滑动 */
+.talent-sticky-top,
+.equip-sticky-top,
+.role-sticky-top,
+.filter-section,
+[class*="-sticky-top"] {
+  max-height: 55vh !important;
+  overflow-y: auto !important;
+}
+
+/* 全局给所有主要页面的滚动列表增加底部防覆盖安全边距 */
+.talent-list,
+.block-list-scroll,
+.equip-list-container,
+.role-list-container,
+.recruit-view,
+.guide-scroll-container,
+.sandbox-role-list,
+[class*="-list"] {
+  padding-bottom: 80px !important;
+}
 
 /* ====== 1. 颜色与 CSS 变量 ====== */
 :root {
