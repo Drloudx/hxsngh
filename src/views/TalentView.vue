@@ -1318,7 +1318,7 @@ img.game-sprite {
   padding: 0;
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 15px;
+  padding-bottom: 80px;
 }
 
 .talent-card {

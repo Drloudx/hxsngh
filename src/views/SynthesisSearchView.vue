@@ -2078,7 +2078,7 @@ const handleIconError = (e) => {
   flex: 1;
   overflow-y: auto;
   min-height: 0;
-  padding-bottom: 20px;
+  padding-bottom: 80px;
 }
 
 .talent-search-row {

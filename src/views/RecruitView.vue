@@ -424,6 +424,7 @@ defineExpose({
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  padding-bottom: 90px;
 }
 
 .content-area {
