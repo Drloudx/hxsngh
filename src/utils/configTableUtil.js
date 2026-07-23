@@ -368,6 +368,7 @@ export function getFullCharacter(rawRole = {}, datasets = {}) {
  * 批量把整份角色表全部组装成完整结构化数据
  * @param {Array} rawRoleList RoleDataTable完整数组
  * @param {Object} datasets 关联数据表集合
+ *
  * @returns {Array} 批量完整角色数组
  */
 export function getFullCharacterList(rawRoleList = [], datasets = {}) {

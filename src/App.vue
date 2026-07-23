@@ -9,28 +9,16 @@ import PrivacyModal from './components/PrivacyModal.vue'
 import AboutModal from './components/AboutModal.vue'
 import HotUpdateModal from './components/HotUpdateModal.vue'
 import { fetchLatestRelease, compareVersions, isUpdateSkippedToday } from './utils/version'
-import { imageMatcher } from './utils/imageMatcher'
 import { exportData, importData } from './utils/dataTransfer'
 import NavigationMenu from './components/NavigationMenu.vue'
 
 const route = useRoute()
 const router = useRouter()
 
-// 匹配引擎状态映射到全局
-const engineStatus = ref('loading')
+// 引擎状态：imageMatcher 已改为按需加载，此处固定为 ready
+const engineStatus = ref('ready')
 
 onMounted(() => {
-  // 全局一次性初始化引擎
-  console.log('🌐 App已挂载，开始全局初始化匹配引擎...')
-  imageMatcher.init()
-    .then(() => {
-      console.log('✨ 全局引擎预热成功！')
-      engineStatus.value = 'ready'
-    })
-    .catch((err) => {
-      console.error('❌ 全局引擎预热失败:', err)
-      engineStatus.value = 'error'
-    })
 
   // 读取 GIF 显隐状态
   const savedShowGifs = localStorage.getItem('recruit_tool_showGifs')
@@ -834,6 +822,7 @@ body {
   overflow-y: hidden;
   transition: background-color 0.3s, color 0.3s;
   min-height: 100vh;
+  min-height: 100dvh;
   overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -845,6 +834,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh;
 }
 
 /* ===== 顶层 flex 容器 ===== */

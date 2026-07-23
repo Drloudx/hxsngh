@@ -98,7 +98,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import relicData from '@/assets/DungeonRelicDataTable.json'
 
 const sortOptions = [
@@ -122,7 +122,17 @@ const getStepConfig = (step) => {
   return map[step] || { label: step, color: '#64748b', lightBg: 'rgba(100, 116, 139, 0.1)' }
 }
 
+
+const isDataReady = ref(false)
+onMounted(() => {
+  setTimeout(() => {
+    isDataReady.value = true
+  }, 10)
+})
+
 const rawRelics = computed(() => {
+  if (!isDataReady.value) return []
+
   return relicData.DataTable || relicData || []
 })
 
@@ -263,7 +273,7 @@ const closeDetailModal = () => {
 .sort-btn {
   min-width: 80px;
   padding: 3px 12px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   border: none;
   background: transparent;
@@ -293,6 +303,12 @@ const closeDetailModal = () => {
   flex: 1;
   overflow-y: auto;
   padding-bottom: 15px;
+}
+
+@media (min-width: 768px) {
+  .relics-grid-container {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
 
 .relics-grid-card {

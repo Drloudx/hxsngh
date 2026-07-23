@@ -200,7 +200,15 @@ const statusOptions = [
 
 const STEP_PRIORITY = { 'C': 1, 'B': 2, 'A': 3, 'S': 4, 'SS': 5 }
 
+const isDataReady = ref(false)
+onMounted(() => {
+  setTimeout(() => {
+    isDataReady.value = true
+  }, 10)
+})
+
 const rawLimesList = computed(() => {
+  if (!isDataReady.value) return []
   return limeData.DataTable || limeData || []
 })
 
@@ -479,6 +487,12 @@ const closeDetailModal = () => {
   gap: 8px;
 }
 
+@media (min-width: 768px) {
+  .name-tags-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
 .name-tag {
   display: flex;
   align-items: center;
@@ -533,6 +547,12 @@ const closeDetailModal = () => {
   overflow-y: auto;
   padding-top: 4px;
   padding-bottom: 15px;
+}
+
+@media (min-width: 768px) {
+  .lime-grid-container {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
 
 .lime-grid-card {

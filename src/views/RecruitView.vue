@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, shallowRef, computed, onMounted } from 'vue'
 import allData from '../assets/data.json'
 import { imageMatcher } from '../utils/imageMatcher'
 
@@ -13,7 +13,7 @@ const selectedTags = ref([])
 const isMatchingLoading = ref(false)
 const fileInput = ref(null)
 
-const unownedChars = ref([])
+const unownedChars = shallowRef([])
 const showResultModal = ref(false)
 const matchResultTags = ref([])
 const showWishModal = ref(false)
@@ -27,6 +27,12 @@ onMounted(() => {
   if (savedUnowned) {
     try { unownedChars.value = JSON.parse(savedUnowned) } catch(e) {}
   }
+
+  // 进入招募页后立即在后台静默预加载 OpenCV 引擎
+  // 这样用户还在浏览角色列表时，引擎就已经加载完毕，点截图识别时无需等待
+  if (!imageMatcher.isInitialized) {
+    imageMatcher.init().catch(() => {})
+  }
 })
 
 const rarityMap = { 3: '传说', 2: '史诗', 1: '稀有', 0: '普通' }
@@ -35,9 +41,9 @@ const wishGroups = computed(() => [3, 2, 1, 0].map(r => ({ title: rarityMap[r], 
 const toggleUnowned = (name) => {
   const idx = unownedChars.value.indexOf(name)
   if (idx >= 0) {
-    unownedChars.value.splice(idx, 1)
+    unownedChars.value = unownedChars.value.filter(n => n !== name)
   } else {
-    unownedChars.value.push(name)
+    unownedChars.value = [...unownedChars.value, name]
   }
   localStorage.setItem('unowned_characters', JSON.stringify(unownedChars.value))
 }
@@ -617,7 +623,7 @@ img.game-sprite {
   padding: 12px;
   background: var(--bg);
   border-radius: 8px;
-  margin: 16px 0;
+  margin: 4px 0;
 }
 .modal-tags-grid .tag {
   margin: 0;

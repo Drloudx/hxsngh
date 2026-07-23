@@ -1,37 +1,23 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import RecruitView from '../views/RecruitView.vue'
-import TalentView from '../views/TalentView.vue'
-import PrefixView from '../views/PrefixView.vue'
-import LimeView from '../views/LimeView.vue'
-import TalentManageView from '../views/TalentManageView.vue'
-import GuideView from '../views/GuideView.vue'
-import SubSkillView from '../views/SubSkillView.vue'
-import UniqueView from '../views/UniqueView.vue'
-import RoleView from '../views/RoleView.vue'
-import RankingView from '../views/RankingView.vue'
-import ForetellView from '../views/ForetellView.vue'
-import DungeonRelicsView from '../views/DungeonRelicsView.vue'
-import EquipView from '../views/EquipView.vue'
-import AreaBlockView from '../views/AreaBlockView.vue'
-import SynthesisSearchView from '../views/SynthesisSearchView.vue'
 
 const routes = [
   { path: '/', redirect: '/recruit' },
-  { path: '/recruit', name: 'recruit', component: RecruitView, meta: { title: '指定招募工具', shortName: '招募' } },
-  { path: '/search', name: 'search', component: SynthesisSearchView, meta: { title: '综合检索', shortName: '综合' } },
-  { path: '/talent', name: 'talent', component: TalentView, meta: { title: '天赋筛选工具', shortName: '天赋' } },
-  { path: '/subskill', name: 'subskill', component: SubSkillView, meta: { title: '支援筛选工具', shortName: '支援' } },
-  { path: '/unique', name: 'unique', component: UniqueView, meta: { title: '技能筛选工具', shortName: '技能' } },
-  { path: '/lime', name: 'lime', component: LimeView, meta: { title: '莱姆图鉴', shortName: '莱姆' } },
-  { path: '/prefix', name: 'prefix', component: PrefixView, meta: { title: '怪物前缀', shortName: '前缀' } },
-  { path: '/foretell', name: 'foretell', component: ForetellView, meta: { title: '预言图鉴', shortName: '预言' } },
-  { path: '/dungeon-relics', name: 'dungeon-relics', component: DungeonRelicsView, meta: { title: '星界秘境遗物图鉴', shortName: '遗物' } },
-  { path: '/equip', name: 'equip', component: EquipView, meta: { title: '装备筛选工具', shortName: '装备' } },
-  { path: '/areablock', name: 'areablock', component: AreaBlockView, meta: { title: '地块图鉴', shortName: '地块' } },
-  { path: '/talent-manage', name: 'talent-manage', component: TalentManageView, meta: { title: '天赋管理', shortName: '库存' } },
-  { path: '/guide', name: 'guide', component: GuideView, meta: { title: '新人攻略', shortName: '攻略' } },
-  { path: '/role', name: 'role', component: RoleView, meta: { title: '角色图鉴', shortName: '角色' } },
-  { path: '/ranking', name: 'ranking', component: RankingView, meta: { title: '预告：热度排行', shortName: '预告' } }
+  { path: '/recruit', name: 'recruit', component: () => import('../views/RecruitView.vue'), meta: { title: '指定招募工具', shortName: '招募' } },
+  { path: '/search', name: 'search', component: () => import('../views/SynthesisSearchView.vue'), meta: { title: '综合检索', shortName: '综合' } },
+  { path: '/talent', name: 'talent', component: () => import('../views/TalentView.vue'), meta: { title: '天赋筛选工具', shortName: '天赋' } },
+  { path: '/subskill', name: 'subskill', component: () => import('../views/SubSkillView.vue'), meta: { title: '支援筛选工具', shortName: '支援' } },
+  { path: '/unique', name: 'unique', component: () => import('../views/UniqueView.vue'), meta: { title: '技能筛选工具', shortName: '技能' } },
+  { path: '/lime', name: 'lime', component: () => import('../views/LimeView.vue'), meta: { title: '莱姆图鉴', shortName: '莱姆' } },
+  { path: '/prefix', name: 'prefix', component: () => import('../views/PrefixView.vue'), meta: { title: '怪物前缀', shortName: '前缀' } },
+  { path: '/foretell', name: 'foretell', component: () => import('../views/ForetellView.vue'), meta: { title: '预言图鉴', shortName: '预言' } },
+  { path: '/dungeon-relics', name: 'dungeon-relics', component: () => import('../views/DungeonRelicsView.vue'), meta: { title: '星界秘境遗物图鉴', shortName: '遗物' } },
+  { path: '/equip', name: 'equip', component: () => import('../views/EquipView.vue'), meta: { title: '装备筛选工具', shortName: '装备' } },
+  { path: '/areablock', name: 'areablock', component: () => import('../views/AreaBlockView.vue'), meta: { title: '地块图鉴', shortName: '地块' } },
+  { path: '/talent-manage', name: 'talent-manage', component: () => import('../views/TalentManageView.vue'), meta: { title: '天赋管理', shortName: '库存' } },
+  { path: '/guide', name: 'guide', component: () => import('../views/GuideView.vue'), meta: { title: '新人攻略', shortName: '攻略' } },
+  { path: '/role', name: 'role', component: () => import('../views/RoleView.vue'), meta: { title: '角色图鉴', shortName: '角色' } },
+  { path: '/battle', name: 'battle', component: () => import('../views/BattleSimView.vue'), meta: { title: '战斗模拟', shortName: '战斗' } },
+  { path: '/ranking', name: 'ranking', component: () => import('../views/RankingView.vue'), meta: { title: '预告：热度排行', shortName: '预告' } }
 ]
 
 const router = createRouter({

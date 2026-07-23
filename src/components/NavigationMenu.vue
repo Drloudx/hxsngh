@@ -28,7 +28,7 @@ const categories = [
       { id: 'talent', name: '天赋筛选工具', path: '/talent', icon: '/General/3.png' },
       { id: 'subskill', name: '支援筛选工具', path: '/subskill', icon: '/General/4.png' },
       { id: 'unique', name: '技能筛选工具', path: '/unique', icon: '/General/5.png' },
-      { id: 'equip', name: '装备筛选工具', path: '/equip', icon: '/General/6.png' }
+      { id: 'equip', name: '装备筛选工具', path: '/equip', icon: '/General/6.png' },
     ]
   },
   {

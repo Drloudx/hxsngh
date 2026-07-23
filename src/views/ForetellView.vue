@@ -176,7 +176,18 @@ const getStepConfig = (step) => {
   return map[step] || { label: step, color: '#64748b', lightBg: 'rgba(100, 116, 139, 0.1)' }
 }
 
+
+const isDataReady = ref(false)
+onMounted(() => {
+  setTimeout(() => {
+    isDataReady.value = true
+    initCalcItems() // 数据就绪后再初始化，确保能找到 YY00010_003
+  }, 10)
+})
+
 const rawForetells = computed(() => {
+  if (!isDataReady.value) return []
+
   const list = foretellData.DataTable || foretellData || []
   // 根据需求隐藏以下两个预言条目：
   // 1. YY00014_002 (B级 - 机遇：地图中的勇者之墓数量+1)
@@ -413,9 +424,7 @@ const removeCalcItem = (idx) => {
   saveCalcItems()
 }
 
-onMounted(() => {
-  initCalcItems()
-})
+
 </script>
 
 <style scoped>
@@ -889,66 +898,7 @@ onMounted(() => {
   border-color: var(--text-sub);
 }
 
-/* ===== 选择弹窗 ===== */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(15, 23, 42, 0.4);
-  backdrop-filter: blur(16px) saturate(120%);
-  -webkit-backdrop-filter: blur(16px) saturate(120%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-}
-
-.modal-window {
-  background: var(--card-bg);
-  width: 92%;
-  max-width: 460px;
-  max-height: 80vh;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-}
-
-.modal-header {
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.modal-header h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-main);
-}
-
-.modal-close-x {
-  background: transparent;
-  border: none;
-  font-size: 18px;
-  color: #94a3b8;
-  cursor: pointer;
-  transition: color 0.15s;
-}
-.modal-close-x:hover {
-  color: #ef4444;
-}
-
-.modal-body {
-  padding: 16px;
-  overflow-y: auto;
-  flex: 1;
-}
+/* ===== 选择弹窗样式已由 common.css 接管 ===== */
 
 .modal-selectable-list {
   display: flex;
