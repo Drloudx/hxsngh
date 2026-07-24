@@ -278,14 +278,7 @@ import { ref, computed, watch, onMounted, nextTick } from 'vue'
 import areaSpotData from '../assets/AreaSpotDataTable.json'
 
 // 提取完整数据
-const isDataReady = ref(false)
-const allSpots = ref([])
-onMounted(() => {
-  setTimeout(() => {
-    isDataReady.value = true
-    allSpots.value = areaSpotData.DataTable || []
-  }, 10)
-})
+const allSpots = ref(areaSpotData.DataTable || [])
 
 // 地图列表
 const mapList = [

@@ -340,17 +340,16 @@
 </template>
 
 <script setup>
-import { ref, shallowRef, computed, watch, onMounted, onUnmounted, reactive } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted, reactive } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
-import { getVisibleCharacters, isCharacterBlocked } from '@/utils/characterFilter'
 import rawRoles from '@/assets/RoleDataTable.json'
 import rawTalents from '@/assets/TalentDataTable.json'
+import { getVisibleCharacters, isCharacterBlocked } from '@/utils/characterFilter'
 
 const JOB_KEYWORDS = ['战士', '射手', '法师', '牧师']
 const RACE_KEYWORDS = []
 const ATTR_KEYWORDS = ['光系', '暗系', '风系', '地系', '火系', '水系']
 
-// 移除本地 BLOCKED_CHARACTER_IDS 依赖
 const searchQuery = ref('')
 const showSubSearch = ref(false)
 const subSearchQuery = ref('')
@@ -358,6 +357,8 @@ const selectedCharacter = ref(null)
 const displayLimit = ref(20)
 const PAGE_SIZE = 20
 const showExclusiveTalent = ref(false)
+
+const isDataReady = ref(false)
 
 const loadMoreSentinel = ref(null)
 let observer = null
@@ -372,11 +373,9 @@ const sourceMatchedCharacters = ref([])
 const modalSearchQuery = ref('')
 const activeModalFilterTags = ref([])
 
-const allCharacters = shallowRef([])
-const allTalents = shallowRef([])
-const allIndividualTalents = shallowRef([])
-
-const isDataReady = ref(false)
+const allCharacters = ref([])
+const allTalents = ref([])
+const allIndividualTalents = ref([])
 
 const getRarityNum = (step = 'C') => {
   const map = { 'S': 3, 'A': 2, 'B': 1, 'C': 0 }
@@ -877,11 +876,11 @@ watch(loadMoreSentinel, (newVal) => {
 onMounted(() => {
   initObserver()
 
-  // 延迟执行繁重的数据组装逻辑，避免阻塞页面路由切换的动画，实现即时响应
+  // 延迟执行繁重的数据组装逻辑，避免阻塞页面路由切换，实现秒进页面后加载
   setTimeout(() => {
     const rawRoleArr = configUtil.extractDataArray(rawRoles)
     const rawTalentArr = configUtil.extractDataArray(rawTalents)
-    const fullDatasets = {
+  const fullDatasets = {
     supportList: [],
     skillList: [],
     talentList: rawTalentArr,
@@ -957,7 +956,7 @@ onMounted(() => {
 
   allTalents.value = groupedCleanList
   isDataReady.value = true
-  })
+  }, 20)
 
   window.addEventListener('click', closeAllDropdowns)
 })
@@ -1318,7 +1317,7 @@ img.game-sprite {
   padding: 0;
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 80px;
+  padding-bottom: 15px;
 }
 
 .talent-card {
@@ -1391,7 +1390,6 @@ img.game-sprite {
   padding: 8px 10px;
   border-radius: 8px;
   text-align: left;
-  margin-top: 4px;
 }
 
 .talent-combination-bar {
@@ -1573,7 +1571,87 @@ img.game-sprite {
 }
 
 /* ================= 弹窗部分 ================= */
-/* 弹窗基础样式由 common.css 提供 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+.modal-window {
+  background: var(--card-bg);
+  width: 92%;
+  max-width: 620px;
+  max-height: 82vh;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+.modal-header {
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+}
+.modal-close-x {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.modal-close-x:hover {
+  color: #ef4444;
+}
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-search-box {
+  display: flex;
+  align-items: center;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+.modal-search-icon {
+  width: 18px;
+  height: 18px;
+  filter: var(--icon-filter);
+  margin-right: 10px;
+  opacity: 0.7;
+}
+.modal-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #0f172a;
+}
 
 .modal-tags-filter-bar {
   display: flex;
@@ -1864,4 +1942,32 @@ img.game-sprite {
 
 .talent-sub-header { text-align: center !important; flex-shrink: 0; width: 100% !important; display: block !important; }
 .talent-hint-text { text-align: center !important; font-size: 12px; color: var(--text-sub); opacity: 0.8; display: inline-block !important; }
+
+/* ====== 加载状态样式 ====== */
+.global-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  width: 100%;
+  gap: 12px;
+  color: var(--text-sub, #64748b);
+  font-size: 14px;
+}
+
+.global-loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(64, 158, 255, 0.2);
+  border-top-color: #409eff;
+  border-radius: 50%;
+  animation: global-spin 0.8s linear infinite;
+}
+
+@keyframes global-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 </style>

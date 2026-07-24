@@ -209,14 +209,12 @@
 </template>
 
 <script setup>
-import { ref, shallowRef, computed, watch, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
-import { getVisibleCharacters } from '@/utils/characterFilter.js'
 import rawRoles from '@/assets/RoleDataTable.json'
 import rawSupportSkills from '@/assets/SubSkillDataTable.json'
 import { getCategoryByTag } from '@/utils/tagCategories'
-
-// 移除本地 BLOCKED_CHARACTER_IDS 依赖
+import { getVisibleCharacters } from '@/utils/characterFilter'
 
 // 筛选响应式变量
 const selectedStar = ref(null)
@@ -239,8 +237,8 @@ const currentSource = ref('')
 const sourceMatchedCharacters = ref([])
 
 // 数据源缓存
-const allCharacters = shallowRef([])
-const allSkills = shallowRef([])
+const allCharacters = ref([])
+const allSkills = ref([])
 
 /**
  * 切换星级筛选状态
@@ -1237,12 +1235,68 @@ img.game-sprite {
   font-size: 14px;
 }
 
-/* ================= 弹窗设计由 common.css 接管 ================= */
+/* ================= 弹窗设计 ================= */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(2px);
+}
+
+.modal-window {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  animation: modalFadeIn 0.25s ease-out;
+  overflow: hidden;
+}
 @keyframes modalFadeIn {
   from { opacity: 0; transform: scale(0.96); }
   to { opacity: 1; transform: scale(1); }
 }
 
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+.modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+.modal-close-x {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--text-sub);
+  transition: color 0.2s;
+  outline: none;
+}
+.modal-close-x:hover {
+  color: #ef4444;
+}
+
+.modal-body {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+}
 
 .match-chars-grid {
   display: flex;

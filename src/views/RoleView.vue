@@ -490,8 +490,7 @@
 </template>
 
 <script setup>
-import { ref, shallowRef, computed, watch, onMounted, reactive, nextTick, onUnmounted } from 'vue'
-import { getVisibleCharacters, HIDE_UNRELEASED_CHARACTERS } from '@/utils/characterFilter'
+import { ref, computed, watch } from 'vue'
 import rawRoles from '@/assets/RoleDataTable.json'
 import rawSubSkills from '@/assets/SubSkillDataTable.json'
 import rawUniqueSkills from '@/assets/UniqueDataTable.json'
@@ -500,8 +499,8 @@ import rawRelics from '@/assets/RelicsDataTable.json'
 import rawBasicAttrs from '@/assets/BasicAttrDataTable.json'
 import * as configUtil from '@/utils/configTableUtil.js'
 import { getCategoryByTag } from '@/utils/tagCategories'
+import { getVisibleCharacters, HIDE_UNRELEASED_CHARACTERS } from '@/utils/characterFilter'
 
-// 开关配置统一移至 characterFilter.js
 // Options for search criteria
 const stepOptions = [
   { label: '全部', value: 'all' },
@@ -569,7 +568,7 @@ const datasets = {
 }
 
 // Assembled characters
-const allCharacters = shallowRef(getVisibleCharacters(configUtil.getFullCharacterList(rawRoleArr, datasets)))
+const allCharacters = ref(getVisibleCharacters(configUtil.getFullCharacterList(rawRoleArr, datasets)))
 
 // Switch filter: We DO NOT hide any characters inside RoleDataTable.json, keeping M11301_000 etc.
 const visibleCharacters = computed(() => {
@@ -810,52 +809,52 @@ const sortedCharacters = computed(() => {
 })
 
 // Lazy loading grid pagination
-const displayLimit = ref(60) // Initial 60 characters loaded
+const displayLimit = ref(24) // Initial 24 characters loaded (6 rows of 4)
 const pagedCharacters = computed(() => {
   return sortedCharacters.value.slice(0, displayLimit.value)
 })
 
 watch(searchQuery, () => {
-  displayLimit.value = 60
+  displayLimit.value = 24
 })
 
 watch(selectedStep, () => {
-  displayLimit.value = 60
+  displayLimit.value = 24
 })
 
 watch(selectedClass, () => {
-  displayLimit.value = 60
+  displayLimit.value = 24
 })
 
 watch(selectedType, () => {
-  displayLimit.value = 60
+  displayLimit.value = 24
 })
 
 watch(selectedElement, () => {
-  displayLimit.value = 60
+  displayLimit.value = 24
 })
 
 watch(selectedFilterTags, () => {
-  displayLimit.value = 60
+  displayLimit.value = 24
 })
 
 const handleGridScroll = (e) => {
   const el = e.target
   if (el.scrollHeight - el.scrollTop - el.clientHeight < 100) {
     if (displayLimit.value < sortedCharacters.value.length) {
-      displayLimit.value += 60
+      displayLimit.value += 24
     }
   }
 }
 
 // Reset page limit when filters/search changes
 watch(searchQuery, () => {
-  displayLimit.value = 60
+  displayLimit.value = 24
 })
 
 // Toggling filter state
 const toggleFilter = (type, value) => {
-  displayLimit.value = 60 // Reset lazy loading limit
+  displayLimit.value = 24 // Reset lazy loading limit
   if (type === 'step') {
     selectedStep.value = selectedStep.value === value ? 'all' : value
   } else if (type === 'class') {
@@ -1406,12 +1405,6 @@ const handleRelicIconError = (e) => {
   padding: 10px 2px 20px 2px;
 }
 
-@media (min-width: 768px) {
-  .role-grid-container {
-    grid-template-columns: repeat(6, 1fr);
-  }
-}
-
 .role-grid-card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -1760,8 +1753,8 @@ const handleRelicIconError = (e) => {
 }
 
 .relic-icon {
-  width: 36px;
-  height: 36px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
   border-radius: 4px;
 }

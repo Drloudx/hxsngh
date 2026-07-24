@@ -120,7 +120,6 @@ const emit = defineEmits(['close', 'agree', 'disagree', 'toggle-auth'])
   text-align: left !important;
   overflow-y: auto;
   flex: 1;
-  gap: 0 !important;
 }
 .privacy-modal-body::-webkit-scrollbar {
   width: 5px;
@@ -219,9 +218,7 @@ const emit = defineEmits(['close', 'agree', 'disagree', 'toggle-auth'])
   font-weight: 800;
   text-align: center;
   margin: 0 0 8px 0;
-  padding: 0;
   color: var(--text-main);
-  line-height: 1.3;
 }
 .policy-meta {
   font-size: 12px;

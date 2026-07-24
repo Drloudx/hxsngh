@@ -724,8 +724,7 @@
 </template>
 
 <script setup>
-import { ref, shallowRef, computed, watch, nextTick, onMounted } from 'vue'
-import { getVisibleCharacters } from '@/utils/characterFilter'
+import { ref, computed, watch, nextTick, onMounted } from 'vue'
 import rawRoles from '@/assets/RoleDataTable.json'
 import rawBasicAttrs from '@/assets/BasicAttrDataTable.json'
 import rawEquips from '@/assets/EquipDataTable.json'
@@ -770,9 +769,9 @@ const attrNameToChinese = {
   InitialMagic: '初始魔力'
 }
 
-const allCharacters = shallowRef(getVisibleCharacters(configUtil.getFullCharacterList(rawRoleArr, {
+const allCharacters = ref(configUtil.getFullCharacterList(rawRoleArr, {
   supportList: rawSupportList, skillList: rawSkillList, talentList: [], relicList: [], noteList: []
-})))
+}))
 
 const leftEquipSlots = ['主手', '副手', '项链', '徽章', '戒指']
 const rightEquipSlots = ['头部', '身体', '护手', '腰带', '鞋子']
@@ -806,7 +805,7 @@ watch([leftTeam, rightTeam], () => {
 }, { deep: true })
 
 // --- Battle Logs State ---
-const battleLogs = shallowRef([])
+const battleLogs = ref([])
 const logContainerRef = ref(null)
 const activePreviewSkill = ref(null)
 
@@ -816,7 +815,7 @@ function getNowTime() {
 }
 
 function addLog(text, type = 'info') {
-  battleLogs.value = [...battleLogs.value, { time: getNowTime(), text, type }]
+  battleLogs.value.push({ time: getNowTime(), text, type })
   nextTick(() => {
     if (logContainerRef.value) {
       logContainerRef.value.scrollTop = logContainerRef.value.scrollHeight
@@ -835,12 +834,12 @@ const simulateBattle = () => {
   for (let round = 1; round <= 5; round++) {
     setTimeout(() => {
       addLog(`[第 ${round} 回合] 开始`, 'sys')
-      addLog(`【我方】${defaultLeft} 发动了攻击，但被星界邪神偷走了`, 'info')
-      addLog(`【敌方】${defaultRight} 发动了攻击，但被星界邪神偷走`, 'warn')
-      addLog(`【敌方】${defaultRight} 发动了攻击，但被星界邪神偷走`, 'warn')
+      addLog(`【我方】${defaultLeft} 发动了 [猛烈打击]，对 【敌方】${defaultRight} 造成了 128 点物理伤害！`, 'info')
+      addLog(`【敌方】${defaultRight} 触发了被动技能，恢复了 30 点生命值。`, 'warn')
+      addLog(`【敌方】${defaultRight} 进行反击，使用了 [暗影箭]，对 【我方】${defaultLeft} 造成了 85 点魔法伤害。`, 'warn')
 
       if (round === 3) {
-        addLog(`【我方】${defaultLeft} 发动了攻击，但被星界邪神偷走`, 'success')
+        addLog(`【我方】${defaultLeft} 触发暴击！造成了 255 点巨额伤害！`, 'success')
       }
       if (round === 5) {
         addLog(`【敌方】${defaultRight} 生命值耗尽，倒下了！`, 'success')
