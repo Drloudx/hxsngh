@@ -148,17 +148,7 @@ const stepLabels = [
 const PRESET_LEVELS = [100, 120, 130, 140, 160, 170, 180, 200, 210]
 const DEFAULT_LEVEL = 200
 
-
-const isDataReady = ref(false)
-onMounted(() => {
-  setTimeout(() => {
-    isDataReady.value = true
-  }, 10)
-})
-
 const rawGroups = computed(() => {
-  if (!isDataReady.value) return []
-
   const map = new Map()
   prefixData.DataTable.forEach(item => {
     if (!map.has(item.Name)) {
@@ -473,12 +463,6 @@ const closeLimitModal = () => {
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   margin-top: 10px;
-}
-
-@media (min-width: 768px) {
-  .name-tags-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
 }
 
 .name-tag {

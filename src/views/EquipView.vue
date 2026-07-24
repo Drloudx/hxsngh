@@ -403,7 +403,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch } from 'vue'
 import equipData from '@/assets/EquipDataTable.json'
 import bondData from '@/assets/BondDataTable.json'
 import { getCategoryByTag } from '@/utils/tagCategories'
@@ -449,7 +449,7 @@ const selectedAttribute = ref('all')
 const selectedClass = ref('all')
 const selectedType = ref('all')
 const selectedMap = ref('all')
-const mapExpanded = ref(true)
+const mapExpanded = ref(false)
 const selectedFilterTags = ref([])
 const effectExpanded = ref(false)
 const toggleEffectExpand = () => {
@@ -575,17 +575,7 @@ const rawEquips = computed(() => {
   return equipData.DataTable || equipData || []
 })
 
-
-const isDataReady = ref(false)
-onMounted(() => {
-  setTimeout(() => {
-    isDataReady.value = true
-  }, 10)
-})
-
 const processedEquips = computed(() => {
-  if (!isDataReady.value) return []
-
   return rawEquips.value.map(item => {
     const tags = new Set()
     for (const key of ['Pure', 'Title', 'Enhance']) {
@@ -737,7 +727,7 @@ const allDisplayTags = computed(() => {
     }
   })
 
-  const combinedList = Array.from(tags).filter(t => t !== '反击' && t !== '追击')
+  const combinedList = Array.from(tags)
 
   const getTagGroupRank = (t) => {
     if (selectedFilterTags.value.includes(t)) {
@@ -1035,7 +1025,7 @@ const rareDropsMap = {
   "极寒冰原": ["冰蛛披肩","冰蛛手套","冰蛛纹章","冰羽利刃","冰羽斗篷","冰羽神靴","","",""],
   "荒凉戈壁": ["光辉权杖","光辉头环","光辉羽织", "光辉圣徽", "光辉之心", "光辉宝戒", "舞姬面纱","舞姬手环","舞姬束带"],
   "无尽荒漠": ["许愿神灯","许愿项链","许愿戒指","许愿束带","许愿护臂","许愿头环","","",""],
-  "熔岩通道": ["熔铸护臂","熔铸腰带","熔岩戒指","烈火魔杖","淬火之手","炎魔护手","","",""]
+  "熔岩通道": ["熔岩重弩","熔岩重矢","熔岩戒指","烈火魔杖","烈火宝珠","烈火长袍","","",""]
 }
 
 const isRareEquip = (equip) => {
@@ -1557,12 +1547,6 @@ const toggleBondExpand = (idx) => {
   width: 100%;
 }
 
-@media (min-width: 768px) {
-  .equip-rough-grid {
-    grid-template-columns: repeat(7, 1fr);
-  }
-}
-
 .equip-rough-card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -1746,7 +1730,19 @@ const toggleBondExpand = (idx) => {
 }
 
 /* ===== 模态弹窗 (DungeonRelic风格) ===== */
-/* 弹窗遮罩由 common.css 接管 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(16px) saturate(120%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
 
 .equip-detail-window {
   background: var(--card-bg);

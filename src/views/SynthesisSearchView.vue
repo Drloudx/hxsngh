@@ -712,11 +712,11 @@
 </template>
 
 <script setup>
-import { ref, shallowRef, computed, watch, onMounted, reactive, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, reactive, nextTick } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
 import BackToTop from '@/components/BackToTop.vue'
+import { getVisibleCharacters, isCharacterBlocked, BLOCKED_CHARACTER_IDS } from '@/utils/characterFilter'
 import { getCategoryByTag, getPositiveCategoryByTag } from '@/utils/tagCategories'
-import { getVisibleCharacters, isCharacterBlocked } from '@/utils/characterFilter'
 
 // 静态数据库导入
 import rawRoles from '@/assets/RoleDataTable.json'
@@ -726,9 +726,8 @@ import rawUniqueSkills from '@/assets/UniqueDataTable.json'
 import rawEquips from '@/assets/EquipDataTable.json'
 import rawBonds from '@/assets/BondDataTable.json'
 
-const isDataReady = ref(false)
-
 // =================== 配置和常量 ===================
+
 const ATTRIBUTE_MAP = [
   { key: 'STR', label: '力量', icon: 'mid_ico_attribute_0004.png' },
   { key: 'INT', label: '精神', icon: 'mid_ico_attribute_0002.png' },
@@ -754,11 +753,11 @@ const tabs = [
 ]
 
 // =================== 基础数据响应式变量 ===================
-const allCharacters = shallowRef([])
-const allTalentsList = shallowRef([])
-const allSubSkillsList = shallowRef([])
-const allUniquesList = shallowRef([])
-const allEquipsList = shallowRef([])
+const allCharacters = ref([])
+const allTalentsList = ref([])
+const allSubSkillsList = ref([])
+const allUniquesList = ref([])
+const allEquipsList = ref([])
 const bondMap = new Map()
 
 // =================== 搜索和过滤响应式变量 ===================
@@ -771,6 +770,8 @@ const subSkillLimit = ref(Infinity)
 const uniqueLimit = ref(Infinity)
 const equipLimit = ref(20)
 const listContainer = ref(null)
+
+const isDataReady = ref(false)
 
 const checkScrollHeight = () => {
   nextTick(() => {
@@ -820,7 +821,6 @@ const checkScrollHeight = () => {
 
 const resetLimits = () => {
   if (activeTab.value === 'all') {
-    // all tab：天赋/支援/技能数量少，全部直接展示；装备数量大，保留懒加载
     talentLimit.value = Infinity
     subSkillLimit.value = Infinity
     uniqueLimit.value = Infinity
@@ -870,7 +870,7 @@ const expandedBonds = ref([false, false, false])
 
 // =================== 页面数据挂载与组装 ===================
 onMounted(() => {
-  // 延迟执行繁重的数据组装逻辑，避免阻塞页面路由切换的动画，实现即时响应
+  // 延迟执行繁重的数据组装逻辑，避免阻塞页面路由切换，实现秒进页面后加载
   setTimeout(() => {
     const rawRoleArr = configUtil.extractDataArray(rawRoles)
     const rawTalentArr = configUtil.extractDataArray(rawTalents)
@@ -879,38 +879,38 @@ onMounted(() => {
     const rawEquipArr = configUtil.extractDataArray(rawEquips)
     const rawBondArr = configUtil.extractDataArray(rawBonds)
 
-  // 1. 构建词条 Map
-  rawBondArr.forEach(b => {
-    if (b.Name) bondMap.set(b.Name, b)
-  })
+    // 1. 构建词条 Map
+    rawBondArr.forEach(b => {
+      if (b.Name) bondMap.set(b.Name, b)
+    })
 
-  // 2. 组装角色数据集
-  const fullDatasets = {
-    supportList: rawSupportArr,
-    skillList: rawUniqueArr,
-    talentList: rawTalentArr,
-    relicList: [],
-    noteList: []
-  }
-  // 过滤隐藏开发或测试阶段的角色（如假人等），防止其出现在来源绑定弹窗中
-  const fullCharacters = getVisibleCharacters(configUtil.getFullCharacterList(rawRoleArr, fullDatasets))
-  allCharacters.value = fullCharacters
+    // 2. 组装角色数据集
+    const fullDatasets = {
+      supportList: rawSupportArr,
+      skillList: rawUniqueArr,
+      talentList: rawTalentArr,
+      relicList: [],
+      noteList: []
+    }
+    // 过滤隐藏开发或测试阶段的角色（如假人等），防止其出现在来源绑定弹窗中
+    const fullCharacters = getVisibleCharacters(configUtil.getFullCharacterList(rawRoleArr, fullDatasets))
+    allCharacters.value = fullCharacters
 
-  // 3. 组装天赋列表 (以 qualities 汇总结构组合)
-  allTalentsList.value = loadTalents(rawTalentArr, fullCharacters)
+    // 3. 组装天赋列表 (以 qualities 汇总结构组合)
+    allTalentsList.value = loadTalents(rawTalentArr, fullCharacters)
 
-  // 4. 组装支援技能列表
-  allSubSkillsList.value = loadSubSkills(fullCharacters)
+    // 4. 组装支援技能列表
+    allSubSkillsList.value = loadSubSkills(fullCharacters)
 
-  // 5. 组装主动技能列表
-  allUniquesList.value = loadUniques(fullCharacters)
+    // 5. 组装主动技能列表
+    allUniquesList.value = loadUniques(fullCharacters)
 
-  // 6. 组装装备列表 (附带动态词条 Tag)
-  allEquipsList.value = loadEquips(rawEquipArr)
+    // 6. 组装装备列表 (附带动态词条 Tag)
+    allEquipsList.value = loadEquips(rawEquipArr)
 
-  // 初始化加载限制并检查视口填充
-  resetLimits()
-  isDataReady.value = true
+    // 初始化加载限制并检查视口填充
+    resetLimits()
+    isDataReady.value = true
   }, 20)
 })
 
@@ -997,7 +997,7 @@ const loadTalents = (rawTalentArr, fullCharacters) => {
     return base
   })
   // 隐藏特定的测试专属天赋，以及测试用的格式为“专属(角色名)”的专属天赋（同步原版天赋页面规则）
-  .filter(t => !isCharacterBlocked(t.SpecifyRoleIDs) && !t.sourceLabel.startsWith('专属('))
+  .filter(t => !BLOCKED_CHARACTER_IDS.includes(t.SpecifyRoleIDs) && !t.sourceLabel.startsWith('专属('))
 
   const sortedCleanList = sortTalentAllQuality(cleanTalentList)
   sortedCleanList.forEach(t => {
@@ -2074,13 +2074,6 @@ const handleIconError = (e) => {
   background: var(--bg);
 }
 
-.block-list-scroll {
-  flex: 1;
-  overflow-y: auto;
-  min-height: 0;
-  padding-bottom: 80px;
-}
-
 .talent-search-row {
   display: flex;
   align-items: center;
@@ -2743,7 +2736,64 @@ const handleIconError = (e) => {
   line-height: 1.4;
 }
 
-/* 1. 角色绑定来源小弹窗样式由 common.css 接管 */
+/* =================== 弹窗遮罩及样式复刻 =================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 1. 角色绑定来源小弹窗 */
+.modal-window {
+  width: 90%;
+  max-width: 420px;
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.modal-close-x {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--text-sub);
+}
+
+.modal-body {
+  padding: 20px;
+  max-height: 60vh;
+  overflow-y: auto;
+  text-align: left;
+}
 
 .match-chars-grid {
   display: flex;
@@ -3419,5 +3469,33 @@ img.game-sprite {
   flex-wrap: wrap;
   gap: 6px;
   margin-top: 6px;
+}
+
+/* ====== 加载状态样式 ====== */
+.global-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  width: 100%;
+  gap: 12px;
+  color: var(--text-sub, #64748b);
+  font-size: 14px;
+}
+
+.global-loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(64, 158, 255, 0.2);
+  border-top-color: #409eff;
+  border-radius: 50%;
+  animation: global-spin 0.8s linear infinite;
+}
+
+@keyframes global-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

@@ -423,16 +423,17 @@
 </template>
 
 <script setup>
-import { ref, shallowRef, computed, watch, onMounted, onUnmounted, reactive, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted, reactive, nextTick } from 'vue'
 import Sortable from 'sortablejs'
 import * as configUtil from '@/utils/configTableUtil.js'
 import { exportData, importData } from '@/utils/dataTransfer.js'
-import { getVisibleCharacters, isCharacterBlocked } from '@/utils/characterFilter.js'
 import rawRoles from '@/assets/RoleDataTable.json'
 import rawTalents from '@/assets/TalentDataTable.json'
 
-const allCharacters = shallowRef([])
-const allTalents = shallowRef([])
+import { getVisibleCharacters, isCharacterBlocked } from '@/utils/characterFilter'
+
+const allCharacters = ref([])
+const allTalents = ref([])
 
 const mainSearchQuery = ref('')
 const charSearchQuery = ref('')
@@ -1020,27 +1021,24 @@ onMounted(() => {
   if (typeof window !== 'undefined' && !window.buildNotes) {
     window.buildNotes = () => ""
   }
-  
-  // 延迟加载以防移动端卡顿
-  setTimeout(() => {
-    // 预处理原始数据，修复变量提升报错
-    const rawRoleArr = configUtil.extractDataArray(rawRoles)
-    const rawTalentArr = configUtil.extractDataArray(rawTalents)
-    const fullDatasets = {
-      supportList: [],
-      skillList: [],
-      talentList: rawTalentArr,
-      relicList: [],
-      noteList: []
-    }
-    allCharacters.value = getVisibleCharacters(configUtil.getFullCharacterList(rawRoleArr, fullDatasets))
-    // 天赋预处理
-    const cleanTalentList = rawTalentArr.map((t, idx) => {
-      const base = {
-        uid: t.IDs || t.Id || t.TalentID || `t_${idx}`,
-        name: t.Name || t.TalentName || t.天赋名称 || '未命名天赋',
-        step: t.Step || t.TalentStep || t.品质 || t.品阶 || '',
-        Race: t.Race || '',
+  // 预处理原始数据，修复变量提升报错
+  const rawRoleArr = configUtil.extractDataArray(rawRoles)
+  const rawTalentArr = configUtil.extractDataArray(rawTalents)
+  const fullDatasets = {
+    supportList: [],
+    skillList: [],
+    talentList: rawTalentArr,
+    relicList: [],
+    noteList: []
+  }
+  allCharacters.value = getVisibleCharacters(configUtil.getFullCharacterList(rawRoleArr, fullDatasets))
+  // 天赋预处理
+  const cleanTalentList = rawTalentArr.map((t, idx) => {
+    const base = {
+      uid: t.IDs || t.Id || t.TalentID || `t_${idx}`,
+      name: t.Name || t.TalentName || t.天赋名称 || '未命名天赋',
+      step: t.Step || t.TalentStep || t.品质 || t.品阶 || '',
+      Race: t.Race || '',
       Class: t.Class || '',
       Element: t.Element || '',
       SpecifyRoleIDs: t.SpecifyRoleIDs || '',
@@ -1082,7 +1080,6 @@ onMounted(() => {
       }
     })
   })
-  }, 10)
 })
 onUnmounted(() => {
   if (observer) observer.disconnect()
@@ -1617,7 +1614,33 @@ defineExpose({ exportTalentManagerData, triggerTalentDataImport })
   font-size:14px;
 }
 
-/* 弹窗样式已由 common.css 接管 */
+/* 弹窗通用 */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(15, 23, 42, 0.25);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2000;
+}
+.modal-window {
+  background: var(--card-bg);
+  width: 92%; max-width: 520px; max-height: 76vh;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  display: flex; flex-direction: column; overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+.info-modal { max-width: 400px; }
+.modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-header h3 { margin: 0; font-size: 15px; font-weight: 600; color: var(--text-main); display: flex; align-items: center; }
+.modal-close-x { background: transparent; border: none; font-size: 16px; color: #94a3b8; cursor: pointer; }
+.modal-body { padding: 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
 
 .char-suggest-bar { font-size: 12px; background: rgba(59, 130, 246, 0.04); padding: 10px; border-radius: 10px; }
 .suggest-header { display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
