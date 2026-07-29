@@ -215,6 +215,17 @@ const guidesList = [
     ]
   },
   {
+    author: '樱',
+    title: '樱',
+    list: [
+      {
+        title: '[攻略]新手也能轻松做到的单辅15大',
+        url: 'https://www.taptap.cn/moment/805570457490162232',
+        img: '/misc/ying1.webp'
+      }
+    ]
+  },
+  {
     author: '纯爱战士虎鲸',
     title: '纯爱战士虎鲸',
     list: [
