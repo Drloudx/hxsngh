@@ -299,24 +299,6 @@
       "SpecifyRoleIDs": "M11304"
     },
     {
-      "IDs": "XD04002_031",
-      "Name": "恶魔之书",
-      "NameI2": "Relics/Relics_Name_XD04002_031",
-      "Step": "S",
-      "Weight": 0,
-      "Element": "不限",
-      "Type": "专属",
-      "Class": "火系",
-      "Race": "",
-      "SubRace": "",
-      "MaxLevel": 3,
-      "Effect": "造成灼烧层数+1。",
-      "EffectI2": "Relics/Relics_Des_55",
-      "Description": "",
-      "DescriptionI2": "",
-      "SpecifyRoleIDs": "M11303_002"
-    },
-    {
       "IDs": "XD04001_054",
       "Name": "邪恶语录",
       "NameI2": "Relics/Relics_Name_XD04001_054",
@@ -551,6 +533,24 @@
       "SpecifyRoleIDs": "M13201_000"
     },
     {
+      "IDs": "XD13001_074",
+      "Name": "炼金百科",
+      "NameI2": "Relics/Relics_Name_XD13001_074",
+      "Step": "A",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "法师",
+      "Race": "",
+      "SubRace": "",
+      "MaxLevel": 3,
+      "Effect": "造成脆弱层数+1。",
+      "EffectI2": "Relics/Relics_Des_50",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M13210"
+    },
+    {
       "IDs": "XD14001_013",
       "Name": "魔术大全",
       "NameI2": "Relics/Relics_Name_XD14001_013",
@@ -639,6 +639,24 @@
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M12211_000"
+    },
+    {
+      "IDs": "XD14001_056",
+      "Name": "熔岩法典",
+      "NameI2": "Relics/Relics_Name_XD14001_056",
+      "Step": "S",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "法师",
+      "Race": "",
+      "SubRace": "",
+      "MaxLevel": 3,
+      "Effect": "造成灼烧层数+1。",
+      "EffectI2": "Relics/Relics_Des_55",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M23301_001"
     },
     {
       "IDs": "XD11001_002",
@@ -873,6 +891,24 @@
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M22201_002"
+    },
+    {
+      "IDs": "XD04001_051",
+      "Name": "隐蔽教学",
+      "NameI2": "Relics/Relics_Name_XD04001_051",
+      "Step": "A",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "射手",
+      "Race": "",
+      "SubRace": "",
+      "MaxLevel": 3,
+      "Effect": "获得精准层数+1。",
+      "EffectI2": "Relics/Relics_Des_38",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M12208"
     },
     {
       "IDs": "XD14001_002",
@@ -1217,6 +1253,24 @@
       "SpecifyRoleIDs": "M14301_001"
     },
     {
+      "IDs": "XD14001_059",
+      "Name": "针毯保养",
+      "NameI2": "Relics/Relics_Name_XD14001_059",
+      "Step": "S",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "牧师",
+      "Race": "",
+      "SubRace": "",
+      "MaxLevel": 3,
+      "Effect": "获得反伤层数+1。",
+      "EffectI2": "Relics/Relics_Des_34",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M14215"
+    },
+    {
       "IDs": "XD13001_043",
       "Name": "血脉秘书",
       "NameI2": "Relics/Relics_Name_XD13001_043",
@@ -1325,6 +1379,24 @@
       "SpecifyRoleIDs": "M12304"
     },
     {
+      "IDs": "XD13001_073",
+      "Name": "好运仪式",
+      "NameI2": "Relics/Relics_Name_XD13001_073",
+      "Step": "A",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "生灵",
+      "SubRace": "",
+      "MaxLevel": 3,
+      "Effect": "幸运+1。",
+      "EffectI2": "Relics/Relics_Des_09",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M14211"
+    },
+    {
       "IDs": "XD14001_018",
       "Name": "魔晶制造",
       "NameI2": "Relics/Relics_Name_XD14001_018",
@@ -1413,6 +1485,24 @@
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M13310"
+    },
+    {
+      "IDs": "XD14001_058",
+      "Name": "特制配方",
+      "NameI2": "Relics/Relics_Name_XD14001_058",
+      "Step": "S",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "生灵",
+      "SubRace": "",
+      "MaxLevel": 3,
+      "Effect": "造成感电层数+1。",
+      "EffectI2": "Relics/Relics_Des_61",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M12303"
     },
     {
       "IDs": "XD13001_023",
@@ -1539,24 +1629,6 @@
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M23301"
-    },
-    {
-      "IDs": "XD14001_056",
-      "Name": "熔岩法典",
-      "NameI2": "Relics/Relics_Name_XD14001_056",
-      "Step": "S",
-      "Weight": 0,
-      "Element": "不限",
-      "Type": "专属",
-      "Class": "",
-      "Race": "法师",
-      "SubRace": "",
-      "MaxLevel": 3,
-      "Effect": "造成灼烧层数+1。",
-      "EffectI2": "Relics/Relics_Des_55",
-      "Description": "",
-      "DescriptionI2": "",
-      "SpecifyRoleIDs": "M23301_001"
     },
     {
       "IDs": "XD13001_014",
@@ -2223,6 +2295,42 @@
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M21302"
+    },
+    {
+      "IDs": "XD14001_062",
+      "Name": "炼金笔记",
+      "NameI2": "Relics/Relics_Name_XD14001_062",
+      "Step": "S",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "",
+      "SubRace": "地系",
+      "MaxLevel": 3,
+      "Effect": "造成阻碍层数+1。",
+      "EffectI2": "Relics/Relics_Des_56",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M12303_000"
+    },
+    {
+      "IDs": "XD14001_060",
+      "Name": "花园护理",
+      "NameI2": "Relics/Relics_Name_XD14001_060",
+      "Step": "S",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "",
+      "SubRace": "地系",
+      "MaxLevel": 3,
+      "Effect": "获得成长层数+1。",
+      "EffectI2": "Relics/Relics_Des_33",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M13307"
     },
     {
       "IDs": "XD11001_001",
@@ -3107,6 +3215,24 @@
       "SpecifyRoleIDs": "M13303_002"
     },
     {
+      "IDs": "XD04002_031",
+      "Name": "恶魔之书",
+      "NameI2": "Relics/Relics_Name_XD04002_031",
+      "Step": "S",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "",
+      "SubRace": "火系",
+      "MaxLevel": 3,
+      "Effect": "造成灼烧层数+1。",
+      "EffectI2": "Relics/Relics_Des_55",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M11303_002"
+    },
+    {
       "IDs": "XD11001_005",
       "Name": "恋爱话本",
       "NameI2": "Relics/Relics_Name_XD11001_005",
@@ -3267,6 +3393,24 @@
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M21202_000"
+    },
+    {
+      "IDs": "XD04001_052",
+      "Name": "空灵之书",
+      "NameI2": "Relics/Relics_Name_XD04001_052",
+      "Step": "A",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "",
+      "SubRace": "光系",
+      "MaxLevel": 3,
+      "Effect": "造成净化层数+1。",
+      "EffectI2": "Relics/Relics_Des_51",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M14210"
     },
     {
       "IDs": "XD14001_028",
@@ -3627,6 +3771,24 @@
       "Description": "",
       "DescriptionI2": "",
       "SpecifyRoleIDs": "M13306_000"
+    },
+    {
+      "IDs": "XD14001_061",
+      "Name": "鲜血之书",
+      "NameI2": "Relics/Relics_Name_XD14001_061",
+      "Step": "S",
+      "Weight": 0,
+      "Element": "不限",
+      "Type": "专属",
+      "Class": "",
+      "Race": "",
+      "SubRace": "暗系",
+      "MaxLevel": 3,
+      "Effect": "造成剥离层数+1。",
+      "EffectI2": "Relics/Relics_Des_48",
+      "Description": "",
+      "DescriptionI2": "",
+      "SpecifyRoleIDs": "M13307_000"
     }
   ]
 }

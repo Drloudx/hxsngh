@@ -1,6 +1,14 @@
 {
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 8730334031585118251
+  },
   "m_Name": "DungeonRelicDataTable",
-  "m_Name1": "星界秘境遗物数据",
   "DataTable": [
     {
       "IDs": "YW00001_112",

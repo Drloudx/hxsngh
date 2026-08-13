@@ -1,6 +1,14 @@
 {
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 4440127036121814650
+  },
   "m_Name": "LimeDataTable",
-  "m_Name1": "莱姆数据",
   "DataTable": [
     {
       "IDs": "LM01001",

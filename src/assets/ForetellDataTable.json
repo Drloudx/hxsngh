@@ -1,6 +1,14 @@
 {
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 5014886761891966621
+  },
   "m_Name": "ForetellDataTable",
-  "m_Name": "预言数据",
   "DataTable": [
     {
       "IDs": "YY00001_002",

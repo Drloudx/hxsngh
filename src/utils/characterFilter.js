@@ -10,7 +10,7 @@ export const HIDE_UNRELEASED_CHARACTERS = ref(true)
 // 适用于官方包中已存在，但实际未放出的角色
 // ==============================================
 export const BLOCKED_CHARACTER_IDS = [
-  // 'M23301_001', // [熔岩]史莱姆王
+  'M12303_000', // [炼金]巨魔术士
   // 'M11303_002', // [熔岩]雪人骑士
 ]
 
