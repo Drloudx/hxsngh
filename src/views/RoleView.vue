@@ -760,7 +760,7 @@ const toggleFilterTag = (tag) => {
   } else {
     selectedFilterTags.value.push(tag)
   }
-  displayLimit.value = 24
+  displayLimit.value = 40
 }
 
 // Build a map of base ID to the highest step priority among all versions of that base ID.
@@ -809,52 +809,49 @@ const sortedCharacters = computed(() => {
 })
 
 // Lazy loading grid pagination
-const displayLimit = ref(24) // Initial 24 characters loaded (6 rows of 4)
+const displayLimit = ref(40) // Initial 24 characters loaded (6 rows of 4)
 const pagedCharacters = computed(() => {
   return sortedCharacters.value.slice(0, displayLimit.value)
 })
 
 watch(searchQuery, () => {
-  displayLimit.value = 24
+  displayLimit.value = 40
 })
 
 watch(selectedStep, () => {
-  displayLimit.value = 24
+  displayLimit.value = 40
 })
 
 watch(selectedClass, () => {
-  displayLimit.value = 24
+  displayLimit.value = 40
 })
 
 watch(selectedType, () => {
-  displayLimit.value = 24
+  displayLimit.value = 40
 })
 
 watch(selectedElement, () => {
-  displayLimit.value = 24
+  displayLimit.value = 40
 })
 
 watch(selectedFilterTags, () => {
-  displayLimit.value = 24
+  displayLimit.value = 40
 })
 
 const handleGridScroll = (e) => {
   const el = e.target
   if (el.scrollHeight - el.scrollTop - el.clientHeight < 100) {
     if (displayLimit.value < sortedCharacters.value.length) {
-      displayLimit.value += 24
+      displayLimit.value += 40
     }
   }
 }
 
-// Reset page limit when filters/search changes
-watch(searchQuery, () => {
-  displayLimit.value = 24
-})
+
 
 // Toggling filter state
 const toggleFilter = (type, value) => {
-  displayLimit.value = 24 // Reset lazy loading limit
+  displayLimit.value = 40 // Reset lazy loading limit
   if (type === 'step') {
     selectedStep.value = selectedStep.value === value ? 'all' : value
   } else if (type === 'class') {
@@ -1395,7 +1392,7 @@ const handleRelicIconError = (e) => {
 /* ===== Grid Container (4 columns) ===== */
 .role-grid-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   grid-auto-rows: min-content;
   align-content: start;
   gap: 12px 8px;

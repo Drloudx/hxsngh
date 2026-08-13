@@ -449,7 +449,7 @@ const selectedAttribute = ref('all')
 const selectedClass = ref('all')
 const selectedType = ref('all')
 const selectedMap = ref('all')
-const mapExpanded = ref(false)
+const mapExpanded = ref(true)
 const selectedFilterTags = ref([])
 const effectExpanded = ref(false)
 const toggleEffectExpand = () => {
@@ -557,7 +557,8 @@ const mapOptions = [
   { label: '极寒冰原', value: '极寒冰原' },
   { label: '荒凉戈壁', value: '荒凉戈壁' },
   { label: '无尽荒漠', value: '无尽荒漠' },
-  { label: '熔岩通道', value: '熔岩通道' }
+  { label: '熔岩通道', value: '熔岩通道' },
+  { label: '枯木丛林', value: '枯木丛林' }
 ]
 
 const getStepConfig = (step) => {
@@ -845,7 +846,9 @@ const getMapWeight = (map) => {
     '极寒冰原': 11,
     '荒凉戈壁': 12,
     '无尽荒漠': 13,
-    '熔岩通道': 14
+    '熔岩通道': 14,
+    '枯木丛林': 15,
+
   }
   return weights[map] || 99
 }
@@ -1540,7 +1543,7 @@ const toggleBondExpand = (idx) => {
 /* ===== 粗略展示 (5列网格) ===== */
 .equip-rough-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   grid-auto-rows: min-content;
   align-content: start;
   gap: 14px 10px;

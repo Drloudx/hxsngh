@@ -524,7 +524,7 @@ const closeDetailModal = () => {
 /* ===== 莱姆卡片区域 (4列网格) ===== */
 .lime-grid-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   grid-auto-rows: min-content;
   align-content: start;
   gap: 14px 10px;
