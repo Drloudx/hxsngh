@@ -295,6 +295,14 @@ const closeDetailModal = () => {
   padding-bottom: 15px;
 }
 
+
+
+@media (min-width: 768px) {
+  .relics-grid-container {
+    /* 电脑端：改为 6 列 */
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
 .relics-grid-card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);

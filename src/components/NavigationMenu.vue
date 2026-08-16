@@ -5,11 +5,15 @@ import { useRouter, useRoute } from 'vue-router'
 const props = defineProps({
   isOpen: {
     type: Boolean,
-    required: true
+    default: false
   },
   menuMode: {
     type: String, // 'top' | 'bottom' | 'side'
     required: true
+  },
+  isDesktop: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -36,7 +40,7 @@ const categories = [
     items: [
       { id: 'role', name: '角色图鉴', path: '/role', icon: '/General/7.png' },
       { id: 'lime', name: '莱姆图鉴', path: '/lime', icon: '/General/8.png' },
-      { id: 'prefix', name: '怪物前缀', path: '/prefix', icon: '/General/9.png' },
+      { id: 'prefix', name: '怪物加护', path: '/prefix', icon: '/General/9.png' },
       { id: 'areablock', name: '地块图鉴', path: '/areablock', icon: '/General/10.png' },
       { id: 'foretell', name: '预言图鉴', path: '/foretell', icon: '/General/11.png' },
       { id: 'dungeon-relics', name: '星界秘境遗物图鉴', path: '/dungeon-relics', icon: '/General/12.png' }
@@ -50,6 +54,9 @@ const categories = [
     ]
   }
 ]
+
+// 桌面端使用扁平列表，复刻参考项目的简洁侧边栏
+const desktopNavList = categories.flatMap(cat => cat.items)
 
 const currentPath = computed(() => route.path)
 
@@ -68,15 +75,13 @@ const handleClose = () => {
 </script>
 
 <template>
-  <div>
+  <div class="navigation-wrapper">
     <!-- 1. 侧边栏模式 -->
     <template v-if="menuMode === 'side'">
-      <Transition name="fade">
-        <div v-if="isOpen" class="nav-mask" @click="handleClose"></div>
-      </Transition>
-      <Transition name="slide-side">
-        <div v-if="isOpen" class="side-panel">
-          <div class="side-header">
+      <div v-if="isOpen && !isDesktop" class="nav-mask" @click="handleClose"></div>
+      <Transition :name="isDesktop ? '' : 'slide-side'">
+        <div v-if="isOpen || isDesktop" class="side-panel" :class="{ 'desktop-panel': isDesktop }">
+          <div v-if="!isDesktop" class="side-header">
             <div class="side-header-title">
               <h2>功能导航</h2>
               <span class="side-header-sub">请选择要切换的工具</span>
@@ -84,22 +89,40 @@ const handleClose = () => {
             <button class="close-btn" @click="handleClose">✕</button>
           </div>
           <div class="side-body">
-            <div v-for="cat in categories" :key="cat.name" class="side-section">
-              <div class="side-category-title">{{ cat.name }}</div>
-              <div class="side-items-list">
-                <div
-                  v-for="item in cat.items"
-                  :key="item.id"
-                  class="side-item"
-                  :class="{ active: isItemActive(item) }"
-                  @click="handleNavigate(item.path)"
-                >
-                  <img :src="item.icon" class="icon-img" />
-                  <span class="item-name">{{ item.name }}</span>
-                  <span class="arrow">›</span>
+            <!-- 桌面端：扁平列表，复刻参考项目 -->
+            <template v-if="isDesktop">
+              <div class="side-category-title">核心功能</div>
+              <div
+                v-for="item in desktopNavList"
+                :key="item.path"
+                class="side-item"
+                :class="{ active: isItemActive(item) }"
+                @click="handleNavigate(item.path)"
+              >
+                <img :src="item.icon" class="icon-img" />
+                <span class="item-name">{{ item.name }}</span>
+                <span class="arrow">›</span>
+              </div>
+            </template>
+            <!-- 移动端：保留原有分类 -->
+            <template v-else>
+              <div v-for="cat in categories" :key="cat.name" class="side-section">
+                <div class="side-category-title">{{ cat.name }}</div>
+                <div class="side-items-list">
+                  <div
+                    v-for="item in cat.items"
+                    :key="item.id"
+                    class="side-item"
+                    :class="{ active: isItemActive(item) }"
+                    @click="handleNavigate(item.path)"
+                  >
+                    <img :src="item.icon" class="icon-img" />
+                    <span class="item-name">{{ item.name }}</span>
+                    <span class="arrow">›</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </template>
           </div>
         </div>
       </Transition>
@@ -229,6 +252,49 @@ const handleClose = () => {
   display: flex;
   flex-direction: column;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.08);
+}
+
+/* 桌面端侧边栏：复刻参考项目，透明、无边框、紧贴内容区 */
+.side-panel.desktop-panel {
+  position: relative;
+  width: 200px;
+  height: auto;
+  max-width: none;
+  border-left: none;
+  background: transparent;
+  z-index: 1;
+  box-shadow: none;
+}
+
+.side-panel.desktop-panel .side-item {
+  padding: 10px 12px 10px 16px;
+}
+
+.side-panel.desktop-panel .side-item .icon-img {
+  width: 36px;
+  height: 36px;
+  margin-right: 10px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.side-panel.desktop-panel .side-item .item-name {
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.side-panel.desktop-panel .side-category-title {
+  padding: 12px 16px 4px;
+  font-size: 13px;
+}
+
+.side-panel.desktop-panel .side-item.active {
+  background-color: rgba(59, 130, 246, 0.06);
+}
+
+.dark-mode .side-panel.desktop-panel .side-item.active {
+  background-color: rgba(59, 130, 246, 0.15);
 }
 
 .side-header {
@@ -453,12 +519,6 @@ const handleClose = () => {
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
-}
-
-img.game-sprite {
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
 }
 
 @media (max-width: 480px) {

@@ -1392,7 +1392,7 @@ const handleRelicIconError = (e) => {
 /* ===== Grid Container (4 columns) ===== */
 .role-grid-container {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-auto-rows: min-content;
   align-content: start;
   gap: 12px 8px;
@@ -1400,6 +1400,12 @@ const handleRelicIconError = (e) => {
   flex: 1;
   overflow-y: auto;
   padding: 10px 2px 20px 2px;
+}
+
+@media (min-width: 768px) {
+  .role-grid-container {
+    grid-template-columns: repeat(6, 1fr);
+  }
 }
 
 .role-grid-card {

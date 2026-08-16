@@ -24,7 +24,7 @@ const routes = [
   { path: '/subskill', name: 'subskill', component: SubSkillView, meta: { title: '支援筛选工具', shortName: '支援' } },
   { path: '/unique', name: 'unique', component: UniqueView, meta: { title: '技能筛选工具', shortName: '技能' } },
   { path: '/lime', name: 'lime', component: LimeView, meta: { title: '莱姆图鉴', shortName: '莱姆' } },
-  { path: '/prefix', name: 'prefix', component: PrefixView, meta: { title: '怪物前缀', shortName: '前缀' } },
+  { path: '/prefix', name: 'prefix', component: PrefixView, meta: { title: '怪物加护', shortName: '加护' } },
   { path: '/foretell', name: 'foretell', component: ForetellView, meta: { title: '预言图鉴', shortName: '预言' } },
   { path: '/dungeon-relics', name: 'dungeon-relics', component: DungeonRelicsView, meta: { title: '星界秘境遗物图鉴', shortName: '遗物' } },
   { path: '/equip', name: 'equip', component: EquipView, meta: { title: '装备筛选工具', shortName: '装备' } },

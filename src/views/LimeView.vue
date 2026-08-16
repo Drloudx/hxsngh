@@ -524,7 +524,7 @@ const closeDetailModal = () => {
 /* ===== 莱姆卡片区域 (4列网格) ===== */
 .lime-grid-container {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-auto-rows: min-content;
   align-content: start;
   gap: 14px 10px;
@@ -533,6 +533,13 @@ const closeDetailModal = () => {
   overflow-y: auto;
   padding-top: 4px;
   padding-bottom: 15px;
+}
+
+@media (min-width: 768px) {
+  .lime-grid-container {
+    /* 电脑端：改为 6 列 */
+    grid-template-columns: repeat(6, 1fr);
+  }
 }
 
 .lime-grid-card {
