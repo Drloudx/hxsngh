@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<title>engine test</title>
+<script src="_framework/blazor.webassembly.js" autostart="false"></script>
+</head>
+<body>
+<div id="status">loading</div>
+<script>
+async function waitReady() {
+  const deadline = Date.now() + 120000;
+  let dotnetSeen = false;
+  while (typeof DotNet === "undefined") {
+    if (Date.now() > deadline) throw new Error("DotNet timeout");
+    await new Promise(r => setTimeout(r, 50));
+  }
+  dotnetSeen = true;
+  document.title = "DOTNET_OK";
+  document.getElementById("status").textContent = "DotNet defined";
+  let lastError = "";
+  while (true) {
+    try {
+      const v = await DotNet.invokeMethodAsync("wasm_app", "IsReady");
+      if (v) return true;
+      lastError = "IsReady returned false";
+    } catch (e) {
+      lastError = "IsReady error: " + e.message;
+    }
+    document.title = "ISREADY_TRY title=" + lastError;
+    document.getElementById("status").textContent = lastError;
+    if (Date.now() > deadline) throw new Error("IsReady timeout: " + lastError);
+    await new Promise(r => setTimeout(r, 50));
+  }
+}
+(async () => {
+  try {
+    if (window.Blazor && typeof window.Blazor.start === "function") {
+      await window.Blazor.start();
+    }
+    const ok = await waitReady();
+    document.getElementById("status").textContent = ok ? "READY" : "NOT_READY";
+    document.title = ok ? "ENGINE_READY" : "ENGINE_NOT_READY";
+    try {
+      const roles = JSON.parse(await DotNet.invokeMethodAsync("wasm_app", "Api", "api/roles", ""));
+      document.title = "ENGINE_READY roles=" + (Array.isArray(roles) ? roles.length : "?");
+    } catch (e) {
+      document.title = "ENGINE_READY_API_ERROR:" + e.message;
+    }
+  } catch (e) {
+    document.title = "ENGINE_ERROR:" + e.message;
+    document.getElementById("status").textContent = "ERROR: " + e.message;
+  }
+})();
+</script>
+
+
+</body></html>

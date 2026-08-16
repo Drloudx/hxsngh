@@ -308,7 +308,7 @@ const modes = [
   { id: 'talent-manage', name: '天赋管理', shortName: '库存', path: '/talent-manage' },
   { id: 'role', name: '角色图鉴', shortName: '角色', path: '/role' },
   { id: 'lime', name: '莱姆图鉴', shortName: '莱姆', path: '/lime' },
-  { id: 'prefix', name: '怪物前缀', shortName: '前缀', path: '/prefix' },
+  { id: 'prefix', name: '怪物加护', shortName: '加护', path: '/prefix' },
   { id: 'areablock', name: '地块图鉴', shortName: '地块', path: '/areablock' },
   { id: 'foretell', name: '预言图鉴', shortName: '预言', path: '/foretell' },
   { id: 'dungeon-relics', name: '星界秘境遗物图鉴', shortName: '遗物', path: '/dungeon-relics' },
@@ -389,7 +389,7 @@ const updateBaiduPage = () => {
     'recruit': '指定招募',
     'talent': '天赋筛选',
     'lime': '莱姆图鉴',
-    'prefix': '怪物前缀',
+    'prefix': '怪物加护',
     'foretell': '预言图鉴',
     'dungeon-relics': '星界秘境遗物图鉴',
     'equip': '装备筛选',
@@ -508,6 +508,7 @@ const borderNoticeRead = () => {
 <template>
   <div class="layout-wrapper">
     <div class="app-header">
+      <div class="header-content">
       <div class="brand-status-section">
         <img src="/logo1.png" alt="Logo" class="header-logo" />
         <div class="title-dropdown-trigger" @click.stop="toggleModeDropdown">
@@ -550,7 +551,7 @@ const borderNoticeRead = () => {
               <img :src="isDarkMode ? '/ui/theme-light.svg' : '/ui/theme-dark.svg'" class="item-icon" />
               <span>{{ isDarkMode ? '浅色模式' : '深色模式' }}</span>
             </div>
-            <div class="dropdown-item" @click="showMenuModeModal = true; isSettingsOpen = false">
+            <div class="dropdown-item mobile-only" @click="showMenuModeModal = true; isSettingsOpen = false">
               <img src="/ui/menu.svg" class="item-icon" />
               <span>切换菜单模式</span>
             </div>
@@ -593,12 +594,23 @@ const borderNoticeRead = () => {
 
         <input type="file" ref="universalFileInput" @change="handleUniversalImport" accept=".json" style="display:none" />
       </div>
+      </div>
     </div>
 
-    <div class="app-content">
-      <router-view v-slot="{ Component }">
-        <component :is="Component" ref="viewRef" :showGifs="showGifs" :engineStatus="engineStatus" />
-      </router-view>
+    <div class="main-layout-row">
+      <!-- 电脑端侧边栏：复刻参考项目，紧贴中间内容区左侧 -->
+      <div class="desktop-sidebar-container desktop-only">
+        <NavigationMenu :is-desktop="true" menu-mode="side" />
+      </div>
+
+      <main class="app-content">
+        <router-view v-slot="{ Component }">
+          <component :is="Component" ref="viewRef" :showGifs="showGifs" :engineStatus="engineStatus" />
+        </router-view>
+      </main>
+
+      <!-- 右侧空白占位，保证 app-content 完美居中 -->
+      <div class="desktop-right-spacer desktop-only"></div>
     </div>
 
     <div v-if="showFeedbackModal" class="custom-modal-overlay" @click.self="showFeedbackModal = false">
@@ -623,8 +635,8 @@ const borderNoticeRead = () => {
 
     <NoticeModal :show="showNoticeModal" @close="showNoticeModal = false; borderNoticeRead()" />
 
-    <!-- 导航菜单样式选择弹窗 -->
-    <div v-if="showMenuModeModal" class="custom-modal-overlay" @click.self="showMenuModeModal = false">
+    <!-- 导航菜单样式选择弹窗（移动端显示） -->
+    <div v-if="showMenuModeModal" class="custom-modal-overlay mobile-only" @click.self="showMenuModeModal = false">
       <div class="custom-modal-card">
         <div class="modal-header">
           <h3>切换菜单模式</h3>
@@ -750,15 +762,15 @@ const borderNoticeRead = () => {
 
     <BackToTop />
 
-    <!-- 右下角悬浮切换菜单按钮 -->
-    <div class="nav-fab-btn" @click.stop="isMenuOpen = !isMenuOpen" title="功能导航">
+    <!-- 右下角悬浮切换菜单按钮（移动端显示） -->
+    <div class="nav-fab-btn mobile-only" @click.stop="isMenuOpen = !isMenuOpen" title="功能导航">
       <span></span>
       <span></span>
       <span></span>
     </div>
 
-    <!-- 全局多样式菜单切换组件 -->
-    <NavigationMenu :isOpen="isMenuOpen" :menuMode="menuMode" @close="isMenuOpen = false" />
+    <!-- 全局多样式菜单切换组件（移动端显示） -->
+    <NavigationMenu class="mobile-only" :isOpen="isMenuOpen" :menuMode="menuMode" @close="isMenuOpen = false" />
   </div>
 </template>
 
@@ -815,6 +827,30 @@ const borderNoticeRead = () => {
   --icon-filter: brightness(0) saturate(100%) invert(91%) sepia(5%) saturate(542%) hue-rotate(181deg) brightness(96%) contrast(87%);
 }
 
+/* 夜间模式滚动条适配 */
+.dark-mode {
+  scrollbar-color: #334155 transparent;
+  scrollbar-width: thin;
+}
+
+.dark-mode ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark-mode ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dark-mode ::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -850,7 +886,7 @@ body {
 /* ===== 顶层 flex 容器 ===== */
 .layout-wrapper {
   width: 100% !important;
-  max-width: 800px;
+  max-width: none !important;
   margin: 0 auto;
   flex: 1;
   display: flex;
@@ -860,23 +896,34 @@ body {
   overflow-x: hidden;
 }
 
-/* ===== 顶栏：利用 space-between 完美将左右两端推开 ===== */
+/* ===== 顶栏：全宽背景，内部内容保持 800px 居中 ===== */
 .app-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 15px;
   flex-shrink: 0;
   background: var(--bg);
+  border-bottom: 1px solid var(--border-color);
   position: relative;
   z-index: 100;
   width: 100%;
   box-sizing: border-box;
 }
 
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
 /* ===== 内容区 ===== */
 .app-content {
-  flex: 1;
+  flex: 0 1 800px;
+  width: 100%;
+  min-width: 0;
+  max-width: 800px;
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -885,6 +932,55 @@ body {
   position: relative;
   z-index: 0;
   overflow-x: hidden;
+}
+
+/* ===== 桌面端三列布局：左占位+侧边栏 / 内容 / 右占位 ===== */
+.main-layout-row {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.desktop-sidebar-container {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: flex-end; /* 让侧边栏紧贴中间内容左侧 */
+  overflow-y: auto;
+}
+
+.desktop-sidebar-container > .navigation-wrapper {
+  height: auto;
+}
+
+.desktop-right-spacer {
+  flex: 1;
+}
+
+/* 桌面端/移动端显示控制（复刻参考项目） */
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+/* 桌面端标题不再作为下拉菜单，隐藏箭头并禁用点击 */
+@media (min-width: 769px) {
+  .title-dropdown-trigger {
+    pointer-events: none;
+    cursor: default;
+  }
+  .title-dropdown-arrow {
+    display: none;
+  }
 }
 
 /* ===== 左侧：移除 flex: 1，添加绝对防挤压 ===== */
@@ -1182,7 +1278,7 @@ html:not([data-app-shell="true"]) .app-only { display: none !important; }
 @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 @media (max-width: 480px) {
-  .app-header { padding: 4px 15px 8px 15px; }
+  .header-content { padding: 4px 15px 8px 15px; }
   .header-logo { width: 32px; height: 32px; }
   .main-title { font-size: clamp(16px, 1vw, 18px); }
   .btn-icon img { width: 20px; height: 20px; }
@@ -1194,7 +1290,8 @@ html:not([data-app-shell="true"]) .app-only { display: none !important; }
 /* ===== 右下角悬浮切换菜单按钮 ===== */
 .nav-fab-btn {
   position: fixed;
-  left: calc(50% + 420px);
+  right: 16px;
+  left: auto;
   bottom: 96px; /* 偏上一些，不要和回到顶部按键叠在一起 */
   width: 54px;
   height: 54px;

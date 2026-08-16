@@ -459,7 +459,7 @@ const showRareMark = ref(localStorage.getItem('showRareMark') !== 'false')
 const viewMode = ref('rough')
 
 // 分页懒加载
-const displayLimit = ref(viewMode.value === 'rough' ? 40 : 15)
+const displayLimit = ref(viewMode.value === 'rough' ? 60 : 20)
 
 // 详情弹窗状态
 const detailModal = ref({ visible: false, data: {} })
@@ -822,7 +822,7 @@ const toggleFilterTag = (tag) => {
   } else {
     selectedFilterTags.value.push(tag)
   }
-  displayLimit.value = viewMode.value === 'rough' ? 40 : 15
+  displayLimit.value = viewMode.value === 'rough' ? 60 : 20
 }
 
 // 二次过滤后的最终装备列表
@@ -914,7 +914,7 @@ const handleScroll = (e) => {
   const el = e.target
   if (el.scrollHeight - el.scrollTop - el.clientHeight < 100) {
     if (displayLimit.value < filteredEquips.value.length) {
-      displayLimit.value += viewMode.value === 'rough' ? 40 : 15
+      displayLimit.value += viewMode.value === 'rough' ? 60 : 20
     }
   }
 }
@@ -928,7 +928,7 @@ const resetScroll = () => {
 }
 
 const toggleFilter = (type, value) => {
-  displayLimit.value = viewMode.value === 'rough' ? 40 : 15
+  displayLimit.value = viewMode.value === 'rough' ? 60 : 20
   if (type === 'step') {
     selectedStep.value = selectedStep.value === value ? 'all' : value
   } else if (type === 'attribute') {
@@ -945,23 +945,23 @@ const toggleFilter = (type, value) => {
 
 const switchViewMode = (mode) => {
   viewMode.value = mode
-  displayLimit.value = mode === 'rough' ? 40 : 15
+  displayLimit.value = mode === 'rough' ? 60 : 20
   resetScroll()
 }
 
 watch(searchQuery, () => {
-  displayLimit.value = viewMode.value === 'rough' ? 40 : 15
+  displayLimit.value = viewMode.value === 'rough' ? 60 : 20
   resetScroll()
   subSearchQuery.value = '' // 主检索变了，清空次筛词
 })
 
 watch(subSearchQuery, () => {
-  displayLimit.value = viewMode.value === 'rough' ? 40 : 15
+  displayLimit.value = viewMode.value === 'rough' ? 60 : 20
   resetScroll()
 })
 
 watch(selectedFilterTags, () => {
-  displayLimit.value = viewMode.value === 'rough' ? 40 : 15
+  displayLimit.value = viewMode.value === 'rough' ? 60 : 20
   resetScroll()
 })
 
@@ -1543,13 +1543,19 @@ const toggleBondExpand = (idx) => {
 /* ===== 粗略展示 (5列网格) ===== */
 .equip-rough-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-auto-rows: min-content;
   align-content: start;
   gap: 14px 10px;
   width: 100%;
 }
 
+@media (min-width: 768px) {
+  .equip-rough-grid {
+    /* 电脑端：改为 8 列 */
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
 .equip-rough-card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
