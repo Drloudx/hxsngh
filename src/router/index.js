@@ -9,6 +9,7 @@ import SubSkillView from '../views/SubSkillView.vue'
 import UniqueView from '../views/UniqueView.vue'
 import RoleView from '../views/RoleView.vue'
 import RankingView from '../views/RankingView.vue'
+import RelicsView from '../views/RelicsView.vue'
 import ForetellView from '../views/ForetellView.vue'
 import DungeonRelicsView from '../views/DungeonRelicsView.vue'
 import EquipView from '../views/EquipView.vue'
@@ -25,6 +26,7 @@ const routes = [
   { path: '/unique', name: 'unique', component: UniqueView, meta: { title: '技能筛选工具', shortName: '技能' } },
   { path: '/lime', name: 'lime', component: LimeView, meta: { title: '莱姆图鉴', shortName: '莱姆' } },
   { path: '/prefix', name: 'prefix', component: PrefixView, meta: { title: '怪物加护', shortName: '加护' } },
+  { path: '/relics', name: 'relics', component: RelicsView, meta: { title: '心得图鉴', shortName: '心得' } },
   { path: '/foretell', name: 'foretell', component: ForetellView, meta: { title: '预言图鉴', shortName: '预言' } },
   { path: '/dungeon-relics', name: 'dungeon-relics', component: DungeonRelicsView, meta: { title: '星界秘境遗物图鉴', shortName: '遗物' } },
   { path: '/equip', name: 'equip', component: EquipView, meta: { title: '装备筛选工具', shortName: '装备' } },
@@ -32,6 +34,7 @@ const routes = [
   { path: '/talent-manage', name: 'talent-manage', component: TalentManageView, meta: { title: '天赋管理', shortName: '库存' } },
   { path: '/guide', name: 'guide', component: GuideView, meta: { title: '新人攻略', shortName: '攻略' } },
   { path: '/role', name: 'role', component: RoleView, meta: { title: '角色图鉴', shortName: '角色' } },
+  { path: '/relics', name: 'relics', component: RelicsView, meta: { title: '心得图鉴', shortName: '心得' } },
   { path: '/battle', name: 'battle', component: BattleSimView, meta: { title: '战斗模拟', shortName: '战斗' } },
   { path: '/ranking', name: 'ranking', component: RankingView, meta: { title: '预告：热度排行', shortName: '预告' } }
 ]
