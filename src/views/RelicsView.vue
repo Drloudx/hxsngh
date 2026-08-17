@@ -8,7 +8,7 @@
           <input
             type="text"
             v-model="searchQuery"
-            placeholder="心得详细、心得名、角色名，例：战士、火系、魔灵..."
+            placeholder="心得详细、心得名、角色名"
             class="talent-search-input"
           />
         </div>
@@ -31,9 +31,9 @@
         </div>
       </Transition>
 
-      <div class="talent-sub-header">
-        <span class="talent-hint-text">可通过空格，中英文逗号，顿号（、）进行多词搜索，例：战士、火系、魔灵</span>
-      </div>
+<!--      <div class="talent-sub-header">-->
+<!--        <span class="talent-hint-text">可通过空格，中英文逗号，顿号（、）进行多词搜索，例：战士、火系、魔灵</span>-->
+<!--      </div>-->
 
       <!-- 角色查找与绑定提示 -->
       <div class="talent-suggest-area">
@@ -689,6 +689,7 @@ onMounted(() => {
   flex-shrink: 0;
   font-size: 13px;
   text-align: left;
+  font-weight: 700;
 }
 
 .filter-options {
@@ -834,8 +835,8 @@ onMounted(() => {
 }
 
 .relic-card-icon {
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
   border-radius: 4px;
   flex-shrink: 0;
