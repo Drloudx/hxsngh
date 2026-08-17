@@ -8,7 +8,7 @@
           <input
             type="text"
             v-model="searchQuery"
-            placeholder="心得详细、心得名、角色名"
+            placeholder="心得详细、心得名、角色名，例：战士、火系、魔灵..."
             class="talent-search-input"
           />
         </div>
@@ -31,9 +31,9 @@
         </div>
       </Transition>
 
-<!--      <div class="talent-sub-header">-->
-<!--        <span class="talent-hint-text">可通过空格，中英文逗号，顿号（、）进行多词搜索，例：战士、火系、魔灵</span>-->
-<!--      </div>-->
+      <div class="talent-sub-header">
+        <span class="talent-hint-text">可通过空格，中英文逗号，顿号（、）进行多词搜索，例：战士、火系、魔灵</span>
+      </div>
 
       <!-- 角色查找与绑定提示 -->
       <div class="talent-suggest-area">
@@ -196,7 +196,7 @@ import { ref, computed, watch, onMounted } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
 import rawRoles from '@/assets/RoleDataTable.json'
 import rawRelics from '@/assets/RelicsDataTable.json'
-import { getVisibleCharacters, isCharacterBlocked } from '@/utils/characterFilter'
+import { getVisibleCharacters, HIDE_UNRELEASED_CHARACTERS } from '@/utils/characterFilter'
 
 const searchQuery = ref('')
 const showSubSearch = ref(false)
@@ -457,9 +457,8 @@ onMounted(() => {
       noteList: []
     }
 
-    // 过滤可见角色并排除测试ID与黑名单角色
+    // 1. 获取已实装/可见的角色列表
     const fullCharacters = getVisibleCharacters(configUtil.getFullCharacterList(rawRoleArr, fullDatasets))
-      .filter(c => c && c.id && !isCharacterBlocked(c.id) && !/^M\d+_\d+/i.test(c.displayName || ''))
     allCharacters.value = fullCharacters
 
     const roleMap = new Map()
@@ -467,8 +466,14 @@ onMounted(() => {
       roleMap.set(char.id, char)
     })
 
+    // 2. 参考 RoleView.vue 的 isUnreleasedRelic 过滤逻辑：
+    // 如果心得指定了角色ID（SpecifyRoleIDs），但该角色不在当前已实装角色列表里，则判定为未实装心得，予以过滤隐藏
     const cleanRelics = rawRelicArr
-      .filter(r => !isCharacterBlocked(r.SpecifyRoleIDs))
+      .filter(r => {
+        if (!r.SpecifyRoleIDs) return true
+        if (HIDE_UNRELEASED_CHARACTERS && HIDE_UNRELEASED_CHARACTERS.value === false) return true
+        return fullCharacters.some(c => c.id === r.SpecifyRoleIDs)
+      })
       .map(r => {
         const sourceRole = r.SpecifyRoleIDs ? roleMap.get(r.SpecifyRoleIDs) : null
         const sourceRoleName = sourceRole ? sourceRole.displayName : (r.SpecifyRoleIDs || '通用')
@@ -619,6 +624,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   background: var(--card-bg);
+  border: 1px dashed #3b82f6;
   border-radius: 10px;
   padding: 8px 12px;
   margin-top: 8px;
@@ -683,7 +689,6 @@ onMounted(() => {
   flex-shrink: 0;
   font-size: 13px;
   text-align: left;
-  font-weight: 700;
 }
 
 .filter-options {
@@ -829,8 +834,8 @@ onMounted(() => {
 }
 
 .relic-card-icon {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   object-fit: contain;
   border-radius: 4px;
   flex-shrink: 0;
