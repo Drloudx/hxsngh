@@ -42,6 +42,7 @@ const categories = [
       { id: 'lime', name: '莱姆图鉴', path: '/lime', icon: '/General/8.png' },
       { id: 'prefix', name: '怪物加护', path: '/prefix', icon: '/General/9.png' },
       { id: 'areablock', name: '地块图鉴', path: '/areablock', icon: '/General/10.png' },
+      { id: 'relics', name: '心得图鉴', path: '/relics', icon: '/General/15.png' },
       { id: 'foretell', name: '预言图鉴', path: '/foretell', icon: '/General/11.png' },
       { id: 'dungeon-relics', name: '星界秘境遗物图鉴', path: '/dungeon-relics', icon: '/General/12.png' }
     ]
@@ -271,8 +272,8 @@ const handleClose = () => {
 }
 
 .side-panel.desktop-panel .side-item .icon-img {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   margin-right: 10px;
   border-radius: 8px;
   object-fit: contain;
