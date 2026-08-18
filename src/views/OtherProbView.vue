@@ -38,8 +38,9 @@
             </p>
             <div class="mechanic-title" style="margin-top: 10px;">角色派遣加成</div>
             <p class="mechanic-desc">
-              <strong>1. 奖励数量机制（建议派满5人）</strong>：每多派 1 名角色就多结算 1 次独立掉落，<strong>派满 5 人直接拿 6 份独立奖励</strong>（例如装备任务拿 6 件装备，素材任务拿 180 个素材）！<br />
-              <strong>2. 奖励品质加成</strong>：派遣的角色品质越高，掉落物品的品质概率越高（5人效果直接累加）：<br />
+              <strong>1. 耗时减免机制</strong>：每派遣 1 名角色，任务耗时减少 10%，<strong>满编 5 人耗时直接减半（-50% 耗时，例如紫色任务从 12 小时降至 6 小时）</strong>！<br />
+              <strong>2. 奖励数量机制）</strong>：每多派 1 名角色就多结算 1 次独立掉落，<strong>派满 5 人直接拿 6 份独立奖励</strong>（例如装备任务拿 6 件装备，素材任务拿 180 个素材）！<br />
+              <strong>3. 奖励品质加成</strong>：派遣的角色品质越高，掉落物品的品质概率越高（5人效果直接累加）：<br />
               • <strong>派传说角色</strong>：做普通任务每人提供奖励品质概率 <strong>稀有 +4%、史诗 +2%</strong>；做稀有任务提供 <strong>史诗 +2%、传说 +1%</strong>；做史诗任务提供 <strong>传说 +1%</strong>。<br />
               • <strong>派史诗角色</strong>：做普通任务每人提供奖励品质概率 <strong>稀有 +2%、史诗 +1%</strong>；做稀有任务提供 <strong>史诗 +1%</strong>。<br />
               • <strong>派稀有角色</strong>：做普通任务每人提供奖励品质概率 <strong>稀有 +1%</strong>。
@@ -101,7 +102,7 @@
               </div>
               <div class="task-info-row">
                 <span class="info-label">任务耗时：</span>
-                <span class="info-val">{{ task.Time }} 分钟 ({{ (task.Time / 60).toFixed(1) }} 小时)</span>
+                <span class="info-val">满人 {{ (task.Time * 0.5 / 60) }} 小时（基础 {{ (task.Time / 60) }} 小时）</span>
               </div>
               <div class="task-info-row role-possi-row">
                 <span class="info-label">角色加成：</span>
