@@ -42,9 +42,14 @@ const categories = [
       { id: 'lime', name: '莱姆图鉴', path: '/lime', icon: '/General/8.png' },
       { id: 'prefix', name: '怪物加护', path: '/prefix', icon: '/General/9.png' },
       { id: 'areablock', name: '地块图鉴', path: '/areablock', icon: '/General/10.png' },
-      { id: 'relics', name: '心得图鉴', path: '/relics', icon: '/General/15.png' },
       { id: 'foretell', name: '预言图鉴', path: '/foretell', icon: '/General/11.png' },
+      { id: 'relics', name: '心得图鉴', path: '/relics', icon: '/General/15.png' },
+      { id: 'godstone', name: '神石图鉴', path: '/godstone', icon: '/General/18.png' },
+      { id: 'rune', name: '符文图鉴', path: '/rune', icon: '/General/19.png' },
+      { id: 'gambleshop', name: '商人/宝库概率', path: '/gambleshop', icon: '/General/16.png' },
+      { id: 'other-prob', name: '其他概率', path: '/other-prob', icon: '/General/17.png' },
       { id: 'dungeon-relics', name: '星界秘境遗物图鉴', path: '/dungeon-relics', icon: '/General/12.png' }
+
     ]
   },
   {

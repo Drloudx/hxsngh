@@ -121,13 +121,6 @@ const emit = defineEmits(['close', 'agree', 'disagree', 'toggle-auth'])
   overflow-y: auto;
   flex: 1;
 }
-.privacy-modal-body::-webkit-scrollbar {
-  width: 5px;
-}
-.privacy-modal-body::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 10px;
-}
 
 /* 授权开关行 */
 .privacy-switch-row {

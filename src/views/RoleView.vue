@@ -14,75 +14,131 @@
           />
         </div>
         <!-- Collapse Toggle Button (Smaller font and padding) -->
-        <button class="filter-toggle-btn" @click="tagsExpanded = !tagsExpanded">
+        <button class="filter-toggle-btn" :class="{ active: tagsExpanded }" @click="tagsExpanded = !tagsExpanded">
           <span class="filter-toggle-text">筛选</span>
           <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !tagsExpanded }" />
         </button>
       </div>
 
       <!-- Filters Panel (Collapsible) -->
-      <div v-show="tagsExpanded" class="filter-panel">
-        <!-- Rarity Row -->
-        <div class="filter-row">
-          <span class="filter-label">稀有度</span>
-          <div class="filter-options">
-            <span
-              v-for="opt in stepOptions"
-              :key="opt.value"
-              :class="['tag', selectedStep === opt.value ? 'active' : '']"
-              @click="toggleFilter('step', opt.value)"
-            >
-              {{ opt.label }}
-            </span>
+      <Transition name="slide-fade">
+        <div v-show="tagsExpanded" class="filter-panel">
+          <!-- 1. 品阶 -->
+          <div class="filter-row">
+            <span class="filter-label">品阶：</span>
+            <div class="filter-options">
+              <button
+                class="filter-btn"
+                :class="{ active: selectedStep === 'all' }"
+                @click="toggleFilter('step', 'all')"
+              >
+                全部
+              </button>
+              <button
+                v-for="opt in stepOptions"
+                :key="opt.value"
+                class="filter-btn step-btn"
+                :class="[`step-btn-${opt.value}`, { active: selectedStep === opt.value }]"
+                @click="toggleFilter('step', opt.value)"
+              >
+                {{ opt.label }}
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. 职业 -->
+          <div class="filter-row">
+            <span class="filter-label">职业：</span>
+            <div class="filter-options">
+              <button
+                class="filter-btn"
+                :class="{ active: selectedClass === 'all' }"
+                @click="toggleFilter('class', 'all')"
+              >
+                全部
+              </button>
+              <button
+                v-for="opt in classOptions"
+                :key="opt.value"
+                class="filter-btn"
+                :class="{ active: selectedClass === opt.value }"
+                @click="toggleFilter('class', opt.value)"
+              >
+                {{ opt.label }}
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. 种族（大种族） -->
+          <div class="filter-row">
+            <span class="filter-label">种族：</span>
+            <div class="filter-options">
+              <button
+                class="filter-btn"
+                :class="{ active: selectedType === 'all' }"
+                @click="toggleFilter('type', 'all')"
+              >
+                全部
+              </button>
+              <button
+                v-for="opt in typeOptions"
+                :key="opt.value"
+                class="filter-btn"
+                :class="{ active: selectedType === opt.value }"
+                @click="toggleFilter('type', opt.value)"
+              >
+                {{ opt.label }}
+              </button>
+            </div>
+          </div>
+
+          <!-- 4. 属性 -->
+          <div class="filter-row">
+            <span class="filter-label">属性：</span>
+            <div class="filter-options">
+              <button
+                class="filter-btn"
+                :class="{ active: selectedElement === 'all' }"
+                @click="toggleFilter('element', 'all')"
+              >
+                全部
+              </button>
+              <button
+                v-for="opt in elementOptions"
+                :key="opt.value"
+                class="filter-btn"
+                :class="{ active: selectedElement === opt.value }"
+                @click="toggleFilter('element', opt.value)"
+              >
+                {{ opt.label }}
+              </button>
+            </div>
+          </div>
+
+          <!-- 5. 细分种族（如人马族、血族等） -->
+          <div class="filter-row">
+            <span class="filter-label">细分：</span>
+            <div class="filter-options">
+              <button
+                class="filter-btn"
+                :class="{ active: selectedSubRace === 'all' }"
+                @click="toggleFilter('subRace', 'all')"
+              >
+                全部
+              </button>
+              <button
+                v-for="subRace in subRaceOptions"
+                :key="subRace"
+                class="filter-btn"
+                :class="{ active: selectedSubRace === subRace }"
+                @click="toggleFilter('subRace', subRace)"
+              >
+                {{ subRace }}
+              </button>
+            </div>
           </div>
         </div>
-
-        <!-- Class Row -->
-        <div class="filter-row">
-          <span class="filter-label">职业</span>
-          <div class="filter-options">
-            <span
-              v-for="opt in classOptions"
-              :key="opt.value"
-              :class="['tag', selectedClass === opt.value ? 'active' : '']"
-              @click="toggleFilter('class', opt.value)"
-            >
-              {{ opt.label }}
-            </span>
-          </div>
-        </div>
-
-        <!-- Race/Type Row -->
-        <div class="filter-row">
-          <span class="filter-label">种族</span>
-          <div class="filter-options">
-            <span
-              v-for="opt in typeOptions"
-              :key="opt.value"
-              :class="['tag', selectedType === opt.value ? 'active' : '']"
-              @click="toggleFilter('type', opt.value)"
-            >
-              {{ opt.label }}
-            </span>
-          </div>
-        </div>
-
-        <!-- Element Row -->
-        <div class="filter-row">
-          <span class="filter-label">属性</span>
-          <div class="filter-options">
-            <span
-              v-for="opt in elementOptions"
-              :key="opt.value"
-              :class="['tag', selectedElement === opt.value ? 'active' : '']"
-              @click="toggleFilter('element', opt.value)"
-            >
-              {{ opt.label }}
-            </span>
-          </div>
-        </div>
-
-      </div>
+      </Transition>
 
       <!-- 效果标签筛选 -->
       <div v-if="allDisplayTags.length > 0" class="effect-filter-bar">
@@ -503,15 +559,13 @@ import { getVisibleCharacters, HIDE_UNRELEASED_CHARACTERS } from '@/utils/charac
 
 // Options for search criteria
 const stepOptions = [
-  { label: '全部', value: 'all' },
-  { label: '普通', value: 'C' },
-  { label: '稀有', value: 'B' },
+  { label: '传说', value: 'S' },
   { label: '史诗', value: 'A' },
-  { label: '传说', value: 'S' }
+  { label: '稀有', value: 'B' },
+  { label: '普通', value: 'C' }
 ]
 
 const classOptions = [
-  { label: '全部', value: 'all' },
   { label: '战士', value: '战士' },
   { label: '射手', value: '射手' },
   { label: '法师', value: '法师' },
@@ -519,7 +573,6 @@ const classOptions = [
 ]
 
 const typeOptions = [
-  { label: '全部', value: 'all' },
   { label: '生灵', value: '生灵' },
   { label: '器灵', value: '器灵' },
   { label: '魔灵', value: '魔灵' },
@@ -528,7 +581,6 @@ const typeOptions = [
 ]
 
 const elementOptions = [
-  { label: '全部', value: 'all' },
   { label: '地系', value: '地系' },
   { label: '风系', value: '风系' },
   { label: '水系', value: '水系' },
@@ -537,11 +589,35 @@ const elementOptions = [
   { label: '暗系', value: '暗系' }
 ]
 
+// 细分种族列表提取与自然排序
+const subRaceOptions = computed(() => {
+  const races = new Set()
+  allCharacters.value.forEach(c => {
+    if (c.race && c.race.name) {
+      races.add(c.race.name)
+    }
+  })
+  const priority = [
+    '人族', '精灵', '兽族', '人马族', '矮人', '龙族', '巨人', '哥布林', '熊猫族',
+    '史莱姆', '能量元素', '熔岩元素', '神器之灵', '魔偶',
+    '不死族', '血族', '神族', '水神族'
+  ]
+  return Array.from(races).sort((a, b) => {
+    const idxA = priority.indexOf(a)
+    const idxB = priority.indexOf(b)
+    if (idxA !== -1 && idxB !== -1) return idxA - idxB
+    if (idxA !== -1) return -1
+    if (idxB !== -1) return 1
+    return a.localeCompare(b, 'zh')
+  })
+})
+
 // Search and expand states
 const searchQuery = ref('')
 const selectedStep = ref('all')
 const selectedClass = ref('all')
 const selectedType = ref('all')
+const selectedSubRace = ref('all')
 const selectedElement = ref('all')
 const tagsExpanded = ref(false) // 默认收起
 const selectedFilterTags = ref([])
@@ -607,9 +683,10 @@ const filteredCharacters = computed(() => {
     const matchesStep = selectedStep.value === 'all' || char.step === selectedStep.value
     const matchesClass = selectedClass.value === 'all' || char.class === selectedClass.value
     const matchesType = selectedType.value === 'all' || char.type === selectedType.value
+    const matchesSubRace = selectedSubRace.value === 'all' || (char.race && char.race.name === selectedSubRace.value)
     const matchesElement = selectedElement.value === 'all' || char.element === selectedElement.value
 
-    return matchesSearch && matchesStep && matchesClass && matchesType && matchesElement
+    return matchesSearch && matchesStep && matchesClass && matchesType && matchesSubRace && matchesElement
   })
 })
 
@@ -834,6 +911,10 @@ watch(selectedElement, () => {
   displayLimit.value = 40
 })
 
+watch(selectedSubRace, () => {
+  displayLimit.value = 40
+})
+
 watch(selectedFilterTags, () => {
   displayLimit.value = 40
 })
@@ -847,8 +928,6 @@ const handleGridScroll = (e) => {
   }
 }
 
-
-
 // Toggling filter state
 const toggleFilter = (type, value) => {
   displayLimit.value = 40 // Reset lazy loading limit
@@ -858,6 +937,8 @@ const toggleFilter = (type, value) => {
     selectedClass.value = selectedClass.value === value ? 'all' : value
   } else if (type === 'type') {
     selectedType.value = selectedType.value === value ? 'all' : value
+  } else if (type === 'subRace') {
+    selectedSubRace.value = selectedSubRace.value === value ? 'all' : value
   } else if (type === 'element') {
     selectedElement.value = selectedElement.value === value ? 'all' : value
   }
@@ -1292,66 +1373,76 @@ const handleRelicIconError = (e) => {
   gap: 4px;
   background: var(--card-bg);
   border: 1px solid var(--border-color);
-  border-radius: 8px; /* Less rounded */
-  padding: 6px 10px; /* Reduced padding */
+  border-radius: 12px;
+  padding: 0 12px;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   transition: all 0.2s ease;
   flex-shrink: 0;
   color: var(--text-main);
-  height: 38px;
+  height: 42px;
 }
 .filter-toggle-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
+  border-color: #409eff;
+  color: #409eff;
+}
+
+.filter-toggle-btn.active {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.dark-mode .filter-toggle-btn.active {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+  color: #60a5fa;
 }
 
 .filter-toggle-text {
-  font-size: 12px; /* Smaller text size */
+  font-size: 12px;
   font-weight: 600;
 }
 
 .collapse-icon {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   filter: var(--icon-filter);
-  transition: transform 0.25s ease;
+  transition: transform 0.2s ease;
 }
 .collapse-icon.collapsed {
   transform: rotate(180deg);
 }
 
-/* ===== Filters Panel ===== */
+/* ===== 筛选折叠面板（100% 一致复刻 RuneView 样式与交互） ===== */
 .filter-panel {
-  margin-top: 10px;
+  margin-top: 6px;
+  margin-bottom: 6px;
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 12px 14px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  padding: 10px 14px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  animation: slideDown 0.2s ease-out;
-}
-
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  gap: 8px;
 }
 
 .filter-row {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: flex-start;
+  font-size: 13px;
 }
 
 .filter-label {
-  font-size: 12px;
-  font-weight: 700;
   color: var(--text-sub);
-  width: 45px;
+  white-space: nowrap;
+  padding-top: 4px;
+  width: 52px;
   flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: left;
 }
 
 .filter-options {
@@ -1361,33 +1452,34 @@ const handleRelicIconError = (e) => {
   flex: 1;
 }
 
-/* ===== Filter Option Tag (Same click style as RecruitView.vue, active tag bold removed) ===== */
-.tag {
-  padding: 3px 8px;
-  background: var(--bg);
-  border-radius: 4px; /* Less rounded! */
-  cursor: pointer;
-  font-size: 11px; /* Smaller font! */
-  border: 1px solid var(--border-color);
+.filter-btn {
+  background: transparent;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 12px;
   color: var(--text-main);
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 13px;
   transition: all 0.15s ease;
-  user-select: none;
 }
-@media (hover: hover) {
-  .tag:hover {
-    border-color: var(--primary);
-    color: var(--primary);
-  }
+
+.filter-btn:hover {
+  background: rgba(59, 130, 246, 0.08);
 }
-.tag.active {
-  background: #dbeafe;
-  color: var(--primary);
-  border-color: var(--primary);
-  /* font-weight: 600; -> Removed bold font as requested */
+
+.filter-btn.active {
+  background: rgba(59, 130, 246, 0.15) !important;
+  color: #3b82f6 !important;
+  font-weight: bold;
 }
-.dark-mode .tag.active {
-  background: rgba(59, 130, 246, 0.2);
-}
+
+/* 品阶特定按钮高亮（复刻商人和符文的 active 风格） */
+.step-btn-SS.active { background: rgba(239, 68, 68, 0.15) !important; color: #ef4444 !important; font-weight: bold; }
+.step-btn-S.active  { background: rgba(249, 115, 22, 0.15) !important; color: #f97316 !important; font-weight: bold; }
+.step-btn-A.active  { background: rgba(168, 85, 247, 0.15) !important; color: #a855f7 !important; font-weight: bold; }
+.step-btn-B.active  { background: rgba(59, 130, 246, 0.15) !important; color: #3b82f6 !important; font-weight: bold; }
+.step-btn-C.active  { background: rgba(16, 185, 129, 0.15) !important; color: #10b981 !important; font-weight: bold; }
 
 /* ===== Grid Container (4 columns) ===== */
 .role-grid-container {
@@ -1850,14 +1942,6 @@ const handleRelicIconError = (e) => {
   box-shadow: inset 0 1.5px 4px rgba(0, 0, 0, 0.04);
 }
 
-.edible-relics-list::-webkit-scrollbar {
-  width: 4px;
-}
-.edible-relics-list::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 4px;
-}
-
 .clover-added-item {
   display: flex;
   align-items: center;
@@ -2127,16 +2211,6 @@ const handleRelicIconError = (e) => {
   max-height: 480px;
   overflow-y: auto;
   padding-right: 4px;
-}
-.categorized-effect-tags::-webkit-scrollbar {
-  width: 4px;
-}
-.categorized-effect-tags::-webkit-scrollbar-thumb {
-  background: var(--border-color, #e2e8f0);
-  border-radius: 2px;
-}
-.categorized-effect-tags::-webkit-scrollbar-track {
-  background: transparent;
 }
 
 .tag-group-header {

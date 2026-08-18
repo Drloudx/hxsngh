@@ -1,0 +1,94 @@
+{
+ "m_GameObject": {
+  "m_FileID": 0,
+  "m_PathID": 0
+ },
+ "m_Enabled": 1,
+ "m_Script": {
+  "m_FileID": 0,
+  "m_PathID": 4481849594716755109
+ },
+ "m_Name": "GodStoneDataTable",
+ "DataTable": [
+  {
+   "IDs": "BS60000",
+   "Name": "无色神石",
+   "NameI2": "Items/Divine_Stone_Name_01",
+   "Step": "C",
+   "Weight": 10000,
+   "Tag": "通用",
+   "Description": "可以出现任意效果，拥有无限的可能。",
+   "DescriptionI2": "Items/Divine_Stone_Des01"
+  },
+  {
+   "IDs": "BS60001",
+   "Name": "洁白神石",
+   "NameI2": "Items/Divine_Stone_Name_02",
+   "Step": "C",
+   "Weight": 5000,
+   "Tag": "数值",
+   "Description": "更容易出现{0}相关的词缀。",
+   "DescriptionI2": "Items/Divine_Stone_Des02"
+  },
+  {
+   "IDs": "BS61002",
+   "Name": "钴蓝神石",
+   "NameI2": "Items/Divine_Stone_Name_04",
+   "Step": "C",
+   "Weight": 5000,
+   "Tag": "防御",
+   "Description": "更容易出现{0}相关的词缀。",
+   "DescriptionI2": "Items/Divine_Stone_Des02"
+  },
+  {
+   "IDs": "BS61003",
+   "Name": "翠绿神石",
+   "NameI2": "Items/Divine_Stone_Name_05",
+   "Step": "C",
+   "Weight": 5000,
+   "Tag": "治疗",
+   "Description": "更容易出现{0}相关的词缀。",
+   "DescriptionI2": "Items/Divine_Stone_Des02"
+  },
+  {
+   "IDs": "BS61001",
+   "Name": "绯红神石",
+   "NameI2": "Items/Divine_Stone_Name_03",
+   "Step": "B",
+   "Weight": 1000,
+   "Tag": "攻击",
+   "Description": "更容易出现{0}相关的词缀。",
+   "DescriptionI2": "Items/Divine_Stone_Des02"
+  },
+  {
+   "IDs": "BS61004",
+   "Name": "黑曜神石",
+   "NameI2": "Items/Divine_Stone_Name_06",
+   "Step": "B",
+   "Weight": 1000,
+   "Tag": "抗性",
+   "Description": "更容易出现{0}相关的词缀。",
+   "DescriptionI2": "Items/Divine_Stone_Des02"
+  },
+  {
+   "IDs": "BS62001",
+   "Name": "金黄神石",
+   "NameI2": "Items/Divine_Stone_Name_07",
+   "Step": "A",
+   "Weight": 200,
+   "Tag": "增益",
+   "Description": "更容易出现{0}相关的词缀。",
+   "DescriptionI2": "Items/Divine_Stone_Des02"
+  },
+  {
+   "IDs": "BS62002",
+   "Name": "暗紫神石",
+   "NameI2": "Items/Divine_Stone_Name_08",
+   "Step": "S",
+   "Weight": 40,
+   "Tag": "减益",
+   "Description": "更容易出现{0}相关的词缀。",
+   "DescriptionI2": "Items/Divine_Stone_Des02"
+  }
+ ]
+}

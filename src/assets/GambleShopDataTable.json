@@ -1,0 +1,362 @@
+[
+ {
+  "Id": "gamble_shop_1",
+  "IDs": "SR00001_001",
+  "Level": "1",
+  "Weight": 1000,
+  "Type": "素材",
+  "Content": "随机C阶素材",
+  "Num": 30
+ },
+ {
+  "Id": "gamble_shop_2",
+  "IDs": "SR00001_002",
+  "Level": "1",
+  "Weight": 500,
+  "Type": "道具",
+  "Content": "D00009_021,C阶勇者之心",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_3",
+  "IDs": "SR00001_003",
+  "Level": "1",
+  "Weight": 1000,
+  "Type": "宝箱",
+  "Content": "随机C阶宝箱",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_4",
+  "IDs": "SR00001_004",
+  "Level": "1",
+  "Weight": 1000,
+  "Type": "符文",
+  "Content": "随机C阶符文",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_5",
+  "IDs": "SR00001_005",
+  "Level": "1",
+  "Weight": 1000,
+  "Type": "素材",
+  "Content": "随机B阶素材",
+  "Num": 10
+ },
+ {
+  "Id": "gamble_shop_6",
+  "IDs": "SR00001_006",
+  "Level": "1,2",
+  "Weight": 500,
+  "Type": "结晶",
+  "Content": "D00000_001,翠绿结晶",
+  "Num": 5
+ },
+ {
+  "Id": "gamble_shop_7",
+  "IDs": "SR00001_007",
+  "Level": "1,2",
+  "Weight": 500,
+  "Type": "装备",
+  "Content": "随机C阶装备",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_8",
+  "IDs": "SR00001_008",
+  "Level": "1,2",
+  "Weight": 250,
+  "Type": "道具",
+  "Content": "D00009_022,B阶勇者之心",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_9",
+  "IDs": "SR00001_009",
+  "Level": "1,2",
+  "Weight": 500,
+  "Type": "宝箱",
+  "Content": "随机B阶宝箱",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_10",
+  "IDs": "SR00001_010",
+  "Level": "1,2",
+  "Weight": 500,
+  "Type": "道具",
+  "Content": "D00007_001,C阶传承石",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_11",
+  "IDs": "SR00001_011",
+  "Level": "2,3",
+  "Weight": 250,
+  "Type": "结晶",
+  "Content": "D00000_002,海蓝结晶",
+  "Num": 5
+ },
+ {
+  "Id": "gamble_shop_12",
+  "IDs": "SR00001_012",
+  "Level": "2,3",
+  "Weight": 250,
+  "Type": "符文",
+  "Content": "随机B阶符文",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_13",
+  "IDs": "SR00001_013",
+  "Level": "2,3",
+  "Weight": 250,
+  "Type": "素材",
+  "Content": "随机A阶素材",
+  "Num": 10
+ },
+ {
+  "Id": "gamble_shop_14",
+  "IDs": "SR00001_014",
+  "Level": "2,3",
+  "Weight": 250,
+  "Type": "装备",
+  "Content": "随机B阶装备",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_15",
+  "IDs": "SR00001_015",
+  "Level": "2,3",
+  "Weight": 100,
+  "Type": "道具",
+  "Content": "D00009_023,A阶勇者之心",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_16",
+  "IDs": "SR00001_016",
+  "Level": "2,3,4",
+  "Weight": 100,
+  "Type": "宝箱",
+  "Content": "随机A阶宝箱",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_17",
+  "IDs": "SR00001_017",
+  "Level": "2,3,4",
+  "Weight": 100,
+  "Type": "装备",
+  "Content": "随机C阶传承装备",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_18",
+  "IDs": "SR00001_018",
+  "Level": "2,3,4",
+  "Weight": 100,
+  "Type": "道具",
+  "Content": "D00007_011,B阶传承石",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_19",
+  "IDs": "SR00001_019",
+  "Level": "2,3,4",
+  "Weight": 100,
+  "Type": "四叶草",
+  "Content": "D00002_000,四叶草",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_20",
+  "IDs": "SR00001_020",
+  "Level": "2,3,4",
+  "Weight": 100,
+  "Type": "结晶",
+  "Content": "D00000_003,暗紫结晶",
+  "Num": 5
+ },
+ {
+  "Id": "gamble_shop_21",
+  "IDs": "SR00001_021",
+  "Level": "3,4",
+  "Weight": 50,
+  "Type": "符文",
+  "Content": "随机A阶符文",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_22",
+  "IDs": "SR00001_022",
+  "Level": "3,4",
+  "Weight": 50,
+  "Type": "四叶草",
+  "Content": "D00002_000,四叶草",
+  "Num": 2
+ },
+ {
+  "Id": "gamble_shop_23",
+  "IDs": "SR00001_023",
+  "Level": "3,4",
+  "Weight": 50,
+  "Type": "装备",
+  "Content": "随机A阶装备",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_24",
+  "IDs": "SR00001_024",
+  "Level": "3,4",
+  "Weight": 50,
+  "Type": "素材",
+  "Content": "随机S阶素材",
+  "Num": 10
+ },
+ {
+  "Id": "gamble_shop_25",
+  "IDs": "SR00001_025",
+  "Level": "3,4",
+  "Weight": 50,
+  "Type": "装备",
+  "Content": "随机B阶传承装备",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_26",
+  "IDs": "SR00001_026",
+  "Level": "3,4",
+  "Weight": 10,
+  "Type": "道具",
+  "Content": "D00009_024,S阶勇者之心",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_27",
+  "IDs": "SR00001_027",
+  "Level": "3,4",
+  "Weight": 25,
+  "Type": "宝箱",
+  "Content": "随机S阶宝箱",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_28",
+  "IDs": "SR00001_028",
+  "Level": "3,4",
+  "Weight": 25,
+  "Type": "四叶草",
+  "Content": "D00002_000,四叶草",
+  "Num": 4
+ },
+ {
+  "Id": "gamble_shop_29",
+  "IDs": "SR00001_029",
+  "Level": "3,4",
+  "Weight": 25,
+  "Type": "道具",
+  "Content": "D00007_021,A阶传承石",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_30",
+  "IDs": "SR00001_030",
+  "Level": "3,4",
+  "Weight": 25,
+  "Type": "道具",
+  "Content": "D00002_001,天赋果实",
+  "Num": 20
+ },
+ {
+  "Id": "gamble_shop_31",
+  "IDs": "SR00001_031",
+  "Level": "4",
+  "Weight": 10,
+  "Type": "结晶",
+  "Content": "D00000_004,圣灵结晶",
+  "Num": 5
+ },
+ {
+  "Id": "gamble_shop_32",
+  "IDs": "SR00001_032",
+  "Level": "4",
+  "Weight": 10,
+  "Type": "装备",
+  "Content": "随机A阶传承装备",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_33",
+  "IDs": "SR00001_033",
+  "Level": "4",
+  "Weight": 10,
+  "Type": "四叶草",
+  "Content": "D00002_000,四叶草",
+  "Num": 8
+ },
+ {
+  "Id": "gamble_shop_34",
+  "IDs": "SR00001_034",
+  "Level": "4",
+  "Weight": 10,
+  "Type": "道具",
+  "Content": "D00002_001,天赋果实",
+  "Num": 50
+ },
+ {
+  "Id": "gamble_shop_35",
+  "IDs": "SR00001_035",
+  "Level": "4",
+  "Weight": 10,
+  "Type": "符文",
+  "Content": "随机S阶符文",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_36",
+  "IDs": "SR00001_036",
+  "Level": "4",
+  "Weight": 10,
+  "Type": "装备",
+  "Content": "随机S阶装备",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_37",
+  "IDs": "SR00001_037",
+  "Level": "4",
+  "Weight": 5,
+  "Type": "道具",
+  "Content": "D00007_031,S阶传承石",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_38",
+  "IDs": "SR00001_038",
+  "Level": "4",
+  "Weight": 5,
+  "Type": "装备",
+  "Content": "随机S阶传承装备",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_39",
+  "IDs": "SR00001_039",
+  "Level": "4",
+  "Weight": 2,
+  "Type": "道具",
+  "Content": "D00010_031,S阶许愿石",
+  "Num": 1
+ },
+ {
+  "Id": "gamble_shop_40",
+  "IDs": "SR00001_040",
+  "Level": "4",
+  "Weight": 1,
+  "Type": "装备",
+  "Content": "随机SS阶传承装备",
+  "Num": 1
+ }
+]

@@ -71,8 +71,8 @@
               <button
                 v-for="stepOpt in stepFilterOptions"
                 :key="stepOpt.value"
-                class="filter-btn"
-                :class="{ active: selectedStep === stepOpt.value }"
+                class="filter-btn step-btn"
+                :class="[`step-btn-${stepOpt.value}`, { active: selectedStep === stepOpt.value }]"
                 @click="toggleStepFilter(stepOpt.value)"
               >
                 {{ stepOpt.label }}
@@ -586,10 +586,13 @@ onMounted(() => {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   transition: all 0.2s ease;
   flex-shrink: 0;
+  font-size: 12px;
+  color: var(--text-main);
 }
 
 .sub-filter-btn:hover {
   border-color: #409eff;
+  color: #409eff;
 }
 
 .sub-filter-btn.active {
@@ -598,21 +601,26 @@ onMounted(() => {
   color: #3b82f6;
 }
 
-.filter-toggle-text {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-main);
+.dark-mode .sub-filter-btn.active {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+  color: #60a5fa;
 }
 
-.sub-filter-btn.active .filter-toggle-text {
-  color: #3b82f6;
+.filter-toggle-text {
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .collapse-icon {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   filter: var(--icon-filter);
-  transition: transform 0.25s ease;
+  transition: transform 0.2s ease;
+}
+
+.collapse-icon.collapsed {
+  transform: rotate(180deg);
 }
 
 .collapse-icon.collapsed {
@@ -624,7 +632,6 @@ onMounted(() => {
   display: flex;
   align-items: center;
   background: var(--card-bg);
-  border: 1px dashed #3b82f6;
   border-radius: 10px;
   padding: 8px 12px;
   margin-top: 8px;
@@ -682,7 +689,7 @@ onMounted(() => {
 }
 
 .filter-label {
-  color: #666;
+  color: var(--text-sub);
   white-space: nowrap;
   padding-top: 4px;
   width: 52px;
@@ -705,18 +712,29 @@ onMounted(() => {
   border: none;
   padding: 4px 10px;
   border-radius: 12px;
-  color: #555;
+  color: var(--text-main);
   cursor: pointer;
   white-space: nowrap;
   font-size: 13px;
   transition: all 0.15s ease;
 }
 
+.filter-btn:hover {
+  background: rgba(59, 130, 246, 0.08);
+}
+
 .filter-btn.active {
-  background: #eef4fc;
+  background: rgba(59, 130, 246, 0.15);
   color: #3b82f6;
   font-weight: bold;
 }
+
+/* 品阶特定按钮高亮（传说橙、史诗紫、稀有蓝、普通绿） */
+.step-btn-SS.active { background: rgba(244, 63, 94, 0.15) !important; color: #f43f5e !important; }
+.step-btn-S.active  { background: rgba(249, 115, 22, 0.15) !important; color: #f97316 !important; }
+.step-btn-A.active  { background: rgba(168, 85, 247, 0.15) !important; color: #a855f7 !important; }
+.step-btn-B.active  { background: rgba(59, 130, 246, 0.15) !important; color: #3b82f6 !important; }
+.step-btn-C.active  { background: rgba(16, 185, 129, 0.15) !important; color: #10b981 !important; }
 
 .selected-char-bar {
   display: flex;

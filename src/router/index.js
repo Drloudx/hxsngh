@@ -16,6 +16,10 @@ import EquipView from '../views/EquipView.vue'
 import AreaBlockView from '../views/AreaBlockView.vue'
 import SynthesisSearchView from '../views/SynthesisSearchView.vue'
 import BattleSimView from '../views/BattleSimView.vue'
+import GambleShopView from '../views/GambleShopView.vue'
+import OtherProbView from '../views/OtherProbView.vue'
+import GodStoneView from '../views/GodStoneView.vue'
+import RuneView from '../views/RuneView.vue'
 
 const routes = [
   { path: '/', redirect: '/recruit' },
@@ -29,12 +33,15 @@ const routes = [
   { path: '/relics', name: 'relics', component: RelicsView, meta: { title: '心得图鉴', shortName: '心得' } },
   { path: '/foretell', name: 'foretell', component: ForetellView, meta: { title: '预言图鉴', shortName: '预言' } },
   { path: '/dungeon-relics', name: 'dungeon-relics', component: DungeonRelicsView, meta: { title: '星界秘境遗物图鉴', shortName: '遗物' } },
+  { path: '/godstone', name: 'godstone', component: GodStoneView, meta: { title: '神石图鉴', shortName: '神石' } },
+  { path: '/rune', name: 'rune', component: RuneView, meta: { title: '符文图鉴', shortName: '符文' } },
   { path: '/equip', name: 'equip', component: EquipView, meta: { title: '装备筛选工具', shortName: '装备' } },
   { path: '/areablock', name: 'areablock', component: AreaBlockView, meta: { title: '地块图鉴', shortName: '地块' } },
+  { path: '/gambleshop', name: 'gambleshop', component: GambleShopView, meta: { title: '商人/宝库概率', shortName: '概率' } },
+  { path: '/other-prob', name: 'other-prob', component: OtherProbView, meta: { title: '其他概率', shortName: '其他' } },
   { path: '/talent-manage', name: 'talent-manage', component: TalentManageView, meta: { title: '天赋管理', shortName: '库存' } },
   { path: '/guide', name: 'guide', component: GuideView, meta: { title: '新人攻略', shortName: '攻略' } },
   { path: '/role', name: 'role', component: RoleView, meta: { title: '角色图鉴', shortName: '角色' } },
-  { path: '/relics', name: 'relics', component: RelicsView, meta: { title: '心得图鉴', shortName: '心得' } },
   { path: '/battle', name: 'battle', component: BattleSimView, meta: { title: '战斗模拟', shortName: '战斗' } },
   { path: '/ranking', name: 'ranking', component: RankingView, meta: { title: '预告：热度排行', shortName: '预告' } }
 ]
