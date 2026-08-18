@@ -56,7 +56,7 @@
         </div>
         <!-- 装备地块专属注释提示 banner -->
         <div v-if="activeTab === 'equip'" class="tab-tip-banner animate-fade-in">
-          (必出宝箱、绿、蓝、紫、橙装备)
+          (宝箱和绿、蓝、紫、橙装备地块)
         </div>
       </div>
     </div>
@@ -301,7 +301,7 @@ const mapList = [
 // 子类别定义 (在全部展示模式下，地图大卡片内划分的二级标签)
 const categories = [
   { id: 'basic', name: '基础地块', color: '#3b82f6' },
-  { id: 'equip', name: '装备地块 (必出宝箱、绿、蓝、紫、橙装备)', color: '#f43f5e' },
+  { id: 'equip', name: '装备地块 (宝箱和绿、蓝、紫、橙装备地块)', color: '#f43f5e' },
   { id: 'event', name: '奇遇地块', color: '#0ea5e9' },
   { id: 'special', name: '特殊地块', color: '#dc2626' }
 ]
@@ -315,12 +315,12 @@ const listContainer = ref(null)
 const displayMapLimit = ref(3) // 懒加载：初始仅渲染 3 张地图，随着滚动加载更多地图
 
 // =================== 开发自用配置开关 ===================
-// 控制是否在主页面地块卡片上显示“概率”。默认隐藏（false），如有需要开发自用，修改为 true 即可。
-const showProbability = ref(false)
+// 控制是否在主页面地块卡片上显示“概率”。
+const showProbability = ref(true)
 
 // =================== 排序与显示顺序配置 (支持在此修改地块的前后排列顺序) ===================
-const basicGreen = ['000', '001', '002', '101', '102', '103', '104', '201', '202', '203', '301', '302']
-const basicBlue = ['111', '211', '311']
+const basicGreen = ['000', '001', '002', '101', '102', '103', '104', '201', '202', '203', '204', '301', '302', '303']
+const basicBlue = ['111', '121', '211', '311']
 const basicPurple = ['221', '321']
 const basicOrange = ['331']
 const equipSuffixes = ['003', '004', '005', '006', '007']
@@ -467,17 +467,22 @@ const getMapTotalWeight = (mapName) => {
   return spotsInMap.reduce((sum, s) => sum + (s.Weight || 0), 0)
 }
 
-// 概率计算 (格式化两位小数)
+// 概率计算 (自适应精度格式化：>= 0.01% 保留 2 位，>= 0.001% 保留 3 位，更小保留 4 位，避免极小概率被四舍五入为 0.00%)
 const getSpotProbability = (spot) => {
   if (!spot) return '0.00%'
-  if (spot.Weight === 0 || getSuffix(spot.IDs) === '000') {
-    if (getSuffix(spot.IDs) === '000') return '100.00%' // 营地初始点必出
-    return '0.00%'
-  }
+  if (getSuffix(spot.IDs) === '000') return '100.00%' // 营地初始点必出
+  if (spot.Weight === 0) return '0.00%'
+
   const totalW = getMapTotalWeight(spot.AreaName)
   if (totalW === 0) return '0.00%'
   const pct = (spot.Weight / totalW) * 100
-  return pct.toFixed(2) + '%'
+  if (pct >= 0.01) {
+    return pct.toFixed(2) + '%'
+  }
+  if (pct >= 0.001) {
+    return pct.toFixed(3) + '%'
+  }
+  return pct.toFixed(4) + '%'
 }
 
 // 各地图对应的最高等级
@@ -876,12 +881,12 @@ const toggleTimeDetails = async () => {
   border: none;
   outline: none;
   background: transparent;
-  font-size: 15px;
+  font-size: 13px;
   color: var(--text-main);
   font-family: inherit;
 }
 
-/* ===== 筛选按键与折叠面板 (对齐 EquipView.vue) ===== */
+/* ===== 筛选按键与折叠面板 (统一标准) ===== */
 .filter-toggle-btn {
   display: flex;
   align-items: center;
@@ -889,18 +894,32 @@ const toggleTimeDetails = async () => {
   gap: 4px;
   background: var(--card-bg);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 6px 10px;
+  border-radius: 12px;
+  padding: 0 12px;
+  height: 42px;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   transition: all 0.2s ease;
   flex-shrink: 0;
+  font-size: 12px;
   color: var(--text-main);
-  height: 38px;
 }
+
 .filter-toggle-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
+  border-color: #409eff;
+  color: #409eff;
+}
+
+.filter-toggle-btn.active {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.dark-mode .filter-toggle-btn.active {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+  color: #60a5fa;
 }
 
 .filter-toggle-text {
@@ -909,11 +928,12 @@ const toggleTimeDetails = async () => {
 }
 
 .collapse-icon {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   filter: var(--icon-filter);
-  transition: transform 0.25s ease;
+  transition: transform 0.2s ease;
 }
+
 .collapse-icon.collapsed {
   transform: rotate(180deg);
 }

@@ -26,6 +26,14 @@
           </button>
         </div>
       </div>
+
+      <!-- 全局品阶概率概览条 (左对齐) -->
+<!--      <div class="relic-summary-bar">-->
+<!--        <div v-for="step in stepSummary" :key="step.step" class="summary-item">-->
+<!--          <span class="step-pill" :style="{ background: step.lightBg, color: step.color }">{{ step.name }}</span>-->
+<!--          <span class="summary-percent" :style="{ color: step.color }">{{ step.percent }}</span>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
 
     <!-- 遗物 4 列网格列表 -->
@@ -50,6 +58,7 @@
         <div class="relic-card-stats">
           <div class="stat-line">价值: {{ relic.Value }}</div>
           <div class="stat-line">重复: {{ relic.ExtraValue }}</div>
+          <div class="stat-line">概率: <span class="prob-val" :style="{ color: getStepConfig(relic.Step).color }">{{ getRelicProbability(relic.Weight) }}</span></div>
         </div>
       </div>
 
@@ -83,6 +92,10 @@
               <span class="stat-value">+{{ detailModal.data.ExtraValue }}</span>
             </div>
             <div class="relic-detail-stat">
+              <span class="stat-label">抽取概率：</span>
+              <span class="stat-value" :style="{ color: getStepConfig(detailModal.data.Step).color }">{{ getRelicProbability(detailModal.data.Weight) }}</span>
+            </div>
+            <div class="relic-detail-stat">
               <span class="stat-label">最低关卡：</span>
               <span class="stat-value">{{ detailModal.data.MinLevel }}关</span>
             </div>
@@ -103,8 +116,9 @@ import relicData from '@/assets/DungeonRelicDataTable.json'
 
 const sortOptions = [
   { label: '按稀有度', value: 'Step' },
-  { label: '按自身价值', value: 'Value' },
-  { label: '按重复价值', value: 'ExtraValue' }
+  { label: '按概率', value: 'Weight' },
+  { label: '按价值', value: 'Value' },
+  { label: '按重复', value: 'ExtraValue' }
 ]
 
 const sortBy = ref('Step')
@@ -117,13 +131,48 @@ const getStepConfig = (step) => {
     'SS': { label: 'SS', color: '#f43f5e', lightBg: 'rgba(244, 63, 94, 0.1)' },  // red
     'S': { label: 'S', color: '#f97316', lightBg: 'rgba(249, 115, 22, 0.1)' },   // gold
     'A': { label: 'A', color: '#a855f7', lightBg: 'rgba(168, 85, 247, 0.1)' },  // purple
-    'B': { label: 'B', color: '#60a5fa', lightBg: 'rgba(96, 165, 250, 0.1)' }   // blue
+    'B': { label: 'B', color: '#3b82f6', lightBg: 'rgba(59, 130, 246, 0.1)' }   // blue
   }
   return map[step] || { label: step, color: '#64748b', lightBg: 'rgba(100, 116, 139, 0.1)' }
 }
 
 const rawRelics = computed(() => {
   return relicData.DataTable || relicData || []
+})
+
+const totalRelicWeight = computed(() => {
+  return rawRelics.value.reduce((acc, r) => acc + (Number(r.Weight) || 0), 0)
+})
+
+const getRelicProbability = (weight) => {
+  if (!weight || !totalRelicWeight.value) return '0.00%'
+  const pct = (weight / totalRelicWeight.value) * 100
+  if (pct >= 1) return pct.toFixed(2) + '%'
+  if (pct >= 0.1) return pct.toFixed(2) + '%'
+  if (pct >= 0.01) return pct.toFixed(3) + '%'
+  return pct.toFixed(4) + '%'
+}
+
+const stepSummary = computed(() => {
+  const total = totalRelicWeight.value || 1
+  const steps = [
+    { step: 'B', name: '稀有', color: '#3b82f6', lightBg: 'rgba(59, 130, 246, 0.15)' },
+    { step: 'A', name: '史诗', color: '#a855f7', lightBg: 'rgba(168, 85, 247, 0.15)' },
+    { step: 'S', name: '传说', color: '#f97316', lightBg: 'rgba(249, 115, 22, 0.15)' },
+    { step: 'SS', name: '神话', color: '#f43f5e', lightBg: 'rgba(244, 63, 94, 0.15)' }
+  ]
+  return steps.map(s => {
+    const weight = rawRelics.value
+      .filter(r => r.Step === s.step)
+      .reduce((acc, r) => acc + (Number(r.Weight) || 0), 0)
+    const ratio = (weight / total) * 100
+    const percent = ratio >= 0.1 ? ratio.toFixed(2) + '%' : ratio.toFixed(3) + '%'
+    return {
+      ...s,
+      weight,
+      percent
+    }
+  })
 })
 
 // 核心多重排序逻辑
@@ -136,7 +185,13 @@ const sortedRelics = computed(() => {
       const pA = priority[a.Step] || 0
       const pB = priority[b.Step] || 0
       if (pA !== pB) return pB - pA // 品质降序
-      return a.IDs.localeCompare(b.IDs) // ID fallback
+      return b.Weight - a.Weight // 权重降序 fallback
+    } else if (sortBy.value === 'Weight') {
+      if (b.Weight !== a.Weight) return b.Weight - a.Weight
+      const pA = priority[a.Step] || 0
+      const pB = priority[b.Step] || 0
+      if (pA !== pB) return pB - pA
+      return a.IDs.localeCompare(b.IDs)
     } else if (sortBy.value === 'Value') {
       if (b.Value !== a.Value) return b.Value - a.Value
       const pA = priority[a.Step] || 0
@@ -261,8 +316,8 @@ const closeDetailModal = () => {
 }
 
 .sort-btn {
-  min-width: 80px;
-  padding: 3px 12px;
+  min-width: 60px;
+  padding: 3px 10px;
   font-size: 13px;
   font-weight: 700;
   border: none;
@@ -280,6 +335,43 @@ const closeDetailModal = () => {
   background: var(--card-bg);
   color: var(--primary);
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* ===== 品阶概率条 ===== */
+.relic-summary-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px 18px;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin-top: 8px;
+}
+
+.summary-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.step-pill {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.summary-percent {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.prob-val {
+  font-weight: 700;
 }
 
 /* ===== 网格列表 ===== */
@@ -468,7 +560,7 @@ const closeDetailModal = () => {
 
 .relic-details-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   width: 100%;
 }

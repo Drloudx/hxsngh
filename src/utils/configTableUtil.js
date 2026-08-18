@@ -111,6 +111,9 @@ export function replacePlaceholders(text = '', values = []) {
 function buildBaseInfo(raw = {}) {
   // 拆分种族ID+名称：Race字段格式 "ID,种族名"
   const raceInfo = splitIdName(raw.Race)
+  if (raceInfo.id === 'BD20014_000' || raceInfo.name === '夜族') {
+    raceInfo.name = '血族'
+  }
   // 拆分普攻ID+名称：NormalAttack字段格式 "ID,名称"
   const normalAttackInfo = splitIdName(raw.NormalAttack)
   // 生成前端展示全名，自动携带皮肤前缀

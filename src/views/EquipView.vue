@@ -1245,7 +1245,7 @@ const toggleBondExpand = (idx) => {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 10px 10px;
+  padding: 10px 14px;
   flex: 1;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
   transition: border-color 0.2s ease;
@@ -1276,34 +1276,68 @@ const toggleBondExpand = (idx) => {
   min-width: 0;
 }
 
-.filter-toggle-btn, .sub-filter-btn {
+.sub-filter-btn, .filter-toggle-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
   background: var(--card-bg);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 6px 10px;
+  border-radius: 12px;
+  padding: 0 12px;
+  height: 42px;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   transition: all 0.2s ease;
   flex-shrink: 0;
-  color: var(--text-main) !important;
-  height: 38px;
+  font-size: 12px;
+  color: var(--text-main);
 }
-.filter-toggle-btn:hover, .sub-filter-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary) !important;
+
+.sub-filter-btn:hover, .filter-toggle-btn:hover {
+  border-color: #409eff;
+  color: #409eff;
 }
-.sub-filter-btn.active {
-  border-color: var(--primary);
-  color: var(--primary) !important;
+
+.sub-filter-btn.active, .filter-toggle-btn.active {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.dark-mode .sub-filter-btn.active, .dark-mode .filter-toggle-btn.active {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+  color: #60a5fa;
+}
+
+.filter-toggle-text {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.collapse-icon {
+  width: 14px;
+  height: 14px;
+  filter: var(--icon-filter);
+  transition: transform 0.2s ease;
+}
+
+.collapse-icon.collapsed {
+  transform: rotate(180deg);
 }
 
 .sorting-right-group .filter-toggle-btn {
   height: 32px;
   padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  box-shadow: none;
+}
+
+.sorting-right-group .filter-toggle-btn .collapse-icon {
+  width: 12px;
+  height: 12px;
 }
 
 .sub-search-box {
@@ -1367,22 +1401,6 @@ const toggleBondExpand = (idx) => {
 .slide-fade-enter-from, .slide-fade-leave-to {
   opacity: 0;
   transform: translateY(-10px);
-}
-
-.filter-toggle-text {
-  font-size: 12px;
-  font-weight: 600 !important;
-  color: var(--text-main) !important;
-}
-
-.collapse-icon {
-  width: 12px;
-  height: 12px;
-  filter: var(--icon-filter);
-  transition: transform 0.25s ease;
-}
-.collapse-icon.collapsed {
-  transform: rotate(180deg);
 }
 
 /* 筛选面板 */
@@ -2349,17 +2367,6 @@ const toggleBondExpand = (idx) => {
   max-height: 480px;
   overflow-y: auto;
   padding-right: 4px;
-}
-/* 自定义滚动条样式 */
-.categorized-effect-tags::-webkit-scrollbar {
-  width: 4px;
-}
-.categorized-effect-tags::-webkit-scrollbar-thumb {
-  background: var(--border-color, #e2e8f0);
-  border-radius: 2px;
-}
-.categorized-effect-tags::-webkit-scrollbar-track {
-  background: transparent;
 }
 
 .tag-group-header {

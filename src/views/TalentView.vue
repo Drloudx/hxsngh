@@ -992,30 +992,6 @@ onUnmounted(() => {
   color: var(--text-main) !important;
   height: 38px;
 }
-.sub-filter-btn:hover, .sub-filter-btn.active {
-  border-color: var(--primary);
-  color: var(--primary) !important;
-}
-
-.filter-toggle-text {
-  font-size: 12px;
-  font-weight: 600 !important;
-  color: var(--text-main) !important;
-}
-.sub-filter-btn:hover .filter-toggle-text {
-  color: var(--primary) !important;
-}
-
-.collapse-icon {
-  width: 12px;
-  height: 12px;
-  filter: var(--icon-filter);
-  transition: transform 0.25s ease;
-}
-.collapse-icon.collapsed {
-  transform: rotate(180deg);
-}
-
 .sub-search-box {
   display: flex;
   align-items: center;
@@ -1235,6 +1211,13 @@ img.game-sprite {
   opacity: 0.7;
 }
 
+.talent-search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
 .talent-search-input {
   flex: 1;
   border: none;
@@ -1243,6 +1226,57 @@ img.game-sprite {
   font-size: 13px;
   color: var(--text-main);
   font-family: inherit;
+}
+
+.sub-filter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0 12px;
+  height: 42px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--text-main);
+}
+
+.sub-filter-btn:hover {
+  border-color: #409eff;
+  color: #409eff;
+}
+
+.sub-filter-btn.active {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.dark-mode .sub-filter-btn.active {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+  color: #60a5fa;
+}
+
+.filter-toggle-text {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.collapse-icon {
+  width: 14px;
+  height: 14px;
+  filter: var(--icon-filter);
+  transition: transform 0.2s ease;
+}
+
+.collapse-icon.collapsed {
+  transform: rotate(180deg);
 }
 
 .selected-char-bar {

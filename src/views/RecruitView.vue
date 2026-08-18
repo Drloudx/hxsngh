@@ -579,8 +579,6 @@ img.game-sprite {
 /* 心愿招募弹窗相关样式 */
 .wish-modal-card { max-width: 500px !important; }
 .wish-modal-body { max-height: 420px; overflow-y: auto; text-align: left !important; padding: 16px 20px !important; }
-.wish-modal-body::-webkit-scrollbar { width: 6px; }
-.wish-modal-body::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
 .wish-group { margin-bottom: 20px; }
 .wish-group-title { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 800; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 2px solid var(--border-color); }
 .wish-title-3 { color: #f97316; }

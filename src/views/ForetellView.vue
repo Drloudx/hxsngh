@@ -1,32 +1,63 @@
 <template>
   <div class="talent-container">
     <div class="talent-sticky-top">
-      <!-- 顶部栏: 搜索框 -->
-      <div class="talent-search-box">
-        <img src="/ui/search.svg" class="search-icon" />
-        <input
-          type="text"
-          v-model="searchQuery"
-          placeholder="搜索预言名、效果描述..."
-          class="talent-search-input"
-        />
+      <!-- 搜索栏与筛选折叠按钮 -->
+      <div class="foretell-search-row">
+        <div class="talent-search-box">
+          <img src="/ui/search.svg" class="search-icon" />
+          <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="搜索预言名、效果描述..."
+            class="talent-search-input"
+          />
+        </div>
+        <!-- 筛选折叠切换按钮（参考角色/心得页面） -->
+        <button class="filter-toggle-btn" @click="tagsExpanded = !tagsExpanded">
+          <span class="filter-toggle-text">筛选</span>
+          <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !tagsExpanded }" />
+        </button>
       </div>
 
-      <!-- 搜索区域: 预言名字分类筛选 -->
-      <div class="name-tags-section">
-        <div class="name-tags-header" @click="toggleNameTagsExpand">
-          <span class="name-tags-title">预言分类筛选</span>
-          <img src="/ui/up.svg" class="collapse-icon" :class="{ collapsed: !nameTagsExpanded }" />
+      <!-- 折叠筛选面板（默认展开） -->
+      <div v-show="tagsExpanded" class="filter-panel">
+        <!-- 1. 品阶筛选（常驻） -->
+        <div class="filter-row">
+          <span class="filter-label">品阶：</span>
+          <div class="filter-options">
+            <button
+              v-for="stepOpt in stepFilterOptions"
+              :key="stepOpt.value"
+              class="filter-btn step-btn"
+              :class="[`step-btn-${stepOpt.value}`, { active: selectedStep === stepOpt.value }]"
+              @click="toggleStepFilter(stepOpt.value)"
+            >
+              {{ stepOpt.label }}
+            </button>
+          </div>
         </div>
-        <div v-if="nameTagsExpanded" class="name-tags-grid">
-          <span
-            v-for="name in uniqueNames"
-            :key="name"
-            :class="['name-tag', { active: activeNameTag === name }]"
-            @click="toggleNameTag(name)"
-          >
-            {{ name }}
-          </span>
+
+        <!-- 2. 预言分类筛选 -->
+        <div class="filter-row">
+          <span class="filter-label">分类：</span>
+          <div class="filter-options">
+            <button
+              class="filter-btn"
+              :class="{ active: activeNameTag === null }"
+              @click="toggleNameTag(null)"
+            >
+              全部
+            </button>
+            <button
+              v-for="name in uniqueNames"
+              :key="name"
+              class="filter-btn"
+              :class="{ active: activeNameTag === name }"
+              @click="toggleNameTag(name)"
+            >
+              {{ name }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -44,6 +75,9 @@
             <span class="prophecy-name" :style="{ color: getStepConfig(item.Step).color }">{{ item.Name }}</span>
           </div>
           <div class="prophecy-header-right">
+            <span class="prophecy-prob-tag" :style="{ color: getStepConfig(item.Step).color }">
+              概率: {{ getForetellProbability(item) }}
+            </span>
             <span class="difficulty-label">最低出现难度: {{ item.MinDiffi }}</span>
           </div>
         </div>
@@ -186,6 +220,22 @@ const rawForetells = computed(() => {
   return list.filter(item => item.IDs !== 'YY00014_002' && item.IDs !== 'YY00008_002' && item.IDs !== 'YY00014_003' && item.IDs !== 'YY00016_005')
 })
 
+const totalForetellWeight = computed(() => {
+  return rawForetells.value.reduce((sum, item) => sum + (item.Weight || 0), 0)
+})
+
+const getForetellProbability = (item) => {
+  if (!item || !item.Weight || totalForetellWeight.value === 0) return '0.00%'
+  const pct = (item.Weight / totalForetellWeight.value) * 100
+  if (pct >= 0.01) {
+    return pct.toFixed(2) + '%'
+  }
+  if (pct >= 0.001) {
+    return pct.toFixed(3) + '%'
+  }
+  return pct.toFixed(4) + '%'
+}
+
 // 提取所有唯一预言名称作为过滤标签
 const uniqueNames = computed(() => {
   const names = rawForetells.value.map(item => item.Name).filter(Boolean)
@@ -193,17 +243,27 @@ const uniqueNames = computed(() => {
 })
 
 const searchQuery = ref('')
+const selectedStep = ref('all')
 const activeNameTag = ref(null)
-const nameTagsExpanded = ref(false) // 默认收起
+const tagsExpanded = ref(false) // 默认展开
 const displayLimit = ref(20)
+
+const stepFilterOptions = [
+  { label: '全部', value: 'all' },
+  { label: '神话', value: 'SS' },
+  { label: '传说', value: 'S' },
+  { label: '史诗', value: 'A' },
+  { label: '稀有', value: 'B' }
+]
+
+const toggleStepFilter = (val) => {
+  selectedStep.value = selectedStep.value === val ? 'all' : val
+  displayLimit.value = 20
+}
 
 const toggleNameTag = (name) => {
   activeNameTag.value = activeNameTag.value === name ? null : name
   displayLimit.value = 20 // 筛选条件改变时重置分页数
-}
-
-const toggleNameTagsExpand = () => {
-  nameTagsExpanded.value = !nameTagsExpanded.value
 }
 
 // 格式化文本插值：用 Value 替换 {0}
@@ -235,6 +295,11 @@ const fuzzyMatch = (text, query) => {
 // 多词与模糊复合过滤
 const filteredForetells = computed(() => {
   let list = rawForetells.value
+
+  // 0. 品阶过滤
+  if (selectedStep.value !== 'all') {
+    list = list.filter(item => item.Step === selectedStep.value)
+  }
 
   // 1. 词条名字标签过滤
   if (activeNameTag.value) {
@@ -439,7 +504,14 @@ onMounted(() => {
   padding-bottom: 10px;
 }
 
-/* ===== 搜索框 ===== */
+/* ===== 搜索栏与筛选折叠按钮 ===== */
+.foretell-search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
 .talent-search-box {
   display: flex;
   align-items: center;
@@ -447,11 +519,31 @@ onMounted(() => {
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 10px 14px;
-  gap: 0;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
   transition: border-color 0.2s ease;
-  flex-shrink: 0;
+  flex: 1;
 }
+
+/* ===== 搜索栏与筛选折叠按钮（100% 统一 TalentView 规范） ===== */
+.foretell-search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.talent-search-box {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.2s ease;
+  flex: 1;
+}
+
 .talent-search-box:focus-within {
   border-color: #409eff;
 }
@@ -470,83 +562,133 @@ onMounted(() => {
   border: none;
   outline: none;
   background: transparent;
-  font-size: 15px;
+  font-size: 13px;
   color: var(--text-main);
   font-family: inherit;
 }
 
-/* ===== 词条筛选面板 ===== */
-.name-tags-section {
-  margin-top: 10px;
+/* 筛选折叠切换按钮 */
+.filter-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 12px 14px;
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
-  flex-shrink: 0;
-}
-
-.name-tags-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 0 12px;
+  height: 42px;
   cursor: pointer;
-  user-select: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--text-main);
 }
 
-.name-tags-title {
-  font-size: 14px;
+.filter-toggle-btn:hover {
+  border-color: #409eff;
+  color: #409eff;
+}
+
+.filter-toggle-btn.active {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.dark-mode .filter-toggle-btn.active {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+  color: #60a5fa;
+}
+
+.filter-toggle-text {
+  font-size: 12px;
   font-weight: 600;
-  color: var(--text-main);
 }
 
 .collapse-icon {
   width: 14px;
   height: 14px;
   filter: var(--icon-filter);
-  transition: transform 0.25s ease;
+  transition: transform 0.2s ease;
 }
+
 .collapse-icon.collapsed {
   transform: rotate(180deg);
 }
 
-.name-tags-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+/* ===== 筛选折叠面板 ===== */
+.filter-panel {
+  margin-top: 8px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
   gap: 8px;
-  margin-top: 10px;
+  animation: slideDown 0.2s ease-out;
 }
 
-.name-tag {
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.filter-row {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-main);
-  background: var(--bg);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  user-select: none;
-  text-align: center;
+  align-items: flex-start;
+  font-size: 13px;
+}
+
+.filter-label {
+  color: var(--text-sub);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  padding-top: 4px;
+  width: 52px;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: left;
 }
-.name-tag:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-  transform: translateY(-1px);
+
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
 }
-.name-tag.active {
-  background: #dbeafe;
-  color: var(--primary);
-  border-color: var(--primary);
-  font-weight: 600;
+
+.filter-btn {
+  background: transparent;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: var(--text-main);
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 13px;
+  transition: all 0.15s ease;
 }
+
+.filter-btn:hover {
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.filter-btn.active {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  font-weight: bold;
+}
+
+/* 品阶特定按钮高亮（神话红、传说橙、史诗紫、稀有蓝） */
+.step-btn-SS.active { background: rgba(244, 63, 94, 0.15) !important; color: #f43f5e !important; }
+.step-btn-S.active  { background: rgba(249, 115, 22, 0.15) !important; color: #f97316 !important; }
+.step-btn-A.active  { background: rgba(168, 85, 247, 0.15) !important; color: #a855f7 !important; }
+.step-btn-B.active  { background: rgba(59, 130, 246, 0.15) !important; color: #3b82f6 !important; }
 
 /* ===== 滚动卡片列表 ===== */
 .talent-list {
@@ -608,6 +750,16 @@ onMounted(() => {
 .prophecy-header-right {
   display: flex;
   align-items: center;
+  gap: 8px;
+}
+
+.prophecy-prob-tag {
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  padding: 2px 8px;
+  border-radius: 6px;
 }
 
 .difficulty-label {

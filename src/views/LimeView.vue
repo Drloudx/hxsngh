@@ -78,6 +78,10 @@
           {{ lime.Name }}
         </div>
 
+        <div class="lime-card-probability" :style="{ color: getStepConfig(lime.Step).color }">
+          {{ getLimeProbability(lime) }}
+        </div>
+
         <div
           class="owned-status-tag"
           :class="{ 'not-owned': !isOwned(lime.IDs) }"
@@ -115,12 +119,33 @@
 
           <div class="relic-details-grid grid-2-col">
             <div class="relic-detail-stat">
+              <span class="stat-label">{{ detailModal.data.Step === 'SS' ? '自然基础概率：' : '出现概率：' }}</span>
+              <span class="stat-value font-bold" :style="{ color: getStepConfig(detailModal.data.Step).color }">
+                {{ getLimeProbability(detailModal.data) }}
+              </span>
+            </div>
+            <div class="relic-detail-stat">
               <span class="stat-label">发现时奖励：</span>
               <span class="stat-value" style="color: #16a34a;">
                 {{ parseRewardName(detailModal.data.RewardIDs) }} +{{ detailModal.data.RewardNum }}
               </span>
             </div>
-            <div class="relic-detail-stat">
+            <!-- 仅在 SS 品阶下展示元素预言与元素+精灵预言概率 -->
+            <template v-if="detailModal.data.Step === 'SS'">
+              <div class="relic-detail-stat">
+                <span class="stat-label">元素预言概率：</span>
+                <span class="stat-value font-bold" :style="{ color: getStepConfig(detailModal.data.Step).color }">
+                  {{ getElementProphecyProb(detailModal.data) }}
+                </span>
+              </div>
+              <div class="relic-detail-stat">
+                <span class="stat-label">元素+精灵预言：</span>
+                <span class="stat-value font-bold" :style="{ color: getStepConfig(detailModal.data.Step).color }">
+                  {{ getElementSpriteProphecyProb(detailModal.data) }}
+                </span>
+              </div>
+            </template>
+            <div class="relic-detail-stat" style="grid-column: span 2;">
               <span class="stat-label">出现地图：</span>
               <span class="stat-value" style="word-break: break-all; white-space: normal;" :title="getLimeSourceMaps(detailModal.data)">
                 {{ getLimeSourceMaps(detailModal.data) }}
@@ -203,6 +228,59 @@ const STEP_PRIORITY = { 'C': 1, 'B': 2, 'A': 3, 'S': 4, 'SS': 5 }
 const rawLimesList = computed(() => {
   return limeData.DataTable || limeData || []
 })
+
+const totalLimeWeight = computed(() => {
+  return rawLimesList.value.reduce((sum, l) => sum + (l.Weight || 0), 0)
+})
+
+const totalHighLimeWeight = computed(() => {
+  return rawLimesList.value.filter(l => l.Step === 'S' || l.Step === 'SS').reduce((sum, l) => sum + (l.Weight || 0), 0)
+})
+
+const getLimeProbability = (lime) => {
+  if (!lime || !lime.Weight || totalLimeWeight.value === 0) return '0.00%'
+  const pct = (lime.Weight / totalLimeWeight.value) * 100
+  if (pct >= 0.01) {
+    return pct.toFixed(2) + '%'
+  }
+  if (pct >= 0.001) {
+    return pct.toFixed(3) + '%'
+  }
+  return pct.toFixed(4) + '%'
+}
+
+// 元素预言（锁定 S/SS 橙色位阶以上池）：单只出现概率
+const getElementProphecyProb = (lime) => {
+  if (!lime) return '0.00%'
+  if (lime.Step !== 'S' && lime.Step !== 'SS') return '0.00% (已排除)'
+  if (!lime.Weight || totalHighLimeWeight.value === 0) return '0.00%'
+  const pct = (lime.Weight / totalHighLimeWeight.value) * 100
+  if (pct >= 0.01) return pct.toFixed(2) + '%'
+  if (pct >= 0.001) return pct.toFixed(3) + '%'
+  return pct.toFixed(4) + '%'
+}
+
+// 元素 + 精灵预言（多格地块保底产出）：单局（按 5 个多格地块）刷出该莱姆的综合复合期望
+const getElementSpriteProphecyProb = (lime) => {
+  if (!lime) return '0.00%'
+  if (lime.Step !== 'S' && lime.Step !== 'SS') return '0.00% (已排除)'
+  if (!lime.Weight || totalHighLimeWeight.value === 0) return '0.00%'
+  const singleP = lime.Weight / totalHighLimeWeight.value
+  const fiveP = (1 - Math.pow(1 - singleP, 5)) * 100
+  if (fiveP >= 0.01) return fiveP.toFixed(2) + '%'
+  if (fiveP >= 0.001) return fiveP.toFixed(3) + '%'
+  return fiveP.toFixed(4) + '%'
+}
+
+const getElementProphecyColor = (lime) => {
+  if (!lime || (lime.Step !== 'S' && lime.Step !== 'SS')) return 'var(--text-sub)'
+  return getStepConfig(lime.Step).color
+}
+
+const getElementSpriteProphecyColor = (lime) => {
+  if (!lime || (lime.Step !== 'S' && lime.Step !== 'SS')) return 'var(--text-sub)'
+  return getStepConfig(lime.Step).color
+}
 
 const totalCount = computed(() => rawLimesList.value.length)
 const ownedCount = computed(() => {
@@ -596,6 +674,14 @@ const closeDetailModal = () => {
   width: 100%;
 }
 
+.lime-card-probability {
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 2px;
+  text-align: center;
+  line-height: 1.2;
+}
+
 /* ===== 勾选标签样式 ===== */
 .owned-status-tag {
   display: inline-flex;
@@ -897,5 +983,53 @@ const closeDetailModal = () => {
     font-size: 15px !important;
     line-height: 1.6 !important;
   }
+}
+
+/* ===== 预言加成说明小贴士样式 ===== */
+.prophecy-tip-box {
+  margin-top: 10px;
+  background: var(--bg);
+  border: 1px dashed var(--border-color);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-main);
+}
+
+.prophecy-tip-title {
+  font-weight: 700;
+  color: #f97316;
+  font-size: 12px;
+}
+
+.prophecy-tip-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.tip-badge {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.tip-badge.element {
+  background: rgba(249, 115, 22, 0.12);
+  color: #f97316;
+  border: 1px solid rgba(249, 115, 22, 0.25);
+}
+
+.tip-badge.combo {
+  background: rgba(168, 85, 247, 0.12);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.25);
 }
 </style>

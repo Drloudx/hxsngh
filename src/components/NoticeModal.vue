@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { defineProps, defineEmits, computed } from 'vue'
 import notices from '../assets/notices.json'
 
@@ -82,14 +82,6 @@ const rules = [
   overflow-y: auto;
   text-align: left !important;
   padding: 20px 24px !important;
-}
-
-.notice-body::-webkit-scrollbar {
-  width: 6px;
-}
-.notice-body::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 10px;
 }
 
 .notice-list {

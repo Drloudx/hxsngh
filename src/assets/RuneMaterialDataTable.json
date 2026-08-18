@@ -1,0 +1,194 @@
+{
+ "m_GameObject": {
+  "m_FileID": 0,
+  "m_PathID": 0
+ },
+ "m_Enabled": 1,
+ "m_Script": {
+  "m_FileID": 0,
+  "m_PathID": -6053651705726629512
+ },
+ "m_Name": "RuneMaterialDataTable",
+ "DataTable": [
+  {
+   "IDs": "CZ00001_003",
+   "Material": "山铜",
+   "MaterialI2": "Runes/Runes_List_01",
+   "Effect": "增幅",
+   "EffectI2": "Runes/Runes_Type_01",
+   "Resonance1": "基础效果+100%",
+   "Resonance1I2": "Runes/Runes_Resonance_01",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "基础效果+200%",
+   "Resonance3I2": "Runes/Runes_Resonance_24"
+  },
+  {
+   "IDs": "CZ00002_004",
+   "Material": "秘银",
+   "MaterialI2": "Runes/Runes_List_02",
+   "Effect": "破法",
+   "EffectI2": "Runes/Runes_Type_02",
+   "Resonance1": "受到技能伤害-1。",
+   "Resonance1I2": "Runes/Runes_Resonance_02",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "受到负面状态层数-1。",
+   "Resonance3I2": "Runes/Runes_Resonance_13"
+  },
+  {
+   "IDs": "CZ00003_001",
+   "Material": "精金",
+   "MaterialI2": "Runes/Runes_List_03",
+   "Effect": "坚固",
+   "EffectI2": "Runes/Runes_Type_03",
+   "Resonance1": "受到普通伤害-1。",
+   "Resonance1I2": "Runes/Runes_Resonance_03",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "失去生命-2。",
+   "Resonance3I2": "Runes/Runes_Resonance_14"
+  },
+  {
+   "IDs": "CZ00004_004",
+   "Material": "魔晶",
+   "MaterialI2": "Runes/Runes_List_04",
+   "Effect": "蓄能",
+   "EffectI2": "Runes/Runes_Type_04",
+   "Resonance1": "造成技能伤害+1。",
+   "Resonance1I2": "Runes/Runes_Resonance_04",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "释放技能后使自身获得1点魔力。",
+   "Resonance3I2": "Runes/Runes_Resonance_15"
+  },
+  {
+   "IDs": "CZ00005_002",
+   "Material": "血石",
+   "MaterialI2": "Runes/Runes_List_05",
+   "Effect": "复仇",
+   "EffectI2": "Runes/Runes_Type_05",
+   "Resonance1": "造成反击伤害+1。",
+   "Resonance1I2": "Runes/Runes_Resonance_05",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "受到攻击后使自身获得1点生命。",
+   "Resonance3I2": "Runes/Runes_Resonance_16_new01"
+  },
+  {
+   "IDs": "CZ00006_001",
+   "Material": "枫木",
+   "MaterialI2": "Runes/Runes_List_06",
+   "Effect": "轻盈",
+   "EffectI2": "Runes/Runes_Type_06",
+   "Resonance1": "造成追击伤害+1。",
+   "Resonance1I2": "Runes/Runes_Resonance_06",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "行动结束后使自身获得2层精准。",
+   "Resonance3I2": "Runes/Runes_Resonance_17"
+  },
+  {
+   "IDs": "CZ00007_001",
+   "Material": "冰晶",
+   "MaterialI2": "Runes/Runes_List_07",
+   "Effect": "御寒",
+   "EffectI2": "Runes/Runes_Type_07",
+   "Resonance1": "受到冰冷层数-1。",
+   "Resonance1I2": "Runes/Runes_Resonance_07",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "造成冰冷层数+1。",
+   "Resonance3I2": "Runes/Runes_Resonance_18_new01"
+  },
+  {
+   "IDs": "CZ00008_002",
+   "Material": "龙骨",
+   "MaterialI2": "Runes/Runes_List_08",
+   "Effect": "威慑",
+   "EffectI2": "Runes/Runes_Type_08",
+   "Resonance1": "对弱点暴露目标造成全部伤害+1。",
+   "Resonance1I2": "Runes/Runes_Resonance_08",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "战斗开始前使敌方全体目标失去5点韧性。",
+   "Resonance3I2": "Runes/Runes_Resonance_19"
+  },
+  {
+   "IDs": "CZ00009_004",
+   "Material": "齿轮",
+   "MaterialI2": "Runes/Runes_List_09",
+   "Effect": "组合",
+   "EffectI2": "Runes/Runes_Type_09",
+   "Resonance1": "造成普通伤害+1。",
+   "Resonance1I2": "Runes/Runes_Resonance_09",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "获得正面状态层数+1。",
+   "Resonance3I2": "Runes/Runes_Resonance_20"
+  },
+  {
+   "IDs": "CZ00010_001",
+   "Material": "贝壳",
+   "MaterialI2": "Runes/Runes_List_10",
+   "Effect": "滋养",
+   "EffectI2": "Runes/Runes_Type_10",
+   "Resonance1": "受到恢复后使自身获得1层滋润。",
+   "Resonance1I2": "Runes/Runes_Resonance_10",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "获得滋润层数+2。",
+   "Resonance3I2": "Runes/Runes_Resonance_21"
+  },
+  {
+   "IDs": "CZ00011_001",
+   "Material": "图腾",
+   "MaterialI2": "Runes/Runes_List_11",
+   "Effect": "野性",
+   "EffectI2": "Runes/Runes_Type_11",
+   "Resonance1": "进行攻击后使自身获得1层热血。",
+   "Resonance1I2": "Runes/Runes_Resonance_11",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "获得热血层数+2。",
+   "Resonance3I2": "Runes/Runes_Resonance_22"
+  },
+  {
+   "IDs": "CZ00012_001",
+   "Material": "圣洁",
+   "MaterialI2": "Runes/Runes_List_12",
+   "Effect": "纯净",
+   "EffectI2": "Runes/Runes_Type_12",
+   "Resonance1": "没有负面状态时自身受到全部伤害-1。",
+   "Resonance1I2": "Runes/Runes_Resonance_12",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "造成净化层数+1。",
+   "Resonance3I2": "Runes/Runes_Resonance_23"
+  },
+  {
+   "IDs": "CZ00013_001",
+   "Material": "黄沙",
+   "MaterialI2": "Runes/Runes_List_CZ00013",
+   "Effect": "陷落",
+   "EffectI2": "Runes/Runes_Type_CZ00013",
+   "Resonance1": "回合开始前对敌方全体目标造成1层减速。",
+   "Resonance1I2": "Runes/Runes_Resonance_CZ00013_001",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "造成减速层数+1。",
+   "Resonance3I2": "Runes/Runes_Resonance_CZ00013_002"
+  },
+  {
+   "IDs": "CZ00014_001",
+   "Material": "熔岩",
+   "MaterialI2": "Runes/Runes_List_CZ00014",
+   "Effect": "燃烧",
+   "EffectI2": "Runes/Runes_Type_13",
+   "Resonance1": "受到灼烧层数-1。",
+   "Resonance1I2": "Relics/Relics_Des_65",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "造成灼烧层数+1。",
+   "Resonance3I2": "Relics/Relics_Des_55"
+  },
+  {
+   "IDs": "CZ00015_001",
+   "Material": "枯木",
+   "MaterialI2": "Runes/Runes_List_CZ00015",
+   "Effect": "尖刺",
+   "EffectI2": "Equipbond/Name_Skill_JN00015",
+   "Resonance1": "获得反伤层数+1。",
+   "Resonance1I2": "Relics/Relics_Des_34",
+   "Resonance2": "基础效果+100%",
+   "Resonance3": "获得反伤层数上限+100。",
+   "Resonance3I2": "Runes/Runes_Resonance_CZ00015_001"
+  }
+ ]
+}

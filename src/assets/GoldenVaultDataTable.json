@@ -1,0 +1,227 @@
+[
+ {
+  "Id": "golden_vault_1",
+  "IDs": "BK00001_001",
+  "Level": "1",
+  "Weight": 5000,
+  "Type": "神石",
+  "Content": "随机C阶神石",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_2",
+  "IDs": "BK00001_002",
+  "Level": "1",
+  "Weight": 2500,
+  "Type": "装备",
+  "Content": "随机C阶装备",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_3",
+  "IDs": "BK00001_003",
+  "Level": "1",
+  "Weight": 2500,
+  "Type": "符文",
+  "Content": "随机C阶符文",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_4",
+  "IDs": "BK00001_004",
+  "Level": "1",
+  "Weight": 500,
+  "Type": "装备",
+  "Content": "随机C阶传承装备",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_5",
+  "IDs": "BK00001_005",
+  "Level": "1",
+  "Weight": 250,
+  "Type": "四叶草",
+  "Content": "D00002_000,四叶草",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_6",
+  "IDs": "BK00001_006",
+  "Level": "1",
+  "Weight": 250,
+  "Type": "道具",
+  "Content": "D00002_001,天赋果实",
+  "Num": 5
+ },
+ {
+  "Id": "golden_vault_7",
+  "IDs": "BK00001_011",
+  "Level": "1,2",
+  "Weight": 5000,
+  "Type": "神石",
+  "Content": "随机B阶神石",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_8",
+  "IDs": "BK00001_012",
+  "Level": "1,2",
+  "Weight": 2500,
+  "Type": "装备",
+  "Content": "随机B阶装备",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_9",
+  "IDs": "BK00001_013",
+  "Level": "1,2",
+  "Weight": 2500,
+  "Type": "符文",
+  "Content": "随机B阶符文",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_10",
+  "IDs": "BK00001_014",
+  "Level": "1,2",
+  "Weight": 500,
+  "Type": "装备",
+  "Content": "随机B阶传承装备",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_11",
+  "IDs": "BK00001_015",
+  "Level": "1,2",
+  "Weight": 125,
+  "Type": "四叶草",
+  "Content": "D00002_000,四叶草",
+  "Num": 2
+ },
+ {
+  "Id": "golden_vault_12",
+  "IDs": "BK00001_016",
+  "Level": "1,2",
+  "Weight": 125,
+  "Type": "道具",
+  "Content": "D00002_001,天赋果实",
+  "Num": 10
+ },
+ {
+  "Id": "golden_vault_13",
+  "IDs": "BK00001_021",
+  "Level": "1,2,3",
+  "Weight": 2500,
+  "Type": "神石",
+  "Content": "随机A阶神石",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_14",
+  "IDs": "BK00001_022",
+  "Level": "1,2,3",
+  "Weight": 250,
+  "Type": "装备",
+  "Content": "随机A阶装备",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_15",
+  "IDs": "BK00001_023",
+  "Level": "1,2,3",
+  "Weight": 250,
+  "Type": "符文",
+  "Content": "随机A阶符文",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_16",
+  "IDs": "BK00001_024",
+  "Level": "1,2,3",
+  "Weight": 50,
+  "Type": "装备",
+  "Content": "随机A阶传承装备",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_17",
+  "IDs": "BK00001_025",
+  "Level": "1,2,3",
+  "Weight": 25,
+  "Type": "四叶草",
+  "Content": "D00002_000,四叶草",
+  "Num": 4
+ },
+ {
+  "Id": "golden_vault_18",
+  "IDs": "BK00001_026",
+  "Level": "1,2,3",
+  "Weight": 25,
+  "Type": "道具",
+  "Content": "D00002_001,天赋果实",
+  "Num": 20
+ },
+ {
+  "Id": "golden_vault_19",
+  "IDs": "BK00001_031",
+  "Level": "2,3",
+  "Weight": 500,
+  "Type": "神石",
+  "Content": "随机S阶神石",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_20",
+  "IDs": "BK00001_032",
+  "Level": "2,3",
+  "Weight": 25,
+  "Type": "装备",
+  "Content": "随机S阶装备",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_21",
+  "IDs": "BK00001_033",
+  "Level": "2,3",
+  "Weight": 25,
+  "Type": "符文",
+  "Content": "随机S阶符文",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_22",
+  "IDs": "BK00001_034",
+  "Level": "2,3",
+  "Weight": 5,
+  "Type": "装备",
+  "Content": "随机S阶传承装备",
+  "Num": 1
+ },
+ {
+  "Id": "golden_vault_23",
+  "IDs": "BK00001_035",
+  "Level": "2,3",
+  "Weight": 5,
+  "Type": "四叶草",
+  "Content": "D00002_000,四叶草",
+  "Num": 8
+ },
+ {
+  "Id": "golden_vault_24",
+  "IDs": "BK00001_036",
+  "Level": "2,3",
+  "Weight": 5,
+  "Type": "道具",
+  "Content": "D00002_001,天赋果实",
+  "Num": 50
+ },
+ {
+  "Id": "golden_vault_25",
+  "IDs": "BK00001_041",
+  "Level": "3",
+  "Weight": 1,
+  "Type": "装备",
+  "Content": "随机SS阶传承装备",
+  "Num": 1
+ }
+]

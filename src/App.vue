@@ -311,13 +311,20 @@ const modes = [
   { id: 'prefix', name: '怪物加护', shortName: '加护', path: '/prefix' },
   { id: 'areablock', name: '地块图鉴', shortName: '地块', path: '/areablock' },
   { id: 'foretell', name: '预言图鉴', shortName: '预言', path: '/foretell' },
+  { id: 'gambleshop', name: '商人/宝库概率', shortName: '概率', path: '/gambleshop' },
   { id: 'dungeon-relics', name: '星界秘境遗物图鉴', shortName: '遗物', path: '/dungeon-relics' },
   { id: 'guide', name: '新人攻略', shortName: '攻略', path: '/guide' },
   { id: 'relics', name: '心得图鉴', shortName: '心得', path: '/relics' },
+  { id: 'battle', name: '战斗模拟', shortName: '战斗', path: '/battle' },
   { id: 'ranking', name: '预告：角色/队伍热度排行', shortName: '预告', path: '/ranking' }
 ]
 
 const currentModeInfo = computed(() => {
+  if (route.meta && route.meta.title) {
+    const found = modes.find(m => route.path === m.path || route.path.startsWith(m.path + '/'))
+    if (found) return found
+    return { name: route.meta.title, shortName: route.meta.shortName || route.meta.title, path: route.path }
+  }
   const m = modes.find(m => route.path === m.path || route.path.startsWith(m.path + '/'))
   return m || modes[0]
 })
@@ -713,7 +720,7 @@ const borderNoticeRead = () => {
     <div v-if="showPaymentModal" class="custom-modal-overlay" @click.self="showPaymentModal = false">
       <div class="custom-modal-card about-modal-card">
         <div class="modal-header about-header" style="position:relative">
-          <h3>{{ paymentType === 'alipay' ? '支付宝赞助支持' : '微信赞助支持' }}</h3>
+          <h3>赞助支持</h3>
           <button class="modal-close-btn" @click="showPaymentModal = false">✕</button>
         </div>
         <div class="modal-body donate-body" style="text-align: center; padding: 20px 24px;">
@@ -828,28 +835,45 @@ const borderNoticeRead = () => {
   --icon-filter: brightness(0) saturate(100%) invert(91%) sepia(5%) saturate(542%) hue-rotate(181deg) brightness(96%) contrast(87%);
 }
 
-/* 夜间模式滚动条适配 */
-.dark-mode {
-  scrollbar-color: #334155 transparent;
-  scrollbar-width: thin;
+/* ================= 全局统一样式滚动条 ================= */
+::-webkit-scrollbar {
+  width: 7px !important;
+  height: 7px !important;
 }
 
-.dark-mode ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+::-webkit-scrollbar-track {
+  background: transparent !important;
 }
 
-.dark-mode ::-webkit-scrollbar-track {
-  background: transparent;
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.10) !important;
+  border-radius: 10px !important;
+  transition: background-color 0.2s ease;
 }
 
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.15) !important;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: rgba(0, 0, 0, 0.22) !important;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+/* 夜间模式全局滚动条适配 */
 .dark-mode ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.12) !important;
 }
 
 .dark-mode ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: rgba(255, 255, 255, 0.18) !important;
+}
+
+.dark-mode ::-webkit-scrollbar-thumb:active {
+  background: rgba(255, 255, 255, 0.25) !important;
 }
 
 *, *::before, *::after {

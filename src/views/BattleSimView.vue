@@ -3139,8 +3139,8 @@ img.game-sprite {
 
 .filter-toggle-text {
   font-size: 12px;
-  font-weight: 600 !important;
-  color: var(--text-main) !important;
+  font-weight: 500;
+  color: var(--text-main);
 }
 
 .filter-panel {
