@@ -37,7 +37,7 @@ const routes = [
   { path: '/godstone', name: 'godstone', component: GodStoneView, meta: { title: '神石图鉴', shortName: '神石' } },
   { path: '/rune', name: 'rune', component: RuneView, meta: { title: '符文图鉴', shortName: '符文' } },
   { path: '/equip', name: 'equip', component: EquipView, meta: { title: '装备筛选工具', shortName: '装备' } },
-  { path: '/equip-prob', name: 'equip-prob', component: EquipProbView, meta: { title: '装备概率', shortName: '概率' } },
+  { path: '/equip-prob', name: 'equip-prob', component: EquipProbView, meta: { title: '金装刷取难易度', shortName: '概率' } },
   { path: '/areablock', name: 'areablock', component: AreaBlockView, meta: { title: '地块图鉴', shortName: '地块' } },
   { path: '/gambleshop', name: 'gambleshop', component: GambleShopView, meta: { title: '商人/宝库概率', shortName: '概率' } },
   { path: '/other-prob', name: 'other-prob', component: OtherProbView, meta: { title: '其他概率', shortName: '其他' } },
