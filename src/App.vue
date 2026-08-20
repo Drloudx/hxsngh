@@ -261,7 +261,7 @@ const modes = [
   { id: 'foretell', name: '预言图鉴', shortName: '预言', path: '/foretell' },
   { id: 'gambleshop', name: '商人/宝库概率', shortName: '概率', path: '/gambleshop' },
   { id: 'other-prob', name: '其他概率', shortName: '其他', path: '/other-prob' },
-  { id: 'equip-prob', name: '装备概率', shortName: '概率', path: '/equip-prob' },
+  { id: 'equip-prob', name: '金装刷取难易度', shortName: '概率', path: '/equip-prob' },
   { id: 'godstone', name: '神石图鉴', shortName: '神石', path: '/godstone' },
   { id: 'rune', name: '符文图鉴', shortName: '符文', path: '/rune' },
   { id: 'dungeon-relics', name: '星界秘境遗物图鉴', shortName: '遗物', path: '/dungeon-relics' },
