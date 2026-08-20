@@ -93,7 +93,7 @@ onMounted(() => {
     if (!e.target.closest('.title-dropdown-trigger') && !e.target.closest('.nav-fab-btn')) isMenuOpen.value = false
   })
 
-  // ===== 侧滑/物理返回键全局弹窗拦截处理（双保险模式） =====
+  // ===== 侧滑/物理返回键全局弹窗拦截处理 =====
   const modalSelectors = [
     '.detail-modal-overlay',
     '.relic-modal-overlay',
@@ -139,59 +139,7 @@ onMounted(() => {
     return true
   }
 
-  let isBacking = false
-  let isStatePushed = false
-
-  const syncModalHistoryState = () => {
-    const modalEl = getVisibleModal()
-    const hasModal = !!modalEl
-    const isStateModal = history.state?.modalOpen === true
-    
-    if (hasModal && !isStatePushed && !isStateModal) {
-      isStatePushed = true
-      history.pushState({ ...(history.state || {}), modalOpen: true }, '')
-    } else if (!hasModal && (isStatePushed || isStateModal) && !isBacking) {
-      isStatePushed = false
-      isBacking = true
-      history.back()
-    }
-  }
-
-  const observer = new MutationObserver(() => {
-    setTimeout(syncModalHistoryState, 50)
-  })
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    attributeFilter: ['style', 'class']
-  })
-
-  window.addEventListener('popstate', (e) => {
-    const isStateModal = e.state?.modalOpen === true
-    const modalEl = getVisibleModal()
-    
-    if (isBacking) {
-      isBacking = false
-      isStatePushed = false
-      return
-    }
-    
-    if (!isStateModal) {
-      isStatePushed = false
-      if (modalEl) {
-        closeActiveModal(modalEl)
-      }
-    }
-  })
-
-  // 页面切换（路由跳转）后强制重置拦截标记，彻底防止指针偏差
-  router.afterEach(() => {
-    isStatePushed = false
-    isBacking = false
-  })
-
-  // 暴露给原生安卓壳子的全局方法
+  // 暴露给原生安卓壳子的全局方法（物理返回键优先拦截关闭弹窗）
   window.onAndroidBack = () => {
     const modalEl = getVisibleModal()
     if (modalEl) {
@@ -312,6 +260,10 @@ const modes = [
   { id: 'areablock', name: '地块图鉴', shortName: '地块', path: '/areablock' },
   { id: 'foretell', name: '预言图鉴', shortName: '预言', path: '/foretell' },
   { id: 'gambleshop', name: '商人/宝库概率', shortName: '概率', path: '/gambleshop' },
+  { id: 'other-prob', name: '其他概率', shortName: '其他', path: '/other-prob' },
+  { id: 'equip-prob', name: '装备概率', shortName: '概率', path: '/equip-prob' },
+  { id: 'godstone', name: '神石图鉴', shortName: '神石', path: '/godstone' },
+  { id: 'rune', name: '符文图鉴', shortName: '符文', path: '/rune' },
   { id: 'dungeon-relics', name: '星界秘境遗物图鉴', shortName: '遗物', path: '/dungeon-relics' },
   { id: 'guide', name: '新人攻略', shortName: '攻略', path: '/guide' },
   { id: 'relics', name: '心得图鉴', shortName: '心得', path: '/relics' },

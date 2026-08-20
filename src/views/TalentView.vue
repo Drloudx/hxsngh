@@ -342,9 +342,9 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted, reactive } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
-import rawRoles from '@/assets/RoleDataTable.json'
-import rawTalents from '@/assets/TalentDataTable.json'
-import { getVisibleCharacters, isCharacterBlocked } from '@/utils/characterFilter'
+import rawRoles from '@/assets/Role.json'
+import rawTalents from '@/assets/Talent.json'
+import { getVisibleCharacters, isCharacterBlocked, isTalentVisible, getVisibleRaceNames } from '@/utils/characterFilter'
 
 const JOB_KEYWORDS = ['战士', '射手', '法师', '牧师']
 const RACE_KEYWORDS = []
@@ -889,6 +889,7 @@ onMounted(() => {
   }
   const fullCharacters = getVisibleCharacters(configUtil.getFullCharacterList(rawRoleArr, fullDatasets))
   allCharacters.value = fullCharacters
+  const visibleRaceNames = getVisibleRaceNames(fullCharacters)
 
   const cleanTalentList = rawTalentArr.map((t, idx) => {
 
@@ -910,7 +911,7 @@ onMounted(() => {
     const rawLabel = configUtil.getTalentSourceLabel(base, fullCharacters)
     base.sourceLabel = (rawLabel || '').replace('职业', '').replace('属性', '')
     return base
-  }).filter(t => !isCharacterBlocked(t.SpecifyRoleIDs))
+  }).filter(t => isTalentVisible(t, fullCharacters, visibleRaceNames))
 
   const sortedCleanList = sortTalentAllQuality(cleanTalentList)
 

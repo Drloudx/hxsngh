@@ -135,18 +135,6 @@
             </span>
           </div>
         </div>
-
-        <!-- 稀有标记筛选 -->
-        <div class="filter-row" style="align-items: flex-start; margin-top: 4px;">
-          <span class="filter-label" style="width: 55px; flex-shrink: 0; margin-right: 12px;">稀有标记</span>
-          <div class="filter-options" style="flex-direction: column; align-items: flex-start; gap: 4px;">
-            <label class="rare-toggle-label" style="display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none;">
-              <input type="checkbox" v-model="showRareMark" class="rare-checkbox-input" />
-              <span class="rare-toggle-text" style="font-size: 12px; font-weight: 600; color: var(--text-main);">稀有装备显示</span>
-            </label>
-            <span class="rare-toggle-hint" style="font-size: 11px; color: #ef4444; font-weight: 600;">* 开启后，地图中难出的装备会进行标记</span>
-          </div>
-        </div>
       </div>
 
       <!-- 效果标签筛选 -->
@@ -191,7 +179,7 @@
         <div
           v-for="equip in pagedEquips"
           :key="equip.IDs"
-          :class="['equip-rough-card', { 'rare-highlight-card': showRareMark && isRareEquip(equip) }]"
+          class="equip-rough-card"
           @click="openDetail(equip)"
         >
           <div
@@ -225,7 +213,6 @@
               </div>
               <div class="equip-detail-name" :style="{ color: getStepConfig(equip.Step).color }">
                 {{ equip.Name }}
-                <span v-if="showRareMark && isRareEquip(equip)" class="rare-equip-tag">稀有</span>
               </div>
             </div>
             <!-- 右侧基础属性 -->
@@ -404,17 +391,16 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import equipData from '@/assets/EquipDataTable.json'
-import bondData from '@/assets/BondDataTable.json'
+import equipData from '@/assets/Equip.json'
+import bondData from '@/assets/Bond.json'
 import { getCategoryByTag } from '@/utils/tagCategories'
 
 // 构建词条快速检索 map
 const bondMap = new Map()
-if (bondData && bondData.DataTable) {
-  bondData.DataTable.forEach(b => {
-    bondMap.set(b.Name, b)
-  })
-}
+const bondsList = Array.isArray(bondData) ? bondData : (bondData.DataTable || [])
+bondsList.forEach(b => {
+  bondMap.set(b.Name, b)
+})
 
 // 属性与图标映射定义
 const ATTRIBUTE_MAP = [
@@ -455,7 +441,6 @@ const effectExpanded = ref(false)
 const toggleEffectExpand = () => {
   effectExpanded.value = !effectExpanded.value
 }
-const showRareMark = ref(localStorage.getItem('showRareMark') !== 'false')
 const viewMode = ref('rough')
 
 // 分页懒加载
@@ -971,10 +956,6 @@ watch(showSubSearch, (val) => {
   }
 })
 
-watch(showRareMark, (newVal) => {
-  localStorage.setItem('showRareMark', newVal.toString())
-})
-
 // 词条辅助展示函数
 const parseBondInfo = (bondStr) => {
   if (!bondStr) return null
@@ -1011,30 +992,6 @@ const getBondColor = (bondStr) => {
   const bObj = bondMap.get(info.name)
   if (!bObj || !bObj.Step) return '#64748b'
   return getStepConfig(bObj.Step).color
-}
-
-// 稀有地图装备配置
-const rareDropsMap = {
-  "世界": ["","","","","","","","",""],
-  "新生平原": ["狙击机弩","狙击箭矢","地灵长杖","狙击项链", "地灵法球", "聆风魔弓", "聆风魔矢", "聆风魔靴"],
-  "广袤草原": ["火羽披风","火羽腰带","火羽长靴","飞羽护臂","飞羽徽章","飞羽项链"],
-  "铁血高地": ["魔王战靴","魔王腰带","魔王头冠","死神徽章","死神腰带","死神兜帽","统帅战靴","统帅战甲","统帅战盔"],
-  "迷失森林": ["神树护臂","神树束腰","神树战靴","慈爱头冠","慈爱长袍","慈爱项链","森林圣物","森林王冠","森林之心"],
-  "幽暗密林": ["梦魇魔盔","梦魇魔铠","梦魇魔爪","龙魂战盔","龙魂战甲","龙魂之心","恶意纹章","恶意项链","恶意戒指"],
-  "清凉沙滩": ["天使羽弓","天使光环","天使羽翼","泰坦战盔","泰坦战甲","泰坦护手","无瑕权杖","无瑕盾牌","无瑕长袍"],
-  "遗忘之海": ["流水项链","流水指环","流水徽章","邪神权杖","邪神之冠","邪神束带","","",""],
-  "废弃矿洞": ["炼狱宝珠","炼狱手套","炼狱腰带","","","","","",""],
-  "洞穴深处": ["维生头罩","维生装甲","维生芯片","","","","","",""],
-  "极寒冰原": ["冰蛛披肩","冰蛛手套","冰蛛纹章","冰羽利刃","冰羽斗篷","冰羽神靴","","",""],
-  "荒凉戈壁": ["光辉权杖","光辉头环","光辉羽织", "光辉圣徽", "光辉之心", "光辉宝戒", "舞姬面纱","舞姬手环","舞姬束带"],
-  "无尽荒漠": ["许愿神灯","许愿项链","许愿戒指","许愿束带","许愿护臂","许愿头环","","",""],
-  "熔岩通道": ["熔岩重弩","熔岩重矢","熔岩戒指","烈火魔杖","烈火宝珠","烈火长袍","","",""]
-}
-
-const isRareEquip = (equip) => {
-  if (!equip || !equip.Name || !equip.AreaName) return false
-  const list = rareDropsMap[equip.AreaName]
-  return list ? list.includes(equip.Name) : false
 }
 
 // 详情词条名动态获取
@@ -2144,39 +2101,6 @@ const toggleBondExpand = (idx) => {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
-}
-
-/* 稀有装备标记样式 */
-.equip-rough-card.rare-highlight-card {
-  border: 1px solid #f43f5e !important;
-}
-
-.rare-equip-tag {
-  padding: 2px 6px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #f43f5e;
-  background: rgba(244, 63, 94, 0.08);
-  border: 1px solid rgba(244, 63, 94, 0.15);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-left: 6px;
-  line-height: 1;
-}
-.dark-mode .rare-equip-tag {
-  color: #fb7185;
-  background: rgba(251, 113, 133, 0.15);
-  border: 1px solid rgba(251, 113, 133, 0.25);
-}
-
-.rare-checkbox-input {
-  width: 14px;
-  height: 14px;
-  cursor: pointer;
-  accent-color: #f43f5e;
 }
 
 /* 效果标签筛选 */

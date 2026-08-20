@@ -194,9 +194,9 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
-import rawRoles from '@/assets/RoleDataTable.json'
-import rawRelics from '@/assets/RelicsDataTable.json'
-import { getVisibleCharacters, HIDE_UNRELEASED_CHARACTERS } from '@/utils/characterFilter'
+import rawRoles from '@/assets/Role.json'
+import rawRelics from '@/assets/Relics.json'
+import { getVisibleCharacters, isRelicVisible, HIDE_UNRELEASED_CHARACTERS } from '@/utils/characterFilter'
 
 const searchQuery = ref('')
 const showSubSearch = ref(false)
@@ -466,14 +466,9 @@ onMounted(() => {
       roleMap.set(char.id, char)
     })
 
-    // 2. 参考 RoleView.vue 的 isUnreleasedRelic 过滤逻辑：
-    // 如果心得指定了角色ID（SpecifyRoleIDs），但该角色不在当前已实装角色列表里，则判定为未实装心得，予以过滤隐藏
+    // 2. 统一过滤未实装/屏蔽角色的专属心得
     const cleanRelics = rawRelicArr
-      .filter(r => {
-        if (!r.SpecifyRoleIDs) return true
-        if (HIDE_UNRELEASED_CHARACTERS && HIDE_UNRELEASED_CHARACTERS.value === false) return true
-        return fullCharacters.some(c => c.id === r.SpecifyRoleIDs)
-      })
+      .filter(r => isRelicVisible(r, fullCharacters))
       .map(r => {
         const sourceRole = r.SpecifyRoleIDs ? roleMap.get(r.SpecifyRoleIDs) : null
         const sourceRoleName = sourceRole ? sourceRole.displayName : (r.SpecifyRoleIDs || '通用')

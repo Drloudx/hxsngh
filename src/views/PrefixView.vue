@@ -47,6 +47,7 @@
               <img 
                 :src="getPrefixIcon(getActiveStepItem(group)?.IDs)" 
                 class="prefix-icon-img game-sprite" 
+                @error="handleIconError(getPrefixIcon(getActiveStepItem(group)?.IDs))"
               />
             </div>
             <span class="prefix-name">{{ group[0].Name }}</span>
@@ -135,7 +136,7 @@
 </template>
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import prefixData from '@/assets/PrefixDataTable.json'
+import prefixData from '@/assets/Prefix.json'
 
 const STEP_ORDER = ['C', 'B', 'A', 'S']
 const stepLabels = [
@@ -150,7 +151,8 @@ const DEFAULT_LEVEL = 200
 
 const rawGroups = computed(() => {
   const map = new Map()
-  prefixData.DataTable.forEach(item => {
+  const list = Array.isArray(prefixData) ? prefixData : (prefixData.DataTable || [])
+  list.forEach(item => {
     if (!map.has(item.Name)) {
       map.set(item.Name, [])
     }
@@ -189,18 +191,27 @@ const getActiveStepItem = (group) => {
   return group.find(item => item.Step === step) || group[0]
 }
 
+const failedIcons = ref(new Set())
+const handleIconError = (iconPath) => {
+  if (iconPath) {
+    failedIcons.value.add(iconPath)
+  }
+}
+
 const getPrefixIcon = (ids) => {
   if (!ids) return null
   const lastTwo = ids.slice(-2)
   const validNumbers = [
     '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
-    '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+    '11', '12', '13', '15', '16', '17', '18', '19', '20',
     '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
     '31', '32', '33', '34', '35', '36', '37', '38', '39', '40',
-    '41', '42', '43', '44', '45', '46', '47', '48', '49', '50'
+    '41', '42'
   ]
   if (validNumbers.includes(lastTwo)) {
-    return `/ParagonPrefix/JH400${lastTwo}.png`
+    const iconPath = `/ParagonPrefix/JH400${lastTwo}.png`
+    if (failedIcons.value.has(iconPath)) return null
+    return iconPath
   }
   return null
 }

@@ -1,11 +1,11 @@
 /**
  * 角色数据组装工具
  * 【数据表对应说明】
- * 1. RoleDataTable.json       角色主表：基础属性、职业、种族、属性、地区、支援技能ID、皮肤信息
- * 2. SubSkillDataTable.json   支援技能表：性格/称号/特性，包含描述+Value0~Value2数值
- * 3. UniqueDataTable.json     主动技能表：角色专属主动技能、技能描述、各项数值参数
- * 4. TalentDataTable.json     天赋表：专属/职业/种族/属性/通用天赋，带占位符效果文本
- * 5. RelicsDataTable.json     角色心得表：角色心得数据
+ * 1. Role.json          角色主表：基础属性、职业、种族、属性、地区、支援技能ID、皮肤信息
+ * 2. Sub_Skill.json      支援技能表：性格/称号/特性，包含描述+Value0~Value2数值
+ * 3. Unique.json         主动技能表：角色专属主动技能、技能描述、各项数值参数
+ * 4. Talent.json         天赋表：专属/职业/种族/属性/通用天赋，带占位符效果文本
+ * 5. Relics.json         角色心得表：角色心得数据
  *
  * 字段规则约定：
  * - ID格式：普通角色=纯数字ID，异化角色=ID_001（带下划线）

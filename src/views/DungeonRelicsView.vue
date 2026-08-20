@@ -112,7 +112,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import relicData from '@/assets/DungeonRelicDataTable.json'
+import relicData from '@/assets/Dungeon_Relic.json'
 
 const sortOptions = [
   { label: '按稀有度', value: 'Step' },

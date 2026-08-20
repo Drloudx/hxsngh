@@ -200,8 +200,8 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import taskData from '@/assets/TaskDataTable.json'
-import equipData from '@/assets/EquipDataTable.json'
+import taskData from '@/assets/Task.json'
+import equipData from '@/assets/Equip.json'
 
 const formatUnifiedProb = (pct) => {
   if (pct >= 1) return pct.toFixed(2) + '%'

@@ -275,10 +275,10 @@
 
 <script setup>
 import { ref, computed, watch, onMounted, nextTick } from 'vue'
-import areaSpotData from '../assets/AreaSpotDataTable.json'
+import areaSpotData from '../assets/Area_Spot.json'
 
 // 提取完整数据
-const allSpots = ref(areaSpotData.DataTable || [])
+const allSpots = ref(Array.isArray(areaSpotData) ? areaSpotData : (areaSpotData.DataTable || []))
 
 // 地图列表
 const mapList = [
@@ -489,14 +489,14 @@ const getSpotProbability = (spot) => {
 const mapMaxLevels = {
   '新生平原': 100,
   '广袤草原': 110,
-  '铁血高地': 130,
   '迷失森林': 120,
-  '幽暗密林': 160,
+  '铁血高地': 130,
   '清凉沙滩': 140,
-  '遗忘之海': 200,
   '废弃矿洞': 140,
-  '洞穴深处': 180,
+  '幽暗密林': 160,
   '荒凉戈壁': 170,
+  '洞穴深处': 180,
+  '遗忘之海': 200,
   '无尽荒漠': 210,
   '枯木丛林': 220,
   '极寒冰原': 110,

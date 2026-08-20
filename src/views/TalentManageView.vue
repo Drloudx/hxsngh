@@ -427,10 +427,10 @@ import { ref, computed, watch, onMounted, onUnmounted, reactive, nextTick } from
 import Sortable from 'sortablejs'
 import * as configUtil from '@/utils/configTableUtil.js'
 import { exportData, importData } from '@/utils/dataTransfer.js'
-import rawRoles from '@/assets/RoleDataTable.json'
-import rawTalents from '@/assets/TalentDataTable.json'
+import rawRoles from '@/assets/Role.json'
+import rawTalents from '@/assets/Talent.json'
 
-import { getVisibleCharacters, isCharacterBlocked } from '@/utils/characterFilter'
+import { getVisibleCharacters, isCharacterBlocked, isTalentVisible, getVisibleRaceNames } from '@/utils/characterFilter'
 
 const allCharacters = ref([])
 const allTalents = ref([])
@@ -1031,7 +1031,9 @@ onMounted(() => {
     relicList: [],
     noteList: []
   }
-  allCharacters.value = getVisibleCharacters(configUtil.getFullCharacterList(rawRoleArr, fullDatasets))
+  const fullCharacters = getVisibleCharacters(configUtil.getFullCharacterList(rawRoleArr, fullDatasets))
+  allCharacters.value = fullCharacters
+  const visibleRaceNames = getVisibleRaceNames(fullCharacters)
   // 天赋预处理
   const cleanTalentList = rawTalentArr.map((t, idx) => {
     const base = {
@@ -1049,7 +1051,7 @@ onMounted(() => {
     }
     base.sourceLabel = configUtil.getTalentSourceLabel(base, allCharacters.value)
     return base
-  })
+  }).filter(t => isTalentVisible(t, allCharacters.value, visibleRaceNames))
   allTalents.value = sortTalentAllQuality(cleanTalentList)
   // 如果 localStorage 存的是紧凑格式，现在角色和天赋数据就绪了，重建完整卡片
   ensureCardFormat()

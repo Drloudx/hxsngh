@@ -537,6 +537,9 @@
       <div v-if="totalFilteredCount === 0" class="no-data" style="padding: 40px 0;">
         没有找到符合搜索条件的条目数据
       </div>
+
+      <!-- 滚动加载指示器/哨兵 -->
+      <div ref="loadMoreSentinel" class="load-more-sentinel" style="height: 20px; width: 100%; margin-top: 10px;"></div>
     </div>
 
     <!-- 角色绑定来源弹窗 (天赋, 支援, 技能 统一使用) -->
@@ -712,19 +715,19 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, reactive, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted, reactive, nextTick } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
 import BackToTop from '@/components/BackToTop.vue'
-import { getVisibleCharacters, isCharacterBlocked, BLOCKED_CHARACTER_IDS } from '@/utils/characterFilter'
+import { getVisibleCharacters, isCharacterBlocked, isTalentVisible, getVisibleRaceNames, BLOCKED_CHARACTER_IDS } from '@/utils/characterFilter'
 import { getCategoryByTag, getPositiveCategoryByTag } from '@/utils/tagCategories'
 
 // 静态数据库导入
-import rawRoles from '@/assets/RoleDataTable.json'
-import rawTalents from '@/assets/TalentDataTable.json'
-import rawSupportSkills from '@/assets/SubSkillDataTable.json'
-import rawUniqueSkills from '@/assets/UniqueDataTable.json'
-import rawEquips from '@/assets/EquipDataTable.json'
-import rawBonds from '@/assets/BondDataTable.json'
+import rawRoles from '@/assets/Role.json'
+import rawTalents from '@/assets/Talent.json'
+import rawSupportSkills from '@/assets/Sub_Skill.json'
+import rawUniqueSkills from '@/assets/Unique.json'
+import rawEquips from '@/assets/Equip.json'
+import rawBonds from '@/assets/Bond.json'
 
 // =================== 配置和常量 ===================
 
@@ -765,76 +768,15 @@ const searchQuery = ref('')
 const showSubSearch = ref(false)
 const subSearchQuery = ref('')
 const activeTab = ref('all')
-const talentLimit = ref(Infinity)
-const subSkillLimit = ref(Infinity)
-const uniqueLimit = ref(Infinity)
+const talentLimit = ref(20)
+const subSkillLimit = ref(20)
+const uniqueLimit = ref(20)
 const equipLimit = ref(20)
 const listContainer = ref(null)
+const loadMoreSentinel = ref(null)
+let observer = null
 
 const isDataReady = ref(false)
-
-const checkScrollHeight = () => {
-  nextTick(() => {
-    if (!listContainer.value) return
-    const el = listContainer.value
-    if (el.scrollHeight <= el.clientHeight) {
-      if (activeTab.value === 'all') {
-        let loadedMore = false
-        if (talentLimit.value < filteredTalents.value.length) {
-          talentLimit.value = Math.min(talentLimit.value + 20, filteredTalents.value.length)
-          loadedMore = true
-        } else if (subSkillLimit.value < filteredSubSkills.value.length) {
-          subSkillLimit.value = Math.min(subSkillLimit.value + 20, filteredSubSkills.value.length)
-          loadedMore = true
-        } else if (uniqueLimit.value < filteredUniques.value.length) {
-          uniqueLimit.value = Math.min(uniqueLimit.value + 20, filteredUniques.value.length)
-          loadedMore = true
-        } else if (equipLimit.value < filteredEquips.value.length) {
-          equipLimit.value = Math.min(equipLimit.value + 20, filteredEquips.value.length)
-          loadedMore = true
-        }
-        if (loadedMore) {
-          checkScrollHeight()
-        }
-      } else {
-        let loadedMore = false
-        if (activeTab.value === 'talent' && talentLimit.value < filteredTalents.value.length) {
-          talentLimit.value = Math.min(talentLimit.value + 20, filteredTalents.value.length)
-          loadedMore = true
-        } else if (activeTab.value === 'subskill' && subSkillLimit.value < filteredSubSkills.value.length) {
-          subSkillLimit.value = Math.min(subSkillLimit.value + 20, filteredSubSkills.value.length)
-          loadedMore = true
-        } else if (activeTab.value === 'unique' && uniqueLimit.value < filteredUniques.value.length) {
-          uniqueLimit.value = Math.min(uniqueLimit.value + 20, filteredUniques.value.length)
-          loadedMore = true
-        } else if (activeTab.value === 'equip' && equipLimit.value < filteredEquips.value.length) {
-          equipLimit.value = Math.min(equipLimit.value + 20, filteredEquips.value.length)
-          loadedMore = true
-        }
-        if (loadedMore) {
-          checkScrollHeight()
-        }
-      }
-    }
-  })
-}
-
-const resetLimits = () => {
-  if (activeTab.value === 'all') {
-    talentLimit.value = Infinity
-    subSkillLimit.value = Infinity
-    uniqueLimit.value = Infinity
-    equipLimit.value = 20
-  } else {
-    talentLimit.value = activeTab.value === 'talent' ? 20 : 0
-    subSkillLimit.value = activeTab.value === 'subskill' ? 20 : 0
-    uniqueLimit.value = activeTab.value === 'unique' ? 20 : 0
-    equipLimit.value = activeTab.value === 'equip' ? 20 : 0
-  }
-  nextTick(() => {
-    checkScrollHeight()
-  })
-}
 
 // =================== 效果标签展开与筛选状态 ===================
 const subskillTagsExpanded = ref(false)
@@ -867,6 +809,80 @@ const detailModal = ref({ visible: false, data: {} })
 const selectedStar = ref(0)
 const selectedInherit = ref(false)
 const expandedBonds = ref([false, false, false])
+
+const loadMore = () => {
+  if (activeTab.value === 'all') {
+    if (talentLimit.value < filteredTalents.value.length) {
+      talentLimit.value = Math.min(talentLimit.value + 20, filteredTalents.value.length)
+    } else if (subSkillLimit.value < filteredSubSkills.value.length) {
+      subSkillLimit.value = Math.min(subSkillLimit.value + 20, filteredSubSkills.value.length)
+    } else if (uniqueLimit.value < filteredUniques.value.length) {
+      uniqueLimit.value = Math.min(uniqueLimit.value + 20, filteredUniques.value.length)
+    } else if (equipLimit.value < filteredEquips.value.length) {
+      equipLimit.value = Math.min(equipLimit.value + 20, filteredEquips.value.length)
+    }
+  } else if (activeTab.value === 'talent') {
+    if (talentLimit.value < filteredTalents.value.length) {
+      talentLimit.value = Math.min(talentLimit.value + 20, filteredTalents.value.length)
+    }
+  } else if (activeTab.value === 'subskill') {
+    if (subSkillLimit.value < filteredSubSkills.value.length) {
+      subSkillLimit.value = Math.min(subSkillLimit.value + 20, filteredSubSkills.value.length)
+    }
+  } else if (activeTab.value === 'unique') {
+    if (uniqueLimit.value < filteredUniques.value.length) {
+      uniqueLimit.value = Math.min(uniqueLimit.value + 20, filteredUniques.value.length)
+    }
+  } else if (activeTab.value === 'equip') {
+    if (equipLimit.value < filteredEquips.value.length) {
+      equipLimit.value = Math.min(equipLimit.value + 20, filteredEquips.value.length)
+    }
+  }
+}
+
+const checkScrollHeight = () => {
+  nextTick(() => {
+    if (!listContainer.value) return
+    const el = listContainer.value
+    if (el.scrollHeight <= el.clientHeight) {
+      const prevTotal = talentLimit.value + subSkillLimit.value + uniqueLimit.value + equipLimit.value
+      loadMore()
+      const newTotal = talentLimit.value + subSkillLimit.value + uniqueLimit.value + equipLimit.value
+      if (newTotal > prevTotal) {
+        checkScrollHeight()
+      }
+    }
+  })
+}
+
+const resetLimits = () => {
+  if (activeTab.value === 'all') {
+    talentLimit.value = 20
+    subSkillLimit.value = 20
+    uniqueLimit.value = 20
+    equipLimit.value = 20
+  } else {
+    talentLimit.value = activeTab.value === 'talent' ? 20 : 0
+    subSkillLimit.value = activeTab.value === 'subskill' ? 20 : 0
+    uniqueLimit.value = activeTab.value === 'unique' ? 20 : 0
+    equipLimit.value = activeTab.value === 'equip' ? 20 : 0
+  }
+  nextTick(() => {
+    checkScrollHeight()
+  })
+}
+
+watch([
+  activeTab,
+  searchQuery,
+  subSearchQuery,
+  selectedSubSkillStar,
+  selectedSubSkillTags,
+  selectedUniqueTags,
+  selectedEquipTags
+], () => {
+  resetLimits()
+}, { deep: true })
 
 // =================== 页面数据挂载与组装 ===================
 onMounted(() => {
@@ -911,7 +927,15 @@ onMounted(() => {
     // 初始化加载限制并检查视口填充
     resetLimits()
     isDataReady.value = true
+    initObserver()
   }, 20)
+})
+
+onUnmounted(() => {
+  if (observer) {
+    observer.disconnect()
+    observer = null
+  }
 })
 
 // =================== 核心数据解析加载函数 ===================
@@ -975,8 +999,8 @@ const sortTalentAllQuality = (talentArr = []) => {
   return final
 }
 
-// 加载天赋
 const loadTalents = (rawTalentArr, fullCharacters) => {
+  const visibleRaceNames = getVisibleRaceNames(fullCharacters)
   const cleanTalentList = rawTalentArr.map((t, idx) => {
     const base = {
       uid: t.IDs || t.Id || t.TalentID || `t_${idx}`,
@@ -996,8 +1020,8 @@ const loadTalents = (rawTalentArr, fullCharacters) => {
     base.sourceLabel = (rawLabel || '').replace('职业', '').replace('属性', '')
     return base
   })
-  // 隐藏特定的测试专属天赋，以及测试用的格式为“专属(角色名)”的专属天赋（同步原版天赋页面规则）
-  .filter(t => !BLOCKED_CHARACTER_IDS.includes(t.SpecifyRoleIDs) && !t.sourceLabel.startsWith('专属('))
+  // 隐藏未放出角色专属天赋、未放出种族天赋、以及测试专属天赋
+  .filter(t => isTalentVisible(t, fullCharacters, visibleRaceNames) && !t.sourceLabel.startsWith('专属('))
 
   const sortedCleanList = sortTalentAllQuality(cleanTalentList)
   sortedCleanList.forEach(t => {
@@ -1505,36 +1529,33 @@ const pagedEquips = computed(() => filteredEquips.value.slice(0, equipLimit.valu
 
 const handleScroll = (e) => {
   const el = e.target
-  if (el.scrollHeight - el.scrollTop - el.clientHeight < 120) {
-    if (activeTab.value === 'all') {
-      if (talentLimit.value < filteredTalents.value.length) {
-        talentLimit.value += 20
-      } else if (subSkillLimit.value < filteredSubSkills.value.length) {
-        subSkillLimit.value += 20
-      } else if (uniqueLimit.value < filteredUniques.value.length) {
-        uniqueLimit.value += 20
-      } else if (equipLimit.value < filteredEquips.value.length) {
-        equipLimit.value += 20
-      }
-    } else if (activeTab.value === 'talent') {
-      if (talentLimit.value < filteredTalents.value.length) {
-        talentLimit.value += 20
-      }
-    } else if (activeTab.value === 'subskill') {
-      if (subSkillLimit.value < filteredSubSkills.value.length) {
-        subSkillLimit.value += 20
-      }
-    } else if (activeTab.value === 'unique') {
-      if (uniqueLimit.value < filteredUniques.value.length) {
-        uniqueLimit.value += 20
-      }
-    } else if (activeTab.value === 'equip') {
-      if (equipLimit.value < filteredEquips.value.length) {
-        equipLimit.value += 20
-      }
-    }
+  if (el.scrollHeight - el.scrollTop - el.clientHeight < 200) {
+    loadMore()
   }
 }
+
+const initObserver = () => {
+  if (typeof IntersectionObserver === 'undefined') return
+  observer = new IntersectionObserver((entries) => {
+    const entry = entries[0]
+    if (entry && entry.isIntersecting) {
+      loadMore()
+    }
+  }, {
+    rootMargin: '200px',
+    threshold: 0
+  })
+
+  if (loadMoreSentinel.value) {
+    observer.observe(loadMoreSentinel.value)
+  }
+}
+
+watch(loadMoreSentinel, (newVal) => {
+  if (newVal && observer) {
+    observer.observe(newVal)
+  }
+})
 
 // =================== 标签池计算与方法 (支援, 技能, 装备) ===================
 

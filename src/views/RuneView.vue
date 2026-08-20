@@ -259,8 +259,8 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import runeData from '@/assets/RuneDataTable.json'
-import runeMaterialData from '@/assets/RuneMaterialDataTable.json'
+import runeData from '@/assets/Rune.json'
+import runeMaterialData from '@/assets/Rune_Material.json'
 
 // 基础数据
 const allRunes = computed(() => runeData.DataTable || runeData || [])

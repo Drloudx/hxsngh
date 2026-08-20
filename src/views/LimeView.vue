@@ -164,8 +164,8 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import limeData from '@/assets/LimeDataTable.json'
-import worldMapData from '@/assets/WorldMapDataTable.json'
+import limeData from '@/assets/Lime.json'
+import worldMapData from '@/assets/World_Map.json'
 
 const colorPaletteVars = {
   '--gold': '#f97316',

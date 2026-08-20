@@ -725,12 +725,12 @@
 
 <script setup>
 import { ref, computed, watch, nextTick, onMounted } from 'vue'
-import rawRoles from '@/assets/RoleDataTable.json'
-import rawBasicAttrs from '@/assets/BasicAttrDataTable.json'
-import rawEquips from '@/assets/EquipDataTable.json'
-import rawSupportArr from '@/assets/SubSkillDataTable.json'
-import rawUniqueSkills from '@/assets/UniqueDataTable.json'
-import rawBonds from '@/assets/BondDataTable.json'
+import rawRoles from '@/assets/Role.json'
+import rawBasicAttrs from '@/assets/Basic_Attr.json'
+import rawEquips from '@/assets/Equip.json'
+import rawSupportArr from '@/assets/Sub_Skill.json'
+import rawUniqueSkills from '@/assets/Unique.json'
+import rawBonds from '@/assets/Bond.json'
 import { getCategoryByTag } from '@/utils/tagCategories'
 import * as configUtil from '@/utils/configTableUtil.js'
 
@@ -1716,7 +1716,7 @@ const calculatedStats = computed(() => {
 
   const searchNames = [char.class, char.type, char.element, char.map, char.step].filter(Boolean)
   const sums = { CONS: 0, STR: 0, INT: 0, DEX: 0, SPD: 0, Tough: 0, Weak: 0 }
-  const dataTable = rawBasicAttrs.DataTable || []
+  const dataTable = Array.isArray(rawBasicAttrs) ? rawBasicAttrs : (rawBasicAttrs.DataTable || [])
   const matchedEntries = []
 
   searchNames.forEach(name => {
