@@ -1,0 +1,1658 @@
+{
+  "枯木丛林": {
+    "Z07001_401": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z07001_301": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z07001_302": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z07001_303": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z07001_304": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z07001_305": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z07001_306": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z07001_311": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z07001_312": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z07001_313": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z07001_314": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z07001_315": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z07001_316": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z07001_321": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z07001_322": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z07001_323": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z07001_331": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z07001_332": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z07001_333": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z07001_334": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z07001_335": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z07001_336": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z07001_343": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z07001_341": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z07001_342": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z07001_344": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z07001_345": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z07001_346": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z07001_351": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z07001_353": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z07001_352": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z07001_354": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z07001_355": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z07001_356": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    }
+  },
+  "荒凉戈壁": {
+    "Z05001_401": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z05001_351": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z05001_352": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z05001_353": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z05001_354": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z05001_355": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z05001_356": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z05001_301": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z05001_302": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z05001_303": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z05001_304": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z05001_305": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z05001_306": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z05001_311": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z05001_312": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z05001_313": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z05001_291": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z05001_292": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z05001_293": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z05001_321": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z05001_322": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z05001_323": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z05001_331": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z05001_332": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z05001_333": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z06001_301": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z06001_302": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z06001_303": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z06001_371": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z06001_372": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z06001_373": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    }
+  },
+  "迷失森林": {
+    "Z60006_921": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10014_131": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10014_632": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10014_732": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10014_431": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z10014_531": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z10014_831": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z30001_301": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z30001_302": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z30001_303": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z30001_304": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z30001_305": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z30001_306": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00201_411": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z00201_413": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z00201_412": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z20003_331": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z20003_332": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z20003_333": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z30001_531": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z30000_631": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z30001_831": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z20025_431": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z20025_531": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z20025_831": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z50002_631": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z50002_831": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z50002_031": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    }
+  },
+  "新生平原": {
+    "Z00012_521": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z20026_331": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z20026_321": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z20026_332": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00017_232": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z20025_723": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z20025_722": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00017_222": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00017_231": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00017_233": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00017_234": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00017_235": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00017_236": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z10015_331": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z60010_731": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z60010_931": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10015_332": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10015_333": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10015_334": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z60003_131": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z60003_532": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z60003_621": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00000_241": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00000_242": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00000_243": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z20026_531": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00017_022": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00017_021": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    }
+  },
+  "遗忘之海": {
+    "Z20002_141": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z30000_331": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z30019_321": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z30000_531": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z30000_831": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z30000_931": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z30000_031": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z30018_722": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z30018_723": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z30018_721": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z30018_122": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z30018_531": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z30018_621": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z30018_121": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z30018_732": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z30018_733": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z30018_532": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z30018_622": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z30018_731": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z60003_431": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z60005_531": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z60005_731": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z30000_001": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z30000_002": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z30000_003": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z30000_004": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z30000_005": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z30000_006": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    }
+  },
+  "洞穴深处": {
+    "Z10012_931": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z03001_303": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z03001_305": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z03001_306": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z03001_301": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z03001_311": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z03001_312": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z03001_302": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z03001_321": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z03001_322": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z03001_341": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z03001_342": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z03001_343": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z03001_333": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z03001_331": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z03001_332": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z03001_353": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z03001_352": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z03001_351": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z03001_391": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z03001_392": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z03001_393": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10001_301": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10001_302": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10001_303": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z03001_401": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z03001_402": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z03001_403": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    }
+  },
+  "废弃矿洞": {
+    "Z03001_361": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10001_231": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z10001_232": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z10001_931": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z10001_233": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10001_234": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10001_235": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10010_131": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10010_732": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10010_731": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10010_132": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10010_531": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10010_631": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10001_131": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10001_132": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00000_641": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10010_332": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00001_301": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10010_333": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z40007_733": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z40007_734": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z40007_735": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z40007_321": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z40007_731": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z40007_732": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10021_632": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10021_731": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10021_831": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    }
+  },
+  "广袤草原": {
+    "Z40003_531": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10028_331": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10028_731": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10028_831": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10028_121": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10028_122": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10028_921": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10015_121": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10015_131": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10015_132": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10015_722": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10015_721": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10015_724": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z01003_531": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z01003_533": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z01003_532": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z01003_534": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z01003_535": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z01003_536": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z40022_621": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z40022_722": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z40022_721": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z20000_232": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z20026_732": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z20026_731": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z20026_733": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z20026_734": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z20026_735": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    }
+  },
+  "极寒冰原": {
+    "Z60006_532": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_331": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_632": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00101_532": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_231": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z00101_232": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_732": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z00101_233": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z00101_234": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_235": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_131": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_531": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00101_631": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00101_731": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_734": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_733": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_332": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_533": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z00101_534": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00101_132": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_633": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_634": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_641": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z00101_642": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z00101_643": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00101_831": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_832": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00101_833": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    }
+  },
+  "清凉沙滩": {
+    "Z03001_371": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00201_421": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z00201_423": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z00201_422": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z00201_424": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z00201_425": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z00201_426": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z30000_431": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z30000_731": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z30000_732": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z00201_431": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00201_432": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00201_433": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00201_461": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00201_462": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00201_463": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00201_471": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z00201_472": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00201_473": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00201_451": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00201_452": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00201_453": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00201_441": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00201_442": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00201_443": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10029_531": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10029_631": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10029_731": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    }
+  },
+  "熔岩通道": {
+    "Z00102_401": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00102_311": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00102_312": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00102_313": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00102_314": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00102_315": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00102_316": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00102_351": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00102_352": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00102_353": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00102_341": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00102_342": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00102_343": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00102_301": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00102_302": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00102_303": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00102_304": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00102_305": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00102_306": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00102_321": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00102_322": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00102_323": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00102_331": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00102_332": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00102_333": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00102_361": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z00102_362": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00102_363": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    }
+  },
+  "铁血高地": {
+    "Z10018_721": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z01003_351": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z01003_353": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z01003_352": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z01003_354": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z01003_355": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z01003_356": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z01003_341": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z01003_343": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z01003_342": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z01003_344": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z01003_345": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z01003_346": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z60003_133": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00005_721": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00005_921": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z02001_331": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z02001_332": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z02001_333": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z01003_331": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z01003_332": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z01003_333": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z01003_313": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z01003_311": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z01003_312": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z60003_531": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z60003_731": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z60003_732": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    }
+  },
+  "无尽荒漠": {
+    "Z06001_401": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z06001_311": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z06001_312": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z06001_313": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z06001_314": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z06001_315": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z06001_316": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z06001_321": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z06001_322": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z06001_323": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z06001_331": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z06001_332": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z06001_333": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z06001_341": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z06001_342": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z06001_343": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z06001_351": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z06001_352": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z06001_353": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z06001_361": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z06001_362": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z06001_363": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z05001_341": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z05001_342": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z05001_343": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z05001_361": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z05001_362": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z05001_363": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z05001_371": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z05001_372": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z05001_373": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z05001_374": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z05001_375": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z05001_376": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    }
+  },
+  "幽暗密林": {
+    "Z60007_321": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z00000_141": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00000_142": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z00000_143": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z00000_144": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00000_145": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00000_146": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z02001_341": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z02001_343": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z02001_342": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z02001_321": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z02001_323": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z02001_322": {
+      "difficulty": "easy",
+      "difficultyName": "易"
+    },
+    "Z02001_301": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z02001_302": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z02001_303": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z02001_393": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z02001_392": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z02001_391": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z02001_383": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z02001_382": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z02001_381": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z02001_351": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z02001_353": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z02001_352": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z60006_531": {
+      "difficulty": "hard",
+      "difficultyName": "难"
+    },
+    "Z10021_631": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z10026_821": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    }
+  }
+}

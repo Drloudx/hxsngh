@@ -194,7 +194,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import foretellData from '@/assets/ForetellDataTable.json'
+import foretellData from '@/assets/Foretell.json'
 
 const stepOrder = { 'SS': 4, 'S': 3, 'A': 2, 'B': 1 }
 const STORAGE_KEY_CALC = 'foretell_clover_calc_items'

@@ -80,7 +80,7 @@
 
       <div class="effects-grid">
         <div
-          v-for="effect in filteredEffects"
+          v-for="(effect, idx) in filteredEffects"
           :key="effect.IDs"
           class="effect-card"
         >
@@ -99,7 +99,7 @@
               <div class="effect-text" :style="{ color: getStepColor(effect.Step) }">
                 {{ formatEffectText(effect) }}
               </div>
-              <button class="prob-toggle-btn" @click="toggleEffectProb(effect.IDs)">
+              <button class="prob-toggle-btn" @click="toggleEffectProb(effect, idx)">
                 <span>概率</span>
                 <span class="toggle-arrow" :class="{ 'is-open': isProbExpanded(effect.IDs) }">▼</span>
               </button>
@@ -107,24 +107,28 @@
 
             <!-- 概率面板（默认收起） -->
             <div v-if="isProbExpanded(effect.IDs)" class="effect-prob-info-block">
-              <div class="prob-header-tip">基础 / 相同</div>
+              <div class="prob-header-tip">基础</div>
 
               <div class="prob-line-item">
                 <span class="prob-item-title">无色神石概率：</span>
-                <span class="prob-item-val base-prob-badge">{{ getAffixProb(effect, 'C').base }} / {{ getAffixProb(effect, 'C').sameBase }}</span>
+                <span class="prob-item-val base-prob-badge">{{ getAffixProb(effect, 'C').base }}</span>
               </div>
 
               <div v-if="getTargetStoneName(effect.Type)" class="prob-line-item">
-                <span class="prob-item-title">对应【{{ getTargetStoneName(effect.Type) }}】概率：</span>
-                <span class="prob-item-val target-prob-badge">{{ getAffixProb(effect, 'C').target }} / {{ getAffixProb(effect, 'C').sameTarget }}</span>
+                <span class="prob-item-title">【<span class="stone-highlight-blue">{{ getTargetStoneName(effect.Type) }}</span>】概率：</span>
+                <span class="prob-item-val target-prob-badge">{{ getAffixProb(effect, 'C').target }}</span>
               </div>
 
               <div class="prob-line-item">
                 <span class="prob-item-title">其他神石概率：</span>
-                <span class="prob-item-val other-prob-badge">{{ getAffixProb(effect, 'C').other }} / {{ getAffixProb(effect, 'C').sameOther }}</span>
+                <span class="prob-item-val other-prob-badge">{{ getAffixProb(effect, 'C').other }}</span>
               </div>
 
-              <div class="prob-header-tip" style="margin-top: 4px;">无色 / 对应 / 其他 / 相同</div>
+              <div class="prob-header-tip" style="margin-top: 6px;">
+                <span>无色神石 / </span>
+                <span class="stone-highlight-blue">【{{ getTargetStoneName(effect.Type) || '对应神石' }}】</span>
+                <span> / 其他</span>
+              </div>
 
               <div class="prob-line-item">
                 <span class="prob-item-title">绿色觉醒石概率：</span>
@@ -139,6 +143,30 @@
               <div class="prob-line-item">
                 <span class="prob-item-title">紫色觉醒石概率：</span>
                 <span class="prob-item-val awake-badge-a">{{ getAwakeProbFormatted(effect, 'A') }}</span>
+              </div>
+
+              <div class="prob-header-tip" style="margin-top: 6px;">
+                <div>已有相同词条时</div>
+                <div style="margin-top: 2px;">
+                  <span>无色神石 / </span>
+                  <span class="stone-highlight-blue">【{{ getTargetStoneName(effect.Type) || '对应神石' }}】</span>
+                  <span> / 其他</span>
+                </div>
+              </div>
+
+              <div class="prob-line-item">
+                <span class="prob-item-title">绿色觉醒石概率：</span>
+                <span class="prob-item-val awake-badge-c">{{ getSameAwakeProbFormatted(effect, 'C') }}</span>
+              </div>
+
+              <div class="prob-line-item">
+                <span class="prob-item-title">蓝色觉醒石概率：</span>
+                <span class="prob-item-val awake-badge-b">{{ getSameAwakeProbFormatted(effect, 'B') }}</span>
+              </div>
+
+              <div class="prob-line-item">
+                <span class="prob-item-title">紫色觉醒石概率：</span>
+                <span class="prob-item-val awake-badge-a">{{ getSameAwakeProbFormatted(effect, 'A') }}</span>
               </div>
             </div>
           </div>
@@ -237,8 +265,8 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import godStoneData from '@/assets/GodStoneDataTable.json'
-import godStoneEffectData from '@/assets/GodStoneEffectDataTable.json'
+import godStoneData from '@/assets/Godstone.json'
+import godStoneEffectData from '@/assets/GodstoneEffect.json'
 
 const tabs = [
   { id: 'effects', name: '词条列表' },
@@ -315,14 +343,22 @@ const openStoneDetail = (stone) => {
   selectedStone.value = stone
 }
 
-// 概率面板展开/收起状态（默认收起）
+// 概率面板展开/收起状态（默认收起，点击时同行的卡片联动同时展开/收起）
 const expandedEffects = ref(new Set())
-const toggleEffectProb = (id) => {
+const toggleEffectProb = (effect, idx) => {
+  const isCurrentlyOpen = isProbExpanded(effect.IDs)
   const next = new Set(expandedEffects.value)
-  if (next.has(id)) {
-    next.delete(id)
+
+  // 找出同行配对的卡片 (按 2 列排版)
+  const partnerIdx = (idx % 2 === 0) ? idx + 1 : idx - 1
+  const partner = filteredEffects.value[partnerIdx]
+
+  if (isCurrentlyOpen) {
+    next.delete(effect.IDs)
+    if (partner) next.delete(partner.IDs)
   } else {
-    next.add(id)
+    next.add(effect.IDs)
+    if (partner) next.add(partner.IDs)
   }
   expandedEffects.value = next
 }
@@ -488,13 +524,22 @@ const getAffixProb = (effect, reqStep) => {
   }
 }
 
-// 格式化觉醒石概率：XX / XX / XX / XX
+// 格式化觉醒石概率：无色 / 对应 / 其他
 const getAwakeProbFormatted = (effect, reqStep) => {
   const p = getAffixProb(effect, reqStep)
   if (p.base === '0%' && p.target === '0%' && p.other === '0%') {
-    return '0% / 0% / 0% / 0%'
+    return '0% / 0% / 0%'
   }
-  return `${p.base} / ${p.target} / ${p.other} / ${p.sameBase}`
+  return `${p.base} / ${p.target} / ${p.other}`
+}
+
+// 格式化已有相同词条时的觉醒石概率：无色 / 对应 / 其他
+const getSameAwakeProbFormatted = (effect, reqStep) => {
+  const p = getAffixProb(effect, reqStep)
+  if (p.sameBase === '0%' && p.sameTarget === '0%' && p.sameOther === '0%') {
+    return '0% / 0% / 0%'
+  }
+  return `${p.sameBase} / ${p.sameTarget} / ${p.sameOther}`
 }
 
 const formatEffectText = (effect) => {
@@ -1097,6 +1142,12 @@ const getTagsList = (effect) => {
   font-size: 11px;
   color: var(--text-sub);
   font-weight: 600;
+  line-height: 1.4;
+}
+
+.stone-highlight-blue {
+  color: #3b82f6 !important;
+  font-weight: 700;
 }
 
 .prob-item-tip {

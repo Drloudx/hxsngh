@@ -206,8 +206,8 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import rawGambleShop from '@/assets/GambleShopDataTable.json'
-import rawGoldenVault from '@/assets/GoldenVaultDataTable.json'
+import rawGambleShop from '@/assets/GambleShop.json'
+import rawGoldenVault from '@/assets/GoldenVault.json'
 
 // 当前主分类：'gamble' (旅行商人) | 'vault' (黄金宝库)
 const currentShopType = ref('gamble')

@@ -191,8 +191,8 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
-import rawRoles from '@/assets/RoleDataTable.json'
-import rawUniqueSkills from '@/assets/UniqueDataTable.json'
+import rawRoles from '@/assets/Role.json'
+import rawUniqueSkills from '@/assets/Unique.json'
 import { getPositiveCategoryByTag } from '@/utils/tagCategories'
 import { getVisibleCharacters } from '@/utils/characterFilter'
 

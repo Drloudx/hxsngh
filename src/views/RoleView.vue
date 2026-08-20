@@ -547,12 +547,12 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import rawRoles from '@/assets/RoleDataTable.json'
-import rawSubSkills from '@/assets/SubSkillDataTable.json'
-import rawUniqueSkills from '@/assets/UniqueDataTable.json'
-import rawTalents from '@/assets/TalentDataTable.json'
-import rawRelics from '@/assets/RelicsDataTable.json'
-import rawBasicAttrs from '@/assets/BasicAttrDataTable.json'
+import rawRoles from '@/assets/Role.json'
+import rawSubSkills from '@/assets/Sub_Skill.json'
+import rawUniqueSkills from '@/assets/Unique.json'
+import rawTalents from '@/assets/Talent.json'
+import rawRelics from '@/assets/Relics.json'
+import rawBasicAttrs from '@/assets/Basic_Attr.json'
 import * as configUtil from '@/utils/configTableUtil.js'
 import { getCategoryByTag } from '@/utils/tagCategories'
 import { getVisibleCharacters, HIDE_UNRELEASED_CHARACTERS } from '@/utils/characterFilter'
@@ -989,7 +989,7 @@ const charBaseAttrs = computed(() => {
   }
 
   // 1. 基础值计算
-  const dataTable = rawBasicAttrs.DataTable || []
+  const dataTable = Array.isArray(rawBasicAttrs) ? rawBasicAttrs : (rawBasicAttrs.DataTable || [])
   const matchedEntries = []
   searchNames.forEach(name => {
     const entry = dataTable.find(item => item.Name === name)
