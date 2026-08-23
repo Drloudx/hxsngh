@@ -37,6 +37,13 @@
         <div class="card-header-summary" @click="toggleCardExpand(card)">
             <div class="summary-left-info">
               <img src="/ui/drag.svg" class="drag-handle" />
+              <div class="char-header-avatar-wrap">
+                <img
+                  :src="`/Header/${card.baseInfo.id}.png`"
+                  class="char-header-avatar-img game-sprite"
+                  @error="handleIconError"
+                />
+              </div>
               <span
                 :class="`wish-rarity-color-${getRarityNum(card.baseInfo.step)}`"
                 class="char-name-link"
@@ -172,19 +179,35 @@
           </div>
           <div class="modal-scroll-list">
             <div
-              v-for="char in filteredModalCharacters"
+              v-for="char in pagedModalCharacters"
               :key="char.id"
               :class="['modal-char-row', `wish-rarity-color-${getRarityNum(char.step)}`]"
               @click="addCharacterCard(char)"
             >
               <div class="mcr-main">
-                <span class="mcr-name">{{ char.displayName }}</span>
+                <div class="mcr-left">
+                  <div class="char-header-avatar-wrap mini">
+                    <img
+                      :src="`/Header/${char.id}.png`"
+                      class="char-header-avatar-img game-sprite"
+                      @error="handleIconError"
+                    />
+                  </div>
+                  <span class="mcr-name">{{ char.displayName }}</span>
+                </div>
                 <div class="mcr-badges">
                   <span class="h-lbl label-job" v-if="char.class">{{ char.class }}</span>
                   <span class="h-lbl label-race" v-if="char.type">{{ char.type }}</span>
                   <span class="h-lbl label-attr" v-if="char.element">{{ char.element }}</span>
                 </div>
               </div>
+            </div>
+            <div ref="loadMoreCharSentinel" class="load-more-sentinel" v-if="pagedModalCharacters.length < filteredModalCharacters.length">
+              <div class="loading-spinner"></div>
+              <span>正在加载更多角色...</span>
+            </div>
+            <div v-if="filteredModalCharacters.length > 0 && pagedModalCharacters.length >= filteredModalCharacters.length" class="no-more-data">
+              — 已加载全部可用角色 —
             </div>
           </div>
         </div>
@@ -250,9 +273,18 @@
         </div>
         <div class="modal-body">
           <div class="detail-display-card">
-            <span :class="`wish-rarity-color-${getRarityNum(currentDetailChar?.step)}`" class="hero-name-span">
-              {{ currentDetailChar?.displayName }}
-            </span>
+            <div class="detail-hero-left">
+              <div class="char-header-avatar-wrap">
+                <img
+                  :src="`/Header/${currentDetailChar?.id}.png`"
+                  class="char-header-avatar-img game-sprite"
+                  @error="handleIconError"
+                />
+              </div>
+              <span :class="`wish-rarity-color-${getRarityNum(currentDetailChar?.step)}`" class="hero-name-span">
+                {{ currentDetailChar?.displayName }}
+              </span>
+            </div>
             <div class="hero-labels-container">
               <span v-if="currentDetailChar?.class" class="h-lbl label-job">{{ currentDetailChar.class }}</span>
               <span v-if="currentDetailChar?.type" class="h-lbl label-race">{{ currentDetailChar.type }}</span>
@@ -334,6 +366,13 @@
             >
               <input type="checkbox" v-model="batchDeleteSelection[idx]" hidden />
               <span class="batch-check-box">{{ batchDeleteSelection[idx] ? '✓' : '' }}</span>
+              <div class="char-header-avatar-wrap mini">
+                <img
+                  :src="`/Header/${card.baseInfo.id}.png`"
+                  class="char-header-avatar-img game-sprite"
+                  @error="handleIconError"
+                />
+              </div>
               <span :class="`wish-rarity-color-${getRarityNum(card.baseInfo.step)}`" class="batch-char-name">{{ card.baseInfo.displayName }}</span>
               <span class="h-lbl batch-talent-num">{{ countTotalTalents(card) }}天赋</span>
             </label>
@@ -369,6 +408,13 @@
               <div v-if="overviewExpanded[tName]" class="talent-ov-group-body">
                 <div v-for="(entry, eIdx) in tInfo._entries" :key="eIdx" class="matched-hero-card">
                   <div class="hero-left">
+                    <div class="char-header-avatar-wrap mini">
+                      <img
+                        :src="`/Header/${entry.charId}.png`"
+                        class="char-header-avatar-img game-sprite"
+                        @error="handleIconError"
+                      />
+                    </div>
                     <span :class="`wish-rarity-color-${entry.rarityNum}`" class="hero-name-span">{{ entry.charName }}</span>
                     <div class="hero-labels-container">
                       <span class="h-lbl label-page">页{{ entry.pageIdx + 1 }}</span>
@@ -448,10 +494,13 @@ const suggestExpanded = ref(true)
 
 const currentDetailChar = ref(null)
 const talentDisplayLimit = ref(20)
+const charDisplayLimit = ref(20)
 const PAGE_SIZE = 20
 const loadMoreSentinel = ref(null)
+const loadMoreCharSentinel = ref(null)
 const sortableListRef = ref(null)
 let sortableInstance = null
+let charObserver = null
 
 const showDeletePageModal = ref(false)
 const targetDelCard = ref(null)
@@ -497,6 +546,10 @@ const activeSlotTracker = reactive({
   pageIdx: null,
   slotIdx: null
 })
+
+const handleIconError = (e) => {
+  e.target.src = '/Header/M00000.png'
+}
 
 
 // 本地持久化
@@ -678,6 +731,9 @@ const filteredModalCharacters = computed(() => {
     return charA.displayName.localeCompare(charB.displayName)
   })
 })
+const pagedModalCharacters = computed(() => {
+  return filteredModalCharacters.value.slice(0, charDisplayLimit.value)
+})
 // 排除专属天赋后的底数（用于显示"共 X 个天赋"）
 const modalBaseTalentCount = computed(() => {
   if (showExclusiveTalent.value) return allTalents.value.length
@@ -703,6 +759,7 @@ const pagedModalTalents = computed(() => {
 // 角色弹窗操作
 const openAddCharModal = () => {
   charSearchQuery.value = ''
+  charDisplayLimit.value = PAGE_SIZE
   suggestExpanded.value = true
   charModalVisible.value = true
 }
@@ -904,6 +961,7 @@ const groupedTalentOverview = computed(() => {
             existing.count++
           } else {
             groups[name]._entries.push({
+              charId: card.baseInfo.id,
               charName: card.baseInfo.displayName,
               pageIdx: pIdx,
               count: 1,
@@ -990,7 +1048,11 @@ const handleExternalTalentImport = () => { loadLocalData(); ensureCardFormat() }
 watch(loadMoreSentinel, (el) => {
   if (el && observer) observer.observe(el)
 })
+watch(loadMoreCharSentinel, (el) => {
+  if (el && charObserver) charObserver.observe(el)
+})
 watch(talentSearchQuery, () => { talentDisplayLimit.value = PAGE_SIZE })
+watch(charSearchQuery, () => { charDisplayLimit.value = PAGE_SIZE })
 
 // 搜索天赋时自动展开匹配的角色卡片并定位到对应天赋页
 watch(mainSearchQuery, (q) => {
@@ -1016,7 +1078,17 @@ const initObserver = () => {
   }, { rootMargin: '80px' })
 }
 
+const initCharObserver = () => {
+  charObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && charDisplayLimit.value < filteredModalCharacters.value.length) {
+      setTimeout(() => { charDisplayLimit.value += PAGE_SIZE }, 100)
+    }
+  }, { rootMargin: '80px' })
+}
+
 onMounted(() => {
+  initObserver()
+  initCharObserver()
   loadLocalData()
   if (typeof window !== 'undefined' && !window.buildNotes) {
     window.buildNotes = () => ""
@@ -1358,6 +1430,53 @@ defineExpose({ exportTalentManagerData, triggerTalentDataImport })
   touch-action: none;
 }
 .drag-handle:hover { opacity: 0.8; }
+
+/* 角色头像样式 */
+.char-header-avatar-wrap {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+
+.char-header-avatar-wrap.mini {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.char-header-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  transform: scale(1.4) translateY(2px);
+}
+
+img.game-sprite {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.mcr-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-hero-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .summary-left-info {
   display: flex;
   align-items: center;
