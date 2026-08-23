@@ -133,7 +133,7 @@
             <input
               type="text"
               v-model="todayInputRemark"
-              placeholder="添加备注（可选，如：宝库x2、商人x1...）"
+              placeholder="添加备注（可选，如：商人x50、宝库x20...）"
               class="fruit-remark-input"
               maxlength="50"
             />
@@ -326,7 +326,7 @@
             <input
               type="text"
               v-model="customForm.remark"
-              placeholder="例如：宝库刷新、公会任务等"
+              placeholder="例如：旅行商人、黄金宝库等"
               class="modal-text-input"
               maxlength="50"
             />
