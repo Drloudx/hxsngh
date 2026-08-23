@@ -21,6 +21,7 @@ import OtherProbView from '../views/OtherProbView.vue'
 import GodStoneView from '../views/GodStoneView.vue'
 import RuneView from '../views/RuneView.vue'
 import EquipProbView from '../views/EquipProbView.vue'
+import FruitRecordView from '../views/FruitRecordView.vue'
 
 const routes = [
   { path: '/', redirect: '/recruit' },
@@ -43,6 +44,7 @@ const routes = [
   { path: '/other-prob', name: 'other-prob', component: OtherProbView, meta: { title: '其他概率', shortName: '其他' } },
   { path: '/talent-manage', name: 'talent-manage', component: TalentManageView, meta: { title: '天赋管理', shortName: '库存' } },
   { path: '/guide', name: 'guide', component: GuideView, meta: { title: '新人攻略', shortName: '攻略' } },
+  { path: '/fruit-record', name: 'fruit-record', component: FruitRecordView, meta: { title: '大果记录', shortName: '大果' } },
   { path: '/role', name: 'role', component: RoleView, meta: { title: '角色图鉴', shortName: '角色' } },
   { path: '/battle', name: 'battle', component: BattleSimView, meta: { title: '战斗模拟', shortName: '战斗' } },
   { path: '/ranking', name: 'ranking', component: RankingView, meta: { title: '预告：热度排行', shortName: '预告' } }

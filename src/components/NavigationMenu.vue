@@ -33,6 +33,7 @@ const categories = [
       { id: 'subskill', name: '支援筛选工具', path: '/subskill', icon: '/General/4.png' },
       { id: 'unique', name: '技能筛选工具', path: '/unique', icon: '/General/5.png' },
       { id: 'equip', name: '装备筛选工具', path: '/equip', icon: '/General/6.png' },
+      { id: 'fruit-record', name: '大果记录', path: '/fruit-record', icon: '/General/21.png' }
     ]
   },
   {
@@ -77,6 +78,24 @@ const handleNavigate = (path) => {
 
 const handleClose = () => {
   emit('close')
+}
+
+// 格式化九宫格导航文本换行
+const formatGridItemName = (name) => {
+  if (!name) return ''
+  // 1. 商人/宝库概率 -> 从“概率”开始换行（忽略前面的 /）
+  if (name === '商人/宝库概率') {
+    return '商人/宝库<br/>概率'
+  }
+  // 2. 以“工具”结尾的4字以上名称，将“工具”置于第二行
+  if (name.endsWith('工具') && name.length > 4) {
+    return `${name.slice(0, -2)}<br/>工具`
+  }
+  // 3. 其他超过4个字的文本，4个字处换行
+  if (name.length > 4) {
+    return `${name.slice(0, 4)}<br/>${name.slice(4)}`
+  }
+  return name
 }
 </script>
 
@@ -158,7 +177,7 @@ const handleClose = () => {
                   @click="handleNavigate(item.path)"
                 >
                   <img :src="item.icon" class="icon-img" />
-                  <span class="grid-item-name">{{ item.name }}</span>
+                  <span class="grid-item-name" v-html="formatGridItemName(item.name)"></span>
                 </div>
               </div>
             </div>
@@ -183,7 +202,7 @@ const handleClose = () => {
                   @click="handleNavigate(item.path)"
                 >
                   <img :src="item.icon" class="icon-img" />
-                  <span class="grid-item-name">{{ item.name }}</span>
+                  <span class="grid-item-name" v-html="formatGridItemName(item.name)"></span>
                 </div>
               </div>
             </div>
