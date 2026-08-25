@@ -386,9 +386,9 @@ const getModalReasonText = (equip) => {
   const isSS = equip.step === 'SS' || equip.Step === 'SS'
   if (isSS) {
     if (showExactProb.value) {
-      return `单场出货率约 ${equip.probStr}（约 ${equip.approxBattles} 场/件）。红装（SS阶传承装备）在遭遇 A阶(1/10000) 或 S阶(1/1000) 战斗事件时小概率赋予匹配职业的怪物携带掉落，亦可通过旅行商人和黄金宝库获取`
+      return `单场出货率约 ${equip.probStr}（约 ${equip.approxBattles} 场/件）。红装（SS阶传承装备）在遭遇 A阶(1/10000) 或 S阶(1/1000) 战斗事件时小概率赋予匹配职业的怪物携带掉落，亦可通过图鉴3个天赐结晶兑换、旅行商人及黄金宝库获取`
     }
-    return `单场出货率约 ${equip.probStr}。红装（SS阶传承装备）在遭遇 A阶(1/10000) 或 S阶(1/1000) 战斗事件时小概率赋予匹配职业的怪物携带掉落，亦可通过旅行商人和黄金宝库获取`
+    return `单场出货率约 ${equip.probStr}。红装（SS阶传承装备）在遭遇 A阶(1/10000) 或 S阶(1/1000) 战斗事件时小概率赋予匹配职业的怪物携带掉落，亦可通过图鉴3个天赐结晶兑换、旅行商人及黄金宝库获取`
   }
   if (showExactProb.value) {
     return equip.exactReason || equip.reason
@@ -503,7 +503,7 @@ const computedMapData = computed(() => {
       let exactReason = ''
       let fuzzyReason = ''
       if (eq.step === 'SS' || raw.Step === 'SS') {
-        exactReason = `单场出货率约 ${eq.probStr}（约 ${eq.approxBattles} 场/件）。红装（SS阶传承装备）在遭遇 A阶(1/10000) 或 S阶(1/1000) 战斗事件时小概率赋予匹配职业的怪物携带掉落，亦可通过旅行商人和黄金宝库获取`
+        exactReason = `单场出货率约 ${eq.probStr}（约 ${eq.approxBattles} 场/件）。红装（SS阶传承装备）在遭遇 A阶(1/10000) 或 S阶(1/1000) 战斗事件时小概率赋予匹配职业的怪物携带掉落，亦可通过图鉴3个天赐结晶兑换、旅行商人及黄金宝库获取`
         fuzzyReason = exactReason
       } else if (eq.probPercent < 0.001) {
         exactReason = `单场出货率 <0.001%（约 ${eq.approxBattles} 场/件）。本地战斗完全缺少对应职业怪物，只能依赖极低概率的跨图世界事件`

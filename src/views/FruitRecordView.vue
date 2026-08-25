@@ -3,14 +3,14 @@
     <!-- 顶部概览数据卡片 -->
     <div class="fruit-sticky-top">
       <div class="stats-overview-grid">
-        <!-- 统计1：已获取大果数量（差值累加） -->
+        <!-- 统计1：总获取大果数量（差值累加） -->
         <div class="stat-card total-stat-card">
           <div class="stat-card-icon-wrap">
             <img src="/Shop/D00002_001.png" class="fruit-icon-img pulse-anim" alt="大果" />
           </div>
           <div class="stat-card-info">
             <div class="stat-title-row">
-              <span class="stat-label">已获取大果数量</span>
+              <span class="stat-label">总获取</span>
             </div>
             <div class="stat-value-row">
               <span class="stat-number highlight-gold">{{ totalFruitCount }}</span>
@@ -19,17 +19,35 @@
           </div>
         </div>
 
-        <!-- 统计2：每天平均数量（总获取 / 平摊后的有效增长天数） -->
+        <!-- 统计2：每天平均数量 -->
         <div class="stat-card avg-stat-card">
           <div class="stat-card-icon-wrap">
             <img src="/Shop/D00002_001.png" class="fruit-icon-img" alt="大果" />
           </div>
           <div class="stat-card-info">
             <div class="stat-title-row">
-              <span class="stat-label">每天平均数量</span>
+              <span class="stat-label">每天平均</span>
             </div>
             <div class="stat-value-row">
               <span class="stat-number highlight-blue">{{ averageFruitCount }}</span>
+              <span class="stat-unit">个/天</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 统计3：本周日均数量 -->
+        <div class="stat-card week-avg-stat-card">
+          <div class="stat-card-icon-wrap">
+            <img src="/Shop/D00002_001.png" class="fruit-icon-img" alt="大果" />
+          </div>
+          <div class="stat-card-info">
+            <div class="stat-title-row">
+              <span class="stat-label">本周日均</span>
+            </div>
+            <div class="stat-value-row">
+              <span
+                class="stat-number highlight-green"
+              >{{ thisWeekAverageFruitCount }}</span>
               <span class="stat-unit">个/天</span>
             </div>
           </div>
@@ -39,27 +57,35 @@
       <!-- 次要数据统计条 -->
       <div class="secondary-stats-bar">
         <div class="mini-stat-item">
-          <span class="mini-stat-label">打卡总天数</span>
+          <span class="mini-stat-label">总消耗</span>
+          <span class="mini-stat-val consumption-mini-val">{{ totalConsumedFruitCount }} 个</span>
+        </div>
+        <div class="mini-stat-divider"></div>
+        <div class="mini-stat-item">
+          <span class="mini-stat-label">净变化</span>
+          <span
+            class="mini-stat-val"
+            :class="netFruitChange < 0 ? 'negative-mini-val' : 'positive-mini-val'"
+          >{{ netFruitChange > 0 ? `+${netFruitChange}` : netFruitChange }} 个</span>
+        </div>
+        <div class="mini-stat-divider"></div>
+        <div class="mini-stat-item">
+          <span class="mini-stat-label">已记录</span>
           <span class="mini-stat-val">{{ records.length }} 天</span>
         </div>
         <div class="mini-stat-divider"></div>
         <div class="mini-stat-item">
-          <span class="mini-stat-label">有效增长天数</span>
-          <span class="mini-stat-val">{{ validGainDaysCount }} 天</span>
-        </div>
-        <div class="mini-stat-divider"></div>
-        <div class="mini-stat-item">
-          <span class="mini-stat-label">本周获取</span>
+          <span class="mini-stat-label">本周新增</span>
           <span class="mini-stat-val">{{ thisWeekFruitCount }} 个</span>
         </div>
         <div class="mini-stat-divider"></div>
         <div class="mini-stat-item">
-          <span class="mini-stat-label">本月获取</span>
+          <span class="mini-stat-label">本月新增</span>
           <span class="mini-stat-val">{{ thisMonthFruitCount }} 个</span>
         </div>
         <div class="mini-stat-divider"></div>
         <div class="mini-stat-item">
-          <span class="mini-stat-label">单日最高</span>
+          <span class="mini-stat-label">日增峰值</span>
           <span class="mini-stat-val">{{ maxSingleDayCount }} 个</span>
         </div>
       </div>
@@ -75,6 +101,7 @@
             <span class="card-main-title">今日大果记录</span>
             <span class="today-date-badge">{{ todayDateString }} ({{ todayWeekday }})</span>
           </div>
+
           <div v-if="todayRecord" class="today-status-badge recorded">
             <span class="status-dot"></span> 已记录
           </div>
@@ -85,20 +112,24 @@
 
         <div class="card-body">
           <div class="input-main-row">
-            <div class="input-label-group">
-              <img src="/Shop/D00002_001.png" class="label-fruit-img" />
-              <span class="input-label-text">今日数量：</span>
-            </div>
-            <div class="input-right-action-group">
+            <div class="input-main-header">
+              <div class="input-label-group">
+                <img src="/Shop/D00002_001.png" class="label-fruit-img" />
+                <span class="input-label-text">今日数量：</span>
+              </div>
               <button
                 type="button"
                 class="fill-yesterday-btn"
-                :disabled="!previousRecordBeforeToday"
-                @click="fillYesterdayCount"
+                :disabled="!previousInputRecord"
+                @click="fillPreviousInputCount"
               >
-                填充昨日数量
+                上一次输入数量
               </button>
-              <div class="input-field-wrapper">
+            </div>
+
+            <div class="quantity-fields-row">
+              <div class="input-field-wrapper quantity-field-wrapper">
+                <span class="input-field-prefix">当前</span>
                 <input
                   type="number"
                   v-model.number="todayInputCount"
@@ -107,6 +138,18 @@
                   step="1"
                   class="fruit-number-input"
                   @keyup.enter="saveTodayRecord"
+                />
+                <span class="input-suffix">个</span>
+              </div>
+              <div class="input-field-wrapper quantity-field-wrapper">
+                <span class="input-field-prefix consumed-field-prefix">消耗</span>
+                <input
+                  type="number"
+                  v-model.number="todayInputConsumed"
+                  placeholder="累计"
+                  min="0"
+                  step="1"
+                  class="fruit-number-input consumed-number-input"
                 />
                 <span class="input-suffix">个</span>
               </div>
@@ -121,19 +164,22 @@
           <!-- 快捷加减按钮组 -->
           <div class="quick-buttons-row">
             <button class="quick-btn plus" @click="quickAdjustToday(1)">+1</button>
-            <button class="quick-btn plus" @click="quickAdjustToday(2)">+2</button>
             <button class="quick-btn plus" @click="quickAdjustToday(5)">+5</button>
             <button class="quick-btn plus" @click="quickAdjustToday(10)">+10</button>
+            <button class="quick-btn plus" @click="quickAdjustToday(20)">+20</button>
             <button class="quick-btn minus" :disabled="!todayInputCount" @click="quickAdjustToday(-1)">-1</button>
             <button class="quick-btn clear" :disabled="!todayInputCount" @click="todayInputCount = 0">清零</button>
           </div>
 
           <!-- 可选备注 -->
           <div class="today-remark-row">
+            <div v-if="todayRecord && todayRecord.remark" class="current-remark-tip">
+              已记录：{{ todayRecord.remark }}
+            </div>
             <input
               type="text"
               v-model="todayInputRemark"
-              placeholder="添加备注（可选，如：商人x50、宝库x20...）"
+              placeholder="备注（如：商人*20、宝库*20）"
               class="fruit-remark-input"
               maxlength="50"
             />
@@ -184,9 +230,56 @@
         </div>
       </div>
 
-      <!-- 历史记录列表 -->
-      <div v-if="filteredDisplayList.length > 0" class="history-list">
-        <template v-for="item in filteredDisplayList" :key="item.id">
+      <!-- 历史记录列表：按月份与周次折叠归档 -->
+      <div v-if="filteredDisplayList.length > 0" class="history-archive-list">
+        <section
+          v-for="monthGroup in archiveGroups"
+          :key="monthGroup.key"
+          class="archive-month-section"
+        >
+          <button
+            type="button"
+            class="archive-month-toggle"
+            :class="{ expanded: isArchiveExpanded(monthGroup.key) }"
+            :aria-expanded="isArchiveExpanded(monthGroup.key)"
+            @click="toggleArchive(monthGroup.key)"
+          >
+            <span class="archive-period-icon month-icon">月</span>
+            <span class="archive-title-box">
+              <span class="archive-title">{{ monthGroup.label }}</span>
+              <span v-if="monthGroup.isCurrent" class="archive-current-tag">本月</span>
+              <span v-else class="archive-closed-tag">已归档</span>
+            </span>
+            <span class="archive-meta">{{ monthGroup.recordCount }} 天记录</span>
+            <span class="archive-chevron" aria-hidden="true">⌄</span>
+          </button>
+
+          <div v-if="isArchiveExpanded(monthGroup.key)" class="archive-month-body">
+            <section
+              v-for="weekGroup in monthGroup.weeks"
+              :key="weekGroup.key"
+              class="archive-week-section"
+            >
+              <button
+                type="button"
+                class="archive-week-toggle"
+                :class="{ expanded: isArchiveExpanded(weekGroup.key), current: weekGroup.isCurrent }"
+                :aria-expanded="isArchiveExpanded(weekGroup.key)"
+                @click="toggleArchive(weekGroup.key)"
+              >
+                <span class="archive-period-icon week-icon">周</span>
+                <span class="archive-title-box">
+                  <span class="archive-title">{{ weekGroup.label }}</span>
+                  <span class="archive-week-range">{{ weekGroup.range }}</span>
+                  <span v-if="!weekGroup.isCurrent" class="archive-closed-tag">已归档</span>
+                </span>
+                <span class="archive-meta">{{ weekGroup.recordCount }} 天</span>
+                <span class="archive-chevron" aria-hidden="true">⌄</span>
+              </button>
+
+              <div v-if="isArchiveExpanded(weekGroup.key)" class="archive-week-body">
+                <div class="history-list">
+                  <template v-for="item in weekGroup.items" :key="item.id">
           <!-- 1. 漏记平摊特殊条目 -->
           <div v-if="item.type === 'gap'" class="history-item-card gap-special-card">
             <div class="item-left-info">
@@ -197,8 +290,9 @@
               </div>
               <div class="item-inventory-row gap-detail-row">
                 <span class="inventory-val">{{ item.prevCount }} → {{ item.currCount }}</span>
-                <span v-if="item.isPositive" class="gap-calc-explain">（总增 +{{ item.totalDiff }}，平摊 {{ item.totalSpanDays }} 天）</span>
-                <span v-else class="gap-calc-explain">（消耗 {{ item.totalDiff }}，跨 {{ item.totalSpanDays }} 天）</span>
+                <span class="gap-calc-explain">
+                  （获取 +{{ item.totalAcquired }}，消耗 {{ item.totalConsumed }}，净变化 {{ formatSignedNumber(item.totalDiff) }}）
+                </span>
               </div>
             </div>
 
@@ -209,7 +303,7 @@
               </div>
               <div v-else class="item-count-badge used">
                 <img src="/Shop/D00002_001.png" class="badge-fruit-icon" />
-                <span class="badge-count-num used">日均 {{ (item.totalDiff / item.totalSpanDays).toFixed(1) }}</span>
+                <span class="badge-count-num used">日均 {{ Math.round(item.totalDiff / item.totalSpanDays) }}</span>
               </div>
             </div>
           </div>
@@ -227,10 +321,15 @@
                 <span v-if="item.date === todayDateString" class="item-today-tag">今天</span>
               </div>
               <div class="item-inventory-row">
-                <span class="inventory-label">大果总数：</span>
+                <span class="inventory-label">总数：</span>
                 <span class="inventory-val">{{ item.count }}</span>
                 <span v-if="item.daysSpan > 1 && item.status === 'gain'" class="gap-calc-explain">（跨 {{ item.daysSpan }} 天平摊）</span>
-                <span v-if="item.remark" class="item-remark-inline">（{{ item.remark }}）</span>
+                <span v-if="item.consumed > 0" class="record-flow-note">
+                  获取 +{{ item.acquired }} · 消耗 {{ item.consumed }}
+                </span>
+                <span v-if="item.remark" class="item-remark-inline">
+                  <span class="remark-label">备注：</span>{{ item.remark }}
+                </span>
               </div>
             </div>
 
@@ -256,15 +355,20 @@
 
               <div class="item-actions">
                 <button class="item-action-btn edit-btn" title="编辑" @click="openEditModal(item)">
-                  <img src="/ui/feedback.svg" class="action-icon" />
+                  <span class="action-symbol" aria-hidden="true">✎</span>
                 </button>
                 <button class="item-action-btn del-btn" title="删除" @click="openDeleteConfirm(item)">
-                  <img src="/ui/minus.svg" class="action-icon" />
+                  <span class="action-symbol delete-symbol" aria-hidden="true">×</span>
                 </button>
               </div>
             </div>
           </div>
-        </template>
+                  </template>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
       </div>
 
       <!-- 空状态 -->
@@ -313,6 +417,21 @@
             </div>
           </div>
 
+          <div class="modal-form-group">
+            <label class="modal-form-label">今日累计消耗：</label>
+            <div class="modal-input-wrapper consumed-modal-wrapper">
+              <input
+                type="number"
+                v-model.number="customForm.consumed"
+                placeholder="0"
+                min="0"
+                step="1"
+                class="modal-number-input"
+              />
+              <span class="modal-input-unit">个</span>
+            </div>
+          </div>
+
           <!-- 弹窗快捷按钮 -->
           <div class="modal-quick-btns">
             <button class="quick-btn plus" @click="adjustModalCount(1)">+1</button>
@@ -323,17 +442,20 @@
 
           <div class="modal-form-group">
             <label class="modal-form-label">备注说明（可选）：</label>
+            <div v-if="editingRecord && customForm.existingRemark" class="modal-current-remark">
+              当前备注：{{ customForm.existingRemark }}
+            </div>
             <input
               type="text"
               v-model="customForm.remark"
-              placeholder="例如：旅行商人、黄金宝库等"
+              placeholder="来源备注（如：商人*20、宝库*20）"
               class="modal-text-input"
               maxlength="50"
             />
           </div>
 
           <div v-if="dateConflictWarning" class="modal-warning-tip">
-            ⚠️ 提示：该日期已有记录（总数：{{ dateConflictCount }}个），保存将覆盖更新原有记录。
+            ⚠️ 提示：该日期已有记录（总数：{{ dateConflictCount }}个），保存后数量会更新，备注会自动合并。
           </div>
         </div>
 
@@ -447,11 +569,14 @@ const STORAGE_KEY = 'fruit_record_data'
 const records = ref([])
 const searchQuery = ref('')
 const sortOrder = ref('desc') // 'desc' (最新在前) | 'asc' (最早在前)
+const archiveExpansionState = ref(new Map())
 const toastMessage = ref('')
 const saveSuccessFeedback = ref(false)
 
 // 今日数据相关
 const todayInputCount = ref(0)
+const todayInputConsumed = ref(0)
+const todayConsumedBaseline = ref(0)
 const todayInputRemark = ref('')
 
 // 弹窗状态
@@ -460,7 +585,10 @@ const editingRecord = ref(false)
 const customForm = ref({
   date: '',
   count: 1,
-  remark: ''
+  consumed: '',
+  remark: '',
+  existingRemark: '',
+  existingConsumed: 0
 })
 
 const deleteModalVisible = ref(false)
@@ -504,6 +632,27 @@ const getPrevDateString = (dateStr) => {
   return getLocalDateString(dt)
 }
 
+// 归档辅助：按自然周的周一作为周归档标识
+const getWeekStartDate = (dateStr) => {
+  const [y, m, d] = dateStr.split('-').map(Number)
+  const dt = new Date(y, m - 1, d)
+  const dayOfWeek = dt.getDay() || 7
+  dt.setDate(dt.getDate() - dayOfWeek + 1)
+  return getLocalDateString(dt)
+}
+
+const getWeekEndDate = (weekStartDate) => {
+  const [y, m, d] = weekStartDate.split('-').map(Number)
+  const dt = new Date(y, m - 1, d)
+  dt.setDate(dt.getDate() + 6)
+  return getLocalDateString(dt)
+}
+
+const formatArchiveShortDate = (dateStr) => {
+  if (!dateStr) return ''
+  return `${dateStr.slice(5, 7)}/${dateStr.slice(8, 10)}`
+}
+
 // 星期几辅助函数
 const getWeekdayString = (dateStr) => {
   if (!dateStr) return ''
@@ -526,13 +675,41 @@ const syncTodayInput = () => {
   const found = todayRecord.value
   if (found) {
     todayInputCount.value = found.count ?? 0
-    todayInputRemark.value = found.remark ?? ''
+    // 消耗输入框显示今日累计值，保存时可直接改为 0 或其他累计值
+    todayInputConsumed.value = getRecordConsumed(found)
+    todayConsumedBaseline.value = getRecordConsumed(found)
+    // 旧备注单独展示，备注输入框只填写本次要追加的内容，避免重复累加
+    todayInputRemark.value = ''
   } else {
-    // 若今日未打卡，默认带入最近一条历史记录的数值方便输入
-    const sorted = [...records.value].sort((a, b) => b.date.localeCompare(a.date))
-    todayInputCount.value = sorted.length > 0 ? sorted[0].count : 0
+    // 新的一天保持空白，避免上一条数量干扰本次输入；需要时手动填充上一条数量。
+    todayInputCount.value = 0
+    todayInputConsumed.value = 0
+    todayConsumedBaseline.value = 0
     todayInputRemark.value = ''
   }
+}
+
+const getRecordConsumed = (record) => Math.max(0, Math.floor(Number(record?.consumed) || 0))
+
+const getIntervalMetrics = (previousRecord, currentRecord) => {
+  const netChange = (Number(currentRecord.count) || 0) - (Number(previousRecord.count) || 0)
+  const hasExplicitConsumed = Object.prototype.hasOwnProperty.call(currentRecord || {}, 'consumed')
+  const enteredConsumed = hasExplicitConsumed ? getRecordConsumed(currentRecord) : null
+  const inferredConsumed = Math.max(0, -netChange)
+  // 新数据中的 consumed=0 是用户明确设置的值；旧 JSON 没有该字段时才自动推算。
+  const consumed = hasExplicitConsumed ? enteredConsumed : inferredConsumed
+  const acquired = Math.max(0, netChange + consumed)
+
+  return {
+    netChange,
+    consumed,
+    acquired
+  }
+}
+
+const formatSignedNumber = (value) => {
+  const number = Number(value) || 0
+  return number > 0 ? `+${number}` : String(number)
 }
 
 // ===== 核心机制：差值计算 + 漏记区间平摊 =====
@@ -551,6 +728,7 @@ const processedListWithGaps = computed(() => {
         id: `rec_${item.date}`,
         date: item.date,
         count: item.count,
+        consumed: getRecordConsumed(item),
         remark: item.remark,
         isBase: true,
         diff: 0,
@@ -563,16 +741,17 @@ const processedListWithGaps = computed(() => {
 
     const prev = sorted[i - 1]
     const daysSpan = getDaysDiff(prev.date, item.date)
-    const diff = (Number(item.count) || 0) - (Number(prev.count) || 0)
+    const metrics = getIntervalMetrics(prev, item)
+    const diff = metrics.netChange
 
     if (daysSpan > 1) {
       // 中间漏了天数（daysSpan > 1）
       const missingDaysCount = daysSpan - 1
       const startMissingDate = getNextDateString(prev.date)
       const endMissingDate = getPrevDateString(item.date)
-      const isPositive = diff > 0
-      const avgGain = isPositive ? diff / daysSpan : 0
-      const formattedAvg = Number.isInteger(avgGain) ? String(avgGain) : avgGain.toFixed(1)
+      const isPositive = metrics.acquired > 0
+      const avgGain = isPositive ? metrics.acquired / daysSpan : 0
+      const formattedAvg = String(Math.round(avgGain))
 
       // 插入中间漏记的平摊特殊条目
       result.push({
@@ -585,6 +764,8 @@ const processedListWithGaps = computed(() => {
         missingDaysCount,
         totalSpanDays: daysSpan,
         totalDiff: diff,
+        totalAcquired: metrics.acquired,
+        totalConsumed: metrics.consumed,
         avgGain,
         formattedAvg,
         isPositive,
@@ -601,18 +782,20 @@ const processedListWithGaps = computed(() => {
         id: `rec_${item.date}`,
         date: item.date,
         count: item.count,
+        consumed: metrics.consumed,
         remark: item.remark,
         isBase: false,
         diff,
         gain: isPositive ? avgGain : 0,
         formattedGain: isPositive ? formattedAvg : String(diff),
-        totalIntervalGain: isPositive ? diff : 0,
+        totalIntervalGain: isPositive ? metrics.acquired : 0,
+        acquired: metrics.acquired,
         daysSpan,
         status: isPositive ? 'gain' : (diff < 0 ? 'used' : 'zero')
       })
     } else {
       // 连续无漏记
-      const isPositive = diff > 0
+      const isPositive = metrics.acquired > 0
       result.push({
         type: 'record',
         id: `rec_${item.date}`,
@@ -621,8 +804,10 @@ const processedListWithGaps = computed(() => {
         remark: item.remark,
         isBase: false,
         diff,
-        gain: isPositive ? diff : 0,
-        formattedGain: String(diff),
+        gain: isPositive ? metrics.acquired : 0,
+        acquired: metrics.acquired,
+        consumed: metrics.consumed,
+        formattedGain: isPositive ? String(metrics.acquired) : String(diff),
         daysSpan: 1,
         status: isPositive ? 'gain' : (diff < 0 ? 'used' : 'zero')
       })
@@ -637,19 +822,29 @@ const totalFruitCount = computed(() => {
   const sorted = [...records.value].sort((a, b) => a.date.localeCompare(b.date))
   let total = 0
   for (let i = 1; i < sorted.length; i++) {
-    const diff = (Number(sorted[i].count) || 0) - (Number(sorted[i - 1].count) || 0)
-    if (diff > 0) total += diff
+    total += getIntervalMetrics(sorted[i - 1], sorted[i]).acquired
   }
   return total
 })
+
+const totalConsumedFruitCount = computed(() => {
+  const sorted = [...records.value].sort((a, b) => a.date.localeCompare(b.date))
+  let total = 0
+  for (let i = 1; i < sorted.length; i++) {
+    total += getIntervalMetrics(sorted[i - 1], sorted[i]).consumed
+  }
+  return total
+})
+
+const netFruitChange = computed(() => totalFruitCount.value - totalConsumedFruitCount.value)
 
 // 有效增长天数（平摊包含漏记区间的实际天数跨度）
 const validGainDaysCount = computed(() => {
   const sorted = [...records.value].sort((a, b) => a.date.localeCompare(b.date))
   let days = 0
   for (let i = 1; i < sorted.length; i++) {
-    const diff = (Number(sorted[i].count) || 0) - (Number(sorted[i - 1].count) || 0)
-    if (diff > 0) {
+    const metrics = getIntervalMetrics(sorted[i - 1], sorted[i])
+    if (metrics.acquired > 0) {
       const span = getDaysDiff(sorted[i - 1].date, sorted[i].date)
       days += span
     }
@@ -659,9 +854,9 @@ const validGainDaysCount = computed(() => {
 
 // 每天平均数量：总获取 / 平摊后的有效增长天数
 const averageFruitCount = computed(() => {
-  if (validGainDaysCount.value === 0) return '0.00'
+  if (validGainDaysCount.value === 0) return '0'
   const avg = totalFruitCount.value / validGainDaysCount.value
-  return Number.isInteger(avg) ? String(avg) : avg.toFixed(2)
+  return String(Math.round(avg))
 })
 
 // 本周获取
@@ -677,11 +872,18 @@ const thisWeekFruitCount = computed(() => {
   let sum = 0
   for (let i = 1; i < sorted.length; i++) {
     if (sorted[i].date >= mondayStr && sorted[i].date <= todayDateString.value) {
-      const diff = (Number(sorted[i].count) || 0) - (Number(sorted[i - 1].count) || 0)
-      if (diff > 0) sum += diff
+      sum += getIntervalMetrics(sorted[i - 1], sorted[i]).acquired
     }
   }
   return sum
+})
+
+// 本周日均数量：按本周一至今天的自然日计算平均值
+const thisWeekAverageFruitCount = computed(() => {
+  const now = new Date()
+  const elapsedDays = now.getDay() || 7
+  const avg = thisWeekFruitCount.value / elapsedDays
+  return String(Math.round(avg))
 })
 
 // 本月获取
@@ -691,8 +893,7 @@ const thisMonthFruitCount = computed(() => {
   let sum = 0
   for (let i = 1; i < sorted.length; i++) {
     if (sorted[i].date.startsWith(prefix)) {
-      const diff = (Number(sorted[i].count) || 0) - (Number(sorted[i - 1].count) || 0)
-      if (diff > 0) sum += diff
+      sum += getIntervalMetrics(sorted[i - 1], sorted[i]).acquired
     }
   }
   return sum
@@ -705,11 +906,13 @@ const maxSingleDayCount = computed(() => {
     .map(item => item.gain || item.avgGain || 0)
   if (gains.length === 0) return 0
   const max = Math.max(0, ...gains)
-  return Number.isInteger(max) ? String(max) : max.toFixed(1)
+  return String(Math.round(max))
 })
 
-// 获取今天之前的最近一条记录
-const previousRecordBeforeToday = computed(() => {
+// 获取“上一次输入”：今天已有记录时使用今天最后保存的数量，否则使用最近历史记录
+const previousInputRecord = computed(() => {
+  if (todayRecord.value) return todayRecord.value
+
   const date = todayDateString.value
   const previousRecords = records.value
     .filter(r => r.date < date)
@@ -717,10 +920,10 @@ const previousRecordBeforeToday = computed(() => {
   return previousRecords.length > 0 ? previousRecords[0] : null
 })
 
-const fillYesterdayCount = () => {
-  if (previousRecordBeforeToday.value) {
-    todayInputCount.value = previousRecordBeforeToday.value.count
-    showToast(`已填入 ${previousRecordBeforeToday.value.date} 数量：${previousRecordBeforeToday.value.count}`)
+const fillPreviousInputCount = () => {
+  if (previousInputRecord.value) {
+    todayInputCount.value = previousInputRecord.value.count
+    showToast(`已填入 ${previousInputRecord.value.date} 数量：${previousInputRecord.value.count}`)
   } else {
     showToast('暂无上一日记录可填充')
   }
@@ -740,29 +943,46 @@ const todayDiffPreview = computed(() => {
   const previousRecords = records.value
     .filter(r => r.date < date)
     .sort((a, b) => b.date.localeCompare(a.date))
-  
-  if (previousRecords.length === 0) {
+  const prev = previousRecords[0]
+  const existingToday = todayRecord.value
+  const enteredConsumed = Math.max(0, Math.floor(Number(todayInputConsumed.value) || 0))
+  const consumedWasEdited = enteredConsumed !== todayConsumedBaseline.value
+  const sameDayDecrease = existingToday
+    ? Math.max(0, (Number(existingToday.count) || 0) - count)
+    : 0
+  const automaticConsumed = existingToday
+    ? getRecordConsumed(existingToday) + sameDayDecrease
+    : enteredConsumed
+  const estimatedConsumed = consumedWasEdited ? enteredConsumed : automaticConsumed
+
+  if (!prev) {
     const otherRecords = records.value.filter(r => r.date !== date)
-    if (otherRecords.length === 0) {
+    if (!existingToday && otherRecords.length === 0) {
       return { type: 'base', text: '首日记录：作为初始基准值（不计入获取与平均）' }
     }
-  }
 
-  const prev = previousRecords[0]
-  if (!prev) return null
+    if (sameDayDecrease > 0 || enteredConsumed > 0) {
+      return { type: 'used', text: `获取 0 个，消耗 ${estimatedConsumed} 个，净变化 ${formatSignedNumber(-sameDayDecrease)}` }
+    }
+    return null
+  }
 
   const daysSpan = getDaysDiff(prev.date, date)
   const diff = count - prev.count
+  const consumed = consumedWasEdited
+    ? enteredConsumed
+    : Math.max(estimatedConsumed, Math.max(0, -diff))
+  const acquired = Math.max(0, diff + consumed)
 
-  if (diff > 0) {
+  if (acquired > 0) {
     if (daysSpan > 1) {
-      const avg = (diff / daysSpan).toFixed(1)
-      return { type: 'gain', text: `较上一记录（${prev.date}：${prev.count}，跨 ${daysSpan} 天）总增 +${diff} 个，平摊日均 +${avg} 个` }
+      const avg = Math.round(acquired / daysSpan)
+      return { type: 'gain', text: `获取 +${acquired} 个，消耗 ${consumed} 个，净变化 ${formatSignedNumber(diff)}，跨 ${daysSpan} 天日均 +${avg} 个` }
     } else {
-      return { type: 'gain', text: `较上一记录（${prev.date}：${prev.count}）增长 +${diff} 个` }
+      return { type: 'gain', text: `获取 +${acquired} 个，消耗 ${consumed} 个，净变化 ${formatSignedNumber(diff)}` }
     }
   } else if (diff < 0) {
-    return { type: 'used', text: `较上一记录（${prev.date}：${prev.count}）减少 ${diff} 个（已使用，不计入获取）` }
+    return { type: 'used', text: `获取 0 个，消耗 ${consumed} 个，净变化 ${formatSignedNumber(diff)}` }
   } else {
     return { type: 'zero', text: `较上一记录（${prev.date}：${prev.count}）无变动 (+0)` }
   }
@@ -806,6 +1026,83 @@ const filteredDisplayList = computed(() => {
   return list
 })
 
+// 历史归档分组：月归档下再按周归档，gap 条目只作为展示项不重复计入天数
+const archiveGroups = computed(() => {
+  const monthMap = new Map()
+
+  filteredDisplayList.value.forEach(item => {
+    const archiveDate = item.type === 'gap' ? (item.endDate || item.date) : item.date
+    if (!archiveDate) return
+
+    const monthKey = archiveDate.slice(0, 7)
+    const weekStart = getWeekStartDate(archiveDate)
+    const weekKey = `${monthKey}:${weekStart}`
+
+    if (!monthMap.has(monthKey)) {
+      monthMap.set(monthKey, {
+        key: `month:${monthKey}`,
+        monthKey,
+        items: [],
+        weeks: new Map()
+      })
+    }
+
+    const month = monthMap.get(monthKey)
+    month.items.push(item)
+
+    if (!month.weeks.has(weekKey)) {
+      month.weeks.set(weekKey, {
+        key: `week:${weekStart}`,
+        weekStart,
+        items: []
+      })
+    }
+    month.weeks.get(weekKey).items.push(item)
+  })
+
+  const currentMonthKey = todayDateString.value.slice(0, 7)
+  const currentWeekKey = getWeekStartDate(todayDateString.value)
+
+  return Array.from(monthMap.values()).map(month => {
+    const [year, monthNumber] = month.monthKey.split('-')
+    const weeks = Array.from(month.weeks.values()).map(week => {
+      const weekEnd = getWeekEndDate(week.weekStart)
+      const isCurrent = week.weekStart === currentWeekKey
+      return {
+        ...week,
+        isCurrent,
+        label: isCurrent ? '本周' : `${formatArchiveShortDate(week.weekStart)} - ${formatArchiveShortDate(weekEnd)}`,
+        range: isCurrent ? `${formatArchiveShortDate(week.weekStart)} - ${formatArchiveShortDate(weekEnd)}` : '',
+        recordCount: week.items.filter(item => item.type !== 'gap').length
+      }
+    })
+
+    return {
+      ...month,
+      isCurrent: month.monthKey === currentMonthKey,
+      label: `${year}年${monthNumber}月`,
+      recordCount: month.items.filter(item => item.type !== 'gap').length,
+      weeks
+    }
+  })
+})
+
+const isDefaultArchiveExpanded = (key) => {
+  return key === `month:${todayDateString.value.slice(0, 7)}` || key === `week:${getWeekStartDate(todayDateString.value)}`
+}
+
+const isArchiveExpanded = (key) => {
+  if (searchQuery.value.trim()) return true
+  if (archiveExpansionState.value.has(key)) return archiveExpansionState.value.get(key)
+  return isDefaultArchiveExpanded(key)
+}
+
+const toggleArchive = (key) => {
+  const nextState = new Map(archiveExpansionState.value)
+  nextState.set(key, !isArchiveExpanded(key))
+  archiveExpansionState.value = nextState
+}
+
 // 本地存储保存与加载
 const saveToLocalStorage = () => {
   try {
@@ -847,24 +1144,126 @@ const quickAdjustToday = (delta) => {
   todayInputCount.value = next
 }
 
+// 备注按“来源*数量”合并，相同来源累加，不同来源追加；兼容 x、X、*、× 写法
+const mergeRemarks = (existingRemark, incomingRemark) => {
+  const parseRemark = (remark) => {
+    const text = String(remark || '').trim()
+    const tokenRegex = /([^,，、;；\n]+?)\s*[xX*×]\s*(\d+(?:\.\d+)?)/g
+    const entries = []
+    const plainParts = []
+    let lastIndex = 0
+    let match
+
+    while ((match = tokenRegex.exec(text)) !== null) {
+      const plainBefore = text
+        .slice(lastIndex, match.index)
+        .replace(/^[,，、;；\s]+|[,，、;；\s]+$/g, '')
+        .trim()
+      if (plainBefore) plainParts.push(plainBefore)
+
+      entries.push({
+        source: match[1].trim(),
+        amount: Number(match[2])
+      })
+      lastIndex = tokenRegex.lastIndex
+    }
+
+    const plainAfter = text
+      .slice(lastIndex)
+      .replace(/^[,，、;；\s]+|[,，、;；\s]+$/g, '')
+      .trim()
+    if (plainAfter) plainParts.push(plainAfter)
+
+    return { entries, plainParts }
+  }
+
+  const mergedEntries = []
+  const plainParts = []
+  const appendRemark = (remark) => {
+    const parsed = parseRemark(remark)
+    parsed.entries.forEach(entry => {
+      const key = entry.source.toLocaleLowerCase()
+      const existing = mergedEntries.find(item => item.key === key)
+      if (existing) {
+        existing.amount += entry.amount
+      } else {
+        mergedEntries.push({
+          key,
+          source: entry.source,
+          amount: entry.amount
+        })
+      }
+    })
+    parsed.plainParts.forEach(part => {
+      if (!plainParts.includes(part)) plainParts.push(part)
+    })
+  }
+
+  appendRemark(existingRemark)
+  appendRemark(incomingRemark)
+
+  const formattedEntries = mergedEntries.map(entry => {
+    return `${entry.source}*${String(entry.amount)}`
+  })
+
+  return [...formattedEntries, ...plainParts].join('，')
+}
+
+const normalizeConsumedForRecord = (date, count, consumed, existingRecord = null, consumedWasEdited = false) => {
+  const enteredConsumed = Math.max(0, Math.floor(Number(consumed) || 0))
+  const previousRecord = records.value
+    .filter(record => record.date < date)
+    .sort((a, b) => b.date.localeCompare(a.date))[0]
+
+  // 手动修改累计消耗时，以输入值为准，允许把当天消耗改为 0。
+  if (consumedWasEdited) return enteredConsumed
+
+  // 未手动修改消耗时，同一天把当前数量改低的差值自动累加。
+  const sameDayDecrease = existingRecord
+    ? Math.max(0, (Number(existingRecord.count) || 0) - count)
+    : 0
+  const accumulatedConsumed = existingRecord
+    ? getRecordConsumed(existingRecord) + sameDayDecrease
+    : enteredConsumed
+  const minimumConsumed = previousRecord
+    ? Math.max(0, (Number(previousRecord.count) || 0) - count)
+    : 0
+
+  return Math.max(enteredConsumed, accumulatedConsumed, minimumConsumed)
+}
+
 const saveTodayRecord = () => {
   const count = Math.max(0, Math.floor(Number(todayInputCount.value) || 0))
   const date = todayDateString.value
-  const remark = todayInputRemark.value.trim()
-
   const existingIdx = records.value.findIndex(r => r.date === date)
+  const existingRecord = existingIdx !== -1 ? records.value[existingIdx] : null
+  const consumedWasEdited = Number(todayInputConsumed.value) !== todayConsumedBaseline.value
+  const consumed = normalizeConsumedForRecord(
+    date,
+    count,
+    todayInputConsumed.value,
+    existingRecord,
+    consumedWasEdited
+  )
+  const incomingRemark = todayInputRemark.value.trim()
+
   if (existingIdx !== -1) {
     records.value[existingIdx].count = count
-    records.value[existingIdx].remark = remark
+    records.value[existingIdx].consumed = consumed
+    records.value[existingIdx].remark = mergeRemarks(records.value[existingIdx].remark, incomingRemark)
   } else {
     records.value.unshift({
       date,
       count,
-      remark
+      consumed,
+      remark: mergeRemarks('', incomingRemark)
     })
   }
 
   saveToLocalStorage()
+  todayInputConsumed.value = consumed
+  todayConsumedBaseline.value = consumed
+  todayInputRemark.value = ''
   saveSuccessFeedback.value = true
   showToast(existingIdx !== -1 ? '今日大果记录已更新！' : '今日大果记录保存成功！')
 
@@ -880,7 +1279,10 @@ const openAddCustomModal = () => {
   customForm.value = {
     date: todayDateString.value,
     count: sorted.length > 0 ? sorted[0].count : 0,
-    remark: ''
+    consumed: 0,
+    remark: '',
+    existingRemark: '',
+    existingConsumed: 0
   }
   customModalVisible.value = true
 }
@@ -890,7 +1292,10 @@ const openEditModal = (item) => {
   customForm.value = {
     date: item.date,
     count: item.count,
-    remark: item.remark || ''
+    consumed: getRecordConsumed(item),
+    remark: '',
+    existingRemark: item.remark || '',
+    existingConsumed: getRecordConsumed(item)
   }
   customModalVisible.value = true
 }
@@ -917,23 +1322,38 @@ const dateConflictCount = computed(() => {
 })
 
 const saveCustomRecord = () => {
-  const { date, count, remark } = customForm.value
+  const { date, count, consumed: inputConsumed, remark } = customForm.value
   if (!date) {
     showToast('请选择打卡日期！')
     return
   }
 
   const sanitizedCount = Math.max(0, Math.floor(Number(count) || 0))
-  const sanitizedRemark = (remark || '').trim()
+  const existingRecord = records.value.find(r => r.date === date) || null
+  const consumedWasEdited = Number(inputConsumed) !== Number(customForm.value.existingConsumed)
+  const sanitizedConsumed = normalizeConsumedForRecord(
+    date,
+    sanitizedCount,
+    inputConsumed,
+    existingRecord,
+    consumedWasEdited
+  )
+  const sanitizedRemark = mergeRemarks(customForm.value.existingRemark, (remark || '').trim())
 
   const existingIdx = records.value.findIndex(r => r.date === date)
   if (existingIdx !== -1) {
     records.value[existingIdx].count = sanitizedCount
-    records.value[existingIdx].remark = sanitizedRemark
+    records.value[existingIdx].consumed = sanitizedConsumed
+    if (!editingRecord.value) {
+      records.value[existingIdx].remark = mergeRemarks(records.value[existingIdx].remark, (remark || '').trim())
+    } else {
+      records.value[existingIdx].remark = sanitizedRemark
+    }
   } else {
     records.value.push({
       date,
       count: sanitizedCount,
+      consumed: sanitizedConsumed,
       remark: sanitizedRemark
     })
   }
@@ -1009,11 +1429,19 @@ const handleFruitImport = async (event) => {
     records.value.forEach(r => dateMap.set(r.date, r))
     importedList.forEach(item => {
       if (item && item.date && typeof item.count === 'number') {
-        dateMap.set(item.date, {
+        const existingRecord = dateMap.get(item.date)
+        const hasConsumed = Object.prototype.hasOwnProperty.call(item, 'consumed')
+        const normalizedRecord = {
           date: item.date,
           count: Math.max(0, Math.floor(item.count)),
           remark: item.remark || ''
-        })
+        }
+        if (hasConsumed) {
+          normalizedRecord.consumed = Math.max(0, Math.floor(Number(item.consumed) || 0))
+        } else if (existingRecord && Object.prototype.hasOwnProperty.call(existingRecord, 'consumed')) {
+          normalizedRecord.consumed = getRecordConsumed(existingRecord)
+        }
+        dateMap.set(item.date, normalizedRecord)
       }
     })
 
@@ -1070,7 +1498,7 @@ onMounted(() => {
 
 .stats-overview-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -1128,6 +1556,7 @@ onMounted(() => {
   flex-direction: column;
   gap: 2px;
   min-width: 0;
+  flex: 1;
 }
 
 .stat-label {
@@ -1158,6 +1587,14 @@ onMounted(() => {
   color: var(--primary, #3b82f6);
 }
 
+.stat-number.highlight-green {
+  color: #10b981;
+}
+
+.stat-number.highlight-red {
+  color: #ef4444;
+}
+
 .stat-unit {
   font-size: 11px;
   color: var(--text-sub);
@@ -1168,10 +1605,12 @@ onMounted(() => {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 10px;
-  padding: 8px 12px;
-  display: flex;
+  padding: 9px 10px;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   align-items: center;
-  justify-content: space-between;
+  gap: 4px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.025);
 }
 
 .mini-stat-item {
@@ -1180,6 +1619,11 @@ onMounted(() => {
   align-items: center;
   gap: 2px;
   flex: 1;
+  min-width: 0;
+}
+
+.mini-stat-item + .mini-stat-divider + .mini-stat-item {
+  border-left: 1px solid var(--border-color);
 }
 
 .mini-stat-label {
@@ -1193,12 +1637,20 @@ onMounted(() => {
   font-weight: 700;
   color: var(--text-main);
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.consumption-mini-val,
+.negative-mini-val {
+  color: #dc2626;
+}
+
+.positive-mini-val {
+  color: #059669;
 }
 
 .mini-stat-divider {
-  width: 1px;
-  height: 18px;
-  background: var(--border-color);
+  display: none;
 }
 
 /* ===== 主要内容卡片 ===== */
@@ -1223,6 +1675,8 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-bottom: 14px;
 }
 
@@ -1231,6 +1685,8 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+  min-width: 0;
+  flex: 1;
 }
 
 .header-fruit-icon {
@@ -1292,13 +1748,53 @@ onMounted(() => {
 
 .input-main-row {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
+  min-width: 0;
   background: var(--bg);
   border: 1px solid var(--border-color);
   padding: 10px 14px;
   border-radius: 12px;
+}
+
+.input-main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.quantity-fields-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.quantity-field-wrapper {
+  width: 100%;
+  min-width: 0;
+}
+
+.quantity-field-wrapper .fruit-number-input {
+  flex: 1;
+  width: 0;
+}
+
+.quantity-field-wrapper .consumed-number-input {
+  color: #ef4444;
+  background: var(--bg);
+  border-color: rgba(239, 68, 68, 0.22);
+  font-size: 15px;
+  padding: 5px 8px;
+}
+
+.quantity-field-wrapper .consumed-field-prefix {
+  color: #ef4444;
 }
 
 .input-label-group {
@@ -1324,6 +1820,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
 }
 
 .fill-yesterday-btn {
@@ -1358,10 +1855,21 @@ onMounted(() => {
   gap: 6px;
   flex-shrink: 0;
   width: 140px;
+  min-width: 0;
+}
+
+.input-field-prefix {
+  flex-shrink: 0;
+  color: #059669;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .fruit-number-input {
   width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   background: var(--card-bg);
   border: 1.5px solid var(--border-color);
   border-radius: 8px;
@@ -1437,15 +1945,14 @@ onMounted(() => {
 
 /* 快捷按钮 */
 .quick-buttons-row {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 6px;
-  flex-wrap: wrap;
 }
 
 .quick-btn {
-  flex: 1;
-  min-width: 44px;
+  min-width: 0;
+  width: 100%;
   padding: 6px 0;
   border-radius: 8px;
   font-size: 13px;
@@ -1487,6 +1994,25 @@ onMounted(() => {
 
 .today-remark-row {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.current-remark-tip,
+.modal-current-remark {
+  color: var(--text-sub);
+  background: rgba(59, 130, 246, 0.05);
+  border: 1px solid rgba(59, 130, 246, 0.12);
+  border-radius: 7px;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.modal-current-remark {
+  margin-top: -1px;
 }
 
 .fruit-remark-input {
@@ -1546,6 +2072,8 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-top: 4px;
 }
 
@@ -1553,6 +2081,7 @@ onMounted(() => {
   display: flex;
   align-items: baseline;
   gap: 6px;
+  min-width: 0;
 }
 
 .section-title {
@@ -1570,6 +2099,8 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .tool-btn {
@@ -1620,10 +2151,12 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
 }
 
 .search-input-box {
   flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   background: var(--card-bg);
@@ -1642,6 +2175,7 @@ onMounted(() => {
 
 .history-search-input {
   width: 100%;
+  min-width: 0;
   border: none;
   background: transparent;
   outline: none;
@@ -1656,6 +2190,167 @@ onMounted(() => {
   cursor: pointer;
   font-size: 12px;
   padding: 0 4px;
+}
+
+/* 月/周归档 */
+.history-archive-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.archive-month-section {
+  min-width: 0;
+}
+
+.archive-month-toggle,
+.archive-week-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.archive-month-toggle {
+  padding: 10px 12px;
+  border-radius: 11px;
+  background: var(--card-bg);
+}
+
+.archive-month-toggle:hover,
+.archive-week-toggle:hover {
+  background: var(--dropdown-hover);
+  border-color: rgba(59, 130, 246, 0.25);
+}
+
+.archive-month-toggle.expanded {
+  border-color: rgba(59, 130, 246, 0.25);
+}
+
+.archive-period-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 6px;
+}
+
+.month-icon {
+  width: 28px;
+  height: 28px;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.week-icon {
+  width: 24px;
+  height: 24px;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+}
+
+.archive-title-box {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.archive-title {
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.archive-current-tag,
+.archive-closed-tag {
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 10px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.archive-current-tag {
+  color: var(--primary);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.archive-closed-tag {
+  color: var(--text-sub);
+  background: var(--bg);
+}
+
+.archive-meta {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--text-sub);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.archive-chevron {
+  flex-shrink: 0;
+  color: var(--text-sub);
+  font-size: 16px;
+  line-height: 1;
+  transform: rotate(-90deg);
+  transition: transform 0.18s ease;
+}
+
+.archive-month-toggle.expanded .archive-chevron,
+.archive-week-toggle.expanded .archive-chevron {
+  transform: rotate(0deg);
+}
+
+.archive-month-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+  padding-left: 8px;
+  border-left: 2px solid rgba(59, 130, 246, 0.12);
+}
+
+.archive-week-section {
+  min-width: 0;
+}
+
+.archive-week-toggle {
+  padding: 7px 10px;
+  border-radius: 9px;
+  background: var(--bg);
+}
+
+.archive-week-toggle.current {
+  color: var(--primary);
+  border-color: rgba(59, 130, 246, 0.22);
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.archive-week-toggle.current .week-icon {
+  color: var(--primary);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.archive-week-range {
+  color: var(--text-sub);
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.archive-week-body {
+  margin-top: 6px;
+  padding-left: 8px;
 }
 
 /* 历史列表 */
@@ -1723,12 +2418,14 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 6px;
+  min-width: 0;
 }
 
 .item-date {
   font-size: 14px;
   font-weight: 700;
   color: var(--text-main);
+  flex-shrink: 0;
 }
 
 .item-weekday-tag {
@@ -1737,6 +2434,8 @@ onMounted(() => {
   background: var(--bg);
   padding: 1px 6px;
   border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .item-today-tag {
@@ -1746,6 +2445,8 @@ onMounted(() => {
   background: rgba(59, 130, 246, 0.1);
   padding: 1px 6px;
   border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .item-inventory-row {
@@ -1772,6 +2473,18 @@ onMounted(() => {
   color: var(--text-sub);
   font-size: 11px;
   margin-left: 2px;
+}
+
+.record-flow-note {
+  color: #dc2626;
+  font-size: 11px;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+
+.remark-label {
+  color: var(--text-sub);
+  font-weight: 600;
 }
 
 .item-right-content {
@@ -1868,12 +2581,27 @@ onMounted(() => {
   opacity: 0.8;
 }
 
+.action-symbol {
+  color: var(--text-sub);
+  font-size: 17px;
+  line-height: 1;
+  font-family: Arial, sans-serif;
+}
+
+.delete-symbol {
+  font-size: 19px;
+}
+
 .item-action-btn:hover {
   background: var(--dropdown-hover);
 }
 
 .item-action-btn.del-btn:hover .action-icon {
   filter: invert(34%) sepia(85%) saturate(3015%) hue-rotate(334deg) brightness(98%) contrast(96%) !important;
+}
+
+.item-action-btn.del-btn:hover .delete-symbol {
+  color: var(--red, #f43f5e);
 }
 
 /* 空状态 */
@@ -2198,23 +2926,55 @@ onMounted(() => {
 
 /* 响应式微调 */
 @media (max-width: 480px) {
+  .stats-overview-grid {
+    gap: 6px;
+  }
   .stat-card {
-    padding: 10px 12px;
-    gap: 8px;
+    padding: 10px 8px;
+    gap: 7px;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
   }
   .stat-card-icon-wrap {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
   }
   .fruit-icon-img {
-    width: 26px;
-    height: 26px;
+    width: 23px;
+    height: 23px;
   }
   .stat-number {
-    font-size: 20px;
+    font-size: 18px;
+  }
+  .stat-card-info {
+    width: 100%;
+    align-items: center;
+  }
+  .stat-value-row {
+    width: 100%;
+    justify-content: center;
   }
   .stat-label {
     font-size: 11px;
+  }
+  .stat-unit {
+    font-size: 10px;
+  }
+  .secondary-stats-bar {
+    padding: 8px 5px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 8px;
+  }
+  .mini-stat-label {
+    font-size: 9px;
+  }
+  .mini-stat-val {
+    font-size: 11px;
+  }
+  .mini-stat-divider {
+    display: none;
   }
   .card-main-title {
     font-size: 15px;
@@ -2225,6 +2985,14 @@ onMounted(() => {
   }
   .input-main-row {
     padding: 8px 10px;
+    gap: 6px;
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .input-main-header {
+    justify-content: flex-start;
+  }
+  .quantity-fields-row {
     gap: 6px;
   }
   .input-label-group {
@@ -2240,10 +3008,21 @@ onMounted(() => {
   }
   .input-right-action-group {
     gap: 4px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(88px, 0.8fr);
   }
   .input-field-wrapper {
-    width: 88px;
+    width: auto;
+    min-width: 0;
+    flex: 1;
     gap: 3px;
+  }
+  .input-field-prefix {
+    font-size: 11px;
+  }
+  .quantity-field-wrapper {
+    width: 100%;
   }
   .fruit-number-input {
     font-size: 15px;
@@ -2254,6 +3033,84 @@ onMounted(() => {
   }
   .input-suffix {
     font-size: 12px;
+  }
+  .quick-buttons-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .history-item-card {
+    align-items: flex-start;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .history-item-card .item-left-info {
+    flex: 1 1 0;
+  }
+  .history-item-card .item-date-row {
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
+  .history-item-card .item-inventory-row {
+    align-items: baseline;
+    flex-wrap: wrap;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    row-gap: 3px;
+  }
+  .history-item-card .item-remark-inline {
+    flex: 1 1 100%;
+    min-width: 0;
+    margin-left: 0;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  .history-item-card .record-flow-note {
+    flex: 1 1 100%;
+    margin-left: 0;
+  }
+  .history-item-card:not(.gap-special-card) .item-date {
+    white-space: nowrap;
+  }
+  .gap-special-card .gap-date-text {
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .gap-special-card .item-weekday-tag {
+    white-space: nowrap;
+  }
+  .history-item-card .item-right-content {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .history-item-card .item-count-badge,
+  .history-item-card .item-badge-base {
+    padding: 4px 8px;
+  }
+  .history-item-card .item-count-badge .badge-count-num,
+  .history-item-card .item-count-badge .badge-count-num.used {
+    font-size: 13px;
+  }
+  .history-section-header {
+    align-items: flex-start;
+  }
+  .section-actions-wrap {
+    width: 100%;
+  }
+  .section-actions-wrap .tool-btn {
+    flex: 1;
+  }
+  .history-search-row {
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+  .search-input-box {
+    flex-basis: 100%;
+  }
+  .data-manage-dropdown-btn-wrap,
+  .data-manage-dropdown-btn-wrap .tool-btn-sub {
+    width: 100%;
   }
 }
 </style>
