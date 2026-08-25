@@ -161,6 +161,22 @@
             <span class="diff-hint-text">{{ todayDiffPreview.text }}</span>
           </div>
 
+          <div class="today-auto-consume-note">
+            提示：当天已有记录时，若当前数量低于上次保存数量，系统会自动将差额计入今日消耗；如需修改，请直接编辑消耗数值。
+          </div>
+
+          <label class="spread-option-row today-spread-option">
+            <input
+              v-model="todayInputSpreadAcrossDays"
+              type="checkbox"
+              class="spread-option-input"
+            />
+            <span class="spread-option-copy">
+              <span class="spread-option-title">间断天数均摊</span>
+              <span class="spread-option-desc">跨天未记录时，按间隔天数分摊获取</span>
+            </span>
+          </label>
+
           <!-- 快捷加减按钮组 -->
           <div class="quick-buttons-row">
             <button class="quick-btn plus" @click="quickAdjustToday(1)">+1</button>
@@ -321,9 +337,10 @@
                 <span v-if="item.date === todayDateString" class="item-today-tag">今天</span>
               </div>
               <div class="item-inventory-row">
-                <span class="inventory-label">总数：</span>
+                <span class="inventory-label">当前数量：</span>
                 <span class="inventory-val">{{ item.count }}</span>
-                <span v-if="item.daysSpan > 1 && item.status === 'gain'" class="gap-calc-explain">（跨 {{ item.daysSpan }} 天平摊）</span>
+                <span v-if="item.daysSpan > 1 && item.spreadAcrossDays && item.status === 'gain'" class="gap-calc-explain">（跨 {{ item.daysSpan }} 天均摊）</span>
+                <span v-else-if="item.daysSpan > 1 && !item.spreadAcrossDays" class="gap-calc-explain">（跨 {{ item.daysSpan }} 天，未均摊）</span>
                 <span v-if="item.consumed > 0" class="record-flow-note">
                   获取 +{{ item.acquired }} · 消耗 {{ item.consumed }}
                 </span>
@@ -378,7 +395,7 @@
         </div>
         <div class="empty-title">{{ searchQuery ? '未找到匹配的打卡记录' : '暂无大果打卡记录' }}</div>
         <div class="empty-desc">
-          {{ searchQuery ? '请尝试更换搜索关键词' : '在上方输入今天的大果总数，从第二天起即可自动计算获取差值！' }}
+          {{ searchQuery ? '请尝试更换搜索关键词' : '在上方输入今天的当前数量，从第二天起即可自动计算获取差值！' }}
         </div>
       </div>
     </div>
@@ -402,13 +419,13 @@
           </div>
 
           <div class="modal-form-group">
-            <label class="modal-form-label">大果总数：</label>
+            <label class="modal-form-label">当前数量：</label>
             <div class="modal-input-wrapper">
               <img src="/Shop/D00002_001.png" class="modal-fruit-icon" />
               <input
                 type="number"
                 v-model.number="customForm.count"
-                placeholder="请输入大果总数"
+                placeholder="请输入当前数量"
                 min="0"
                 step="1"
                 class="modal-number-input"
@@ -431,6 +448,18 @@
               <span class="modal-input-unit">个</span>
             </div>
           </div>
+
+          <label class="spread-option-row modal-spread-option">
+            <input
+              v-model="customForm.spreadAcrossDays"
+              type="checkbox"
+              class="spread-option-input"
+            />
+            <span class="spread-option-copy">
+              <span class="spread-option-title">间断天数均摊</span>
+              <span class="spread-option-desc">未上线时取消，获取计入本次记录日</span>
+            </span>
+          </label>
 
           <!-- 弹窗快捷按钮 -->
           <div class="modal-quick-btns">
@@ -455,7 +484,7 @@
           </div>
 
           <div v-if="dateConflictWarning" class="modal-warning-tip">
-            ⚠️ 提示：该日期已有记录（总数：{{ dateConflictCount }}个），保存后数量会更新，备注会自动合并。
+            ⚠️ 提示：该日期已有记录（当前数量：{{ dateConflictCount }}个），保存后数量会更新，备注会自动合并。
           </div>
         </div>
 
@@ -475,7 +504,7 @@
         </div>
         <div class="modal-body">
           <p class="modal-confirm-text">
-            确定要删除 <strong>{{ targetDeleteItem?.date }}</strong> 的大果打卡记录（总数：<strong>{{ targetDeleteItem?.count }}</strong> 个）吗？
+          确定要删除 <strong>{{ targetDeleteItem?.date }}</strong> 的大果打卡记录（当前数量：<strong>{{ targetDeleteItem?.count }}</strong> 个）吗？
           </p>
           <p class="del-warning-sub">删除后历史差值将重新计算。</p>
         </div>
@@ -565,7 +594,7 @@ import { exportData, importData } from '../utils/dataTransfer'
 
 const STORAGE_KEY = 'fruit_record_data'
 
-// 记录数据列表（存储格式：[{ date: 'YYYY-MM-DD', count: number, remark: string }]）
+// 记录数据列表（存储格式：[{ date, count, consumed, spreadAcrossDays, remark }]）
 const records = ref([])
 const searchQuery = ref('')
 const sortOrder = ref('desc') // 'desc' (最新在前) | 'asc' (最早在前)
@@ -577,6 +606,7 @@ const saveSuccessFeedback = ref(false)
 const todayInputCount = ref(0)
 const todayInputConsumed = ref(0)
 const todayConsumedBaseline = ref(0)
+const todayInputSpreadAcrossDays = ref(true)
 const todayInputRemark = ref('')
 
 // 弹窗状态
@@ -586,6 +616,7 @@ const customForm = ref({
   date: '',
   count: 1,
   consumed: '',
+  spreadAcrossDays: true,
   remark: '',
   existingRemark: '',
   existingConsumed: 0
@@ -678,6 +709,7 @@ const syncTodayInput = () => {
     // 消耗输入框显示今日累计值，保存时可直接改为 0 或其他累计值
     todayInputConsumed.value = getRecordConsumed(found)
     todayConsumedBaseline.value = getRecordConsumed(found)
+    todayInputSpreadAcrossDays.value = shouldSpreadAcrossDays(found)
     // 旧备注单独展示，备注输入框只填写本次要追加的内容，避免重复累加
     todayInputRemark.value = ''
   } else {
@@ -685,11 +717,14 @@ const syncTodayInput = () => {
     todayInputCount.value = 0
     todayInputConsumed.value = 0
     todayConsumedBaseline.value = 0
+    todayInputSpreadAcrossDays.value = true
     todayInputRemark.value = ''
   }
 }
 
 const getRecordConsumed = (record) => Math.max(0, Math.floor(Number(record?.consumed) || 0))
+// 旧记录没有该字段时默认保持原来的均摊行为。
+const shouldSpreadAcrossDays = (record) => record?.spreadAcrossDays !== false
 
 const getIntervalMetrics = (previousRecord, currentRecord) => {
   const netChange = (Number(currentRecord.count) || 0) - (Number(previousRecord.count) || 0)
@@ -730,6 +765,7 @@ const processedListWithGaps = computed(() => {
         count: item.count,
         consumed: getRecordConsumed(item),
         remark: item.remark,
+        spreadAcrossDays: shouldSpreadAcrossDays(item),
         isBase: true,
         diff: 0,
         gain: 0,
@@ -743,8 +779,9 @@ const processedListWithGaps = computed(() => {
     const daysSpan = getDaysDiff(prev.date, item.date)
     const metrics = getIntervalMetrics(prev, item)
     const diff = metrics.netChange
+    const spreadAcrossDays = shouldSpreadAcrossDays(item)
 
-    if (daysSpan > 1) {
+    if (daysSpan > 1 && spreadAcrossDays) {
       // 中间漏了天数（daysSpan > 1）
       const missingDaysCount = daysSpan - 1
       const startMissingDate = getNextDateString(prev.date)
@@ -784,6 +821,7 @@ const processedListWithGaps = computed(() => {
         count: item.count,
         consumed: metrics.consumed,
         remark: item.remark,
+        spreadAcrossDays: true,
         isBase: false,
         diff,
         gain: isPositive ? avgGain : 0,
@@ -802,13 +840,14 @@ const processedListWithGaps = computed(() => {
         date: item.date,
         count: item.count,
         remark: item.remark,
+        spreadAcrossDays,
         isBase: false,
         diff,
         gain: isPositive ? metrics.acquired : 0,
         acquired: metrics.acquired,
         consumed: metrics.consumed,
         formattedGain: isPositive ? String(metrics.acquired) : String(diff),
-        daysSpan: 1,
+        daysSpan: spreadAcrossDays ? 1 : daysSpan,
         status: isPositive ? 'gain' : (diff < 0 ? 'used' : 'zero')
       })
     }
@@ -846,7 +885,7 @@ const validGainDaysCount = computed(() => {
     const metrics = getIntervalMetrics(sorted[i - 1], sorted[i])
     if (metrics.acquired > 0) {
       const span = getDaysDiff(sorted[i - 1].date, sorted[i].date)
-      days += span
+      days += shouldSpreadAcrossDays(sorted[i]) ? span : 1
     }
   }
   return days
@@ -973,11 +1012,14 @@ const todayDiffPreview = computed(() => {
     ? enteredConsumed
     : Math.max(estimatedConsumed, Math.max(0, -diff))
   const acquired = Math.max(0, diff + consumed)
+  const spreadAcrossDays = todayInputSpreadAcrossDays.value
 
   if (acquired > 0) {
-    if (daysSpan > 1) {
+    if (daysSpan > 1 && spreadAcrossDays) {
       const avg = Math.round(acquired / daysSpan)
       return { type: 'gain', text: `获取 +${acquired} 个，消耗 ${consumed} 个，净变化 ${formatSignedNumber(diff)}，跨 ${daysSpan} 天日均 +${avg} 个` }
+    } else if (daysSpan > 1) {
+      return { type: 'gain', text: `获取 +${acquired} 个，消耗 ${consumed} 个，净变化 ${formatSignedNumber(diff)}，跨 ${daysSpan} 天未均摊` }
     } else {
       return { type: 'gain', text: `获取 +${acquired} 个，消耗 ${consumed} 个，净变化 ${formatSignedNumber(diff)}` }
     }
@@ -1250,12 +1292,14 @@ const saveTodayRecord = () => {
   if (existingIdx !== -1) {
     records.value[existingIdx].count = count
     records.value[existingIdx].consumed = consumed
+    records.value[existingIdx].spreadAcrossDays = todayInputSpreadAcrossDays.value
     records.value[existingIdx].remark = mergeRemarks(records.value[existingIdx].remark, incomingRemark)
   } else {
     records.value.unshift({
       date,
       count,
       consumed,
+      spreadAcrossDays: todayInputSpreadAcrossDays.value,
       remark: mergeRemarks('', incomingRemark)
     })
   }
@@ -1280,6 +1324,7 @@ const openAddCustomModal = () => {
     date: todayDateString.value,
     count: sorted.length > 0 ? sorted[0].count : 0,
     consumed: 0,
+    spreadAcrossDays: true,
     remark: '',
     existingRemark: '',
     existingConsumed: 0
@@ -1293,6 +1338,7 @@ const openEditModal = (item) => {
     date: item.date,
     count: item.count,
     consumed: getRecordConsumed(item),
+    spreadAcrossDays: shouldSpreadAcrossDays(item),
     remark: '',
     existingRemark: item.remark || '',
     existingConsumed: getRecordConsumed(item)
@@ -1322,7 +1368,7 @@ const dateConflictCount = computed(() => {
 })
 
 const saveCustomRecord = () => {
-  const { date, count, consumed: inputConsumed, remark } = customForm.value
+  const { date, count, consumed: inputConsumed, spreadAcrossDays, remark } = customForm.value
   if (!date) {
     showToast('请选择打卡日期！')
     return
@@ -1330,7 +1376,8 @@ const saveCustomRecord = () => {
 
   const sanitizedCount = Math.max(0, Math.floor(Number(count) || 0))
   const existingRecord = records.value.find(r => r.date === date) || null
-  const consumedWasEdited = Number(inputConsumed) !== Number(customForm.value.existingConsumed)
+  // 编辑历史记录时，消耗框是最终值；即使填写 0，也不能再被数量差值自动加回。
+  const consumedWasEdited = editingRecord.value || Number(inputConsumed) !== Number(customForm.value.existingConsumed)
   const sanitizedConsumed = normalizeConsumedForRecord(
     date,
     sanitizedCount,
@@ -1344,6 +1391,7 @@ const saveCustomRecord = () => {
   if (existingIdx !== -1) {
     records.value[existingIdx].count = sanitizedCount
     records.value[existingIdx].consumed = sanitizedConsumed
+    records.value[existingIdx].spreadAcrossDays = spreadAcrossDays !== false
     if (!editingRecord.value) {
       records.value[existingIdx].remark = mergeRemarks(records.value[existingIdx].remark, (remark || '').trim())
     } else {
@@ -1354,6 +1402,7 @@ const saveCustomRecord = () => {
       date,
       count: sanitizedCount,
       consumed: sanitizedConsumed,
+      spreadAcrossDays: spreadAcrossDays !== false,
       remark: sanitizedRemark
     })
   }
@@ -1434,6 +1483,9 @@ const handleFruitImport = async (event) => {
         const normalizedRecord = {
           date: item.date,
           count: Math.max(0, Math.floor(item.count)),
+          spreadAcrossDays: typeof item.spreadAcrossDays === 'boolean'
+            ? item.spreadAcrossDays
+            : existingRecord?.spreadAcrossDays !== false,
           remark: item.remark || ''
         }
         if (hasConsumed) {
@@ -1941,6 +1993,61 @@ onMounted(() => {
 
 .diff-hint-text {
   font-weight: 600;
+}
+
+.today-auto-consume-note {
+  padding: 0 4px;
+  color: var(--text-sub);
+  font-size: 11px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.spread-option-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid rgba(59, 130, 246, 0.16);
+  border-radius: 8px;
+  background: rgba(59, 130, 246, 0.04);
+  cursor: pointer;
+}
+
+.spread-option-input {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  margin: 0;
+  accent-color: var(--primary, #3b82f6);
+}
+
+.spread-option-copy {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  min-width: 0;
+  line-height: 1.35;
+}
+
+.spread-option-title {
+  color: var(--text-main);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.spread-option-desc {
+  color: var(--text-sub);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.modal-spread-option {
+  margin-top: -2px;
 }
 
 /* 快捷按钮 */
@@ -2644,8 +2751,10 @@ onMounted(() => {
 .empty-desc {
   font-size: 12px;
   color: var(--text-sub);
+  width: 100%;
   max-width: 320px;
   line-height: 1.5;
+  text-align: left;
 }
 
 /* ===== 通用模态弹窗样式 ===== */
