@@ -192,7 +192,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
 import rawRoles from '@/assets/Role.json'
 import rawRelics from '@/assets/Relics.json'
@@ -487,6 +487,13 @@ onMounted(() => {
     allRelics.value = cleanRelics
     isDataReady.value = true
   }, 50)
+})
+
+onUnmounted(() => {
+  if (observer) {
+    observer.disconnect()
+    observer = null
+  }
 })
 </script>
 

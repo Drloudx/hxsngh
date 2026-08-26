@@ -239,7 +239,7 @@ const guidesList = [
 ]
 
 const openLink = (url) => {
-  window.open(url, '_blank')
+  window.open(url, '_blank', 'noopener,noreferrer')
 }
 
 const currentIndex = ref(0)

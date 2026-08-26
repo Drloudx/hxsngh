@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, onUnmounted, ref } from 'vue'
 import { setSkipUpdateDate } from '../utils/version'
+import { formatFileSize } from '../utils/fileSize'
 
 const props = defineProps({
   show: Boolean,
@@ -12,24 +13,27 @@ const emit = defineEmits(['close'])
 const downloadProgress = ref(0)
 const downloadStatus = ref('idle') // 'idle' | 'downloading' | 'complete' | 'error'
 const updateError = ref('')
+const packageSizeText = computed(() => formatFileSize(props.updateInfo?.packageSize))
+
+const handleUpdateProgress = (downloaded, total) => {
+  downloadProgress.value = total > 0 ? Math.round(downloaded / total * 100) : 99
+}
+
+const handleUpdateComplete = () => {
+  downloadStatus.value = 'complete'
+  downloadProgress.value = 100
+}
+
+const handleUpdateError = (message) => {
+  downloadStatus.value = 'error'
+  updateError.value = message
+  downloadProgress.value = 0
+}
 
 const setUpUpdateCallbacks = () => {
-  window.__updateProgress = (d, t) => {
-    if (t > 0) {
-      downloadProgress.value = Math.round(d / t * 100)
-    } else {
-      downloadProgress.value = 99
-    }
-  }
-  window.__updateComplete = () => {
-    downloadStatus.value = 'complete'
-    downloadProgress.value = 100
-  }
-  window.__updateError = (m) => {
-    downloadStatus.value = 'error'
-    updateError.value = m
-    downloadProgress.value = 0
-  }
+  window.__updateProgress = handleUpdateProgress
+  window.__updateComplete = handleUpdateComplete
+  window.__updateError = handleUpdateError
 }
 
 const startDownload = () => {
@@ -44,16 +48,31 @@ const skipUpdateToday = () => {
   setSkipUpdateDate()
   emit('close')
 }
+
+const requestClose = () => {
+  if (downloadStatus.value !== 'downloading') emit('close')
+}
+
+onUnmounted(() => {
+  if (window.__updateProgress === handleUpdateProgress) delete window.__updateProgress
+  if (window.__updateComplete === handleUpdateComplete) delete window.__updateComplete
+  if (window.__updateError === handleUpdateError) delete window.__updateError
+})
 </script>
 
 <template>
-  <div v-if="show" class="custom-modal-overlay" @click.self="$emit('close')">
+  <div v-if="show" class="custom-modal-overlay" @click.self="requestClose">
     <div class="custom-modal-card update-modal-card">
       <div class="modal-header">
         <h3>发现新版本</h3>
       </div>
       <div class="modal-body update-modal-body">
         <div class="update-version" v-if="updateInfo">{{ updateInfo.version }}</div>
+
+        <div class="update-package-info" v-if="updateInfo">
+          <span>APK 安装包 {{ packageSizeText }}</span>
+          <span>建议在稳定网络下更新</span>
+        </div>
 
         <div class="update-changelog-wrapper" v-if="updateInfo && updateInfo.body">
           <div class="update-changelog">{{ updateInfo.body }}</div>
@@ -138,6 +157,34 @@ const skipUpdateToday = () => {
   color: var(--text-main);
   white-space: pre-wrap;
   word-break: break-all;
+  text-align: left;
+}
+
+.update-package-info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--text-sub);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.update-package-info span:last-child {
+  text-align: right;
+}
+
+@media (max-width: 360px) {
+  .update-package-info {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .update-package-info span:last-child {
+    text-align: left;
+  }
 }
 
 /* 进度条精细化设计 */

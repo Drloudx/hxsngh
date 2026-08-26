@@ -1127,7 +1127,6 @@ onMounted(() => {
   allTalents.value = sortTalentAllQuality(cleanTalentList)
   // 如果 localStorage 存的是紧凑格式，现在角色和天赋数据就绪了，重建完整卡片
   ensureCardFormat()
-  initObserver()
   window.addEventListener('talent-manager-data-imported', handleExternalTalentImport)
 
   // 初始化拖拽排序
@@ -1157,6 +1156,7 @@ onMounted(() => {
 })
 onUnmounted(() => {
   if (observer) observer.disconnect()
+  if (charObserver) charObserver.disconnect()
   if (sortableInstance) sortableInstance.destroy()
   window.removeEventListener('talent-manager-data-imported', handleExternalTalentImport)
 })

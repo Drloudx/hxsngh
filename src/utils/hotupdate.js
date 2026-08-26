@@ -1,3 +1,5 @@
+import { probeRemoteFileSize } from './fileSize'
+
 /**
  * 热更新模块
  * 检测 Gitee 上的热更包，下载解压到 app 私有目录 files/www/ 下
@@ -6,6 +8,36 @@
 
 // 热更 manifest 地址（Gitee raw）
 const HOTUPDATE_MANIFEST_URL = 'https://gitee.com/ccyconner/hxsngh/raw/master/hotupdate.json'
+
+const isTrustedDownloadUrl = (value) => {
+  try {
+    const url = new URL(value)
+    const host = url.hostname.toLowerCase()
+    return url.protocol === 'https:' && (
+      host === 'gitee.com' || host.endsWith('.gitee.com') ||
+      host === 'giteeusercontent.com' || host.endsWith('.giteeusercontent.com')
+    )
+  } catch {
+    return false
+  }
+}
+
+const validateManifest = (manifest) => {
+  if (!manifest || typeof manifest !== 'object') throw new Error('热更新配置无效')
+  if (!/^v?\d+(?:\.\d+){1,3}$/.test(String(manifest.version || ''))) {
+    throw new Error('热更新版本号无效')
+  }
+  if (!isTrustedDownloadUrl(manifest.downloadUrl)) {
+    throw new Error('热更新下载地址不受信任')
+  }
+  const totalParts = Number(manifest.totalParts ?? 1)
+  if (!Number.isSafeInteger(totalParts) || totalParts < 1) {
+    throw new Error('热更新分卷配置无效')
+  }
+  manifest.totalParts = totalParts
+  manifest.body = typeof manifest.body === 'string' ? manifest.body : ''
+  return manifest
+}
 
 /**
  * 版本比较
@@ -19,6 +51,43 @@ const compareVersions = (v1, v2) => {
   }
   return 0
 }
+
+const getDownloadUrls = (manifest) => {
+  const totalParts = Math.max(1, Math.floor(Number(manifest.totalParts) || 1))
+  if (totalParts === 1) return [manifest.downloadUrl]
+  return Array.from({ length: totalParts }, (_, index) => {
+    const suffix = String(index + 1).padStart(3, '0')
+    return `${manifest.downloadUrl}.${suffix}`
+  })
+}
+
+const probePackageSize = async (manifest) => {
+  const configuredSize = Number(manifest.packageSize || manifest.size)
+  if (Number.isFinite(configuredSize) && configuredSize > 0) return configuredSize
+
+  const sizes = await Promise.all(getDownloadUrls(manifest).map(probeRemoteFileSize))
+  return sizes.every(size => size > 0) ? sizes.reduce((sum, size) => sum + size, 0) : 0
+}
+
+const waitForNativeInstall = () => new Promise((resolve, reject) => {
+  const startedAt = Date.now()
+  const timer = setInterval(() => {
+    if (window.__hotInstallState === 'success') {
+      clearInterval(timer)
+      resolve()
+      return
+    }
+    if (window.__hotInstallState === 'error') {
+      clearInterval(timer)
+      reject(new Error(window.__hotInstallError || '热更新文件安装失败'))
+      return
+    }
+    if (Date.now() - startedAt > 5 * 60 * 1000) {
+      clearInterval(timer)
+      reject(new Error('热更新安装超时，请重试'))
+    }
+  }, 250)
+})
 
 /**
  * 高性能 Uint8Array 转 Base64 算法
@@ -50,7 +119,7 @@ export const checkHotUpdate = async () => {
   try {
     // 容错加固：如果 localStorage 已经有热更过的稳定版本，优先信任它，不要被原生的原始值干扰
     const savedVer = localStorage.getItem('local_web_version')
-    const apkVer = (window.__APP_VERSION__ || savedVer || '1.0.5').replace(/^v?/, '')
+    const apkVer = (window.__APK_VERSION__ || window.__APP_VERSION__ || '1.0.5').replace(/^v?/, '')
 
     // 如果发现本地保存的版本比当前 APK 还低，重置为 APK 版本
     if (!savedVer || compareVersions(apkVer, savedVer) > 0) {
@@ -64,7 +133,7 @@ export const checkHotUpdate = async () => {
 
     const resp = await fetch(HOTUPDATE_MANIFEST_URL + '?t=' + Date.now())
     if (!resp.ok) throw new Error('HTTP ' + resp.status)
-    const manifest = await resp.json()
+    const manifest = validateManifest(await resp.json())
     console.log('[HotUpdate] 远程最新版本:', manifest.version)
 
     console.log('[HotUpdate] 版本比较:', manifest.version, 'vs', currentVer, '结果:', compareVersions(manifest.version, currentVer))
@@ -76,6 +145,7 @@ export const checkHotUpdate = async () => {
       const newParts = pad4(manifest.version)
       const baseMatch = curParts[0] === newParts[0] && curParts[1] === newParts[1] && curParts[2] === newParts[2]
       manifest._needsApkUpdate = !baseMatch
+      manifest.packageSize = await probePackageSize(manifest)
       console.log('[HotUpdate]  baseMatch:', baseMatch, 'needsApk:', manifest._needsApkUpdate)
       return manifest
     }
@@ -164,16 +234,7 @@ export const applyHotUpdate = async (manifest, onProgress) => {
 
   onProgress?.(45)
 
-  // 把 zip 数据传 base64 给 Java 处理（绕开 Capacitor 文件系统路径问题）
-  let binary = ''
-  for (let i = 0; i < merged.length; i += 8192) {
-    binary += String.fromCharCode.apply(null, merged.subarray(i, Math.min(i + 8192, merged.length)))
-  }
-  window.__hotZipData = btoa(binary)
-  window.__hotZipReady = true
-  console.log('[HotUpdate] zip 数据已存入 window.__hotZipData, 大小:', merged.length, 'bytes')
-
-  // 解压 index.html 用于后续版本校验
+  // 先完整解压并检查入口，再交给原生层安装。
   const { unzip } = await import('fflate')
   const unzipped = await new Promise((resolve, reject) => {
     unzip(merged, (err, data) => {
@@ -182,14 +243,32 @@ export const applyHotUpdate = async (manifest, onProgress) => {
     })
   })
   const indexData = unzipped['index.html']
-  if (indexData) {
-    const utf8 = new TextDecoder('utf-8').decode(indexData)
-    window.__hotHtmlContent = utf8
-    const hashMatch = utf8.match(/src="\.\/assets\/([^"]+)\.js"/)
-    console.log('[HotUpdate] 新 index.html JS hash:', hashMatch ? hashMatch[1] : '未匹配')
+  if (!indexData) throw new Error('热更新包缺少 index.html')
+
+  const utf8 = new TextDecoder('utf-8').decode(indexData)
+  const hashMatch = utf8.match(/src="\.\/assets\/([^"]+)\.js"/)
+  if (!hashMatch) throw new Error('热更新包入口文件无效')
+  window.__hotHtmlContent = utf8
+  console.log('[HotUpdate] 新 index.html JS hash:', hashMatch[1])
+
+  let binary = ''
+  for (let i = 0; i < merged.length; i += 8192) {
+    binary += String.fromCharCode.apply(null, merged.subarray(i, Math.min(i + 8192, merged.length)))
+  }
+  window.__hotInstallState = 'pending'
+  window.__hotInstallError = ''
+  window.__hotZipData = btoa(binary)
+  window.__hotZipReady = true
+  console.log('[HotUpdate] zip 数据已交给原生层, 大小:', merged.length, 'bytes')
+
+  try {
+    await waitForNativeInstall()
+  } finally {
+    window.__hotZipData = ''
+    window.__hotZipReady = false
   }
 
-  // 保存版本号
+  // 原生层完成目录替换后才保存版本号。
   localStorage.setItem('local_web_version', manifest.version)
   localStorage.setItem('hotupdate_version', manifest.version)
 

@@ -102,7 +102,7 @@
 
       <Transition name="slide-fade">
         <div v-show="ruleExpanded" class="rule-expand-content">
-          <p><strong>1. 攻略参考：</strong>该页面参考 <span class="author-name">山酒</span> 的原帖 <a href="https://www.taptap.cn/moment/835292743587595327?share_id=b422d9a5d15a&utm_medium=share&utm_source=mobile_qq" target="_blank" class="guide-link">【攻略】（更新枯木丛林）全图金装刷取难易度说明及其一图流</a>。</p>
+          <p><strong>1. 攻略参考：</strong>该页面参考 <span class="author-name">山酒</span> 的原帖 <a href="https://www.taptap.cn/moment/835292743587595327?share_id=b422d9a5d15a&utm_medium=share&utm_source=mobile_qq" target="_blank" rel="noopener noreferrer" class="guide-link">【攻略】（更新枯木丛林）全图金装刷取难易度说明及其一图流</a>。</p>
           <p><strong>2. 掉落两层判定：</strong>战斗事件首先决定出场的怪物阵容，随后由出场怪物的<strong>对应职业</strong>抽取装备池（全职业通用装备除外）。</p>
           <p><strong>3. 职业断层现象：</strong>若某地图的本地战斗怪物中<strong>完全缺失某职业</strong>，该职业的专属金装将极难掉落，只能依赖极小概率的世界事件跨图产出（极难）。</p>
           <p><strong>4. 5 档分级标准：</strong>
@@ -1025,7 +1025,7 @@ watch(evalMode, () => {
 
 @media (max-width: 480px) {
   .equip-rough-grid-7 {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
@@ -1080,14 +1080,17 @@ watch(evalMode, () => {
 
 .rough-diff-badge {
   position: absolute;
-  bottom: 0px;
-  right: 0px;
-  font-size: 14px;
+  right: 3px;
+  bottom: 3px;
+  font-size: 10px;
   font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 6px 0 6px 0;
+  padding: 2px 4px;
+  border-radius: 4px;
   color: #fff;
   line-height: 1.1;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.18);
 }
 
 .badge-very_easy { background: #10b981; }
@@ -1095,6 +1098,16 @@ watch(evalMode, () => {
 .badge-rather_hard { background: #a855f7; }
 .badge-hard { background: #f97316; }
 .badge-very_hard { background: #ef4444; }
+
+@media (max-width: 480px) {
+  .rough-diff-badge {
+    right: 2px;
+    bottom: 2px;
+    font-size: 9px;
+    padding: 2px 3px;
+    border-radius: 3px;
+  }
+}
 
 /* 装备名称：100% 对齐 EquipView 粗略名称排版与文字折行 */
 .equip-rough-name {
