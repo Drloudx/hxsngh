@@ -33,10 +33,14 @@ export const fetchLatestRelease = async () => {
     // Gitee 的下载链接字段是 browser_download_url
     const apk = (d.assets || []).find(a => a.name.endsWith('.apk'))
     
+    const apkUrl = apk ? apk.browser_download_url : null
+    const packageSize = Number(apk?.size) || await probeRemoteFileSize(apkUrl)
+
     return {
       version: latestVersion,
       body: d.body || '暂无更新说明',
-      apkUrl: apk ? apk.browser_download_url : null
+      apkUrl,
+      packageSize
     }
   } catch (e) {
     console.error('Check update failed:', e)
@@ -63,3 +67,4 @@ export const isUpdateSkippedToday = () => {
   const t = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0')
   return s === t
 }
+import { probeRemoteFileSize } from './fileSize'

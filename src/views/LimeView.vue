@@ -166,6 +166,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import limeData from '@/assets/Lime.json'
 import worldMapData from '@/assets/World_Map.json'
+import { readStoredArray, writeStoredJson } from '@/utils/storage'
 
 const colorPaletteVars = {
   '--gold': '#f97316',
@@ -188,10 +189,10 @@ const getStepConfig = (step) => {
 }
 
 // 初始化时尝试从本地存储读取
-const myOwnedList = ref(JSON.parse(localStorage.getItem('my_owned_limes')) || [])
+const myOwnedList = ref(readStoredArray('my_owned_limes'))
 
 const onLimeDataImported = () => {
-  myOwnedList.value = JSON.parse(localStorage.getItem('my_owned_limes')) || []
+  myOwnedList.value = readStoredArray('my_owned_limes')
 }
 
 onMounted(() => {
@@ -213,7 +214,11 @@ const toggleOwnedStatus = (id) => {
   } else {
     myOwnedList.value.push(id)
   }
-  localStorage.setItem('my_owned_limes', JSON.stringify(myOwnedList.value))
+  try {
+    writeStoredJson('my_owned_limes', myOwnedList.value)
+  } catch (error) {
+    console.error('保存莱姆数据失败:', error)
+  }
 }
 
 const activeStatus = ref('all')

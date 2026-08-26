@@ -18,11 +18,11 @@ const emit = defineEmits(['close'])
           <img src="/ui/author_avatar.jpg" class="about-logo" />
           <h4 class="author-name">云汐渚梦</h4>
           <div class="social-links">
-            <a href="https://www.taptap.cn/user/34448185?share_id=06714cbc47ff&utm_medium=share&utm_source=copylink" target="_blank" class="social-item taptap">
+      <a href="https://www.taptap.cn/user/34448185?share_id=06714cbc47ff&utm_medium=share&utm_source=copylink" target="_blank" rel="noopener noreferrer" class="social-item taptap">
               <span class="social-icon">T</span>
               TapTap
             </a>
-            <a href="https://b23.tv/xGNrRhf" target="_blank" class="social-item bilibili">
+      <a href="https://b23.tv/xGNrRhf" target="_blank" rel="noopener noreferrer" class="social-item bilibili">
               <span class="social-icon">B</span>
               Bilibili
             </a>

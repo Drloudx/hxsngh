@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { checkHotUpdate, applyHotUpdate } from '../utils/hotupdate'
+import { formatFileSize } from '../utils/fileSize'
 
 const props = defineProps({
   preCheckedManifest: Object
@@ -12,8 +13,7 @@ const step = ref(props.preCheckedManifest ? 'available' : 'checking')
 const manifest = ref(props.preCheckedManifest || null)
 const progress = ref(0)
 const errorMsg = ref('')
-
-if (!props.preCheckedManifest) startCheck()
+const packageSizeText = computed(() => formatFileSize(manifest.value?.packageSize))
 
 const startCheck = async () => {
   step.value = 'checking'
@@ -26,6 +26,8 @@ const startCheck = async () => {
     emit('close')
   }
 }
+
+if (!props.preCheckedManifest) startCheck()
 
 const doUpdate = async () => {
   if (!manifest.value) return
@@ -41,6 +43,7 @@ const doUpdate = async () => {
 }
 
 const finish = () => {
+  if (step.value === 'checking' || step.value === 'downloading') return
   if (step.value === 'done') emit('apply')
   emit('close')
 }
@@ -65,6 +68,10 @@ const finish = () => {
           <p class="hotupdate-status-text">
             发现新版本 <strong>{{ manifest.version }}</strong>
           </p>
+          <div class="hotupdate-package-info">
+            <span>热更新包 {{ packageSizeText }}</span>
+            <span>建议在稳定网络下更新</span>
+          </div>
           <p class="hotupdate-changelog" v-if="manifest.body">{{ manifest.body }}</p>
         </template>
 
@@ -147,6 +154,25 @@ const finish = () => {
   overflow-y: auto;
   white-space: pre-wrap;
   line-height: 1.5;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.hotupdate-package-info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(16, 185, 129, 0.08);
+  color: var(--text-sub);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.hotupdate-package-info span:last-child { text-align: right; }
+@media (max-width: 360px) {
+  .hotupdate-package-info { flex-direction: column; gap: 2px; }
+  .hotupdate-package-info span:last-child { text-align: left; }
 }
 .hotupdate-progress-bar {
   width: 100%;

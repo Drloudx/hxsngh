@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import notices from './assets/notices.json'
 import NoticeModal from './components/NoticeModal.vue'
@@ -12,12 +12,21 @@ import { fetchLatestRelease, compareVersions, isUpdateSkippedToday } from './uti
 import { imageMatcher } from './utils/imageMatcher'
 import { exportData, importData } from './utils/dataTransfer'
 import NavigationMenu from './components/NavigationMenu.vue'
+import { readStoredArray, writeStoredJson } from './utils/storage'
+import { routeLoadingState } from './router'
+import { checkHotUpdate } from './utils/hotupdate'
 
 const route = useRoute()
 const router = useRouter()
 
 // 匹配引擎状态映射到全局
 const engineStatus = ref('loading')
+
+const handleGlobalClick = (e) => {
+  if (!e.target.closest('.settings-container')) isSettingsOpen.value = false
+  if (!e.target.closest('.sponsor-container')) isSponsorOpen.value = false
+  if (!e.target.closest('.title-dropdown-trigger') && !e.target.closest('.nav-fab-btn')) isMenuOpen.value = false
+}
 
 onMounted(() => {
   // 全局一次性初始化引擎
@@ -38,60 +47,47 @@ onMounted(() => {
     showGifs.value = savedShowGifs === 'true'
   }
 
-  // 初始化百度统计授权状态
-  initBaiduAuth()
-
   // 缓存 APK 版本到 localStorage（供热更后页面重载时稳定读取）
-  const apkVer = window.__APP_VERSION__
+  const apkVer = window.__APK_VERSION__ || window.__APP_VERSION__
   if (apkVer && apkVer !== '0.0.0') {
     localStorage.setItem('apk_cached_version', apkVer)
   }
-
-  // 初始化百度统计页面标识
-  updateBaiduPage()
 
   // 检查是否在 App 内
   const checkShell = () => {
     const cap = window.Capacitor?.isNativePlatform?.() ?? false
     const attr = document.documentElement.getAttribute("data-app-shell") === "true"
     const hotPath = window.location.href.includes('files/www/') || window.location.href.includes('/data/')
-    const isCustomHost = window.location.hostname === 'hxsngh.app'
-    isInApp.value = cap || attr || hotPath || isCustomHost
+    const hasNativeBridge = typeof window.NativeAnalytics?.acceptPrivacyAndInitialize === 'function'
+    isInApp.value = cap || attr || hotPath || hasNativeBridge
     if (isInApp.value && !isUpdateSkippedToday()) {
       setTimeout(() => checkUpdate(true), 2000)
     }
   }
   checkShell()
+  if (!isInApp.value) initializeWebAnalytics()
 
-  // 隐私优先：App 首次启动弹窗，网页版不弹窗，默认开启统计
+  // 隐私优先：App 首次启动先确认隐私政策，网页版不强制弹窗
   const savedPrivacy = localStorage.getItem('privacy_accepted')
-  if (savedPrivacy === null && isInApp.value) {
+  if (savedPrivacy !== 'true' && isInApp.value) {
     // App 首次启动，弹隐私政策
     setTimeout(() => {
       showPrivacyModal.value = true
       isFirstLaunchPrivacy.value = true
     }, 500)
   } else {
-    // 网页版第一次访问：标记为已同意，默认开启统计
+    // 网页版不强制弹窗。
     if (savedPrivacy === null && !isInApp.value) {
       localStorage.setItem('privacy_accepted', 'true')
-      if (!baiduAuthorized.value) {
-        baiduAuthorized.value = true
-        localStorage.setItem('baidu_authorized', 'true')
-        window.__baidu_authorized = true
-      }
     }
+    if (isInApp.value) initializeAppAnalytics()
     // 已处理过隐私，正常检查公告
     checkNoticeAfterPrivacy()
     // 隐私就绪后，检查热更新
     checkForHotUpdate()
   }
 
-  window.addEventListener('click', (e) => {
-    if (!e.target.closest('.settings-container')) isSettingsOpen.value = false
-    if (!e.target.closest('.sponsor-container')) isSponsorOpen.value = false
-    if (!e.target.closest('.title-dropdown-trigger') && !e.target.closest('.nav-fab-btn')) isMenuOpen.value = false
-  })
+  window.addEventListener('click', handleGlobalClick)
 
   // ===== 侧滑/物理返回键全局弹窗拦截处理 =====
   const modalSelectors = [
@@ -150,69 +146,107 @@ onMounted(() => {
   }
 })
 
+onUnmounted(() => {
+  window.removeEventListener('click', handleGlobalClick)
+  delete window.onAndroidBack
+})
+
 const isSettingsOpen = ref(false)
 const isDarkMode = ref(false)
 const universalFileInput = ref(null)
 
 // ===== 通用导入导出（合并所有视图数据） =====
 const exportAllData = () => {
-  // 紧凑化天赋管理数据
-  const rawCards = JSON.parse(localStorage.getItem('talent_manager_data') || '[]')
-  const compactTM = Array.isArray(rawCards) ? rawCards.map(card => ({
-    charId: card.baseInfo?.id,
-    talentPages: (card.talentPages || []).map(page => ({
-      slots: (page.slots || []).map(slot => slot && slot.talent ? { id: slot.talent.uid } : null)
-    }))
-  })) : []
-  const mergedData = [
-    { _type: 'lime', data: JSON.parse(localStorage.getItem('my_owned_limes') || '[]') },
-    { _type: 'talent-manage', data: compactTM },
-    { _type: 'fruit-record', data: JSON.parse(localStorage.getItem('fruit_record_data') || '[]') }
-  ]
-  exportData(mergedData, `full_backup_${new Date().toISOString().slice(0, 10)}.json`)
+  try {
+    const rawCards = readStoredArray('talent_manager_data', { strict: true })
+    const compactTM = rawCards.map(card => ({
+      charId: card?.baseInfo?.id || card?.charId,
+      talentPages: (card?.talentPages || []).map(page => ({
+        slots: (page?.slots || []).map(slot => slot?.talent ? { id: slot.talent.uid } : (slot?.id ? { id: slot.id } : null))
+      }))
+    })).filter(card => typeof card.charId === 'string' && card.charId)
+    const mergedData = [
+      { _type: 'lime', data: readStoredArray('my_owned_limes', { strict: true }) },
+      { _type: 'talent-manage', data: compactTM },
+      { _type: 'fruit-record', data: readStoredArray('fruit_record_data', { strict: true }) }
+    ]
+    exportData(mergedData, `full_backup_${new Date().toISOString().slice(0, 10)}.json`)
+  } catch (error) {
+    showMessage('导出失败', error.message, 'error')
+  }
 }
 
 const triggerUniversalImport = () => {
   universalFileInput.value?.click()
 }
 
-const dispatchImportItem = (item) => {
-  switch (item._type) {
-    case 'lime':
-      if (Array.isArray(item.data)) {
-        localStorage.setItem('my_owned_limes', JSON.stringify(item.data))
-        window.dispatchEvent(new CustomEvent('lime-data-imported'))
-      }
-      break
-    case 'talent-manage':
-      if (Array.isArray(item.data)) {
-        localStorage.setItem('talent_manager_data', JSON.stringify(item.data))
-        window.dispatchEvent(new CustomEvent('talent-manager-data-imported'))
-      }
-      break
-    case 'fruit-record':
-      if (Array.isArray(item.data)) {
-        localStorage.setItem('fruit_record_data', JSON.stringify(item.data))
-        window.dispatchEvent(new CustomEvent('fruit-record-imported'))
-      }
-      break
-    default:
-      console.warn('未识别的数据类型:', item._type)
+const isValidDate = (value) => {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false
+  const [year, month, day] = value.split('-').map(Number)
+  const date = new Date(Date.UTC(year, month - 1, day))
+  return date.getUTCFullYear() === year &&
+    date.getUTCMonth() === month - 1 &&
+    date.getUTCDate() === day
+}
+
+const normalizeImportItem = (item) => {
+  if (!item || typeof item !== 'object' || !Array.isArray(item.data)) {
+    throw new Error('导入项目缺少类型或数据列表')
   }
+
+  if (item._type === 'lime') {
+    const data = [...new Set(item.data.filter(id => typeof id === 'string' || typeof id === 'number'))]
+    if (data.length !== item.data.length) throw new Error('莱姆数据包含无效编号')
+    return { key: 'my_owned_limes', event: 'lime-data-imported', data }
+  }
+
+  if (item._type === 'talent-manage') {
+    const valid = item.data.every(card => card && typeof card === 'object' &&
+      (typeof card.charId === 'string' || typeof card.baseInfo?.id === 'string') &&
+      (!card.talentPages || Array.isArray(card.talentPages)))
+    if (!valid) throw new Error('天赋管理数据结构无效')
+    return { key: 'talent_manager_data', event: 'talent-manager-data-imported', data: item.data }
+  }
+
+  if (item._type === 'fruit-record') {
+    const data = item.data.map(record => {
+      if (!record || !isValidDate(record.date) || !Number.isFinite(record.count)) {
+        throw new Error('大果记录包含无效日期或数量')
+      }
+      return {
+        date: record.date,
+        count: Math.max(0, Math.floor(record.count)),
+        consumed: Math.max(0, Math.floor(Number(record.consumed) || 0)),
+        spreadAcrossDays: record.spreadAcrossDays !== false,
+        remark: typeof record.remark === 'string' ? record.remark : ''
+      }
+    })
+    return { key: 'fruit_record_data', event: 'fruit-record-imported', data }
+  }
+
+  throw new Error(`不支持的数据类型：${item._type || '未知'}`)
 }
 
 const handleUniversalImport = async (event) => {
   try {
     const data = await importData(event)
-    if (Array.isArray(data)) {
-      data.forEach(item => dispatchImportItem(item))
-      showMessage('提示', `导入成功！共处理 ${data.length} 项数据`, 'success')
-    } else if (data && data._type) {
-      dispatchImportItem(data)
-      showMessage('提示', '导入成功！', 'success')
-    } else {
+    if (!Array.isArray(data) && !(data && data._type)) {
       throw new Error('数据格式错误：应为数组或包含 _type 的对象')
     }
+    const sourceItems = Array.isArray(data) ? data : [data]
+    const normalizedItems = sourceItems.map(normalizeImportItem)
+    const previousValues = new Map(normalizedItems.map(item => [item.key, localStorage.getItem(item.key)]))
+    try {
+      normalizedItems.forEach(item => writeStoredJson(item.key, item.data))
+    } catch (writeError) {
+      previousValues.forEach((value, key) => {
+        if (value === null) localStorage.removeItem(key)
+        else localStorage.setItem(key, value)
+      })
+      throw writeError
+    }
+    normalizedItems.forEach(item => window.dispatchEvent(new CustomEvent(item.event)))
+    showMessage('提示', `导入成功！共处理 ${normalizedItems.length} 项数据`, 'success')
   } catch (err) {
     showMessage('导入失败', '导入失败：' + err.message, 'error')
   }
@@ -280,6 +314,15 @@ const modes = [
 ]
 
 const currentModeInfo = computed(() => {
+  if (routeLoadingState.active) {
+    const loadingMode = modes.find(m => routeLoadingState.path === m.path || routeLoadingState.path.startsWith(m.path + '/'))
+    if (loadingMode) return loadingMode
+    return {
+      name: routeLoadingState.title,
+      shortName: routeLoadingState.title,
+      path: routeLoadingState.path
+    }
+  }
   if (route.meta && route.meta.title) {
     const found = modes.find(m => route.path === m.path || route.path.startsWith(m.path + '/'))
     if (found) return found
@@ -340,43 +383,57 @@ const showMessage = (title, text, type = 'info') => {
   messageModalType.value = type
   showMessageModal.value = true
 }
-const baiduAuthorized = ref(localStorage.getItem('baidu_authorized') === 'true')
-
-const initBaiduAuth = () => {
-  window.__baidu_authorized = baiduAuthorized.value
-}
-
-const toggleBaiduAuth = () => {
-  baiduAuthorized.value = !baiduAuthorized.value
-  localStorage.setItem('baidu_authorized', baiduAuthorized.value)
-  window.__baidu_authorized = baiduAuthorized.value
-}
-
-const updateBaiduPage = () => {
-  const pageMap = {
-    'recruit': '指定招募',
-    'talent': '天赋筛选',
-    'lime': '莱姆图鉴',
-    'prefix': '怪物加护',
-    'foretell': '预言图鉴',
-    'dungeon-relics': '星界秘境遗物图鉴',
-    'equip': '装备筛选',
-    'areablock': '地块图鉴',
-    'talent-manage': '天赋管理',
-    'guide': '新人攻略',
-    'fruit-record': '大果记录',
-    'subskill': '支援筛选',
-    'role': '角色图鉴',
-    'ranking': '热度排行',
-  }
-  window.__baidu_page = pageMap[route.name] || route.name || 'unknown'
-}
-
-// 路由变化时更新百度统计页面标识
-watch(() => route.name, updateBaiduPage)
-
 // 首次启动隐私同意标记
 const isFirstLaunchPrivacy = ref(false)
+
+const baiduSiteId = 'ba00a207e4ac743eb824ad1d9f44ae76'
+const pageNames = {
+  recruit: '指定招募',
+  search: '综合检索',
+  talent: '天赋筛选',
+  lime: '莱姆图鉴',
+  prefix: '怪物加护',
+  foretell: '预言图鉴',
+  'dungeon-relics': '星界秘境遗物图鉴',
+  equip: '装备筛选',
+  areablock: '地块图鉴',
+  'talent-manage': '天赋管理',
+  guide: '新人攻略',
+  'fruit-record': '大果记录',
+  subskill: '支援筛选',
+  role: '角色图鉴',
+  ranking: '热度排行'
+}
+
+const trackWebPage = () => {
+  if (isInApp.value || !window._hmt) return
+  const pageName = pageNames[route.name] || route.name
+  if (!pageName) return
+  window._hmt.push(['_trackPageview', `/app/${encodeURIComponent(pageName)}`])
+}
+
+const initializeWebAnalytics = () => {
+  if (isInApp.value || document.getElementById('baidu-analytics')) return
+  window._hmt = window._hmt || []
+  window._hmt.push(['_setAutoPageview', false])
+  const script = document.createElement('script')
+  script.id = 'baidu-analytics'
+  script.async = true
+  script.src = `https://hm.baidu.com/hm.js?${baiduSiteId}`
+  document.head.appendChild(script)
+  trackWebPage()
+}
+
+const initializeAppAnalytics = () => {
+  if (!isInApp.value) return
+  if (window.NativeAnalytics?.acceptPrivacyAndInitialize) {
+    window.NativeAnalytics.acceptPrivacyAndInitialize()
+  } else {
+    console.warn('[Analytics] 当前 App 壳未提供友盟初始化接口')
+  }
+}
+
+watch(() => route.fullPath, trackWebPage)
 
 // 隐私同意后，再检查公告
 const checkNoticeAfterPrivacy = () => {
@@ -388,24 +445,7 @@ const checkNoticeAfterPrivacy = () => {
 
 const agreeToPrivacy = () => {
   localStorage.setItem('privacy_accepted', 'true')
-  if (!baiduAuthorized.value) {
-    baiduAuthorized.value = true
-    localStorage.setItem('baidu_authorized', 'true')
-    window.__baidu_authorized = true
-  }
-  showPrivacyModal.value = false
-  isFirstLaunchPrivacy.value = false
-  checkNoticeAfterPrivacy()
-  checkForHotUpdate()
-}
-
-const disagreePrivacy = () => {
-  localStorage.setItem('privacy_accepted', 'true')
-  if (baiduAuthorized.value) {
-    baiduAuthorized.value = false
-    localStorage.setItem('baidu_authorized', 'false')
-    window.__baidu_authorized = false
-  }
+  initializeAppAnalytics()
   showPrivacyModal.value = false
   isFirstLaunchPrivacy.value = false
   checkNoticeAfterPrivacy()
@@ -424,7 +464,6 @@ const viewRef = ref(null)
 const checkForHotUpdate = async () => {
   if (!isInApp.value) { console.log('[HotUpdate] 非 App 环境，跳过'); return }
   await new Promise(r => setTimeout(r, 1500))
-  const { checkHotUpdate } = await import('./utils/hotupdate')
   const m = await checkHotUpdate()
   console.log('[HotUpdate] 检测结果:', m ? '有更新 version=' + m.version + ' needApk=' + m._needsApkUpdate : '无更新')
   if (m) {
@@ -445,8 +484,10 @@ const checkUpdate = async (silent) => {
   try {
     const info = await fetchLatestRelease()
     // 优先用 localStorage 持久化的版本，避免 Java 异步注入未完成时读到 0.0.0
+    const nativeVer = window.__APK_VERSION__
+    if (nativeVer && nativeVer !== '0.0.0') localStorage.setItem('apk_cached_version', nativeVer)
     const cachedVer = localStorage.getItem('apk_cached_version')
-    const curVer = window.__APP_VERSION__ || cachedVer || '0.0.0'
+    const curVer = nativeVer || cachedVer || window.__APP_VERSION__ || '0.0.0'
     const currentVer = curVer.replace(/^v?/, 'v')
     if (compareVersions(info.version, currentVer) > 0) {
       updateInfo.value = info
@@ -573,7 +614,14 @@ const borderNoticeRead = () => {
       </div>
 
       <main class="app-content">
-        <router-view v-slot="{ Component }">
+        <div v-if="routeLoadingState.active" class="route-loading-state" role="status" aria-live="polite">
+          <div class="route-loading-spinner" aria-hidden="true"></div>
+          <div class="route-loading-copy">
+            <span>正在加载{{ routeLoadingState.title }}...</span>
+            <span class="route-loading-hint">第一次加载缓慢，请耐心等待</span>
+          </div>
+        </div>
+        <router-view v-else v-slot="{ Component }">
           <component :is="Component" ref="viewRef" :showGifs="showGifs" :engineStatus="engineStatus" />
         </router-view>
       </main>
@@ -590,10 +638,10 @@ const borderNoticeRead = () => {
         <div class="modal-body feedback-body">
           <p class="modal-title-text">💬 遇到问题？联系反馈</p>
           <div class="feedback-content">
-            <p>方式一：【 <a href="https://qm.qq.com/q/cUvhuRHvhK" target="_blank">QQ联系</a> 】</p>
-            <p>方式二：【 <a href="https://f.kdocs.cn/g/y4Uu95na/" target="_blank">填写在线表单</a> 】</p>
+              <p>方式一：【 <a href="https://qm.qq.com/q/cUvhuRHvhK" target="_blank" rel="noopener noreferrer">QQ联系</a> 】</p>
+              <p>方式二：【 <a href="https://f.kdocs.cn/g/y4Uu95na/" target="_blank" rel="noopener noreferrer">填写在线表单</a> 】</p>
             <p class="hint-text">如有建议，建议使用QQ联系，更方便交流</p>
-            <p style="margin-top:8px"><a href="https://qun.qq.com/universal-share/share?ac=1&authKey=4xp%2BlCmM2Q2gVIvW6a14yOEVtT%2BPLsY9DwmNSDRVTBkp8xcNO%2FTRo%2FOksMb528aW&busi_data=eyJncm91cENvZGUiOiI5NjQ3Njg3OTkiLCJ0b2tlbiI6Im1abkR4eDNDb09HeDZtV2QvNi9ZOTlMNWRhQVQxSDVGK2hSUmlmdkd6bm9hNGRIYjZnWFB6QitBd1A5NVhscmMiLCJ1aW4iOiIxOTY1MTYxNjQzIn0%3D&data=CcXqRPXmezEwvtBwz950aSAyBxYHidOpffYEE8nD1EB-WDcAI-CLzvlLLIavd-lpEuHEP9fCXE5i5Sh3aGjUmw&svctype=4&tempid=h5_group_info" target="_blank" style="color:#3b82f6;font-weight:bold">点击链接加入群聊【幻想少女公会助手反馈交流群】</a></p>
+              <p style="margin-top:8px"><a href="https://qun.qq.com/universal-share/share?ac=1&authKey=4xp%2BlCmM2Q2gVIvW6a14yOEVtT%2BPLsY9DwmNSDRVTBkp8xcNO%2FTRo%2FOksMb528aW&busi_data=eyJncm91cENvZGUiOiI5NjQ3Njg3OTkiLCJ0b2tlbiI6Im1abkR4eDNDb09HeDZtV2QvNi9ZOTlMNWRhQVQxSDVGK2hSUmlmdkd6bm9hNGRIYjZnWFB6QitBd1A5NVhscmMiLCJ1aW4iOiIxOTY1MTYxNjQzIn0%3D&data=CcXqRPXmezEwvtBwz950aSAyBxYHidOpffYEE8nD1EB-WDcAI-CLzvlLLIavd-lpEuHEP9fCXE5i5Sh3aGjUmw&svctype=4&tempid=h5_group_info" target="_blank" rel="noopener noreferrer" style="color:#3b82f6;font-weight:bold">点击链接加入群聊【幻想少女公会助手反馈交流群】</a></p>
           </div>
         </div>
         <div class="modal-footer">
@@ -661,11 +709,7 @@ const borderNoticeRead = () => {
     <PrivacyModal
       :show="showPrivacyModal"
       :is-first-launch="isFirstLaunchPrivacy"
-      :is-in-app="isInApp"
-      :baidu-authorized="baiduAuthorized"
-      @toggle-auth="toggleBaiduAuth"
       @agree="agreeToPrivacy"
-      @disagree="disagreePrivacy"
       @close="showPrivacyModal = false"
     />
 
@@ -918,6 +962,45 @@ body {
   position: relative;
   z-index: 0;
   overflow-x: hidden;
+}
+
+.route-loading-state {
+  width: 100%;
+  min-height: calc(100vh - 110px);
+  min-height: calc(100dvh - 110px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-sub, #64748b);
+  font-size: 14px;
+}
+
+.route-loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(64, 158, 255, 0.2);
+  border-top-color: #409eff;
+  border-radius: 50%;
+  animation: route-loading-spin 0.8s linear infinite;
+}
+
+.route-loading-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.route-loading-hint {
+  font-size: 12px;
+  opacity: 0.72;
+}
+
+@keyframes route-loading-spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ===== 桌面端三列布局：左占位+侧边栏 / 内容 / 右占位 ===== */
@@ -1271,6 +1354,14 @@ html:not([data-app-shell="true"]) .app-only { display: none !important; }
   .btn-lime-export, .btn-lime-import { padding: 5px 6px; font-size: 11px; }
   .header-gif { height: 16px; }
   .ocr-status-tag { font-size: 10px; padding: 1px 4px; }
+}
+
+@media (max-width: 380px) {
+  .app-content { padding-left: 12px; padding-right: 12px; }
+}
+
+@media (max-width: 340px) {
+  .app-content { padding-left: 10px; padding-right: 10px; }
 }
 
 /* ===== 右下角悬浮切换菜单按钮 ===== */

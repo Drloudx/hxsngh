@@ -621,6 +621,12 @@ const getTagsList = (effect) => {
 </script>
 
 <style scoped>
+.game-sprite {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
 .godstone-container {
   width: 100%;
   max-width: 800px;

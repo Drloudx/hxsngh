@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { routeLoadingState } from '../router'
 
 const props = defineProps({
   isOpen: {
@@ -65,15 +66,20 @@ const categories = [
 // 桌面端使用扁平列表，复刻参考项目的简洁侧边栏
 const desktopNavList = categories.flatMap(cat => cat.items)
 
-const currentPath = computed(() => route.path)
+const currentPath = computed(() => routeLoadingState.active ? routeLoadingState.path : route.path)
 
 const isItemActive = (item) => {
   return currentPath.value === item.path || currentPath.value.startsWith(item.path + '/')
 }
 
 const handleNavigate = (path) => {
-  router.push(path)
   emit('close')
+  if (props.isDesktop) {
+    router.push(path)
+    return
+  }
+  // 先让移动端菜单完成收起，再开始加载目标路由，避免菜单遮住加载状态。
+  requestAnimationFrame(() => router.push(path))
 }
 
 const handleClose = () => {
@@ -82,20 +88,20 @@ const handleClose = () => {
 
 // 格式化九宫格导航文本换行
 const formatGridItemName = (name) => {
-  if (!name) return ''
+  if (!name) return []
   // 1. 商人/宝库概率 -> 从“概率”开始换行（忽略前面的 /）
   if (name === '商人/宝库概率') {
-    return '商人/宝库<br/>概率'
+    return ['商人/宝库', '概率']
   }
   // 2. 以“工具”结尾的4字以上名称，将“工具”置于第二行
   if (name.endsWith('工具') && name.length > 4) {
-    return `${name.slice(0, -2)}<br/>工具`
+    return [name.slice(0, -2), '工具']
   }
   // 3. 其他超过4个字的文本，4个字处换行
   if (name.length > 4) {
-    return `${name.slice(0, 4)}<br/>${name.slice(4)}`
+    return [name.slice(0, 4), name.slice(4)]
   }
-  return name
+  return [name]
 }
 </script>
 
@@ -177,7 +183,9 @@ const formatGridItemName = (name) => {
                   @click="handleNavigate(item.path)"
                 >
                   <img :src="item.icon" class="icon-img" />
-                  <span class="grid-item-name" v-html="formatGridItemName(item.name)"></span>
+                  <span class="grid-item-name">
+                    <span v-for="(line, lineIndex) in formatGridItemName(item.name)" :key="lineIndex">{{ line }}</span>
+                  </span>
                 </div>
               </div>
             </div>
@@ -202,7 +210,9 @@ const formatGridItemName = (name) => {
                   @click="handleNavigate(item.path)"
                 >
                   <img :src="item.icon" class="icon-img" />
-                  <span class="grid-item-name" v-html="formatGridItemName(item.name)"></span>
+                  <span class="grid-item-name">
+                    <span v-for="(line, lineIndex) in formatGridItemName(item.name)" :key="lineIndex">{{ line }}</span>
+                  </span>
                 </div>
               </div>
             </div>
@@ -508,6 +518,9 @@ const formatGridItemName = (name) => {
   font-size: 12px;
   color: var(--text-main, #334155);
   line-height: 1.3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .grid-item.active {

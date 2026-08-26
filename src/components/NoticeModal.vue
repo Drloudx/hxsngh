@@ -14,36 +14,90 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const renderLine = (text) => {
-  // 公告文本颜色标记规则
-// 格式：[ 正则匹配符号, 颜色代码 ]
-// 使用方法：==文字== 红色、~~文字~~ 橙色、##文字## 绿色...以此类推
-  /**
- * 公告文本颜色标记规则 (Markdown-like)
- * * 🔴 紧急/警告 : ==文本==  ->  ==数据库连接失败==
- * 🟠 优化/调整 : ~~文本~~  ->  ~~大幅提升了检索速度~~
- * 🟢 修复/成功 : ##文本##  ->  ##修复了侧边栏卡顿的BUG##
- * 🔵 新增功能 : {{文本}}  ->  {{指定招募工具现已上线}}
- * 🟣 稀有/高级 : [[文本]]  ->  [[史诗级天赋图鉴]]
- * 🩷 温馨提示 : (\(文本\)) ->  (\(记得先在右上角选择模式哦\))
- * ⚫ 备注/次要 : <<文本>>  ->  <<旧版数据导入将在下月废弃>>
- * 🟡 顶级/重点 : %%文本%%  ->  %%全新星界秘境遗物%%
- */
-const rules = [
-  [/==(.+?)==/g, '#ef4444'],   // 🔴 红色 - 重要警告/紧急更新
-  [/~~(.+?)~~/g, '#f97316'],   // 🟠 橙色 - 优化/功能调整
-  [/##(.+?)##/g, '#22c55e'],   // 🟢 绿色 - 修复BUG/成功提示
-  [/{{(.+?)}}/g, '#3b82f6'],   // 🔵 蓝色 - 新增功能
-  [/\[\[(.+?)\]\]/g, '#a855f7'], // 🟣 紫色 - 高级/史诗/特殊内容
-  [/\(\\\((.+?)\\\)\)/g, '#ec4899'], // 🩷 粉色 - 提示/温馨提醒
-  [/<<(.+?)>>/g, '#64748b'],     // ⚫ 灰色 - 备注/次要说明
-  [/%%(.+?)%%/g, '#eab308'],     // 🟡 金色 - 高亮重点/顶级内容
-];
-  for (const [re, color] of rules) {
-    text = text.replace(re, '<span style="color:' + color + '">$1</span>');
+const colorRules = [
+  { pattern: /==(.+?)==/g, color: '#ef4444' },
+  { pattern: /~~(.+?)~~/g, color: '#f97316' },
+  { pattern: /##(.+?)##/g, color: '#22c55e' },
+  { pattern: /{{(.+?)}}/g, color: '#3b82f6' },
+  { pattern: /\[\[(.+?)\]\]/g, color: '#a855f7' },
+  { pattern: /\(\\\((.+?)\\\)\)/g, color: '#ec4899' },
+  { pattern: /<<(.+?)>>/g, color: '#64748b' },
+  { pattern: /%%(.+?)%%/g, color: '#eab308' }
+]
+
+const anchorPattern = /<a\s+([^>]*?)>(.*?)<\/a>/gi
+
+const getSafeLink = (attributes) => {
+  const hrefMatch = String(attributes || '').match(/\bhref\s*=\s*(["'])(.*?)\1/i)
+  if (!hrefMatch) return null
+
+  const href = hrefMatch[2].trim()
+  if (href.startsWith('/') && !href.startsWith('//')) {
+    return {
+      href,
+      external: false,
+      download: /\bdownload(?:\s|=|$)/i.test(attributes)
+    }
   }
-  return text;
-};
+
+  try {
+    const url = new URL(href)
+    if (url.protocol !== 'https:') return null
+    return { href: url.href, external: true, download: false }
+  } catch {
+    return null
+  }
+}
+
+const parseNoticeLine = (value) => {
+  const text = String(value || '')
+  const segments = []
+  let cursor = 0
+
+  while (cursor < text.length) {
+    let nextMatch = null
+    let nextColor = ''
+    let nextType = 'text'
+
+    anchorPattern.lastIndex = cursor
+    const anchorMatch = anchorPattern.exec(text)
+    if (anchorMatch) {
+      nextMatch = anchorMatch
+      nextType = 'link'
+    }
+
+    for (const rule of colorRules) {
+      rule.pattern.lastIndex = cursor
+      const match = rule.pattern.exec(text)
+      if (match && (!nextMatch || match.index < nextMatch.index)) {
+        nextMatch = match
+        nextColor = rule.color
+        nextType = 'color'
+      }
+    }
+
+    if (!nextMatch) {
+      segments.push({ text: text.slice(cursor), color: '' })
+      break
+    }
+    if (nextMatch.index > cursor) {
+      segments.push({ text: text.slice(cursor, nextMatch.index), color: '' })
+    }
+    if (nextType === 'link') {
+      const link = getSafeLink(nextMatch[1])
+      segments.push({
+        text: nextMatch[2].replace(/<[^>]*>/g, ''),
+        color: '',
+        link
+      })
+    } else {
+      segments.push({ text: nextMatch[1], color: nextColor })
+    }
+    cursor = nextMatch.index + nextMatch[0].length
+  }
+
+  return segments.length ? segments : [{ text, color: '' }]
+}
 </script>
 
 <template>
@@ -64,7 +118,25 @@ const rules = [
               <span v-if="item.title" class="notice-title">{{ item.title }}</span>
             </div>
             <ul class="notice-lines">
-              <li v-for="(line, lIdx) in item.lines" :key="lIdx" v-html="renderLine(line)"></li>
+              <li v-for="(line, lIdx) in item.lines" :key="lIdx">
+                <template
+                  v-for="(segment, sIdx) in parseNoticeLine(line)"
+                  :key="`segment-${sIdx}`"
+                >
+                  <a
+                    v-if="segment.link"
+                    class="notice-link"
+                    :href="segment.link.href"
+                    :download="segment.link.download || undefined"
+                    :target="segment.link.external ? '_blank' : undefined"
+                    :rel="segment.link.external ? 'noopener noreferrer' : undefined"
+                  >{{ segment.text }}</a>
+                  <span
+                    v-else
+                    :style="segment.color ? { color: segment.color } : undefined"
+                  >{{ segment.text }}</span>
+                </template>
+              </li>
             </ul>
           </div>
         </div>
@@ -142,5 +214,12 @@ const rules = [
 .notice-lines li::marker {
   color: var(--primary);
   font-size: 12px;
+}
+
+.notice-link {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  overflow-wrap: anywhere;
 }
 </style>

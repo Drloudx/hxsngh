@@ -589,7 +589,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { exportData, importData } from '../utils/dataTransfer'
 
 const STORAGE_KEY = 'fruit_record_data'
@@ -917,11 +917,35 @@ const thisWeekFruitCount = computed(() => {
   return sum
 })
 
-// 本周日均数量：按本周一至今天的自然日计算平均值
-const thisWeekAverageFruitCount = computed(() => {
+// 本周有效获取天数：只统计本周实际产生获取的区间；间断区间按是否均摊决定天数。
+const thisWeekValidGainDaysCount = computed(() => {
   const now = new Date()
-  const elapsedDays = now.getDay() || 7
-  const avg = thisWeekFruitCount.value / elapsedDays
+  const dayOfWeek = now.getDay() || 7
+  const monday = new Date(now)
+  monday.setDate(now.getDate() - dayOfWeek + 1)
+  monday.setHours(0, 0, 0, 0)
+  const mondayStr = getLocalDateString(monday)
+
+  const sorted = [...records.value].sort((a, b) => a.date.localeCompare(b.date))
+  let days = 0
+  for (let i = 1; i < sorted.length; i++) {
+    const previousRecord = sorted[i - 1]
+    const currentRecord = sorted[i]
+    if (currentRecord.date < mondayStr || currentRecord.date > todayDateString.value) continue
+
+    const metrics = getIntervalMetrics(previousRecord, currentRecord)
+    if (metrics.acquired > 0) {
+      const span = getDaysDiff(previousRecord.date, currentRecord.date)
+      days += shouldSpreadAcrossDays(currentRecord) ? span : 1
+    }
+  }
+  return days
+})
+
+// 本周日均数量：本周获取 / 本周有效获取天数，不把今天尚未记录的日期算进去。
+const thisWeekAverageFruitCount = computed(() => {
+  if (thisWeekValidGainDaysCount.value === 0) return '0'
+  const avg = thisWeekFruitCount.value / thisWeekValidGainDaysCount.value
   return String(Math.round(avg))
 })
 
@@ -1524,6 +1548,10 @@ const handleExternalImport = () => {
 onMounted(() => {
   loadFromLocalStorage()
   window.addEventListener('fruit-record-imported', handleExternalImport)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('fruit-record-imported', handleExternalImport)
 })
 </script>
 
@@ -3034,7 +3062,8 @@ onMounted(() => {
 }
 
 /* 响应式微调 */
-@media (max-width: 480px) {
+/* 与 App.vue 的移动端断点保持一致，兼容部分 Android WebView 返回 481-768px CSS 宽度的设备。 */
+@media (max-width: 768px) {
   .stats-overview-grid {
     gap: 6px;
   }

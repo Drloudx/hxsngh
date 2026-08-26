@@ -443,7 +443,7 @@ defineExpose({
 .filter-section.no-gifs { padding-bottom: 15px; }
 .filter-group { margin-bottom: 10px; display: flex; align-items: flex-start; }
 .filter-label { font-weight: 600; width: 50px; color: var(--text-sub); font-size: 13px; padding-top: 6px; flex-shrink: 0; }
-.tags-container { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags-container { display: flex; flex: 1; min-width: 0; flex-wrap: wrap; gap: 6px; }
 
 .tag {
   padding: 4px 10px;
@@ -789,6 +789,61 @@ img.game-sprite {
   .pill-btn svg {
     width: 15px;
     height: 15px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .filter-section {
+    padding: 12px 12px 30px;
+  }
+  .filter-section.no-gifs {
+    padding-bottom: 12px;
+  }
+  .filter-label {
+    width: 44px;
+  }
+  .tags-container,
+  .tags-inner {
+    gap: 5px;
+  }
+  .tag:not(.wish-btn) {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+}
+
+@media screen and (max-width: 340px) {
+  .filter-section {
+    padding: 10px 10px 28px;
+  }
+  .filter-section.no-gifs {
+    padding-bottom: 10px;
+  }
+  .filter-label {
+    width: 40px;
+  }
+  .tags-container,
+  .tags-inner {
+    gap: 4px;
+  }
+  .tag:not(.wish-btn) {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+}
+
+@media screen and (max-width: 600px) and (max-height: 740px) {
+  .filter-section {
+    margin-bottom: 12px;
+  }
+  .filter-group {
+    margin-bottom: 8px;
+  }
+  .result-stats {
+    margin-bottom: 10px;
+  }
+  .no-data {
+    padding: 34px 20px;
   }
 }
 </style>

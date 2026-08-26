@@ -1,27 +1,36 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import RecruitView from '../views/RecruitView.vue'
-import TalentView from '../views/TalentView.vue'
-import PrefixView from '../views/PrefixView.vue'
-import LimeView from '../views/LimeView.vue'
-import TalentManageView from '../views/TalentManageView.vue'
-import GuideView from '../views/GuideView.vue'
-import SubSkillView from '../views/SubSkillView.vue'
-import UniqueView from '../views/UniqueView.vue'
-import RoleView from '../views/RoleView.vue'
-import RankingView from '../views/RankingView.vue'
-import RelicsView from '../views/RelicsView.vue'
-import ForetellView from '../views/ForetellView.vue'
-import DungeonRelicsView from '../views/DungeonRelicsView.vue'
-import EquipView from '../views/EquipView.vue'
-import AreaBlockView from '../views/AreaBlockView.vue'
-import SynthesisSearchView from '../views/SynthesisSearchView.vue'
-import BattleSimView from '../views/BattleSimView.vue'
-import GambleShopView from '../views/GambleShopView.vue'
-import OtherProbView from '../views/OtherProbView.vue'
-import GodStoneView from '../views/GodStoneView.vue'
-import RuneView from '../views/RuneView.vue'
-import EquipProbView from '../views/EquipProbView.vue'
-import FruitRecordView from '../views/FruitRecordView.vue'
+import { reactive } from 'vue'
+
+export const routeLoadingState = reactive({
+  active: false,
+  fullPath: '',
+  path: '',
+  title: ''
+})
+
+const RecruitView = () => import('../views/RecruitView.vue')
+const TalentView = () => import('../views/TalentView.vue')
+const PrefixView = () => import('../views/PrefixView.vue')
+const LimeView = () => import('../views/LimeView.vue')
+const TalentManageView = () => import('../views/TalentManageView.vue')
+const GuideView = () => import('../views/GuideView.vue')
+const SubSkillView = () => import('../views/SubSkillView.vue')
+const UniqueView = () => import('../views/UniqueView.vue')
+const RoleView = () => import('../views/RoleView.vue')
+const RankingView = () => import('../views/RankingView.vue')
+const RelicsView = () => import('../views/RelicsView.vue')
+const ForetellView = () => import('../views/ForetellView.vue')
+const DungeonRelicsView = () => import('../views/DungeonRelicsView.vue')
+const EquipView = () => import('../views/EquipView.vue')
+const AreaBlockView = () => import('../views/AreaBlockView.vue')
+const SynthesisSearchView = () => import('../views/SynthesisSearchView.vue')
+const BattleSimView = () => import('../views/BattleSimView.vue')
+const GambleShopView = () => import('../views/GambleShopView.vue')
+const OtherProbView = () => import('../views/OtherProbView.vue')
+const GodStoneView = () => import('../views/GodStoneView.vue')
+const RuneView = () => import('../views/RuneView.vue')
+const EquipProbView = () => import('../views/EquipProbView.vue')
+const FruitRecordView = () => import('../views/FruitRecordView.vue')
 
 const routes = [
   { path: '/', redirect: '/recruit' },
@@ -55,47 +64,27 @@ const router = createRouter({
   routes
 })
 
-// 百度统计：App 端路径加 /app 前缀，网页端正常上报
-const isNativeApp = () => {
-  if (window.Capacitor?.isNativePlatform?.()) return true
-  if (document.documentElement.dataset.appShell === 'true') return true
-  return window.location.hostname === 'hxsngh.app'
-}
-const BAIDU_SID = 'ba00a207e4ac743eb824ad1d9f44ae76'
-
-const sendTrack = (to) => {
-  if (window.__baidu_authorized === false) {
-    console.log('[Baidu] 用户未授权，跳过:', to.fullPath)
-    return
+router.beforeEach((to, from) => {
+  if (to.fullPath !== from.fullPath) {
+    routeLoadingState.active = true
+    routeLoadingState.fullPath = to.fullPath
+    routeLoadingState.path = to.path
+    routeLoadingState.title = to.meta?.title || '页面'
   }
-  let p = to.fullPath
-  if (isNativeApp()) p = '/app' + to.fullPath
-
-  // 方案A：标准 SDK 埋点（部分 WebView 环境下 SDK 内部不发 GIF，保留作为兼容）
-  if (window._hmt) window._hmt.push(['_trackPageview', p])
-
-  // 方案B：手动 GIF 兜底（绕过 SDK 内部 WebView 环境检测，直接经 Java 代理发出）
-  const pageUrl = 'https://hxsngh.app/#/' + p.replace(/^\//, '')
-  const gifUrl = 'https://hm.baidu.com/hm.gif?si=' + BAIDU_SID +
-    '&su=' + encodeURIComponent(pageUrl) +
-    '&et=0&nv=0&st=1&v=v1.2.1&rnd=' + Date.now()
-  new Image().src = gifUrl
-
-  console.log('[Baidu] 上报路径:', p)
-}
-// firstRun 仅首次执行上报，后续重试只检测 hm.js 就绪，不重复推入 PV
-const waitAndTrack = (to, remaining = 10, firstRun = true) => {
-  if (firstRun) sendTrack(to)
-  if (window._hmt && window._hmt.push !== Array.prototype.push) return
-  if (remaining > 0) setTimeout(() => waitAndTrack(to, remaining - 1, false), 500)
-}
-router.afterEach((to) => {
-  waitAndTrack(to, 10, true)
+  return true
 })
 
-// 冷启动首页上报：路由就绪后主动上报当前页
-router.isReady().then(() => {
-  waitAndTrack(router.currentRoute.value, 10, true)
+router.afterEach((to) => {
+  if (routeLoadingState.fullPath === to.fullPath) {
+    routeLoadingState.active = false
+  }
+})
+
+router.onError((error, to) => {
+  if (routeLoadingState.fullPath === to?.fullPath) {
+    routeLoadingState.active = false
+  }
+  console.error('[Router] 页面加载失败:', error)
 })
 
 export default router
