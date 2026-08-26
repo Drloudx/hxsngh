@@ -84,25 +84,29 @@ public class MainActivity extends BridgeActivity {
     }
 
     /**
-     * 仅在首次安装或 APK 版本升级时，才从 assets/public/ 拷贝到 files/www/
-     * 防止每次冷启动用旧包覆盖热更文件
+     * 首次安装或 APK 被重新安装后，从 assets/public/ 刷新 files/www/。
+     * lastUpdateTime 可识别版本号不变的测试包，同时避免普通冷启动覆盖热更新。
      */
     private void prepareHotUpdateDir() {
         try {
             PackageInfo pkg = getPackageManager().getPackageInfo(getPackageName(), 0);
             int currentVersionCode = pkg.versionCode;
             String currentVersionName = pkg.versionName != null ? pkg.versionName : "";
+            long currentLastUpdateTime = pkg.lastUpdateTime;
             SharedPreferences sp = getSharedPreferences("hotupdate_prefs", Context.MODE_PRIVATE);
             int savedVersionCode = sp.getInt("apk_version_code", 0);
             String savedVersionName = sp.getString("apk_version_name", "");
+            long savedLastUpdateTime = sp.getLong("apk_last_update_time", 0L);
 
             File wwwDir = new File(getFilesDir(), "www");
             boolean needCopy = !wwwDir.exists() ||
                                currentVersionCode != savedVersionCode ||
-                               !currentVersionName.equals(savedVersionName);
+                               !currentVersionName.equals(savedVersionName) ||
+                               currentLastUpdateTime != savedLastUpdateTime;
             Log.d(TAG, "prepareHotUpdateDir: wwwDir.exists=" + wwwDir.exists() +
                   " curVC=" + currentVersionCode + " savedVC=" + savedVersionCode +
                   " curVN=" + currentVersionName + " savedVN=" + savedVersionName +
+                  " curUpdated=" + currentLastUpdateTime + " savedUpdated=" + savedLastUpdateTime +
                   " needCopy=" + needCopy);
             if (needCopy) {
                 Log.d(TAG, "需要从 assets 拷贝到 www 目录");
@@ -132,7 +136,8 @@ public class MainActivity extends BridgeActivity {
                     Log.w(TAG, "APK 旧网页资源将在下次启动时继续清理", cleanupError);
                 }
                 sp.edit().putInt("apk_version_code", currentVersionCode)
-                  .putString("apk_version_name", currentVersionName).apply();
+                  .putString("apk_version_name", currentVersionName)
+                  .putLong("apk_last_update_time", currentLastUpdateTime).apply();
                 Log.d(TAG, "已从 assets 拷贝基础包到 files/www/ (versionCode=" + currentVersionCode + " versionName=" + currentVersionName + ")");
             }
         } catch (Exception e) {

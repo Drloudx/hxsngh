@@ -27,6 +27,24 @@ const colorRules = [
 
 const anchorPattern = /<a\s+([^>]*?)>(.*?)<\/a>/gi
 
+const getDownloadName = (attributes, href) => {
+  const downloadMatch = String(attributes || '').match(/\bdownload(?:\s*=\s*(?:(["'])(.*?)\1|([^\s>]+)))?/i)
+  if (!downloadMatch) return undefined
+
+  const explicitName = (downloadMatch[2] || downloadMatch[3] || '').trim()
+  if (explicitName) return explicitName
+
+  const pathName = href.split(/[?#]/, 1)[0]
+  const encodedName = pathName.slice(pathName.lastIndexOf('/') + 1)
+  if (!encodedName) return 'download'
+
+  try {
+    return decodeURIComponent(encodedName)
+  } catch {
+    return encodedName
+  }
+}
+
 const getSafeLink = (attributes) => {
   const hrefMatch = String(attributes || '').match(/\bhref\s*=\s*(["'])(.*?)\1/i)
   if (!hrefMatch) return null
@@ -36,7 +54,7 @@ const getSafeLink = (attributes) => {
     return {
       href,
       external: false,
-      download: /\bdownload(?:\s|=|$)/i.test(attributes)
+      download: getDownloadName(attributes, href)
     }
   }
 
