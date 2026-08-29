@@ -498,34 +498,71 @@ public class MainActivity extends BridgeActivity {
             private WebResourceResponse proxyGiteeRequest(String url, String requestMethod) {
                 if (url == null) return null;
                 if (!isAllowedGiteeHost(url)) return null;
+                HttpURLConnection conn = null;
                 try {
-                    HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                    conn.setInstanceFollowRedirects(false);
-                    conn.setConnectTimeout(15000);
-                    conn.setReadTimeout(30000);
                     String method = "HEAD".equalsIgnoreCase(requestMethod) ? "HEAD" : "GET";
-                    conn.setRequestMethod(method);
-                    conn.setRequestProperty("User-Agent", "Mozilla/5.0");
-                    conn.connect();
-                    int code = conn.getResponseCode();
-                    String mime = conn.getContentType();
-                    if (mime == null || mime.isEmpty()) mime = "application/octet-stream";
-                    int s = mime.indexOf(';');
-                    if (s > 0) mime = mime.substring(0, s).trim();
-                    InputStream body = "HEAD".equals(method)
-                            ? new ByteArrayInputStream(new byte[0])
-                            : ((code >= 400) ? conn.getErrorStream() : conn.getInputStream());
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Access-Control-Allow-Origin", "*");
-                    headers.put("Access-Control-Expose-Headers", "Content-Length, Location");
-                    String contentLength = conn.getHeaderField("Content-Length");
-                    String location = conn.getHeaderField("Location");
-                    if (contentLength != null) headers.put("Content-Length", contentLength);
-                    if (location != null) headers.put("Location", location);
-                    String reason = conn.getResponseMessage();
-                    return new WebResourceResponse(mime, "UTF-8", code,
-                            reason != null ? reason : "OK", headers, body);
-                } catch (Exception ignored) { return null; }
+                    URL currentUrl = new URL(url);
+
+                    for (int redirectCount = 0; redirectCount <= 5; redirectCount++) {
+                        conn = (HttpURLConnection) currentUrl.openConnection();
+                        conn.setInstanceFollowRedirects(false);
+                        conn.setConnectTimeout(15000);
+                        conn.setReadTimeout(30000);
+                        conn.setRequestMethod(method);
+                        conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+                        conn.connect();
+
+                        int code = conn.getResponseCode();
+                        boolean isRedirect = code == HttpURLConnection.HTTP_MOVED_PERM ||
+                                code == HttpURLConnection.HTTP_MOVED_TEMP ||
+                                code == HttpURLConnection.HTTP_SEE_OTHER ||
+                                code == 307 || code == 308;
+                        if (isRedirect) {
+                            if (redirectCount == 5) {
+                                throw new java.io.IOException("Gitee 重定向次数过多");
+                            }
+                            String location = conn.getHeaderField("Location");
+                            if (location == null || location.isEmpty()) {
+                                throw new java.io.IOException("Gitee 重定向缺少 Location");
+                            }
+                            URL nextUrl = new URL(currentUrl, location);
+                            if (!isAllowedGiteeHost(nextUrl.toString())) {
+                                throw new SecurityException("拒绝跳转到非 Gitee 地址: " + nextUrl);
+                            }
+                            Log.d(TAG, "Gitee 代理重定向: " + currentUrl.getHost() + " -> " + nextUrl.getHost());
+                            conn.disconnect();
+                            conn = null;
+                            currentUrl = nextUrl;
+                            continue;
+                        }
+
+                        String mime = conn.getContentType();
+                        if (mime == null || mime.isEmpty()) mime = "application/octet-stream";
+                        int separator = mime.indexOf(';');
+                        if (separator > 0) mime = mime.substring(0, separator).trim();
+                        InputStream body = "HEAD".equals(method)
+                                ? new ByteArrayInputStream(new byte[0])
+                                : ((code >= 400) ? conn.getErrorStream() : conn.getInputStream());
+                        if (body == null) body = new ByteArrayInputStream(new byte[0]);
+
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("Access-Control-Allow-Origin", "https://hxsngh.app");
+                        headers.put("Access-Control-Expose-Headers", "Content-Length");
+                        headers.put("Vary", "Origin");
+                        String contentLength = conn.getHeaderField("Content-Length");
+                        if (contentLength != null) headers.put("Content-Length", contentLength);
+                        String reason = conn.getResponseMessage();
+                        Log.d(TAG, "Gitee 代理完成: " + method + " " + currentUrl.getPath() + " -> " + code);
+                        String encoding = mime.startsWith("text/") || "application/json".equals(mime)
+                                ? "UTF-8" : null;
+                        return new WebResourceResponse(mime, encoding, code,
+                                reason != null ? reason : "OK", headers, body);
+                    }
+                } catch (Exception e) {
+                    if (conn != null) conn.disconnect();
+                    Log.w(TAG, "Gitee 代理失败: " + url, e);
+                }
+                return null;
             }
 
             @Override
