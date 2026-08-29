@@ -881,6 +881,35 @@ const borderNoticeRead = () => {
   background: rgba(255, 255, 255, 0.25) !important;
 }
 
+/* Shared overflow protection for expandable filter cards. */
+.page-filter-scroll {
+  --filter-panel-reserved-space: 220px;
+  max-height: min(520px, calc(100vh - var(--filter-panel-reserved-space)));
+  max-height: min(520px, calc(100dvh - var(--filter-panel-reserved-space)));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  scrollbar-gutter: stable;
+}
+
+@media (max-width: 767px) {
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .page-filter-scroll {
+    scrollbar-gutter: auto;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }

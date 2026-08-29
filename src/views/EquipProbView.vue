@@ -22,8 +22,8 @@
 
       <!-- 2. 筛选面板（完全对齐符文图鉴样式，地图常驻展开，无职业/部位筛选） -->
       <Transition name="slide-fade">
-        <div v-show="tagsExpanded" class="filter-panel">
-          <!-- 1. 评估基准（按装备自身爆率 / 按地图自身爆率） -->
+        <div v-show="tagsExpanded" class="filter-panel page-filter-scroll">
+          <!-- 1. 评估基准（按装备自身遇见率 / 按地图内排名） -->
           <div class="filter-row">
             <span class="filter-label">基准：</span>
             <div class="filter-options">
@@ -32,14 +32,14 @@
                 :class="{ active: evalMode === 'absolute' }"
                 @click="evalMode = 'absolute'"
               >
-                按装备自身爆率
+                按装备自身遇见率
               </button>
               <button
                 class="filter-btn mode-btn"
                 :class="{ active: evalMode === 'relative' }"
                 @click="evalMode = 'relative'"
               >
-                按地图自身爆率
+                按地图内排名
               </button>
             </div>
           </div>
@@ -67,7 +67,7 @@
             </div>
           </div>
 
-          <!-- 3. 难度 5 档筛选 -->
+          <!-- 3. 难度 4 档筛选 -->
           <div class="filter-row">
             <span class="filter-label">难度：</span>
             <div class="filter-options">
@@ -95,7 +95,7 @@
       <!-- 机制说明提示条 -->
       <div class="rule-hint-bar" @click="ruleExpanded = !ruleExpanded">
         <div class="rule-hint-left">
-          <span class="rule-badge">掉落机制说明</span>
+          <span class="rule-badge">刷取机制说明</span>
         </div>
         <span class="rule-toggle-text">{{ ruleExpanded ? '收起' : '查看说明' }}</span>
       </div>
@@ -103,28 +103,29 @@
       <Transition name="slide-fade">
         <div v-show="ruleExpanded" class="rule-expand-content">
           <p><strong>1. 攻略参考：</strong>该页面参考 <span class="author-name">山酒</span> 的原帖 <a href="https://www.taptap.cn/moment/835292743587595327?share_id=b422d9a5d15a&utm_medium=share&utm_source=mobile_qq" target="_blank" rel="noopener noreferrer" class="guide-link">【攻略】（更新枯木丛林）全图金装刷取难易度说明及其一图流</a>。</p>
-          <p><strong>2. 掉落两层判定：</strong>战斗事件首先决定出场的怪物阵容，随后由出场怪物的<strong>对应职业</strong>抽取装备池（全职业通用装备除外）。</p>
-          <p><strong>3. 职业断层现象：</strong>若某地图的本地战斗怪物中<strong>完全缺失某职业</strong>，该职业的专属金装将极难掉落，只能依赖极小概率的世界事件跨图产出（极难）。</p>
-          <p><strong>4. 5 档分级标准：</strong>
+          <p><strong>2. 难度分级：</strong>
             <span v-if="evalMode === 'absolute'">
-              🟩 较易（≥0.10%）｜ 🟦 一般（0.05%~0.10%）｜ 🟪 较难（0.025%~0.05%）｜ 🟧 困难（0.01%~0.025%）｜ 🟥 极难（&lt;0.01%）
+              🟩 较易（≥0.20%）｜ 🟦 一般（0.10%~0.20%）｜ 🟪 较难（0.04%~0.10%）｜ 🟥 极难（&lt;0.04%）
             </span>
             <span v-else>
-              🟩 较易（前15%）｜ 🟦 一般（15%~35%）｜ 🟪 较难（35%~65%）｜ 🟧 困难（65%~85%）｜ 🟥 极难（后15% / 红装）
+              🟩 较易（前20%）｜ 🟦 一般（20%~50%）｜ 🟪 较难（50%~85%）｜ 🟥 极难（后15% / 红装）
             </span>
           </p>
         </div>
       </Transition>
 
+      <div v-if="probabilityDataPending" class="probability-data-warning">
+        当前概率仍是旧版结果，已暂时保留展示；新版地图战斗统计规则尚未重算。
+      </div>
+
       <!-- 检索统计与图例栏 -->
       <div class="search-count-bar">
         <div>当前装备数量：<span class="count-highlight">{{ totalEquipCount }}</span></div>
         <div class="legend-quick-group">
-          <span class="legend-pill pill-very_easy"><span class="legend-indicator"></span> {{ evalMode === 'absolute' ? '较易(≥0.10%)' : '较易(前15%)' }}</span>
-          <span class="legend-pill pill-normal"><span class="legend-indicator"></span> {{ evalMode === 'absolute' ? '一般(0.05~0.10%)' : '一般(15%~35%)' }}</span>
-          <span class="legend-pill pill-rather_hard"><span class="legend-indicator"></span> {{ evalMode === 'absolute' ? '较难(0.025~0.05%)' : '较难(35%~65%)' }}</span>
-          <span class="legend-pill pill-hard"><span class="legend-indicator"></span> {{ evalMode === 'absolute' ? '困难(0.01~0.025%)' : '困难(65%~85%)' }}</span>
-          <span class="legend-pill pill-very_hard"><span class="legend-indicator"></span> {{ evalMode === 'absolute' ? '极难(<0.01%)' : '极难(后15%)' }}</span>
+          <span class="legend-pill pill-very_easy"><span class="legend-indicator"></span> {{ evalMode === 'absolute' ? '较易(≥0.20%)' : '较易(前20%)' }}</span>
+          <span class="legend-pill pill-normal"><span class="legend-indicator"></span> {{ evalMode === 'absolute' ? '一般(0.10~0.20%)' : '一般(20%~50%)' }}</span>
+          <span class="legend-pill pill-rather_hard"><span class="legend-indicator"></span> {{ evalMode === 'absolute' ? '较难(0.04~0.10%)' : '较难(50%~85%)' }}</span>
+          <span class="legend-pill pill-very_hard"><span class="legend-indicator"></span> {{ evalMode === 'absolute' ? '极难(<0.04%)' : '极难(后15%)' }}</span>
         </div>
       </div>
     </div>
@@ -211,7 +212,7 @@
             </div>
           </div>
 
-          <!-- 掉落难易度与单场概率 -->
+          <!-- 刷取难易度与单次可刷战斗机会遇见率 -->
           <div class="modal-prob-card">
             <div class="prob-card-header">
               <span class="prob-card-title">刷取难易度评估</span>
@@ -226,10 +227,10 @@
               </span>
             </div>
             <div class="prob-card-reason">
-              <strong>掉落解析：</strong>{{ getModalReasonText(detailModal.data) }}
+              <strong>刷取解析：</strong>{{ getModalReasonText(detailModal.data) }}
             </div>
             <div v-if="detailModal.data.dropRoles && detailModal.data.dropRoles.length" class="prob-meta-row">
-              <span class="prob-meta-label">出场怪物：</span>
+              <span class="prob-meta-label">可能携带角色：</span>
               <div class="prob-chips-wrap">
                 <span v-for="r in detailModal.data.dropRoles" :key="r" class="prob-chip">
                   {{ r }}
@@ -261,7 +262,11 @@ import BackToTop from '@/components/BackToTop.vue'
 import rawEquips from '@/assets/Equip.json'
 import rawBattleEvents from '@/assets/Battle_Event.json'
 import rawRoles from '@/assets/Role.json'
+import rawWorldMaps from '@/assets/World_Map.json'
 import simulationResults from '@/assets/simulation_exact_results.json'
+
+const simulationMeta = simulationResults._meta || {}
+const probabilityDataPending = simulationMeta.sourceModel !== 'map_farm_sources_v3'
 
 // 角色映射
 const roleMap = new Map()
@@ -302,35 +307,57 @@ const mapList = Object.keys(maxLevels).map(name => ({
   maxLevel: maxLevels[name]
 }))
 
-const evalMode = ref('absolute') // 'absolute' (按装备自身爆率) | 'relative' (按本地地图相对)
+const worldMapMap = new Map(rawWorldMaps.map(map => [map.Name, map]))
+
+const isLegalMapEvent = (eventInfo, mapName) => {
+  if (eventInfo.AreaType === '世界') return true
+
+  const mapType = worldMapMap.get(mapName)?.Type || mapName
+  const areaType = eventInfo.AreaType || ''
+  const areaName = eventInfo.AreaName || ''
+  return areaType.includes(mapType) && (areaName === '不限' || areaName.includes(mapName))
+}
+
+const getPossibleEventRoles = (eventInfo) => {
+  // 官方源码中“冒险小队”不读取 MustRole/ProbRole，而是从同阶角色中组队。
+  if (eventInfo.Name === '冒险小队') {
+    return rawRoles.filter(role => role.Step === eventInfo.Step)
+  }
+
+  const roleIds = [
+    ...(eventInfo.MustRole ? eventInfo.MustRole.split(',') : []),
+    ...(eventInfo.ProbRole ? eventInfo.ProbRole.split(',') : [])
+  ].filter(Boolean)
+
+  return roleIds.map(id => roleMap.get(id)).filter(Boolean)
+}
+
+const evalMode = ref('absolute') // 'absolute' (按装备自身遇见率) | 'relative' (按地图内排名)
 
 const currentDifficultyOptions = computed(() => {
   if (evalMode.value === 'absolute') {
     return [
-      { label: '较易 (≥0.10%)', value: 'very_easy' },
-      { label: '一般 (0.05~0.10%)', value: 'normal' },
-      { label: '较难 (0.025~0.05%)', value: 'rather_hard' },
-      { label: '困难 (0.01~0.025%)', value: 'hard' },
-      { label: '极难 (<0.01%)', value: 'very_hard' }
+      { label: '较易 (≥0.20%)', value: 'very_easy' },
+      { label: '一般 (0.10~0.20%)', value: 'normal' },
+      { label: '较难 (0.04~0.10%)', value: 'rather_hard' },
+      { label: '极难 (<0.04%)', value: 'very_hard' }
     ]
   } else {
     return [
-      { label: '较易 (前15%)', value: 'very_easy' },
-      { label: '一般 (15%~35%)', value: 'normal' },
-      { label: '较难 (35%~65%)', value: 'rather_hard' },
-      { label: '困难 (65%~85%)', value: 'hard' },
+      { label: '较易 (前20%)', value: 'very_easy' },
+      { label: '一般 (20%~50%)', value: 'normal' },
+      { label: '较难 (50%~85%)', value: 'rather_hard' },
       { label: '极难 (后15%)', value: 'very_hard' }
     ]
   }
 })
 
-// 掉落难度主题色与背景配置 (绿-较易, 蓝-一般, 紫-较难, 橙-困难, 红-极难)
+// 掉落难度主题色与背景配置 (绿-较易, 蓝-一般, 紫-较难, 红-极难)
 const getDifficultyConfig = (diff) => {
   const map = {
     'very_easy': { label: '较易', color: '#10b981', lightBg: 'rgba(16, 185, 129, 0.12)', border: '#10b981' },
     'normal': { label: '一般', color: '#3b82f6', lightBg: 'rgba(59, 130, 246, 0.12)', border: '#3b82f6' },
     'rather_hard': { label: '较难', color: '#a855f7', lightBg: 'rgba(168, 85, 247, 0.12)', border: '#a855f7' },
-    'hard': { label: '困难', color: '#f97316', lightBg: 'rgba(249, 115, 22, 0.12)', border: '#f97316' },
     'very_hard': { label: '极难', color: '#ef4444', lightBg: 'rgba(239, 68, 68, 0.12)', border: '#ef4444' }
   }
   return map[diff] || { label: '一般', color: '#3b82f6', lightBg: 'rgba(59, 130, 246, 0.12)', border: '#3b82f6' }
@@ -351,7 +378,7 @@ const getModalProbBadgeText = (equip) => {
   if (!equip) return ''
   const isSS = equip.step === 'SS' || equip.Step === 'SS'
   if (showExactProb.value) {
-    return `${equip.difficultyName} (${equip.probStr}，约 ${equip.approxBattles} 场/件)`
+    return `${equip.difficultyName} (${equip.probStr}，约 ${equip.approxBattles} 次机会遇见一次)`
   }
   // 红装默认保留概率百分比，隐藏场次
   if (isSS) {
@@ -360,20 +387,18 @@ const getModalProbBadgeText = (equip) => {
   // 普通金装模糊区间模式
   if (evalMode.value === 'absolute') {
     const rangeMap = {
-      'very_easy': '≥0.10%',
-      'normal': '0.05%~0.10%',
-      'rather_hard': '0.025%~0.05%',
-      'hard': '0.01%~0.025%',
-      'very_hard': '<0.01%'
+      'very_easy': '≥0.20%',
+      'normal': '0.10%~0.20%',
+      'rather_hard': '0.04%~0.10%',
+      'very_hard': '<0.04%'
     }
     const range = rangeMap[equip.difficulty] || ''
     return range ? `${equip.difficultyName} (${range})` : equip.difficultyName
   } else {
     const rangeMap = {
-      'very_easy': '前15%',
-      'normal': '15%~35%',
-      'rather_hard': '35%~65%',
-      'hard': '65%~85%',
+      'very_easy': '前20%',
+      'normal': '20%~50%',
+      'rather_hard': '50%~85%',
       'very_hard': '后15%'
     }
     const range = rangeMap[equip.difficulty] || ''
@@ -386,9 +411,9 @@ const getModalReasonText = (equip) => {
   const isSS = equip.step === 'SS' || equip.Step === 'SS'
   if (isSS) {
     if (showExactProb.value) {
-      return `单场出货率约 ${equip.probStr}（约 ${equip.approxBattles} 场/件）。红装（SS阶传承装备）在遭遇 A阶(1/10000) 或 S阶(1/1000) 战斗事件时小概率赋予匹配职业的怪物携带掉落，亦可通过图鉴3个天赐结晶兑换、旅行商人及黄金宝库获取`
+      return `单次可刷战斗机会遇见率约 ${equip.probStr}（约 ${equip.approxBattles} 次机会遇见一次）。红装（SS阶传承装备）会在 A 阶战斗（1/10000）或 S 阶战斗（1/1000）中小概率替换至匹配职业敌人的对应装备槽位，亦可通过图鉴3个天赐结晶兑换、旅行商人及黄金宝库获取`
     }
-    return `单场出货率约 ${equip.probStr}。红装（SS阶传承装备）在遭遇 A阶(1/10000) 或 S阶(1/1000) 战斗事件时小概率赋予匹配职业的怪物携带掉落，亦可通过图鉴3个天赐结晶兑换、旅行商人及黄金宝库获取`
+    return `单次可刷战斗机会遇见率约 ${equip.probStr}。红装（SS阶传承装备）会在 A 阶战斗（1/10000）或 S 阶战斗（1/1000）中小概率替换至匹配职业敌人的对应装备槽位，亦可通过图鉴3个天赐结晶兑换、旅行商人及黄金宝库获取`
   }
   if (showExactProb.value) {
     return equip.exactReason || equip.reason
@@ -401,22 +426,18 @@ const computedMapData = computed(() => {
   const mapData = {}
 
   for (const mapName in maxLevels) {
-    const localEvents = rawBattleEvents.filter(b => b.AreaName === mapName || b.AreaType === mapName)
+    const availableEvents = rawBattleEvents.filter(eventInfo => (
+      eventInfo.Type !== '传送' && isLegalMapEvent(eventInfo, mapName)
+    ))
 
     const classRoles = { '战士': new Set(), '法师': new Set(), '射手': new Set(), '牧师': new Set() }
-    const classEvents = { '战士': [], '法师': [], '射手': [], '牧师': [] }
+    const classEvents = { '战士': new Set(), '法师': new Set(), '射手': new Set(), '牧师': new Set() }
 
-    localEvents.forEach(eventInfo => {
-      const roleIds = [
-        ...(eventInfo.MustRole ? eventInfo.MustRole.split(',') : []),
-        ...(eventInfo.ProbRole ? eventInfo.ProbRole.split(',') : [])
-      ].filter(Boolean)
-
-      roleIds.forEach(id => {
-        const r = roleMap.get(id)
-        if (r && r.Class && classRoles[r.Class]) {
-          classRoles[r.Class].add(r.Name || r.IDs)
-          if (classEvents[r.Class]) classEvents[r.Class].push(eventInfo.Name)
+    availableEvents.forEach(eventInfo => {
+      getPossibleEventRoles(eventInfo).forEach(role => {
+        if (role.Class && classRoles[role.Class]) {
+          classRoles[role.Class].add(role.Name || role.IDs)
+          classEvents[role.Class].add(eventInfo.Name)
         }
       })
     })
@@ -436,40 +457,36 @@ const computedMapData = computed(() => {
       const eqClasses = (eq.class || raw.Class) ? (eq.class || raw.Class).split(/[\s,，]+/) : ['全职']
       const dropRoles = []
       const dropEvents = []
+      const compatibleClasses = eqClasses.includes('全职') ? Object.keys(classRoles) : eqClasses
 
-      eqClasses.forEach(c => {
+      compatibleClasses.forEach(c => {
         if (classRoles[c]) {
           dropRoles.push(...Array.from(classRoles[c]))
-          dropEvents.push(...(classEvents[c] || []))
+          dropEvents.push(...Array.from(classEvents[c] || []))
         }
       })
 
-      // 1. 全局绝对爆率 5 档 (按概率百分比)
-      // 较易(绿): >=0.10%, 一般(蓝): 0.05%~0.10%, 较难(紫): 0.025%~0.05%, 困难(橙): 0.01%~0.025%, 极难(红): <0.01%
+      // 1. 全局绝对遇见率 4 档 (固定概率阈值)
       let absDiffKey = 'normal'
       let absDiffName = '一般'
       if (eq.step === 'SS' || raw.Step === 'SS') {
         absDiffKey = 'very_hard'
         absDiffName = '极难'
-      } else if (eq.probPercent >= 0.10) {
+      } else if (eq.probPercent >= 0.20) {
         absDiffKey = 'very_easy'
         absDiffName = '较易'
-      } else if (eq.probPercent >= 0.05) {
+      } else if (eq.probPercent >= 0.10) {
         absDiffKey = 'normal'
         absDiffName = '一般'
-      } else if (eq.probPercent >= 0.025) {
+      } else if (eq.probPercent >= 0.04) {
         absDiffKey = 'rather_hard'
         absDiffName = '较难'
-      } else if (eq.probPercent >= 0.01) {
-        absDiffKey = 'hard'
-        absDiffName = '困难'
       } else {
         absDiffKey = 'very_hard'
         absDiffName = '极难'
       }
 
-      // 2. 地图相对排名 5 档
-      // 较易(绿): 本地排名前 15%, 一般(蓝): 15%~35%, 较难(紫): 35%~65%, 困难(橙): 65%~85%, 极难(红): 垫底 15% + SS红装
+      // 2. 地图相对排名 4 档，极难保持为最少的一档
       let relDiffKey = 'normal'
       let relDiffName = '一般'
       if (eq.step === 'SS' || raw.Step === 'SS') {
@@ -477,18 +494,15 @@ const computedMapData = computed(() => {
         relDiffName = '极难'
       } else {
         const ratio = relRankMap.get(eq.id || eq.IDs) ?? 0.5
-        if (ratio < 0.15) {
+        if (ratio < 0.20) {
           relDiffKey = 'very_easy'
           relDiffName = '较易'
-        } else if (ratio < 0.35) {
+        } else if (ratio < 0.50) {
           relDiffKey = 'normal'
           relDiffName = '一般'
-        } else if (ratio < 0.65) {
+        } else if (ratio < 0.85) {
           relDiffKey = 'rather_hard'
           relDiffName = '较难'
-        } else if (ratio < 0.85) {
-          relDiffKey = 'hard'
-          relDiffName = '困难'
         } else {
           relDiffKey = 'very_hard'
           relDiffName = '极难'
@@ -503,26 +517,23 @@ const computedMapData = computed(() => {
       let exactReason = ''
       let fuzzyReason = ''
       if (eq.step === 'SS' || raw.Step === 'SS') {
-        exactReason = `单场出货率约 ${eq.probStr}（约 ${eq.approxBattles} 场/件）。红装（SS阶传承装备）在遭遇 A阶(1/10000) 或 S阶(1/1000) 战斗事件时小概率赋予匹配职业的怪物携带掉落，亦可通过图鉴3个天赐结晶兑换、旅行商人及黄金宝库获取`
+        exactReason = `单次可刷战斗机会遇见率约 ${eq.probStr}（约 ${eq.approxBattles} 次机会遇见一次）。红装（SS阶传承装备）会在 A 阶战斗（1/10000）或 S 阶战斗（1/1000）中小概率替换至匹配职业敌人的对应装备槽位，亦可通过图鉴3个天赐结晶兑换、旅行商人及黄金宝库获取`
         fuzzyReason = exactReason
       } else if (eq.probPercent < 0.001) {
-        exactReason = `单场出货率 <0.001%（约 ${eq.approxBattles} 场/件）。本地战斗完全缺少对应职业怪物，只能依赖极低概率的跨图世界事件`
-        fuzzyReason = `本地战斗完全缺少对应职业怪物，只能依赖极低概率的跨图世界事件`
+        exactReason = `单次可刷战斗机会遇见率 <0.001%（约 ${eq.approxBattles} 次机会遇见一次）。该地图可出现的兼容职业较少，且同部位装备竞争很大`
+        fuzzyReason = `该地图可出现的兼容职业较少，且同部位装备竞争很大`
       } else if (diffKey === 'very_hard') {
-        exactReason = `单场出货率约 ${eq.probStr}（约 ${eq.approxBattles} 场/件，极难）。本地战斗怪物池缺乏对应职业或同部位竞争极大`
-        fuzzyReason = `该装备评级为【极难】。本地战斗怪物池缺乏对应职业或同部位竞争极大`
-      } else if (diffKey === 'hard') {
-        exactReason = `单场出货率约 ${eq.probStr}（约 ${eq.approxBattles} 场/件，困难）。本地对应职业怪物出场率偏低，刷取难度较大`
-        fuzzyReason = `该装备评级为【困难】。本地对应职业怪物出场率偏低，刷取难度较大`
+        exactReason = `单次可刷战斗机会遇见率约 ${eq.probStr}（约 ${eq.approxBattles} 次机会遇见一次，极难）。兼容职业出场机会较少或同部位装备竞争极大`
+        fuzzyReason = `该装备评级为【极难】。兼容职业出场机会较少或同部位装备竞争极大`
       } else if (diffKey === 'rather_hard') {
-        exactReason = `单场出货率约 ${eq.probStr}（约 ${eq.approxBattles} 场/件，较难）。本地存在一定同系竞争，需多花时间刷取`
+        exactReason = `单次可刷战斗机会遇见率约 ${eq.probStr}（约 ${eq.approxBattles} 次机会遇见一次，较难）。本地存在一定同系竞争，需多花时间刷取`
         fuzzyReason = `该装备评级为【较难】。本地存在一定同系竞争，需多花时间刷取`
       } else if (diffKey === 'normal') {
-        exactReason = `单场出货率约 ${eq.probStr}（约 ${eq.approxBattles} 场/件，一般）。本地怪物职业分布均衡，正常探索可稳定获取`
-        fuzzyReason = `该装备评级为【一般】。本地怪物职业分布均衡，正常探索可稳定获取`
+        exactReason = `单次可刷战斗机会遇见率约 ${eq.probStr}（约 ${eq.approxBattles} 次机会遇见一次，一般）。可出场角色的职业分布较均衡，正常探索较容易遇见`
+        fuzzyReason = `该装备评级为【一般】。可出场角色的职业分布较均衡，正常探索可稳定获取`
       } else {
-        exactReason = `单场出货率约 ${eq.probStr}（约 ${eq.approxBattles} 场/件，较易）。本地核心怪物频繁携带出场，掉落几率最高`
-        fuzzyReason = `该装备评级为【较易】。本地核心怪物频繁携带出场，掉落几率最高`
+        exactReason = `单次可刷战斗机会遇见率约 ${eq.probStr}（约 ${eq.approxBattles} 次机会遇见一次，较易）。兼容职业出场频繁，装备被生成的机会较高`
+        fuzzyReason = `该装备评级为【较易】。兼容职业出场频繁，装备被生成的机会较高`
       }
 
       return {
@@ -776,6 +787,7 @@ watch(evalMode, () => {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  --filter-panel-reserved-space: 250px;
 }
 
 .filter-row {
@@ -884,6 +896,24 @@ watch(evalMode, () => {
 
 .rule-expand-content p {
   margin: 6px 0;
+}
+
+.probability-data-warning {
+  margin-top: 6px;
+  padding: 7px 10px;
+  border: 1px solid rgba(217, 119, 6, 0.32);
+  border-radius: 6px;
+  background: rgba(245, 158, 11, 0.08);
+  color: #b45309;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.dark-mode .probability-data-warning {
+  border-color: rgba(251, 191, 36, 0.32);
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
 }
 
 .author-name {

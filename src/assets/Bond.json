@@ -16952,7 +16952,7 @@
   "BadgeIDs": "HZ00009",
   "Value1": "1,2,3",
   "Value2": "1,2,3",
-  "Tag": "受到伤害,剥离,脆弱",
+  "Tag": "受到伤害,灼烧,恐惧",
   "Score": 20,
   "PositiveTags": "灼烧相关,恐惧相关",
   "NegativeTags": "",

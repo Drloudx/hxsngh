@@ -29,7 +29,7 @@
           </div>
         </div>
 
-        <div class="filter-panel">
+        <div class="filter-panel page-filter-scroll">
           <!-- 1. 品阶筛选 -->
           <div class="filter-row">
             <span class="filter-label">品阶：</span>
@@ -755,6 +755,7 @@ const getTagsList = (effect) => {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  --filter-panel-reserved-space: 170px;
 }
 
 .filter-row {

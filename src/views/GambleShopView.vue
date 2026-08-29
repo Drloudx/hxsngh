@@ -44,7 +44,7 @@
       </div>
 
       <!-- 筛选与层级选择面板（默认收起） -->
-      <div v-show="tagsExpanded" class="filter-panel">
+      <div v-show="tagsExpanded" class="filter-panel page-filter-scroll">
         <!-- 1. 轮次 / 层级选择 -->
         <div class="filter-row">
           <span class="filter-label">{{ currentShopType === 'gamble' ? '轮次：' : '层级：' }}</span>
@@ -720,6 +720,7 @@ const handleTabIconError = (e) => {
   flex-direction: column;
   gap: 8px;
   animation: slideDown 0.2s ease-out;
+  --filter-panel-reserved-space: 220px;
 }
 
 @keyframes slideDown {

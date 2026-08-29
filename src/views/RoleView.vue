@@ -22,7 +22,7 @@
 
       <!-- Filters Panel (Collapsible) -->
       <Transition name="slide-fade">
-        <div v-show="tagsExpanded" class="filter-panel">
+        <div v-show="tagsExpanded" class="filter-panel page-filter-scroll">
           <!-- 1. 品阶 -->
           <div class="filter-row">
             <span class="filter-label">品阶：</span>
@@ -1426,6 +1426,7 @@ const handleRelicIconError = (e) => {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  --filter-panel-reserved-space: 220px;
 }
 
 .filter-row {
@@ -2298,4 +2299,3 @@ const handleRelicIconError = (e) => {
   color: var(--primary);
 }
 </style>
-

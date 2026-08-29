@@ -20,7 +20,7 @@
       </div>
 
       <!-- 折叠筛选面板（默认展开） -->
-      <div v-show="tagsExpanded" class="filter-panel">
+      <div v-show="tagsExpanded" class="filter-panel page-filter-scroll">
         <!-- 1. 品阶筛选（常驻） -->
         <div class="filter-row">
           <span class="filter-label">品阶：</span>
@@ -631,6 +631,7 @@ onMounted(() => {
   flex-direction: column;
   gap: 8px;
   animation: slideDown 0.2s ease-out;
+  --filter-panel-reserved-space: 140px;
 }
 
 @keyframes slideDown {
