@@ -57,7 +57,7 @@
       </div>
 
       <!-- 筛选面板 -->
-      <div v-show="tagsExpanded" class="filter-panel" style="margin-bottom: 8px;">
+      <div v-show="tagsExpanded" class="filter-panel page-filter-scroll" style="margin-bottom: 8px;">
         <!-- 稀有度筛选 -->
         <div class="filter-row">
           <span class="filter-label">稀有度</span>
@@ -1372,6 +1372,7 @@ const toggleBondExpand = (idx) => {
   flex-direction: column;
   gap: 10px;
   animation: slideDown 0.2s ease-out;
+  --filter-panel-reserved-space: 300px;
 }
 
 @keyframes slideDown {

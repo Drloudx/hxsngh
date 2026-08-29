@@ -20,7 +20,7 @@
       </div>
 
       <!-- 展开后的地图标签筛选面板 (对齐 EquipView.vue) -->
-      <div v-show="tagsExpanded" class="filter-panel">
+      <div v-show="tagsExpanded" class="filter-panel page-filter-scroll">
         <div class="filter-row" style="align-items: flex-start;">
           <span class="filter-label">地图</span>
           <div class="filter-options grid-5-cols">
@@ -950,6 +950,7 @@ const toggleTimeDetails = async () => {
   flex-direction: column;
   gap: 10px;
   animation: slideDown 0.2s ease-out;
+  --filter-panel-reserved-space: 180px;
 }
 
 @keyframes slideDown {

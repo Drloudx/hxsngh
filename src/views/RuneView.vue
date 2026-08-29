@@ -40,7 +40,7 @@
 
       <!-- 筛选面板（一模一样复刻商人的筛选样式与交互） -->
       <Transition name="slide-fade">
-        <div v-show="tagsExpanded" class="filter-panel">
+        <div v-show="tagsExpanded" class="filter-panel page-filter-scroll">
           <!-- 1. 品阶筛选 -->
           <div class="filter-row">
             <span class="filter-label">品阶：</span>
@@ -630,6 +630,7 @@ const getRuneIcon = (id) => {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  --filter-panel-reserved-space: 180px;
 }
 
 .filter-row {
