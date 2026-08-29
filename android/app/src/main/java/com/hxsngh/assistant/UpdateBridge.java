@@ -2,9 +2,6 @@ package com.hxsngh.assistant;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -67,11 +64,10 @@ public class UpdateBridge {
                     output.flush();
                 }
 
-                verifyDownloadedApk(apk);
-                final File verifiedApk = apk;
+                final File downloadedApk = apk;
                 post(() -> {
                     webView.evaluateJavascript("if(window.__updateComplete)window.__updateComplete()", null);
-                    installApk(verifiedApk);
+                    installApk(downloadedApk);
                 });
             } catch (Exception e) {
                 if (apk != null && apk.exists() && !apk.delete()) apk.deleteOnExit();
@@ -123,50 +119,6 @@ public class UpdateBridge {
         if (!"https".equalsIgnoreCase(url.getProtocol()) || !allowedHost) {
             throw new java.io.IOException("安装包来源不受信任");
         }
-    }
-
-    private void verifyDownloadedApk(File apk) throws Exception {
-        PackageManager packageManager = context.getPackageManager();
-        int flags = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
-                ? PackageManager.GET_SIGNING_CERTIFICATES
-                : PackageManager.GET_SIGNATURES;
-        PackageInfo downloaded = packageManager.getPackageArchiveInfo(apk.getAbsolutePath(), flags);
-        PackageInfo installed = packageManager.getPackageInfo(context.getPackageName(), flags);
-        if (downloaded == null || !context.getPackageName().equals(downloaded.packageName)) {
-            throw new SecurityException("安装包不是当前应用的更新");
-        }
-
-        Signature[] downloadedSigners = getCurrentSigners(downloaded);
-        Signature[] trustedSigners = getTrustedSigners(installed);
-        if (!hasMatchingSigner(downloadedSigners, trustedSigners)) {
-            throw new SecurityException("安装包签名与当前应用不一致");
-        }
-    }
-
-    private Signature[] getCurrentSigners(PackageInfo info) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && info.signingInfo != null) {
-            return info.signingInfo.getApkContentsSigners();
-        }
-        return info.signatures;
-    }
-
-    private Signature[] getTrustedSigners(PackageInfo info) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && info.signingInfo != null) {
-            return info.signingInfo.hasMultipleSigners()
-                    ? info.signingInfo.getApkContentsSigners()
-                    : info.signingInfo.getSigningCertificateHistory();
-        }
-        return info.signatures;
-    }
-
-    private boolean hasMatchingSigner(Signature[] downloaded, Signature[] trusted) {
-        if (downloaded == null || downloaded.length == 0 || trusted == null || trusted.length == 0) return false;
-        for (Signature candidate : downloaded) {
-            for (Signature expected : trusted) {
-                if (candidate.equals(expected)) return true;
-            }
-        }
-        return false;
     }
 
     private void installApk(File apk) {
