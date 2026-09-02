@@ -884,8 +884,8 @@ const borderNoticeRead = () => {
 /* Shared overflow protection for expandable filter cards. */
 .page-filter-scroll {
   --filter-panel-reserved-space: 220px;
-  max-height: min(520px, calc(100vh - var(--filter-panel-reserved-space)));
-  max-height: min(520px, calc(100dvh - var(--filter-panel-reserved-space)));
+  max-height: calc(100vh - var(--filter-panel-reserved-space));
+  max-height: calc(100dvh - var(--filter-panel-reserved-space));
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
