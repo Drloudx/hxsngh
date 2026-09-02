@@ -1316,6 +1316,11 @@ const handleRelicIconError = (e) => {
 
 .role-sticky-top {
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  min-height: 0;
+  overflow: hidden;
   background: var(--bg);
   padding-bottom: 10px;
   z-index: 10;
@@ -1426,7 +1431,19 @@ const handleRelicIconError = (e) => {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  --filter-panel-reserved-space: 220px;
+  flex: 0 1 auto;
+  min-height: 0;
+}
+
+/* Use the role page's real remaining height instead of a viewport estimate. */
+.role-container .filter-panel.page-filter-scroll {
+  max-height: none;
+}
+
+.role-search-row,
+.effect-filter-bar,
+.search-count-bar {
+  flex-shrink: 0;
 }
 
 .filter-row {
