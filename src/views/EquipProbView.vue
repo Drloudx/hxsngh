@@ -299,7 +299,8 @@ const maxLevels = {
   '无尽荒漠': 210,
   '枯木丛林': 220,
   '极寒冰原': 110,
-  '熔岩通道': 140
+  '熔岩通道': 140,
+  '夏日海滩': 140
 }
 
 const mapList = Object.keys(maxLevels).map(name => ({

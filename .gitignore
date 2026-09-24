@@ -52,6 +52,6 @@ __pycache__/
 
 # build
 dist/
-dist.zip
+dist.zip*
 *.zip
 hotupdate.json

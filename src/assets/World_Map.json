@@ -253,5 +253,22 @@
   "Desc": "未知魔法断绝了这片森林的生机，只有大片荆棘还顽强的生长着。",
   "DescI2": "Map/Map_Text_15",
   "Element": "地系,风系,光系"
+ },
+ {
+  "Id": "world_map_16",
+  "IDs": "A00003",
+  "Name": "夏日海滩",
+  "NameI2": "Map/Map_Name_24",
+  "Type": "沙滩",
+  "InitialDiffi": 41,
+  "UnlockReqirement": 0,
+  "PreviousMap": "",
+  "ExoticOriginMap": "清凉沙滩",
+  "MapEffect1": "热闹",
+  "MapEffect2": "海滩",
+  "MapEffect3": "欢庆",
+  "Desc": "来自异界的旅人在这里举办了热闹的庆典活动，快来看看吧！",
+  "DescI2": "Map/Map_Text_16",
+  "Element": "风系,水系,光系"
  }
 ]

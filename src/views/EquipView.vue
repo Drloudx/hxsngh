@@ -543,7 +543,8 @@ const mapOptions = [
   { label: '荒凉戈壁', value: '荒凉戈壁' },
   { label: '无尽荒漠', value: '无尽荒漠' },
   { label: '熔岩通道', value: '熔岩通道' },
-  { label: '枯木丛林', value: '枯木丛林' }
+  { label: '枯木丛林', value: '枯木丛林' },
+  { label: '夏日海滩', value: '夏日海滩' }
 ]
 
 const getStepConfig = (step) => {
@@ -833,7 +834,7 @@ const getMapWeight = (map) => {
     '无尽荒漠': 13,
     '熔岩通道': 14,
     '枯木丛林': 15,
-
+    '夏日海滩': 16
   }
   return weights[map] || 99
 }

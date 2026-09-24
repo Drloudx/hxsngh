@@ -1,0 +1,492 @@
+[
+ {
+  "Id": "map_effect_1",
+  "IDs": "AX10001",
+  "Name": "温暖",
+  "NameI2": "Map/Map_Effect_Name_01",
+  "Type": "简单",
+  "Effect": "敌方攻击属性+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_01",
+  "Value0": "关卡/1"
+ },
+ {
+  "Id": "map_effect_2",
+  "IDs": "AX10002",
+  "Name": "清爽",
+  "NameI2": "Map/Map_Effect_Name_02",
+  "Type": "简单",
+  "Effect": "敌方防御属性+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_02",
+  "Value0": "关卡/1"
+ },
+ {
+  "Id": "map_effect_3",
+  "IDs": "AX10009",
+  "Name": "原始",
+  "NameI2": "Map/Map_Effect_Name_03",
+  "Type": "简单",
+  "Effect": "敌方生命+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_03",
+  "Value0": "关卡*10"
+ },
+ {
+  "Id": "map_effect_4",
+  "IDs": "AX10004",
+  "Name": "干燥",
+  "NameI2": "Map/Map_Effect_Name_04",
+  "Type": "简单",
+  "Effect": "敌方速度+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_04",
+  "Value0": "关卡/1"
+ },
+ {
+  "Id": "map_effect_5",
+  "IDs": "AX10007",
+  "Name": "明媚",
+  "NameI2": "Map/Map_Effect_Name_05",
+  "Type": "简单",
+  "Effect": "敌方韧性+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_05",
+  "Value0": "关卡/1"
+ },
+ {
+  "Id": "map_effect_6",
+  "IDs": "AX10008",
+  "Name": "丰饶",
+  "NameI2": "Map/Map_Effect_Name_06",
+  "Type": "简单",
+  "Effect": "敌方初始魔力+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_06",
+  "Value0": "关卡/2"
+ },
+ {
+  "Id": "map_effect_7",
+  "IDs": "AX10003",
+  "Name": "充盈",
+  "NameI2": "Map/Map_Effect_Name_07",
+  "Type": "简单",
+  "Effect": "敌方行动回魔+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_07",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_8",
+  "IDs": "AX10006",
+  "Name": "明亮",
+  "NameI2": "Map/Map_Effect_Name_08",
+  "Type": "简单",
+  "Effect": "敌方受击回魔+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_08",
+  "Value0": "关卡/10"
+ },
+ {
+  "Id": "map_effect_9",
+  "IDs": "AX10101",
+  "Name": "寒冷",
+  "NameI2": "Map/Map_Effect_Name_09",
+  "Type": "简单",
+  "Effect": "敌方受到全部伤害-{0}。",
+  "EffectI2": "Map/Map_Effect_Des_09_new01",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_10",
+  "IDs": "AX10102",
+  "Name": "炎热",
+  "NameI2": "Map/Map_Effect_Name_10",
+  "Type": "简单",
+  "Effect": "敌方造成全部伤害+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_10_new01",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_11",
+  "IDs": "AX10108",
+  "Name": "腐化",
+  "NameI2": "Map/Map_Effect_Name_11",
+  "Type": "简单",
+  "Effect": "敌方造成失去生命+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_11_new01",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_12",
+  "IDs": "AX10104",
+  "Name": "潮湿",
+  "NameI2": "Map/Map_Effect_Name_12",
+  "Type": "简单",
+  "Effect": "敌方受到失去生命-{0}。",
+  "EffectI2": "Map/Map_Effect_Des_12_new01",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_13",
+  "IDs": "AX10105",
+  "Name": "阴郁",
+  "NameI2": "Map/Map_Effect_Name_13",
+  "Type": "简单",
+  "Effect": "敌方造成失去韧性+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_13_new01",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_14",
+  "IDs": "AX10107",
+  "Name": "贫瘠",
+  "NameI2": "Map/Map_Effect_Name_14",
+  "Type": "简单",
+  "Effect": "敌方受到失去韧性-{0}。",
+  "EffectI2": "Map/Map_Effect_Des_14_New01",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_15",
+  "IDs": "AX10106",
+  "Name": "稀薄",
+  "NameI2": "Map/Map_Effect_Name_15",
+  "Type": "简单",
+  "Effect": "友方行动回魔-{0}。",
+  "EffectI2": "Map/Map_Effect_Des_15",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_16",
+  "IDs": "AX10103",
+  "Name": "昏暗",
+  "NameI2": "Map/Map_Effect_Name_16",
+  "Type": "简单",
+  "Effect": "友方受击回魔-{0}。",
+  "EffectI2": "Map/Map_Effect_Des_16",
+  "Value0": "关卡/10"
+ },
+ {
+  "Id": "map_effect_17",
+  "IDs": "AX10109",
+  "Name": "阴湿",
+  "NameI2": "Map/Map_Effect_Name_AX10109",
+  "Type": "简单",
+  "Effect": "友方获得生命-{0}。",
+  "EffectI2": "Map/Map_Effect_Des_AX10109",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_18",
+  "IDs": "AX10201",
+  "Name": "极寒",
+  "NameI2": "Map/Map_Effect_Name_17",
+  "Type": "简单",
+  "Effect": "敌方造成冰冷层数+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_17_new01",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_19",
+  "IDs": "AX10202",
+  "Name": "热闹",
+  "NameI2": "Map/Map_Effect_Name_47",
+  "Type": "简单",
+  "Effect": "双方获得滋润层数+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_47",
+  "Value0": "关卡/20"
+ },
+ {
+  "Id": "map_effect_20",
+  "IDs": "AX00001",
+  "Name": "平原",
+  "NameI2": "Map/Map_Effect_Name_18",
+  "Type": "普通",
+  "Effect": "敌方行动开始前获得{0}层热血。",
+  "EffectI2": "Map/Map_Effect_Des_18",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_21",
+  "IDs": "AX00002",
+  "Name": "森林",
+  "NameI2": "Map/Map_Effect_Name_19",
+  "Type": "普通",
+  "Effect": "敌方行动开始前获得{0}层再生。",
+  "EffectI2": "Map/Map_Effect_Des_19",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_22",
+  "IDs": "AX00003",
+  "Name": "山脉",
+  "NameI2": "Map/Map_Effect_Name_20",
+  "Type": "普通",
+  "Effect": "敌方行动开始前获得{0}层防护。",
+  "EffectI2": "Map/Map_Effect_Des_20",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_23",
+  "IDs": "AX00004",
+  "Name": "海洋",
+  "NameI2": "Map/Map_Effect_Name_21",
+  "Type": "普通",
+  "Effect": "敌方行动开始前获得{0}层滋润。",
+  "EffectI2": "Map/Map_Effect_Des_21",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_24",
+  "IDs": "AX00005",
+  "Name": "雪原",
+  "NameI2": "Map/Map_Effect_Name_22",
+  "Type": "普通",
+  "Effect": "友方行动开始前受到{0}层冰冷。",
+  "EffectI2": "Map/Map_Effect_Des_22",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_25",
+  "IDs": "AX00006",
+  "Name": "沙滩",
+  "NameI2": "Map/Map_Effect_Name_23",
+  "Type": "普通",
+  "Effect": "敌方行动开始前获得{0}层鼓舞。",
+  "EffectI2": "Map/Map_Effect_Des_23",
+  "Value0": "关卡/10"
+ },
+ {
+  "Id": "map_effect_26",
+  "IDs": "AX00007",
+  "Name": "沙漠",
+  "NameI2": "Map/Map_Effect_Name_24",
+  "Type": "普通",
+  "Effect": "友方行动开始前受到{0}层减速。",
+  "EffectI2": "Map/Map_Effect_Des_24",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_27",
+  "IDs": "AX00008",
+  "Name": "沼泽",
+  "NameI2": "Map/Map_Effect_Name_25",
+  "Type": "普通",
+  "Effect": "友方回合开始前受到{0}层泯灭和阻碍。",
+  "EffectI2": "Map/Map_Effect_Des_25",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_28",
+  "IDs": "AX00009",
+  "Name": "火山",
+  "NameI2": "Map/Map_Effect_Name_26",
+  "Type": "普通",
+  "Effect": "友方行动开始前受到{0}层灼烧。",
+  "EffectI2": "Map/Map_Effect_Des_26",
+  "Value0": "关卡/5"
+ },
+ {
+  "Id": "map_effect_29",
+  "IDs": "AX00101",
+  "Name": "海滩",
+  "NameI2": "Map/Map_Effect_Name_48",
+  "Type": "普通",
+  "Effect": "双方战斗开始前获得{0}层滋润和层数上限。",
+  "EffectI2": "Map/Map_Effect_Des_48",
+  "Value0": "关卡*5"
+ },
+ {
+  "Id": "map_effect_30",
+  "IDs": "AX20001",
+  "Name": "新生",
+  "NameI2": "Map/Map_Effect_Name_27",
+  "Type": "困难",
+  "Effect": "敌方战斗开始前获得{0}层再生。",
+  "EffectI2": "Map/Map_Effect_Des_27",
+  "Value0": "关卡*2"
+ },
+ {
+  "Id": "map_effect_31",
+  "IDs": "AX20002",
+  "Name": "茂盛",
+  "NameI2": "Map/Map_Effect_Name_28",
+  "Type": "困难",
+  "Effect": "友方反击距离-{0}。",
+  "EffectI2": "Map/Map_Effect_Des_28",
+  "Value0": "关卡/10"
+ },
+ {
+  "Id": "map_effect_32",
+  "IDs": "AX20003",
+  "Name": "迷雾",
+  "NameI2": "Map/Map_Effect_Name_29",
+  "Type": "困难",
+  "Effect": "友方战斗开始前受到{0}层诱导。",
+  "EffectI2": "Map/Map_Effect_Des_29",
+  "Value0": "关卡*2"
+ },
+ {
+  "Id": "map_effect_33",
+  "IDs": "AX20004",
+  "Name": "错综",
+  "NameI2": "Map/Map_Effect_Name_30",
+  "Type": "困难",
+  "Effect": "友方造成追击次数-{0}。",
+  "EffectI2": "Map/Map_Effect_Des_30",
+  "Value0": "关卡/10"
+ },
+ {
+  "Id": "map_effect_34",
+  "IDs": "AX20005",
+  "Name": "遗忘",
+  "NameI2": "Map/Map_Effect_Name_31",
+  "Type": "困难",
+  "Effect": "友方获得魔力-{0}。",
+  "EffectI2": "Map/Map_Effect_Des_31",
+  "Value0": "关卡/10"
+ },
+ {
+  "Id": "map_effect_35",
+  "IDs": "AX20006",
+  "Name": "威压",
+  "NameI2": "Map/Map_Effect_Name_32",
+  "Type": "困难",
+  "Effect": "友方失去韧性时每2点失去{0}点生命。",
+  "EffectI2": "Map/Map_Effect_Des_32_New",
+  "Value0": "关卡/200"
+ },
+ {
+  "Id": "map_effect_36",
+  "IDs": "AX20007",
+  "Name": "混乱",
+  "NameI2": "Map/Map_Effect_Name_33",
+  "Type": "困难",
+  "Effect": "敌方造成伤害后每点获得{0}点生命。",
+  "EffectI2": "Map/Map_Effect_Des_33",
+  "Value0": "关卡/10"
+ },
+ {
+  "Id": "map_effect_37",
+  "IDs": "AX20008",
+  "Name": "孢子",
+  "NameI2": "Map/Map_Effect_Name_34",
+  "Type": "困难",
+  "Effect": "友方战斗开始前受到{0}层阻碍。",
+  "EffectI2": "Map/Map_Effect_Des_34",
+  "Value0": "关卡*2"
+ },
+ {
+  "Id": "map_effect_38",
+  "IDs": "AX20009",
+  "Name": "开阔",
+  "NameI2": "Map/Map_Effect_Name_35",
+  "Type": "困难",
+  "Effect": "敌方造成追击次数+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_35",
+  "Value0": "关卡/20"
+ },
+ {
+  "Id": "map_effect_39",
+  "IDs": "AX20010",
+  "Name": "风化",
+  "NameI2": "Map/Map_Effect_Name_36",
+  "Type": "困难",
+  "Effect": "友方行动结束后受到{0}层脆弱。",
+  "EffectI2": "Map/Map_Effect_Des_36_New",
+  "Value0": "关卡/2"
+ },
+ {
+  "Id": "map_effect_40",
+  "IDs": "AX20011",
+  "Name": "流沙",
+  "NameI2": "Map/Map_Effect_Name_41",
+  "Type": "困难",
+  "Effect": "友方速度低于0时额外行动次数-{0}。",
+  "EffectI2": "Map/Map_Effect_Des_41_New01",
+  "Value0": "关卡/50"
+ },
+ {
+  "Id": "map_effect_41",
+  "IDs": "AX20012",
+  "Name": "紊乱",
+  "NameI2": "Equipbond/Name_Skill_JN10154",
+  "Type": "困难",
+  "Effect": "友方魔力上限+{0}。",
+  "EffectI2": "Map/Map_Effect_Des_AX20012",
+  "Value0": "关卡/4"
+ },
+ {
+  "Id": "map_effect_42",
+  "IDs": "AX20013",
+  "Name": "无声",
+  "NameI2": "Map/Map_Effect_Name_AX20013",
+  "Type": "困难",
+  "Effect": "友方满层阻碍时行动开始前失去{0}点魔力。",
+  "EffectI2": "Map/Map_Effect_Des_AX20013",
+  "Value0": "关卡/10"
+ },
+ {
+  "Id": "map_effect_43",
+  "IDs": "AX20101",
+  "Name": "冰狱",
+  "NameI2": "Map/Map_Effect_Name_37",
+  "Type": "困难",
+  "Effect": "友方受到冰冷时每2层失去{0}点生命。",
+  "EffectI2": "Map/Map_Effect_Des_37_New",
+  "Value0": "关卡/500"
+ },
+ {
+  "Id": "map_effect_44",
+  "IDs": "AX20102",
+  "Name": "熔炉",
+  "NameI2": "Map/Map_Effect_Name_44",
+  "Type": "困难",
+  "Effect": "友方受到灼烧时每2层失去{0}点生命。",
+  "EffectI2": "Map/Map_Effect_Des_44",
+  "Value0": "关卡/500"
+ },
+ {
+  "Id": "map_effect_45",
+  "IDs": "AX20103",
+  "Name": "疯狂",
+  "NameI2": "Equipbond/Name_Skill_JN01601",
+  "Type": "困难",
+  "Effect": "友方释放技能后敌方目标进行{0}次额外行动。",
+  "EffectI2": "Map/Map_Effect_Des_46",
+  "Value0": "关卡/100"
+ },
+ {
+  "Id": "map_effect_46",
+  "IDs": "AX20104",
+  "Name": "欢庆",
+  "NameI2": "Map/Map_Effect_Name_45",
+  "Type": "困难",
+  "Effect": "双方受到非自身造成状态层数+{0}，反之减少。",
+  "EffectI2": "Map/Map_Effect_Des_AX20104_New01",
+  "Value0": "关卡/20"
+ },
+ {
+  "Id": "map_effect_47",
+  "IDs": "AX10000",
+  "Name": "无序",
+  "NameI2": "Map/Map_Effect_Name_38",
+  "Type": "简单",
+  "Effect": "敌方每回合进行{0}次额外行动。",
+  "EffectI2": "Map/Map_Effect_Des_38_new01",
+  "Value0": "关卡/50"
+ },
+ {
+  "Id": "map_effect_48",
+  "IDs": "AX00000",
+  "Name": "星界",
+  "NameI2": "Map/Map_Effect_Name_39",
+  "Type": "普通",
+  "Effect": "友方行动开始前受到{0}层恐惧。",
+  "EffectI2": "Map/Map_Effect_Des_39_New",
+  "Value0": "关卡/10"
+ },
+ {
+  "Id": "map_effect_49",
+  "IDs": "AX20000",
+  "Name": "恐慌",
+  "NameI2": "Map/Map_Effect_Name_40",
+  "Type": "困难",
+  "Effect": "友方弱点暴露时无法进行额外行动。",
+  "EffectI2": "Map/Map_Effect_Des_40_New",
+  "Value0": ""
+ }
+]

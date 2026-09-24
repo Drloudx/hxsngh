@@ -1,0 +1,965 @@
+[
+ {
+  "Id": "Introduction_1",
+  "Title": "失败提示",
+  "TitleI2": "Newbee/Help_Button_TypeList_01",
+  "Location": "弹出引导",
+  "Contents": "失败也不要气馁，去试试强化角色吧！",
+  "ContentsI2": "Newbee/Help_Trigger_01",
+  "FrameName": "BattleLoseTips"
+ },
+ {
+  "Id": "Introduction_2",
+  "Title": "滑动解锁",
+  "TitleI2": "Newbee/Help_Button_TypeList_02",
+  "Location": "弹出引导",
+  "Contents": "可以通过滑动的方式快速解锁单格地块与拾取道具。",
+  "ContentsI2": "Newbee/Help_Trigger_02",
+  "FrameName": "ExploreSlide"
+ },
+ {
+  "Id": "Introduction_3",
+  "Title": "角色升级",
+  "TitleI2": "Newbee/Help_Button_TypeList_03",
+  "Location": "弹出引导",
+  "Contents": "在地图中收集到的物资可以强化角色，让我们先快速选择角色所需的素材。",
+  "ContentsI2": "Newbee/Help_Trigger_03",
+  "FrameName": "RoleUpgrade"
+ },
+ {
+  "Id": "Introduction_4",
+  "Title": "角色升级",
+  "TitleI2": "Newbee/Help_Button_TypeList_03",
+  "Location": "弹出引导",
+  "Contents": "升级可以使角色获得属性提升，达到指定图鉴等级可以提升等级上限。",
+  "ContentsI2": "",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_5",
+  "Title": "角色升级",
+  "TitleI2": "Newbee/Help_Button_TypeList_03",
+  "Location": "弹出引导",
+  "Contents": "60级前都可以免费进行等级重置，61级开始需要花费宝石进行重置。",
+  "ContentsI2": "Newbee/Help_Trigger_04",
+  "FrameName": "RoleReset"
+ },
+ {
+  "Id": "Introduction_6",
+  "Title": "角色升级",
+  "TitleI2": "Newbee/Help_Button_TypeList_03",
+  "Location": "弹出引导",
+  "Contents": "然后让我们再给角色穿戴好装备吧。",
+  "ContentsI2": "",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_7",
+  "Title": "装备界面",
+  "TitleI2": "Newbee/Help_Button_TypeList_04",
+  "Location": "弹出引导",
+  "Contents": "前期我们可以使用一键装备功能进行快速穿戴。",
+  "ContentsI2": "Newbee/Help_Trigger_05",
+  "FrameName": "RecommendEquip"
+ },
+ {
+  "Id": "Introduction_8",
+  "Title": "装备界面",
+  "TitleI2": "Newbee/Help_Button_TypeList_04",
+  "Location": "弹出引导",
+  "Contents": "我们收集到的每件装备都会提供独特羁绊，达成羁绊可获得强力效果。",
+  "ContentsI2": "Newbee/Guide_Dialogue_40",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_9",
+  "Title": "装备界面",
+  "TitleI2": "Newbee/Help_Button_TypeList_04",
+  "Location": "弹出引导",
+  "Contents": "等之后收集到强力装备再给角色穿戴吧，现在让我们去再试试之前的战斗。",
+  "ContentsI2": "Newbee/Help_Trigger_06",
+  "FrameName": "EquipPreset"
+ },
+ {
+  "Id": "Introduction_10",
+  "Title": "队伍配置",
+  "TitleI2": "Newbee/Help_Button_TypeList_05",
+  "Location": "弹出引导",
+  "Contents": "招募到新的角色在这里可以将其替换当前上阵角色。",
+  "ContentsI2": "Newbee/Help_Trigger_07",
+  "FrameName": "TeamSet"
+ },
+ {
+  "Id": "Introduction_11",
+  "Title": "邀请战斗",
+  "TitleI2": "",
+  "Location": "弹出引导",
+  "Contents": "遇到当前无法战胜的敌人可以试试邀请功能。",
+  "ContentsI2": "Newbee/Help_Trigger_08",
+  "FrameName": "BattleInvite"
+ },
+ {
+  "Id": "Introduction_12",
+  "Title": "邀请战斗",
+  "TitleI2": "",
+  "Location": "弹出引导",
+  "Contents": "被邀请的战斗会保留在斗技场中，之后做好准备就可以在邀请赛里继续挑战了。",
+  "ContentsI2": "Newbee/Help_Trigger_09",
+  "FrameName": "ChallengeButton"
+ },
+ {
+  "Id": "Introduction_13",
+  "Title": "结晶兑换",
+  "TitleI2": "",
+  "Location": "弹出引导",
+  "Contents": "结晶兑换是装备获取的重要来源之一，我来教你如何兑换装备吧。",
+  "ContentsI2": "Newbee/Help_Trigger_10",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_14",
+  "Title": "结晶兑换",
+  "TitleI2": "",
+  "Location": "弹出引导",
+  "Contents": "这里会推荐一些适合该角色的装备，如果不熟悉装备的话可以参考一下。",
+  "ContentsI2": "Newbee/Help_Trigger_11",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_15",
+  "Title": "结晶兑换",
+  "TitleI2": "",
+  "Location": "弹出引导",
+  "Contents": "选择想要兑换的装备。",
+  "ContentsI2": "Newbee/Help_Trigger_12",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_16",
+  "Title": "结晶兑换",
+  "TitleI2": "",
+  "Location": "弹出引导",
+  "Contents": "这里会标明兑换所需的结晶数量，不过这次兑换就由公会报销啦。",
+  "ContentsI2": "Newbee/Help_Trigger_13",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_17",
+  "Title": "结晶兑换",
+  "TitleI2": "",
+  "Location": "弹出引导",
+  "Contents": "并且除了这里以外，图鉴中也是可以兑换的，攒够结晶就去兑换想要的装备吧！",
+  "ContentsI2": "Newbee/Help_Trigger_14",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_18",
+  "Title": "地图效果",
+  "TitleI2": "Newbee/Help_Button_TypeList_07",
+  "Location": "探索界面",
+  "Contents": "每种地图都有自己独特的地图效果。",
+  "ContentsI2": "Newbee/Help_Map_04",
+  "FrameName": "MapEffect"
+ },
+ {
+  "Id": "Introduction_19",
+  "Title": "地图效果",
+  "TitleI2": "Newbee/Help_Button_TypeList_07",
+  "Location": "探索界面",
+  "Contents": "地图效果影响当前地图中的所有战斗，即使邀请挑战后也不会消失。",
+  "ContentsI2": "Newbee/Help_Map_05",
+  "FrameName": "MapEffect"
+ },
+ {
+  "Id": "Introduction_20",
+  "Title": "地图效果",
+  "TitleI2": "Newbee/Help_Button_TypeList_07",
+  "Location": "探索界面",
+  "Contents": "随着地图难度的提升，地图效果的数量和效果也会增加哦。",
+  "ContentsI2": "Newbee/Help_Map_06",
+  "FrameName": "MapEffect"
+ },
+ {
+  "Id": "Introduction_21",
+  "Title": "冒险队伍",
+  "TitleI2": "Newbee/Help_Button_TypeList_08",
+  "Location": "探索界面",
+  "Contents": "除了主要负责冒险的战斗小队外，我们还可以派出最多3支探索小队。",
+  "ContentsI2": "Newbee/Help_Map_07",
+  "FrameName": "TeamList"
+ },
+ {
+  "Id": "Introduction_22",
+  "Title": "冒险队伍",
+  "TitleI2": "Newbee/Help_Button_TypeList_08",
+  "Location": "探索界面",
+  "Contents": "这些探索小队可以派遣到不同的区域中进行放置收集素材。",
+  "ContentsI2": "Newbee/Help_Map_08",
+  "FrameName": "TeamList"
+ },
+ {
+  "Id": "Introduction_23",
+  "Title": "冒险队伍",
+  "TitleI2": "Newbee/Help_Button_TypeList_08",
+  "Location": "探索界面",
+  "Contents": "但要注意的是不满足探索要求会使收获大幅度下降，但超过要求也是能获得更多收获的。",
+  "ContentsI2": "Newbee/Help_Map_09",
+  "FrameName": "TeamList"
+ },
+ {
+  "Id": "Introduction_24",
+  "Title": "冒险区域",
+  "TitleI2": "Newbee/Help_Button_TypeList_09",
+  "Location": "探索界面",
+  "Contents": "单格区域点击后会立即结算，多格区域需要选择探索或战斗成功后才会结算。",
+  "ContentsI2": "Newbee/Help_Map_10",
+  "FrameName": "SandTable"
+ },
+ {
+  "Id": "Introduction_25",
+  "Title": "冒险区域",
+  "TitleI2": "Newbee/Help_Button_TypeList_09",
+  "Location": "探索界面",
+  "Contents": "区域结算时有一定几率出现额外的资源或事件。",
+  "ContentsI2": "Newbee/Help_Map_11",
+  "FrameName": "SandTable"
+ },
+ {
+  "Id": "Introduction_26",
+  "Title": "冒险区域",
+  "TitleI2": "Newbee/Help_Button_TypeList_09",
+  "Location": "探索界面",
+  "Contents": "某些特殊区域会有意想不到的发现哦。",
+  "ContentsI2": "Newbee/Help_Map_12",
+  "FrameName": "SandTable"
+ },
+ {
+  "Id": "Introduction_27",
+  "Title": "四叶草",
+  "TitleI2": "Newbee/Help_Button_TypeList_10",
+  "Location": "探索界面",
+  "Contents": "击败敌人有几率获得四叶草，地快越大掉落几率越高。",
+  "ContentsI2": "Newbee/Help_Map_13",
+  "FrameName": "Clover"
+ },
+ {
+  "Id": "Introduction_28",
+  "Title": "四叶草",
+  "TitleI2": "Newbee/Help_Button_TypeList_10",
+  "Location": "探索界面",
+  "Contents": "在战斗胜利后可以使用四叶草重置命运之骰的点数，队伍的幸运总数会影响重置骰子的效率。",
+  "ContentsI2": "Newbee/Help_Map_14",
+  "FrameName": "Clover"
+ },
+ {
+  "Id": "Introduction_29",
+  "Title": "四叶草",
+  "TitleI2": "Newbee/Help_Button_TypeList_10",
+  "Location": "探索界面",
+  "Contents": "点数越高获得的奖励越好，20点时必定获得位阶最高的奖励，运气不好的时候可是要用到好多呢。",
+  "ContentsI2": "Newbee/Help_Map_15",
+  "FrameName": "Clover"
+ },
+ {
+  "Id": "Introduction_30",
+  "Title": "角色升级",
+  "TitleI2": "Newbee/Help_Button_TypeList_11",
+  "Location": "详情界面",
+  "Contents": "角色通过升级可以获得属性提升。",
+  "ContentsI2": "Newbee/Help_RoleUpgrade_01",
+  "FrameName": "RoleUpgrade"
+ },
+ {
+  "Id": "Introduction_31",
+  "Title": "角色升级",
+  "TitleI2": "Newbee/Help_Button_TypeList_11",
+  "Location": "详情界面",
+  "Contents": "不同角色需要通过消耗指定素材和金币来获得经验。",
+  "ContentsI2": "Newbee/Help_RoleUpgrade_02",
+  "FrameName": "RoleUpgrade"
+ },
+ {
+  "Id": "Introduction_32",
+  "Title": "角色升级",
+  "TitleI2": "Newbee/Help_Button_TypeList_11",
+  "Location": "详情界面",
+  "Contents": "等级不超过60级时可以免费进行等级重置，超过60级后需要花费宝石才能重置。",
+  "ContentsI2": "Newbee/Help_RoleUpgrade_03",
+  "FrameName": "RoleUpgrade"
+ },
+ {
+  "Id": "Introduction_33",
+  "Title": "角色升星",
+  "TitleI2": "Newbee/Help_Button_TypeList_12",
+  "Location": "详情界面",
+  "Contents": "提升角色星级可以解锁新技能，并获得新的支援位。",
+  "ContentsI2": "Newbee/Help_RoleUpgrade_04",
+  "FrameName": "RoleStarUpgrade"
+ },
+ {
+  "Id": "Introduction_34",
+  "Title": "角色升星",
+  "TitleI2": "Newbee/Help_Button_TypeList_12",
+  "Location": "详情界面",
+  "Contents": "常规角色与异化角色需要使用不同的碎片进行升星。",
+  "ContentsI2": "Newbee/Help_RoleUpgrade_05",
+  "FrameName": "RoleStarUpgrade"
+ },
+ {
+  "Id": "Introduction_35",
+  "Title": "角色升星",
+  "TitleI2": "Newbee/Help_Button_TypeList_12",
+  "Location": "详情界面",
+  "Contents": "招募重复角色可以获得相应碎片，角色位阶越高碎片数量越多。",
+  "ContentsI2": "Newbee/Help_RoleUpgrade_06",
+  "FrameName": "RoleStarUpgrade"
+ },
+ {
+  "Id": "Introduction_36",
+  "Title": "装备羁绊",
+  "TitleI2": "Newbee/Help_Button_TypeList_13",
+  "Location": "装备界面",
+  "Contents": "穿戴装备可以获得装备羁绊，相同羁绊累积特定数量时激活对应效果。",
+  "ContentsI2": "Newbee/Help_Equip_01",
+  "FrameName": "EquipBond"
+ },
+ {
+  "Id": "Introduction_37",
+  "Title": "装备羁绊",
+  "TitleI2": "Newbee/Help_Button_TypeList_13",
+  "Location": "装备界面",
+  "Contents": "当获得传承装备后，会使对应装备的所有羁绊等级+1。",
+  "ContentsI2": "Newbee/Help_Equip_03",
+  "FrameName": "EquipBond"
+ },
+ {
+  "Id": "Introduction_38",
+  "Title": "装备升星",
+  "TitleI2": "Newbee/Help_Button_TypeList_14",
+  "Location": "装备界面",
+  "Contents": "相同装备达到一定数量即可升星，并获得图鉴点数。",
+  "ContentsI2": "Newbee/Help_Equip_04",
+  "FrameName": "RoleEquip"
+ },
+ {
+  "Id": "Introduction_39",
+  "Title": "装备升星",
+  "TitleI2": "Newbee/Help_Button_TypeList_14",
+  "Location": "装备界面",
+  "Contents": "升星后会提升装备属性，并增加对应装备羁绊的等级。",
+  "ContentsI2": "Newbee/Help_Equip_05",
+  "FrameName": "RoleEquip"
+ },
+ {
+  "Id": "Introduction_40",
+  "Title": "装备升星",
+  "TitleI2": "Newbee/Help_Button_TypeList_14",
+  "Location": "装备界面",
+  "Contents": "装备满星后多余的相同装备就可以丢去炼金了。",
+  "ContentsI2": "Newbee/Help_Equip_06",
+  "FrameName": "RoleEquip"
+ },
+ {
+  "Id": "Introduction_41",
+  "Title": "符文镶嵌",
+  "TitleI2": "Newbee/Help_Button_TypeList_15",
+  "Location": "装备界面",
+  "Contents": "镶嵌的符文需要对应位置穿戴装备后才可以生效。",
+  "ContentsI2": "Newbee/Help_Equip_07",
+  "FrameName": "RoleEquip"
+ },
+ {
+  "Id": "Introduction_42",
+  "Title": "符文镶嵌",
+  "TitleI2": "Newbee/Help_Button_TypeList_15",
+  "Location": "装备界面",
+  "Contents": "相同材质的符文可以激活共鸣，获得额外的共鸣效果。",
+  "ContentsI2": "Newbee/Help_Equip_08",
+  "FrameName": "RoleEquip"
+ },
+ {
+  "Id": "Introduction_43",
+  "Title": "符文镶嵌",
+  "TitleI2": "Newbee/Help_Button_TypeList_15",
+  "Location": "装备界面",
+  "Contents": "符文主要通过奇遇来获得，宝箱和高点数结算也可以获得少量符文。",
+  "ContentsI2": "Newbee/Help_Equip_09",
+  "FrameName": "RoleEquip"
+ },
+ {
+  "Id": "Introduction_44",
+  "Title": "角色支援",
+  "TitleI2": "Newbee/Help_Button_TypeList_16",
+  "Location": "支援界面",
+  "Contents": "通过支援功能，角色可以分别获得其他三名角色的对应被动技能。",
+  "ContentsI2": "Newbee/Help_ExtraSubskill_01",
+  "FrameName": "RoleExtraSubskill"
+ },
+ {
+  "Id": "Introduction_45",
+  "Title": "角色支援",
+  "TitleI2": "Newbee/Help_Button_TypeList_16",
+  "Location": "支援界面",
+  "Contents": "当角色满足星级条件后，可以选择其他同样满足条件的角色进行支援。",
+  "ContentsI2": "Newbee/Help_ExtraSubskill_02",
+  "FrameName": "RoleExtraSubskill"
+ },
+ {
+  "Id": "Introduction_46",
+  "Title": "勇者心得",
+  "TitleI2": "Newbee/Help_Button_TypeList_17",
+  "Location": "心得界面",
+  "Contents": "在冒险的过程中偶尔会遇到勇者之墓，在其中我们可以获取勇者的心得。",
+  "ContentsI2": "Newbee/Help_Thoughts_01",
+  "FrameName": "RoleRelics"
+ },
+ {
+  "Id": "Introduction_47",
+  "Title": "勇者心得",
+  "TitleI2": "Newbee/Help_Button_TypeList_17",
+  "Location": "心得界面",
+  "Contents": "勇者心得的增益效果会对所有角色生效。",
+  "ContentsI2": "Newbee/Help_Thoughts_02",
+  "FrameName": "RoleRelics"
+ },
+ {
+  "Id": "Introduction_48",
+  "Title": "勇者心得",
+  "TitleI2": "Newbee/Help_Button_TypeList_17",
+  "Location": "心得界面",
+  "Contents": "重复收集勇者心得可以提升心得等级，并获得更强大的效果。",
+  "ContentsI2": "Newbee/Help_Thoughts_03",
+  "FrameName": "RoleRelics"
+ },
+ {
+  "Id": "Introduction_49",
+  "Title": "冒险地图",
+  "TitleI2": "Newbee/Help_Button_TypeList_18",
+  "Location": "地图界面",
+  "Contents": "这个世界上有很多我们尚未探索过的地区。",
+  "ContentsI2": "Newbee/Help_Parts_01",
+  "FrameName": "WorldMap"
+ },
+ {
+  "Id": "Introduction_50",
+  "Title": "冒险地图",
+  "TitleI2": "Newbee/Help_Button_TypeList_18",
+  "Location": "地图界面",
+  "Contents": "不同的地图会掉落独特的装备和符文，收集它们能有效的提升图鉴等级。",
+  "ContentsI2": "Newbee/Help_Parts_02",
+  "FrameName": "WorldMap"
+ },
+ {
+  "Id": "Introduction_51",
+  "Title": "冒险地图",
+  "TitleI2": "Newbee/Help_Button_TypeList_18",
+  "Location": "地图界面",
+  "Contents": "当玩家在地图中达到指定难度的关卡时会解锁更多的新地图。",
+  "ContentsI2": "Newbee/Help_Parts_03",
+  "FrameName": "WorldMap"
+ },
+ {
+  "Id": "Introduction_52",
+  "Title": "地图关卡",
+  "TitleI2": "Newbee/Help_Button_TypeList_19",
+  "Location": "地图界面",
+  "Contents": "每张地图都有很多的关卡需要我们去调查。",
+  "ContentsI2": "Newbee/Help_Parts_04",
+  "FrameName": "DifficultySelect"
+ },
+ {
+  "Id": "Introduction_53",
+  "Title": "地图关卡",
+  "TitleI2": "Newbee/Help_Button_TypeList_19",
+  "Location": "地图界面",
+  "Contents": "随着关卡难度增高，敌人的强度也会越高，当然能获得的收益也会越多。",
+  "ContentsI2": "Newbee/Help_Parts_05",
+  "FrameName": "DifficultySelect"
+ },
+ {
+  "Id": "Introduction_54",
+  "Title": "地图关卡",
+  "TitleI2": "Newbee/Help_Button_TypeList_19",
+  "Location": "地图界面",
+  "Contents": "当关卡达到深渊难度时敌人会出现腐化等级，没有一定强度时不建议挑战。",
+  "ContentsI2": "Newbee/Help_Parts_06",
+  "FrameName": "DifficultySelect"
+ },
+ {
+  "Id": "Introduction_55",
+  "Title": "快速扫荡",
+  "TitleI2": "Newbee/Help_Button_TypeList_20",
+  "Location": "地图界面",
+  "Contents": "当关卡达成3星后我们就可以在那里进行快速扫荡。",
+  "ContentsI2": "Newbee/Help_Parts_07",
+  "FrameName": "MapSkip"
+ },
+ {
+  "Id": "Introduction_56",
+  "Title": "快速扫荡",
+  "TitleI2": "Newbee/Help_Button_TypeList_20",
+  "Location": "地图界面",
+  "Contents": "扫荡会保留特殊事件，奖励也会随着关卡的难度提升。",
+  "ContentsI2": "Newbee/Help_Parts_08",
+  "FrameName": "MapSkip"
+ },
+ {
+  "Id": "Introduction_57",
+  "Title": "快速扫荡",
+  "TitleI2": "Newbee/Help_Button_TypeList_20",
+  "Location": "地图界面",
+  "Contents": "虽然不能想直接冒险那般选择奖励，不过也是在繁忙时的不错选择。",
+  "ContentsI2": "Newbee/Help_Parts_09",
+  "FrameName": "MapSkip"
+ },
+ {
+  "Id": "Introduction_58",
+  "Title": "体力消耗",
+  "TitleI2": "Newbee/Help_Button_TypeList_21",
+  "Location": "地图界面",
+  "Contents": "在进入地图或扫荡地图时都会消耗固定数量的体力。",
+  "ContentsI2": "Newbee/Help_Parts_10",
+  "FrameName": "Energy"
+ },
+ {
+  "Id": "Introduction_59",
+  "Title": "体力消耗",
+  "TitleI2": "Newbee/Help_Button_TypeList_21",
+  "Location": "地图界面",
+  "Contents": "但进入地图后只有多格区域才会额外消耗体力。",
+  "ContentsI2": "Newbee/Help_Parts_11",
+  "FrameName": "Energy"
+ },
+ {
+  "Id": "Introduction_60",
+  "Title": "体力消耗",
+  "TitleI2": "Newbee/Help_Button_TypeList_21",
+  "Location": "地图界面",
+  "Contents": "体力不足时可以等待体力回复或花费宝石购买体力。",
+  "ContentsI2": "Newbee/Help_Parts_12",
+  "FrameName": "Energy"
+ },
+ {
+  "Id": "Introduction_61",
+  "Title": "挑战赛",
+  "TitleI2": "Newbee/Help_Button_TypeList_22",
+  "Location": "挑战界面",
+  "Contents": "每周这里都会举办一轮新的挑战赛。",
+  "ContentsI2": "Newbee/Help_Challenge_01",
+  "FrameName": "Challenge"
+ },
+ {
+  "Id": "Introduction_62",
+  "Title": "挑战赛",
+  "TitleI2": "Newbee/Help_Button_TypeList_22",
+  "Location": "挑战界面",
+  "Contents": "总共20支新的小队会在这里等待我们的挑战。",
+  "ContentsI2": "Newbee/Help_Challenge_02",
+  "FrameName": "Challenge"
+ },
+ {
+  "Id": "Introduction_63",
+  "Title": "挑战赛",
+  "TitleI2": "Newbee/Help_Button_TypeList_22",
+  "Location": "挑战界面",
+  "Contents": "这里的战斗是不会有掉落的哦，但是首次胜利会有大量的宝石和结晶奖励呢。",
+  "ContentsI2": "Newbee/Help_Challenge_03",
+  "FrameName": "Challenge"
+ },
+ {
+  "Id": "Introduction_64",
+  "Title": "邀请赛",
+  "TitleI2": "Newbee/Help_Button_TypeList_23",
+  "Location": "挑战界面",
+  "Contents": "我们可以将冒险中遇到的敌人邀请到这里。",
+  "ContentsI2": "Newbee/Help_Challenge_04",
+  "FrameName": "Invite"
+ },
+ {
+  "Id": "Introduction_65",
+  "Title": "邀请赛",
+  "TitleI2": "Newbee/Help_Button_TypeList_23",
+  "Location": "挑战界面",
+  "Contents": "如果遇到带着稀有装备或者暂时无法战胜的敌人，可以先邀请到这里再慢慢地挑战。",
+  "ContentsI2": "Newbee/Help_Challenge_05",
+  "FrameName": "Invite"
+ },
+ {
+  "Id": "Introduction_66",
+  "Title": "邀请赛",
+  "TitleI2": "Newbee/Help_Button_TypeList_23",
+  "Location": "挑战界面",
+  "Contents": "邀请到这里的敌人是可以正常掉落装备，并使用四叶草重置奖励的哦。",
+  "ContentsI2": "Newbee/Help_Challenge_06",
+  "FrameName": "Invite"
+ },
+ {
+  "Id": "Introduction_67",
+  "Title": "图鉴升级",
+  "TitleI2": "Newbee/Help_Button_TypeList_24",
+  "Location": "图鉴界面",
+  "Contents": "图鉴内容在首次获得、升星、传承时会获得相应的图鉴经验。",
+  "ContentsI2": "Newbee/Help_Illustration_01",
+  "FrameName": "DexExperience"
+ },
+ {
+  "Id": "Introduction_68",
+  "Title": "图鉴升级",
+  "TitleI2": "Newbee/Help_Button_TypeList_24",
+  "Location": "图鉴界面",
+  "Contents": "图鉴等级会影响派遣任务的等级要求和角色升级的等级上限。",
+  "ContentsI2": "Newbee/Help_Illustration_02",
+  "FrameName": "DexExperience"
+ },
+ {
+  "Id": "Introduction_69",
+  "Title": "图鉴升级",
+  "TitleI2": "Newbee/Help_Button_TypeList_24",
+  "Location": "图鉴界面",
+  "Contents": "并且每次图鉴升级都可以在商城的成长基金领取宝石奖励哦。",
+  "ContentsI2": "Newbee/Help_Illustration_03",
+  "FrameName": "DexExperience"
+ },
+ {
+  "Id": "Introduction_70",
+  "Title": "道具兑换",
+  "TitleI2": "Newbee/Help_Button_TypeList_25",
+  "Location": "图鉴界面",
+  "Contents": "通过炼金有一定几率获得不同位阶的结晶。",
+  "ContentsI2": "Newbee/Help_Illustration_04",
+  "FrameName": "DexCrystal"
+ },
+ {
+  "Id": "Introduction_71",
+  "Title": "道具兑换",
+  "TitleI2": "Newbee/Help_Button_TypeList_25",
+  "Location": "图鉴界面",
+  "Contents": "这些结晶可以在图鉴中兑换任意的装备或符文。",
+  "ContentsI2": "Newbee/Help_Illustration_05",
+  "FrameName": "DexCrystal"
+ },
+ {
+  "Id": "Introduction_72",
+  "Title": "道具兑换",
+  "TitleI2": "Newbee/Help_Button_TypeList_25",
+  "Location": "图鉴界面",
+  "Contents": "道具的获取难度不同，兑换所需的结晶数量也会不同。",
+  "ContentsI2": "Newbee/Help_Illustration_06",
+  "FrameName": "DexCrystal"
+ },
+ {
+  "Id": "Introduction_73",
+  "Title": "派遣任务",
+  "TitleI2": "Newbee/Help_Button_TypeList_26",
+  "Location": "任务界面",
+  "Contents": "每天都会有连续不断的任务等着你完成。",
+  "ContentsI2": "Newbee/Help_Task_01",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_74",
+  "Title": "派遣任务",
+  "TitleI2": "Newbee/Help_Button_TypeList_26",
+  "Location": "任务界面",
+  "Contents": "每一名派遣的角色都可以增加奖励数量，并减少任务所需时间。",
+  "ContentsI2": "Newbee/Help_Task_02",
+  "FrameName": "TaskReward"
+ },
+ {
+  "Id": "Introduction_75",
+  "Title": "派遣任务",
+  "TitleI2": "Newbee/Help_Button_TypeList_26",
+  "Location": "任务界面",
+  "Contents": "而且派遣的角色位阶越高就越有可能获得更好的奖励。",
+  "ContentsI2": "Newbee/Help_Task_03",
+  "FrameName": "TaskReward"
+ },
+ {
+  "Id": "Introduction_76",
+  "Title": "道具炼金",
+  "TitleI2": "Newbee/Help_Button_TypeList_27",
+  "Location": "炼金界面",
+  "Contents": "通过炼金可以将多余的装备、符文转化为金币。",
+  "ContentsI2": "Newbee/Help_Alchemy_01",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_77",
+  "Title": "道具炼金",
+  "TitleI2": "Newbee/Help_Button_TypeList_27",
+  "Location": "炼金界面",
+  "Contents": "并且有一定几率会额外获得结晶、传承石等道具。",
+  "ContentsI2": "Newbee/Help_Alchemy_02_New01",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_78",
+  "Title": "道具炼金",
+  "TitleI2": "Newbee/Help_Button_TypeList_27",
+  "Location": "炼金界面",
+  "Contents": "越高阶的道具产生的能量越高，产出越多，需要等待的时间也就越长。",
+  "ContentsI2": "Newbee/Help_Alchemy_03",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_79",
+  "Title": "选择心愿",
+  "TitleI2": "Newbee/Help_Button_TypeList_28",
+  "Location": "招募界面",
+  "Contents": "点击这里可以随时切换心愿角色。",
+  "ContentsI2": "Newbee/Help_Hiring_01",
+  "FrameName": "UpRoleChange"
+ },
+ {
+  "Id": "Introduction_80",
+  "Title": "选择心愿",
+  "TitleI2": "Newbee/Help_Button_TypeList_28",
+  "Location": "招募界面",
+  "Contents": "心愿角色拥有更高的招募概率，积累足够的招募点数后可以兑换所选心愿角色。",
+  "ContentsI2": "Newbee/Help_Hiring_02",
+  "FrameName": "UpRoleChange"
+ },
+ {
+  "Id": "Introduction_81",
+  "Title": "选择心愿",
+  "TitleI2": "Newbee/Help_Button_TypeList_28",
+  "Location": "招募界面",
+  "Contents": "切换心愿角色会重置招募点数，并按一定比例兑换为常规碎片。",
+  "ContentsI2": "Newbee/Help_Hiring_03",
+  "FrameName": "UpRoleChange"
+ },
+ {
+  "Id": "Introduction_82",
+  "Title": "指定招募",
+  "TitleI2": "Newbee/Help_Button_TypeList_29",
+  "Location": "招募界面",
+  "Contents": "每天都可以进行一次指定招募，在随机的7个标签中选择最多3个。",
+  "ContentsI2": "Newbee/Help_Hiring_04",
+  "FrameName": "PublicSummon"
+ },
+ {
+  "Id": "Introduction_83",
+  "Title": "指定招募",
+  "TitleI2": "Newbee/Help_Button_TypeList_29",
+  "Location": "招募界面",
+  "Contents": "招募出的角色必定满足所有选择的标签内容以及位阶。",
+  "ContentsI2": "Newbee/Help_Hiring_05",
+  "FrameName": "PublicSummon"
+ },
+ {
+  "Id": "Introduction_84",
+  "Title": "异化招募",
+  "TitleI2": "Newbee/Help_Button_TypeList_30",
+  "Location": "异化招募",
+  "Contents": "异化角色是本体角色的异世界同位体，并需要使用异化碎片进行升星。",
+  "ContentsI2": "Newbee/Help_Alie_Hiring_01",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_85",
+  "Title": "异化招募",
+  "TitleI2": "Newbee/Help_Button_TypeList_30",
+  "Location": "异化招募",
+  "Contents": "重复招募的异化角色会转换为异化碎片，且每次招募都会获得1点积分。",
+  "ContentsI2": "Newbee/Help_Alie_Hiring_02",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_86",
+  "Title": "异化招募",
+  "TitleI2": "Newbee/Help_Button_TypeList_30",
+  "Location": "异化招募",
+  "Contents": "使用积分可以在这里兑换常驻异化角色和道具。",
+  "ContentsI2": "Newbee/Help_Alie_Hiring_03",
+  "FrameName": "SummonPoint"
+ },
+ {
+  "Id": "Introduction_87",
+  "Title": "传送门",
+  "TitleI2": "Newbee/Help_Button_TypeList_31",
+  "Location": "异界活动",
+  "Contents": "这是专门用来探测异界传送门的异界雷达。",
+  "ContentsI2": "Newbee/Help_Radar_01",
+  "FrameName": "Radar"
+ },
+ {
+  "Id": "Introduction_88",
+  "Title": "传送门",
+  "TitleI2": "Newbee/Help_Button_TypeList_31",
+  "Location": "异界活动",
+  "Contents": "活动开启时消耗体力可以增加雷达的进度，进度满时雷达将会指出异界传送门的位置。",
+  "ContentsI2": "Newbee/Help_Radar_02",
+  "FrameName": "Radar"
+ },
+ {
+  "Id": "Introduction_89",
+  "Title": "传送门",
+  "TitleI2": "Newbee/Help_Button_TypeList_31",
+  "Location": "异界活动",
+  "Contents": "每轮活动会根据通过的传送门最高难度来获得奖励。",
+  "ContentsI2": "Newbee/Help_Radar_03",
+  "FrameName": "Radar"
+ },
+ {
+  "Id": "Introduction_90",
+  "Title": "天赋洗练",
+  "TitleI2": "Newbee/Help_Button_TypeList_32",
+  "Location": "天赋界面",
+  "Contents": "消耗天赋果实可以进行天赋洗练，天赋果实在地图中战斗胜利后概率获得。",
+  "ContentsI2": "Newbee/Help_Talent_01_new01",
+  "FrameName": "TalentBottom"
+ },
+ {
+  "Id": "Introduction_91",
+  "Title": "天赋洗练",
+  "TitleI2": "Newbee/Help_Button_TypeList_32",
+  "Location": "天赋界面",
+  "Contents": "每次洗练至少获得2个天赋，并有30%概率使当前天赋数量增加或减少1。",
+  "ContentsI2": "Newbee/Help_Talent_02_new01",
+  "FrameName": "TalentMid"
+ },
+ {
+  "Id": "Introduction_92",
+  "Title": "天赋洗练",
+  "TitleI2": "Newbee/Help_Button_TypeList_32",
+  "Location": "天赋界面",
+  "Contents": "锁定的天赋不会受到洗练影响，但每个锁定的天赋会使洗练消耗+1。",
+  "ContentsI2": "Newbee/Help_Talent_03_new01",
+  "FrameName": "TalentMid"
+ },
+ {
+  "Id": "Introduction_93",
+  "Title": "星界秘境",
+  "TitleI2": "Newbee/Help_Button_TypeList_33",
+  "Location": "秘境界面",
+  "Contents": "通关相应难度后将会解锁下一难度，难度越高能获得的周期奖励越好。",
+  "ContentsI2": "Newbee/Help_Secret_01",
+  "FrameName": "DungeonLevel"
+ },
+ {
+  "Id": "Introduction_94",
+  "Title": "星界秘境",
+  "TitleI2": "Newbee/Help_Button_TypeList_33",
+  "Location": "秘境界面",
+  "Contents": "每周都可以在这里根据积分领取奖励，奖励内容会根据上一周期的通关的最高难度变化。",
+  "ContentsI2": "Newbee/Help_Secret_02",
+  "FrameName": "DungeonReward"
+ },
+ {
+  "Id": "Introduction_95",
+  "Title": "星界秘境",
+  "TitleI2": "Newbee/Help_Button_TypeList_33",
+  "Location": "秘境界面",
+  "Contents": "进入秘境不会消耗任何资源，也可以随时暂离，只有在主动结束时秘境才会关闭。",
+  "ContentsI2": "Newbee/Help_Secret_03",
+  "FrameName": "DungeonButton"
+ },
+ {
+  "Id": "Introduction_96",
+  "Title": "星界秘境",
+  "TitleI2": "Newbee/Help_Button_TypeList_33",
+  "Location": "秘境内部",
+  "Contents": "在星界秘境中我们需要找到并击败关卡首领来前往下一关。",
+  "ContentsI2": "Newbee/Help_Secret_04",
+  "FrameName": "SandTable"
+ },
+ {
+  "Id": "Introduction_97",
+  "Title": "星界秘境",
+  "TitleI2": "Newbee/Help_Button_TypeList_33",
+  "Location": "秘境内部",
+  "Contents": "每次开启未知区域都会消耗补给，当补给不足时意味着本次秘境探索的结束。",
+  "ContentsI2": "Newbee/Help_Secret_05",
+  "FrameName": "Stamina"
+ },
+ {
+  "Id": "Introduction_98",
+  "Title": "星界秘境",
+  "TitleI2": "Newbee/Help_Button_TypeList_33",
+  "Location": "秘境内部",
+  "Contents": "这里记录了当前关卡的金色事件数量，完成不同事件会获得相应的奖励。",
+  "ContentsI2": "Newbee/Help_Secret_06",
+  "FrameName": "MapStar"
+ },
+ {
+  "Id": "Introduction_99",
+  "Title": "祝福与支援",
+  "TitleI2": "Newbee/Help_Button_TypeList_34",
+  "Location": "秘境内部",
+  "Contents": "完成祝福事件将获得祝福、完成战斗事件将获得支援。",
+  "ContentsI2": "Newbee/Help_Blessings_01",
+  "FrameName": "SandTable"
+ },
+ {
+  "Id": "Introduction_100",
+  "Title": "祝福与支援",
+  "TitleI2": "Newbee/Help_Button_TypeList_34",
+  "Location": "秘境内部",
+  "Contents": "获得的祝福和支援都可以在这里查看。",
+  "ContentsI2": "Newbee/Help_Blessings_02",
+  "FrameName": "DungeonBuff"
+ },
+ {
+  "Id": "Introduction_101",
+  "Title": "祝福与支援",
+  "TitleI2": "Newbee/Help_Button_TypeList_34",
+  "Location": "秘境内部",
+  "Contents": "在这里消耗星界石可对祝福进行升级，或将祝福和支援移除。",
+  "ContentsI2": "Newbee/Help_Blessings_03",
+  "FrameName": "DungeonBuff"
+ },
+ {
+  "Id": "Introduction_102",
+  "Title": "遗物",
+  "TitleI2": "Newbee/Help_Button_TypeList_35",
+  "Location": "秘境内部",
+  "Contents": "宝箱事件可以获得遗物，收集遗物将提高结算时获得的分数。",
+  "ContentsI2": "Newbee/Help_Relic_01",
+  "FrameName": "SandTable"
+ },
+ {
+  "Id": "Introduction_103",
+  "Title": "遗物",
+  "TitleI2": "Newbee/Help_Button_TypeList_35",
+  "Location": "秘境内部",
+  "Contents": "每个遗物都有自身的分数价值，部分遗物在收集多个时会提升价值。",
+  "ContentsI2": "Newbee/Help_Relic_02",
+  "FrameName": "SandTable"
+ },
+ {
+  "Id": "Introduction_104",
+  "Title": "遗物",
+  "TitleI2": "Newbee/Help_Button_TypeList_35",
+  "Location": "秘境内部",
+  "Contents": "在这里可以查看当前收集到的遗物和价值。",
+  "ContentsI2": "Newbee/Help_Relic_03",
+  "FrameName": "DungeonRelic"
+ },
+ {
+  "Id": "Introduction_105",
+  "Title": "积分统计",
+  "TitleI2": "Newbee/Help_Button_TypeList_36",
+  "Location": "积分赛",
+  "Contents": "每场战斗会根据造成伤害总量占比和剩余行动次数计算积分。",
+  "ContentsI2": "Newbee/Help_Points_01",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_106",
+  "Title": "积分统计",
+  "TitleI2": "Newbee/Help_Button_TypeList_36",
+  "Location": "积分赛",
+  "Contents": "造成伤害总量占比初始0分，每1%可获得20积分，最高2000分。",
+  "ContentsI2": "Newbee/Help_Points_02",
+  "FrameName": ""
+ },
+ {
+  "Id": "Introduction_107",
+  "Title": "积分统计",
+  "TitleI2": "Newbee/Help_Button_TypeList_36",
+  "Location": "积分赛",
+  "Contents": "剩余行动次数初始2000分，双方目标每进行1次基础行动（不包括额外行动）会扣除50分。",
+  "ContentsI2": "Newbee/Help_Points_03",
+  "FrameName": ""
+ }
+]

@@ -24,7 +24,6 @@ const DungeonRelicsView = () => import('../views/DungeonRelicsView.vue')
 const EquipView = () => import('../views/EquipView.vue')
 const AreaBlockView = () => import('../views/AreaBlockView.vue')
 const SynthesisSearchView = () => import('../views/SynthesisSearchView.vue')
-const BattleSimView = () => import('../views/BattleSimView.vue')
 const GambleShopView = () => import('../views/GambleShopView.vue')
 const OtherProbView = () => import('../views/OtherProbView.vue')
 const GodStoneView = () => import('../views/GodStoneView.vue')
@@ -55,7 +54,6 @@ const routes = [
   { path: '/guide', name: 'guide', component: GuideView, meta: { title: '新人攻略', shortName: '攻略' } },
   { path: '/fruit-record', name: 'fruit-record', component: FruitRecordView, meta: { title: '大果记录', shortName: '大果' } },
   { path: '/role', name: 'role', component: RoleView, meta: { title: '角色图鉴', shortName: '角色' } },
-  { path: '/battle', name: 'battle', component: BattleSimView, meta: { title: '战斗模拟', shortName: '战斗' } },
   { path: '/ranking', name: 'ranking', component: RankingView, meta: { title: '预告：热度排行', shortName: '预告' } }
 ]
 

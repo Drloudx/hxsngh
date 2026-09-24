@@ -1654,5 +1654,119 @@
       "difficulty": "normal",
       "difficultyName": "一般"
     }
+  },
+  "夏日海滩": {
+    "Z00103_401": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z00103_361": {
+      "difficulty": "rather_hard",
+      "difficultyName": "较难"
+    },
+    "Z00103_362": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00103_363": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00103_364": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z00103_365": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z00103_366": {
+      "difficulty": "rather_hard",
+      "difficultyName": "较难"
+    },
+    "Z00103_351": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00103_352": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z00103_353": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z00103_341": {
+      "difficulty": "rather_hard",
+      "difficultyName": "较难"
+    },
+    "Z00103_342": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00103_343": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00103_344": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00103_345": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00103_346": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00103_331": {
+      "difficulty": "rather_hard",
+      "difficultyName": "较难"
+    },
+    "Z00103_332": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z00103_333": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z00103_321": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z00103_322": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z00103_323": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z00103_311": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z00103_312": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z00103_313": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z00103_301": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z00103_302": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z00103_303": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    }
   }
 }

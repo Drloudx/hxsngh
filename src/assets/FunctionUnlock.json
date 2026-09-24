@@ -1,0 +1,58 @@
+[
+ {
+  "Id": "function_unlock_1",
+  "Difficulty": 5,
+  "Title": "【招募】解锁",
+  "TitleI2": "Newbee/Unlock_Name_02_new01",
+  "Content": "通往世界各地的传送门已打开\n快去招募各式各样的可爱魔物娘吧！",
+  "ContentI2": "Newbee/Unlock_Desc_02_new01"
+ },
+ {
+  "Id": "function_unlock_2",
+  "Difficulty": 7,
+  "Title": "【任务】解锁",
+  "TitleI2": "Newbee/Unlock_Name_03",
+  "Content": "派遣角色即可获得奖励\n将闲置的角色都派出去完成任务吧！",
+  "ContentI2": "Newbee/Unlock_Desc_03"
+ },
+ {
+  "Id": "function_unlock_3",
+  "Difficulty": 9,
+  "Title": "【活动】解锁",
+  "TitleI2": "Newbee/Unlock_Name_04",
+  "Content": "多种优惠活动正在进行\n快去领取各种丰富资源助力公会发展吧！",
+  "ContentI2": "Newbee/Unlock_Desc_04"
+ },
+ {
+  "Id": "function_unlock_4",
+  "Difficulty": 13,
+  "Title": "【挑战赛】解锁",
+  "TitleI2": "Newbee/Unlock_Name_06",
+  "Content": "挑战赛每周刷新一次\n完成挑战即可获得大量结晶和宝石！",
+  "ContentI2": "Newbee/Unlock_Desc_06_new01"
+ },
+ {
+  "Id": "function_unlock_5",
+  "Difficulty": 15,
+  "Title": "【扫荡】解锁",
+  "TitleI2": "Newbee/Unlock_Name_05",
+  "Content": "对最高难度的三星关卡进行扫荡\n没空的时候就用扫荡来快速获取资源吧！",
+  "ContentI2": "Newbee/Unlock_Desc_05"
+ },
+ {
+  "Id": "function_unlock_6",
+  "Difficulty": 17,
+  "Title": "【炼金】解锁",
+  "TitleI2": "Newbee/Unlock_Name_07",
+  "Content": "炼金可以获得大量金币和道具\n将多余的装备符文转化成有用的资源吧！",
+  "ContentI2": "Newbee/Unlock_Desc_07"
+ },
+ {
+  "Id": "function_unlock_7",
+  "Difficulty": 25,
+  "Title": "【星界秘境】解锁",
+  "TitleI2": "Newbee/Unlock_Name_08",
+  "Content": "肉鸽玩法现已开启\n大家都收到了星界邪神的邀请，不会有人没有收到吧？",
+  "ContentI2": "Newbee/Unlock_Desc_08"
+ }
+]

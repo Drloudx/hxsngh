@@ -1,0 +1,202 @@
+[
+ {
+  "Id": "dice_1",
+  "Point": 1,
+  "Weight": 30,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_2",
+  "Point": 2,
+  "Weight": 30,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_3",
+  "Point": 3,
+  "Weight": 30,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_4",
+  "Point": 4,
+  "Weight": 30,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_5",
+  "Point": 5,
+  "Weight": 30,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_6",
+  "Point": 6,
+  "Weight": 30,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_7",
+  "Point": 7,
+  "Weight": 28,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_8",
+  "Point": 8,
+  "Weight": 26,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_9",
+  "Point": 9,
+  "Weight": 24,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_10",
+  "Point": 10,
+  "Weight": 22,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0.1,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_11",
+  "Point": 11,
+  "Weight": 20,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0.1,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_12",
+  "Point": 12,
+  "Weight": 18,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0.1,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_13",
+  "Point": 13,
+  "Weight": 16,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0.1,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_14",
+  "Point": 14,
+  "Weight": 14,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0.1,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_15",
+  "Point": 15,
+  "Weight": 12,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0.1,
+  "EquipNum": "1-1",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_16",
+  "Point": 16,
+  "Weight": 10,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0.2,
+  "EquipNum": "1-2",
+  "RuneNum": "0-0"
+ },
+ {
+  "Id": "dice_17",
+  "Point": 17,
+  "Weight": 8,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0.2,
+  "EquipNum": "1-2",
+  "RuneNum": "0-1"
+ },
+ {
+  "Id": "dice_18",
+  "Point": 18,
+  "Weight": 6,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0.3,
+  "EquipNum": "1-3",
+  "RuneNum": "0-1"
+ },
+ {
+  "Id": "dice_19",
+  "Point": 19,
+  "Weight": 4,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0.4,
+  "EquipNum": "1-3",
+  "RuneNum": "0-1"
+ },
+ {
+  "Id": "dice_20",
+  "Point": 20,
+  "Weight": 2,
+  "IngreNum": 0,
+  "Gold": 100,
+  "DropPossi": 0,
+  "EquipNum": "3-3",
+  "RuneNum": "1-1"
+ }
+]

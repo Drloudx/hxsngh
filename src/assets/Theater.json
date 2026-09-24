@@ -1,0 +1,1172 @@
+[
+ {
+  "Id": "theater_1",
+  "IDs": "JC01000_001",
+  "AreaName": "公会",
+  "Difficulty": 0,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "呀~您就是总部派来的新会长吧！我们等您好久了，虽然现在告诉您不太合适——",
+  "ContentI2": "Newbee/Plot_Desc_01"
+ },
+ {
+  "Id": "theater_2",
+  "IDs": "JC01000_002",
+  "AreaName": "公会",
+  "Difficulty": 0,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "因为长时间没有人组织冒险，公会的资金已经所剩不多了，现在只剩我和几个饿肚子的笨蛋……",
+  "ContentI2": "Newbee/Plot_Desc_02"
+ },
+ {
+  "Id": "theater_3",
+  "IDs": "JC01000_003",
+  "AreaName": "公会",
+  "Difficulty": 0,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "其他管理员因为没事情干都亲自去冒险了，我们现在去把她们找回来吧！",
+  "ContentI2": "Newbee/Plot_Desc_03"
+ },
+ {
+  "Id": "theater_4",
+  "IDs": "JC01001_001",
+  "AreaName": "不限",
+  "Difficulty": 7,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "黑晶！！采胡萝卜需要挖这么大坑吗！！",
+  "ContentI2": "Newbee/Plot_Desc_04"
+ },
+ {
+  "Id": "theater_5",
+  "IDs": "JC01001_002",
+  "AreaName": "不限",
+  "Difficulty": 7,
+  "Type": "引导",
+  "SpeakingRole": "S21201,1,黑晶女仆",
+  "Content": "愚……愚蠢！这叫战略性深度采集，表层胡萝卜的糖份含量根本不达标，深层土壤才能…唔！",
+  "ContentI2": "Newbee/Plot_Desc_05"
+ },
+ {
+  "Id": "theater_6",
+  "IDs": "JC01001_003",
+  "AreaName": "不限",
+  "Difficulty": 7,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "哎呀，不要乱动啦！这就把你拽上来——",
+  "ContentI2": "Newbee/Plot_Desc_06"
+ },
+ {
+  "Id": "theater_7",
+  "IDs": "JC01001_004",
+  "AreaName": "不限",
+  "Difficulty": 7,
+  "Type": "引导",
+  "SpeakingRole": "S21201,1,黑晶女仆",
+  "Content": "哇啊——————！！！！",
+  "ContentI2": "Newbee/Plot_Desc_07"
+ },
+ {
+  "Id": "theater_8",
+  "IDs": "JC01001_005",
+  "AreaName": "不限",
+  "Difficulty": 7,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "那个……会长大人，这就是我们二楼派遣任务的管理员黑晶女仆小姐。",
+  "ContentI2": "Newbee/Plot_Desc_08"
+ },
+ {
+  "Id": "theater_9",
+  "IDs": "JC01001_006",
+  "AreaName": "不限",
+  "Difficulty": 7,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "别看她这个样子！平时还是很靠谱的哦！大概吧……",
+  "ContentI2": "Newbee/Plot_Desc_09"
+ },
+ {
+  "Id": "theater_10",
+  "IDs": "JC01001_007",
+  "AreaName": "不限",
+  "Difficulty": 7,
+  "Type": "引导",
+  "SpeakingRole": "S21201,1,黑晶女仆",
+  "Content": "咳！！木箱呢，回公会了吗？",
+  "ContentI2": "Newbee/Plot_Desc_10"
+ },
+ {
+  "Id": "theater_11",
+  "IDs": "JC01001_008",
+  "AreaName": "不限",
+  "Difficulty": 7,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "我们还想问你呢！你俩不是一起出来的吗？",
+  "ContentI2": "Newbee/Plot_Desc_11"
+ },
+ {
+  "Id": "theater_12",
+  "IDs": "JC01001_009",
+  "AreaName": "不限",
+  "Difficulty": 7,
+  "Type": "引导",
+  "SpeakingRole": "S21201,1,黑晶女仆",
+  "Content": "那孩子说了句要去捡些水果，就丢下我跑了哎。",
+  "ContentI2": "Newbee/Plot_Desc_12"
+ },
+ {
+  "Id": "theater_13",
+  "IDs": "JC01001_010",
+  "AreaName": "不限",
+  "Difficulty": 7,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "唉……看来之后还得再去别的地方看看了。",
+  "ContentI2": "Newbee/Plot_Desc_13"
+ },
+ {
+  "Id": "theater_14",
+  "IDs": "JC01001_011",
+  "AreaName": "不限",
+  "Difficulty": 7,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "不过有了黑晶小姐，之后公会就可以正常领取派遣任务啦，有空一定要回来试试哦！",
+  "ContentI2": "Newbee/Plot_Desc_14"
+ },
+ {
+  "Id": "theater_15",
+  "IDs": "JC01001_012",
+  "AreaName": "不限",
+  "Difficulty": 7,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "那会长大人加油！我就先带黑晶小姐回公会啦。",
+  "ContentI2": "Newbee/Plot_Desc_15"
+ },
+ {
+  "Id": "theater_16",
+  "IDs": "JC01002_001",
+  "AreaName": "不限",
+  "Difficulty": 17,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "小木箱——！终于找到你了！！",
+  "ContentI2": "Newbee/Plot_Desc_16"
+ },
+ {
+  "Id": "theater_17",
+  "IDs": "JC01002_002",
+  "AreaName": "不限",
+  "Difficulty": 17,
+  "Type": "引导",
+  "SpeakingRole": "S34001,1,木质宝箱怪",
+  "Content": "哎……管家小姐？！我才刚要开始采水果呢……",
+  "ContentI2": "Newbee/Plot_Desc_17"
+ },
+ {
+  "Id": "theater_18",
+  "IDs": "JC01002_003",
+  "AreaName": "不限",
+  "Difficulty": 17,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "哈？你这也太慢了吧！已经不用去采啦，现在我们有新的会长啦。",
+  "ContentI2": "Newbee/Plot_Desc_18"
+ },
+ {
+  "Id": "theater_19",
+  "IDs": "JC01002_004",
+  "AreaName": "不限",
+  "Difficulty": 17,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "会长大人，这就是我们四楼的炼金管理员木箱小姐了。",
+  "ContentI2": "Newbee/Plot_Desc_19"
+ },
+ {
+  "Id": "theater_20",
+  "IDs": "JC01002_005",
+  "AreaName": "不限",
+  "Difficulty": 17,
+  "Type": "引导",
+  "SpeakingRole": "S34001,1,木质宝箱怪",
+  "Content": "好……好耶……",
+  "ContentI2": "Newbee/Plot_Desc_20"
+ },
+ {
+  "Id": "theater_21",
+  "IDs": "JC01002_006",
+  "AreaName": "不限",
+  "Difficulty": 17,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "虽然有点害羞，但是基础得炼金工作是完全没问题的。",
+  "ContentI2": "Newbee/Plot_Desc_21"
+ },
+ {
+  "Id": "theater_22",
+  "IDs": "JC01002_007",
+  "AreaName": "不限",
+  "Difficulty": 17,
+  "Type": "引导",
+  "SpeakingRole": "S34001,1,木质宝箱怪",
+  "Content": "嗯……那个，请多多指教……",
+  "ContentI2": "Newbee/Plot_Desc_22"
+ },
+ {
+  "Id": "theater_23",
+  "IDs": "JC01002_008",
+  "AreaName": "不限",
+  "Difficulty": 17,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "多亏了会长大人找到了这俩笨蛋，公会终于可以开始正常的运转了。",
+  "ContentI2": "Newbee/Plot_Desc_23"
+ },
+ {
+  "Id": "theater_24",
+  "IDs": "JC01002_009",
+  "AreaName": "不限",
+  "Difficulty": 17,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "那我们就先回公会咯，有空记得回来看看炼金功能哦！",
+  "ContentI2": "Newbee/Plot_Desc_24"
+ },
+ {
+  "Id": "theater_25",
+  "IDs": "JC01002_010",
+  "AreaName": "不限",
+  "Difficulty": 17,
+  "Type": "引导",
+  "SpeakingRole": "S34001,1,木质宝箱怪",
+  "Content": "哎……我才刚到哎……",
+  "ContentI2": "Newbee/Plot_Desc_25"
+ },
+ {
+  "Id": "theater_26",
+  "IDs": "JC01003_001",
+  "AreaName": "不限",
+  "Difficulty": 9,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "嗯？这里怎么会有一幅画？",
+  "ContentI2": "Newbee/Plot_Desc_26"
+ },
+ {
+  "Id": "theater_27",
+  "IDs": "JC01003_002",
+  "AreaName": "不限",
+  "Difficulty": 9,
+  "Type": "引导",
+  "SpeakingRole": "S31301,1,情报专家",
+  "Content": "哈哈哈哈~不要再戳了！好痒！",
+  "ContentI2": "Newbee/Plot_Desc_27"
+ },
+ {
+  "Id": "theater_28",
+  "IDs": "JC01003_003",
+  "AreaName": "不限",
+  "Difficulty": 9,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "哦！我认得你，你就是公会里公认的那个……那个……",
+  "ContentI2": "Newbee/Plot_Desc_28"
+ },
+ {
+  "Id": "theater_29",
+  "IDs": "JC01003_004",
+  "AreaName": "不限",
+  "Difficulty": 9,
+  "Type": "引导",
+  "SpeakingRole": "S31301,1,情报专家",
+  "Content": "没错！我就是公会里公认的情报……",
+  "ContentI2": "Newbee/Plot_Desc_29"
+ },
+ {
+  "Id": "theater_30",
+  "IDs": "JC01003_005",
+  "AreaName": "不限",
+  "Difficulty": 9,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "那个最八卦的人！",
+  "ContentI2": "Newbee/Plot_Desc_30"
+ },
+ {
+  "Id": "theater_31",
+  "IDs": "JC01003_006",
+  "AreaName": "不限",
+  "Difficulty": 9,
+  "Type": "引导",
+  "SpeakingRole": "S31301,1,情报专家",
+  "Content": "是情报专家！专家你懂吗！",
+  "ContentI2": "Newbee/Plot_Desc_31"
+ },
+ {
+  "Id": "theater_32",
+  "IDs": "JC01003_007",
+  "AreaName": "不限",
+  "Difficulty": 9,
+  "Type": "引导",
+  "SpeakingRole": "S31301,1,情报专家",
+  "Content": "真是的，我都在这里等你们好久了，赶紧说正事吧！",
+  "ContentI2": "Newbee/Plot_Desc_32"
+ },
+ {
+  "Id": "theater_33",
+  "IDs": "JC01003_008",
+  "AreaName": "不限",
+  "Difficulty": 9,
+  "Type": "引导",
+  "SpeakingRole": "S31301,1,情报专家",
+  "Content": "情报显示这附近经常受到异界入侵，总部派我过来调查这件事情。",
+  "ContentI2": "Newbee/Plot_Desc_33"
+ },
+ {
+  "Id": "theater_34",
+  "IDs": "JC01003_009",
+  "AreaName": "不限",
+  "Difficulty": 9,
+  "Type": "引导",
+  "SpeakingRole": "S31301,1,情报专家",
+  "Content": "如果你在战斗后有掉落奇怪的晶体，那就是异界的魔力结晶，非常有研究价值。",
+  "ContentI2": "Newbee/Plot_Desc_34"
+ },
+ {
+  "Id": "theater_35",
+  "IDs": "JC01003_010",
+  "AreaName": "不限",
+  "Difficulty": 9,
+  "Type": "引导",
+  "SpeakingRole": "S31301,1,情报专家",
+  "Content": "把这些晶体带回公会我会拿各种资源和你交换的。",
+  "ContentI2": "Newbee/Plot_Desc_35"
+ },
+ {
+  "Id": "theater_36",
+  "IDs": "JC01003_011",
+  "AreaName": "不限",
+  "Difficulty": 9,
+  "Type": "引导",
+  "SpeakingRole": "S31301,1,情报专家",
+  "Content": "总之就是这样，回见！",
+  "ContentI2": "Newbee/Plot_Desc_36"
+ },
+ {
+  "Id": "theater_37",
+  "IDs": "JC01003_012",
+  "AreaName": "不限",
+  "Difficulty": 9,
+  "Type": "引导",
+  "SpeakingRole": "S13101,0,公会管家",
+  "Content": "唔……叽里咕噜说什么呢，完全插不上嘴……",
+  "ContentI2": "Newbee/Plot_Desc_37"
+ },
+ {
+  "Id": "theater_38",
+  "IDs": "JC02001_001",
+  "AreaName": "铁血高地",
+  "Difficulty": 31,
+  "Type": "剧情",
+  "SpeakingRole": "M11304,0,蛮牛勇士",
+  "Content": "怂货别走！今天我们一定要决一胜负！",
+  "ContentI2": "Newbee/Plot_Desc_38"
+ },
+ {
+  "Id": "theater_39",
+  "IDs": "JC02001_002",
+  "AreaName": "铁血高地",
+  "Difficulty": 31,
+  "Type": "剧情",
+  "SpeakingRole": "M11301,1,军团统领",
+  "Content": "行行行……那你来吧。",
+  "ContentI2": "Newbee/Plot_Desc_39"
+ },
+ {
+  "Id": "theater_40",
+  "IDs": "JC02001_003",
+  "AreaName": "铁血高地",
+  "Difficulty": 31,
+  "Type": "剧情",
+  "SpeakingRole": "M11304,0,蛮牛勇士",
+  "Content": "……",
+  "ContentI2": "Newbee/Plot_Desc_40"
+ },
+ {
+  "Id": "theater_41",
+  "IDs": "JC02001_004",
+  "AreaName": "铁血高地",
+  "Difficulty": 31,
+  "Type": "剧情",
+  "SpeakingRole": "M11304,0,蛮牛勇士",
+  "Content": "你打我啊！",
+  "ContentI2": "Newbee/Plot_Desc_41"
+ },
+ {
+  "Id": "theater_42",
+  "IDs": "JC02001_005",
+  "AreaName": "铁血高地",
+  "Difficulty": 31,
+  "Type": "剧情",
+  "SpeakingRole": "M11301,1,军团统领",
+  "Content": "……",
+  "ContentI2": "Newbee/Plot_Desc_42"
+ },
+ {
+  "Id": "theater_43",
+  "IDs": "JC02001_006",
+  "AreaName": "铁血高地",
+  "Difficulty": 31,
+  "Type": "剧情",
+  "SpeakingRole": "M11304,0,蛮牛勇士",
+  "Content": "呃……头好晕……",
+  "ContentI2": "Newbee/Plot_Desc_43"
+ },
+ {
+  "Id": "theater_44",
+  "IDs": "JC02001_007",
+  "AreaName": "铁血高地",
+  "Difficulty": 31,
+  "Type": "剧情",
+  "SpeakingRole": "M11304,0,蛮牛勇士",
+  "Content": "可恶！我今天状态不好，等我下次一定打败你！",
+  "ContentI2": "Newbee/Plot_Desc_44"
+ },
+ {
+  "Id": "theater_45",
+  "IDs": "JC02001_008",
+  "AreaName": "铁血高地",
+  "Difficulty": 31,
+  "Type": "剧情",
+  "SpeakingRole": "M11301,1,军团统领",
+  "Content": "嗯嗯嗯，相信自己你行滴。",
+  "ContentI2": "Newbee/Plot_Desc_45"
+ },
+ {
+  "Id": "theater_46",
+  "IDs": "JC02002_001",
+  "AreaName": "幽暗密林",
+  "Difficulty": 61,
+  "Type": "剧情",
+  "SpeakingRole": "M13305,0,魔术大师",
+  "Content": "女士们！以及……女士们！一场史无前例的表演马上就要开始了！",
+  "ContentI2": "Newbee/Plot_Desc_46"
+ },
+ {
+  "Id": "theater_47",
+  "IDs": "JC02002_002",
+  "AreaName": "幽暗密林",
+  "Difficulty": 61,
+  "Type": "剧情",
+  "SpeakingRole": "M13305,0,魔术大师",
+  "Content": "咳！首先我们需要邀请一位幸运的观众来参与我们的演出！",
+  "ContentI2": "Newbee/Plot_Desc_47"
+ },
+ {
+  "Id": "theater_48",
+  "IDs": "JC02002_003",
+  "AreaName": "幽暗密林",
+  "Difficulty": 61,
+  "Type": "剧情",
+  "SpeakingRole": "M13305,0,魔术大师",
+  "Content": "这位美丽的小姐，能否有幸邀请你参加这次的表演呢？",
+  "ContentI2": "Newbee/Plot_Desc_48"
+ },
+ {
+  "Id": "theater_49",
+  "IDs": "JC02002_004",
+  "AreaName": "幽暗密林",
+  "Difficulty": 61,
+  "Type": "剧情",
+  "SpeakingRole": "M11302,1,幽暗龙女",
+  "Content": "……",
+  "ContentI2": "Newbee/Plot_Desc_49"
+ },
+ {
+  "Id": "theater_50",
+  "IDs": "JC02002_005",
+  "AreaName": "幽暗密林",
+  "Difficulty": 61,
+  "Type": "剧情",
+  "SpeakingRole": "M11302,1,幽暗龙女",
+  "Content": "！！",
+  "ContentI2": "Newbee/Plot_Desc_50"
+ },
+ {
+  "Id": "theater_51",
+  "IDs": "JC02002_006",
+  "AreaName": "幽暗密林",
+  "Difficulty": 61,
+  "Type": "剧情",
+  "SpeakingRole": "M13305,0,魔术大师",
+  "Content": "（吹口哨）",
+  "ContentI2": "Newbee/Plot_Desc_51"
+ },
+ {
+  "Id": "theater_52",
+  "IDs": "JC02002_007",
+  "AreaName": "幽暗密林",
+  "Difficulty": 61,
+  "Type": "剧情",
+  "SpeakingRole": "M11302,1,幽暗龙女",
+  "Content": "！",
+  "ContentI2": "Newbee/Plot_Desc_52"
+ },
+ {
+  "Id": "theater_53",
+  "IDs": "JC02002_008",
+  "AreaName": "幽暗密林",
+  "Difficulty": 61,
+  "Type": "剧情",
+  "SpeakingRole": "M11302,1,幽暗龙女",
+  "Content": "！！！",
+  "ContentI2": "Newbee/Plot_Desc_53"
+ },
+ {
+  "Id": "theater_54",
+  "IDs": "JC02003_001",
+  "AreaName": "废弃矿洞",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M13303,0,大地魔女",
+  "Content": "哇！这么大一块黄金！",
+  "ContentI2": "Newbee/Plot_Desc_54"
+ },
+ {
+  "Id": "theater_55",
+  "IDs": "JC02003_002",
+  "AreaName": "废弃矿洞",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M13303,0,大地魔女",
+  "Content": "这样就够买很久之前就想要的限量超大坚果了！这次我要吃一个，扔一个！",
+  "ContentI2": "Newbee/Plot_Desc_55"
+ },
+ {
+  "Id": "theater_56",
+  "IDs": "JC02003_003",
+  "AreaName": "废弃矿洞",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M13303,0,大地魔女",
+  "Content": "唔……！",
+  "ContentI2": "Newbee/Plot_Desc_56"
+ },
+ {
+  "Id": "theater_57",
+  "IDs": "JC02003_004",
+  "AreaName": "废弃矿洞",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M13303,0,大地魔女",
+  "Content": "但是要怎么搬走呢？",
+  "ContentI2": "Newbee/Plot_Desc_57"
+ },
+ {
+  "Id": "theater_58",
+  "IDs": "JC02003_005",
+  "AreaName": "废弃矿洞",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M21301,1,黄金之女",
+  "Content": "……",
+  "ContentI2": "Newbee/Plot_Desc_58"
+ },
+ {
+  "Id": "theater_59",
+  "IDs": "JC02003_006",
+  "AreaName": "废弃矿洞",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M21301,1,黄金之女",
+  "Content": "……",
+  "ContentI2": "Newbee/Plot_Desc_59"
+ },
+ {
+  "Id": "theater_60",
+  "IDs": "JC02003_007",
+  "AreaName": "废弃矿洞",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M13303,0,大地魔女",
+  "Content": "对哦！我都忘了我可以召唤岩石元素来搬！嗯？！",
+  "ContentI2": "Newbee/Plot_Desc_60"
+ },
+ {
+  "Id": "theater_61",
+  "IDs": "JC02003_008",
+  "AreaName": "废弃矿洞",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M13303,0,大地魔女",
+  "Content": "啊……我的坚果……",
+  "ContentI2": "Newbee/Plot_Desc_61"
+ },
+ {
+  "Id": "theater_62",
+  "IDs": "JC02004_001",
+  "AreaName": "洞穴深处",
+  "Difficulty": 81,
+  "Type": "剧情",
+  "SpeakingRole": "M13306,0,水晶菇娘",
+  "Content": "啊……好无聊啊，来陪我玩嘛……",
+  "ContentI2": "Newbee/Plot_Desc_62"
+ },
+ {
+  "Id": "theater_63",
+  "IDs": "JC02004_002",
+  "AreaName": "洞穴深处",
+  "Difficulty": 81,
+  "Type": "剧情",
+  "SpeakingRole": "M31302,1,核心魔偶",
+  "Content": "~",
+  "ContentI2": "Newbee/Plot_Desc_63"
+ },
+ {
+  "Id": "theater_64",
+  "IDs": "JC02004_003",
+  "AreaName": "洞穴深处",
+  "Difficulty": 81,
+  "Type": "剧情",
+  "SpeakingRole": "M13306,0,水晶菇娘",
+  "Content": "石头！剪子！布！",
+  "ContentI2": "Newbee/Plot_Desc_64"
+ },
+ {
+  "Id": "theater_65",
+  "IDs": "JC02004_004",
+  "AreaName": "洞穴深处",
+  "Difficulty": 81,
+  "Type": "剧情",
+  "SpeakingRole": "M13306,0,水晶菇娘",
+  "Content": "哎嘿！",
+  "ContentI2": "Newbee/Plot_Desc_65"
+ },
+ {
+  "Id": "theater_66",
+  "IDs": "JC02004_005",
+  "AreaName": "洞穴深处",
+  "Difficulty": 81,
+  "Type": "剧情",
+  "SpeakingRole": "M13306,0,水晶菇娘",
+  "Content": "石头！剪子！布！",
+  "ContentI2": "Newbee/Plot_Desc_66"
+ },
+ {
+  "Id": "theater_67",
+  "IDs": "JC02004_006",
+  "AreaName": "洞穴深处",
+  "Difficulty": 81,
+  "Type": "剧情",
+  "SpeakingRole": "M13306,0,水晶菇娘",
+  "Content": "呀哈！",
+  "ContentI2": "Newbee/Plot_Desc_67"
+ },
+ {
+  "Id": "theater_68",
+  "IDs": "JC02004_007",
+  "AreaName": "洞穴深处",
+  "Difficulty": 81,
+  "Type": "剧情",
+  "SpeakingRole": "M13306,0,水晶菇娘",
+  "Content": "石头！剪子！布！",
+  "ContentI2": "Newbee/Plot_Desc_68"
+ },
+ {
+  "Id": "theater_69",
+  "IDs": "JC02004_008",
+  "AreaName": "洞穴深处",
+  "Difficulty": 81,
+  "Type": "剧情",
+  "SpeakingRole": "M31302,1,核心魔偶",
+  "Content": "！！！",
+  "ContentI2": "Newbee/Plot_Desc_69"
+ },
+ {
+  "Id": "theater_70",
+  "IDs": "JC02005_001",
+  "AreaName": "清凉沙滩",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M14301,0,无暇贤者",
+  "Content": "（哼歌中）",
+  "ContentI2": "Newbee/Plot_Desc_70"
+ },
+ {
+  "Id": "theater_71",
+  "IDs": "JC02005_002",
+  "AreaName": "清凉沙滩",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M11207,1,水族统领",
+  "Content": "大小姐驾到！闲杂人等速度退散！",
+  "ContentI2": "Newbee/Plot_Desc_71"
+ },
+ {
+  "Id": "theater_72",
+  "IDs": "JC02005_003",
+  "AreaName": "清凉沙滩",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M14301,0,无暇贤者",
+  "Content": "（依然哼歌中）",
+  "ContentI2": "Newbee/Plot_Desc_72"
+ },
+ {
+  "Id": "theater_73",
+  "IDs": "JC02005_004",
+  "AreaName": "清凉沙滩",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M11207,1,水族统领",
+  "Content": "喂喂！聋了吗！",
+  "ContentI2": "Newbee/Plot_Desc_73"
+ },
+ {
+  "Id": "theater_74",
+  "IDs": "JC02005_005",
+  "AreaName": "清凉沙滩",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M14301,0,无暇贤者",
+  "Content": "？",
+  "ContentI2": "Newbee/Plot_Desc_74"
+ },
+ {
+  "Id": "theater_75",
+  "IDs": "JC02005_006",
+  "AreaName": "清凉沙滩",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M51302,1,辰龙",
+  "Content": "何方妖孽在此！",
+  "ContentI2": "Newbee/Plot_Desc_75"
+ },
+ {
+  "Id": "theater_76",
+  "IDs": "JC02005_007",
+  "AreaName": "清凉沙滩",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M14301,0,无暇贤者",
+  "Content": "说谁妖孽呢！",
+  "ContentI2": "Newbee/Plot_Desc_76"
+ },
+ {
+  "Id": "theater_77",
+  "IDs": "JC02005_008",
+  "AreaName": "清凉沙滩",
+  "Difficulty": 41,
+  "Type": "剧情",
+  "SpeakingRole": "M51302,1,辰龙",
+  "Content": "啊哈哈……哈……原来是贤者大人……",
+  "ContentI2": "Newbee/Plot_Desc_77"
+ },
+ {
+  "Id": "theater_78",
+  "IDs": "JC02006_001",
+  "AreaName": "遗忘之海",
+  "Difficulty": 101,
+  "Type": "剧情",
+  "SpeakingRole": "M41301,0,幽灵船长",
+  "Content": "呼……还剩几箱来着？以后再也不把宝藏到处藏了……",
+  "ContentI2": "Newbee/Plot_Desc_78"
+ },
+ {
+  "Id": "theater_79",
+  "IDs": "JC02006_002",
+  "AreaName": "遗忘之海",
+  "Difficulty": 101,
+  "Type": "剧情",
+  "SpeakingRole": "M41301,0,幽灵船长",
+  "Content": "要看看吗？这可都是我之前藏的好宝贝！",
+  "ContentI2": "Newbee/Plot_Desc_79"
+ },
+ {
+  "Id": "theater_80",
+  "IDs": "JC02006_003",
+  "AreaName": "遗忘之海",
+  "Difficulty": 101,
+  "Type": "剧情",
+  "SpeakingRole": "M24301,1,宁静水灵",
+  "Content": "噫……",
+  "ContentI2": "Newbee/Plot_Desc_80"
+ },
+ {
+  "Id": "theater_81",
+  "IDs": "JC02006_004",
+  "AreaName": "遗忘之海",
+  "Difficulty": 101,
+  "Type": "剧情",
+  "SpeakingRole": "M41301,0,幽灵船长",
+  "Content": "哎呀，埋得太久了有点脏也是很合理的。",
+  "ContentI2": "Newbee/Plot_Desc_81"
+ },
+ {
+  "Id": "theater_82",
+  "IDs": "JC02006_005",
+  "AreaName": "遗忘之海",
+  "Difficulty": 101,
+  "Type": "剧情",
+  "SpeakingRole": "M41301,0,幽灵船长",
+  "Content": "哦！不错不错，那这些宝物就交给你清理了！",
+  "ContentI2": "Newbee/Plot_Desc_82"
+ },
+ {
+  "Id": "theater_83",
+  "IDs": "JC02006_006",
+  "AreaName": "遗忘之海",
+  "Difficulty": 101,
+  "Type": "剧情",
+  "SpeakingRole": "M41301,0,幽灵船长",
+  "Content": "让我看看接下来要去哪里……",
+  "ContentI2": "Newbee/Plot_Desc_83"
+ },
+ {
+  "Id": "theater_84",
+  "IDs": "JC02006_007",
+  "AreaName": "遗忘之海",
+  "Difficulty": 101,
+  "Type": "剧情",
+  "SpeakingRole": "M41301,0,幽灵船长",
+  "Content": "到底在哪里呢？",
+  "ContentI2": "Newbee/Plot_Desc_84"
+ },
+ {
+  "Id": "theater_85",
+  "IDs": "JC02006_008",
+  "AreaName": "遗忘之海",
+  "Difficulty": 101,
+  "Type": "剧情",
+  "SpeakingRole": "M41301,0,幽灵船长",
+  "Content": "我看看……嗯？！！",
+  "ContentI2": "Newbee/Plot_Desc_85"
+ },
+ {
+  "Id": "theater_86",
+  "IDs": "JC02007_001",
+  "AreaName": "迷失森林",
+  "Difficulty": 21,
+  "Type": "剧情",
+  "SpeakingRole": "M31301,0,圣剑之灵",
+  "Content": "……！",
+  "ContentI2": "Newbee/Plot_Desc_86"
+ },
+ {
+  "Id": "theater_87",
+  "IDs": "JC02007_002",
+  "AreaName": "迷失森林",
+  "Difficulty": 21,
+  "Type": "剧情",
+  "SpeakingRole": "M23301,1,史莱姆王",
+  "Content": "?",
+  "ContentI2": "Newbee/Plot_Desc_87"
+ },
+ {
+  "Id": "theater_88",
+  "IDs": "JC02007_003",
+  "AreaName": "迷失森林",
+  "Difficulty": 21,
+  "Type": "剧情",
+  "SpeakingRole": "M31301,0,圣剑之灵",
+  "Content": "这位美丽的女士，您口渴吗？",
+  "ContentI2": "Newbee/Plot_Desc_88"
+ },
+ {
+  "Id": "theater_89",
+  "IDs": "JC02007_004",
+  "AreaName": "迷失森林",
+  "Difficulty": 21,
+  "Type": "剧情",
+  "SpeakingRole": "M23301,1,史莱姆王",
+  "Content": "……",
+  "ContentI2": "Newbee/Plot_Desc_89"
+ },
+ {
+  "Id": "theater_90",
+  "IDs": "JC02007_005",
+  "AreaName": "迷失森林",
+  "Difficulty": 21,
+  "Type": "剧情",
+  "SpeakingRole": "M31301,0,圣剑之灵",
+  "Content": "啊！我新买的茶具！",
+  "ContentI2": "Newbee/Plot_Desc_90"
+ },
+ {
+  "Id": "theater_91",
+  "IDs": "JC02007_006",
+  "AreaName": "迷失森林",
+  "Difficulty": 21,
+  "Type": "剧情",
+  "SpeakingRole": "M31301,0,圣剑之灵",
+  "Content": "呼……还好还好。",
+  "ContentI2": "Newbee/Plot_Desc_91"
+ },
+ {
+  "Id": "theater_92",
+  "IDs": "JC02007_007",
+  "AreaName": "迷失森林",
+  "Difficulty": 21,
+  "Type": "剧情",
+  "SpeakingRole": "M31301,0,圣剑之灵",
+  "Content": "噫……",
+  "ContentI2": "Newbee/Plot_Desc_92"
+ },
+ {
+  "Id": "theater_93",
+  "IDs": "JC02007_008",
+  "AreaName": "迷失森林",
+  "Difficulty": 21,
+  "Type": "剧情",
+  "SpeakingRole": "M23301,1,史莱姆王",
+  "Content": "?",
+  "ContentI2": "Newbee/Plot_Desc_93"
+ },
+ {
+  "Id": "theater_94",
+  "IDs": "JC02008_001",
+  "AreaName": "荒凉戈壁",
+  "Difficulty": 71,
+  "Type": "剧情",
+  "SpeakingRole": "M12211,0,荒漠舞姬",
+  "Content": "来，想要受欢迎就跟我一起跳……",
+  "ContentI2": "Newbee/Plot_Desc_94"
+ },
+ {
+  "Id": "theater_95",
+  "IDs": "JC02008_002",
+  "AreaName": "荒凉戈壁",
+  "Difficulty": 71,
+  "Type": "剧情",
+  "SpeakingRole": "M31303,1,巨灵之枪",
+  "Content": "哦哦哦，是这样做吗？",
+  "ContentI2": "Newbee/Plot_Desc_95"
+ },
+ {
+  "Id": "theater_96",
+  "IDs": "JC02008_003",
+  "AreaName": "荒凉戈壁",
+  "Difficulty": 71,
+  "Type": "剧情",
+  "SpeakingRole": "M12211,0,荒漠舞姬",
+  "Content": "很好！继续……",
+  "ContentI2": "Newbee/Plot_Desc_96"
+ },
+ {
+  "Id": "theater_97",
+  "IDs": "JC02008_004",
+  "AreaName": "荒凉戈壁",
+  "Difficulty": 71,
+  "Type": "剧情",
+  "SpeakingRole": "M31303,1,巨灵之枪",
+  "Content": "……",
+  "ContentI2": "Newbee/Plot_Desc_97"
+ },
+ {
+  "Id": "theater_98",
+  "IDs": "JC02008_005",
+  "AreaName": "荒凉戈壁",
+  "Difficulty": 71,
+  "Type": "剧情",
+  "SpeakingRole": "M12211,0,荒漠舞姬",
+  "Content": "再来……",
+  "ContentI2": "Newbee/Plot_Desc_98"
+ },
+ {
+  "Id": "theater_99",
+  "IDs": "JC02008_006",
+  "AreaName": "荒凉戈壁",
+  "Difficulty": 71,
+  "Type": "剧情",
+  "SpeakingRole": "M31303,1,巨灵之枪",
+  "Content": "喝！",
+  "ContentI2": "Newbee/Plot_Desc_99"
+ },
+ {
+  "Id": "theater_100",
+  "IDs": "JC02008_007",
+  "AreaName": "荒凉戈壁",
+  "Difficulty": 71,
+  "Type": "剧情",
+  "SpeakingRole": "M31303,1,巨灵之枪",
+  "Content": "老师！咱这样就能更受欢迎了吗？",
+  "ContentI2": "Newbee/Plot_Desc_100"
+ },
+ {
+  "Id": "theater_101",
+  "IDs": "JC02008_008",
+  "AreaName": "荒凉戈壁",
+  "Difficulty": 71,
+  "Type": "剧情",
+  "SpeakingRole": "M12211,0,荒漠舞姬",
+  "Content": "没错没错！只要好好学一定会受欢迎的！",
+  "ContentI2": "Newbee/Plot_Desc_101"
+ },
+ {
+  "Id": "theater_102",
+  "IDs": "JC03001_001",
+  "AreaName": "极寒冰原",
+  "Difficulty": 11,
+  "Type": "活动",
+  "SpeakingRole": "M12301,0,鹰身公主",
+  "Content": "阿……阿秋！怎么突然变这么冷！",
+  "ContentI2": "Newbee/Plot_Desc_102"
+ },
+ {
+  "Id": "theater_103",
+  "IDs": "JC03001_002",
+  "AreaName": "极寒冰原",
+  "Difficulty": 11,
+  "Type": "活动",
+  "SpeakingRole": "M13304_001,1,黄蜂魔女",
+  "Content": "……",
+  "ContentI2": "Newbee/Plot_Desc_103"
+ },
+ {
+  "Id": "theater_104",
+  "IDs": "JC03001_003",
+  "AreaName": "极寒冰原",
+  "Difficulty": 11,
+  "Type": "活动",
+  "SpeakingRole": "M12301,0,鹰身公主",
+  "Content": "黄蜂！你来的正好，快……快来……来点御寒药……药剂！",
+  "ContentI2": "Newbee/Plot_Desc_104"
+ },
+ {
+  "Id": "theater_105",
+  "IDs": "JC03001_004",
+  "AreaName": "极寒冰原",
+  "Difficulty": 11,
+  "Type": "活动",
+  "SpeakingRole": "M13304_001,1,黄蜂魔女",
+  "Content": "……",
+  "ContentI2": "Newbee/Plot_Desc_105"
+ },
+ {
+  "Id": "theater_106",
+  "IDs": "JC03001_005",
+  "AreaName": "极寒冰原",
+  "Difficulty": 11,
+  "Type": "活动",
+  "SpeakingRole": "M12301,0,鹰身公主",
+  "Content": "咕咚……咕咚……",
+  "ContentI2": "Newbee/Plot_Desc_106"
+ },
+ {
+  "Id": "theater_107",
+  "IDs": "JC03001_006",
+  "AreaName": "极寒冰原",
+  "Difficulty": 11,
+  "Type": "活动",
+  "SpeakingRole": "M13304_001,1,黄蜂魔女",
+  "Content": "！",
+  "ContentI2": "Newbee/Plot_Desc_107"
+ },
+ {
+  "Id": "theater_108",
+  "IDs": "JC03001_007",
+  "AreaName": "极寒冰原",
+  "Difficulty": 11,
+  "Type": "活动",
+  "SpeakingRole": "M13304_001,1,黄蜂魔女",
+  "Content": "……",
+  "ContentI2": "Newbee/Plot_Desc_108"
+ },
+ {
+  "Id": "theater_109",
+  "IDs": "JC03001_008",
+  "AreaName": "极寒冰原",
+  "Difficulty": 11,
+  "Type": "活动",
+  "SpeakingRole": "M12301,0,鹰身公主",
+  "Content": "呼……感觉活过来了，哎？黄蜂呢？",
+  "ContentI2": "Newbee/Plot_Desc_109"
+ },
+ {
+  "Id": "theater_110",
+  "IDs": "JC02009_001",
+  "AreaName": "无尽荒漠",
+  "Difficulty": 111,
+  "Type": "剧情",
+  "SpeakingRole": "M34301,1,许愿灯灵",
+  "Content": "可恶！是谁在打扰我睡觉？有什么问题快问！",
+  "ContentI2": "Newbee/Plot_Desc_110"
+ },
+ {
+  "Id": "theater_111",
+  "IDs": "JC02009_002",
+  "AreaName": "无尽荒漠",
+  "Difficulty": 111,
+  "Type": "剧情",
+  "SpeakingRole": "M21302,0,无尽领主",
+  "Content": "你就是这就是能回答一切问题的神灯吗？",
+  "ContentI2": "Newbee/Plot_Desc_111"
+ },
+ {
+  "Id": "theater_112",
+  "IDs": "JC02009_003",
+  "AreaName": "无尽荒漠",
+  "Difficulty": 111,
+  "Type": "剧情",
+  "SpeakingRole": "M34301,1,许愿灯灵",
+  "Content": "哼哼！那当然，我可以回答你三个问题，现在还有两个！",
+  "ContentI2": "Newbee/Plot_Desc_112"
+ },
+ {
+  "Id": "theater_113",
+  "IDs": "JC02009_004",
+  "AreaName": "无尽荒漠",
+  "Difficulty": 111,
+  "Type": "剧情",
+  "SpeakingRole": "M21302,0,无尽领主",
+  "Content": "哎！？现在就已经开始了吗？",
+  "ContentI2": "Newbee/Plot_Desc_113"
+ },
+ {
+  "Id": "theater_114",
+  "IDs": "JC02009_005",
+  "AreaName": "无尽荒漠",
+  "Difficulty": 111,
+  "Type": "剧情",
+  "SpeakingRole": "M34301,1,许愿灯灵",
+  "Content": "没错！你还有一个问题可以问。",
+  "ContentI2": "Newbee/Plot_Desc_114"
+ },
+ {
+  "Id": "theater_115",
+  "IDs": "JC02009_006",
+  "AreaName": "无尽荒漠",
+  "Difficulty": 111,
+  "Type": "剧情",
+  "SpeakingRole": "M21302,0,无尽领主",
+  "Content": "这也算吗？还都还没开始问呢！！",
+  "ContentI2": "Newbee/Plot_Desc_115"
+ },
+ {
+  "Id": "theater_116",
+  "IDs": "JC02009_007",
+  "AreaName": "无尽荒漠",
+  "Difficulty": 111,
+  "Type": "剧情",
+  "SpeakingRole": "M34301,1,许愿灯灵",
+  "Content": "当然算，回答完毕，拜拜~",
+  "ContentI2": "Newbee/Plot_Desc_116"
+ },
+ {
+  "Id": "theater_117",
+  "IDs": "JC02009_008",
+  "AreaName": "无尽荒漠",
+  "Difficulty": 111,
+  "Type": "剧情",
+  "SpeakingRole": "M21302,0,无尽领主",
+  "Content": "可恶！别跑！",
+  "ContentI2": "Newbee/Plot_Desc_117"
+ }
+]

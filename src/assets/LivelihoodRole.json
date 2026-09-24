@@ -1,0 +1,170 @@
+[
+ {
+  "Id": "LivelihoodRole_1",
+  "IDs": "S21201",
+  "Category": "普通",
+  "Name": "黑水晶女仆",
+  "NameI2": "Npc_Name_01",
+  "Step": "A"
+ },
+ {
+  "Id": "LivelihoodRole_2",
+  "IDs": "S31301",
+  "Category": "普通",
+  "Name": "情报专家",
+  "NameI2": "Npc_Name_02",
+  "Step": "S"
+ },
+ {
+  "Id": "LivelihoodRole_3",
+  "IDs": "S12001",
+  "Category": "普通",
+  "Name": "哥布林商人",
+  "NameI2": "Npc_Name_03",
+  "Step": "C"
+ },
+ {
+  "Id": "LivelihoodRole_4",
+  "IDs": "S12201",
+  "Category": "普通",
+  "Name": "奇物商人",
+  "NameI2": "Npc_Name_04",
+  "Step": "A"
+ },
+ {
+  "Id": "LivelihoodRole_5",
+  "IDs": "S13101",
+  "Category": "普通",
+  "Name": "长耳管家",
+  "NameI2": "Npc_Name_05",
+  "Step": "B"
+ },
+ {
+  "Id": "LivelihoodRole_6",
+  "IDs": "S34001",
+  "Category": "普通",
+  "Name": "木质宝箱怪",
+  "NameI2": "Npc_Name_06",
+  "Step": "C"
+ },
+ {
+  "Id": "LivelihoodRole_7",
+  "IDs": "S34101",
+  "Category": "普通",
+  "Name": "金属宝箱怪",
+  "NameI2": "Npc_Name_07",
+  "Step": "B"
+ },
+ {
+  "Id": "LivelihoodRole_8",
+  "IDs": "S34201",
+  "Category": "普通",
+  "Name": "献祭宝箱怪",
+  "NameI2": "Npc_Name_08",
+  "Step": "A"
+ },
+ {
+  "Id": "LivelihoodRole_9",
+  "IDs": "S34301",
+  "Category": "普通",
+  "Name": "机巧宝箱怪",
+  "NameI2": "Npc_Name_09",
+  "Step": "S"
+ },
+ {
+  "Id": "LivelihoodRole_10",
+  "IDs": "S21202",
+  "Category": "普通",
+  "Name": "传承之灵",
+  "NameI2": "Npc_Name_10",
+  "Step": "A"
+ },
+ {
+  "Id": "LivelihoodRole_11",
+  "IDs": "S21203",
+  "Category": "普通",
+  "Name": "英灵使者",
+  "NameI2": "Npc_Name_11",
+  "Step": "A"
+ },
+ {
+  "Id": "LivelihoodRole_12",
+  "IDs": "S21204",
+  "Category": "普通",
+  "Name": "星界魔女",
+  "NameI2": "Npc_Name_12",
+  "Step": "S"
+ },
+ {
+  "Id": "LivelihoodRole_13",
+  "IDs": "S21205",
+  "Category": "普通",
+  "Name": "宿舍女仆",
+  "NameI2": "Npc_Name_13",
+  "Step": "B"
+ },
+ {
+  "Id": "LivelihoodRole_14",
+  "IDs": "S13301",
+  "Category": "付费",
+  "Name": "猫耳管家",
+  "NameI2": "Npc_Name_14",
+  "Step": "A"
+ },
+ {
+  "Id": "LivelihoodRole_15",
+  "IDs": "S13302",
+  "Category": "付费",
+  "Name": "犬耳秘书",
+  "NameI2": "Npc_Name_15",
+  "Step": "S"
+ },
+ {
+  "Id": "LivelihoodRole_16",
+  "IDs": "S13303",
+  "Category": "普通",
+  "Name": "古堡管家",
+  "NameI2": "Npc_Name_16",
+  "Step": "S"
+ },
+ {
+  "Id": "LivelihoodRole_17",
+  "IDs": "S13304",
+  "Category": "普通",
+  "Name": "熊猫管家",
+  "NameI2": "Npc_Name_19",
+  "Step": "S"
+ },
+ {
+  "Id": "LivelihoodRole_18",
+  "IDs": "S13305",
+  "Category": "普通",
+  "Name": "妖精管家",
+  "NameI2": "Npc_Name_18",
+  "Step": "S"
+ },
+ {
+  "Id": "LivelihoodRole_19",
+  "IDs": "S13306",
+  "Category": "普通",
+  "Name": "牛仔管家",
+  "NameI2": "Npc_Name_17",
+  "Step": "S"
+ },
+ {
+  "Id": "LivelihoodRole_20",
+  "IDs": "S13307",
+  "Category": "普通",
+  "Name": "树精管家",
+  "NameI2": "Npc_Name_20",
+  "Step": "S"
+ },
+ {
+  "Id": "LivelihoodRole_21",
+  "IDs": "S13309",
+  "Category": "普通",
+  "Name": "花仙管家",
+  "NameI2": "Npc_Name_22",
+  "Step": "S"
+ }
+]

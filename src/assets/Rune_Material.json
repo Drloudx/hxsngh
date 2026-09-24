@@ -193,5 +193,18 @@
   "Resonance2": "基础效果+100%",
   "Resonance3": "获得反伤层数上限+100。",
   "Resonance3I2": "Runes/Runes_Resonance_CZ00015_001"
+ },
+ {
+  "Id": "Rune_material_16",
+  "IDs": "CZ00016_001",
+  "Material": "庆典",
+  "MaterialI2": "Runes/Runes_List_CZ00016",
+  "Effect": "夏日",
+  "EffectI2": "Runes/Runes_Type_CZ00016",
+  "Resonance1": "造成滋润层数+1。",
+  "Resonance1I2": "Runes/Runes_Resonance_CZ00016_001_New01",
+  "Resonance2": "基础效果+100%",
+  "Resonance3": "双方全体目标获得滋润层数上限+50。",
+  "Resonance3I2": "Runes/Runes_Resonance_CZ00016_002_New01"
  }
 ]

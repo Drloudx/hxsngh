@@ -4,9 +4,20 @@
     "date": "",
     "title": "",
     "lines": [
-      "遇到问题请及时在设置（齿轮）中==反馈/建议==进行反馈",
-      "幻想少女公会助手交流反馈群：<a href=\"https://qun.qq.com/universal-share/share?ac=1&authKey=4xp%2BlCmM2Q2gVIvW6a14yOEVtT%2BPLsY9DwmNSDRVTBkp8xcNO%2FTRo%2FOksMb528aW&busi_data=eyJncm91cENvZGUiOiI5NjQ3Njg3OTkiLCJ0b2tlbiI6Im1abkR4eDNDb09HeDZtV2QvNi9ZOTlMNWRhQVQxSDVGK2hSUmlmdkd6bm9hNGRIYjZnWFB6QitBd1A5NVhscmMiLCJ1aW4iOiIxOTY1MTYxNjQzIn0%3D&data=CcXqRPXmezEwvtBwz950aSAyBxYHidOpffYEE8nD1EB-WDcAI-CLzvlLLIavd-lpEuHEP9fCXE5i5Sh3aGjUmw&svctype=4&tempid=h5_group_info\" style=\"color:#3b82f6\">964768799</a>",
+      "如果你在使用老的网址，请使用新网址<a href=\"https://hxsngh.yxzmy.top\" style=\"color:#3b82f6\">https://hxsngh.yxzmy.top</a>",
+      "APP下载地址：<a href=\"/hxsnghv1.0.20.apk\" download class=\"notice-link\" style=\"color:#3b82f6\">点击下载</a>",
+      "遇到问题请及时加群反馈>幻想少女公会助手交流反馈群：<a href=\"https://qun.qq.com/universal-share/share?ac=1&authKey=4xp%2BlCmM2Q2gVIvW6a14yOEVtT%2BPLsY9DwmNSDRVTBkp8xcNO%2FTRo%2FOksMb528aW&busi_data=eyJncm91cENvZGUiOiI5NjQ3Njg3OTkiLCJ0b2tlbiI6Im1abkR4eDNDb09HeDZtV2QvNi9ZOTlMNWRhQVQxSDVGK2hSUmlmdkd6bm9hNGRIYjZnWFB6QitBd1A5NVhscmMiLCJ1aW4iOiIxOTY1MTYxNjQzIn0%3D&data=CcXqRPXmezEwvtBwz950aSAyBxYHidOpffYEE8nD1EB-WDcAI-CLzvlLLIavd-lpEuHEP9fCXE5i5Sh3aGjUmw&svctype=4&tempid=h5_group_info\" style=\"color:#3b82f6\">964768799</a>",
       "设置“切换菜单模式”可以在{{顶部}}、{{底部}}、{{侧边}}导航进行切换"
+    ]
+  },
+  {
+    "date": "9.24",
+    "title": "内容更新",
+    "lines": [
+      "更新地图“{{夏日海滩}}”：同步更新地块图鉴，装备图鉴等更新",
+      "金装刷取难易度页面更新：新增{{夏日海滩}}全部金装/红装（含SS阶“{{净水之瓶}}”等28件装备）可刷战斗掉落模拟概率与难度评级",
+      "角色图鉴及相关筛选工具添加新角色“{{娜迦将军}}”、“{{[泳装]无瑕贤者}}”",
+      "怪物加护图鉴补齐加护词缀的图标"
     ]
   },
   {
@@ -14,7 +25,7 @@
     "title": "内容更新",
     "lines": [
       "角色图鉴及相关筛选工具添加新角色“{{[炼金]巨魔术士}}”",
-      "怪物加护图鉴更新：新增40个全新加护词缀（涵盖{{凉爽}}、{{怠惰}}、{{木化}}、{{贪婪}}、{{暴怒}}、{{嫉妒}}、{{暴食}}、{{傲慢}}、{{魅惑}}、{{残响}}等C~S阶词条）",
+      "怪物加护图鉴更新：新增10个全新加护词缀（涵盖{{凉爽}}、{{怠惰}}、{{木化}}、{{贪婪}}、{{暴怒}}、{{嫉妒}}、{{暴食}}、{{傲慢}}、{{魅惑}}、{{残响}}等C~S阶词条）",
       "同步游戏最新数据表，修正了部分加护词条的数值与效果描述"
     ]
   },

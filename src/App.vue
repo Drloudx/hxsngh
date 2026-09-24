@@ -309,7 +309,6 @@ const modes = [
   { id: 'guide', name: '新人攻略', shortName: '攻略', path: '/guide' },
   { id: 'fruit-record', name: '大果记录', shortName: '大果', path: '/fruit-record' },
   { id: 'relics', name: '心得图鉴', shortName: '心得', path: '/relics' },
-  { id: 'battle', name: '战斗模拟', shortName: '战斗', path: '/battle' },
   { id: 'ranking', name: '预告：角色/队伍热度排行', shortName: '预告', path: '/ranking' }
 ]
 

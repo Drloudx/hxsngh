@@ -1,0 +1,12 @@
+[
+ {
+  "Id": "exotic_event_1",
+  "ActicityIDs": "HD00005",
+  "OriginMapIDs": "A40000",
+  "UniqueIDs": "A00003_000",
+  "ExoticMapIDs": "A00003",
+  "StartTime": "2025/3/29 21:00:00",
+  "EndTime": "2025/4/30 21:00:00",
+  "IsFirstReveal": 1
+ }
+]

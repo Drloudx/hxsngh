@@ -48,15 +48,30 @@ Hxsngh 是面向凉屋游戏《幻想少女公会》玩家的非官方助手工�
 - `capacitor.config.json`：Capacitor 配置
 - `android/app/build.gradle`：Android 模块、SDK 和原生依赖配置
 - `android/app/src/main/java/.../MainActivity.java`：WebView 容器、热更新和原生桥接逻辑
-- `scripts/`：数据生成和测试脚本
+- `tools/`：数据表同步、图片提取清洗与装备掉落概率模拟工具套件（详见 [tools/README.md](tools/README.md)）
 
 ## 本地运行
 
-环境要求：Node.js `20.19+` 或 `22.12+`。
+环境要求：Node.js `20.19+` 或 `22.12+`，Python `3.10+`。
 
 ```bash
 npm install
 npm run dev
+```
+
+## 数据与资源更新流水线
+
+当游戏发布新版本或热更新时，进入项目根目录依次执行：
+
+```bash
+# 1. 一键同步最新官方数据表至 src/assets/
+python tools/1_sync_tables.py
+
+# 2. 从官方热更 CDN 解密并提取最新图片（装备、地块、卡片、立绘、头像）
+python tools/2_extract_images.py
+
+# 3. 跑测新地图（如夏日海滩）装备可刷掉落概率与难度评级
+python tools/3_run_probability.py --map 夏日海滩
 ```
 
 构建网页资源：

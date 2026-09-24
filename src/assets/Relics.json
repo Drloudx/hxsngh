@@ -362,6 +362,44 @@
  },
  {
   "Id": "relics_20",
+  "IDs": "XD14001_057",
+  "Name": "冲浪指南",
+  "NameI2": "Relics/Relics_Name_XD14001_057",
+  "Step": "S",
+  "Weight": 0,
+  "Element": "不限",
+  "Type": "专属",
+  "Class": "战士",
+  "Race": "",
+  "SubRace": "",
+  "MaxLevel": 3,
+  "Effect": "造成滋润层数+1。",
+  "EffectI2": "Relics/Relics_Des_50",
+  "Description": "",
+  "DescriptionI2": "",
+  "SpecifyRoleIDs": "M31301_000"
+ },
+ {
+  "Id": "relics_21",
+  "IDs": "XD14001_064",
+  "Name": "武技抄本",
+  "NameI2": "Relics/Relics_Name_XD14001_064",
+  "Step": "S",
+  "Weight": 0,
+  "Element": "不限",
+  "Type": "专属",
+  "Class": "战士",
+  "Race": "",
+  "SubRace": "",
+  "MaxLevel": 3,
+  "Effect": "造成技能伤害+1。",
+  "EffectI2": "Relics/Relics_Des_18",
+  "Description": "",
+  "DescriptionI2": "",
+  "SpecifyRoleIDs": "M11307"
+ },
+ {
+  "Id": "relics_22",
   "IDs": "XD11001_016",
   "Name": "避暑妙招",
   "NameI2": "Relics/Relics_Name_XD11001_016",
@@ -380,7 +418,7 @@
   "SpecifyRoleIDs": "M13002"
  },
  {
-  "Id": "relics_21",
+  "Id": "relics_23",
   "IDs": "XD11001_004",
   "Name": "拖延秘诀",
   "NameI2": "Relics/Relics_Name_XD11001_004",
@@ -399,7 +437,7 @@
   "SpecifyRoleIDs": "M23001"
  },
  {
-  "Id": "relics_22",
+  "Id": "relics_24",
   "IDs": "XD12001_004",
   "Name": "火球笔记",
   "NameI2": "Relics/Relics_Name_XD12001_004",
@@ -418,7 +456,7 @@
   "SpecifyRoleIDs": "M13102"
  },
  {
-  "Id": "relics_23",
+  "Id": "relics_25",
   "IDs": "XD12001_005",
   "Name": "星图笔记",
   "NameI2": "Relics/Relics_Name_XD12001_005",
@@ -437,7 +475,7 @@
   "SpecifyRoleIDs": "M13103"
  },
  {
-  "Id": "relics_24",
+  "Id": "relics_26",
   "IDs": "XD12001_026",
   "Name": "学院教材",
   "NameI2": "Relics/Relics_Name_XD12001_026",
@@ -456,7 +494,7 @@
   "SpecifyRoleIDs": "M13106"
  },
  {
-  "Id": "relics_25",
+  "Id": "relics_27",
   "IDs": "XD13001_010",
   "Name": "风语词典",
   "NameI2": "Relics/Relics_Name_XD13001_010",
@@ -475,7 +513,7 @@
   "SpecifyRoleIDs": "M23204"
  },
  {
-  "Id": "relics_26",
+  "Id": "relics_28",
   "IDs": "XD13001_006",
   "Name": "时间旅行",
   "NameI2": "Relics/Relics_Name_XD13001_006",
@@ -494,7 +532,7 @@
   "SpecifyRoleIDs": "M13201"
  },
  {
-  "Id": "relics_27",
+  "Id": "relics_29",
   "IDs": "XD13001_026",
   "Name": "净水指南",
   "NameI2": "Relics/Relics_Name_XD13001_026",
@@ -513,7 +551,7 @@
   "SpecifyRoleIDs": "M23201"
  },
  {
-  "Id": "relics_28",
+  "Id": "relics_30",
   "IDs": "XD13001_028",
   "Name": "魔道精选",
   "NameI2": "Relics/Relics_Name_XD13001_028",
@@ -532,7 +570,7 @@
   "SpecifyRoleIDs": "M13203"
  },
  {
-  "Id": "relics_29",
+  "Id": "relics_31",
   "IDs": "XD13001_055",
   "Name": "学院教材",
   "NameI2": "Relics/Relics_Name_XD13001_055",
@@ -551,7 +589,7 @@
   "SpecifyRoleIDs": "M13201_000"
  },
  {
-  "Id": "relics_30",
+  "Id": "relics_32",
   "IDs": "XD13001_074",
   "Name": "炼金百科",
   "NameI2": "Relics/Relics_Name_XD13001_074",
@@ -570,7 +608,26 @@
   "SpecifyRoleIDs": "M13210"
  },
  {
-  "Id": "relics_31",
+  "Id": "relics_33",
+  "IDs": "XD13001_078",
+  "Name": "安全手册",
+  "NameI2": "Relics/Relics_Name_XD13001_078",
+  "Step": "A",
+  "Weight": 0,
+  "Element": "不限",
+  "Type": "专属",
+  "Class": "法师",
+  "Race": "",
+  "SubRace": "",
+  "MaxLevel": 3,
+  "Effect": "造成滋润层数+1。",
+  "EffectI2": "Relics/Relics_Des_70",
+  "Description": "",
+  "DescriptionI2": "",
+  "SpecifyRoleIDs": "M13202_000"
+ },
+ {
+  "Id": "relics_34",
   "IDs": "XD14001_013",
   "Name": "魔术大全",
   "NameI2": "Relics/Relics_Name_XD14001_013",
@@ -589,7 +646,7 @@
   "SpecifyRoleIDs": "M13305"
  },
  {
-  "Id": "relics_32",
+  "Id": "relics_35",
   "IDs": "XD14001_033",
   "Name": "极寒配方",
   "NameI2": "Relics/Relics_Name_XD14001_033",
@@ -608,7 +665,7 @@
   "SpecifyRoleIDs": "M13304_001"
  },
  {
-  "Id": "relics_33",
+  "Id": "relics_36",
   "IDs": "XD14001_036",
   "Name": "噩梦契约",
   "NameI2": "Relics/Relics_Name_XD14001_036",
@@ -627,7 +684,7 @@
   "SpecifyRoleIDs": "M13302_000"
  },
  {
-  "Id": "relics_34",
+  "Id": "relics_37",
   "IDs": "XD04001_032",
   "Name": "封印之书",
   "NameI2": "Relics/Relics_Name_XD04001_032",
@@ -646,7 +703,7 @@
   "SpecifyRoleIDs": "M13303_001"
  },
  {
-  "Id": "relics_35",
+  "Id": "relics_38",
   "IDs": "XD14001_030",
   "Name": "皎月之舞",
   "NameI2": "Relics/Relics_Name_XD14001_030",
@@ -665,7 +722,7 @@
   "SpecifyRoleIDs": "M12211_000"
  },
  {
-  "Id": "relics_36",
+  "Id": "relics_39",
   "IDs": "XD14001_056",
   "Name": "熔岩法典",
   "NameI2": "Relics/Relics_Name_XD14001_056",
@@ -684,7 +741,7 @@
   "SpecifyRoleIDs": "M23301_001"
  },
  {
-  "Id": "relics_37",
+  "Id": "relics_40",
   "IDs": "XD11001_002",
   "Name": "拾荒指南",
   "NameI2": "Relics/Relics_Name_XD11001_002",
@@ -703,7 +760,7 @@
   "SpecifyRoleIDs": "M12002"
  },
  {
-  "Id": "relics_38",
+  "Id": "relics_41",
   "IDs": "XD11001_014",
   "Name": "投掷心得",
   "NameI2": "Relics/Relics_Name_XD11001_014",
@@ -722,7 +779,7 @@
   "SpecifyRoleIDs": "M12001"
  },
  {
-  "Id": "relics_39",
+  "Id": "relics_42",
   "IDs": "XD11001_022",
   "Name": "蜂蜜储存",
   "NameI2": "Relics/Relics_Name_XD11001_022",
@@ -741,7 +798,7 @@
   "SpecifyRoleIDs": "M12003_001"
  },
  {
-  "Id": "relics_40",
+  "Id": "relics_43",
   "IDs": "XD12001_009",
   "Name": "茶道入门",
   "NameI2": "Relics/Relics_Name_XD12001_009",
@@ -760,7 +817,7 @@
   "SpecifyRoleIDs": "M32101"
  },
  {
-  "Id": "relics_41",
+  "Id": "relics_44",
   "IDs": "XD12001_038",
   "Name": "果腹心得",
   "NameI2": "Relics/Relics_Name_XD12001_038",
@@ -779,7 +836,7 @@
   "SpecifyRoleIDs": "M12101_001"
  },
  {
-  "Id": "relics_42",
+  "Id": "relics_45",
   "IDs": "XD12001_013",
   "Name": "追踪心得",
   "NameI2": "Relics/Relics_Name_XD12001_013",
@@ -798,7 +855,7 @@
   "SpecifyRoleIDs": "M12101"
  },
  {
-  "Id": "relics_43",
+  "Id": "relics_46",
   "IDs": "XD12001_032",
   "Name": "移动射击",
   "NameI2": "Relics/Relics_Name_XD12001_032",
@@ -817,7 +874,7 @@
   "SpecifyRoleIDs": "M12105"
  },
  {
-  "Id": "relics_44",
+  "Id": "relics_47",
   "IDs": "XD13001_024",
   "Name": "射击手法",
   "NameI2": "Relics/Relics_Name_XD13001_024",
@@ -836,7 +893,7 @@
   "SpecifyRoleIDs": "M12204"
  },
  {
-  "Id": "relics_45",
+  "Id": "relics_48",
   "IDs": "XD13001_005",
   "Name": "手语精通",
   "NameI2": "Relics/Relics_Name_XD13001_005",
@@ -855,7 +912,7 @@
   "SpecifyRoleIDs": "M12207"
  },
  {
-  "Id": "relics_46",
+  "Id": "relics_49",
   "IDs": "XD13001_017",
   "Name": "解药配置",
   "NameI2": "Relics/Relics_Name_XD13001_017",
@@ -874,7 +931,7 @@
   "SpecifyRoleIDs": "M12202"
  },
  {
-  "Id": "relics_47",
+  "Id": "relics_50",
   "IDs": "XD13001_051",
   "Name": "冻伤防范",
   "NameI2": "Relics/Relics_Name_XD13001_051",
@@ -893,7 +950,7 @@
   "SpecifyRoleIDs": "M12202_001"
  },
  {
-  "Id": "relics_48",
+  "Id": "relics_51",
   "IDs": "XD13001_057",
   "Name": "箭术精通",
   "NameI2": "Relics/Relics_Name_XD13001_057",
@@ -912,7 +969,7 @@
   "SpecifyRoleIDs": "M12207_000"
  },
  {
-  "Id": "relics_49",
+  "Id": "relics_52",
   "IDs": "XD13001_069",
   "Name": "焚烧解析",
   "NameI2": "Relics/Relics_Name_XD13001_069",
@@ -931,7 +988,7 @@
   "SpecifyRoleIDs": "M22201_002"
  },
  {
-  "Id": "relics_50",
+  "Id": "relics_53",
   "IDs": "XD04001_051",
   "Name": "隐蔽教学",
   "NameI2": "Relics/Relics_Name_XD04001_051",
@@ -950,7 +1007,26 @@
   "SpecifyRoleIDs": "M12208"
  },
  {
-  "Id": "relics_51",
+  "Id": "relics_54",
+  "IDs": "XD13001_076",
+  "Name": "采购清单",
+  "NameI2": "Relics/Relics_Name_XD13001_076",
+  "Step": "A",
+  "Weight": 0,
+  "Element": "不限",
+  "Type": "专属",
+  "Class": "射手",
+  "Race": "",
+  "SubRace": "",
+  "MaxLevel": 3,
+  "Effect": "造成滋润层数+1。",
+  "EffectI2": "Relics/Relics_Des_70",
+  "Description": "",
+  "DescriptionI2": "",
+  "SpecifyRoleIDs": "M13204_000"
+ },
+ {
+  "Id": "relics_55",
   "IDs": "XD14001_002",
   "Name": "风行法典",
   "NameI2": "Relics/Relics_Name_XD14001_002",
@@ -969,7 +1045,7 @@
   "SpecifyRoleIDs": "M12205"
  },
  {
-  "Id": "relics_52",
+  "Id": "relics_56",
   "IDs": "XD04002_051",
   "Name": "星空奥秘",
   "NameI2": "Relics/Relics_Name_XD04002_051",
@@ -988,7 +1064,7 @@
   "SpecifyRoleIDs": "M52301"
  },
  {
-  "Id": "relics_53",
+  "Id": "relics_57",
   "IDs": "XD14001_053",
   "Name": "增压心得",
   "NameI2": "Relics/Relics_Name_XD14001_053",
@@ -1007,7 +1083,7 @@
   "SpecifyRoleIDs": "M12205_001"
  },
  {
-  "Id": "relics_54",
+  "Id": "relics_58",
   "IDs": "XD04002_092",
   "Name": "灵魂之火",
   "NameI2": "Relics/Relics_Name_XD04002_092",
@@ -1026,7 +1102,7 @@
   "SpecifyRoleIDs": "M41301_001"
  },
  {
-  "Id": "relics_55",
+  "Id": "relics_59",
   "IDs": "XD11001_012",
   "Name": "基本话术",
   "NameI2": "Relics/Relics_Name_XD11001_012",
@@ -1045,7 +1121,7 @@
   "SpecifyRoleIDs": "M13001"
  },
  {
-  "Id": "relics_56",
+  "Id": "relics_60",
   "IDs": "XD11001_018",
   "Name": "草药笔记",
   "NameI2": "Relics/Relics_Name_XD11001_018",
@@ -1064,7 +1140,7 @@
   "SpecifyRoleIDs": "M14103"
  },
  {
-  "Id": "relics_57",
+  "Id": "relics_61",
   "IDs": "XD12001_006",
   "Name": "医疗笔记",
   "NameI2": "Relics/Relics_Name_XD12001_006",
@@ -1083,7 +1159,7 @@
   "SpecifyRoleIDs": "M14101"
  },
  {
-  "Id": "relics_58",
+  "Id": "relics_62",
   "IDs": "XD12001_014",
   "Name": "草药笔记",
   "NameI2": "Relics/Relics_Name_XD12001_014",
@@ -1102,7 +1178,7 @@
   "SpecifyRoleIDs": "M13104"
  },
  {
-  "Id": "relics_59",
+  "Id": "relics_63",
   "IDs": "XD12001_023",
   "Name": "污染防范",
   "NameI2": "Relics/Relics_Name_XD12001_023",
@@ -1121,7 +1197,7 @@
   "SpecifyRoleIDs": "M14104"
  },
  {
-  "Id": "relics_60",
+  "Id": "relics_64",
   "IDs": "XD12001_039",
   "Name": "求存预言",
   "NameI2": "Relics/Relics_Name_XD12001_039",
@@ -1140,7 +1216,7 @@
   "SpecifyRoleIDs": "M13104_001"
  },
  {
-  "Id": "relics_61",
+  "Id": "relics_65",
   "IDs": "XD13001_030",
   "Name": "植物栽培",
   "NameI2": "Relics/Relics_Name_XD13001_030",
@@ -1159,7 +1235,7 @@
   "SpecifyRoleIDs": "M14207"
  },
  {
-  "Id": "relics_62",
+  "Id": "relics_66",
   "IDs": "XD13001_018",
   "Name": "战争法典",
   "NameI2": "Relics/Relics_Name_XD13001_018",
@@ -1178,7 +1254,7 @@
   "SpecifyRoleIDs": "M14201"
  },
  {
-  "Id": "relics_63",
+  "Id": "relics_67",
   "IDs": "XD13001_008",
   "Name": "理财陷阱",
   "NameI2": "Relics/Relics_Name_XD13001_008",
@@ -1197,7 +1273,7 @@
   "SpecifyRoleIDs": "M14203"
  },
  {
-  "Id": "relics_64",
+  "Id": "relics_68",
   "IDs": "XD13001_007",
   "Name": "先祖族谱",
   "NameI2": "Relics/Relics_Name_XD13001_007",
@@ -1216,7 +1292,7 @@
   "SpecifyRoleIDs": "M14202"
  },
  {
-  "Id": "relics_65",
+  "Id": "relics_69",
   "IDs": "XD13001_056",
   "Name": "宣传手册",
   "NameI2": "Relics/Relics_Name_XD13001_056",
@@ -1235,7 +1311,7 @@
   "SpecifyRoleIDs": "M14203_000"
  },
  {
-  "Id": "relics_66",
+  "Id": "relics_70",
   "IDs": "XD14001_016",
   "Name": "美容大全",
   "NameI2": "Relics/Relics_Name_XD14001_016",
@@ -1254,7 +1330,7 @@
   "SpecifyRoleIDs": "M14301"
  },
  {
-  "Id": "relics_67",
+  "Id": "relics_71",
   "IDs": "XD14001_026",
   "Name": "异界画集",
   "NameI2": "Relics/Relics_Name_XD14001_026",
@@ -1273,7 +1349,7 @@
   "SpecifyRoleIDs": "M14303"
  },
  {
-  "Id": "relics_68",
+  "Id": "relics_72",
   "IDs": "XD14001_046",
   "Name": "权力宝典",
   "NameI2": "Relics/Relics_Name_XD14001_046",
@@ -1292,7 +1368,7 @@
   "SpecifyRoleIDs": "M14301_000"
  },
  {
-  "Id": "relics_69",
+  "Id": "relics_73",
   "IDs": "XD14001_051",
   "Name": "度假指南",
   "NameI2": "Relics/Relics_Name_XD14001_051",
@@ -1311,7 +1387,7 @@
   "SpecifyRoleIDs": "M14301_001"
  },
  {
-  "Id": "relics_70",
+  "Id": "relics_74",
   "IDs": "XD14001_059",
   "Name": "针毯保养",
   "NameI2": "Relics/Relics_Name_XD14001_059",
@@ -1330,7 +1406,7 @@
   "SpecifyRoleIDs": "M14215"
  },
  {
-  "Id": "relics_71",
+  "Id": "relics_75",
   "IDs": "XD13001_043",
   "Name": "血脉秘书",
   "NameI2": "Relics/Relics_Name_XD13001_043",
@@ -1349,7 +1425,7 @@
   "SpecifyRoleIDs": "M14205"
  },
  {
-  "Id": "relics_72",
+  "Id": "relics_76",
   "IDs": "XD13001_019",
   "Name": "资本积累",
   "NameI2": "Relics/Relics_Name_XD13001_019",
@@ -1368,7 +1444,7 @@
   "SpecifyRoleIDs": "M14206"
  },
  {
-  "Id": "relics_73",
+  "Id": "relics_77",
   "IDs": "XD13001_067",
   "Name": "充分燃烧",
   "NameI2": "Relics/Relics_Name_XD13001_067",
@@ -1387,7 +1463,7 @@
   "SpecifyRoleIDs": "M14206_002"
  },
  {
-  "Id": "relics_74",
+  "Id": "relics_78",
   "IDs": "XD13001_036",
   "Name": "秘制法门",
   "NameI2": "Relics/Relics_Name_XD13001_036",
@@ -1406,7 +1482,7 @@
   "SpecifyRoleIDs": "M12203"
  },
  {
-  "Id": "relics_75",
+  "Id": "relics_79",
   "IDs": "XD13001_065",
   "Name": "生物制毒",
   "NameI2": "Relics/Relics_Name_XD13001_065",
@@ -1425,7 +1501,7 @@
   "SpecifyRoleIDs": "M11210"
  },
  {
-  "Id": "relics_76",
+  "Id": "relics_80",
   "IDs": "XD13001_066",
   "Name": "尖刺异变",
   "NameI2": "Relics/Relics_Name_XD13001_066",
@@ -1444,7 +1520,7 @@
   "SpecifyRoleIDs": "M12304"
  },
  {
-  "Id": "relics_77",
+  "Id": "relics_81",
   "IDs": "XD13001_073",
   "Name": "好运仪式",
   "NameI2": "Relics/Relics_Name_XD13001_073",
@@ -1463,7 +1539,26 @@
   "SpecifyRoleIDs": "M14211"
  },
  {
-  "Id": "relics_78",
+  "Id": "relics_82",
+  "IDs": "XD13001_077",
+  "Name": "旅游笔记",
+  "NameI2": "Relics/Relics_Name_XD13001_077",
+  "Step": "A",
+  "Weight": 0,
+  "Element": "不限",
+  "Type": "专属",
+  "Class": "",
+  "Race": "生灵",
+  "SubRace": "",
+  "MaxLevel": 3,
+  "Effect": "获得滋润层数+1。",
+  "EffectI2": "Relics/Relics_Des_42",
+  "Description": "",
+  "DescriptionI2": "",
+  "SpecifyRoleIDs": "M11209_000"
+ },
+ {
+  "Id": "relics_83",
   "IDs": "XD14001_018",
   "Name": "魔晶制造",
   "NameI2": "Relics/Relics_Name_XD14001_018",
@@ -1482,7 +1577,7 @@
   "SpecifyRoleIDs": "M13306"
  },
  {
-  "Id": "relics_79",
+  "Id": "relics_84",
   "IDs": "XD14001_029",
   "Name": "英灵战书",
   "NameI2": "Relics/Relics_Name_XD14001_029",
@@ -1501,7 +1596,7 @@
   "SpecifyRoleIDs": "M11304_000"
  },
  {
-  "Id": "relics_80",
+  "Id": "relics_85",
   "IDs": "XD14001_037",
   "Name": "命运法典",
   "NameI2": "Relics/Relics_Name_XD14001_037",
@@ -1520,7 +1615,7 @@
   "SpecifyRoleIDs": "M12205_000"
  },
  {
-  "Id": "relics_81",
+  "Id": "relics_86",
   "IDs": "XD03001_043",
   "Name": "翡翠之光",
   "NameI2": "Relics/Relics_Name_XD03001_043",
@@ -1539,7 +1634,7 @@
   "SpecifyRoleIDs": "M51302_000"
  },
  {
-  "Id": "relics_82",
+  "Id": "relics_87",
   "IDs": "XD04002_021",
   "Name": "龙族秘史",
   "NameI2": "Relics/Relics_Name_XD04002_021",
@@ -1558,7 +1653,7 @@
   "SpecifyRoleIDs": "M13310"
  },
  {
-  "Id": "relics_83",
+  "Id": "relics_88",
   "IDs": "XD14001_058",
   "Name": "特制配方",
   "NameI2": "Relics/Relics_Name_XD14001_058",
@@ -1577,7 +1672,7 @@
   "SpecifyRoleIDs": "M12303"
  },
  {
-  "Id": "relics_84",
+  "Id": "relics_89",
   "IDs": "XD13001_023",
   "Name": "精准奥秘",
   "NameI2": "Relics/Relics_Name_XD13001_023",
@@ -1596,7 +1691,7 @@
   "SpecifyRoleIDs": "M22202"
  },
  {
-  "Id": "relics_85",
+  "Id": "relics_90",
   "IDs": "XD13001_011",
   "Name": "营养均衡",
   "NameI2": "Relics/Relics_Name_XD13001_011",
@@ -1615,7 +1710,7 @@
   "SpecifyRoleIDs": "M21203"
  },
  {
-  "Id": "relics_86",
+  "Id": "relics_91",
   "IDs": "XD13001_063",
   "Name": "古老誓言",
   "NameI2": "Relics/Relics_Name_XD13001_063",
@@ -1634,7 +1729,7 @@
   "SpecifyRoleIDs": "M22203"
  },
  {
-  "Id": "relics_87",
+  "Id": "relics_92",
   "IDs": "XD13001_070",
   "Name": "燃烧奥秘",
   "NameI2": "Relics/Relics_Name_XD13001_070",
@@ -1653,7 +1748,7 @@
   "SpecifyRoleIDs": "M22202_002"
  },
  {
-  "Id": "relics_88",
+  "Id": "relics_93",
   "IDs": "XD14001_010",
   "Name": "终极防御",
   "NameI2": "Relics/Relics_Name_XD14001_010",
@@ -1672,7 +1767,7 @@
   "SpecifyRoleIDs": "M21301"
  },
  {
-  "Id": "relics_89",
+  "Id": "relics_94",
   "IDs": "XD14001_012",
   "Name": "抗争精神",
   "NameI2": "Relics/Relics_Name_XD14001_012",
@@ -1691,7 +1786,7 @@
   "SpecifyRoleIDs": "M11303"
  },
  {
-  "Id": "relics_90",
+  "Id": "relics_95",
   "IDs": "XD14001_004",
   "Name": "至高魔力",
   "NameI2": "Relics/Relics_Name_XD14001_004",
@@ -1710,7 +1805,7 @@
   "SpecifyRoleIDs": "M23301"
  },
  {
-  "Id": "relics_91",
+  "Id": "relics_96",
   "IDs": "XD13001_014",
   "Name": "修复技法",
   "NameI2": "Relics/Relics_Name_XD13001_014",
@@ -1729,7 +1824,7 @@
   "SpecifyRoleIDs": "M31201"
  },
  {
-  "Id": "relics_92",
+  "Id": "relics_97",
   "IDs": "XD13001_015",
   "Name": "记忆强化",
   "NameI2": "Relics/Relics_Name_XD13001_015",
@@ -1748,7 +1843,7 @@
   "SpecifyRoleIDs": "M31202"
  },
  {
-  "Id": "relics_93",
+  "Id": "relics_98",
   "IDs": "XD13001_040",
   "Name": "魔力利用",
   "NameI2": "Relics/Relics_Name_XD13001_040",
@@ -1767,7 +1862,7 @@
   "SpecifyRoleIDs": "M33101"
  },
  {
-  "Id": "relics_94",
+  "Id": "relics_99",
   "IDs": "XD14001_019",
   "Name": "核心编程",
   "NameI2": "Relics/Relics_Name_XD14001_019",
@@ -1786,7 +1881,7 @@
   "SpecifyRoleIDs": "M31302"
  },
  {
-  "Id": "relics_95",
+  "Id": "relics_100",
   "IDs": "XD14001_025",
   "Name": "枪术总要",
   "NameI2": "Relics/Relics_Name_XD14001_025",
@@ -1805,7 +1900,7 @@
   "SpecifyRoleIDs": "M31303"
  },
  {
-  "Id": "relics_96",
+  "Id": "relics_101",
   "IDs": "XD14001_034",
   "Name": "极寒誓约",
   "NameI2": "Relics/Relics_Name_XD14001_034",
@@ -1824,7 +1919,7 @@
   "SpecifyRoleIDs": "M31301_001"
  },
  {
-  "Id": "relics_97",
+  "Id": "relics_102",
   "IDs": "XD14001_024",
   "Name": "愿望大全",
   "NameI2": "Relics/Relics_Name_XD14001_024",
@@ -1843,26 +1938,7 @@
   "SpecifyRoleIDs": "M34301"
  },
  {
-  "Id": "relics_98",
-  "IDs": "XD14001_057",
-  "Name": "冲浪指南",
-  "NameI2": "Relics/Relics_Name_XD14001_057",
-  "Step": "S",
-  "Weight": 0,
-  "Element": "不限",
-  "Type": "专属",
-  "Class": "",
-  "Race": "器灵",
-  "SubRace": "",
-  "MaxLevel": 3,
-  "Effect": "造成滋润层数+1。",
-  "EffectI2": "Relics/Relics_Des_50",
-  "Description": "",
-  "DescriptionI2": "",
-  "SpecifyRoleIDs": "M31301_000"
- },
- {
-  "Id": "relics_99",
+  "Id": "relics_103",
   "IDs": "XD13001_027",
   "Name": "航线地图",
   "NameI2": "Relics/Relics_Name_XD13001_027",
@@ -1881,7 +1957,7 @@
   "SpecifyRoleIDs": "M41201"
  },
  {
-  "Id": "relics_100",
+  "Id": "relics_104",
   "IDs": "XD13001_032",
   "Name": "墓志铭合集",
   "NameI2": "Relics/Relics_Name_XD13001_032",
@@ -1900,7 +1976,7 @@
   "SpecifyRoleIDs": "M13202"
  },
  {
-  "Id": "relics_101",
+  "Id": "relics_105",
   "IDs": "XD14001_011",
   "Name": "藏身图集",
   "NameI2": "Relics/Relics_Name_XD14001_011",
@@ -1919,7 +1995,7 @@
   "SpecifyRoleIDs": "M41301"
  },
  {
-  "Id": "relics_102",
+  "Id": "relics_106",
   "IDs": "XD14001_040",
   "Name": "杂技大全",
   "NameI2": "Relics/Relics_Name_XD14001_040",
@@ -1938,7 +2014,7 @@
   "SpecifyRoleIDs": "M41301_000"
  },
  {
-  "Id": "relics_103",
+  "Id": "relics_107",
   "IDs": "XD14001_042",
   "Name": "亡灵之书",
   "NameI2": "Relics/Relics_Name_XD14001_042",
@@ -1957,7 +2033,7 @@
   "SpecifyRoleIDs": "M11302_000"
  },
  {
-  "Id": "relics_104",
+  "Id": "relics_108",
   "IDs": "XD13001_001",
   "Name": "星门坐标",
   "NameI2": "Relics/Relics_Name_XD13001_001",
@@ -1976,7 +2052,7 @@
   "SpecifyRoleIDs": "M51201"
  },
  {
-  "Id": "relics_105",
+  "Id": "relics_109",
   "IDs": "XD13001_059",
   "Name": "入梦指南",
   "NameI2": "Relics/Relics_Name_XD13001_059",
@@ -1995,7 +2071,7 @@
   "SpecifyRoleIDs": "M11201_000"
  },
  {
-  "Id": "relics_106",
+  "Id": "relics_110",
   "IDs": "XD13001_060",
   "Name": "梦境编织",
   "NameI2": "Relics/Relics_Name_XD13001_060",
@@ -2014,7 +2090,7 @@
   "SpecifyRoleIDs": "M14202_000"
  },
  {
-  "Id": "relics_107",
+  "Id": "relics_111",
   "IDs": "XD14001_006",
   "Name": "生命法则",
   "NameI2": "Relics/Relics_Name_XD14001_006",
@@ -2033,7 +2109,7 @@
   "SpecifyRoleIDs": "M54301"
  },
  {
-  "Id": "relics_108",
+  "Id": "relics_112",
   "IDs": "XD14001_001",
   "Name": "星界法典",
   "NameI2": "Relics/Relics_Name_XD14001_001",
@@ -2052,7 +2128,7 @@
   "SpecifyRoleIDs": "M53301"
  },
  {
-  "Id": "relics_109",
+  "Id": "relics_113",
   "IDs": "XD14001_035",
   "Name": "极寒法典",
   "NameI2": "Relics/Relics_Name_XD14001_035",
@@ -2071,7 +2147,7 @@
   "SpecifyRoleIDs": "M53301_001"
  },
  {
-  "Id": "relics_110",
+  "Id": "relics_114",
   "IDs": "XD14001_048",
   "Name": "烈焰法则",
   "NameI2": "Relics/Relics_Name_XD14001_048",
@@ -2090,7 +2166,7 @@
   "SpecifyRoleIDs": "M54301_000"
  },
  {
-  "Id": "relics_111",
+  "Id": "relics_115",
   "IDs": "XD04002_112",
   "Name": "水之书",
   "NameI2": "Relics/Relics_Name_XD04002_112",
@@ -2109,7 +2185,26 @@
   "SpecifyRoleIDs": "M53301_000"
  },
  {
-  "Id": "relics_112",
+  "Id": "relics_116",
+  "IDs": "XD14001_063",
+  "Name": "训练手册",
+  "NameI2": "Relics/Relics_Name_XD14001_063",
+  "Step": "S",
+  "Weight": 0,
+  "Element": "不限",
+  "Type": "专属",
+  "Class": "",
+  "Race": "神灵",
+  "SubRace": "",
+  "MaxLevel": 3,
+  "Effect": "造成滋润层数+1。",
+  "EffectI2": "Relics/Relics_Des_70",
+  "Description": "",
+  "DescriptionI2": "",
+  "SpecifyRoleIDs": "M51303_001"
+ },
+ {
+  "Id": "relics_117",
   "IDs": "XD11001_009",
   "Name": "矿石分辨",
   "NameI2": "Relics/Relics_Name_XD11001_009",
@@ -2128,7 +2223,7 @@
   "SpecifyRoleIDs": "M12004"
  },
  {
-  "Id": "relics_113",
+  "Id": "relics_118",
   "IDs": "XD11001_008",
   "Name": "淘金指南",
   "NameI2": "Relics/Relics_Name_XD11001_008",
@@ -2147,7 +2242,7 @@
   "SpecifyRoleIDs": "M11007"
  },
  {
-  "Id": "relics_114",
+  "Id": "relics_119",
   "IDs": "XD12001_007",
   "Name": "补水技巧",
   "NameI2": "Relics/Relics_Name_XD12001_007",
@@ -2166,7 +2261,7 @@
   "SpecifyRoleIDs": "M21101"
  },
  {
-  "Id": "relics_115",
+  "Id": "relics_120",
   "IDs": "XD12001_029",
   "Name": "蘑菇培育",
   "NameI2": "Relics/Relics_Name_XD12001_029",
@@ -2185,7 +2280,7 @@
   "SpecifyRoleIDs": "M11112"
  },
  {
-  "Id": "relics_116",
+  "Id": "relics_121",
   "IDs": "XD12001_015",
   "Name": "寓教于乐",
   "NameI2": "Relics/Relics_Name_XD12001_015",
@@ -2204,7 +2299,7 @@
   "SpecifyRoleIDs": "M11106"
  },
  {
-  "Id": "relics_117",
+  "Id": "relics_122",
   "IDs": "XD12001_016",
   "Name": "锻炼合集",
   "NameI2": "Relics/Relics_Name_XD12001_016",
@@ -2223,7 +2318,7 @@
   "SpecifyRoleIDs": "M12102"
  },
  {
-  "Id": "relics_118",
+  "Id": "relics_123",
   "IDs": "XD13001_041",
   "Name": "美食笔记",
   "NameI2": "Relics/Relics_Name_XD13001_041",
@@ -2242,7 +2337,7 @@
   "SpecifyRoleIDs": "M11209"
  },
  {
-  "Id": "relics_119",
+  "Id": "relics_124",
   "IDs": "XD13001_013",
   "Name": "荆棘花园",
   "NameI2": "Relics/Relics_Name_XD13001_013",
@@ -2261,7 +2356,7 @@
   "SpecifyRoleIDs": "M23203"
  },
  {
-  "Id": "relics_120",
+  "Id": "relics_125",
   "IDs": "XD13001_020",
   "Name": "防身指南",
   "NameI2": "Relics/Relics_Name_XD13001_020",
@@ -2280,7 +2375,7 @@
   "SpecifyRoleIDs": "M21201"
  },
  {
-  "Id": "relics_121",
+  "Id": "relics_126",
   "IDs": "XD13001_012",
   "Name": "生命封存",
   "NameI2": "Relics/Relics_Name_XD13001_012",
@@ -2299,7 +2394,7 @@
   "SpecifyRoleIDs": "M23202"
  },
  {
-  "Id": "relics_122",
+  "Id": "relics_127",
   "IDs": "XD13001_022",
   "Name": "拆迁解析",
   "NameI2": "Relics/Relics_Name_XD13001_022",
@@ -2318,7 +2413,7 @@
   "SpecifyRoleIDs": "M22201"
  },
  {
-  "Id": "relics_123",
+  "Id": "relics_128",
   "IDs": "XD13001_064",
   "Name": "沙漠史书",
   "NameI2": "Relics/Relics_Name_XD13001_064",
@@ -2337,7 +2432,7 @@
   "SpecifyRoleIDs": "M23205"
  },
  {
-  "Id": "relics_124",
+  "Id": "relics_129",
   "IDs": "XD14001_003",
   "Name": "地灵契约",
   "NameI2": "Relics/Relics_Name_XD14001_003",
@@ -2356,7 +2451,7 @@
   "SpecifyRoleIDs": "M13302"
  },
  {
-  "Id": "relics_125",
+  "Id": "relics_130",
   "IDs": "XD14001_009",
   "Name": "魔女秘法",
   "NameI2": "Relics/Relics_Name_XD14001_009",
@@ -2375,7 +2470,7 @@
   "SpecifyRoleIDs": "M13303"
  },
  {
-  "Id": "relics_126",
+  "Id": "relics_131",
   "IDs": "XD14001_041",
   "Name": "梦境遨游",
   "NameI2": "Relics/Relics_Name_XD14001_041",
@@ -2394,7 +2489,7 @@
   "SpecifyRoleIDs": "M51303_000"
  },
  {
-  "Id": "relics_127",
+  "Id": "relics_132",
   "IDs": "XD14001_050",
   "Name": "黄沙之书",
   "NameI2": "Relics/Relics_Name_XD14001_050",
@@ -2413,7 +2508,7 @@
   "SpecifyRoleIDs": "M21302"
  },
  {
-  "Id": "relics_128",
+  "Id": "relics_133",
   "IDs": "XD14001_062",
   "Name": "炼金笔记",
   "NameI2": "Relics/Relics_Name_XD14001_062",
@@ -2432,7 +2527,7 @@
   "SpecifyRoleIDs": "M12303_000"
  },
  {
-  "Id": "relics_129",
+  "Id": "relics_134",
   "IDs": "XD14001_060",
   "Name": "花园护理",
   "NameI2": "Relics/Relics_Name_XD14001_060",
@@ -2451,7 +2546,7 @@
   "SpecifyRoleIDs": "M13307"
  },
  {
-  "Id": "relics_130",
+  "Id": "relics_135",
   "IDs": "XD11001_001",
   "Name": "拉面菜谱",
   "NameI2": "Relics/Relics_Name_XD11001_001",
@@ -2470,7 +2565,7 @@
   "SpecifyRoleIDs": "M11002"
  },
  {
-  "Id": "relics_131",
+  "Id": "relics_136",
   "IDs": "XD11001_017",
   "Name": "旅行日记",
   "NameI2": "Relics/Relics_Name_XD11001_017",
@@ -2489,7 +2584,7 @@
   "SpecifyRoleIDs": "M11006"
  },
  {
-  "Id": "relics_132",
+  "Id": "relics_137",
   "IDs": "XD12001_001",
   "Name": "心念归一",
   "NameI2": "Relics/Relics_Name_XD12001_001",
@@ -2508,7 +2603,7 @@
   "SpecifyRoleIDs": "M11102"
  },
  {
-  "Id": "relics_133",
+  "Id": "relics_138",
   "IDs": "XD12001_012",
   "Name": "飞行心得",
   "NameI2": "Relics/Relics_Name_XD12001_012",
@@ -2527,7 +2622,7 @@
   "SpecifyRoleIDs": "M11109"
  },
  {
-  "Id": "relics_134",
+  "Id": "relics_139",
   "IDs": "XD12001_030",
   "Name": "蘑菇繁殖",
   "NameI2": "Relics/Relics_Name_XD12001_030",
@@ -2546,7 +2641,7 @@
   "SpecifyRoleIDs": "M12106"
  },
  {
-  "Id": "relics_135",
+  "Id": "relics_140",
   "IDs": "XD12001_037",
   "Name": "寒流心得",
   "NameI2": "Relics/Relics_Name_XD12001_037",
@@ -2565,7 +2660,7 @@
   "SpecifyRoleIDs": "M11109_001"
  },
  {
-  "Id": "relics_136",
+  "Id": "relics_141",
   "IDs": "XD13001_031",
   "Name": "近战技巧",
   "NameI2": "Relics/Relics_Name_XD13001_031",
@@ -2584,7 +2679,7 @@
   "SpecifyRoleIDs": "M13205"
  },
  {
-  "Id": "relics_137",
+  "Id": "relics_142",
   "IDs": "XD13001_038",
   "Name": "气流原理",
   "NameI2": "Relics/Relics_Name_XD13001_038",
@@ -2603,7 +2698,7 @@
   "SpecifyRoleIDs": "M14208"
  },
  {
-  "Id": "relics_138",
+  "Id": "relics_143",
   "IDs": "XD13001_042",
   "Name": "强者自述",
   "NameI2": "Relics/Relics_Name_XD13001_042",
@@ -2622,7 +2717,7 @@
   "SpecifyRoleIDs": "M11206"
  },
  {
-  "Id": "relics_139",
+  "Id": "relics_144",
   "IDs": "XD13001_016",
   "Name": "截拳秘法",
   "NameI2": "Relics/Relics_Name_XD13001_016",
@@ -2641,7 +2736,7 @@
   "SpecifyRoleIDs": "M11205"
  },
  {
-  "Id": "relics_140",
+  "Id": "relics_145",
   "IDs": "XD13001_009",
   "Name": "控风秘诀",
   "NameI2": "Relics/Relics_Name_XD13001_009",
@@ -2660,7 +2755,7 @@
   "SpecifyRoleIDs": "M21202"
  },
  {
-  "Id": "relics_141",
+  "Id": "relics_146",
   "IDs": "XD14001_007",
   "Name": "亲热天堂",
   "NameI2": "Relics/Relics_Name_XD14001_007",
@@ -2679,7 +2774,7 @@
   "SpecifyRoleIDs": "M12301"
  },
  {
-  "Id": "relics_142",
+  "Id": "relics_147",
   "IDs": "XD14001_031",
   "Name": "御雷秘术",
   "NameI2": "Relics/Relics_Name_XD14001_031",
@@ -2698,7 +2793,7 @@
   "SpecifyRoleIDs": "M31303_000"
  },
  {
-  "Id": "relics_143",
+  "Id": "relics_148",
   "IDs": "XD14001_032",
   "Name": "悬疑故事",
   "NameI2": "Relics/Relics_Name_XD14001_032",
@@ -2717,7 +2812,7 @@
   "SpecifyRoleIDs": "M12301_001"
  },
  {
-  "Id": "relics_144",
+  "Id": "relics_149",
   "IDs": "XD14001_047",
   "Name": "自动编程",
   "NameI2": "Relics/Relics_Name_XD14001_047",
@@ -2736,7 +2831,7 @@
   "SpecifyRoleIDs": "M31302_000"
  },
  {
-  "Id": "relics_145",
+  "Id": "relics_150",
   "IDs": "XD14001_055",
   "Name": "分光剑谱",
   "NameI2": "Relics/Relics_Name_XD14001_055",
@@ -2755,7 +2850,7 @@
   "SpecifyRoleIDs": "M52301_000"
  },
  {
-  "Id": "relics_146",
+  "Id": "relics_151",
   "IDs": "XD11001_011",
   "Name": "舞棍技法",
   "NameI2": "Relics/Relics_Name_XD11001_011",
@@ -2774,7 +2869,7 @@
   "SpecifyRoleIDs": "M11004"
  },
  {
-  "Id": "relics_147",
+  "Id": "relics_152",
   "IDs": "XD11001_010",
   "Name": "摸鱼心得",
   "NameI2": "Relics/Relics_Name_XD11001_010",
@@ -2793,7 +2888,7 @@
   "SpecifyRoleIDs": "M11003"
  },
  {
-  "Id": "relics_148",
+  "Id": "relics_153",
   "IDs": "XD12001_028",
   "Name": "军队日记",
   "NameI2": "Relics/Relics_Name_XD12001_028",
@@ -2812,7 +2907,7 @@
   "SpecifyRoleIDs": "M11113"
  },
  {
-  "Id": "relics_149",
+  "Id": "relics_154",
   "IDs": "XD12001_019",
   "Name": "剑术入门",
   "NameI2": "Relics/Relics_Name_XD12001_019",
@@ -2831,7 +2926,7 @@
   "SpecifyRoleIDs": "M11107"
  },
  {
-  "Id": "relics_150",
+  "Id": "relics_155",
   "IDs": "XD12001_020",
   "Name": "新兵教学",
   "NameI2": "Relics/Relics_Name_XD12001_020",
@@ -2850,7 +2945,7 @@
   "SpecifyRoleIDs": "M11110"
  },
  {
-  "Id": "relics_151",
+  "Id": "relics_156",
   "IDs": "XD12001_021",
   "Name": "珍珠保养",
   "NameI2": "Relics/Relics_Name_XD12001_021",
@@ -2869,7 +2964,7 @@
   "SpecifyRoleIDs": "M12103"
  },
  {
-  "Id": "relics_152",
+  "Id": "relics_157",
   "IDs": "XD13001_034",
   "Name": "兵法要诀",
   "NameI2": "Relics/Relics_Name_XD13001_034",
@@ -2888,7 +2983,7 @@
   "SpecifyRoleIDs": "M11207"
  },
  {
-  "Id": "relics_153",
+  "Id": "relics_158",
   "IDs": "XD13001_035",
   "Name": "祖传秘法",
   "NameI2": "Relics/Relics_Name_XD13001_035",
@@ -2907,7 +3002,7 @@
   "SpecifyRoleIDs": "M11208"
  },
  {
-  "Id": "relics_154",
+  "Id": "relics_159",
   "IDs": "XD13001_025",
   "Name": "保湿秘诀",
   "NameI2": "Relics/Relics_Name_XD13001_025",
@@ -2926,7 +3021,7 @@
   "SpecifyRoleIDs": "M21204"
  },
  {
-  "Id": "relics_155",
+  "Id": "relics_160",
   "IDs": "XD13001_045",
   "Name": "驯养指南",
   "NameI2": "Relics/Relics_Name_XD13001_045",
@@ -2945,7 +3040,7 @@
   "SpecifyRoleIDs": "M13105"
  },
  {
-  "Id": "relics_156",
+  "Id": "relics_161",
   "IDs": "XD13001_052",
   "Name": "极寒史书",
   "NameI2": "Relics/Relics_Name_XD13001_052",
@@ -2964,7 +3059,26 @@
   "SpecifyRoleIDs": "M14201_001"
  },
  {
-  "Id": "relics_157",
+  "Id": "relics_162",
+  "IDs": "XD13001_075",
+  "Name": "保湿秘诀",
+  "NameI2": "Relics/Relics_Name_XD13001_075",
+  "Step": "A",
+  "Weight": 0,
+  "Element": "不限",
+  "Type": "专属",
+  "Class": "",
+  "Race": "",
+  "SubRace": "水系",
+  "MaxLevel": 3,
+  "Effect": "获得滋润层数+1。",
+  "EffectI2": "Relics/Relics_Des_42",
+  "Description": "",
+  "DescriptionI2": "",
+  "SpecifyRoleIDs": "M14202_001"
+ },
+ {
+  "Id": "relics_163",
   "IDs": "XD14001_017",
   "Name": "西游见闻",
   "NameI2": "Relics/Relics_Name_XD14001_017",
@@ -2983,7 +3097,7 @@
   "SpecifyRoleIDs": "M51302"
  },
  {
-  "Id": "relics_158",
+  "Id": "relics_164",
   "IDs": "XD14001_015",
   "Name": "静水之书",
   "NameI2": "Relics/Relics_Name_XD14001_015",
@@ -3002,7 +3116,7 @@
   "SpecifyRoleIDs": "M24301"
  },
  {
-  "Id": "relics_159",
+  "Id": "relics_165",
   "IDs": "XD14001_023",
   "Name": "魔力编织",
   "NameI2": "Relics/Relics_Name_XD14001_023",
@@ -3021,7 +3135,7 @@
   "SpecifyRoleIDs": "M22301"
  },
  {
-  "Id": "relics_160",
+  "Id": "relics_166",
   "IDs": "XD14001_052",
   "Name": "夏日笔记",
   "NameI2": "Relics/Relics_Name_XD14001_052",
@@ -3040,7 +3154,7 @@
   "SpecifyRoleIDs": "M51302_001"
  },
  {
-  "Id": "relics_161",
+  "Id": "relics_167",
   "IDs": "XD11001_019",
   "Name": "察言观色",
   "NameI2": "Relics/Relics_Name_XD11001_019",
@@ -3059,7 +3173,7 @@
   "SpecifyRoleIDs": "M11008"
  },
  {
-  "Id": "relics_162",
+  "Id": "relics_168",
   "IDs": "XD11001_020",
   "Name": "周边地图",
   "NameI2": "Relics/Relics_Name_XD11001_020",
@@ -3078,7 +3192,7 @@
   "SpecifyRoleIDs": "M11009"
  },
  {
-  "Id": "relics_163",
+  "Id": "relics_169",
   "IDs": "XD01001_011",
   "Name": "锻炼心得",
   "NameI2": "Relics/Relics_Name_XD01001_011",
@@ -3097,7 +3211,7 @@
   "SpecifyRoleIDs": "M11007_002"
  },
  {
-  "Id": "relics_164",
+  "Id": "relics_170",
   "IDs": "XD01001_092",
   "Name": "隐蔽心得",
   "NameI2": "Relics/Relics_Name_XD01001_092",
@@ -3116,7 +3230,7 @@
   "SpecifyRoleIDs": "M12004_002"
  },
  {
-  "Id": "relics_165",
+  "Id": "relics_171",
   "IDs": "XD12001_011",
   "Name": "狼灵日记",
   "NameI2": "Relics/Relics_Name_XD12001_011",
@@ -3135,7 +3249,7 @@
   "SpecifyRoleIDs": "M11103"
  },
  {
-  "Id": "relics_166",
+  "Id": "relics_172",
   "IDs": "XD12001_035",
   "Name": "荒野生存",
   "NameI2": "Relics/Relics_Name_XD12001_035",
@@ -3154,7 +3268,7 @@
   "SpecifyRoleIDs": "M11115"
  },
  {
-  "Id": "relics_167",
+  "Id": "relics_173",
   "IDs": "XD12001_034",
   "Name": "考古笔记",
   "NameI2": "Relics/Relics_Name_XD12001_034",
@@ -3173,7 +3287,7 @@
   "SpecifyRoleIDs": "M13107"
  },
  {
-  "Id": "relics_168",
+  "Id": "relics_174",
   "IDs": "XD02001_031",
   "Name": "武器图鉴",
   "NameI2": "Relics/Relics_Name_XD02001_031",
@@ -3192,7 +3306,7 @@
   "SpecifyRoleIDs": "M11106_002"
  },
  {
-  "Id": "relics_169",
+  "Id": "relics_175",
   "IDs": "XD02001_052",
   "Name": "魔纹入门",
   "NameI2": "Relics/Relics_Name_XD02001_052",
@@ -3211,7 +3325,7 @@
   "SpecifyRoleIDs": "M12102_002"
  },
  {
-  "Id": "relics_170",
+  "Id": "relics_176",
   "IDs": "XD13001_044",
   "Name": "鼓点笔记",
   "NameI2": "Relics/Relics_Name_XD13001_044",
@@ -3230,7 +3344,7 @@
   "SpecifyRoleIDs": "M11204"
  },
  {
-  "Id": "relics_171",
+  "Id": "relics_177",
   "IDs": "XD13001_039",
   "Name": "极致艺术",
   "NameI2": "Relics/Relics_Name_XD13001_039",
@@ -3249,7 +3363,7 @@
   "SpecifyRoleIDs": "M14204"
  },
  {
-  "Id": "relics_172",
+  "Id": "relics_178",
   "IDs": "XD13001_021",
   "Name": "温度控制",
   "NameI2": "Relics/Relics_Name_XD13001_021",
@@ -3268,7 +3382,7 @@
   "SpecifyRoleIDs": "M21205"
  },
  {
-  "Id": "relics_173",
+  "Id": "relics_179",
   "IDs": "XD13001_046",
   "Name": "火药配方",
   "NameI2": "Relics/Relics_Name_XD13001_046",
@@ -3287,7 +3401,7 @@
   "SpecifyRoleIDs": "M12210"
  },
  {
-  "Id": "relics_174",
+  "Id": "relics_180",
   "IDs": "XD13001_047",
   "Name": "热血周刊",
   "NameI2": "Relics/Relics_Name_XD13001_047",
@@ -3306,7 +3420,7 @@
   "SpecifyRoleIDs": "M11202"
  },
  {
-  "Id": "relics_175",
+  "Id": "relics_181",
   "IDs": "XD14001_027",
   "Name": "战舞合集",
   "NameI2": "Relics/Relics_Name_XD14001_027",
@@ -3325,7 +3439,7 @@
   "SpecifyRoleIDs": "M12211"
  },
  {
-  "Id": "relics_176",
+  "Id": "relics_182",
   "IDs": "XD14001_044",
   "Name": "战略图集",
   "NameI2": "Relics/Relics_Name_XD14001_044",
@@ -3344,7 +3458,7 @@
   "SpecifyRoleIDs": "M11301_000"
  },
  {
-  "Id": "relics_177",
+  "Id": "relics_183",
   "IDs": "XD14001_038",
   "Name": "熔岩秘术",
   "NameI2": "Relics/Relics_Name_XD14001_038",
@@ -3363,7 +3477,7 @@
   "SpecifyRoleIDs": "M21301_000"
  },
  {
-  "Id": "relics_178",
+  "Id": "relics_184",
   "IDs": "XD14001_054",
   "Name": "烈阳秘法",
   "NameI2": "Relics/Relics_Name_XD14001_054",
@@ -3382,7 +3496,7 @@
   "SpecifyRoleIDs": "M13303_002"
  },
  {
-  "Id": "relics_179",
+  "Id": "relics_185",
   "IDs": "XD04002_031",
   "Name": "恶魔之书",
   "NameI2": "Relics/Relics_Name_XD04002_031",
@@ -3401,7 +3515,7 @@
   "SpecifyRoleIDs": "M11303_002"
  },
  {
-  "Id": "relics_180",
+  "Id": "relics_186",
   "IDs": "XD11001_005",
   "Name": "恋爱话本",
   "NameI2": "Relics/Relics_Name_XD11001_005",
@@ -3420,7 +3534,7 @@
   "SpecifyRoleIDs": "M24001"
  },
  {
-  "Id": "relics_181",
+  "Id": "relics_187",
   "IDs": "XD12001_008",
   "Name": "女仆礼仪",
   "NameI2": "Relics/Relics_Name_XD12001_008",
@@ -3439,7 +3553,7 @@
   "SpecifyRoleIDs": "M24101"
  },
  {
-  "Id": "relics_182",
+  "Id": "relics_188",
   "IDs": "XD12001_018",
   "Name": "热门歌单",
   "NameI2": "Relics/Relics_Name_XD12001_018",
@@ -3458,7 +3572,7 @@
   "SpecifyRoleIDs": "M24102"
  },
  {
-  "Id": "relics_183",
+  "Id": "relics_189",
   "IDs": "XD12001_003",
   "Name": "杂技技巧",
   "NameI2": "Relics/Relics_Name_XD12001_003",
@@ -3477,7 +3591,7 @@
   "SpecifyRoleIDs": "M11108"
  },
  {
-  "Id": "relics_184",
+  "Id": "relics_190",
   "IDs": "XD12001_017",
   "Name": "地图总汇",
   "NameI2": "Relics/Relics_Name_XD12001_017",
@@ -3496,7 +3610,7 @@
   "SpecifyRoleIDs": "M12104"
  },
  {
-  "Id": "relics_185",
+  "Id": "relics_191",
   "IDs": "XD13001_048",
   "Name": "日耀法典",
   "NameI2": "Relics/Relics_Name_XD13001_048",
@@ -3515,7 +3629,7 @@
   "SpecifyRoleIDs": "M13207"
  },
  {
-  "Id": "relics_186",
+  "Id": "relics_192",
   "IDs": "XD13001_058",
   "Name": "雷霆词典",
   "NameI2": "Relics/Relics_Name_XD13001_058",
@@ -3534,7 +3648,7 @@
   "SpecifyRoleIDs": "M23204_000"
  },
  {
-  "Id": "relics_187",
+  "Id": "relics_193",
   "IDs": "XD13001_061",
   "Name": "厄运防范",
   "NameI2": "Relics/Relics_Name_XD13001_061",
@@ -3553,7 +3667,7 @@
   "SpecifyRoleIDs": "M12201_000"
  },
  {
-  "Id": "relics_188",
+  "Id": "relics_194",
   "IDs": "XD13001_062",
   "Name": "控电秘诀",
   "NameI2": "Relics/Relics_Name_XD13001_062",
@@ -3572,7 +3686,7 @@
   "SpecifyRoleIDs": "M21202_000"
  },
  {
-  "Id": "relics_189",
+  "Id": "relics_195",
   "IDs": "XD04001_052",
   "Name": "空灵之书",
   "NameI2": "Relics/Relics_Name_XD04001_052",
@@ -3591,7 +3705,7 @@
   "SpecifyRoleIDs": "M14210"
  },
  {
-  "Id": "relics_190",
+  "Id": "relics_196",
   "IDs": "XD14001_028",
   "Name": "水晶法典",
   "NameI2": "Relics/Relics_Name_XD14001_028",
@@ -3610,7 +3724,7 @@
   "SpecifyRoleIDs": "M23301_000"
  },
  {
-  "Id": "relics_191",
+  "Id": "relics_197",
   "IDs": "XD14001_039",
   "Name": "派对大全",
   "NameI2": "Relics/Relics_Name_XD14001_039",
@@ -3629,7 +3743,7 @@
   "SpecifyRoleIDs": "M13305_000"
  },
  {
-  "Id": "relics_192",
+  "Id": "relics_198",
   "IDs": "XD14001_045",
   "Name": "白银之书",
   "NameI2": "Relics/Relics_Name_XD14001_045",
@@ -3648,7 +3762,7 @@
   "SpecifyRoleIDs": "M24301_000"
  },
  {
-  "Id": "relics_193",
+  "Id": "relics_199",
   "IDs": "XD04002_101",
   "Name": "光辉之书",
   "NameI2": "Relics/Relics_Name_XD04002_101",
@@ -3667,7 +3781,7 @@
   "SpecifyRoleIDs": "M34301_000"
  },
  {
-  "Id": "relics_194",
+  "Id": "relics_200",
   "IDs": "XD03001_014",
   "Name": "勇气之书",
   "NameI2": "Relics/Relics_Name_XD03001_014",
@@ -3686,7 +3800,7 @@
   "SpecifyRoleIDs": "M21302_000"
  },
  {
-  "Id": "relics_195",
+  "Id": "relics_201",
   "IDs": "XD11001_015",
   "Name": "梦境日记",
   "NameI2": "Relics/Relics_Name_XD11001_015",
@@ -3705,7 +3819,7 @@
   "SpecifyRoleIDs": "M14102"
  },
  {
-  "Id": "relics_196",
+  "Id": "relics_202",
   "IDs": "XD11001_006",
   "Name": "拔刀入门",
   "NameI2": "Relics/Relics_Name_XD11001_006",
@@ -3724,7 +3838,7 @@
   "SpecifyRoleIDs": "M11005"
  },
  {
-  "Id": "relics_197",
+  "Id": "relics_203",
   "IDs": "XD11001_007",
   "Name": "蜂蜜妙用",
   "NameI2": "Relics/Relics_Name_XD11001_007",
@@ -3743,7 +3857,7 @@
   "SpecifyRoleIDs": "M12003"
  },
  {
-  "Id": "relics_198",
+  "Id": "relics_204",
   "IDs": "XD12001_010",
   "Name": "恐怖小说",
   "NameI2": "Relics/Relics_Name_XD12001_010",
@@ -3762,7 +3876,7 @@
   "SpecifyRoleIDs": "M43101"
  },
  {
-  "Id": "relics_199",
+  "Id": "relics_205",
   "IDs": "XD12001_025",
   "Name": "防潮指南",
   "NameI2": "Relics/Relics_Name_XD12001_025",
@@ -3781,7 +3895,7 @@
   "SpecifyRoleIDs": "M42101"
  },
  {
-  "Id": "relics_200",
+  "Id": "relics_206",
   "IDs": "XD12001_024",
   "Name": "航海笔记",
   "NameI2": "Relics/Relics_Name_XD12001_024",
@@ -3800,7 +3914,7 @@
   "SpecifyRoleIDs": "M41101"
  },
  {
-  "Id": "relics_201",
+  "Id": "relics_207",
   "IDs": "XD12001_031",
   "Name": "任务名单",
   "NameI2": "Relics/Relics_Name_XD12001_031",
@@ -3819,7 +3933,7 @@
   "SpecifyRoleIDs": "M32103"
  },
  {
-  "Id": "relics_202",
+  "Id": "relics_208",
   "IDs": "XD13001_004",
   "Name": "笑话合集",
   "NameI2": "Relics/Relics_Name_XD13001_004",
@@ -3838,7 +3952,7 @@
   "SpecifyRoleIDs": "M12201"
  },
  {
-  "Id": "relics_203",
+  "Id": "relics_209",
   "IDs": "XD13001_029",
   "Name": "视线诱导",
   "NameI2": "Relics/Relics_Name_XD13001_029",
@@ -3857,7 +3971,7 @@
   "SpecifyRoleIDs": "M13204"
  },
  {
-  "Id": "relics_204",
+  "Id": "relics_210",
   "IDs": "XD13001_037",
   "Name": "祖传配方",
   "NameI2": "Relics/Relics_Name_XD13001_037",
@@ -3876,7 +3990,7 @@
   "SpecifyRoleIDs": "M13206"
  },
  {
-  "Id": "relics_205",
+  "Id": "relics_211",
   "IDs": "XD13001_049",
   "Name": "月影诗篇",
   "NameI2": "Relics/Relics_Name_XD13001_049",
@@ -3895,7 +4009,7 @@
   "SpecifyRoleIDs": "M14213"
  },
  {
-  "Id": "relics_206",
+  "Id": "relics_212",
   "IDs": "XD14001_008",
   "Name": "药剂大全",
   "NameI2": "Relics/Relics_Name_XD14001_008",
@@ -3914,7 +4028,7 @@
   "SpecifyRoleIDs": "M13304"
  },
  {
-  "Id": "relics_207",
+  "Id": "relics_213",
   "IDs": "XD14001_014",
   "Name": "龙之怒",
   "NameI2": "Relics/Relics_Name_XD14001_014",
@@ -3933,7 +4047,7 @@
   "SpecifyRoleIDs": "M11302"
  },
  {
-  "Id": "relics_208",
+  "Id": "relics_214",
   "IDs": "XD14001_022",
   "Name": "熊孩子笔记",
   "NameI2": "Relics/Relics_Name_XD14001_022",
@@ -3952,7 +4066,7 @@
   "SpecifyRoleIDs": "M51303"
  },
  {
-  "Id": "relics_209",
+  "Id": "relics_215",
   "IDs": "XD14001_043",
   "Name": "暗星解析",
   "NameI2": "Relics/Relics_Name_XD14001_043",
@@ -3971,7 +4085,7 @@
   "SpecifyRoleIDs": "M13306_000"
  },
  {
-  "Id": "relics_210",
+  "Id": "relics_216",
   "IDs": "XD14001_061",
   "Name": "鲜血之书",
   "NameI2": "Relics/Relics_Name_XD14001_061",

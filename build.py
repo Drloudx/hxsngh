@@ -1,5 +1,13 @@
 import os
+import sys
 from tkinter import Tk, filedialog
+
+# 保证在 Windows 控制台下打印 emoji 不报 GBK 编码错误
+if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
 
 
 def split_file(target_dir, file_name="dist.zip", chunk_size_mb=9):
@@ -42,13 +50,23 @@ def split_file(target_dir, file_name="dist.zip", chunk_size_mb=9):
 
 
 if __name__ == "__main__":
-    # 1. 初始化 Tkinter 并隐藏主窗口（只用它的弹窗功能）
-    root = Tk()
-    root.withdraw()
+    selected_directory = None
 
-    # 2. 弹出文件夹选择框
-    print("请在弹出的窗口中选择 'dist.zip' 所在的文件夹...")
-    selected_directory = filedialog.askdirectory(title="选择 dist.zip 所在的文件夹")
+    # 如果有命令行参数，优先使用传入的路径
+    if len(sys.argv) > 1 and sys.argv[1].strip():
+        selected_directory = sys.argv[1].strip()
+    else:
+        try:
+            # 1. 初始化 Tkinter 并隐藏主窗口（只用它的弹窗功能）
+            root = Tk()
+            root.withdraw()
+
+            # 2. 弹出文件夹选择框
+            print("请在弹出的窗口中选择 'dist.zip' 所在的文件夹...")
+            selected_directory = filedialog.askdirectory(title="选择 dist.zip 所在的文件夹")
+        except Exception as e:
+            print(f"⚠️ 弹窗不可用 ({e})，默认使用当前目录。")
+            selected_directory = "."
 
     # 3. 如果用户没有取消选择，则执行切片
     if selected_directory:

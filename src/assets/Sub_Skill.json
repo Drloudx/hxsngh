@@ -2268,9 +2268,9 @@
   "NameI2": "Skill/Passiveskills_Name_BD10550_000",
   "Type": "性格",
   "UnlockStar": 3,
-  "Description": "【获得】造成滋润后使自身获得{0}点魔力，但不能进行追击。",
+  "Description": "【获得】造成滋润后使自身获得{0}点魔力，但不能进行追击和反击。",
   "DescriptionI2": "Skill/Passiveskills_Des_BD10550_001_New01",
-  "Value0": 2,
+  "Value0": 3,
   "Value1": 0,
   "Value2": 0,
   "FilterTags": "滋润,获得魔力",
@@ -2296,6 +2296,23 @@
  },
  {
   "Id": "sub_skill_136",
+  "IDs": "BD10548_000",
+  "Icon": "TB00025",
+  "Name": "淡然",
+  "NameI2": "Skill/Passiveskills_Name_BD10548",
+  "Type": "性格",
+  "UnlockStar": 3,
+  "Description": "【减益】敌方目标每次行动结束后对其造成{0}层阻碍，但自身不能进行普通攻击。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD10548_000",
+  "Value0": 5,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "阻碍",
+  "PositiveTags": "阻碍相关",
+  "NegativeTags": "追击输出,普通输出"
+ },
+ {
+  "Id": "sub_skill_137",
   "IDs": "BD10530",
   "Icon": "TB00022",
   "Name": "吝啬",
@@ -2312,7 +2329,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_137",
+  "Id": "sub_skill_138",
   "IDs": "BD10410",
   "Icon": "TB00022",
   "Name": "渴望",
@@ -2329,7 +2346,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_138",
+  "Id": "sub_skill_139",
   "IDs": "BD10531",
   "Icon": "TB00022",
   "Name": "乐观",
@@ -2346,7 +2363,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_139",
+  "Id": "sub_skill_140",
   "IDs": "BD10531_000",
   "Icon": "TB00022",
   "Name": "乐观",
@@ -2363,7 +2380,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_140",
+  "Id": "sub_skill_141",
   "IDs": "BD10532",
   "Icon": "TB00026",
   "Name": "严肃",
@@ -2380,7 +2397,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_141",
+  "Id": "sub_skill_142",
   "IDs": "BD10533",
   "Icon": "TB00022",
   "Name": "贪婪",
@@ -2397,7 +2414,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_142",
+  "Id": "sub_skill_143",
   "IDs": "BD10535",
   "Icon": "TB00023",
   "Name": "霸气",
@@ -2414,7 +2431,7 @@
   "NegativeTags": "追击输出"
  },
  {
-  "Id": "sub_skill_143",
+  "Id": "sub_skill_144",
   "IDs": "BD10535_000",
   "Icon": "TB00025",
   "Name": "霸气",
@@ -2431,7 +2448,7 @@
   "NegativeTags": "反击输出"
  },
  {
-  "Id": "sub_skill_144",
+  "Id": "sub_skill_145",
   "IDs": "BD10567",
   "Icon": "TB00022",
   "Name": "观测",
@@ -2448,7 +2465,7 @@
   "NegativeTags": "速度堆叠,加速相关,优先行动"
  },
  {
-  "Id": "sub_skill_145",
+  "Id": "sub_skill_146",
   "IDs": "BD10537",
   "Icon": "TB00017",
   "Name": "沉默",
@@ -2465,7 +2482,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_146",
+  "Id": "sub_skill_147",
   "IDs": "BD10538",
   "Icon": "TB00025",
   "Name": "无聊",
@@ -2482,7 +2499,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_147",
+  "Id": "sub_skill_148",
   "IDs": "BD10539",
   "Icon": "TB00025",
   "Name": "阴险",
@@ -2499,7 +2516,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_148",
+  "Id": "sub_skill_149",
   "IDs": "BD10566",
   "Icon": "TB00023",
   "Name": "戒备",
@@ -2516,7 +2533,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_149",
+  "Id": "sub_skill_150",
   "IDs": "BD10540",
   "Icon": "TB00025",
   "Name": "包容",
@@ -2533,7 +2550,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_150",
+  "Id": "sub_skill_151",
   "IDs": "BD10540_000",
   "Icon": "TB00023",
   "Name": "包容",
@@ -2550,7 +2567,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_151",
+  "Id": "sub_skill_152",
   "IDs": "BD10536",
   "Icon": "TB00015",
   "Name": "市侩",
@@ -2567,7 +2584,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_152",
+  "Id": "sub_skill_153",
   "IDs": "BD10536_000",
   "Icon": "TB00015",
   "Name": "市侩",
@@ -2584,7 +2601,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_153",
+  "Id": "sub_skill_154",
   "IDs": "BD10569",
   "Icon": "TB00025",
   "Name": "尚武",
@@ -2601,7 +2618,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_154",
+  "Id": "sub_skill_155",
   "IDs": "BD10568",
   "Icon": "TB00022",
   "Name": "火热",
@@ -2618,7 +2635,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_155",
+  "Id": "sub_skill_156",
   "IDs": "BD10002",
   "Icon": "TB00001",
   "Name": "活泼",
@@ -2635,7 +2652,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_156",
+  "Id": "sub_skill_157",
   "IDs": "BD10554",
   "Icon": "TB00001",
   "Name": "虔诚",
@@ -2652,7 +2669,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_157",
+  "Id": "sub_skill_158",
   "IDs": "BD10555",
   "Icon": "TB00027",
   "Name": "刻薄",
@@ -2669,7 +2686,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_158",
+  "Id": "sub_skill_159",
   "IDs": "BD10565",
   "Icon": "TB00023",
   "Name": "警惕",
@@ -2686,7 +2703,7 @@
   "NegativeTags": "吸引攻击"
  },
  {
-  "Id": "sub_skill_159",
+  "Id": "sub_skill_160",
   "IDs": "BD10557",
   "Icon": "TB00014",
   "Name": "考究",
@@ -2703,7 +2720,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_160",
+  "Id": "sub_skill_161",
   "IDs": "BD10561",
   "Icon": "TB00023",
   "Name": "孤高",
@@ -2720,7 +2737,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_161",
+  "Id": "sub_skill_162",
   "IDs": "BD10561_000",
   "Icon": "TB00024",
   "Name": "孤高",
@@ -2737,7 +2754,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_162",
+  "Id": "sub_skill_163",
   "IDs": "BD10560",
   "Icon": "TB00001",
   "Name": "好奇",
@@ -2754,7 +2771,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_163",
+  "Id": "sub_skill_164",
   "IDs": "BD10560_000",
   "Icon": "TB00001",
   "Name": "好奇",
@@ -2771,7 +2788,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_164",
+  "Id": "sub_skill_165",
   "IDs": "BD10562",
   "Icon": "TB00017",
   "Name": "狂妄",
@@ -2788,7 +2805,143 @@
   "NegativeTags": "吸引攻击"
  },
  {
-  "Id": "sub_skill_165",
+  "Id": "sub_skill_166",
+  "IDs": "BD10563",
+  "Icon": "TB00011",
+  "Name": "灵动",
+  "NameI2": "Skill/Passiveskills_Name_BD10563",
+  "Type": "性格",
+  "UnlockStar": 3,
+  "Description": "【普攻】敌方全体目标拥有阻碍时使自身普通攻击目标+{0}。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD10563",
+  "Value0": 1,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "阻碍,额外目标",
+  "PositiveTags": "阻碍相关",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_167",
+  "IDs": "BD10564",
+  "Icon": "TB00025",
+  "Name": "寡言",
+  "NameI2": "Skill/Passiveskills_Name_BD10564",
+  "Type": "性格",
+  "UnlockStar": 3,
+  "Description": "【减益】行动开始前对敌方阻碍目标造成{0}层泯灭。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD10564",
+  "Value0": 2,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "行动开始,泯灭,阻碍",
+  "PositiveTags": "阻碍相关,泯灭相关",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_168",
+  "IDs": "BD10570",
+  "Icon": "TB00023",
+  "Name": "悠闲",
+  "NameI2": "Skill/Passiveskills_Name_BD10570",
+  "Type": "性格",
+  "UnlockStar": 3,
+  "Description": "【增益】高韧性时自身造成鼓舞层数+{0}。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD10570",
+  "Value0": 3,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "鼓舞",
+  "PositiveTags": "鼓舞相关",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_169",
+  "IDs": "BD10571",
+  "Icon": "TB00012",
+  "Name": "饥渴",
+  "NameI2": "Skill/Passiveskills_Name_BD10571",
+  "Type": "性格",
+  "UnlockStar": 3,
+  "Description": "【反击】成长未满层时使自身造成反击距离+{0}，拥有满层成长时使自身造成反击次数+{1}。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD10571",
+  "Value0": 1,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "成长,反击距离,反击次数",
+  "PositiveTags": "成长相关,反击输出",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_170",
+  "IDs": "BD10572",
+  "Icon": "TB00025",
+  "Name": "胆怯",
+  "NameI2": "Skill/Passiveskills_Name_BD10572",
+  "Type": "性格",
+  "UnlockStar": 3,
+  "Description": "【减益】弱点暴露后对敌方全体目标造成{0}层阻碍。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD10572",
+  "Value0": 2,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "弱点暴露,阻碍",
+  "PositiveTags": "阻碍相关",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_171",
+  "IDs": "BD10572_000",
+  "Icon": "TB00015",
+  "Name": "胆怯",
+  "NameI2": "Skill/Passiveskills_Name_BD10572",
+  "Type": "性格",
+  "UnlockStar": 3,
+  "Description": "【特殊】释放技能时使自身攻击距离+{0}。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD10572_000",
+  "Value0": 1,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "释放技能,攻击距离",
+  "PositiveTags": "攻击距离",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_172",
+  "IDs": "BD10573",
+  "Icon": "TB00017",
+  "Name": "好斗",
+  "NameI2": "Skill/Passiveskills_Name_BD10573",
+  "Type": "性格",
+  "UnlockStar": 3,
+  "Description": "【增伤】造成剥离后使自身造成技能伤害+{0}。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD10573",
+  "Value0": 1,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "剥离,释放技能,伤害增加",
+  "PositiveTags": "阻碍相关,技能输出",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_173",
+  "IDs": "BD10573_000",
+  "Icon": "TB00025",
+  "Name": "好斗",
+  "NameI2": "Skill/Passiveskills_Name_BD10573",
+  "Type": "性格",
+  "UnlockStar": 3,
+  "Description": "【减益】受到攻击后对敌方全体目标造成{0}层阻碍，但不能进行反击。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD10573_000",
+  "Value0": 2,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "受到攻击,阻碍",
+  "PositiveTags": "阻碍相关",
+  "NegativeTags": "反击输出"
+ },
+ {
+  "Id": "sub_skill_174",
   "IDs": "BD20002",
   "Icon": "TB20001",
   "Name": "羽族",
@@ -2805,7 +2958,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_166",
+  "Id": "sub_skill_175",
   "IDs": "BD20003",
   "Icon": "TB20002",
   "Name": "虫族",
@@ -2822,7 +2975,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_167",
+  "Id": "sub_skill_176",
   "IDs": "BD20003_000",
   "Icon": "TB20002",
   "Name": "极寒虫族",
@@ -2839,7 +2992,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_168",
+  "Id": "sub_skill_177",
   "IDs": "BD20004",
   "Icon": "TB20003",
   "Name": "龙族",
@@ -2856,7 +3009,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_169",
+  "Id": "sub_skill_178",
   "IDs": "BD20004_000",
   "Icon": "TB20003",
   "Name": "炼狱龙族",
@@ -2873,7 +3026,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_170",
+  "Id": "sub_skill_179",
   "IDs": "BD20005",
   "Icon": "TB20004",
   "Name": "走路菇",
@@ -2890,7 +3043,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_171",
+  "Id": "sub_skill_180",
   "IDs": "BD20005_000",
   "Icon": "TB20004",
   "Name": "暗星菇",
@@ -2907,7 +3060,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_172",
+  "Id": "sub_skill_181",
   "IDs": "BD20006",
   "Icon": "TB20005",
   "Name": "植物族",
@@ -2924,7 +3077,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_173",
+  "Id": "sub_skill_182",
   "IDs": "BD20006_000",
   "Icon": "TB20005",
   "Name": "花妖族",
@@ -2941,7 +3094,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_174",
+  "Id": "sub_skill_183",
   "IDs": "BD20007",
   "Icon": "TB20006",
   "Name": "水族",
@@ -2958,7 +3111,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_175",
+  "Id": "sub_skill_184",
   "IDs": "BD20007_000",
   "Icon": "TB20006",
   "Name": "海精灵",
@@ -2975,7 +3128,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_176",
+  "Id": "sub_skill_185",
   "IDs": "BD20007_001",
   "Icon": "TB20006",
   "Name": "娜迦族",
@@ -2984,7 +3137,7 @@
   "UnlockStar": 2,
   "Description": "对仅存目标造成全部伤害+{0}%。",
   "DescriptionI2": "Skill/Passiveskills_Des_BD20007_001",
-  "Value0": 100,
+  "Value0": 50,
   "Value1": 0,
   "Value2": 0,
   "FilterTags": "",
@@ -2992,7 +3145,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_177",
+  "Id": "sub_skill_186",
   "IDs": "BD20008",
   "Icon": "TB20007",
   "Name": "哥布林",
@@ -3009,7 +3162,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_178",
+  "Id": "sub_skill_187",
   "IDs": "BD20008_000",
   "Icon": "TB20007",
   "Name": "水妖精",
@@ -3026,7 +3179,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_179",
+  "Id": "sub_skill_188",
   "IDs": "BD20009",
   "Icon": "TB20008",
   "Name": "巨魔",
@@ -3043,7 +3196,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_180",
+  "Id": "sub_skill_189",
   "IDs": "BD20009_000",
   "Icon": "TB20008",
   "Name": "高等巨魔",
@@ -3060,7 +3213,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_181",
+  "Id": "sub_skill_190",
   "IDs": "BD20019",
   "Icon": "TB20019",
   "Name": "熊猫族",
@@ -3077,7 +3230,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_182",
+  "Id": "sub_skill_191",
   "IDs": "BD20010",
   "Icon": "TB20101",
   "Name": "史莱姆",
@@ -3094,7 +3247,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_183",
+  "Id": "sub_skill_192",
   "IDs": "BD20011",
   "Icon": "TB20100",
   "Name": "能量元素",
@@ -3111,7 +3264,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_184",
+  "Id": "sub_skill_193",
   "IDs": "BD20011_000",
   "Icon": "TB20100",
   "Name": "熔岩元素",
@@ -3128,7 +3281,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_185",
+  "Id": "sub_skill_194",
   "IDs": "BD20012",
   "Icon": "TB20200",
   "Name": "神器之灵",
@@ -3145,7 +3298,24 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_186",
+  "Id": "sub_skill_195",
+  "IDs": "BD20012_000",
+  "Icon": "TB20200",
+  "Name": "机械之灵",
+  "NameI2": "Skill/Passiveskills_Name_BD20012_000",
+  "Type": "种族",
+  "UnlockStar": 2,
+  "Description": "释放技能时不会受到反击，但自身也不能进行反击。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD20012_000",
+  "Value0": 0,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_196",
   "IDs": "BD20013",
   "Icon": "TB20201",
   "Name": "魔偶",
@@ -3162,7 +3332,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_187",
+  "Id": "sub_skill_197",
   "IDs": "BD20014",
   "Icon": "TB20300",
   "Name": "不死族",
@@ -3179,7 +3349,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_188",
+  "Id": "sub_skill_198",
   "IDs": "BD20014_000",
   "Icon": "TB20300",
   "Name": "血族",
@@ -3196,7 +3366,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_189",
+  "Id": "sub_skill_199",
   "IDs": "BD20015",
   "Icon": "TB20400",
   "Name": "神族",
@@ -3213,7 +3383,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_190",
+  "Id": "sub_skill_200",
   "IDs": "BD20015_000",
   "Icon": "TB20400",
   "Name": "水神族",
@@ -3230,7 +3400,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_191",
+  "Id": "sub_skill_201",
   "IDs": "BD20015_001",
   "Icon": "TB20400",
   "Name": "天使族",
@@ -3247,7 +3417,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_192",
+  "Id": "sub_skill_202",
   "IDs": "BD20501",
   "Icon": "TB20402",
   "Name": "魔族",
@@ -3264,7 +3434,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_193",
+  "Id": "sub_skill_203",
   "IDs": "BD20018",
   "Icon": "TB20400",
   "Name": "仙族",
@@ -3281,7 +3451,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_194",
+  "Id": "sub_skill_204",
   "IDs": "BD20016",
   "Icon": "TB20100",
   "Name": "金属元素",
@@ -3298,7 +3468,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_195",
+  "Id": "sub_skill_205",
   "IDs": "BD20016_000",
   "Icon": "TB20100",
   "Name": "白银元素",
@@ -3315,7 +3485,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_196",
+  "Id": "sub_skill_206",
   "IDs": "BD20017",
   "Icon": "TB20102",
   "Name": "晶体元素",
@@ -3332,7 +3502,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_197",
+  "Id": "sub_skill_207",
   "IDs": "BD20101",
   "Icon": "TB20009",
   "Name": "半人马",
@@ -3349,7 +3519,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_198",
+  "Id": "sub_skill_208",
   "IDs": "BD20102",
   "Icon": "TB20010",
   "Name": "蛮牛族",
@@ -3366,7 +3536,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_199",
+  "Id": "sub_skill_209",
   "IDs": "BD20103",
   "Icon": "TB20011",
   "Name": "猫耳族",
@@ -3383,7 +3553,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_200",
+  "Id": "sub_skill_210",
   "IDs": "BD20104",
   "Icon": "TB20012",
   "Name": "犬耳族",
@@ -3400,7 +3570,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_201",
+  "Id": "sub_skill_211",
   "IDs": "BD20105",
   "Icon": "TB20013",
   "Name": "兔耳族",
@@ -3417,7 +3587,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_202",
+  "Id": "sub_skill_212",
   "IDs": "BD20106",
   "Icon": "TB20014",
   "Name": "鼠耳族",
@@ -3434,7 +3604,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_203",
+  "Id": "sub_skill_213",
   "IDs": "BD20106_000",
   "Icon": "TB20014",
   "Name": "绒针族",
@@ -3451,7 +3621,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_204",
+  "Id": "sub_skill_214",
   "IDs": "BD20107",
   "Icon": "TB20015",
   "Name": "狐耳族",
@@ -3468,7 +3638,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_205",
+  "Id": "sub_skill_215",
   "IDs": "BD20108",
   "Icon": "TB20018",
   "Name": "巨人族",
@@ -3485,7 +3655,58 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_206",
+  "Id": "sub_skill_216",
+  "IDs": "BD20112",
+  "Icon": "TB20020",
+  "Name": "蜥蜴族",
+  "NameI2": "Skill/Passiveskills_Name_BD20112",
+  "Type": "种族",
+  "UnlockStar": 2,
+  "Description": "非弱点暴露时使敌方全体目标获得魔力-{0}。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD20112",
+  "Value0": 1,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_217",
+  "IDs": "BD20112_000",
+  "Icon": "TB20020",
+  "Name": "巨鳄族",
+  "NameI2": "Skill/Passiveskills_Name_BD20112_000",
+  "Type": "种族",
+  "UnlockStar": 2,
+  "Description": "对剥离目标造成伤害后使自身获得{0}点生命和生命上限。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD20112_000",
+  "Value0": 3,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_218",
+  "IDs": "BD20113",
+  "Icon": "TB20021",
+  "Name": "呱呱族",
+  "NameI2": "Skill/Passiveskills_Name_BD20113",
+  "Type": "种族",
+  "UnlockStar": 2,
+  "Description": "非弱点暴露时自身对友方目标造成即时状态层数+{0}。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD20113",
+  "Value0": 3,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_219",
   "IDs": "BD20109",
   "Icon": "TB20103",
   "Name": "沙元素",
@@ -3502,7 +3723,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_207",
+  "Id": "sub_skill_220",
   "IDs": "BD20110",
   "Icon": "TB20202",
   "Name": "神灯之灵",
@@ -3519,7 +3740,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_208",
+  "Id": "sub_skill_221",
   "IDs": "BD20111",
   "Icon": "TB20203",
   "Name": "假人",
@@ -3536,7 +3757,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_209",
+  "Id": "sub_skill_222",
   "IDs": "BD30001",
   "Icon": "TB00011",
   "Name": "普通攻击",
@@ -3553,7 +3774,7 @@
   "NegativeTags": "普通恢复"
  },
  {
-  "Id": "sub_skill_210",
+  "Id": "sub_skill_223",
   "IDs": "BD30301",
   "Icon": "TB00015",
   "Name": "普通治疗",
@@ -3570,7 +3791,7 @@
   "NegativeTags": "普通输出"
  },
  {
-  "Id": "sub_skill_211",
+  "Id": "sub_skill_224",
   "IDs": "BD40001",
   "Icon": "TB00017",
   "Name": "渴望强敌",
@@ -3587,7 +3808,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_212",
+  "Id": "sub_skill_225",
   "IDs": "BD40002",
   "Icon": "TB00017",
   "Name": "恃强凌弱",
@@ -3604,7 +3825,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_213",
+  "Id": "sub_skill_226",
   "IDs": "BD40003",
   "Icon": "TB00016",
   "Name": "临危不惧",
@@ -3621,7 +3842,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_214",
+  "Id": "sub_skill_227",
   "IDs": "BD40003_001",
   "Icon": "TB00025",
   "Name": "极寒体质",
@@ -3638,7 +3859,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_215",
+  "Id": "sub_skill_228",
   "IDs": "BD40004",
   "Icon": "TB00016",
   "Name": "充满自信",
@@ -3655,7 +3876,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_216",
+  "Id": "sub_skill_229",
   "IDs": "BD40006",
   "Icon": "TB00017",
   "Name": "不屈斗志",
@@ -3672,7 +3893,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_217",
+  "Id": "sub_skill_230",
   "IDs": "BD40008",
   "Icon": "TB00017",
   "Name": "勇往无前",
@@ -3689,7 +3910,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_218",
+  "Id": "sub_skill_231",
   "IDs": "BD40009",
   "Icon": "TB00015",
   "Name": "温柔体贴",
@@ -3706,7 +3927,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_219",
+  "Id": "sub_skill_232",
   "IDs": "BD40010",
   "Icon": "TB00015",
   "Name": "充满爱心",
@@ -3723,7 +3944,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_220",
+  "Id": "sub_skill_233",
   "IDs": "BD40101",
   "Icon": "TB00011",
   "Name": "稳定输出",
@@ -3740,7 +3961,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_221",
+  "Id": "sub_skill_234",
   "IDs": "BD40102",
   "Icon": "TB00013",
   "Name": "追击专精",
@@ -3757,7 +3978,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_222",
+  "Id": "sub_skill_235",
   "IDs": "BD40102_001",
   "Icon": "TB00025",
   "Name": "冰霜武器",
@@ -3774,7 +3995,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_223",
+  "Id": "sub_skill_236",
   "IDs": "BD40103",
   "Icon": "TB00012",
   "Name": "反击专精",
@@ -3791,7 +4012,7 @@
   "NegativeTags": "躲避攻击"
  },
  {
-  "Id": "sub_skill_224",
+  "Id": "sub_skill_237",
   "IDs": "BD40104",
   "Icon": "TB00016",
   "Name": "躲避专精",
@@ -3808,7 +4029,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_225",
+  "Id": "sub_skill_238",
   "IDs": "BD40105",
   "Icon": "TB00015",
   "Name": "稳定恢复",
@@ -3825,7 +4046,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_226",
+  "Id": "sub_skill_239",
   "IDs": "BD40106",
   "Icon": "TB00014",
   "Name": "技能专精",
@@ -3842,7 +4063,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_227",
+  "Id": "sub_skill_240",
   "IDs": "BD40109",
   "Icon": "TB00015",
   "Name": "强力恢复",
@@ -3859,7 +4080,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_228",
+  "Id": "sub_skill_241",
   "IDs": "BD40232",
   "Icon": "TB00023",
   "Name": "荆棘盾牌",
@@ -3876,7 +4097,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_229",
+  "Id": "sub_skill_242",
   "IDs": "BD40303",
   "Icon": "TB00016",
   "Name": "保持警惕",
@@ -3893,7 +4114,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_230",
+  "Id": "sub_skill_243",
   "IDs": "BD40306",
   "Icon": "TB00025",
   "Name": "火焰化身",
@@ -3910,7 +4131,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_231",
+  "Id": "sub_skill_244",
   "IDs": "BD40323",
   "Icon": "TB00023",
   "Name": "生命永恒",
@@ -3927,7 +4148,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_232",
+  "Id": "sub_skill_245",
   "IDs": "BD40323_000",
   "Icon": "TB00025",
   "Name": "烈焰永恒",
@@ -3944,7 +4165,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_233",
+  "Id": "sub_skill_246",
   "IDs": "BD40324",
   "Icon": "TB00022",
   "Name": "翡翠能源",
@@ -3961,7 +4182,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_234",
+  "Id": "sub_skill_247",
   "IDs": "BD40325",
   "Icon": "TB00023",
   "Name": "生命掠夺",
@@ -3978,7 +4199,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_235",
+  "Id": "sub_skill_248",
   "IDs": "BD40325_000",
   "Icon": "TB00023",
   "Name": "邪恶趣味",
@@ -3995,7 +4216,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_236",
+  "Id": "sub_skill_249",
   "IDs": "BD40325_001",
   "Icon": "TB00023",
   "Name": "纵火狂热",
@@ -4012,7 +4233,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_237",
+  "Id": "sub_skill_250",
   "IDs": "BD40326",
   "Icon": "TB00017",
   "Name": "精神支配",
@@ -4029,24 +4250,24 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_238",
+  "Id": "sub_skill_251",
   "IDs": "BD40326_000",
   "Icon": "TB00017",
   "Name": "流水支配",
   "NameI2": "Skill/Passiveskills_Name_BD40326_000",
   "Type": "特性",
   "UnlockStar": 5,
-  "Description": "【增伤】目标每拥有{0}层滋润使自身对其造成多段技能攻击次数+{1}。",
+  "Description": "【增伤】双方目标每拥有{0}层滋润使自身对其造成技能伤害+{1}。",
   "DescriptionI2": "Skill/Passiveskills_Des_BD40326_000",
-  "Value0": 600,
+  "Value0": 25,
   "Value1": 1,
   "Value2": 0,
-  "FilterTags": "滋润,进行攻击,伤害增加",
+  "FilterTags": "滋润,释放技能,伤害增加",
   "PositiveTags": "滋润相关",
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_239",
+  "Id": "sub_skill_252",
   "IDs": "BD40326_001",
   "Icon": "TB00017",
   "Name": "极寒支配",
@@ -4063,7 +4284,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_240",
+  "Id": "sub_skill_253",
   "IDs": "BD40326_002",
   "Icon": "TB00023",
   "Name": "再加把劲",
@@ -4080,7 +4301,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_241",
+  "Id": "sub_skill_254",
   "IDs": "BD40328",
   "Icon": "TB00023",
   "Name": "永恒不灭",
@@ -4097,7 +4318,7 @@
   "NegativeTags": "生命堆叠"
  },
  {
-  "Id": "sub_skill_242",
+  "Id": "sub_skill_255",
   "IDs": "BD40328_000",
   "Icon": "TB00023",
   "Name": "熔岩重铸",
@@ -4114,7 +4335,7 @@
   "NegativeTags": "自身暴露"
  },
  {
-  "Id": "sub_skill_243",
+  "Id": "sub_skill_256",
   "IDs": "BD40329",
   "Icon": "TB00023",
   "Name": "高度集中",
@@ -4131,7 +4352,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_244",
+  "Id": "sub_skill_257",
   "IDs": "BD40329_000",
   "Icon": "TB00017",
   "Name": "好运眷顾",
@@ -4148,7 +4369,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_245",
+  "Id": "sub_skill_258",
   "IDs": "BD40329_001",
   "Icon": "TB00014",
   "Name": "水枪增压",
@@ -4165,7 +4386,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_246",
+  "Id": "sub_skill_259",
   "IDs": "BD40330",
   "Icon": "TB00014",
   "Name": "唯快不破",
@@ -4182,7 +4403,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_247",
+  "Id": "sub_skill_260",
   "IDs": "BD40330_001",
   "Icon": "TB00014",
   "Name": "极寒冰拳",
@@ -4199,7 +4420,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_248",
+  "Id": "sub_skill_261",
   "IDs": "BD40331",
   "Icon": "TB00023",
   "Name": "效率提升",
@@ -4216,7 +4437,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_249",
+  "Id": "sub_skill_262",
   "IDs": "BD40331_002",
   "Icon": "TB00025",
   "Name": "焚烧效率",
@@ -4233,7 +4454,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_250",
+  "Id": "sub_skill_263",
   "IDs": "BD40332",
   "Icon": "TB00032",
   "Name": "灵魂形态",
@@ -4250,7 +4471,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_251",
+  "Id": "sub_skill_264",
   "IDs": "BD40332_000",
   "Icon": "TB00032",
   "Name": "灵魂唤醒",
@@ -4267,7 +4488,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_252",
+  "Id": "sub_skill_265",
   "IDs": "BD40333",
   "Icon": "TB00015",
   "Name": "热血重燃",
@@ -4284,7 +4505,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_253",
+  "Id": "sub_skill_266",
   "IDs": "BD40401",
   "Icon": "TB00021",
   "Name": "结实身躯",
@@ -4301,7 +4522,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_254",
+  "Id": "sub_skill_267",
   "IDs": "BD40402",
   "Icon": "TB00021",
   "Name": "强壮身躯",
@@ -4318,7 +4539,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_255",
+  "Id": "sub_skill_268",
   "IDs": "BD40403",
   "Icon": "TB00021",
   "Name": "纤弱身躯",
@@ -4335,7 +4556,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_256",
+  "Id": "sub_skill_269",
   "IDs": "BD40403_001",
   "Icon": "TB00021",
   "Name": "强力御寒",
@@ -4352,7 +4573,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_257",
+  "Id": "sub_skill_270",
   "IDs": "BD40404",
   "Icon": "TB00021",
   "Name": "矫健身躯",
@@ -4369,7 +4590,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_258",
+  "Id": "sub_skill_271",
   "IDs": "BD40404_001",
   "Icon": "TB00025",
   "Name": "绝地寒冷",
@@ -4386,7 +4607,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_259",
+  "Id": "sub_skill_272",
   "IDs": "BD40405",
   "Icon": "TB00021",
   "Name": "无畏信念",
@@ -4403,7 +4624,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_260",
+  "Id": "sub_skill_273",
   "IDs": "BD40406",
   "Icon": "TB00021",
   "Name": "直觉预感",
@@ -4420,7 +4641,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_261",
+  "Id": "sub_skill_274",
   "IDs": "BD40407",
   "Icon": "TB00021",
   "Name": "免疫增强",
@@ -4437,7 +4658,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_262",
+  "Id": "sub_skill_275",
   "IDs": "BD40408",
   "Icon": "TB00014",
   "Name": "蓬松羽毛",
@@ -4454,7 +4675,7 @@
   "NegativeTags": "单段技能"
  },
  {
-  "Id": "sub_skill_263",
+  "Id": "sub_skill_276",
   "IDs": "BD40408_001",
   "Icon": "TB00013",
   "Name": "无尽冰羽",
@@ -4471,7 +4692,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_264",
+  "Id": "sub_skill_277",
   "IDs": "BD40409",
   "Icon": "TB00021",
   "Name": "坚硬身躯",
@@ -4488,7 +4709,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_265",
+  "Id": "sub_skill_278",
   "IDs": "BD40410",
   "Icon": "TB00021",
   "Name": "耐热体质",
@@ -4505,7 +4726,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_266",
+  "Id": "sub_skill_279",
   "IDs": "BD40501_001",
   "Icon": "TB00021",
   "Name": "耐寒体质",
@@ -4522,7 +4743,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_267",
+  "Id": "sub_skill_280",
   "IDs": "BD40601",
   "Icon": "TB00012",
   "Name": "追踪系统",
@@ -4539,7 +4760,7 @@
   "NegativeTags": "躲避攻击"
  },
  {
-  "Id": "sub_skill_268",
+  "Id": "sub_skill_281",
   "IDs": "BD40601_000",
   "Icon": "TB00012",
   "Name": "火力升级",
@@ -4556,7 +4777,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_269",
+  "Id": "sub_skill_282",
   "IDs": "BD40902",
   "Icon": "TB00031",
   "Name": "狩猎时刻",
@@ -4573,7 +4794,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_270",
+  "Id": "sub_skill_283",
   "IDs": "BD40902_000",
   "Icon": "TB00018",
   "Name": "梦魇降临",
@@ -4590,7 +4811,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_271",
+  "Id": "sub_skill_284",
   "IDs": "BD40904",
   "Icon": "TB00018",
   "Name": "反复践踏",
@@ -4607,7 +4828,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_272",
+  "Id": "sub_skill_285",
   "IDs": "BD40905",
   "Icon": "TB00023",
   "Name": "吞噬成长",
@@ -4624,7 +4845,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_273",
+  "Id": "sub_skill_286",
   "IDs": "BD40907",
   "Icon": "TB00026",
   "Name": "生命剥离",
@@ -4641,7 +4862,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_274",
+  "Id": "sub_skill_287",
   "IDs": "BD40907_000",
   "Icon": "TB00026",
   "Name": "魔力破灭",
@@ -4658,7 +4879,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_275",
+  "Id": "sub_skill_288",
   "IDs": "BD40909",
   "Icon": "TB00015",
   "Name": "财源不断",
@@ -4675,7 +4896,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_276",
+  "Id": "sub_skill_289",
   "IDs": "BD40909_000",
   "Icon": "TB00022",
   "Name": "恢复法阵",
@@ -4692,7 +4913,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_277",
+  "Id": "sub_skill_290",
   "IDs": "BD40911",
   "Icon": "TB00014",
   "Name": "寒气冰封",
@@ -4709,7 +4930,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_278",
+  "Id": "sub_skill_291",
   "IDs": "BD40913_001",
   "Icon": "TB00015",
   "Name": "寒潮来临",
@@ -4726,7 +4947,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_279",
+  "Id": "sub_skill_292",
   "IDs": "BD40914",
   "Icon": "TB00015",
   "Name": "战场急救",
@@ -4743,7 +4964,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_280",
+  "Id": "sub_skill_293",
   "IDs": "BD40915",
   "Icon": "TB00023",
   "Name": "风灵加护",
@@ -4760,7 +4981,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_281",
+  "Id": "sub_skill_294",
   "IDs": "BD40915_000",
   "Icon": "TB00025",
   "Name": "恐惧诅咒",
@@ -4777,7 +4998,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_282",
+  "Id": "sub_skill_295",
   "IDs": "BD40915_001",
   "Icon": "TB00023",
   "Name": "水灵加护",
@@ -4794,7 +5015,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_283",
+  "Id": "sub_skill_296",
   "IDs": "BD40916",
   "Icon": "TB00031",
   "Name": "诡异身形",
@@ -4811,7 +5032,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_284",
+  "Id": "sub_skill_297",
   "IDs": "BD40916_000",
   "Icon": "TB00031",
   "Name": "命运窃取",
@@ -4828,7 +5049,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_285",
+  "Id": "sub_skill_298",
   "IDs": "BD40917",
   "Icon": "TB00025",
   "Name": "狂风渐起",
@@ -4845,7 +5066,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_286",
+  "Id": "sub_skill_299",
   "IDs": "BD40917_000",
   "Icon": "TB00025",
   "Name": "雷云遍布",
@@ -4862,7 +5083,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_287",
+  "Id": "sub_skill_300",
   "IDs": "BD40918",
   "Icon": "TB00013",
   "Name": "沉重追击",
@@ -4879,7 +5100,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_288",
+  "Id": "sub_skill_301",
   "IDs": "BD40918_001",
   "Icon": "TB00013",
   "Name": "极寒追击",
@@ -4896,7 +5117,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_289",
+  "Id": "sub_skill_302",
   "IDs": "BD40919",
   "Icon": "TB00021",
   "Name": "永不为奴",
@@ -4913,7 +5134,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_290",
+  "Id": "sub_skill_303",
   "IDs": "BD40919_000",
   "Icon": "TB00023",
   "Name": "沉着冷静",
@@ -4930,7 +5151,7 @@
   "NegativeTags": "速度堆叠"
  },
  {
-  "Id": "sub_skill_291",
+  "Id": "sub_skill_304",
   "IDs": "BD40921",
   "Icon": "TB00023",
   "Name": "时间逆转",
@@ -4947,7 +5168,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_292",
+  "Id": "sub_skill_305",
   "IDs": "BD40921_000",
   "Icon": "TB00025",
   "Name": "奇思妙想",
@@ -4964,7 +5185,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_293",
+  "Id": "sub_skill_306",
   "IDs": "BD40922",
   "Icon": "TB00014",
   "Name": "茁壮成长",
@@ -4981,7 +5202,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_294",
+  "Id": "sub_skill_307",
   "IDs": "BD40923",
   "Icon": "TB00026",
   "Name": "束缚禁锢",
@@ -4998,7 +5219,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_295",
+  "Id": "sub_skill_308",
   "IDs": "BD40924",
   "Icon": "TB00022",
   "Name": "生命标记",
@@ -5015,7 +5236,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_296",
+  "Id": "sub_skill_309",
   "IDs": "BD40925",
   "Icon": "TB00023",
   "Name": "永不动摇",
@@ -5032,7 +5253,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_297",
+  "Id": "sub_skill_310",
   "IDs": "BD40925_002",
   "Icon": "TB00016",
   "Name": "熔岩外壳",
@@ -5049,7 +5270,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_298",
+  "Id": "sub_skill_311",
   "IDs": "BD40926",
   "Icon": "TB00017",
   "Name": "攻城巨炮",
@@ -5066,7 +5287,7 @@
   "NegativeTags": "精准相关"
  },
  {
-  "Id": "sub_skill_299",
+  "Id": "sub_skill_312",
   "IDs": "BD40926_002",
   "Icon": "TB00017",
   "Name": "焚烧巨炮",
@@ -5083,7 +5304,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_300",
+  "Id": "sub_skill_313",
   "IDs": "BD40927",
   "Icon": "TB00017",
   "Name": "无处躲藏",
@@ -5100,7 +5321,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_301",
+  "Id": "sub_skill_314",
   "IDs": "BD40927_002",
   "Icon": "TB00017",
   "Name": "烈火燎原",
@@ -5117,7 +5338,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_302",
+  "Id": "sub_skill_315",
   "IDs": "BD40928",
   "Icon": "TB00027",
   "Name": "流水碎岩",
@@ -5134,7 +5355,7 @@
   "NegativeTags": "躲避攻击"
  },
  {
-  "Id": "sub_skill_303",
+  "Id": "sub_skill_316",
   "IDs": "BD40929",
   "Icon": "TB00027",
   "Name": "流水领域",
@@ -5151,7 +5372,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_304",
+  "Id": "sub_skill_317",
   "IDs": "BD40930",
   "Icon": "TB00017",
   "Name": "言语中伤",
@@ -5168,7 +5389,7 @@
   "NegativeTags": "躲避攻击"
  },
  {
-  "Id": "sub_skill_305",
+  "Id": "sub_skill_318",
   "IDs": "BD40931",
   "Icon": "TB00012",
   "Name": "群星祝福",
@@ -5185,7 +5406,7 @@
   "NegativeTags": "躲避攻击"
  },
  {
-  "Id": "sub_skill_306",
+  "Id": "sub_skill_319",
   "IDs": "BD40931_001",
   "Icon": "TB00012",
   "Name": "极寒祝福",
@@ -5202,7 +5423,7 @@
   "NegativeTags": "躲避攻击"
  },
  {
-  "Id": "sub_skill_307",
+  "Id": "sub_skill_320",
   "IDs": "BD40932",
   "Icon": "TB00025",
   "Name": "大地粉碎",
@@ -5219,7 +5440,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_308",
+  "Id": "sub_skill_321",
   "IDs": "BD40932_001",
   "Icon": "TB00025",
   "Name": "大地干枯",
@@ -5236,7 +5457,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_309",
+  "Id": "sub_skill_322",
   "IDs": "BD40932_002",
   "Icon": "TB00025",
   "Name": "烈阳升温",
@@ -5253,7 +5474,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_310",
+  "Id": "sub_skill_323",
   "IDs": "BD40933",
   "Icon": "TB00018",
   "Name": "身先士卒",
@@ -5270,7 +5491,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_311",
+  "Id": "sub_skill_324",
   "IDs": "BD40933_000",
   "Icon": "TB00018",
   "Name": "势不可挡",
@@ -5287,7 +5508,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_312",
+  "Id": "sub_skill_325",
   "IDs": "BD40934",
   "Icon": "TB00026",
   "Name": "生命流逝",
@@ -5304,7 +5525,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_313",
+  "Id": "sub_skill_326",
   "IDs": "BD40934_001",
   "Icon": "TB00026",
   "Name": "温度流逝",
@@ -5321,7 +5542,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_314",
+  "Id": "sub_skill_327",
   "IDs": "BD40935",
   "Icon": "TB00025",
   "Name": "地灵震荡",
@@ -5338,7 +5559,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_315",
+  "Id": "sub_skill_328",
   "IDs": "BD40935_000",
   "Icon": "TB00022",
   "Name": "恐惧汲取",
@@ -5355,7 +5576,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_316",
+  "Id": "sub_skill_329",
   "IDs": "BD40936",
   "Icon": "TB00001",
   "Name": "魔力灌注",
@@ -5372,7 +5593,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_317",
+  "Id": "sub_skill_330",
   "IDs": "BD40936_000",
   "Icon": "TB00001",
   "Name": "魔力凝结",
@@ -5389,7 +5610,7 @@
   "NegativeTags": "魔力堆叠"
  },
  {
-  "Id": "sub_skill_318",
+  "Id": "sub_skill_331",
   "IDs": "BD40936_001",
   "Icon": "TB00022",
   "Name": "熔岩膨胀",
@@ -5406,7 +5627,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_319",
+  "Id": "sub_skill_332",
   "IDs": "BD40937",
   "Icon": "TB00001",
   "Name": "无所畏惧",
@@ -5423,7 +5644,7 @@
   "NegativeTags": "躲避攻击"
  },
  {
-  "Id": "sub_skill_320",
+  "Id": "sub_skill_333",
   "IDs": "BD40937_000",
   "Icon": "TB00024",
   "Name": "沁人心脾",
@@ -5440,7 +5661,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_321",
+  "Id": "sub_skill_334",
   "IDs": "BD40937_001",
   "Icon": "TB00024",
   "Name": "冰雪铸剑",
@@ -5457,7 +5678,7 @@
   "NegativeTags": "躲避攻击"
  },
  {
-  "Id": "sub_skill_322",
+  "Id": "sub_skill_335",
   "IDs": "BD40939",
   "Icon": "TB00012",
   "Name": "汲血利刃",
@@ -5474,7 +5695,7 @@
   "NegativeTags": "躲避攻击"
  },
  {
-  "Id": "sub_skill_323",
+  "Id": "sub_skill_336",
   "IDs": "BD40939_000",
   "Icon": "TB00033",
   "Name": "军团战阵",
@@ -5491,7 +5712,7 @@
   "NegativeTags": "躲避攻击"
  },
  {
-  "Id": "sub_skill_324",
+  "Id": "sub_skill_337",
   "IDs": "BD40939_001",
   "Icon": "TB00024",
   "Name": "黑帆劫掠",
@@ -5508,7 +5729,7 @@
   "NegativeTags": "躲避攻击"
  },
  {
-  "Id": "sub_skill_325",
+  "Id": "sub_skill_338",
   "IDs": "BD40940",
   "Icon": "TB00023",
   "Name": "兴云布雨",
@@ -5525,7 +5746,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_326",
+  "Id": "sub_skill_339",
   "IDs": "BD40940_000",
   "Icon": "TB00023",
   "Name": "翡翠龙珠",
@@ -5542,7 +5763,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_327",
+  "Id": "sub_skill_340",
   "IDs": "BD40940_001",
   "Icon": "TB00027",
   "Name": "放松享受",
@@ -5559,7 +5780,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_328",
+  "Id": "sub_skill_341",
   "IDs": "BD40941",
   "Icon": "TB00021",
   "Name": "异常抵御",
@@ -5576,7 +5797,7 @@
   "NegativeTags": "自身暴露"
  },
  {
-  "Id": "sub_skill_329",
+  "Id": "sub_skill_342",
   "IDs": "BD40941_002",
   "Icon": "TB00021",
   "Name": "伟岸身躯",
@@ -5593,7 +5814,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_330",
+  "Id": "sub_skill_343",
   "IDs": "BD40942",
   "Icon": "TB00021",
   "Name": "特立独行",
@@ -5610,7 +5831,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_331",
+  "Id": "sub_skill_344",
   "IDs": "BD40942_000",
   "Icon": "TB00023",
   "Name": "援助附魔",
@@ -5627,7 +5848,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_332",
+  "Id": "sub_skill_345",
   "IDs": "BD40943",
   "Icon": "TB00022",
   "Name": "愤怒积累",
@@ -5644,7 +5865,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_333",
+  "Id": "sub_skill_346",
   "IDs": "BD40944",
   "Icon": "TB00031",
   "Name": "高等学识",
@@ -5661,7 +5882,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_334",
+  "Id": "sub_skill_347",
   "IDs": "BD40945",
   "Icon": "TB00017",
   "Name": "魔术诱导",
@@ -5678,7 +5899,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_335",
+  "Id": "sub_skill_348",
   "IDs": "BD40945_000",
   "Icon": "TB00017",
   "Name": "湿身偷袭",
@@ -5695,7 +5916,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_336",
+  "Id": "sub_skill_349",
   "IDs": "BD40946",
   "Icon": "TB00023",
   "Name": "果实培育",
@@ -5712,7 +5933,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_337",
+  "Id": "sub_skill_350",
   "IDs": "BD40947",
   "Icon": "TB00014",
   "Name": "幽暗回响",
@@ -5729,7 +5950,7 @@
   "NegativeTags": "单体技能,单段技能"
  },
  {
-  "Id": "sub_skill_338",
+  "Id": "sub_skill_351",
   "IDs": "BD40947_000",
   "Icon": "TB00032",
   "Name": "苍白复制",
@@ -5746,7 +5967,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_339",
+  "Id": "sub_skill_352",
   "IDs": "BD40948",
   "Icon": "TB00022",
   "Name": "幕后黑手",
@@ -5763,7 +5984,7 @@
   "NegativeTags": "吸引攻击"
  },
  {
-  "Id": "sub_skill_340",
+  "Id": "sub_skill_353",
   "IDs": "BD40948_000",
   "Icon": "TB00001",
   "Name": "派对核心",
@@ -5780,7 +6001,7 @@
   "NegativeTags": "吸引攻击"
  },
  {
-  "Id": "sub_skill_341",
+  "Id": "sub_skill_354",
   "IDs": "BD40949",
   "Icon": "TB00026",
   "Name": "孢子扩散",
@@ -5797,7 +6018,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_342",
+  "Id": "sub_skill_355",
   "IDs": "BD40950",
   "Icon": "TB00018",
   "Name": "随风飘荡",
@@ -5814,7 +6035,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_343",
+  "Id": "sub_skill_356",
   "IDs": "BD40951",
   "Icon": "TB00014",
   "Name": "魔力聚集",
@@ -5831,7 +6052,7 @@
   "NegativeTags": "躲避攻击"
  },
  {
-  "Id": "sub_skill_344",
+  "Id": "sub_skill_357",
   "IDs": "BD40952",
   "Icon": "TB00001",
   "Name": "魔晶掌控",
@@ -5848,7 +6069,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_345",
+  "Id": "sub_skill_358",
   "IDs": "BD40952_000",
   "Icon": "TB00017",
   "Name": "暗星压制",
@@ -5865,7 +6086,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_346",
+  "Id": "sub_skill_359",
   "IDs": "BD40953",
   "Icon": "TB00031",
   "Name": "胜利奖赏",
@@ -5882,7 +6103,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_347",
+  "Id": "sub_skill_360",
   "IDs": "BD40954",
   "Icon": "TB00023",
   "Name": "畸变铠甲",
@@ -5899,7 +6120,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_348",
+  "Id": "sub_skill_361",
   "IDs": "BD40955",
   "Icon": "TB00014",
   "Name": "锐不可当",
@@ -5916,7 +6137,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_349",
+  "Id": "sub_skill_362",
   "IDs": "BD40956",
   "Icon": "TB00015",
   "Name": "坚实后盾",
@@ -5933,7 +6154,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_350",
+  "Id": "sub_skill_363",
   "IDs": "BD40956_000",
   "Icon": "TB00015",
   "Name": "为吾而战",
@@ -5950,7 +6171,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_351",
+  "Id": "sub_skill_364",
   "IDs": "BD40956_001",
   "Icon": "TB00015",
   "Name": "假日储备",
@@ -5967,7 +6188,7 @@
   "NegativeTags": "多段技能"
  },
  {
-  "Id": "sub_skill_352",
+  "Id": "sub_skill_365",
   "IDs": "BD40957",
   "Icon": "TB00014",
   "Name": "蓄势待发",
@@ -5984,7 +6205,7 @@
   "NegativeTags": "单段技能"
  },
  {
-  "Id": "sub_skill_353",
+  "Id": "sub_skill_366",
   "IDs": "BD40958",
   "Icon": "TB00033",
   "Name": "团结之力",
@@ -6001,7 +6222,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_354",
+  "Id": "sub_skill_367",
   "IDs": "BD40959",
   "Icon": "TB00023",
   "Name": "水之精灵",
@@ -6018,7 +6239,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_355",
+  "Id": "sub_skill_368",
   "IDs": "BD40959_000",
   "Icon": "TB00027",
   "Name": "白银光辉",
@@ -6035,7 +6256,7 @@
   "NegativeTags": "多段技能"
  },
  {
-  "Id": "sub_skill_356",
+  "Id": "sub_skill_369",
   "IDs": "BD40960",
   "Icon": "TB00015",
   "Name": "浑身破绽",
@@ -6052,7 +6273,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_357",
+  "Id": "sub_skill_370",
   "IDs": "BD40960_000",
   "Icon": "TB00017",
   "Name": "没轻没重",
@@ -6069,7 +6290,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_358",
+  "Id": "sub_skill_371",
   "IDs": "BD40978",
   "Icon": "TB00018",
   "Name": "星界回响",
@@ -6086,7 +6307,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_359",
+  "Id": "sub_skill_372",
   "IDs": "BD40978_000",
   "Icon": "TB00017",
   "Name": "剑心通明",
@@ -6103,7 +6324,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_360",
+  "Id": "sub_skill_373",
   "IDs": "BD40981",
   "Icon": "TB00017",
   "Name": "恶意满满",
@@ -6120,7 +6341,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_361",
+  "Id": "sub_skill_374",
   "IDs": "BD40981_000",
   "Icon": "TB00025",
   "Name": "噩梦不断",
@@ -6137,14 +6358,14 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_362",
+  "Id": "sub_skill_375",
   "IDs": "BD40981_001",
   "Icon": "TB00025",
   "Name": "挥洒汗水",
   "NameI2": "Skill/Passiveskills_Name_BD40981_001",
   "Type": "特性",
   "UnlockStar": 5,
-  "Description": "【增伤】每消耗{0}层滋润使自身下次进行攻击造成全部伤害+{1}。",
+  "Description": "【增伤】每失去{0}层滋润使自身下次进行攻击造成全部伤害+{1}。",
   "DescriptionI2": "Skill/Passiveskills_Des_BD40981_001",
   "Value0": 5,
   "Value1": 1,
@@ -6154,7 +6375,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_363",
+  "Id": "sub_skill_376",
   "IDs": "BD40979",
   "Icon": "TB00026",
   "Name": "极寒蛛丝",
@@ -6171,7 +6392,24 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_364",
+  "Id": "sub_skill_377",
+  "IDs": "BD40979_000",
+  "Icon": "TB00018",
+  "Name": "蛛网感知",
+  "NameI2": "Skill/Passiveskills_Name_BD40979_000",
+  "Type": "特性",
+  "UnlockStar": 5,
+  "Description": "【行动】敌方阻碍目标每进行{0}次额外行动后使自身立即释放{1}次单段技能。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD40979_000",
+  "Value0": 5,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "阻碍,额外行动,释放技能",
+  "PositiveTags": "阻碍相关",
+  "NegativeTags": "多段技能"
+ },
+ {
+  "Id": "sub_skill_378",
   "IDs": "BD40961",
   "Icon": "TB00014",
   "Name": "快速上弹",
@@ -6188,7 +6426,7 @@
   "NegativeTags": "单段技能"
  },
  {
-  "Id": "sub_skill_365",
+  "Id": "sub_skill_379",
   "IDs": "BD40913",
   "Icon": "TB00017",
   "Name": "热血沸腾",
@@ -6205,7 +6443,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_366",
+  "Id": "sub_skill_380",
   "IDs": "BD40962",
   "Icon": "TB00023",
   "Name": "情绪感染",
@@ -6222,7 +6460,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_367",
+  "Id": "sub_skill_381",
   "IDs": "BD40962_000",
   "Icon": "TB00025",
   "Name": "魔力污染",
@@ -6239,7 +6477,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_368",
+  "Id": "sub_skill_382",
   "IDs": "BD40963",
   "Icon": "TB00027",
   "Name": "日光审判",
@@ -6256,7 +6494,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_369",
+  "Id": "sub_skill_383",
   "IDs": "BD40964",
   "Icon": "TB00017",
   "Name": "月光祝福",
@@ -6273,7 +6511,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_370",
+  "Id": "sub_skill_384",
   "IDs": "BD40966",
   "Icon": "TB00011",
   "Name": "巨灵意志",
@@ -6290,7 +6528,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_371",
+  "Id": "sub_skill_385",
   "IDs": "BD40966_000",
   "Icon": "TB00017",
   "Name": "雷霆释放",
@@ -6307,7 +6545,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_372",
+  "Id": "sub_skill_386",
   "IDs": "BD40999",
   "Icon": "TB00022",
   "Name": "魔力灌输",
@@ -6324,7 +6562,7 @@
   "NegativeTags": "群体技能"
  },
  {
-  "Id": "sub_skill_373",
+  "Id": "sub_skill_387",
   "IDs": "BD40968",
   "Icon": "TB00017",
   "Name": "流沙陷落",
@@ -6341,7 +6579,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_374",
+  "Id": "sub_skill_388",
   "IDs": "BD40969",
   "Icon": "TB00025",
   "Name": "黄沙风暴",
@@ -6358,7 +6596,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_375",
+  "Id": "sub_skill_389",
   "IDs": "BD40970",
   "Icon": "TB00014",
   "Name": "特制药剂",
@@ -6375,7 +6613,7 @@
   "NegativeTags": "技能恢复"
  },
  {
-  "Id": "sub_skill_376",
+  "Id": "sub_skill_390",
   "IDs": "BD40998",
   "Icon": "TB00026",
   "Name": "尖刺生根",
@@ -6392,7 +6630,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_377",
+  "Id": "sub_skill_391",
   "IDs": "BD40971",
   "Icon": "TB00024",
   "Name": "水分吸收",
@@ -6409,7 +6647,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_378",
+  "Id": "sub_skill_392",
   "IDs": "BD40971_000",
   "Icon": "TB00023",
   "Name": "意志修复",
@@ -6426,7 +6664,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_379",
+  "Id": "sub_skill_393",
   "IDs": "BD40967",
   "Icon": "TB00015",
   "Name": "愿望馈赠",
@@ -6443,7 +6681,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_380",
+  "Id": "sub_skill_394",
   "IDs": "BD40967_000",
   "Icon": "TB00015",
   "Name": "精神增幅",
@@ -6460,7 +6698,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_381",
+  "Id": "sub_skill_395",
   "IDs": "BD41000",
   "Icon": "TB00023",
   "Name": "阴阳和合",
@@ -6477,7 +6715,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_382",
+  "Id": "sub_skill_396",
   "IDs": "BD41001",
   "Icon": "TB00025",
   "Name": "炽热熔炉",
@@ -6494,7 +6732,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_383",
+  "Id": "sub_skill_397",
   "IDs": "BD40920",
   "Icon": "TB00025",
   "Name": "快看那里",
@@ -6511,7 +6749,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_384",
+  "Id": "sub_skill_398",
   "IDs": "BD40985",
   "Icon": "TB00021",
   "Name": "逢凶化吉",
@@ -6528,7 +6766,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_385",
+  "Id": "sub_skill_399",
   "IDs": "BD40986",
   "Icon": "TB00015",
   "Name": "高度洁癖",
@@ -6545,7 +6783,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_386",
+  "Id": "sub_skill_400",
   "IDs": "BD40997",
   "Icon": "TB00023",
   "Name": "防范意识",
@@ -6562,7 +6800,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_387",
+  "Id": "sub_skill_401",
   "IDs": "BD40988",
   "Icon": "TB00011",
   "Name": "物质解析",
@@ -6579,7 +6817,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_388",
+  "Id": "sub_skill_402",
   "IDs": "BD40992",
   "Icon": "TB00026",
   "Name": "汲血荆棘",
@@ -6596,7 +6834,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_389",
+  "Id": "sub_skill_403",
   "IDs": "BD40992_000",
   "Icon": "TB00026",
   "Name": "鲜血掌控",
@@ -6613,7 +6851,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_390",
+  "Id": "sub_skill_404",
   "IDs": "BD40991",
   "Icon": "TB00014",
   "Name": "连环爆破",
@@ -6630,7 +6868,7 @@
   "NegativeTags": "群体技能"
  },
  {
-  "Id": "sub_skill_391",
+  "Id": "sub_skill_405",
   "IDs": "BD40991_000",
   "Icon": "TB00014",
   "Name": "炼金回响",
@@ -6647,14 +6885,14 @@
   "NegativeTags": "多段技能"
  },
  {
-  "Id": "sub_skill_392",
+  "Id": "sub_skill_406",
   "IDs": "BD40993",
   "Icon": "TB00018",
   "Name": "先发制人",
   "NameI2": "Skill/Passiveskills_Name_BD40993",
   "Type": "特性",
   "UnlockStar": 5,
-  "Description": "【行动】首回合开始后使自身立即释放{0}次单体技能，本次造成伤害+{1}%。",
+  "Description": "【行动】首回合开始后使自身立即释放{0}次单体攻击技能，本回合首次释放单体攻击技能时造成伤害+{1}%。",
   "DescriptionI2": "Skill/Passiveskills_Des_BD40993",
   "Value0": 1,
   "Value1": 100,
@@ -6664,7 +6902,143 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_393",
+  "Id": "sub_skill_407",
+  "IDs": "BD41002",
+  "Icon": "TB00011",
+  "Name": "剧毒入体",
+  "NameI2": "Skill/Passiveskills_Name_BD41002",
+  "Type": "特性",
+  "UnlockStar": 5,
+  "Description": "【增伤】对满层阻碍目标造成全部伤害+{0}%。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD41002",
+  "Value0": 50,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "阻碍,造成伤害",
+  "PositiveTags": "阻碍相关",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_408",
+  "IDs": "BD41003",
+  "Icon": "TB00025",
+  "Name": "禁言毒素",
+  "NameI2": "Skill/Passiveskills_Name_BD41003",
+  "Type": "特性",
+  "UnlockStar": 5,
+  "Description": "【减益】敌方满层阻碍目标行动结束后对其造成{0}层泯灭。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD41003",
+  "Value0": 12,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "阻碍,泯灭",
+  "PositiveTags": "阻碍相关,泯灭相关",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_409",
+  "IDs": "BD41004",
+  "Icon": "TB00023",
+  "Name": "旅行专家",
+  "NameI2": "Skill/Passiveskills_Name_BD41004",
+  "Type": "特性",
+  "UnlockStar": 5,
+  "Description": "【增益】行动开始前使友方其他目标获得{0}层坚韧。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD41004",
+  "Value0": 5,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "行动开始,坚韧",
+  "PositiveTags": "",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_410",
+  "IDs": "BD41005",
+  "Icon": "TB00011",
+  "Name": "捕食渴望",
+  "NameI2": "Skill/Passiveskills_Name_BD41005",
+  "Type": "特性",
+  "UnlockStar": 5,
+  "Description": "【增伤】每获得{0}层成长使自身本回合造成反击伤害+{1}。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD41005",
+  "Value0": 5,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "成长,进行反击,伤害增加",
+  "PositiveTags": "成长相关,反击输出",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_411",
+  "IDs": "BD41006",
+  "Icon": "TB00025",
+  "Name": "充足气量",
+  "NameI2": "Skill/Passiveskills_Name_BD41006",
+  "Type": "特性",
+  "UnlockStar": 5,
+  "Description": "【减益】非弱点暴露时使自身造成阻碍层数+{0}%。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD41006",
+  "Value0": 100,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "阻碍",
+  "PositiveTags": "阻碍相关",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_412",
+  "IDs": "BD41006_000",
+  "Icon": "TB00015",
+  "Name": "神出鬼没",
+  "NameI2": "Skill/Passiveskills_Name_BD41006_000",
+  "Type": "特性",
+  "UnlockStar": 5,
+  "Description": "【特殊】回合开始前使自身攻击距离+{0}。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD41006_000",
+  "Value0": 3,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "回合开始,攻击距离",
+  "PositiveTags": "攻击距离",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_413",
+  "IDs": "BD41007",
+  "Icon": "TB00025",
+  "Name": "咬死不放",
+  "NameI2": "Skill/Passiveskills_Name_BD41007",
+  "Type": "特性",
+  "UnlockStar": 5,
+  "Description": "【减益】敌方最近眩晕目标免疫来自敌方的净化。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD41007",
+  "Value0": 0,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "眩晕",
+  "PositiveTags": "",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_414",
+  "IDs": "BD41007_000",
+  "Icon": "TB00025",
+  "Name": "炫彩喷剂",
+  "NameI2": "Skill/Passiveskills_Name_BD41007_000",
+  "Type": "特性",
+  "UnlockStar": 5,
+  "Description": "【减益】释放单体攻击技能后使自身本回合造成阻碍层数+{0}。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD41007_000",
+  "Value0": 4,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "释放技能,阻碍,层数增加",
+  "PositiveTags": "阻碍相关",
+  "NegativeTags": "群体技能"
+ },
+ {
+  "Id": "sub_skill_415",
   "IDs": "BD50102",
   "Icon": "TB00016",
   "Name": "防御者",
@@ -6681,7 +7055,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_394",
+  "Id": "sub_skill_416",
   "IDs": "BD50201",
   "Icon": "TB00011",
   "Name": "进攻者",
@@ -6698,7 +7072,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_395",
+  "Id": "sub_skill_417",
   "IDs": "BD50202",
   "Icon": "TB00016",
   "Name": "追猎者",
@@ -6715,7 +7089,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_396",
+  "Id": "sub_skill_418",
   "IDs": "BD50302",
   "Icon": "TB00025",
   "Name": "散播者",
@@ -6732,7 +7106,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_397",
+  "Id": "sub_skill_419",
   "IDs": "BD50401",
   "Icon": "TB00015",
   "Name": "眷顾者",
@@ -6749,7 +7123,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_398",
+  "Id": "sub_skill_420",
   "IDs": "BD50402",
   "Icon": "TB00023",
   "Name": "祝福者",
@@ -6766,7 +7140,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_399",
+  "Id": "sub_skill_421",
   "IDs": "BD51001",
   "Icon": "TB00011",
   "Name": "狩猎者",
@@ -6783,7 +7157,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_400",
+  "Id": "sub_skill_422",
   "IDs": "BD51002",
   "Icon": "TB00023",
   "Name": "无畏者",
@@ -6800,7 +7174,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_401",
+  "Id": "sub_skill_423",
   "IDs": "BD51003",
   "Icon": "TB00023",
   "Name": "吞噬者",
@@ -6817,7 +7191,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_402",
+  "Id": "sub_skill_424",
   "IDs": "BD51004",
   "Icon": "TB00025",
   "Name": "撕裂者",
@@ -6834,7 +7208,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_403",
+  "Id": "sub_skill_425",
   "IDs": "BD51005",
   "Icon": "TB00022",
   "Name": "招财猫",
@@ -6851,7 +7225,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_404",
+  "Id": "sub_skill_426",
   "IDs": "BD51006",
   "Icon": "TB00025",
   "Name": "冻结者",
@@ -6868,7 +7242,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_405",
+  "Id": "sub_skill_427",
   "IDs": "BD51007",
   "Icon": "TB00023",
   "Name": "渴望者",
@@ -6885,7 +7259,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_406",
+  "Id": "sub_skill_428",
   "IDs": "BD51008",
   "Icon": "TB00023",
   "Name": "好战者",
@@ -6902,7 +7276,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_407",
+  "Id": "sub_skill_429",
   "IDs": "BD51009",
   "Icon": "TB00023",
   "Name": "逐风者",
@@ -6919,7 +7293,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_408",
+  "Id": "sub_skill_430",
   "IDs": "BD51010",
   "Icon": "TB00017",
   "Name": "收割者",
@@ -6936,7 +7310,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_409",
+  "Id": "sub_skill_431",
   "IDs": "BD51011",
   "Icon": "TB00013",
   "Name": "游荡者",
@@ -6953,7 +7327,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_410",
+  "Id": "sub_skill_432",
   "IDs": "BD51012",
   "Icon": "TB00016",
   "Name": "守护者",
@@ -6970,7 +7344,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_411",
+  "Id": "sub_skill_433",
   "IDs": "BD51013",
   "Icon": "TB00023",
   "Name": "观测者",
@@ -6987,7 +7361,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_412",
+  "Id": "sub_skill_434",
   "IDs": "BD51015",
   "Icon": "TB00025",
   "Name": "束缚者",
@@ -7004,7 +7378,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_413",
+  "Id": "sub_skill_435",
   "IDs": "BD51016",
   "Icon": "TB00012",
   "Name": "复仇者",
@@ -7021,7 +7395,7 @@
   "NegativeTags": "躲避攻击"
  },
  {
-  "Id": "sub_skill_414",
+  "Id": "sub_skill_436",
   "IDs": "BD51017",
   "Icon": "TB00025",
   "Name": "纵火者",
@@ -7038,7 +7412,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_415",
+  "Id": "sub_skill_437",
   "IDs": "BD51018",
   "Icon": "TB00023",
   "Name": "叹息者",
@@ -7055,7 +7429,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_416",
+  "Id": "sub_skill_438",
   "IDs": "BD51020",
   "Icon": "TB00014",
   "Name": "施法者",
@@ -7072,7 +7446,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_417",
+  "Id": "sub_skill_439",
   "IDs": "BD51022",
   "Icon": "TB00027",
   "Name": "净化者",
@@ -7089,7 +7463,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_418",
+  "Id": "sub_skill_440",
   "IDs": "BD51023",
   "Icon": "TB00025",
   "Name": "嘲弄者",
@@ -7106,7 +7480,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_419",
+  "Id": "sub_skill_441",
   "IDs": "BD51024",
   "Icon": "TB00023",
   "Name": "激励者",
@@ -7123,7 +7497,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_420",
+  "Id": "sub_skill_442",
   "IDs": "BD51025",
   "Icon": "TB00025",
   "Name": "阻碍者",
@@ -7140,7 +7514,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_421",
+  "Id": "sub_skill_443",
   "IDs": "BD51026",
   "Icon": "TB00025",
   "Name": "破坏者",
@@ -7157,7 +7531,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_422",
+  "Id": "sub_skill_444",
   "IDs": "BD51027",
   "Icon": "TB00025",
   "Name": "泯灭者",
@@ -7174,7 +7548,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_423",
+  "Id": "sub_skill_445",
   "IDs": "BD51028",
   "Icon": "TB00023",
   "Name": "再生者",
@@ -7191,7 +7565,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_424",
+  "Id": "sub_skill_446",
   "IDs": "BD51029",
   "Icon": "TB00015",
   "Name": "支援者",
@@ -7208,7 +7582,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_425",
+  "Id": "sub_skill_447",
   "IDs": "BD51032",
   "Icon": "TB00001",
   "Name": "支配者",
@@ -7225,7 +7599,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_426",
+  "Id": "sub_skill_448",
   "IDs": "BD51033",
   "Icon": "TB00023",
   "Name": "狙击者",
@@ -7242,7 +7616,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_427",
+  "Id": "sub_skill_449",
   "IDs": "BD51034",
   "Icon": "TB00017",
   "Name": "偷袭者",
@@ -7259,7 +7633,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_428",
+  "Id": "sub_skill_450",
   "IDs": "BD51035",
   "Icon": "TB00033",
   "Name": "呼唤者",
@@ -7276,7 +7650,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_429",
+  "Id": "sub_skill_451",
   "IDs": "BD51036",
   "Icon": "TB00016",
   "Name": "破法者",
@@ -7293,7 +7667,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_430",
+  "Id": "sub_skill_452",
   "IDs": "BD51037",
   "Icon": "TB00032",
   "Name": "遗忘者",
@@ -7310,7 +7684,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_431",
+  "Id": "sub_skill_453",
   "IDs": "BD51038",
   "Icon": "TB00026",
   "Name": "主宰者",
@@ -7327,7 +7701,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_432",
+  "Id": "sub_skill_454",
   "IDs": "BD51039",
   "Icon": "TB00001",
   "Name": "晶化者",
@@ -7344,7 +7718,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_433",
+  "Id": "sub_skill_455",
   "IDs": "BD51040",
   "Icon": "TB00023",
   "Name": "隐忍者",
@@ -7361,7 +7735,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_434",
+  "Id": "sub_skill_456",
   "IDs": "BD51041",
   "Icon": "TB00023",
   "Name": "畸变者",
@@ -7378,7 +7752,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_435",
+  "Id": "sub_skill_457",
   "IDs": "BD51042",
   "Icon": "TB00017",
   "Name": "投掷者",
@@ -7395,7 +7769,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_436",
+  "Id": "sub_skill_458",
   "IDs": "BD51043",
   "Icon": "TB00025",
   "Name": "凛冽者",
@@ -7412,7 +7786,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_437",
+  "Id": "sub_skill_459",
   "IDs": "BD51044",
   "Icon": "TB00023",
   "Name": "润物者",
@@ -7429,7 +7803,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_438",
+  "Id": "sub_skill_460",
   "IDs": "BD51045",
   "Icon": "TB00025",
   "Name": "唤雷者",
@@ -7446,7 +7820,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_439",
+  "Id": "sub_skill_461",
   "IDs": "BD51046",
   "Icon": "TB00023",
   "Name": "指挥者",
@@ -7463,7 +7837,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_440",
+  "Id": "sub_skill_462",
   "IDs": "BD51047",
   "Icon": "TB00025",
   "Name": "审判者",
@@ -7480,7 +7854,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_441",
+  "Id": "sub_skill_463",
   "IDs": "BD51048",
   "Icon": "TB00011",
   "Name": "噬梦者",
@@ -7497,7 +7871,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_442",
+  "Id": "sub_skill_464",
   "IDs": "BD51049",
   "Icon": "TB00025",
   "Name": "不详者",
@@ -7514,7 +7888,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_443",
+  "Id": "sub_skill_465",
   "IDs": "BD51050",
   "Icon": "TB00025",
   "Name": "恐惧者",
@@ -7531,7 +7905,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_444",
+  "Id": "sub_skill_466",
   "IDs": "BD51051",
   "Icon": "TB00001",
   "Name": "好运者",
@@ -7548,7 +7922,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_445",
+  "Id": "sub_skill_467",
   "IDs": "BD51052",
   "Icon": "TB00023",
   "Name": "哺育者",
@@ -7565,7 +7939,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_446",
+  "Id": "sub_skill_468",
   "IDs": "BD51056",
   "Icon": "TB00025",
   "Name": "燃烧者",
@@ -7582,24 +7956,24 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_447",
+  "Id": "sub_skill_469",
   "IDs": "BD51058",
   "Icon": "TB00011",
   "Name": "伏击者",
   "NameI2": "Skill/Passiveskills_Name_BD51058",
   "Type": "称号",
   "UnlockStar": 4,
-  "Description": "【增伤】对最近敌方目标造成全部伤害+{0}。",
-  "DescriptionI2": "Skill/Passiveskills_Des_BD51058_New",
-  "Value0": 6,
+  "Description": "【增伤】每回合首次进行攻击时造成全部伤害+{0}。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD51058",
+  "Value0": 16,
   "Value1": 0,
   "Value2": 0,
-  "FilterTags": "伤害增加",
+  "FilterTags": "进行攻击,伤害增加",
   "PositiveTags": "",
-  "NegativeTags": "精准相关"
+  "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_448",
+  "Id": "sub_skill_470",
   "IDs": "BD51059",
   "Icon": "TB00001",
   "Name": "修仙者",
@@ -7616,7 +7990,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_449",
+  "Id": "sub_skill_471",
   "IDs": "BD51060",
   "Icon": "TB00023",
   "Name": "戏水者",
@@ -7633,7 +8007,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_450",
+  "Id": "sub_skill_472",
   "IDs": "BD51061",
   "Icon": "TB00024",
   "Name": "汲血者",
@@ -7650,7 +8024,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_451",
+  "Id": "sub_skill_473",
   "IDs": "BD51062",
   "Icon": "TB00023",
   "Name": "蜷缩者",
@@ -7667,7 +8041,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_452",
+  "Id": "sub_skill_474",
   "IDs": "BD51063",
   "Icon": "TB00023",
   "Name": "弄潮者",
@@ -7684,7 +8058,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_453",
+  "Id": "sub_skill_475",
   "IDs": "BD51064",
   "Icon": "TB00023",
   "Name": "破浪者",
@@ -7701,7 +8075,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_454",
+  "Id": "sub_skill_476",
   "IDs": "BD51065",
   "Icon": "TB00017",
   "Name": "陷阵者",
@@ -7718,7 +8092,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_455",
+  "Id": "sub_skill_477",
   "IDs": "BD51066",
   "Icon": "TB00032",
   "Name": "溺魂者",
@@ -7735,7 +8109,41 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_456",
+  "Id": "sub_skill_478",
+  "IDs": "BD51067",
+  "Icon": "TB00025",
+  "Name": "猎魔者",
+  "NameI2": "Skill/Passiveskills_Name_BD51067",
+  "Type": "称号",
+  "UnlockStar": 4,
+  "Description": "【减益】造成伤害后对目标造成{0}层泯灭。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD51067",
+  "Value0": 2,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "造成伤害,泯灭",
+  "PositiveTags": "泯灭相关",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_479",
+  "IDs": "BD51068",
+  "Icon": "TB00025",
+  "Name": "不洁者",
+  "NameI2": "Skill/Passiveskills_Name_BD51068",
+  "Type": "称号",
+  "UnlockStar": 4,
+  "Description": "【减益】受到攻击后对目标造成{0}层阻碍。",
+  "DescriptionI2": "Skill/Passiveskills_Des_BD51068",
+  "Value0": 2,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "受到攻击,阻碍",
+  "PositiveTags": "阻碍相关",
+  "NegativeTags": ""
+ },
+ {
+  "Id": "sub_skill_480",
   "IDs": "BD10000",
   "Icon": "TB00001",
   "Name": "耐揍",
@@ -7752,7 +8160,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_457",
+  "Id": "sub_skill_481",
   "IDs": "BD20000",
   "Icon": "TB00001",
   "Name": "假人",
@@ -7769,7 +8177,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_458",
+  "Id": "sub_skill_482",
   "IDs": "BD50000",
   "Icon": "TB00001",
   "Name": "陪练者",
@@ -7786,7 +8194,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_459",
+  "Id": "sub_skill_483",
   "IDs": "BD40000",
   "Icon": "TB00001",
   "Name": "模拟结束",
@@ -7803,7 +8211,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_460",
+  "Id": "sub_skill_484",
   "IDs": "BD60001",
   "Icon": "TB00001",
   "Name": "魔能潮汐",
@@ -7820,7 +8228,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_461",
+  "Id": "sub_skill_485",
   "IDs": "BD60002",
   "Icon": "TB00001",
   "Name": "药剂裂变",
@@ -7837,7 +8245,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_462",
+  "Id": "sub_skill_486",
   "IDs": "BD60003",
   "Icon": "TB00012",
   "Name": "反击乱舞",
@@ -7854,7 +8262,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_463",
+  "Id": "sub_skill_487",
   "IDs": "BD60004",
   "Icon": "TB00025",
   "Name": "鲜血盛宴",
@@ -7871,7 +8279,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_464",
+  "Id": "sub_skill_488",
   "IDs": "BD60005",
   "Icon": "TB00023",
   "Name": "荆棘堡垒",
@@ -7888,7 +8296,7 @@
   "NegativeTags": ""
  },
  {
-  "Id": "sub_skill_465",
+  "Id": "sub_skill_489",
   "IDs": "BD60006",
   "Icon": "TB00011",
   "Name": "超魔爆弹",

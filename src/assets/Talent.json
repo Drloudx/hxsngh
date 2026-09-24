@@ -975,7 +975,7 @@
   "Type": "天赋",
   "Effect": "敌方战败时使敌方全体目标受到滋润层数+{0}。",
   "EffectI2": "Skill/Talent_Des_TF00041_000",
-  "Value0": 4,
+  "Value0": 2,
   "Value1": 0,
   "Value2": 0,
   "FilterTags": "",
@@ -1246,7 +1246,7 @@
   "NameI2": "Skill/Talent_Name_TF00052_000",
   "Step": "S",
   "Type": "天赋",
-  "Effect": "拥有满层滋润时自身造成多段技能次数+{0}。",
+  "Effect": "拥有满层滋润时自身造成多段技能攻击次数+{0}。",
   "EffectI2": "Skill/Talent_Des_TF00052_000",
   "Value0": 2,
   "Value1": 0,
@@ -1519,7 +1519,7 @@
   "NameI2": "Skill/Talent_Name_TF00065",
   "Step": "S",
   "Type": "天赋",
-  "Effect": "获得生命效果会同时获得{0}层反伤。",
+  "Effect": "获得生命效果会同时使自身获得{0}层反伤。",
   "EffectI2": "Skill/Talent_Des_TF00065_New01",
   "Value0": 10,
   "Value1": 0,
@@ -2416,6 +2416,27 @@
  },
  {
   "Id": "talent_116",
+  "IDs": "TF01033_000",
+  "Icon": "TB40020",
+  "Name": "致命毒素",
+  "NameI2": "Skill/Talent_Name_TF01033_000",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "目标每拥有{0}层阻碍使自身对其造成单段技能伤害+{1}，并在释放攻击技能后移除目标全部阻碍。",
+  "EffectI2": "Skill/Talent_Des_TF01033_000",
+  "Value0": 1,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": "M22301_000"
+ },
+ {
+  "Id": "talent_117",
   "IDs": "TF01034",
   "Icon": "TB40020",
   "Name": "纯净亲和",
@@ -2436,7 +2457,7 @@
   "SpecifyRoleIDs": "M14301"
  },
  {
-  "Id": "talent_117",
+  "Id": "talent_118",
   "IDs": "TF01035",
   "Icon": "TB40020",
   "Name": "呼风唤雨",
@@ -2457,7 +2478,7 @@
   "SpecifyRoleIDs": "M51302"
  },
  {
-  "Id": "talent_118",
+  "Id": "talent_119",
   "IDs": "TF01036",
   "Icon": "TB40020",
   "Name": "精力充沛",
@@ -2478,7 +2499,7 @@
   "SpecifyRoleIDs": "M51303"
  },
  {
-  "Id": "talent_119",
+  "Id": "talent_120",
   "IDs": "TF01037",
   "Icon": "TB40020",
   "Name": "噩梦吞噬",
@@ -2499,7 +2520,7 @@
   "SpecifyRoleIDs": "M51303_000"
  },
  {
-  "Id": "talent_120",
+  "Id": "talent_121",
   "IDs": "TF01036_000",
   "Icon": "TB40020",
   "Name": "青春活力",
@@ -2520,7 +2541,7 @@
   "SpecifyRoleIDs": "M51303_001"
  },
  {
-  "Id": "talent_121",
+  "Id": "talent_122",
   "IDs": "TF01038",
   "Icon": "TB40020",
   "Name": "舞动韵律",
@@ -2541,7 +2562,7 @@
   "SpecifyRoleIDs": "M12211"
  },
  {
-  "Id": "talent_122",
+  "Id": "talent_123",
   "IDs": "TF01039",
   "Icon": "TB40020",
   "Name": "双月齐舞",
@@ -2562,7 +2583,7 @@
   "SpecifyRoleIDs": "M12211_000"
  },
  {
-  "Id": "talent_123",
+  "Id": "talent_124",
   "IDs": "TF01040",
   "Icon": "TB40020",
   "Name": "武器巨化",
@@ -2583,7 +2604,7 @@
   "SpecifyRoleIDs": "M31303"
  },
  {
-  "Id": "talent_124",
+  "Id": "talent_125",
   "IDs": "TF01041",
   "Icon": "TB40020",
   "Name": "泰坦巨人",
@@ -2604,7 +2625,7 @@
   "SpecifyRoleIDs": "M31303_000"
  },
  {
-  "Id": "talent_125",
+  "Id": "talent_126",
   "IDs": "TF01042",
   "Icon": "TB40020",
   "Name": "苍白之主",
@@ -2625,7 +2646,7 @@
   "SpecifyRoleIDs": "M11302_000"
  },
  {
-  "Id": "talent_126",
+  "Id": "talent_127",
   "IDs": "TF01043",
   "Icon": "TB40020",
   "Name": "直视深渊",
@@ -2646,7 +2667,7 @@
   "SpecifyRoleIDs": "M13306_000"
  },
  {
-  "Id": "talent_127",
+  "Id": "talent_128",
   "IDs": "TF01044",
   "Icon": "TB40020",
   "Name": "天生战狂",
@@ -2667,7 +2688,7 @@
   "SpecifyRoleIDs": "M11301_000"
  },
  {
-  "Id": "talent_128",
+  "Id": "talent_129",
   "IDs": "TF01045",
   "Icon": "TB40020",
   "Name": "纯净白银",
@@ -2688,7 +2709,7 @@
   "SpecifyRoleIDs": "M24301_000"
  },
  {
-  "Id": "talent_129",
+  "Id": "talent_130",
   "IDs": "TF01046",
   "Icon": "TB40020",
   "Name": "昂扬气势",
@@ -2709,7 +2730,7 @@
   "SpecifyRoleIDs": "M14301_000"
  },
  {
-  "Id": "talent_130",
+  "Id": "talent_131",
   "IDs": "TF01047",
   "Icon": "TB40020",
   "Name": "索敌系统",
@@ -2730,7 +2751,7 @@
   "SpecifyRoleIDs": "M31302_000"
  },
  {
-  "Id": "talent_131",
+  "Id": "talent_132",
   "IDs": "TF01048",
   "Icon": "TB40020",
   "Name": "众生愿力",
@@ -2751,7 +2772,7 @@
   "SpecifyRoleIDs": "M34301"
  },
  {
-  "Id": "talent_132",
+  "Id": "talent_133",
   "IDs": "TF01049",
   "Icon": "TB40020",
   "Name": "无尽黄沙",
@@ -2772,7 +2793,7 @@
   "SpecifyRoleIDs": "M21302"
  },
  {
-  "Id": "talent_133",
+  "Id": "talent_134",
   "IDs": "TF01049_000",
   "Icon": "TB40020",
   "Name": "黄金铸造",
@@ -2793,7 +2814,7 @@
   "SpecifyRoleIDs": "M21302_000"
  },
  {
-  "Id": "talent_134",
+  "Id": "talent_135",
   "IDs": "TF01050",
   "Icon": "TB40020",
   "Name": "星光汇聚",
@@ -2814,7 +2835,7 @@
   "SpecifyRoleIDs": "M34301_000"
  },
  {
-  "Id": "talent_135",
+  "Id": "talent_136",
   "IDs": "TF01051",
   "Icon": "TB40020",
   "Name": "生命燃烧",
@@ -2835,7 +2856,7 @@
   "SpecifyRoleIDs": "M54301_000"
  },
  {
-  "Id": "talent_136",
+  "Id": "talent_137",
   "IDs": "TF01052",
   "Icon": "TB40020",
   "Name": "身外化身",
@@ -2856,7 +2877,7 @@
   "SpecifyRoleIDs": "M52301_000"
  },
  {
-  "Id": "talent_137",
+  "Id": "talent_138",
   "IDs": "TF01053",
   "Icon": "TB40020",
   "Name": "翡翠精华",
@@ -2877,7 +2898,7 @@
   "SpecifyRoleIDs": "M51302_000"
  },
  {
-  "Id": "talent_138",
+  "Id": "talent_139",
   "IDs": "TF01054",
   "Icon": "TB40020",
   "Name": "流水灌注",
@@ -2898,7 +2919,7 @@
   "SpecifyRoleIDs": "M14301_001"
  },
  {
-  "Id": "talent_139",
+  "Id": "talent_140",
   "IDs": "TF01055",
   "Icon": "TB40020",
   "Name": "心灵净化",
@@ -2919,7 +2940,7 @@
   "SpecifyRoleIDs": "M51302_001"
  },
  {
-  "Id": "talent_140",
+  "Id": "talent_141",
   "IDs": "TF01056",
   "Icon": "TB40020",
   "Name": "避火龙鳞",
@@ -2940,7 +2961,7 @@
   "SpecifyRoleIDs": "M13310"
  },
  {
-  "Id": "talent_141",
+  "Id": "talent_142",
   "IDs": "TF01057",
   "Icon": "TB40020",
   "Name": "毁灭降临",
@@ -2961,7 +2982,7 @@
   "SpecifyRoleIDs": "M53303"
  },
  {
-  "Id": "talent_142",
+  "Id": "talent_143",
   "IDs": "TF01058",
   "Icon": "TB40020",
   "Name": "持久施法",
@@ -2982,7 +3003,7 @@
   "SpecifyRoleIDs": "M13303_001"
  },
  {
-  "Id": "talent_143",
+  "Id": "talent_144",
   "IDs": "TF01066",
   "Icon": "TB40020",
   "Name": "永恒烈阳",
@@ -3003,7 +3024,7 @@
   "SpecifyRoleIDs": "M13303_002"
  },
  {
-  "Id": "talent_144",
+  "Id": "talent_145",
   "IDs": "TF01059",
   "Icon": "TB40020",
   "Name": "清凉戏水",
@@ -3024,7 +3045,7 @@
   "SpecifyRoleIDs": "M53301_000"
  },
  {
-  "Id": "talent_145",
+  "Id": "talent_146",
   "IDs": "TF01060",
   "Icon": "TB40020",
   "Name": "烈焰抵御",
@@ -3045,7 +3066,7 @@
   "SpecifyRoleIDs": "M11303_002"
  },
  {
-  "Id": "talent_146",
+  "Id": "talent_147",
   "IDs": "TF01061",
   "Icon": "TB40020",
   "Name": "危险陷阱",
@@ -3066,7 +3087,7 @@
   "SpecifyRoleIDs": "M53301_002"
  },
  {
-  "Id": "talent_147",
+  "Id": "talent_148",
   "IDs": "TF01062",
   "Icon": "TB40020",
   "Name": "太极心法",
@@ -3087,7 +3108,7 @@
   "SpecifyRoleIDs": "M11306"
  },
  {
-  "Id": "talent_148",
+  "Id": "talent_149",
   "IDs": "TF01063",
   "Icon": "TB40020",
   "Name": "安心针毯",
@@ -3108,7 +3129,7 @@
   "SpecifyRoleIDs": "M14215"
  },
  {
-  "Id": "talent_149",
+  "Id": "talent_150",
   "IDs": "TF01064",
   "Icon": "TB40020",
   "Name": "遍布荆棘",
@@ -3129,7 +3150,7 @@
   "SpecifyRoleIDs": "M13307"
  },
  {
-  "Id": "talent_150",
+  "Id": "talent_151",
   "IDs": "TF01064_000",
   "Icon": "TB40020",
   "Name": "源初之血",
@@ -3150,7 +3171,7 @@
   "SpecifyRoleIDs": "M13307_000"
  },
  {
-  "Id": "talent_151",
+  "Id": "talent_152",
   "IDs": "TF01065",
   "Icon": "TB40020",
   "Name": "魔力暴走",
@@ -3171,7 +3192,7 @@
   "SpecifyRoleIDs": "M12303"
  },
  {
-  "Id": "talent_152",
+  "Id": "talent_153",
   "IDs": "TF01065_000",
   "Icon": "TB40020",
   "Name": "完美炼金",
@@ -3192,14 +3213,14 @@
   "SpecifyRoleIDs": "M12303_000"
  },
  {
-  "Id": "talent_153",
+  "Id": "talent_154",
   "IDs": "TF01067",
   "Icon": "TB40020",
   "Name": "深海潜行",
   "NameI2": "Skill/Talent_Name_TF01067",
   "Step": "S",
   "Type": "天赋",
-  "Effect": "免疫使自身获得魔力减少的效果。",
+  "Effect": "获得魔力时免疫使自身获得魔力减少的效果。",
   "EffectI2": "Skill/Talent_Des_TF01067",
   "Value0": 0,
   "Value1": 0,
@@ -3213,7 +3234,175 @@
   "SpecifyRoleIDs": "M11307"
  },
  {
-  "Id": "talent_154",
+  "Id": "talent_155",
+  "IDs": "TF01068",
+  "Icon": "TB40020",
+  "Name": "伤害加深",
+  "NameI2": "Skill/Talent_Name_TF01068",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "目标每拥有{0}层阻碍使自身对其造成追击伤害+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF01068",
+  "Value0": 20,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": "M12107"
+ },
+ {
+  "Id": "talent_156",
+  "IDs": "TF01069",
+  "Icon": "TB40020",
+  "Name": "默默潜水",
+  "NameI2": "Skill/Talent_Name_TF01069",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "如果本回合没受到攻击则使自身本回合造成泯灭层数+{0}。",
+  "EffectI2": "Skill/Talent_Des_TF01069",
+  "Value0": 10,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": "M13208"
+ },
+ {
+  "Id": "talent_157",
+  "IDs": "TF01070",
+  "Icon": "TB40020",
+  "Name": "加油鼓劲",
+  "NameI2": "Skill/Talent_Name_TF01070",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "其他友方目标弱点暴露后使自身获得{0}点魔力。",
+  "EffectI2": "Skill/Talent_Des_TF01070",
+  "Value0": 2,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": "M14212"
+ },
+ {
+  "Id": "talent_158",
+  "IDs": "TF01071",
+  "Icon": "TB40020",
+  "Name": "疯狂生长",
+  "NameI2": "Skill/Talent_Name_TF01071",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "获得生命效果会同时使自身获得{0}层成长。",
+  "EffectI2": "Skill/Talent_Des_TF01071",
+  "Value0": 10,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": "M11211"
+ },
+ {
+  "Id": "talent_159",
+  "IDs": "TF01072",
+  "Icon": "TB40020",
+  "Name": "奇形吹管",
+  "NameI2": "Skill/Talent_Name_TF01072",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "敌方全体目标拥有满层阻碍时自身单段技能攻击目标+{0}。",
+  "EffectI2": "Skill/Talent_Des_TF01072",
+  "Value0": 2,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": "M12209"
+ },
+ {
+  "Id": "talent_160",
+  "IDs": "TF01072_000",
+  "Icon": "TB40020",
+  "Name": "猎魔仪式",
+  "NameI2": "Skill/Talent_Name_TF01072_000",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "释放技能时每造成{0}层泯灭使自身造成多段技能攻击次数+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF01072_000",
+  "Value0": 100,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": "M12209_000"
+ },
+ {
+  "Id": "talent_161",
+  "IDs": "TF01073",
+  "Icon": "TB40020",
+  "Name": "施虐打击",
+  "NameI2": "Skill/Talent_Name_TF01073",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "每回合首次释放技能时无视满层剥离目标全部防御点数。",
+  "EffectI2": "Skill/Talent_Des_TF01073",
+  "Value0": 0,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": "M11305"
+ },
+ {
+  "Id": "talent_162",
+  "IDs": "TF01073_000",
+  "Icon": "TB40020",
+  "Name": "难以清洗",
+  "NameI2": "Skill/Talent_Name_TF01073_000",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "对目标每造成{0}层阻碍使其受到阻碍层数+{1}，但受到其他负面状态层数-{2}。",
+  "EffectI2": "Skill/Talent_Des_TF01073_000",
+  "Value0": 25,
+  "Value1": 1,
+  "Value2": 1,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": "M11305_000"
+ },
+ {
+  "Id": "talent_163",
   "IDs": "TF10001_001",
   "Icon": "TB00001",
   "Name": "强而有力",
@@ -3234,7 +3423,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_155",
+  "Id": "talent_164",
   "IDs": "TF10001_002",
   "Icon": "TB00001",
   "Name": "强而有力",
@@ -3255,7 +3444,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_156",
+  "Id": "talent_165",
   "IDs": "TF10001_003",
   "Icon": "TB00001",
   "Name": "强而有力",
@@ -3276,7 +3465,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_157",
+  "Id": "talent_166",
   "IDs": "TF10001_004",
   "Icon": "TB00001",
   "Name": "强而有力",
@@ -3297,7 +3486,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_158",
+  "Id": "talent_167",
   "IDs": "TF10002_001",
   "Icon": "TB00001",
   "Name": "头脑清晰",
@@ -3318,7 +3507,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_159",
+  "Id": "talent_168",
   "IDs": "TF10002_002",
   "Icon": "TB00001",
   "Name": "头脑清晰",
@@ -3339,7 +3528,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_160",
+  "Id": "talent_169",
   "IDs": "TF10002_003",
   "Icon": "TB00001",
   "Name": "头脑清晰",
@@ -3360,7 +3549,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_161",
+  "Id": "talent_170",
   "IDs": "TF10002_004",
   "Icon": "TB00001",
   "Name": "头脑清晰",
@@ -3381,7 +3570,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_162",
+  "Id": "talent_171",
   "IDs": "TF10003_001",
   "Icon": "TB00001",
   "Name": "反应迅速",
@@ -3402,7 +3591,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_163",
+  "Id": "talent_172",
   "IDs": "TF10003_002",
   "Icon": "TB00001",
   "Name": "反应迅速",
@@ -3423,7 +3612,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_164",
+  "Id": "talent_173",
   "IDs": "TF10003_003",
   "Icon": "TB00001",
   "Name": "反应迅速",
@@ -3444,7 +3633,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_165",
+  "Id": "talent_174",
   "IDs": "TF10003_004",
   "Icon": "TB00001",
   "Name": "反应迅速",
@@ -3465,7 +3654,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_166",
+  "Id": "talent_175",
   "IDs": "TF10004_001",
   "Icon": "TB00001",
   "Name": "身材紧实",
@@ -3486,7 +3675,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_167",
+  "Id": "talent_176",
   "IDs": "TF10004_002",
   "Icon": "TB00001",
   "Name": "身材紧实",
@@ -3507,7 +3696,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_168",
+  "Id": "talent_177",
   "IDs": "TF10004_003",
   "Icon": "TB00001",
   "Name": "身材紧实",
@@ -3528,7 +3717,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_169",
+  "Id": "talent_178",
   "IDs": "TF10004_004",
   "Icon": "TB00001",
   "Name": "身材紧实",
@@ -3549,7 +3738,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_170",
+  "Id": "talent_179",
   "IDs": "TF10005_001",
   "Icon": "TB00001",
   "Name": "意志强韧",
@@ -3570,7 +3759,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_171",
+  "Id": "talent_180",
   "IDs": "TF10005_002",
   "Icon": "TB00001",
   "Name": "意志强韧",
@@ -3591,7 +3780,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_172",
+  "Id": "talent_181",
   "IDs": "TF10005_003",
   "Icon": "TB00001",
   "Name": "意志强韧",
@@ -3612,7 +3801,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_173",
+  "Id": "talent_182",
   "IDs": "TF10005_004",
   "Icon": "TB00001",
   "Name": "意志强韧",
@@ -3633,7 +3822,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_174",
+  "Id": "talent_183",
   "IDs": "TF10006_001",
   "Icon": "TB00001",
   "Name": "四肢灵活",
@@ -3654,7 +3843,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_175",
+  "Id": "talent_184",
   "IDs": "TF10006_002",
   "Icon": "TB00001",
   "Name": "四肢灵活",
@@ -3675,7 +3864,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_176",
+  "Id": "talent_185",
   "IDs": "TF10006_003",
   "Icon": "TB00001",
   "Name": "四肢灵活",
@@ -3696,7 +3885,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_177",
+  "Id": "talent_186",
   "IDs": "TF10006_004",
   "Icon": "TB00001",
   "Name": "四肢灵活",
@@ -3717,7 +3906,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_178",
+  "Id": "talent_187",
   "IDs": "TF10007_001",
   "Icon": "TB00001",
   "Name": "严阵以待",
@@ -3738,7 +3927,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_179",
+  "Id": "talent_188",
   "IDs": "TF10007_002",
   "Icon": "TB00001",
   "Name": "严阵以待",
@@ -3759,7 +3948,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_180",
+  "Id": "talent_189",
   "IDs": "TF10007_003",
   "Icon": "TB00001",
   "Name": "严阵以待",
@@ -3780,7 +3969,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_181",
+  "Id": "talent_190",
   "IDs": "TF10007_004",
   "Icon": "TB00001",
   "Name": "严阵以待",
@@ -3801,7 +3990,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_182",
+  "Id": "talent_191",
   "IDs": "TF10008_001",
   "Icon": "TB00001",
   "Name": "好运连连",
@@ -3822,7 +4011,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_183",
+  "Id": "talent_192",
   "IDs": "TF10008_002",
   "Icon": "TB00001",
   "Name": "好运连连",
@@ -3843,7 +4032,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_184",
+  "Id": "talent_193",
   "IDs": "TF10008_003",
   "Icon": "TB00001",
   "Name": "好运连连",
@@ -3864,7 +4053,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_185",
+  "Id": "talent_194",
   "IDs": "TF10008_004",
   "Icon": "TB00001",
   "Name": "好运连连",
@@ -3885,7 +4074,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_186",
+  "Id": "talent_195",
   "IDs": "TF10009_001",
   "Icon": "TB00001",
   "Name": "核心位置",
@@ -3906,7 +4095,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_187",
+  "Id": "talent_196",
   "IDs": "TF10009_002",
   "Icon": "TB00001",
   "Name": "核心位置",
@@ -3927,7 +4116,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_188",
+  "Id": "talent_197",
   "IDs": "TF10009_003",
   "Icon": "TB00001",
   "Name": "核心位置",
@@ -3948,7 +4137,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_189",
+  "Id": "talent_198",
   "IDs": "TF10009_004",
   "Icon": "TB00001",
   "Name": "核心位置",
@@ -3969,7 +4158,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_190",
+  "Id": "talent_199",
   "IDs": "TF10010_001",
   "Icon": "TB00001",
   "Name": "玻璃大炮",
@@ -3990,7 +4179,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_191",
+  "Id": "talent_200",
   "IDs": "TF10010_002",
   "Icon": "TB00001",
   "Name": "玻璃大炮",
@@ -4011,7 +4200,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_192",
+  "Id": "talent_201",
   "IDs": "TF10010_003",
   "Icon": "TB00001",
   "Name": "玻璃大炮",
@@ -4032,7 +4221,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_193",
+  "Id": "talent_202",
   "IDs": "TF10010_004",
   "Icon": "TB00001",
   "Name": "玻璃大炮",
@@ -4053,7 +4242,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_194",
+  "Id": "talent_203",
   "IDs": "TF10011_001",
   "Icon": "TB00001",
   "Name": "魔力爆发",
@@ -4074,7 +4263,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_195",
+  "Id": "talent_204",
   "IDs": "TF10011_002",
   "Icon": "TB00001",
   "Name": "魔力爆发",
@@ -4095,7 +4284,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_196",
+  "Id": "talent_205",
   "IDs": "TF10012_001",
   "Icon": "TB00001",
   "Name": "生命重组",
@@ -4116,7 +4305,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_197",
+  "Id": "talent_206",
   "IDs": "TF10012_002",
   "Icon": "TB00001",
   "Name": "生命重组",
@@ -4137,7 +4326,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_198",
+  "Id": "talent_207",
   "IDs": "TF10013_001",
   "Icon": "TB00001",
   "Name": "意识重塑",
@@ -4158,7 +4347,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_199",
+  "Id": "talent_208",
   "IDs": "TF10013_002",
   "Icon": "TB00001",
   "Name": "意识重塑",
@@ -4179,7 +4368,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_200",
+  "Id": "talent_209",
   "IDs": "TF10014_003",
   "Icon": "TB00001",
   "Name": "谋而后动",
@@ -4200,7 +4389,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_201",
+  "Id": "talent_210",
   "IDs": "TF10014_004",
   "Icon": "TB00001",
   "Name": "谋而后动",
@@ -4221,7 +4410,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_202",
+  "Id": "talent_211",
   "IDs": "TF10015_003",
   "Icon": "TB00001",
   "Name": "调动情绪",
@@ -4242,7 +4431,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_203",
+  "Id": "talent_212",
   "IDs": "TF10015_004",
   "Icon": "TB00001",
   "Name": "调动情绪",
@@ -4263,7 +4452,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_204",
+  "Id": "talent_213",
   "IDs": "TF10016_003",
   "Icon": "TB00001",
   "Name": "废物利用",
@@ -4284,7 +4473,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_205",
+  "Id": "talent_214",
   "IDs": "TF10016_004",
   "Icon": "TB00001",
   "Name": "废物利用",
@@ -4305,7 +4494,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_206",
+  "Id": "talent_215",
   "IDs": "TF10017_003",
   "Icon": "TB00001",
   "Name": "东拼西凑",
@@ -4326,7 +4515,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_207",
+  "Id": "talent_216",
   "IDs": "TF10017_004",
   "Icon": "TB00001",
   "Name": "东拼西凑",
@@ -4347,7 +4536,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_208",
+  "Id": "talent_217",
   "IDs": "TF10018_003",
   "Icon": "TB00001",
   "Name": "羁绊大师",
@@ -4368,7 +4557,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_209",
+  "Id": "talent_218",
   "IDs": "TF10018_004",
   "Icon": "TB00001",
   "Name": "羁绊大师",
@@ -4389,7 +4578,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_210",
+  "Id": "talent_219",
   "IDs": "TF10019_003",
   "Icon": "TB00001",
   "Name": "装备精通",
@@ -4410,7 +4599,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_211",
+  "Id": "talent_220",
   "IDs": "TF10019_004",
   "Icon": "TB00001",
   "Name": "装备精通",
@@ -4431,7 +4620,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_212",
+  "Id": "talent_221",
   "IDs": "TF10101_001",
   "Icon": "TB40003",
   "Name": "护卫大师",
@@ -4452,7 +4641,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_213",
+  "Id": "talent_222",
   "IDs": "TF10101_002",
   "Icon": "TB40003",
   "Name": "护卫大师",
@@ -4473,7 +4662,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_214",
+  "Id": "talent_223",
   "IDs": "TF10101_003",
   "Icon": "TB40003",
   "Name": "护卫大师",
@@ -4494,7 +4683,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_215",
+  "Id": "talent_224",
   "IDs": "TF10101_004",
   "Icon": "TB40003",
   "Name": "护卫大师",
@@ -4515,7 +4704,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_216",
+  "Id": "talent_225",
   "IDs": "TF10106_001",
   "Icon": "TB40003",
   "Name": "气势压迫",
@@ -4536,7 +4725,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_217",
+  "Id": "talent_226",
   "IDs": "TF10106_002",
   "Icon": "TB40003",
   "Name": "气势压迫",
@@ -4557,7 +4746,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_218",
+  "Id": "talent_227",
   "IDs": "TF10106_003",
   "Icon": "TB40003",
   "Name": "气势压迫",
@@ -4578,7 +4767,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_219",
+  "Id": "talent_228",
   "IDs": "TF10106_004",
   "Icon": "TB40003",
   "Name": "气势压迫",
@@ -4599,7 +4788,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_220",
+  "Id": "talent_229",
   "IDs": "TF10109_003",
   "Icon": "TB40003",
   "Name": "专注防御",
@@ -4620,7 +4809,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_221",
+  "Id": "talent_230",
   "IDs": "TF10109_004",
   "Icon": "TB40003",
   "Name": "专注防御",
@@ -4641,7 +4830,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_222",
+  "Id": "talent_231",
   "IDs": "TF10104_003",
   "Icon": "TB40003",
   "Name": "战争践踏",
@@ -4662,7 +4851,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_223",
+  "Id": "talent_232",
   "IDs": "TF10104_004",
   "Icon": "TB40003",
   "Name": "战争践踏",
@@ -4683,7 +4872,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_224",
+  "Id": "talent_233",
   "IDs": "TF10107_003",
   "Icon": "TB40003",
   "Name": "剑柄打击",
@@ -4704,7 +4893,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_225",
+  "Id": "talent_234",
   "IDs": "TF10107_004",
   "Icon": "TB40003",
   "Name": "剑柄打击",
@@ -4725,7 +4914,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_226",
+  "Id": "talent_235",
   "IDs": "TF10105_003",
   "Icon": "TB40003",
   "Name": "举盾嘲讽",
@@ -4746,7 +4935,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_227",
+  "Id": "talent_236",
   "IDs": "TF10105_004",
   "Icon": "TB40003",
   "Name": "举盾嘲讽",
@@ -4767,7 +4956,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_228",
+  "Id": "talent_237",
   "IDs": "TF10108_003",
   "Icon": "TB40003",
   "Name": "护甲大师",
@@ -4788,7 +4977,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_229",
+  "Id": "talent_238",
   "IDs": "TF10108_004",
   "Icon": "TB40003",
   "Name": "护甲大师",
@@ -4809,7 +4998,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_230",
+  "Id": "talent_239",
   "IDs": "TF10102_004",
   "Icon": "TB40003",
   "Name": "铜墙铁壁",
@@ -4830,7 +5019,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_231",
+  "Id": "talent_240",
   "IDs": "TF10110_004",
   "Icon": "TB40003",
   "Name": "屹立不倒",
@@ -4851,7 +5040,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_232",
+  "Id": "talent_241",
   "IDs": "TF10103_004",
   "Icon": "TB40003",
   "Name": "含怒反击",
@@ -4872,7 +5061,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_233",
+  "Id": "talent_242",
   "IDs": "TF10204_001",
   "Icon": "TB40006",
   "Name": "技能穿透",
@@ -4893,7 +5082,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_234",
+  "Id": "talent_243",
   "IDs": "TF10204_002",
   "Icon": "TB40006",
   "Name": "技能穿透",
@@ -4914,7 +5103,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_235",
+  "Id": "talent_244",
   "IDs": "TF10204_003",
   "Icon": "TB40006",
   "Name": "技能穿透",
@@ -4935,7 +5124,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_236",
+  "Id": "talent_245",
   "IDs": "TF10204_004",
   "Icon": "TB40006",
   "Name": "技能穿透",
@@ -4956,7 +5145,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_237",
+  "Id": "talent_246",
   "IDs": "TF10206_001",
   "Icon": "TB40006",
   "Name": "诅咒专精",
@@ -4977,7 +5166,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_238",
+  "Id": "talent_247",
   "IDs": "TF10206_002",
   "Icon": "TB40006",
   "Name": "诅咒专精",
@@ -4998,7 +5187,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_239",
+  "Id": "talent_248",
   "IDs": "TF10206_003",
   "Icon": "TB40006",
   "Name": "诅咒专精",
@@ -5019,7 +5208,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_240",
+  "Id": "talent_249",
   "IDs": "TF10206_004",
   "Icon": "TB40006",
   "Name": "诅咒专精",
@@ -5040,7 +5229,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_241",
+  "Id": "talent_250",
   "IDs": "TF10201_003",
   "Icon": "TB40006",
   "Name": "天赋异禀",
@@ -5061,7 +5250,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_242",
+  "Id": "talent_251",
   "IDs": "TF10201_004",
   "Icon": "TB40006",
   "Name": "天赋异禀",
@@ -5082,7 +5271,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_243",
+  "Id": "talent_252",
   "IDs": "TF10203_003",
   "Icon": "TB40006",
   "Name": "法师联盟",
@@ -5103,7 +5292,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_244",
+  "Id": "talent_253",
   "IDs": "TF10203_004",
   "Icon": "TB40006",
   "Name": "法师联盟",
@@ -5124,7 +5313,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_245",
+  "Id": "talent_254",
   "IDs": "TF10210_003",
   "Icon": "TB40006",
   "Name": "魔力禁锢",
@@ -5145,7 +5334,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_246",
+  "Id": "talent_255",
   "IDs": "TF10210_004",
   "Icon": "TB40006",
   "Name": "魔力禁锢",
@@ -5166,7 +5355,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_247",
+  "Id": "talent_256",
   "IDs": "TF10207_003",
   "Icon": "TB40006",
   "Name": "魔具大师",
@@ -5187,7 +5376,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_248",
+  "Id": "talent_257",
   "IDs": "TF10207_004",
   "Icon": "TB40006",
   "Name": "魔具大师",
@@ -5208,7 +5397,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_249",
+  "Id": "talent_258",
   "IDs": "TF10205_003",
   "Icon": "TB40006",
   "Name": "多重施法",
@@ -5229,7 +5418,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_250",
+  "Id": "talent_259",
   "IDs": "TF10205_004",
   "Icon": "TB40006",
   "Name": "多重施法",
@@ -5250,7 +5439,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_251",
+  "Id": "talent_260",
   "IDs": "TF10209_004",
   "Icon": "TB40006",
   "Name": "毁灭风暴",
@@ -5271,7 +5460,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_252",
+  "Id": "talent_261",
   "IDs": "TF10202_004",
   "Icon": "TB40006",
   "Name": "施法演示",
@@ -5292,7 +5481,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_253",
+  "Id": "talent_262",
   "IDs": "TF10208_004",
   "Icon": "TB40006",
   "Name": "魔力共振",
@@ -5313,7 +5502,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_254",
+  "Id": "talent_263",
   "IDs": "TF10305_001",
   "Icon": "TB40004",
   "Name": "箭无虚发",
@@ -5334,7 +5523,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_255",
+  "Id": "talent_264",
   "IDs": "TF10305_002",
   "Icon": "TB40004",
   "Name": "箭无虚发",
@@ -5355,7 +5544,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_256",
+  "Id": "talent_265",
   "IDs": "TF10305_003",
   "Icon": "TB40004",
   "Name": "箭无虚发",
@@ -5376,7 +5565,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_257",
+  "Id": "talent_266",
   "IDs": "TF10305_004",
   "Icon": "TB40004",
   "Name": "箭无虚发",
@@ -5397,7 +5586,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_258",
+  "Id": "talent_267",
   "IDs": "TF10303_001",
   "Icon": "TB40004",
   "Name": "机会主义",
@@ -5418,7 +5607,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_259",
+  "Id": "talent_268",
   "IDs": "TF10303_002",
   "Icon": "TB40004",
   "Name": "机会主义",
@@ -5439,7 +5628,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_260",
+  "Id": "talent_269",
   "IDs": "TF10303_003",
   "Icon": "TB40004",
   "Name": "机会主义",
@@ -5460,7 +5649,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_261",
+  "Id": "talent_270",
   "IDs": "TF10303_004",
   "Icon": "TB40004",
   "Name": "机会主义",
@@ -5481,7 +5670,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_262",
+  "Id": "talent_271",
   "IDs": "TF10302_003",
   "Icon": "TB40004",
   "Name": "精准追踪",
@@ -5502,7 +5691,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_263",
+  "Id": "talent_272",
   "IDs": "TF10302_004",
   "Icon": "TB40004",
   "Name": "精准追踪",
@@ -5523,7 +5712,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_264",
+  "Id": "talent_273",
   "IDs": "TF10306_003",
   "Icon": "TB40004",
   "Name": "风筝大师",
@@ -5544,7 +5733,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_265",
+  "Id": "talent_274",
   "IDs": "TF10306_004",
   "Icon": "TB40004",
   "Name": "风筝大师",
@@ -5565,7 +5754,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_266",
+  "Id": "talent_275",
   "IDs": "TF10308_003",
   "Icon": "TB40004",
   "Name": "掩体躲藏",
@@ -5586,7 +5775,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_267",
+  "Id": "talent_276",
   "IDs": "TF10308_004",
   "Icon": "TB40004",
   "Name": "掩体躲藏",
@@ -5607,7 +5796,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_268",
+  "Id": "talent_277",
   "IDs": "TF10309_003",
   "Icon": "TB40004",
   "Name": "皮靴大师",
@@ -5628,7 +5817,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_269",
+  "Id": "talent_278",
   "IDs": "TF10309_004",
   "Icon": "TB40004",
   "Name": "皮靴大师",
@@ -5649,7 +5838,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_270",
+  "Id": "talent_279",
   "IDs": "TF10307_003",
   "Icon": "TB40004",
   "Name": "超距压制",
@@ -5670,7 +5859,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_271",
+  "Id": "talent_280",
   "IDs": "TF10307_004",
   "Icon": "TB40004",
   "Name": "超距压制",
@@ -5691,7 +5880,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_272",
+  "Id": "talent_281",
   "IDs": "TF10301_004",
   "Icon": "TB40004",
   "Name": "固定炮台",
@@ -5712,7 +5901,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_273",
+  "Id": "talent_282",
   "IDs": "TF10310_004",
   "Icon": "TB40004",
   "Name": "弹幕时间",
@@ -5733,7 +5922,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_274",
+  "Id": "talent_283",
   "IDs": "TF10304_004",
   "Icon": "TB40004",
   "Name": "爆发连击",
@@ -5754,7 +5943,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_275",
+  "Id": "talent_284",
   "IDs": "TF10408_001",
   "Icon": "TB40005",
   "Name": "振奋之歌",
@@ -5775,7 +5964,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_276",
+  "Id": "talent_285",
   "IDs": "TF10408_002",
   "Icon": "TB40005",
   "Name": "振奋之歌",
@@ -5796,7 +5985,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_277",
+  "Id": "talent_286",
   "IDs": "TF10408_003",
   "Icon": "TB40005",
   "Name": "振奋之歌",
@@ -5817,7 +6006,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_278",
+  "Id": "talent_287",
   "IDs": "TF10408_004",
   "Icon": "TB40005",
   "Name": "振奋之歌",
@@ -5838,7 +6027,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_279",
+  "Id": "talent_288",
   "IDs": "TF10405_001",
   "Icon": "TB40005",
   "Name": "纯净结界",
@@ -5859,7 +6048,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_280",
+  "Id": "talent_289",
   "IDs": "TF10405_002",
   "Icon": "TB40005",
   "Name": "纯净结界",
@@ -5880,7 +6069,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_281",
+  "Id": "talent_290",
   "IDs": "TF10405_003",
   "Icon": "TB40005",
   "Name": "纯净结界",
@@ -5901,7 +6090,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_282",
+  "Id": "talent_291",
   "IDs": "TF10405_004",
   "Icon": "TB40005",
   "Name": "纯净结界",
@@ -5922,7 +6111,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_283",
+  "Id": "talent_292",
   "IDs": "TF10404_003",
   "Icon": "TB40005",
   "Name": "神圣震击",
@@ -5943,7 +6132,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_284",
+  "Id": "talent_293",
   "IDs": "TF10404_004",
   "Icon": "TB40005",
   "Name": "神圣震击",
@@ -5964,7 +6153,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_285",
+  "Id": "talent_294",
   "IDs": "TF10406_003",
   "Icon": "TB40005",
   "Name": "无私奉献",
@@ -5985,7 +6174,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_286",
+  "Id": "talent_295",
   "IDs": "TF10406_004",
   "Icon": "TB40005",
   "Name": "无私奉献",
@@ -6006,7 +6195,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_287",
+  "Id": "talent_296",
   "IDs": "TF10410_003",
   "Icon": "TB40005",
   "Name": "神圣新星",
@@ -6027,7 +6216,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_288",
+  "Id": "talent_297",
   "IDs": "TF10410_004",
   "Icon": "TB40005",
   "Name": "神圣新星",
@@ -6048,7 +6237,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_289",
+  "Id": "talent_298",
   "IDs": "TF10407_003",
   "Icon": "TB40005",
   "Name": "伤害分担",
@@ -6069,7 +6258,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_290",
+  "Id": "talent_299",
   "IDs": "TF10407_004",
   "Icon": "TB40005",
   "Name": "伤害分担",
@@ -6090,7 +6279,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_291",
+  "Id": "talent_300",
   "IDs": "TF10409_003",
   "Icon": "TB40005",
   "Name": "纹章大师",
@@ -6111,7 +6300,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_292",
+  "Id": "talent_301",
   "IDs": "TF10409_004",
   "Icon": "TB40005",
   "Name": "纹章大师",
@@ -6132,7 +6321,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_293",
+  "Id": "talent_302",
   "IDs": "TF10402_004",
   "Icon": "TB40005",
   "Name": "生命充盈",
@@ -6153,7 +6342,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_294",
+  "Id": "talent_303",
   "IDs": "TF10403_004",
   "Icon": "TB40005",
   "Name": "抗拒死亡",
@@ -6174,7 +6363,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_295",
+  "Id": "talent_304",
   "IDs": "TF10401_004",
   "Icon": "TB40005",
   "Name": "灵光一现",
@@ -6195,7 +6384,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_296",
+  "Id": "talent_305",
   "IDs": "TF11001_003",
   "Icon": "TB40011",
   "Name": "大地使者",
@@ -6216,7 +6405,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_297",
+  "Id": "talent_306",
   "IDs": "TF11001_004",
   "Icon": "TB40011",
   "Name": "大地使者",
@@ -6237,7 +6426,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_298",
+  "Id": "talent_307",
   "IDs": "TF11002_003",
   "Icon": "TB40011",
   "Name": "防御瓦解",
@@ -6258,7 +6447,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_299",
+  "Id": "talent_308",
   "IDs": "TF11002_004",
   "Icon": "TB40011",
   "Name": "防御瓦解",
@@ -6279,7 +6468,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_300",
+  "Id": "talent_309",
   "IDs": "TF11003_003",
   "Icon": "TB40011",
   "Name": "缠绕束缚",
@@ -6300,7 +6489,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_301",
+  "Id": "talent_310",
   "IDs": "TF11003_004",
   "Icon": "TB40011",
   "Name": "缠绕束缚",
@@ -6321,7 +6510,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_302",
+  "Id": "talent_311",
   "IDs": "TF11004_003",
   "Icon": "TB40011",
   "Name": "锋利尖刺",
@@ -6342,7 +6531,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_303",
+  "Id": "talent_312",
   "IDs": "TF11004_004",
   "Icon": "TB40011",
   "Name": "锋利尖刺",
@@ -6363,7 +6552,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_304",
+  "Id": "talent_313",
   "IDs": "TF11005_004",
   "Icon": "TB40011",
   "Name": "不动如山",
@@ -6384,7 +6573,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_305",
+  "Id": "talent_314",
   "IDs": "TF11006_004",
   "Icon": "TB40011",
   "Name": "地震余波",
@@ -6405,7 +6594,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_306",
+  "Id": "talent_315",
   "IDs": "TF11101_003",
   "Icon": "TB40012",
   "Name": "狂躁之风",
@@ -6426,7 +6615,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_307",
+  "Id": "talent_316",
   "IDs": "TF11101_004",
   "Icon": "TB40012",
   "Name": "狂躁之风",
@@ -6447,7 +6636,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_308",
+  "Id": "talent_317",
   "IDs": "TF11102_003",
   "Icon": "TB40012",
   "Name": "血液枯竭",
@@ -6468,7 +6657,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_309",
+  "Id": "talent_318",
   "IDs": "TF11102_004",
   "Icon": "TB40012",
   "Name": "血液枯竭",
@@ -6489,7 +6678,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_310",
+  "Id": "talent_319",
   "IDs": "TF11103_003",
   "Icon": "TB40012",
   "Name": "电能泯灭",
@@ -6510,7 +6699,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_311",
+  "Id": "talent_320",
   "IDs": "TF11103_004",
   "Icon": "TB40012",
   "Name": "电能泯灭",
@@ -6531,7 +6720,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_312",
+  "Id": "talent_321",
   "IDs": "TF11106_003",
   "Icon": "TB40012",
   "Name": "风暴之眼",
@@ -6552,7 +6741,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_313",
+  "Id": "talent_322",
   "IDs": "TF11106_004",
   "Icon": "TB40012",
   "Name": "风暴之眼",
@@ -6573,7 +6762,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_314",
+  "Id": "talent_323",
   "IDs": "TF11105_004",
   "Icon": "TB40012",
   "Name": "魔力真空",
@@ -6594,7 +6783,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_315",
+  "Id": "talent_324",
   "IDs": "TF11104_004",
   "Icon": "TB40012",
   "Name": "疾风之舞",
@@ -6615,7 +6804,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_316",
+  "Id": "talent_325",
   "IDs": "TF11201_003",
   "Icon": "TB40013",
   "Name": "潮湿气息",
@@ -6636,7 +6825,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_317",
+  "Id": "talent_326",
   "IDs": "TF11201_004",
   "Icon": "TB40013",
   "Name": "潮湿气息",
@@ -6657,7 +6846,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_318",
+  "Id": "talent_327",
   "IDs": "TF11202_003",
   "Icon": "TB40013",
   "Name": "极寒失温",
@@ -6678,7 +6867,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_319",
+  "Id": "talent_328",
   "IDs": "TF11202_004",
   "Icon": "TB40013",
   "Name": "极寒失温",
@@ -6699,7 +6888,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_320",
+  "Id": "talent_329",
   "IDs": "TF11203_003",
   "Icon": "TB40013",
   "Name": "通体无垢",
@@ -6720,7 +6909,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_321",
+  "Id": "talent_330",
   "IDs": "TF11203_004",
   "Icon": "TB40013",
   "Name": "通体无垢",
@@ -6741,7 +6930,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_322",
+  "Id": "talent_331",
   "IDs": "TF11204_003",
   "Icon": "TB40013",
   "Name": "生命之雨",
@@ -6762,7 +6951,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_323",
+  "Id": "talent_332",
   "IDs": "TF11204_004",
   "Icon": "TB40013",
   "Name": "生命之雨",
@@ -6783,7 +6972,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_324",
+  "Id": "talent_333",
   "IDs": "TF11206_004",
   "Icon": "TB40013",
   "Name": "水分吸收",
@@ -6804,7 +6993,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_325",
+  "Id": "talent_334",
   "IDs": "TF11205_004",
   "Icon": "TB40013",
   "Name": "水镜折射",
@@ -6825,7 +7014,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_326",
+  "Id": "talent_335",
   "IDs": "TF11301_003",
   "Icon": "TB40014",
   "Name": "火焰身躯",
@@ -6846,7 +7035,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_327",
+  "Id": "talent_336",
   "IDs": "TF11301_004",
   "Icon": "TB40014",
   "Name": "火焰身躯",
@@ -6867,7 +7056,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_328",
+  "Id": "talent_337",
   "IDs": "TF11302_003",
   "Icon": "TB40014",
   "Name": "静脉贯通",
@@ -6888,7 +7077,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_329",
+  "Id": "talent_338",
   "IDs": "TF11302_004",
   "Icon": "TB40014",
   "Name": "静脉贯通",
@@ -6909,7 +7098,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_330",
+  "Id": "talent_339",
   "IDs": "TF11304_003",
   "Icon": "TB40014",
   "Name": "气势如虹",
@@ -6930,7 +7119,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_331",
+  "Id": "talent_340",
   "IDs": "TF11304_004",
   "Icon": "TB40014",
   "Name": "气势如虹",
@@ -6951,7 +7140,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_332",
+  "Id": "talent_341",
   "IDs": "TF11305_003",
   "Icon": "TB40014",
   "Name": "火焰操控",
@@ -6972,7 +7161,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_333",
+  "Id": "talent_342",
   "IDs": "TF11305_004",
   "Icon": "TB40014",
   "Name": "火焰操控",
@@ -6993,7 +7182,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_334",
+  "Id": "talent_343",
   "IDs": "TF11303_004",
   "Icon": "TB40014",
   "Name": "侵略如火",
@@ -7014,7 +7203,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_335",
+  "Id": "talent_344",
   "IDs": "TF11306_004",
   "Icon": "TB40014",
   "Name": "无尽愤怒",
@@ -7035,7 +7224,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_336",
+  "Id": "talent_345",
   "IDs": "TF11401_003",
   "Icon": "TB40015",
   "Name": "净化之光",
@@ -7056,7 +7245,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_337",
+  "Id": "talent_346",
   "IDs": "TF11401_004",
   "Icon": "TB40015",
   "Name": "净化之光",
@@ -7077,7 +7266,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_338",
+  "Id": "talent_347",
   "IDs": "TF11403_003",
   "Icon": "TB40015",
   "Name": "坚毅不屈",
@@ -7098,7 +7287,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_339",
+  "Id": "talent_348",
   "IDs": "TF11403_004",
   "Icon": "TB40015",
   "Name": "坚毅不屈",
@@ -7119,7 +7308,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_340",
+  "Id": "talent_349",
   "IDs": "TF11404_003",
   "Icon": "TB40015",
   "Name": "坚定信仰",
@@ -7140,7 +7329,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_341",
+  "Id": "talent_350",
   "IDs": "TF11404_004",
   "Icon": "TB40015",
   "Name": "坚定信仰",
@@ -7161,7 +7350,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_342",
+  "Id": "talent_351",
   "IDs": "TF11405_003",
   "Icon": "TB40015",
   "Name": "无瑕之体",
@@ -7182,7 +7371,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_343",
+  "Id": "talent_352",
   "IDs": "TF11405_004",
   "Icon": "TB40015",
   "Name": "无瑕之体",
@@ -7203,7 +7392,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_344",
+  "Id": "talent_353",
   "IDs": "TF11402_004",
   "Icon": "TB40015",
   "Name": "鼓舞之光",
@@ -7224,7 +7413,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_345",
+  "Id": "talent_354",
   "IDs": "TF11406_004",
   "Icon": "TB40015",
   "Name": "削弱敌意",
@@ -7245,7 +7434,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_346",
+  "Id": "talent_355",
   "IDs": "TF11501_003",
   "Icon": "TB40016",
   "Name": "黑暗笼罩",
@@ -7266,7 +7455,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_347",
+  "Id": "talent_356",
   "IDs": "TF11501_004",
   "Icon": "TB40016",
   "Name": "黑暗笼罩",
@@ -7287,7 +7476,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_348",
+  "Id": "talent_357",
   "IDs": "TF11502_003",
   "Icon": "TB40016",
   "Name": "恐怖威压",
@@ -7308,7 +7497,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_349",
+  "Id": "talent_358",
   "IDs": "TF11502_004",
   "Icon": "TB40016",
   "Name": "恐怖威压",
@@ -7329,7 +7518,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_350",
+  "Id": "talent_359",
   "IDs": "TF11504_003",
   "Icon": "TB40016",
   "Name": "药剂研发",
@@ -7350,7 +7539,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_351",
+  "Id": "talent_360",
   "IDs": "TF11504_004",
   "Icon": "TB40016",
   "Name": "药剂研发",
@@ -7371,7 +7560,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_352",
+  "Id": "talent_361",
   "IDs": "TF11505_003",
   "Icon": "TB40016",
   "Name": "如影随形",
@@ -7392,7 +7581,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_353",
+  "Id": "talent_362",
   "IDs": "TF11505_004",
   "Icon": "TB40016",
   "Name": "如影随形",
@@ -7413,7 +7602,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_354",
+  "Id": "talent_363",
   "IDs": "TF11503_004",
   "Icon": "TB40016",
   "Name": "轮回不止",
@@ -7434,7 +7623,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_355",
+  "Id": "talent_364",
   "IDs": "TF11506_004",
   "Icon": "TB40016",
   "Name": "阴影潜行",
@@ -7455,7 +7644,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_356",
+  "Id": "talent_365",
   "IDs": "TF12103_001",
   "Icon": "TB20101",
   "Name": "液化魔力",
@@ -7476,7 +7665,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_357",
+  "Id": "talent_366",
   "IDs": "TF12103_002",
   "Icon": "TB20101",
   "Name": "液化魔力",
@@ -7497,7 +7686,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_358",
+  "Id": "talent_367",
   "IDs": "TF12103_003",
   "Icon": "TB20101",
   "Name": "液化魔力",
@@ -7518,7 +7707,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_359",
+  "Id": "talent_368",
   "IDs": "TF12103_004",
   "Icon": "TB20101",
   "Name": "液化魔力",
@@ -7539,7 +7728,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_360",
+  "Id": "talent_369",
   "IDs": "TF12101_003",
   "Icon": "TB20101",
   "Name": "粘液腐蚀",
@@ -7560,7 +7749,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_361",
+  "Id": "talent_370",
   "IDs": "TF12101_004",
   "Icon": "TB20101",
   "Name": "粘液腐蚀",
@@ -7581,7 +7770,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_362",
+  "Id": "talent_371",
   "IDs": "TF12104_003",
   "Icon": "TB20101",
   "Name": "粘液捕食",
@@ -7602,7 +7791,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_363",
+  "Id": "talent_372",
   "IDs": "TF12104_004",
   "Icon": "TB20101",
   "Name": "粘液捕食",
@@ -7623,7 +7812,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_364",
+  "Id": "talent_373",
   "IDs": "TF12102_004",
   "Icon": "TB20101",
   "Name": "生命融合",
@@ -7644,7 +7833,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_365",
+  "Id": "talent_374",
   "IDs": "TF12105_004",
   "Icon": "TB20101",
   "Name": "无尽增殖",
@@ -7665,7 +7854,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_366",
+  "Id": "talent_375",
   "IDs": "TF12202_001",
   "Icon": "TB20007",
   "Name": "突变成长",
@@ -7686,7 +7875,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_367",
+  "Id": "talent_376",
   "IDs": "TF12202_002",
   "Icon": "TB20007",
   "Name": "突变成长",
@@ -7707,7 +7896,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_368",
+  "Id": "talent_377",
   "IDs": "TF12202_003",
   "Icon": "TB20007",
   "Name": "突变成长",
@@ -7728,7 +7917,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_369",
+  "Id": "talent_378",
   "IDs": "TF12202_004",
   "Icon": "TB20007",
   "Name": "突变成长",
@@ -7749,7 +7938,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_370",
+  "Id": "talent_379",
   "IDs": "TF12203_003",
   "Icon": "TB20007",
   "Name": "观察模仿",
@@ -7770,7 +7959,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_371",
+  "Id": "talent_380",
   "IDs": "TF12203_004",
   "Icon": "TB20007",
   "Name": "观察模仿",
@@ -7791,7 +7980,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_372",
+  "Id": "talent_381",
   "IDs": "TF12205_003",
   "Icon": "TB20007",
   "Name": "阴暗偷袭",
@@ -7812,7 +8001,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_373",
+  "Id": "talent_382",
   "IDs": "TF12205_004",
   "Icon": "TB20007",
   "Name": "阴暗偷袭",
@@ -7833,7 +8022,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_374",
+  "Id": "talent_383",
   "IDs": "TF12201_004",
   "Icon": "TB20007",
   "Name": "集体行动",
@@ -7854,7 +8043,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_375",
+  "Id": "talent_384",
   "IDs": "TF12204_004",
   "Icon": "TB20007",
   "Name": "强盗天性",
@@ -7875,7 +8064,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_376",
+  "Id": "talent_385",
   "IDs": "TF12303_001",
   "Icon": "TB20004",
   "Name": "菌毯覆盖",
@@ -7896,7 +8085,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_377",
+  "Id": "talent_386",
   "IDs": "TF12303_002",
   "Icon": "TB20004",
   "Name": "菌毯覆盖",
@@ -7917,7 +8106,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_378",
+  "Id": "talent_387",
   "IDs": "TF12303_003",
   "Icon": "TB20004",
   "Name": "菌毯覆盖",
@@ -7938,7 +8127,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_379",
+  "Id": "talent_388",
   "IDs": "TF12303_004",
   "Icon": "TB20004",
   "Name": "菌毯覆盖",
@@ -7959,7 +8148,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_380",
+  "Id": "talent_389",
   "IDs": "TF12301_003",
   "Icon": "TB20004",
   "Name": "柔韧身体",
@@ -7980,7 +8169,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_381",
+  "Id": "talent_390",
   "IDs": "TF12301_004",
   "Icon": "TB20004",
   "Name": "柔韧身体",
@@ -8001,7 +8190,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_382",
+  "Id": "talent_391",
   "IDs": "TF12302_003",
   "Icon": "TB20004",
   "Name": "快速繁殖",
@@ -8022,7 +8211,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_383",
+  "Id": "talent_392",
   "IDs": "TF12302_004",
   "Icon": "TB20004",
   "Name": "快速繁殖",
@@ -8043,7 +8232,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_384",
+  "Id": "talent_393",
   "IDs": "TF12305_004",
   "Icon": "TB20004",
   "Name": "能量吸收",
@@ -8064,7 +8253,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_385",
+  "Id": "talent_394",
   "IDs": "TF12304_004",
   "Icon": "TB20004",
   "Name": "自爆孢子",
@@ -8085,7 +8274,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_386",
+  "Id": "talent_395",
   "IDs": "TF12402_001",
   "Icon": "TB20100",
   "Name": "能量紊乱",
@@ -8106,7 +8295,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_387",
+  "Id": "talent_396",
   "IDs": "TF12402_002",
   "Icon": "TB20100",
   "Name": "能量紊乱",
@@ -8127,7 +8316,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_388",
+  "Id": "talent_397",
   "IDs": "TF12402_003",
   "Icon": "TB20100",
   "Name": "能量紊乱",
@@ -8148,7 +8337,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_389",
+  "Id": "talent_398",
   "IDs": "TF12402_004",
   "Icon": "TB20100",
   "Name": "能量紊乱",
@@ -8169,7 +8358,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_390",
+  "Id": "talent_399",
   "IDs": "TF12404_003",
   "Icon": "TB20100",
   "Name": "魔力亲和",
@@ -8190,7 +8379,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_391",
+  "Id": "talent_400",
   "IDs": "TF12404_004",
   "Icon": "TB20100",
   "Name": "魔力亲和",
@@ -8211,7 +8400,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_392",
+  "Id": "talent_401",
   "IDs": "TF12405_003",
   "Icon": "TB20100",
   "Name": "元素诅咒",
@@ -8232,7 +8421,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_393",
+  "Id": "talent_402",
   "IDs": "TF12405_004",
   "Icon": "TB20100",
   "Name": "元素诅咒",
@@ -8253,7 +8442,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_394",
+  "Id": "talent_403",
   "IDs": "TF12401_004",
   "Icon": "TB20100",
   "Name": "魔力溃散",
@@ -8274,7 +8463,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_395",
+  "Id": "talent_404",
   "IDs": "TF12403_004",
   "Icon": "TB20100",
   "Name": "元素操控",
@@ -8295,7 +8484,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_396",
+  "Id": "talent_405",
   "IDs": "TF12505_001",
   "Icon": "TB20011",
   "Name": "爆发速度",
@@ -8316,7 +8505,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_397",
+  "Id": "talent_406",
   "IDs": "TF12505_002",
   "Icon": "TB20011",
   "Name": "爆发速度",
@@ -8337,7 +8526,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_398",
+  "Id": "talent_407",
   "IDs": "TF12505_003",
   "Icon": "TB20011",
   "Name": "爆发速度",
@@ -8358,7 +8547,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_399",
+  "Id": "talent_408",
   "IDs": "TF12505_004",
   "Icon": "TB20011",
   "Name": "爆发速度",
@@ -8379,7 +8568,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_400",
+  "Id": "talent_409",
   "IDs": "TF12502_003",
   "Icon": "TB20011",
   "Name": "戏耍猎物",
@@ -8400,7 +8589,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_401",
+  "Id": "talent_410",
   "IDs": "TF12502_004",
   "Icon": "TB20011",
   "Name": "戏耍猎物",
@@ -8421,7 +8610,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_402",
+  "Id": "talent_411",
   "IDs": "TF12503_003",
   "Icon": "TB20011",
   "Name": "撒娇卖萌",
@@ -8442,7 +8631,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_403",
+  "Id": "talent_412",
   "IDs": "TF12503_004",
   "Icon": "TB20011",
   "Name": "撒娇卖萌",
@@ -8463,7 +8652,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_404",
+  "Id": "talent_413",
   "IDs": "TF12501_004",
   "Icon": "TB20011",
   "Name": "睚眦必报",
@@ -8484,7 +8673,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_405",
+  "Id": "talent_414",
   "IDs": "TF12504_003",
   "Icon": "TB20011",
   "Name": "九命猫妖",
@@ -8505,7 +8694,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_406",
+  "Id": "talent_415",
   "IDs": "TF12504_004",
   "Icon": "TB20011",
   "Name": "九命猫妖",
@@ -8526,7 +8715,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_407",
+  "Id": "talent_416",
   "IDs": "TF12601_001",
   "Icon": "TB20012",
   "Name": "灵敏嗅觉",
@@ -8547,7 +8736,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_408",
+  "Id": "talent_417",
   "IDs": "TF12601_002",
   "Icon": "TB20012",
   "Name": "灵敏嗅觉",
@@ -8568,7 +8757,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_409",
+  "Id": "talent_418",
   "IDs": "TF12601_003",
   "Icon": "TB20012",
   "Name": "灵敏嗅觉",
@@ -8589,7 +8778,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_410",
+  "Id": "talent_419",
   "IDs": "TF12601_004",
   "Icon": "TB20012",
   "Name": "灵敏嗅觉",
@@ -8610,7 +8799,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_411",
+  "Id": "talent_420",
   "IDs": "TF12603_003",
   "Icon": "TB20012",
   "Name": "月光狂化",
@@ -8631,7 +8820,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_412",
+  "Id": "talent_421",
   "IDs": "TF12603_004",
   "Icon": "TB20012",
   "Name": "月光狂化",
@@ -8652,7 +8841,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_413",
+  "Id": "talent_422",
   "IDs": "TF12604_003",
   "Icon": "TB20012",
   "Name": "血脉喷张",
@@ -8673,7 +8862,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_414",
+  "Id": "talent_423",
   "IDs": "TF12604_004",
   "Icon": "TB20012",
   "Name": "血脉喷张",
@@ -8694,7 +8883,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_415",
+  "Id": "talent_424",
   "IDs": "TF12605_004",
   "Icon": "TB20012",
   "Name": "嗜血追猎",
@@ -8715,7 +8904,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_416",
+  "Id": "talent_425",
   "IDs": "TF12602_004",
   "Icon": "TB20012",
   "Name": "集群追猎",
@@ -8736,7 +8925,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_417",
+  "Id": "talent_426",
   "IDs": "TF12703_001",
   "Icon": "TB20300",
   "Name": "灵魂汲取",
@@ -8757,7 +8946,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_418",
+  "Id": "talent_427",
   "IDs": "TF12703_002",
   "Icon": "TB20300",
   "Name": "灵魂汲取",
@@ -8778,7 +8967,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_419",
+  "Id": "talent_428",
   "IDs": "TF12703_003",
   "Icon": "TB20300",
   "Name": "灵魂汲取",
@@ -8799,7 +8988,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_420",
+  "Id": "talent_429",
   "IDs": "TF12703_004",
   "Icon": "TB20300",
   "Name": "灵魂汲取",
@@ -8820,7 +9009,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_421",
+  "Id": "talent_430",
   "IDs": "TF12704_003",
   "Icon": "TB20300",
   "Name": "绝望狂乱",
@@ -8841,7 +9030,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_422",
+  "Id": "talent_431",
   "IDs": "TF12704_004",
   "Icon": "TB20300",
   "Name": "绝望狂乱",
@@ -8862,7 +9051,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_423",
+  "Id": "talent_432",
   "IDs": "TF12701_003",
   "Icon": "TB20300",
   "Name": "憎恨生者",
@@ -8883,7 +9072,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_424",
+  "Id": "talent_433",
   "IDs": "TF12701_004",
   "Icon": "TB20300",
   "Name": "憎恨生者",
@@ -8904,7 +9093,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_425",
+  "Id": "talent_434",
   "IDs": "TF12705_004",
   "Icon": "TB20300",
   "Name": "恐怖仪式",
@@ -8925,14 +9114,14 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_426",
+  "Id": "talent_435",
   "IDs": "TF12702_004",
   "Icon": "TB20300",
   "Name": "亡魂诅咒",
   "NameI2": "Skill/Talent_Name_TF12702_001",
   "Step": "S",
   "Type": "天赋",
-  "Effect": "战斗开始前触发{0}次自身战败效果，但使自身失去{1}%的生命上限。",
+  "Effect": "战斗开始前触发{0}次自身战败效果，但使自身失去{1}%生命上限的生命。",
   "EffectI2": "Skill/Talent_Des_TF12702_001",
   "Value0": 2,
   "Value1": 20,
@@ -8946,7 +9135,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_427",
+  "Id": "talent_436",
   "IDs": "TF12802_001",
   "Icon": "TB20005",
   "Name": "坚韧再生",
@@ -8967,7 +9156,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_428",
+  "Id": "talent_437",
   "IDs": "TF12802_002",
   "Icon": "TB20005",
   "Name": "坚韧再生",
@@ -8988,7 +9177,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_429",
+  "Id": "talent_438",
   "IDs": "TF12802_003",
   "Icon": "TB20005",
   "Name": "坚韧再生",
@@ -9009,7 +9198,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_430",
+  "Id": "talent_439",
   "IDs": "TF12802_004",
   "Icon": "TB20005",
   "Name": "坚韧再生",
@@ -9030,7 +9219,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_431",
+  "Id": "talent_440",
   "IDs": "TF12801_003",
   "Icon": "TB20005",
   "Name": "野蛮生长",
@@ -9051,7 +9240,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_432",
+  "Id": "talent_441",
   "IDs": "TF12801_004",
   "Icon": "TB20005",
   "Name": "野蛮生长",
@@ -9072,7 +9261,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_433",
+  "Id": "talent_442",
   "IDs": "TF12805_003",
   "Icon": "TB20005",
   "Name": "芬芳气味",
@@ -9093,7 +9282,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_434",
+  "Id": "talent_443",
   "IDs": "TF12805_004",
   "Icon": "TB20005",
   "Name": "芬芳气味",
@@ -9114,7 +9303,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_435",
+  "Id": "talent_444",
   "IDs": "TF12804_004",
   "Icon": "TB20005",
   "Name": "生生不息",
@@ -9135,7 +9324,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_436",
+  "Id": "talent_445",
   "IDs": "TF12803_004",
   "Icon": "TB20005",
   "Name": "参天巨树",
@@ -9156,7 +9345,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_437",
+  "Id": "talent_446",
   "IDs": "TF12901_001",
   "Icon": "TB20001",
   "Name": "疾速扑杀",
@@ -9177,7 +9366,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_438",
+  "Id": "talent_447",
   "IDs": "TF12901_002",
   "Icon": "TB20001",
   "Name": "疾速扑杀",
@@ -9198,7 +9387,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_439",
+  "Id": "talent_448",
   "IDs": "TF12901_003",
   "Icon": "TB20001",
   "Name": "疾速扑杀",
@@ -9219,7 +9408,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_440",
+  "Id": "talent_449",
   "IDs": "TF12901_004",
   "Icon": "TB20001",
   "Name": "疾速扑杀",
@@ -9240,7 +9429,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_441",
+  "Id": "talent_450",
   "IDs": "TF12903_003",
   "Icon": "TB20001",
   "Name": "雄鹰之眼",
@@ -9261,7 +9450,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_442",
+  "Id": "talent_451",
   "IDs": "TF12903_004",
   "Icon": "TB20001",
   "Name": "雄鹰之眼",
@@ -9282,7 +9471,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_443",
+  "Id": "talent_452",
   "IDs": "TF12904_003",
   "Icon": "TB20001",
   "Name": "疾速升空",
@@ -9303,7 +9492,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_444",
+  "Id": "talent_453",
   "IDs": "TF12904_004",
   "Icon": "TB20001",
   "Name": "疾速升空",
@@ -9324,7 +9513,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_445",
+  "Id": "talent_454",
   "IDs": "TF12905_004",
   "Icon": "TB20001",
   "Name": "广阔视野",
@@ -9345,7 +9534,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_446",
+  "Id": "talent_455",
   "IDs": "TF12902_004",
   "Icon": "TB20001",
   "Name": "盲区偷袭",
@@ -9366,7 +9555,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_447",
+  "Id": "talent_456",
   "IDs": "TF13001_001",
   "Icon": "TB20002",
   "Name": "虫群意志",
@@ -9387,7 +9576,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_448",
+  "Id": "talent_457",
   "IDs": "TF13001_002",
   "Icon": "TB20002",
   "Name": "虫群意志",
@@ -9408,7 +9597,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_449",
+  "Id": "talent_458",
   "IDs": "TF13001_003",
   "Icon": "TB20002",
   "Name": "虫群意志",
@@ -9429,7 +9618,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_450",
+  "Id": "talent_459",
   "IDs": "TF13001_004",
   "Icon": "TB20002",
   "Name": "虫群意志",
@@ -9450,7 +9639,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_451",
+  "Id": "talent_460",
   "IDs": "TF13005_003",
   "Icon": "TB20002",
   "Name": "适应进化",
@@ -9471,7 +9660,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_452",
+  "Id": "talent_461",
   "IDs": "TF13005_004",
   "Icon": "TB20002",
   "Name": "适应进化",
@@ -9492,7 +9681,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_453",
+  "Id": "talent_462",
   "IDs": "TF13003_003",
   "Icon": "TB20002",
   "Name": "剧毒之牙",
@@ -9513,7 +9702,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_454",
+  "Id": "talent_463",
   "IDs": "TF13003_004",
   "Icon": "TB20002",
   "Name": "剧毒之牙",
@@ -9534,7 +9723,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_455",
+  "Id": "talent_464",
   "IDs": "TF13002_004",
   "Icon": "TB20002",
   "Name": "操纵虫群",
@@ -9555,7 +9744,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_456",
+  "Id": "talent_465",
   "IDs": "TF13004_004",
   "Icon": "TB20002",
   "Name": "金蝉脱壳",
@@ -9576,7 +9765,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_457",
+  "Id": "talent_466",
   "IDs": "TF13104_001",
   "Icon": "TB20003",
   "Name": "传奇生物",
@@ -9597,7 +9786,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_458",
+  "Id": "talent_467",
   "IDs": "TF13104_002",
   "Icon": "TB20003",
   "Name": "传奇生物",
@@ -9618,7 +9807,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_459",
+  "Id": "talent_468",
   "IDs": "TF13104_003",
   "Icon": "TB20003",
   "Name": "传奇生物",
@@ -9639,7 +9828,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_460",
+  "Id": "talent_469",
   "IDs": "TF13104_004",
   "Icon": "TB20003",
   "Name": "传奇生物",
@@ -9660,7 +9849,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_461",
+  "Id": "talent_470",
   "IDs": "TF13102_003",
   "Icon": "TB20003",
   "Name": "破魔龙鳞",
@@ -9681,7 +9870,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_462",
+  "Id": "talent_471",
   "IDs": "TF13102_004",
   "Icon": "TB20003",
   "Name": "破魔龙鳞",
@@ -9702,7 +9891,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_463",
+  "Id": "talent_472",
   "IDs": "TF13103_003",
   "Icon": "TB20003",
   "Name": "巨龙之威",
@@ -9723,7 +9912,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_464",
+  "Id": "talent_473",
   "IDs": "TF13103_004",
   "Icon": "TB20003",
   "Name": "巨龙之威",
@@ -9744,7 +9933,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_465",
+  "Id": "talent_474",
   "IDs": "TF13101_004",
   "Icon": "TB20003",
   "Name": "逆鳞之怒",
@@ -9765,7 +9954,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_466",
+  "Id": "talent_475",
   "IDs": "TF13105_004",
   "Icon": "TB20003",
   "Name": "震撼登场",
@@ -9786,7 +9975,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_467",
+  "Id": "talent_476",
   "IDs": "TF13203_001",
   "Icon": "TB20006",
   "Name": "操纵鱼群",
@@ -9807,7 +9996,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_468",
+  "Id": "talent_477",
   "IDs": "TF13203_002",
   "Icon": "TB20006",
   "Name": "操纵鱼群",
@@ -9828,7 +10017,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_469",
+  "Id": "talent_478",
   "IDs": "TF13203_003",
   "Icon": "TB20006",
   "Name": "操纵鱼群",
@@ -9849,7 +10038,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_470",
+  "Id": "talent_479",
   "IDs": "TF13203_004",
   "Icon": "TB20006",
   "Name": "操纵鱼群",
@@ -9870,7 +10059,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_471",
+  "Id": "talent_480",
   "IDs": "TF13202_003",
   "Icon": "TB20006",
   "Name": "湿润皮肤",
@@ -9891,7 +10080,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_472",
+  "Id": "talent_481",
   "IDs": "TF13202_004",
   "Icon": "TB20006",
   "Name": "湿润皮肤",
@@ -9912,7 +10101,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_473",
+  "Id": "talent_482",
   "IDs": "TF13204_003",
   "Icon": "TB20006",
   "Name": "魅惑声音",
@@ -9933,7 +10122,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_474",
+  "Id": "talent_483",
   "IDs": "TF13204_004",
   "Icon": "TB20006",
   "Name": "魅惑声音",
@@ -9954,7 +10143,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_475",
+  "Id": "talent_484",
   "IDs": "TF13205_004",
   "Icon": "TB20006",
   "Name": "潮汐变化",
@@ -9975,7 +10164,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_476",
+  "Id": "talent_485",
   "IDs": "TF13201_004",
   "Icon": "TB20006",
   "Name": "深海巨物",
@@ -9996,7 +10185,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_477",
+  "Id": "talent_486",
   "IDs": "TF13303_001",
   "Icon": "TB20008",
   "Name": "原始体魄",
@@ -10017,7 +10206,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_478",
+  "Id": "talent_487",
   "IDs": "TF13303_002",
   "Icon": "TB20008",
   "Name": "原始体魄",
@@ -10038,7 +10227,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_479",
+  "Id": "talent_488",
   "IDs": "TF13303_003",
   "Icon": "TB20008",
   "Name": "原始体魄",
@@ -10059,7 +10248,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_480",
+  "Id": "talent_489",
   "IDs": "TF13303_004",
   "Icon": "TB20008",
   "Name": "原始体魄",
@@ -10080,7 +10269,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_481",
+  "Id": "talent_490",
   "IDs": "TF13304_003",
   "Icon": "TB20008",
   "Name": "快速再生",
@@ -10101,7 +10290,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_482",
+  "Id": "talent_491",
   "IDs": "TF13304_004",
   "Icon": "TB20008",
   "Name": "快速再生",
@@ -10122,7 +10311,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_483",
+  "Id": "talent_492",
   "IDs": "TF13305_003",
   "Icon": "TB20008",
   "Name": "图腾崇拜",
@@ -10143,7 +10332,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_484",
+  "Id": "talent_493",
   "IDs": "TF13305_004",
   "Icon": "TB20008",
   "Name": "图腾崇拜",
@@ -10164,7 +10353,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_485",
+  "Id": "talent_494",
   "IDs": "TF13302_004",
   "Icon": "TB20008",
   "Name": "痛觉钝化",
@@ -10185,7 +10374,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_486",
+  "Id": "talent_495",
   "IDs": "TF13301_004",
   "Icon": "TB20008",
   "Name": "断肢重生",
@@ -10206,7 +10395,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_487",
+  "Id": "talent_496",
   "IDs": "TF13403_001",
   "Icon": "TB20200",
   "Name": "无血灵体",
@@ -10227,7 +10416,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_488",
+  "Id": "talent_497",
   "IDs": "TF13403_002",
   "Icon": "TB20200",
   "Name": "无血灵体",
@@ -10248,7 +10437,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_489",
+  "Id": "talent_498",
   "IDs": "TF13403_003",
   "Icon": "TB20200",
   "Name": "无血灵体",
@@ -10269,7 +10458,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_490",
+  "Id": "talent_499",
   "IDs": "TF13403_004",
   "Icon": "TB20200",
   "Name": "无血灵体",
@@ -10290,7 +10479,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_491",
+  "Id": "talent_500",
   "IDs": "TF13402_003",
   "Icon": "TB20200",
   "Name": "装备掌控",
@@ -10311,7 +10500,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_492",
+  "Id": "talent_501",
   "IDs": "TF13402_004",
   "Icon": "TB20200",
   "Name": "装备掌控",
@@ -10332,7 +10521,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_493",
+  "Id": "talent_502",
   "IDs": "TF13405_003",
   "Icon": "TB20200",
   "Name": "无惧弱点",
@@ -10353,7 +10542,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_494",
+  "Id": "talent_503",
   "IDs": "TF13405_004",
   "Icon": "TB20200",
   "Name": "无惧弱点",
@@ -10374,7 +10563,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_495",
+  "Id": "talent_504",
   "IDs": "TF13404_003",
   "Icon": "TB20200",
   "Name": "指环大师",
@@ -10395,7 +10584,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_496",
+  "Id": "talent_505",
   "IDs": "TF13404_004",
   "Icon": "TB20200",
   "Name": "指环大师",
@@ -10416,7 +10605,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_497",
+  "Id": "talent_506",
   "IDs": "TF13401_004",
   "Icon": "TB20200",
   "Name": "永恒意志",
@@ -10437,7 +10626,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_498",
+  "Id": "talent_507",
   "IDs": "TF13501_001",
   "Icon": "TB20201",
   "Name": "无心傀儡",
@@ -10458,7 +10647,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_499",
+  "Id": "talent_508",
   "IDs": "TF13501_002",
   "Icon": "TB20201",
   "Name": "无心傀儡",
@@ -10479,7 +10668,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_500",
+  "Id": "talent_509",
   "IDs": "TF13501_003",
   "Icon": "TB20201",
   "Name": "无心傀儡",
@@ -10500,7 +10689,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_501",
+  "Id": "talent_510",
   "IDs": "TF13501_004",
   "Icon": "TB20201",
   "Name": "无心傀儡",
@@ -10521,7 +10710,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_502",
+  "Id": "talent_511",
   "IDs": "TF13502_003",
   "Icon": "TB20201",
   "Name": "魔力驱动",
@@ -10542,7 +10731,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_503",
+  "Id": "talent_512",
   "IDs": "TF13502_004",
   "Icon": "TB20201",
   "Name": "魔力驱动",
@@ -10563,7 +10752,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_504",
+  "Id": "talent_513",
   "IDs": "TF13505_003",
   "Icon": "TB20201",
   "Name": "延时启动",
@@ -10584,7 +10773,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_505",
+  "Id": "talent_514",
   "IDs": "TF13505_004",
   "Icon": "TB20201",
   "Name": "延时启动",
@@ -10605,7 +10794,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_506",
+  "Id": "talent_515",
   "IDs": "TF13504_004",
   "Icon": "TB20201",
   "Name": "灵活关节",
@@ -10626,7 +10815,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_507",
+  "Id": "talent_516",
   "IDs": "TF13503_004",
   "Icon": "TB20201",
   "Name": "复杂指令",
@@ -10647,7 +10836,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_508",
+  "Id": "talent_517",
   "IDs": "TF13604_001",
   "Icon": "TB20100",
   "Name": "金刚不坏",
@@ -10668,7 +10857,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_509",
+  "Id": "talent_518",
   "IDs": "TF13604_002",
   "Icon": "TB20100",
   "Name": "金刚不坏",
@@ -10689,7 +10878,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_510",
+  "Id": "talent_519",
   "IDs": "TF13604_003",
   "Icon": "TB20100",
   "Name": "金刚不坏",
@@ -10710,7 +10899,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_511",
+  "Id": "talent_520",
   "IDs": "TF13604_004",
   "Icon": "TB20100",
   "Name": "金刚不坏",
@@ -10731,7 +10920,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_512",
+  "Id": "talent_521",
   "IDs": "TF13601_003",
   "Icon": "TB20100",
   "Name": "金属身躯",
@@ -10752,7 +10941,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_513",
+  "Id": "talent_522",
   "IDs": "TF13601_004",
   "Icon": "TB20100",
   "Name": "金属身躯",
@@ -10773,7 +10962,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_514",
+  "Id": "talent_523",
   "IDs": "TF13602_003",
   "Icon": "TB20100",
   "Name": "能量反射",
@@ -10794,7 +10983,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_515",
+  "Id": "talent_524",
   "IDs": "TF13602_004",
   "Icon": "TB20100",
   "Name": "能量反射",
@@ -10815,7 +11004,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_516",
+  "Id": "talent_525",
   "IDs": "TF13605_004",
   "Icon": "TB20100",
   "Name": "金属外壳",
@@ -10836,7 +11025,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_517",
+  "Id": "talent_526",
   "IDs": "TF13603_004",
   "Icon": "TB20100",
   "Name": "浑然一体",
@@ -10857,7 +11046,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_518",
+  "Id": "talent_527",
   "IDs": "TF13703_001",
   "Icon": "TB20009",
   "Name": "天生神力",
@@ -10878,7 +11067,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_519",
+  "Id": "talent_528",
   "IDs": "TF13703_002",
   "Icon": "TB20009",
   "Name": "天生神力",
@@ -10899,7 +11088,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_520",
+  "Id": "talent_529",
   "IDs": "TF13703_003",
   "Icon": "TB20009",
   "Name": "天生神力",
@@ -10920,7 +11109,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_521",
+  "Id": "talent_530",
   "IDs": "TF13703_004",
   "Icon": "TB20009",
   "Name": "天生神力",
@@ -10941,7 +11130,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_522",
+  "Id": "talent_531",
   "IDs": "TF13701_003",
   "Icon": "TB20009",
   "Name": "高速奔行",
@@ -10962,7 +11151,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_523",
+  "Id": "talent_532",
   "IDs": "TF13701_004",
   "Icon": "TB20009",
   "Name": "高速奔行",
@@ -10983,7 +11172,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_524",
+  "Id": "talent_533",
   "IDs": "TF13705_003",
   "Icon": "TB20009",
   "Name": "后蹄猛踹",
@@ -11004,7 +11193,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_525",
+  "Id": "talent_534",
   "IDs": "TF13705_004",
   "Icon": "TB20009",
   "Name": "后蹄猛踹",
@@ -11025,7 +11214,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_526",
+  "Id": "talent_535",
   "IDs": "TF13702_004",
   "Icon": "TB20009",
   "Name": "长途奔袭",
@@ -11046,7 +11235,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_527",
+  "Id": "talent_536",
   "IDs": "TF13704_004",
   "Icon": "TB20009",
   "Name": "士气高昂",
@@ -11067,7 +11256,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_528",
+  "Id": "talent_537",
   "IDs": "TF13803_001",
   "Icon": "TB20010",
   "Name": "理智丧失",
@@ -11088,7 +11277,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_529",
+  "Id": "talent_538",
   "IDs": "TF13803_002",
   "Icon": "TB20010",
   "Name": "理智丧失",
@@ -11109,7 +11298,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_530",
+  "Id": "talent_539",
   "IDs": "TF13803_003",
   "Icon": "TB20010",
   "Name": "理智丧失",
@@ -11130,7 +11319,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_531",
+  "Id": "talent_540",
   "IDs": "TF13803_004",
   "Icon": "TB20010",
   "Name": "理智丧失",
@@ -11151,7 +11340,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_532",
+  "Id": "talent_541",
   "IDs": "TF13804_003",
   "Icon": "TB20010",
   "Name": "长角冲锋",
@@ -11172,7 +11361,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_533",
+  "Id": "talent_542",
   "IDs": "TF13804_004",
   "Icon": "TB20010",
   "Name": "长角冲锋",
@@ -11193,7 +11382,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_534",
+  "Id": "talent_543",
   "IDs": "TF13805_003",
   "Icon": "TB20010",
   "Name": "愤怒反击",
@@ -11214,7 +11403,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_535",
+  "Id": "talent_544",
   "IDs": "TF13805_004",
   "Icon": "TB20010",
   "Name": "愤怒反击",
@@ -11235,7 +11424,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_536",
+  "Id": "talent_545",
   "IDs": "TF13801_004",
   "Icon": "TB20010",
   "Name": "强健体魄",
@@ -11256,7 +11445,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_537",
+  "Id": "talent_546",
   "IDs": "TF13802_004",
   "Icon": "TB20010",
   "Name": "狂暴易怒",
@@ -11277,7 +11466,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_538",
+  "Id": "talent_547",
   "IDs": "TF13902_001",
   "Icon": "TB20013",
   "Name": "无害伪装",
@@ -11298,7 +11487,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_539",
+  "Id": "talent_548",
   "IDs": "TF13902_002",
   "Icon": "TB20013",
   "Name": "无害伪装",
@@ -11319,7 +11508,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_540",
+  "Id": "talent_549",
   "IDs": "TF13902_003",
   "Icon": "TB20013",
   "Name": "无害伪装",
@@ -11340,7 +11529,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_541",
+  "Id": "talent_550",
   "IDs": "TF13902_004",
   "Icon": "TB20013",
   "Name": "无害伪装",
@@ -11361,7 +11550,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_542",
+  "Id": "talent_551",
   "IDs": "TF13904_003",
   "Icon": "TB20013",
   "Name": "和平主义",
@@ -11382,7 +11571,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_543",
+  "Id": "talent_552",
   "IDs": "TF13904_004",
   "Icon": "TB20013",
   "Name": "和平主义",
@@ -11403,7 +11592,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_544",
+  "Id": "talent_553",
   "IDs": "TF13905_003",
   "Icon": "TB20013",
   "Name": "虽远必诛",
@@ -11424,7 +11613,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_545",
+  "Id": "talent_554",
   "IDs": "TF13905_004",
   "Icon": "TB20013",
   "Name": "虽远必诛",
@@ -11445,7 +11634,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_546",
+  "Id": "talent_555",
   "IDs": "TF13903_004",
   "Icon": "TB20013",
   "Name": "提前预警",
@@ -11466,7 +11655,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_547",
+  "Id": "talent_556",
   "IDs": "TF13901_004",
   "Icon": "TB20013",
   "Name": "活泼好动",
@@ -11487,7 +11676,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_548",
+  "Id": "talent_557",
   "IDs": "TF14002_001",
   "Icon": "TB20014",
   "Name": "毒素抗性",
@@ -11508,7 +11697,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_549",
+  "Id": "talent_558",
   "IDs": "TF14002_002",
   "Icon": "TB20014",
   "Name": "毒素抗性",
@@ -11529,7 +11718,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_550",
+  "Id": "talent_559",
   "IDs": "TF14002_003",
   "Icon": "TB20014",
   "Name": "毒素抗性",
@@ -11550,7 +11739,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_551",
+  "Id": "talent_560",
   "IDs": "TF14002_004",
   "Icon": "TB20014",
   "Name": "毒素抗性",
@@ -11571,7 +11760,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_552",
+  "Id": "talent_561",
   "IDs": "TF14001_003",
   "Icon": "TB20014",
   "Name": "破坏大师",
@@ -11592,7 +11781,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_553",
+  "Id": "talent_562",
   "IDs": "TF14001_004",
   "Icon": "TB20014",
   "Name": "破坏大师",
@@ -11613,7 +11802,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_554",
+  "Id": "talent_563",
   "IDs": "TF14003_003",
   "Icon": "TB20014",
   "Name": "挖掘专家",
@@ -11634,7 +11823,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_555",
+  "Id": "talent_564",
   "IDs": "TF14003_004",
   "Icon": "TB20014",
   "Name": "挖掘专家",
@@ -11655,7 +11844,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_556",
+  "Id": "talent_565",
   "IDs": "TF14005_004",
   "Icon": "TB20014",
   "Name": "物资囤积",
@@ -11676,7 +11865,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_557",
+  "Id": "talent_566",
   "IDs": "TF14004_004",
   "Icon": "TB20014",
   "Name": "集群破坏",
@@ -11697,7 +11886,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_558",
+  "Id": "talent_567",
   "IDs": "TF14103_001",
   "Icon": "TB20015",
   "Name": "魔力汲取",
@@ -11718,7 +11907,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_559",
+  "Id": "talent_568",
   "IDs": "TF14103_002",
   "Icon": "TB20015",
   "Name": "魔力汲取",
@@ -11739,7 +11928,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_560",
+  "Id": "talent_569",
   "IDs": "TF14103_003",
   "Icon": "TB20015",
   "Name": "魔力汲取",
@@ -11760,7 +11949,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_561",
+  "Id": "talent_570",
   "IDs": "TF14103_004",
   "Icon": "TB20015",
   "Name": "魔力汲取",
@@ -11781,7 +11970,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_562",
+  "Id": "talent_571",
   "IDs": "TF14102_003",
   "Icon": "TB20015",
   "Name": "精神统一",
@@ -11802,7 +11991,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_563",
+  "Id": "talent_572",
   "IDs": "TF14102_004",
   "Icon": "TB20015",
   "Name": "精神统一",
@@ -11823,7 +12012,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_564",
+  "Id": "talent_573",
   "IDs": "TF14104_003",
   "Icon": "TB20015",
   "Name": "楚楚可怜",
@@ -11844,7 +12033,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_565",
+  "Id": "talent_574",
   "IDs": "TF14104_004",
   "Icon": "TB20015",
   "Name": "楚楚可怜",
@@ -11865,7 +12054,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_566",
+  "Id": "talent_575",
   "IDs": "TF14101_004",
   "Icon": "TB20015",
   "Name": "魅惑幻象",
@@ -11886,7 +12075,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_567",
+  "Id": "talent_576",
   "IDs": "TF14105_004",
   "Icon": "TB20015",
   "Name": "观察猎物",
@@ -11907,7 +12096,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_568",
+  "Id": "talent_577",
   "IDs": "TF14201_001",
   "Icon": "TB20400",
   "Name": "永恒生命",
@@ -11928,7 +12117,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_569",
+  "Id": "talent_578",
   "IDs": "TF14201_002",
   "Icon": "TB20400",
   "Name": "永恒生命",
@@ -11949,7 +12138,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_570",
+  "Id": "talent_579",
   "IDs": "TF14201_003",
   "Icon": "TB20400",
   "Name": "永恒生命",
@@ -11970,7 +12159,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_571",
+  "Id": "talent_580",
   "IDs": "TF14201_004",
   "Icon": "TB20400",
   "Name": "永恒生命",
@@ -11991,7 +12180,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_572",
+  "Id": "talent_581",
   "IDs": "TF14203_003",
   "Icon": "TB20400",
   "Name": "不可直视",
@@ -12012,7 +12201,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_573",
+  "Id": "talent_582",
   "IDs": "TF14203_004",
   "Icon": "TB20400",
   "Name": "不可直视",
@@ -12033,7 +12222,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_574",
+  "Id": "talent_583",
   "IDs": "TF14204_003",
   "Icon": "TB20400",
   "Name": "唯一真神",
@@ -12054,7 +12243,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_575",
+  "Id": "talent_584",
   "IDs": "TF14204_004",
   "Icon": "TB20400",
   "Name": "唯一真神",
@@ -12075,7 +12264,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_576",
+  "Id": "talent_585",
   "IDs": "TF14202_004",
   "Icon": "TB20400",
   "Name": "情绪汲取",
@@ -12096,7 +12285,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_577",
+  "Id": "talent_586",
   "IDs": "TF14205_004",
   "Icon": "TB20400",
   "Name": "神威律令",
@@ -12117,7 +12306,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_578",
+  "Id": "talent_587",
   "IDs": "TF14301_001",
   "Icon": "TB20402",
   "Name": "吮吸生命",
@@ -12138,7 +12327,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_579",
+  "Id": "talent_588",
   "IDs": "TF14301_002",
   "Icon": "TB20402",
   "Name": "吮吸生命",
@@ -12159,7 +12348,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_580",
+  "Id": "talent_589",
   "IDs": "TF14301_003",
   "Icon": "TB20402",
   "Name": "吮吸生命",
@@ -12180,7 +12369,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_581",
+  "Id": "talent_590",
   "IDs": "TF14301_004",
   "Icon": "TB20402",
   "Name": "吮吸生命",
@@ -12201,7 +12390,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_582",
+  "Id": "talent_591",
   "IDs": "TF14302_003",
   "Icon": "TB20402",
   "Name": "天生邪恶",
@@ -12222,7 +12411,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_583",
+  "Id": "talent_592",
   "IDs": "TF14302_004",
   "Icon": "TB20402",
   "Name": "天生邪恶",
@@ -12243,7 +12432,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_584",
+  "Id": "talent_593",
   "IDs": "TF14304_003",
   "Icon": "TB20402",
   "Name": "邪能泯灭",
@@ -12264,7 +12453,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_585",
+  "Id": "talent_594",
   "IDs": "TF14304_004",
   "Icon": "TB20402",
   "Name": "邪能泯灭",
@@ -12285,7 +12474,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_586",
+  "Id": "talent_595",
   "IDs": "TF14305_004",
   "Icon": "TB20402",
   "Name": "深渊召唤",
@@ -12306,7 +12495,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_587",
+  "Id": "talent_596",
   "IDs": "TF14303_004",
   "Icon": "TB20402",
   "Name": "不可名状",
@@ -12327,7 +12516,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_588",
+  "Id": "talent_597",
   "IDs": "TF14403_001",
   "Icon": "TB20018",
   "Name": "体型威慑",
@@ -12348,7 +12537,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_589",
+  "Id": "talent_598",
   "IDs": "TF14403_002",
   "Icon": "TB20018",
   "Name": "体型威慑",
@@ -12369,7 +12558,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_590",
+  "Id": "talent_599",
   "IDs": "TF14403_003",
   "Icon": "TB20018",
   "Name": "体型威慑",
@@ -12390,7 +12579,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_591",
+  "Id": "talent_600",
   "IDs": "TF14403_004",
   "Icon": "TB20018",
   "Name": "体型威慑",
@@ -12411,7 +12600,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_592",
+  "Id": "talent_601",
   "IDs": "TF14404_003",
   "Icon": "TB20018",
   "Name": "地脉汲取",
@@ -12432,7 +12621,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_593",
+  "Id": "talent_602",
   "IDs": "TF14404_004",
   "Icon": "TB20018",
   "Name": "地脉汲取",
@@ -12453,7 +12642,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_594",
+  "Id": "talent_603",
   "IDs": "TF14405_003",
   "Icon": "TB20018",
   "Name": "雷霆锻体",
@@ -12474,7 +12663,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_595",
+  "Id": "talent_604",
   "IDs": "TF14405_004",
   "Icon": "TB20018",
   "Name": "雷霆锻体",
@@ -12495,7 +12684,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_596",
+  "Id": "talent_605",
   "IDs": "TF14402_004",
   "Icon": "TB20018",
   "Name": "投掷巨物",
@@ -12516,7 +12705,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_597",
+  "Id": "talent_606",
   "IDs": "TF14401_004",
   "Icon": "TB20018",
   "Name": "撼地重击",
@@ -12537,7 +12726,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_598",
+  "Id": "talent_607",
   "IDs": "TF14503_001",
   "Icon": "TB20102",
   "Name": "纯净无瑕",
@@ -12558,7 +12747,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_599",
+  "Id": "talent_608",
   "IDs": "TF14503_002",
   "Icon": "TB20102",
   "Name": "纯净无瑕",
@@ -12579,7 +12768,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_600",
+  "Id": "talent_609",
   "IDs": "TF14503_003",
   "Icon": "TB20102",
   "Name": "纯净无瑕",
@@ -12600,7 +12789,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_601",
+  "Id": "talent_610",
   "IDs": "TF14503_004",
   "Icon": "TB20102",
   "Name": "纯净无瑕",
@@ -12621,7 +12810,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_602",
+  "Id": "talent_611",
   "IDs": "TF14502_003",
   "Icon": "TB20102",
   "Name": "魔力捕捉",
@@ -12642,7 +12831,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_603",
+  "Id": "talent_612",
   "IDs": "TF14502_004",
   "Icon": "TB20102",
   "Name": "魔力捕捉",
@@ -12663,7 +12852,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_604",
+  "Id": "talent_613",
   "IDs": "TF14505_003",
   "Icon": "TB20102",
   "Name": "晶石增幅",
@@ -12684,7 +12873,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_605",
+  "Id": "talent_614",
   "IDs": "TF14505_004",
   "Icon": "TB20102",
   "Name": "晶石增幅",
@@ -12705,7 +12894,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_606",
+  "Id": "talent_615",
   "IDs": "TF01010_004",
   "Icon": "TB20102",
   "Name": "魔力收集",
@@ -12726,7 +12915,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_607",
+  "Id": "talent_616",
   "IDs": "TF14501_004",
   "Icon": "TB20102",
   "Name": "魔晶核心",
@@ -12747,7 +12936,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_608",
+  "Id": "talent_617",
   "IDs": "TF15401_001",
   "Icon": "TB20103",
   "Name": "风化侵蚀",
@@ -12768,7 +12957,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_609",
+  "Id": "talent_618",
   "IDs": "TF15401_002",
   "Icon": "TB20103",
   "Name": "风化侵蚀",
@@ -12789,7 +12978,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_610",
+  "Id": "talent_619",
   "IDs": "TF15401_003",
   "Icon": "TB20103",
   "Name": "风化侵蚀",
@@ -12810,7 +12999,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_611",
+  "Id": "talent_620",
   "IDs": "TF15401_004",
   "Icon": "TB20103",
   "Name": "风化侵蚀",
@@ -12831,7 +13020,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_612",
+  "Id": "talent_621",
   "IDs": "TF15402_003",
   "Icon": "TB20103",
   "Name": "砂土软化",
@@ -12852,7 +13041,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_613",
+  "Id": "talent_622",
   "IDs": "TF15402_004",
   "Icon": "TB20103",
   "Name": "砂土软化",
@@ -12873,7 +13062,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_614",
+  "Id": "talent_623",
   "IDs": "TF15403_003",
   "Icon": "TB20103",
   "Name": "沙缚牢笼",
@@ -12894,7 +13083,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_615",
+  "Id": "talent_624",
   "IDs": "TF15403_004",
   "Icon": "TB20103",
   "Name": "沙缚牢笼",
@@ -12915,7 +13104,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_616",
+  "Id": "talent_625",
   "IDs": "TF15404_004",
   "Icon": "TB20103",
   "Name": "护主流沙",
@@ -12936,7 +13125,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_617",
+  "Id": "talent_626",
   "IDs": "TF15405_004",
   "Icon": "TB20103",
   "Name": "沙暴领域",
@@ -12957,7 +13146,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_618",
+  "Id": "talent_627",
   "IDs": "TF15801_001",
   "Icon": "TB20202",
   "Name": "宁静辉光",
@@ -12978,7 +13167,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_619",
+  "Id": "talent_628",
   "IDs": "TF15801_002",
   "Icon": "TB20202",
   "Name": "宁静辉光",
@@ -12999,7 +13188,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_620",
+  "Id": "talent_629",
   "IDs": "TF15801_003",
   "Icon": "TB20202",
   "Name": "宁静辉光",
@@ -13020,7 +13209,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_621",
+  "Id": "talent_630",
   "IDs": "TF15801_004",
   "Icon": "TB20202",
   "Name": "宁静辉光",
@@ -13041,7 +13230,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_622",
+  "Id": "talent_631",
   "IDs": "TF15802_003",
   "Icon": "TB20202",
   "Name": "炫目神光",
@@ -13062,7 +13251,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_623",
+  "Id": "talent_632",
   "IDs": "TF15802_004",
   "Icon": "TB20202",
   "Name": "炫目神光",
@@ -13083,7 +13272,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_624",
+  "Id": "talent_633",
   "IDs": "TF15803_003",
   "Icon": "TB20202",
   "Name": "短暂微光",
@@ -13104,7 +13293,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_625",
+  "Id": "talent_634",
   "IDs": "TF15803_004",
   "Icon": "TB20202",
   "Name": "短暂微光",
@@ -13125,7 +13314,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_626",
+  "Id": "talent_635",
   "IDs": "TF15804_004",
   "Icon": "TB20202",
   "Name": "希望之火",
@@ -13146,7 +13335,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_627",
+  "Id": "talent_636",
   "IDs": "TF15805_004",
   "Icon": "TB20202",
   "Name": "灯火燃尽",
@@ -13167,7 +13356,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_628",
+  "Id": "talent_637",
   "IDs": "TF15901_001",
   "Icon": "TB20203",
   "Name": "坚韧外皮",
@@ -13188,7 +13377,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_629",
+  "Id": "talent_638",
   "IDs": "TF15901_002",
   "Icon": "TB20203",
   "Name": "坚韧外皮",
@@ -13209,7 +13398,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_630",
+  "Id": "talent_639",
   "IDs": "TF15901_003",
   "Icon": "TB20203",
   "Name": "坚韧外皮",
@@ -13230,7 +13419,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_631",
+  "Id": "talent_640",
   "IDs": "TF15901_004",
   "Icon": "TB20203",
   "Name": "坚韧外皮",
@@ -13251,7 +13440,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_632",
+  "Id": "talent_641",
   "IDs": "TF15902_003",
   "Icon": "TB20203",
   "Name": "隐忍反击",
@@ -13272,7 +13461,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_633",
+  "Id": "talent_642",
   "IDs": "TF15902_004",
   "Icon": "TB20203",
   "Name": "隐忍反击",
@@ -13293,7 +13482,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_634",
+  "Id": "talent_643",
   "IDs": "TF15903_003",
   "Icon": "TB20203",
   "Name": "反震之躯",
@@ -13314,7 +13503,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_635",
+  "Id": "talent_644",
   "IDs": "TF15903_004",
   "Icon": "TB20203",
   "Name": "反震之躯",
@@ -13335,7 +13524,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_636",
+  "Id": "talent_645",
   "IDs": "TF15904_004",
   "Icon": "TB20203",
   "Name": "状态刷新",
@@ -13356,7 +13545,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_637",
+  "Id": "talent_646",
   "IDs": "TF15905_004",
   "Icon": "TB20203",
   "Name": "受击锻体",
@@ -13377,7 +13566,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_638",
+  "Id": "talent_647",
   "IDs": "TF16001_001",
   "Icon": "TB20004",
   "Name": "星光泯灭",
@@ -13398,7 +13587,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_639",
+  "Id": "talent_648",
   "IDs": "TF16001_002",
   "Icon": "TB20004",
   "Name": "星光泯灭",
@@ -13419,7 +13608,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_640",
+  "Id": "talent_649",
   "IDs": "TF16001_003",
   "Icon": "TB20004",
   "Name": "星光泯灭",
@@ -13440,7 +13629,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_641",
+  "Id": "talent_650",
   "IDs": "TF16001_004",
   "Icon": "TB20004",
   "Name": "星光泯灭",
@@ -13461,7 +13650,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_642",
+  "Id": "talent_651",
   "IDs": "TF16002_003",
   "Icon": "TB20004",
   "Name": "暗星膨胀",
@@ -13482,7 +13671,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_643",
+  "Id": "talent_652",
   "IDs": "TF16002_004",
   "Icon": "TB20004",
   "Name": "暗星膨胀",
@@ -13503,7 +13692,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_644",
+  "Id": "talent_653",
   "IDs": "TF16003_003",
   "Icon": "TB20004",
   "Name": "无限吞噬",
@@ -13524,7 +13713,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_645",
+  "Id": "talent_654",
   "IDs": "TF16003_004",
   "Icon": "TB20004",
   "Name": "无限吞噬",
@@ -13545,7 +13734,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_646",
+  "Id": "talent_655",
   "IDs": "TF16004_004",
   "Icon": "TB20004",
   "Name": "魔力吸收",
@@ -13566,7 +13755,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_647",
+  "Id": "talent_656",
   "IDs": "TF16005_004",
   "Icon": "TB20004",
   "Name": "暗星碎裂",
@@ -13587,7 +13776,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_648",
+  "Id": "talent_657",
   "IDs": "TF16101_001",
   "Icon": "TB20100",
   "Name": "白银净化",
@@ -13608,7 +13797,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_649",
+  "Id": "talent_658",
   "IDs": "TF16101_002",
   "Icon": "TB20100",
   "Name": "白银净化",
@@ -13629,7 +13818,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_650",
+  "Id": "talent_659",
   "IDs": "TF16101_003",
   "Icon": "TB20100",
   "Name": "白银净化",
@@ -13650,7 +13839,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_651",
+  "Id": "talent_660",
   "IDs": "TF16101_004",
   "Icon": "TB20100",
   "Name": "白银净化",
@@ -13671,7 +13860,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_652",
+  "Id": "talent_661",
   "IDs": "TF16102_003",
   "Icon": "TB20100",
   "Name": "破魔身躯",
@@ -13692,7 +13881,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_653",
+  "Id": "talent_662",
   "IDs": "TF16102_004",
   "Icon": "TB20100",
   "Name": "破魔身躯",
@@ -13713,7 +13902,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_654",
+  "Id": "talent_663",
   "IDs": "TF16103_003",
   "Icon": "TB20100",
   "Name": "净化反射",
@@ -13734,7 +13923,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_655",
+  "Id": "talent_664",
   "IDs": "TF16103_004",
   "Icon": "TB20100",
   "Name": "净化反射",
@@ -13755,7 +13944,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_656",
+  "Id": "talent_665",
   "IDs": "TF16104_004",
   "Icon": "TB20100",
   "Name": "无瑕皮肤",
@@ -13776,7 +13965,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_657",
+  "Id": "talent_666",
   "IDs": "TF16105_004",
   "Icon": "TB20100",
   "Name": "攻守转换",
@@ -13797,7 +13986,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_658",
+  "Id": "talent_667",
   "IDs": "TF14601_001",
   "Icon": "TB20100",
   "Name": "爆炸核心",
@@ -13818,7 +14007,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_659",
+  "Id": "talent_668",
   "IDs": "TF14601_002",
   "Icon": "TB20100",
   "Name": "爆炸核心",
@@ -13839,7 +14028,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_660",
+  "Id": "talent_669",
   "IDs": "TF14601_003",
   "Icon": "TB20100",
   "Name": "爆炸核心",
@@ -13860,7 +14049,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_661",
+  "Id": "talent_670",
   "IDs": "TF14601_004",
   "Icon": "TB20100",
   "Name": "爆炸核心",
@@ -13881,7 +14070,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_662",
+  "Id": "talent_671",
   "IDs": "TF14602_003",
   "Icon": "TB20100",
   "Name": "冷却岩甲",
@@ -13902,7 +14091,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_663",
+  "Id": "talent_672",
   "IDs": "TF14602_004",
   "Icon": "TB20100",
   "Name": "冷却岩甲",
@@ -13923,7 +14112,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_664",
+  "Id": "talent_673",
   "IDs": "TF14603_003",
   "Icon": "TB20100",
   "Name": "烈火神盾",
@@ -13944,7 +14133,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_665",
+  "Id": "talent_674",
   "IDs": "TF14603_004",
   "Icon": "TB20100",
   "Name": "烈火神盾",
@@ -13965,7 +14154,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_666",
+  "Id": "talent_675",
   "IDs": "TF14604_004",
   "Icon": "TB20100",
   "Name": "焦土领域",
@@ -13986,7 +14175,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_667",
+  "Id": "talent_676",
   "IDs": "TF14605_004",
   "Icon": "TB20100",
   "Name": "动力熔炉",
@@ -14007,7 +14196,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_668",
+  "Id": "talent_677",
   "IDs": "TF16201_001",
   "Icon": "TB20003",
   "Name": "炼狱生物",
@@ -14028,7 +14217,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_669",
+  "Id": "talent_678",
   "IDs": "TF16201_002",
   "Icon": "TB20003",
   "Name": "炼狱生物",
@@ -14049,7 +14238,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_670",
+  "Id": "talent_679",
   "IDs": "TF16201_003",
   "Icon": "TB20003",
   "Name": "炼狱生物",
@@ -14070,7 +14259,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_671",
+  "Id": "talent_680",
   "IDs": "TF16201_004",
   "Icon": "TB20003",
   "Name": "炼狱生物",
@@ -14091,7 +14280,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_672",
+  "Id": "talent_681",
   "IDs": "TF16202_003",
   "Icon": "TB20003",
   "Name": "蓄火龙珠",
@@ -14112,7 +14301,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_673",
+  "Id": "talent_682",
   "IDs": "TF16202_004",
   "Icon": "TB20003",
   "Name": "蓄火龙珠",
@@ -14133,7 +14322,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_674",
+  "Id": "talent_683",
   "IDs": "TF16203_003",
   "Icon": "TB20003",
   "Name": "高温炼狱",
@@ -14154,7 +14343,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_675",
+  "Id": "talent_684",
   "IDs": "TF16203_004",
   "Icon": "TB20003",
   "Name": "高温炼狱",
@@ -14175,7 +14364,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_676",
+  "Id": "talent_685",
   "IDs": "TF16204_004",
   "Icon": "TB20003",
   "Name": "逆鳞怒火",
@@ -14196,7 +14385,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_677",
+  "Id": "talent_686",
   "IDs": "TF16205_004",
   "Icon": "TB20003",
   "Name": "破胆咆哮",
@@ -14217,7 +14406,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_678",
+  "Id": "talent_687",
   "IDs": "TF16301_001",
   "Icon": "TB20400",
   "Name": "长生不老",
@@ -14238,7 +14427,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_679",
+  "Id": "talent_688",
   "IDs": "TF16301_002",
   "Icon": "TB20400",
   "Name": "长生不老",
@@ -14259,7 +14448,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_680",
+  "Id": "talent_689",
   "IDs": "TF16301_003",
   "Icon": "TB20400",
   "Name": "长生不老",
@@ -14280,7 +14469,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_681",
+  "Id": "talent_690",
   "IDs": "TF16301_004",
   "Icon": "TB20400",
   "Name": "长生不老",
@@ -14301,7 +14490,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_682",
+  "Id": "talent_691",
   "IDs": "TF16302_003",
   "Icon": "TB20400",
   "Name": "兵解归墟",
@@ -14322,7 +14511,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_683",
+  "Id": "talent_692",
   "IDs": "TF16302_004",
   "Icon": "TB20400",
   "Name": "兵解归墟",
@@ -14343,7 +14532,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_684",
+  "Id": "talent_693",
   "IDs": "TF16303_003",
   "Icon": "TB20400",
   "Name": "唯吾独尊",
@@ -14364,7 +14553,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_685",
+  "Id": "talent_694",
   "IDs": "TF16303_004",
   "Icon": "TB20400",
   "Name": "唯吾独尊",
@@ -14385,7 +14574,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_686",
+  "Id": "talent_695",
   "IDs": "TF16304_004",
   "Icon": "TB20400",
   "Name": "夺魂炼魄",
@@ -14406,7 +14595,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_687",
+  "Id": "talent_696",
   "IDs": "TF16305_004",
   "Icon": "TB20400",
   "Name": "天人合一",
@@ -14427,7 +14616,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_688",
+  "Id": "talent_697",
   "IDs": "TF16401_001",
   "Icon": "TB20300",
   "Name": "鲜血汲取",
@@ -14448,7 +14637,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_689",
+  "Id": "talent_698",
   "IDs": "TF16401_002",
   "Icon": "TB20300",
   "Name": "鲜血汲取",
@@ -14469,7 +14658,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_690",
+  "Id": "talent_699",
   "IDs": "TF16401_003",
   "Icon": "TB20300",
   "Name": "鲜血汲取",
@@ -14490,7 +14679,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_691",
+  "Id": "talent_700",
   "IDs": "TF16401_004",
   "Icon": "TB20300",
   "Name": "鲜血汲取",
@@ -14511,7 +14700,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_692",
+  "Id": "talent_701",
   "IDs": "TF16402_003",
   "Icon": "TB20300",
   "Name": "嗜血本能",
@@ -14532,7 +14721,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_693",
+  "Id": "talent_702",
   "IDs": "TF16402_004",
   "Icon": "TB20300",
   "Name": "嗜血本能",
@@ -14553,7 +14742,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_694",
+  "Id": "talent_703",
   "IDs": "TF16403_003",
   "Icon": "TB20300",
   "Name": "渴血狂化",
@@ -14574,7 +14763,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_695",
+  "Id": "talent_704",
   "IDs": "TF16403_004",
   "Icon": "TB20300",
   "Name": "渴血狂化",
@@ -14595,7 +14784,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_696",
+  "Id": "talent_705",
   "IDs": "TF16404_004",
   "Icon": "TB20300",
   "Name": "控血魔法",
@@ -14616,7 +14805,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_697",
+  "Id": "talent_706",
   "IDs": "TF16405_004",
   "Icon": "TB20300",
   "Name": "永夜之子",
@@ -14637,7 +14826,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_698",
+  "Id": "talent_707",
   "IDs": "TF16501_001",
   "Icon": "TB20014",
   "Name": "坚硬针刺",
@@ -14658,7 +14847,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_699",
+  "Id": "talent_708",
   "IDs": "TF16501_002",
   "Icon": "TB20014",
   "Name": "坚硬针刺",
@@ -14679,7 +14868,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_700",
+  "Id": "talent_709",
   "IDs": "TF16501_003",
   "Icon": "TB20014",
   "Name": "坚硬针刺",
@@ -14700,7 +14889,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_701",
+  "Id": "talent_710",
   "IDs": "TF16501_004",
   "Icon": "TB20014",
   "Name": "坚硬针刺",
@@ -14721,7 +14910,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_702",
+  "Id": "talent_711",
   "IDs": "TF16502_003",
   "Icon": "TB20014",
   "Name": "蜷缩防御",
@@ -14742,7 +14931,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_703",
+  "Id": "talent_712",
   "IDs": "TF16502_004",
   "Icon": "TB20014",
   "Name": "蜷缩防御",
@@ -14763,7 +14952,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_704",
+  "Id": "talent_713",
   "IDs": "TF16503_003",
   "Icon": "TB20014",
   "Name": "尖刺创伤",
@@ -14784,7 +14973,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_705",
+  "Id": "talent_714",
   "IDs": "TF16503_004",
   "Icon": "TB20014",
   "Name": "尖刺创伤",
@@ -14805,7 +14994,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_706",
+  "Id": "talent_715",
   "IDs": "TF16504_004",
   "Icon": "TB20014",
   "Name": "针刺扫射",
@@ -14826,7 +15015,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_707",
+  "Id": "talent_716",
   "IDs": "TF16505_004",
   "Icon": "TB20014",
   "Name": "翻滚攻击",
@@ -14847,7 +15036,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_708",
+  "Id": "talent_717",
   "IDs": "TF16601_001",
   "Icon": "TB20005",
   "Name": "致幻花粉",
@@ -14868,7 +15057,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_709",
+  "Id": "talent_718",
   "IDs": "TF16601_002",
   "Icon": "TB20005",
   "Name": "致幻花粉",
@@ -14889,7 +15078,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_710",
+  "Id": "talent_719",
   "IDs": "TF16601_003",
   "Icon": "TB20005",
   "Name": "致幻花粉",
@@ -14910,7 +15099,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_711",
+  "Id": "talent_720",
   "IDs": "TF16601_004",
   "Icon": "TB20005",
   "Name": "致幻花粉",
@@ -14931,7 +15120,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_712",
+  "Id": "talent_721",
   "IDs": "TF16602_003",
   "Icon": "TB20005",
   "Name": "护花使者",
@@ -14952,7 +15141,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_713",
+  "Id": "talent_722",
   "IDs": "TF16602_004",
   "Icon": "TB20005",
   "Name": "护花使者",
@@ -14973,7 +15162,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_714",
+  "Id": "talent_723",
   "IDs": "TF16603_003",
   "Icon": "TB20005",
   "Name": "花枝招展",
@@ -14994,7 +15183,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_715",
+  "Id": "talent_724",
   "IDs": "TF16603_004",
   "Icon": "TB20005",
   "Name": "花枝招展",
@@ -15015,7 +15204,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_716",
+  "Id": "talent_725",
   "IDs": "TF16604_004",
   "Icon": "TB20005",
   "Name": "花蜜馈赠",
@@ -15036,7 +15225,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_717",
+  "Id": "talent_726",
   "IDs": "TF16605_004",
   "Icon": "TB20005",
   "Name": "花苞绽放",
@@ -15057,7 +15246,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_718",
+  "Id": "talent_727",
   "IDs": "TF16701_001",
   "Icon": "TB20008",
   "Name": "远古血脉",
@@ -15078,7 +15267,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_719",
+  "Id": "talent_728",
   "IDs": "TF16701_002",
   "Icon": "TB20008",
   "Name": "远古血脉",
@@ -15099,7 +15288,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_720",
+  "Id": "talent_729",
   "IDs": "TF16701_003",
   "Icon": "TB20008",
   "Name": "远古血脉",
@@ -15120,7 +15309,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_721",
+  "Id": "talent_730",
   "IDs": "TF16701_004",
   "Icon": "TB20008",
   "Name": "远古血脉",
@@ -15141,7 +15330,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_722",
+  "Id": "talent_731",
   "IDs": "TF16702_003",
   "Icon": "TB20008",
   "Name": "超速再生",
@@ -15162,7 +15351,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_723",
+  "Id": "talent_732",
   "IDs": "TF16702_004",
   "Icon": "TB20008",
   "Name": "超速再生",
@@ -15183,7 +15372,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_724",
+  "Id": "talent_733",
   "IDs": "TF16703_003",
   "Icon": "TB20008",
   "Name": "符文解析",
@@ -15204,7 +15393,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_725",
+  "Id": "talent_734",
   "IDs": "TF16703_004",
   "Icon": "TB20008",
   "Name": "符文解析",
@@ -15225,7 +15414,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_726",
+  "Id": "talent_735",
   "IDs": "TF16704_004",
   "Icon": "TB20008",
   "Name": "魔力涌动",
@@ -15246,7 +15435,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_727",
+  "Id": "talent_736",
   "IDs": "TF16705_004",
   "Icon": "TB20008",
   "Name": "古神赐福",
@@ -15267,17 +15456,17 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_728",
-  "IDs": "TF16801_001",
-  "Icon": "TB20006",
-  "Name": "深海统御",
-  "NameI2": "Skill/Talent_Name_TF16801_001",
+  "Id": "talent_737",
+  "IDs": "TF16901_001",
+  "Icon": "TB20400",
+  "Name": "永恒潮汐",
+  "NameI2": "Skill/Talent_Name_TF16901_001",
   "Step": "C",
   "Type": "天赋",
-  "Effect": "释放技能时每{0}点友方数量使本次造成滋润层数+{1}。",
-  "EffectI2": "Skill/Talent_Des_TF16801_001",
-  "Value0": 12,
-  "Value1": 1,
+  "Effect": "每{0}级使双方全体目标获得滋润层数上限+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF16901_001",
+  "Value0": 20,
+  "Value1": 20,
   "Value2": 0,
   "FilterTags": "",
   "PositiveTags": "",
@@ -15288,17 +15477,17 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_729",
-  "IDs": "TF16801_002",
-  "Icon": "TB20006",
-  "Name": "深海统御",
-  "NameI2": "Skill/Talent_Name_TF16801_001",
+  "Id": "talent_738",
+  "IDs": "TF16901_002",
+  "Icon": "TB20400",
+  "Name": "永恒潮汐",
+  "NameI2": "Skill/Talent_Name_TF16901_001",
   "Step": "B",
   "Type": "天赋",
-  "Effect": "释放技能时每{0}点友方数量使本次造成滋润层数+{1}。",
-  "EffectI2": "Skill/Talent_Des_TF16801_001",
-  "Value0": 9,
-  "Value1": 1,
+  "Effect": "每{0}级使双方全体目标获得滋润层数上限+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF16901_001",
+  "Value0": 15,
+  "Value1": 20,
   "Value2": 0,
   "FilterTags": "",
   "PositiveTags": "",
@@ -15309,17 +15498,17 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_730",
-  "IDs": "TF16801_003",
-  "Icon": "TB20006",
-  "Name": "深海统御",
-  "NameI2": "Skill/Talent_Name_TF16801_001",
+  "Id": "talent_739",
+  "IDs": "TF16901_003",
+  "Icon": "TB20400",
+  "Name": "永恒潮汐",
+  "NameI2": "Skill/Talent_Name_TF16901_001",
   "Step": "A",
   "Type": "天赋",
-  "Effect": "释放技能时每{0}点友方数量使本次造成滋润层数+{1}。",
-  "EffectI2": "Skill/Talent_Des_TF16801_001",
-  "Value0": 6,
-  "Value1": 1,
+  "Effect": "每{0}级使双方全体目标获得滋润层数上限+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF16901_001",
+  "Value0": 10,
+  "Value1": 20,
   "Value2": 0,
   "FilterTags": "",
   "PositiveTags": "",
@@ -15330,17 +15519,17 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_731",
-  "IDs": "TF16801_004",
-  "Icon": "TB20006",
-  "Name": "深海统御",
-  "NameI2": "Skill/Talent_Name_TF16801_001",
+  "Id": "talent_740",
+  "IDs": "TF16901_004",
+  "Icon": "TB20400",
+  "Name": "永恒潮汐",
+  "NameI2": "Skill/Talent_Name_TF16901_001",
   "Step": "S",
   "Type": "天赋",
-  "Effect": "释放技能时每{0}点友方数量使本次造成滋润层数+{1}。",
-  "EffectI2": "Skill/Talent_Des_TF16801_001",
-  "Value0": 3,
-  "Value1": 1,
+  "Effect": "每{0}级使双方全体目标获得滋润层数上限+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF16901_001",
+  "Value0": 5,
+  "Value1": 20,
   "Value2": 0,
   "FilterTags": "",
   "PositiveTags": "",
@@ -15351,7 +15540,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_732",
+  "Id": "talent_741",
   "IDs": "TF16802_003",
   "Icon": "TB20006",
   "Name": "泡沫护盾",
@@ -15372,7 +15561,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_733",
+  "Id": "talent_742",
   "IDs": "TF16802_004",
   "Icon": "TB20006",
   "Name": "泡沫护盾",
@@ -15393,7 +15582,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_734",
+  "Id": "talent_743",
   "IDs": "TF16803_003",
   "Icon": "TB20006",
   "Name": "潮汐亲和",
@@ -15414,7 +15603,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_735",
+  "Id": "talent_744",
   "IDs": "TF16803_004",
   "Icon": "TB20006",
   "Name": "潮汐亲和",
@@ -15435,7 +15624,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_736",
+  "Id": "talent_745",
   "IDs": "TF16804_004",
   "Icon": "TB20006",
   "Name": "海洋祝福",
@@ -15456,14 +15645,14 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_737",
+  "Id": "talent_746",
   "IDs": "TF16805_004",
   "Icon": "TB20006",
   "Name": "深海赐福",
   "NameI2": "Skill/Talent_Name_TF16805_001",
   "Step": "S",
   "Type": "天赋",
-  "Effect": "获得滋润层数上限+{0}，拥有滋润层数超过{1}层时视为拥有满层滋润。",
+  "Effect": "获得滋润层数上限+{0}，拥有滋润层数超过{1}层时视为满层滋润。",
   "EffectI2": "Skill/Talent_Des_TF16805_001",
   "Value0": 500,
   "Value1": 500,
@@ -15477,17 +15666,17 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_738",
-  "IDs": "TF16901_001",
-  "Icon": "TB20400",
-  "Name": "永恒潮汐",
-  "NameI2": "Skill/Talent_Name_TF16901_001",
+  "Id": "talent_747",
+  "IDs": "TF16801_001",
+  "Icon": "TB20006",
+  "Name": "深海统御",
+  "NameI2": "Skill/Talent_Name_TF16801_001",
   "Step": "C",
   "Type": "天赋",
-  "Effect": "每{0}级使双方全体目标获得滋润层数上限+{1}。",
-  "EffectI2": "Skill/Talent_Des_TF16901_001",
-  "Value0": 20,
-  "Value1": 20,
+  "Effect": "释放技能时每{0}点友方数量使本次造成滋润层数+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF16801_001",
+  "Value0": 12,
+  "Value1": 1,
   "Value2": 0,
   "FilterTags": "",
   "PositiveTags": "",
@@ -15498,17 +15687,17 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_739",
-  "IDs": "TF16901_002",
-  "Icon": "TB20400",
-  "Name": "永恒潮汐",
-  "NameI2": "Skill/Talent_Name_TF16901_001",
+  "Id": "talent_748",
+  "IDs": "TF16801_002",
+  "Icon": "TB20006",
+  "Name": "深海统御",
+  "NameI2": "Skill/Talent_Name_TF16801_001",
   "Step": "B",
   "Type": "天赋",
-  "Effect": "每{0}级使双方全体目标获得滋润层数上限+{1}。",
-  "EffectI2": "Skill/Talent_Des_TF16901_001",
-  "Value0": 15,
-  "Value1": 20,
+  "Effect": "释放技能时每{0}点友方数量使本次造成滋润层数+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF16801_001",
+  "Value0": 9,
+  "Value1": 1,
   "Value2": 0,
   "FilterTags": "",
   "PositiveTags": "",
@@ -15519,17 +15708,17 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_740",
-  "IDs": "TF16901_003",
-  "Icon": "TB20400",
-  "Name": "永恒潮汐",
-  "NameI2": "Skill/Talent_Name_TF16901_001",
+  "Id": "talent_749",
+  "IDs": "TF16801_003",
+  "Icon": "TB20006",
+  "Name": "深海统御",
+  "NameI2": "Skill/Talent_Name_TF16801_001",
   "Step": "A",
   "Type": "天赋",
-  "Effect": "每{0}级使双方全体目标获得滋润层数上限+{1}。",
-  "EffectI2": "Skill/Talent_Des_TF16901_001",
-  "Value0": 10,
-  "Value1": 20,
+  "Effect": "释放技能时每{0}点友方数量使本次造成滋润层数+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF16801_001",
+  "Value0": 6,
+  "Value1": 1,
   "Value2": 0,
   "FilterTags": "",
   "PositiveTags": "",
@@ -15540,17 +15729,17 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_741",
-  "IDs": "TF16901_004",
-  "Icon": "TB20400",
-  "Name": "永恒潮汐",
-  "NameI2": "Skill/Talent_Name_TF16901_001",
+  "Id": "talent_750",
+  "IDs": "TF16801_004",
+  "Icon": "TB20006",
+  "Name": "深海统御",
+  "NameI2": "Skill/Talent_Name_TF16801_001",
   "Step": "S",
   "Type": "天赋",
-  "Effect": "每{0}级使双方全体目标获得滋润层数上限+{1}。",
-  "EffectI2": "Skill/Talent_Des_TF16901_001",
-  "Value0": 5,
-  "Value1": 20,
+  "Effect": "释放技能时每{0}点友方数量使本次造成滋润层数+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF16801_001",
+  "Value0": 3,
+  "Value1": 1,
   "Value2": 0,
   "FilterTags": "",
   "PositiveTags": "",
@@ -15561,7 +15750,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_742",
+  "Id": "talent_751",
   "IDs": "TF16902_003",
   "Icon": "TB20400",
   "Name": "水流掌控",
@@ -15582,7 +15771,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_743",
+  "Id": "talent_752",
   "IDs": "TF16902_004",
   "Icon": "TB20400",
   "Name": "水流掌控",
@@ -15603,7 +15792,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_744",
+  "Id": "talent_753",
   "IDs": "TF16903_003",
   "Icon": "TB20400",
   "Name": "海洋伟力",
@@ -15624,7 +15813,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_745",
+  "Id": "talent_754",
   "IDs": "TF16903_004",
   "Icon": "TB20400",
   "Name": "海洋伟力",
@@ -15645,7 +15834,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_746",
+  "Id": "talent_755",
   "IDs": "TF16904_004",
   "Icon": "TB20400",
   "Name": "聚气造海",
@@ -15654,8 +15843,8 @@
   "Type": "天赋",
   "Effect": "双方目标每失去{0}点韧性使自身获得{1}层滋润。",
   "EffectI2": "Skill/Talent_Des_TF16904_001",
-  "Value0": 2,
-  "Value1": 3,
+  "Value0": 10,
+  "Value1": 10,
   "Value2": 0,
   "FilterTags": "",
   "PositiveTags": "",
@@ -15666,7 +15855,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_747",
+  "Id": "talent_756",
   "IDs": "TF16905_004",
   "Icon": "TB20400",
   "Name": "海神禁令",
@@ -15687,7 +15876,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_748",
+  "Id": "talent_757",
   "IDs": "TF17001_001",
   "Icon": "TB20001",
   "Name": "无畏信念",
@@ -15708,7 +15897,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_749",
+  "Id": "talent_758",
   "IDs": "TF17001_002",
   "Icon": "TB20001",
   "Name": "无畏信念",
@@ -15729,7 +15918,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_750",
+  "Id": "talent_759",
   "IDs": "TF17001_003",
   "Icon": "TB20001",
   "Name": "无畏信念",
@@ -15750,7 +15939,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_751",
+  "Id": "talent_760",
   "IDs": "TF17001_004",
   "Icon": "TB20001",
   "Name": "无畏信念",
@@ -15771,7 +15960,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_752",
+  "Id": "talent_761",
   "IDs": "TF17002_003",
   "Icon": "TB20001",
   "Name": "勇气赞歌",
@@ -15792,7 +15981,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_753",
+  "Id": "talent_762",
   "IDs": "TF17002_004",
   "Icon": "TB20001",
   "Name": "勇气赞歌",
@@ -15813,7 +16002,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_754",
+  "Id": "talent_763",
   "IDs": "TF17003_003",
   "Icon": "TB20001",
   "Name": "净化光辉",
@@ -15834,7 +16023,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_755",
+  "Id": "talent_764",
   "IDs": "TF17003_004",
   "Icon": "TB20001",
   "Name": "净化光辉",
@@ -15855,7 +16044,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_756",
+  "Id": "talent_765",
   "IDs": "TF17004_004",
   "Icon": "TB20001",
   "Name": "无瑕羽翼",
@@ -15876,7 +16065,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_757",
+  "Id": "talent_766",
   "IDs": "TF17005_004",
   "Icon": "TB20001",
   "Name": "圣光降临",
@@ -15897,7 +16086,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_758",
+  "Id": "talent_767",
   "IDs": "TF17101_001",
   "Icon": "TB20006",
   "Name": "湿润鳞片",
@@ -15918,7 +16107,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_759",
+  "Id": "talent_768",
   "IDs": "TF17101_002",
   "Icon": "TB20006",
   "Name": "湿润鳞片",
@@ -15939,7 +16128,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_760",
+  "Id": "talent_769",
   "IDs": "TF17101_003",
   "Icon": "TB20006",
   "Name": "湿润鳞片",
@@ -15960,7 +16149,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_761",
+  "Id": "talent_770",
   "IDs": "TF17101_004",
   "Icon": "TB20006",
   "Name": "湿润鳞片",
@@ -15981,7 +16170,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_762",
+  "Id": "talent_771",
   "IDs": "TF17102_003",
   "Icon": "TB20006",
   "Name": "潮汐主宰",
@@ -16002,7 +16191,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_763",
+  "Id": "talent_772",
   "IDs": "TF17102_004",
   "Icon": "TB20006",
   "Name": "潮汐主宰",
@@ -16023,14 +16212,14 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_764",
+  "Id": "talent_773",
   "IDs": "TF17103_003",
   "Icon": "TB20006",
   "Name": "循环打击",
   "NameI2": "Skill/Talent_Name_TF17103_001",
   "Step": "A",
   "Type": "天赋",
-  "Effect": "进行攻击后使自身获得{0}点魔力，但造成全部伤害-{0}%。",
+  "Effect": "进行攻击后使自身获得{0}点魔力，但造成全部伤害-{1}%。",
   "EffectI2": "Skill/Talent_Des_TF17103_001",
   "Value0": 2,
   "Value1": 25,
@@ -16044,14 +16233,14 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_765",
+  "Id": "talent_774",
   "IDs": "TF17103_004",
   "Icon": "TB20006",
   "Name": "循环打击",
   "NameI2": "Skill/Talent_Name_TF17103_001",
   "Step": "S",
   "Type": "天赋",
-  "Effect": "进行攻击后使自身获得{0}点魔力，但造成全部伤害-{0}%。",
+  "Effect": "进行攻击后使自身获得{0}点魔力，但造成全部伤害-{1}%。",
   "EffectI2": "Skill/Talent_Des_TF17103_001",
   "Value0": 4,
   "Value1": 25,
@@ -16065,7 +16254,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_766",
+  "Id": "talent_775",
   "IDs": "TF17104_004",
   "Icon": "TB20006",
   "Name": "多臂协同",
@@ -16086,7 +16275,7 @@
   "SpecifyRoleIDs": ""
  },
  {
-  "Id": "talent_767",
+  "Id": "talent_776",
   "IDs": "TF17105_004",
   "Icon": "TB20006",
   "Name": "潮汐预知",
@@ -16102,6 +16291,846 @@
   "PositiveTags": "",
   "NegativeTags": "",
   "Race": "娜迦族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_777",
+  "IDs": "TF17201_001",
+  "Icon": "TB20020",
+  "Name": "断尾求生",
+  "NameI2": "Skill/Talent_Name_TF17201_001",
+  "Step": "C",
+  "Type": "天赋",
+  "Effect": "每回合前{0}次弱点暴露后使自身获得{1}层坚韧。",
+  "EffectI2": "Skill/Talent_Des_TF17201_001",
+  "Value0": 1,
+  "Value1": 10,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "蜥蜴族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_778",
+  "IDs": "TF17201_002",
+  "Icon": "TB20020",
+  "Name": "断尾求生",
+  "NameI2": "Skill/Talent_Name_TF17201_001",
+  "Step": "B",
+  "Type": "天赋",
+  "Effect": "每回合前{0}次弱点暴露后使自身获得{1}层坚韧。",
+  "EffectI2": "Skill/Talent_Des_TF17201_001",
+  "Value0": 2,
+  "Value1": 10,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "蜥蜴族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_779",
+  "IDs": "TF17201_003",
+  "Icon": "TB20020",
+  "Name": "断尾求生",
+  "NameI2": "Skill/Talent_Name_TF17201_001",
+  "Step": "A",
+  "Type": "天赋",
+  "Effect": "每回合前{0}次弱点暴露后使自身获得{1}层坚韧。",
+  "EffectI2": "Skill/Talent_Des_TF17201_001",
+  "Value0": 3,
+  "Value1": 10,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "蜥蜴族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_780",
+  "IDs": "TF17201_004",
+  "Icon": "TB20020",
+  "Name": "断尾求生",
+  "NameI2": "Skill/Talent_Name_TF17201_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "每回合前{0}次弱点暴露后使自身获得{1}层坚韧。",
+  "EffectI2": "Skill/Talent_Des_TF17201_001",
+  "Value0": 4,
+  "Value1": 10,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "蜥蜴族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_781",
+  "IDs": "TF17202_003",
+  "Icon": "TB20020",
+  "Name": "剧毒唾液",
+  "NameI2": "Skill/Talent_Name_TF17202_001",
+  "Step": "A",
+  "Type": "天赋",
+  "Effect": "造成伤害后使目标受到阻碍层数+{0}。",
+  "EffectI2": "Skill/Talent_Des_TF17202_001",
+  "Value0": 1,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "蜥蜴族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_782",
+  "IDs": "TF17202_004",
+  "Icon": "TB20020",
+  "Name": "剧毒唾液",
+  "NameI2": "Skill/Talent_Name_TF17202_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "造成伤害后使目标受到阻碍层数+{0}。",
+  "EffectI2": "Skill/Talent_Des_TF17202_001",
+  "Value0": 2,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "蜥蜴族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_783",
+  "IDs": "TF17203_003",
+  "Icon": "TB20020",
+  "Name": "耐心潜伏",
+  "NameI2": "Skill/Talent_Name_TF17203_001",
+  "Step": "A",
+  "Type": "天赋",
+  "Effect": "首次进行攻击时如果本场战斗没有受到攻击则使本次造成全部伤害+{0}。",
+  "EffectI2": "Skill/Talent_Des_TF17203_001",
+  "Value0": 40,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "蜥蜴族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_784",
+  "IDs": "TF17203_004",
+  "Icon": "TB20020",
+  "Name": "耐心潜伏",
+  "NameI2": "Skill/Talent_Name_TF17203_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "首次进行攻击时如果本场战斗没有受到攻击则使本次造成全部伤害+{0}。",
+  "EffectI2": "Skill/Talent_Des_TF17203_001",
+  "Value0": 80,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "蜥蜴族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_785",
+  "IDs": "TF17204_004",
+  "Icon": "TB20020",
+  "Name": "变色鳞甲",
+  "NameI2": "Skill/Talent_Name_TF17204_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "不会优先成为敌方目标，并且受到群体技能伤害-{0}。",
+  "EffectI2": "Skill/Talent_Des_TF17204_001",
+  "Value0": 40,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "蜥蜴族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_786",
+  "IDs": "TF17205_004",
+  "Icon": "TB20020",
+  "Name": "变温爆发",
+  "NameI2": "Skill/Talent_Name_TF17205_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "获得热血后使自身造成全部伤害+{0}。",
+  "EffectI2": "Skill/Talent_Des_TF17205_001",
+  "Value0": 1,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "蜥蜴族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_787",
+  "IDs": "TF17301_001",
+  "Icon": "TB20021",
+  "Name": "强力后肢",
+  "NameI2": "Skill/Talent_Name_TF17301_001",
+  "Step": "C",
+  "Type": "天赋",
+  "Effect": "行动回魔+{0}，每{1}点力量使自身行动回魔额外+{2}。",
+  "EffectI2": "Skill/Talent_Des_TF17301_001",
+  "Value0": 1,
+  "Value1": 500,
+  "Value2": 1,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "呱呱族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_788",
+  "IDs": "TF17301_002",
+  "Icon": "TB20021",
+  "Name": "强力后肢",
+  "NameI2": "Skill/Talent_Name_TF17301_001",
+  "Step": "B",
+  "Type": "天赋",
+  "Effect": "行动回魔+{0}，每{1}点力量使自身行动回魔额外+{2}。",
+  "EffectI2": "Skill/Talent_Des_TF17301_001",
+  "Value0": 2,
+  "Value1": 400,
+  "Value2": 1,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "呱呱族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_789",
+  "IDs": "TF17301_003",
+  "Icon": "TB20021",
+  "Name": "强力后肢",
+  "NameI2": "Skill/Talent_Name_TF17301_001",
+  "Step": "A",
+  "Type": "天赋",
+  "Effect": "行动回魔+{0}，每{1}点力量使自身行动回魔额外+{2}。",
+  "EffectI2": "Skill/Talent_Des_TF17301_001",
+  "Value0": 3,
+  "Value1": 300,
+  "Value2": 1,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "呱呱族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_790",
+  "IDs": "TF17301_004",
+  "Icon": "TB20021",
+  "Name": "强力后肢",
+  "NameI2": "Skill/Talent_Name_TF17301_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "行动回魔+{0}，每{1}点力量使自身行动回魔额外+{2}。",
+  "EffectI2": "Skill/Talent_Des_TF17301_001",
+  "Value0": 4,
+  "Value1": 200,
+  "Value2": 1,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "呱呱族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_791",
+  "IDs": "TF17302_003",
+  "Icon": "TB20021",
+  "Name": "动态视觉",
+  "NameI2": "Skill/Talent_Name_TF17302_001",
+  "Step": "A",
+  "Type": "天赋",
+  "Effect": "每拥有{0}层精准使自身速度+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF17302_001",
+  "Value0": 10,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "呱呱族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_792",
+  "IDs": "TF17302_004",
+  "Icon": "TB20021",
+  "Name": "动态视觉",
+  "NameI2": "Skill/Talent_Name_TF17302_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "每拥有{0}层精准使自身速度+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF17302_001",
+  "Value0": 5,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "呱呱族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_793",
+  "IDs": "TF17303_003",
+  "Icon": "TB20021",
+  "Name": "吸水皮肤",
+  "NameI2": "Skill/Talent_Name_TF17303_001",
+  "Step": "A",
+  "Type": "天赋",
+  "Effect": "弱点暴露后消耗最多{0}层滋润使自身获得等量层数的坚韧。",
+  "EffectI2": "Skill/Talent_Des_TF17303_001",
+  "Value0": 10,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "呱呱族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_794",
+  "IDs": "TF17303_004",
+  "Icon": "TB20021",
+  "Name": "吸水皮肤",
+  "NameI2": "Skill/Talent_Name_TF17303_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "弱点暴露后消耗最多{0}层滋润使自身获得等量层数的坚韧。",
+  "EffectI2": "Skill/Talent_Des_TF17303_001",
+  "Value0": 20,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "呱呱族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_795",
+  "IDs": "TF17304_004",
+  "Icon": "TB20021",
+  "Name": "清脆蛙鸣",
+  "NameI2": "Skill/Talent_Name_TF17304_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "行动开始前使友方其他高韧性目标获得{0}层鼓舞。",
+  "EffectI2": "Skill/Talent_Des_TF17304_001",
+  "Value0": 4,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "呱呱族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_796",
+  "IDs": "TF17305_004",
+  "Icon": "TB20021",
+  "Name": "冬眠蛰伏",
+  "NameI2": "Skill/Talent_Name_TF17305_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "低生命时自身失去韧性-{0}，高生命时自身获得韧性+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF17305_001",
+  "Value0": 15,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "呱呱族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_797",
+  "IDs": "TF17401_001",
+  "Icon": "TB20020",
+  "Name": "巨颚撕咬",
+  "NameI2": "Skill/Talent_Name_TF17401_001",
+  "Step": "C",
+  "Type": "天赋",
+  "Effect": "目标每拥有{0}层眩晕使自身对其造成剥离层数+{0}。",
+  "EffectI2": "Skill/Talent_Des_TF17401_001",
+  "Value0": 30,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "巨鳄族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_798",
+  "IDs": "TF17401_002",
+  "Icon": "TB20020",
+  "Name": "巨颚撕咬",
+  "NameI2": "Skill/Talent_Name_TF17401_001",
+  "Step": "B",
+  "Type": "天赋",
+  "Effect": "目标每拥有{0}层眩晕使自身对其造成剥离层数+{0}。",
+  "EffectI2": "Skill/Talent_Des_TF17401_001",
+  "Value0": 25,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "巨鳄族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_799",
+  "IDs": "TF17401_003",
+  "Icon": "TB20020",
+  "Name": "巨颚撕咬",
+  "NameI2": "Skill/Talent_Name_TF17401_001",
+  "Step": "A",
+  "Type": "天赋",
+  "Effect": "目标每拥有{0}层眩晕使自身对其造成剥离层数+{0}。",
+  "EffectI2": "Skill/Talent_Des_TF17401_001",
+  "Value0": 20,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "巨鳄族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_800",
+  "IDs": "TF17401_004",
+  "Icon": "TB20020",
+  "Name": "巨颚撕咬",
+  "NameI2": "Skill/Talent_Name_TF17401_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "目标每拥有{0}层眩晕使自身对其造成剥离层数+{0}。",
+  "EffectI2": "Skill/Talent_Des_TF17401_001",
+  "Value0": 15,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "巨鳄族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_801",
+  "IDs": "TF17402_003",
+  "Icon": "TB20020",
+  "Name": "厚实鳞甲",
+  "NameI2": "Skill/Talent_Name_TF17402_001",
+  "Step": "A",
+  "Type": "天赋",
+  "Effect": "非弱点暴露时自身受到全部伤害-{0}。",
+  "EffectI2": "Skill/Talent_Des_TF17402_001",
+  "Value0": 10,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "巨鳄族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_802",
+  "IDs": "TF17402_004",
+  "Icon": "TB20020",
+  "Name": "厚实鳞甲",
+  "NameI2": "Skill/Talent_Name_TF17402_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "非弱点暴露时自身受到全部伤害-{0}。",
+  "EffectI2": "Skill/Talent_Des_TF17402_001",
+  "Value0": 20,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "巨鳄族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_803",
+  "IDs": "TF17403_003",
+  "Icon": "TB20020",
+  "Name": "沼泽霸主",
+  "NameI2": "Skill/Talent_Name_TF17403_001",
+  "Step": "A",
+  "Type": "天赋",
+  "Effect": "友方没有其他巨鳄族时使自身造成全部伤害+{0}，位于沼泽地图时效果翻倍。",
+  "EffectI2": "Skill/Talent_Des_TF17403_001",
+  "Value0": 15,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "巨鳄族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_804",
+  "IDs": "TF17403_004",
+  "Icon": "TB20020",
+  "Name": "沼泽霸主",
+  "NameI2": "Skill/Talent_Name_TF17403_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "友方没有其他巨鳄族时使自身造成全部伤害+{0}，位于沼泽地图时效果翻倍。",
+  "EffectI2": "Skill/Talent_Des_TF17403_001",
+  "Value0": 30,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "巨鳄族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_805",
+  "IDs": "TF17404_004",
+  "Icon": "TB20020",
+  "Name": "远古意志",
+  "NameI2": "Skill/Talent_Name_TF17404_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "免疫眩晕，但速度-{0}。",
+  "EffectI2": "Skill/Talent_Des_TF17404_001",
+  "Value0": 20,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "巨鳄族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_806",
+  "IDs": "TF17405_004",
+  "Icon": "TB20020",
+  "Name": "死亡翻滚",
+  "NameI2": "Skill/Talent_Name_TF17405_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "释放技能后使敌方目标受到剥离层数+{0}，并且本回合优先以自身为目标。",
+  "EffectI2": "Skill/Talent_Des_TF17405_001",
+  "Value0": 4,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "巨鳄族",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_807",
+  "IDs": "TF17501_001",
+  "Icon": "TB20200",
+  "Name": "能源自毁",
+  "NameI2": "Skill/Talent_Name_TF17501_001",
+  "Step": "C",
+  "Type": "天赋",
+  "Effect": "自身战败后对最近的{0}名敌方目标造成{1}层感电。",
+  "EffectI2": "Skill/Talent_Des_TF17501_001",
+  "Value0": 1,
+  "Value1": 3,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "机械之灵",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_808",
+  "IDs": "TF17501_002",
+  "Icon": "TB20200",
+  "Name": "能源自毁",
+  "NameI2": "Skill/Talent_Name_TF17501_001",
+  "Step": "B",
+  "Type": "天赋",
+  "Effect": "自身战败后对最近的{0}名敌方目标造成{1}层感电。",
+  "EffectI2": "Skill/Talent_Des_TF17501_001",
+  "Value0": 1,
+  "Value1": 6,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "机械之灵",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_809",
+  "IDs": "TF17501_003",
+  "Icon": "TB20200",
+  "Name": "能源自毁",
+  "NameI2": "Skill/Talent_Name_TF17501_001",
+  "Step": "A",
+  "Type": "天赋",
+  "Effect": "自身战败后对最近的{0}名敌方目标造成{1}层感电。",
+  "EffectI2": "Skill/Talent_Des_TF17501_001",
+  "Value0": 2,
+  "Value1": 6,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "机械之灵",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_810",
+  "IDs": "TF17501_004",
+  "Icon": "TB20200",
+  "Name": "能源自毁",
+  "NameI2": "Skill/Talent_Name_TF17501_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "自身战败后对最近的{0}名敌方目标造成{1}层感电。",
+  "EffectI2": "Skill/Talent_Des_TF17501_001",
+  "Value0": 3,
+  "Value1": 6,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "机械之灵",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_811",
+  "IDs": "TF17502_003",
+  "Icon": "TB20200",
+  "Name": "自我诊断",
+  "NameI2": "Skill/Talent_Name_TF17502_001",
+  "Step": "A",
+  "Type": "天赋",
+  "Effect": "行动结束后使自身获得{0}层净化，并使自身获得本次未生效净化层数等量的生命。",
+  "EffectI2": "Skill/Talent_Des_TF17502_001",
+  "Value0": 4,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "机械之灵",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_812",
+  "IDs": "TF17502_004",
+  "Icon": "TB20200",
+  "Name": "自我诊断",
+  "NameI2": "Skill/Talent_Name_TF17502_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "行动结束后使自身获得{0}层净化，并使自身获得本次未生效净化层数等量的生命。",
+  "EffectI2": "Skill/Talent_Des_TF17502_001",
+  "Value0": 8,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "机械之灵",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_813",
+  "IDs": "TF17503_004",
+  "Icon": "TB20200",
+  "Name": "既定程序",
+  "NameI2": "Skill/Talent_Name_TF17503_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "友方其他目标每进行{0}次行动使自身立即进行{1}次额外行动。",
+  "EffectI2": "Skill/Talent_Des_TF17503_001_New01",
+  "Value0": 5,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "机械之灵",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_814",
+  "IDs": "TF17504_003",
+  "Icon": "TB20200",
+  "Name": "动能转化",
+  "NameI2": "Skill/Talent_Name_TF17504_001",
+  "Step": "A",
+  "Type": "天赋",
+  "Effect": "每{0}点速度使自身造成全部伤害+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF17504_001",
+  "Value0": 60,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "机械之灵",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_815",
+  "IDs": "TF17504_004",
+  "Icon": "TB20200",
+  "Name": "动能转化",
+  "NameI2": "Skill/Talent_Name_TF17504_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "每{0}点速度使自身造成全部伤害+{1}。",
+  "EffectI2": "Skill/Talent_Des_TF17504_001",
+  "Value0": 30,
+  "Value1": 1,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "机械之灵",
+  "Class": "",
+  "Element": "",
+  "SpecifyRoleIDs": ""
+ },
+ {
+  "Id": "talent_816",
+  "IDs": "TF17505_004",
+  "Icon": "TB20200",
+  "Name": "超载运行",
+  "NameI2": "Skill/Talent_Name_TF17505_001",
+  "Step": "S",
+  "Type": "天赋",
+  "Effect": "造成单段技能攻击次数+{0}，但自身偶数回合无法释放技能。",
+  "EffectI2": "Skill/Talent_Des_TF17505_001",
+  "Value0": 1,
+  "Value1": 0,
+  "Value2": 0,
+  "FilterTags": "",
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Race": "机械之灵",
   "Class": "",
   "Element": "",
   "SpecifyRoleIDs": ""

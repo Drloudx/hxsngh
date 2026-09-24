@@ -1,0 +1,11 @@
+[
+ {
+  "Id": "exotic_shop_1",
+  "ActicityIDs": "HD00005",
+  "ExoticMapIDs": "A00003",
+  "UniqueIDs": "A00003_000",
+  "StartTime": "2025/3/29 21:00:00",
+  "EndTime": "2025/5/7 21:00:00",
+  "IsFirstReveal": 1
+ }
+]
