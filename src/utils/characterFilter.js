@@ -10,7 +10,7 @@ export const HIDE_UNRELEASED_CHARACTERS = ref(true)
 // 适用于官方包中已存在，但实际未放出的角色
 // ==============================================
 export const BLOCKED_CHARACTER_IDS = [
-  'M31301_000', // [泳装]圣剑之灵
+  // 'M31301_000', // [泳装]圣剑之灵
   'M53301_000', // [泳装]星界邪神
 ]
 
