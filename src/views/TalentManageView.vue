@@ -41,8 +41,7 @@
                 <img
                   :src="`/Header/${card.baseInfo.id}.png`"
                   class="char-header-avatar-img game-sprite"
-                  @error="handleIconError"
-                />
+                  @error="handleIconError" loading="lazy" decoding="async" />
               </div>
               <span
                 :class="`wish-rarity-color-${getRarityNum(card.baseInfo.step)}`"
@@ -190,8 +189,7 @@
                     <img
                       :src="`/Header/${char.id}.png`"
                       class="char-header-avatar-img game-sprite"
-                      @error="handleIconError"
-                    />
+                      @error="handleIconError" loading="lazy" decoding="async" />
                   </div>
                   <span class="mcr-name">{{ char.displayName }}</span>
                 </div>
@@ -278,8 +276,7 @@
                 <img
                   :src="`/Header/${currentDetailChar?.id}.png`"
                   class="char-header-avatar-img game-sprite"
-                  @error="handleIconError"
-                />
+                  @error="handleIconError" loading="lazy" decoding="async" />
               </div>
               <span :class="`wish-rarity-color-${getRarityNum(currentDetailChar?.step)}`" class="hero-name-span">
                 {{ currentDetailChar?.displayName }}
@@ -370,8 +367,7 @@
                 <img
                   :src="`/Header/${card.baseInfo.id}.png`"
                   class="char-header-avatar-img game-sprite"
-                  @error="handleIconError"
-                />
+                  @error="handleIconError" loading="lazy" decoding="async" />
               </div>
               <span :class="`wish-rarity-color-${getRarityNum(card.baseInfo.step)}`" class="batch-char-name">{{ card.baseInfo.displayName }}</span>
               <span class="h-lbl batch-talent-num">{{ countTotalTalents(card) }}天赋</span>
@@ -412,8 +408,7 @@
                       <img
                         :src="`/Header/${entry.charId}.png`"
                         class="char-header-avatar-img game-sprite"
-                        @error="handleIconError"
-                      />
+                        @error="handleIconError" loading="lazy" decoding="async" />
                     </div>
                     <span :class="`wish-rarity-color-${entry.rarityNum}`" class="hero-name-span">{{ entry.charName }}</span>
                     <div class="hero-labels-container">
@@ -548,7 +543,7 @@ const activeSlotTracker = reactive({
 })
 
 const handleIconError = (e) => {
-  e.target.src = '/Header/M00000.png'
+  e.target.src = '/Header/M00000.webp'
 }
 
 

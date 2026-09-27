@@ -2,9 +2,21 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="/logo1.png">
+    <link rel="icon" href="/logo.webp">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>幻想少女公会助手</title>
+    <!--
+      首帧前应用深色模式，避免"先白后黑"的闪烁。
+      必须内联且放在 <script type=module> 之前：样式由 JS 注入，
+      等 Vue 挂载后再加 class 会先渲染一帧浅色。
+    -->
+    <script>
+      try {
+        if (localStorage.getItem('recruit_tool_darkMode') === 'true') {
+          document.documentElement.classList.add('dark-mode')
+        }
+      } catch (e) { /* 隐私模式下 localStorage 可能抛错，忽略 */ }
+    </script>
     <script src="opencv.js"></script>
   </head>
   <body>

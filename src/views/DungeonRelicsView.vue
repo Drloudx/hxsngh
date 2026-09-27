@@ -48,7 +48,7 @@
           class="relic-icon-slot" 
           :style="{ backgroundColor: getStepConfig(relic.Step).lightBg }"
         >
-          <img :src="`/DungeonRelics/${relic.IDs}.png`" :alt="relic.Name" class="relic-icon-img" />
+          <img :src="`/DungeonRelics/${relic.IDs}.png`" :alt="relic.Name" class="relic-icon-img" loading="lazy" decoding="async" />
         </div>
 
         <div class="relic-card-name" :style="{ color: getStepConfig(relic.Step).color }">
@@ -79,7 +79,7 @@
 
         <div class="relic-modal-body">
           <div class="relic-detail-preview" :style="{ backgroundColor: getStepConfig(detailModal.data.Step).lightBg }">
-            <img :src="`/DungeonRelics/${detailModal.data.IDs}.png`" class="relic-detail-img" />
+            <img :src="`/DungeonRelics/${detailModal.data.IDs}.png`" class="relic-detail-img" loading="lazy" decoding="async" />
           </div>
 
           <div class="relic-details-grid">

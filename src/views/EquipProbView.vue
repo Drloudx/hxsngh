@@ -160,7 +160,7 @@
               :class="`diff-slot-${equip.difficulty}`"
               :style="{ backgroundColor: getDifficultyConfig(equip.difficulty).lightBg }"
             >
-              <img :src="`/Equip/${equip.id || equip.IDs}.png`" :alt="equip.name || equip.Name" class="equip-rough-icon game-sprite" />
+              <img :src="`/Equip/${equip.id || equip.IDs}.png`" :alt="equip.name || equip.Name" class="equip-rough-icon game-sprite" loading="lazy" decoding="async" />
               <!-- 难度小角标 (一般/极难/难/易) -->
               <span class="rough-diff-badge" :class="`badge-${equip.difficulty}`">
                 {{ equip.difficultyName }}
@@ -201,8 +201,7 @@
               <img
                 :src="`/Equip/${detailModal.data.id || detailModal.data.IDs}.png`"
                 :alt="detailModal.data.name || detailModal.data.Name"
-                class="modal-equip-img game-sprite"
-              />
+                class="modal-equip-img game-sprite" loading="lazy" decoding="async" />
             </div>
 
             <div class="modal-simple-tags">

@@ -297,7 +297,7 @@ defineExpose({
             <tbody>
               <tr v-for="r in item.f" :key="r.角色名">
                 <td class="col-name" :class="'rarity-' + r.稀有度">
-                  {{ r.角色名 }}<img v-if="isUnowned(r.角色名)" src="/mid_ico_map_0001.png" class="unowned-icon" />
+                  {{ r.角色名 }}<img v-if="isUnowned(r.角色名)" src="/mid_ico_map_0001.png" class="unowned-icon" loading="lazy" decoding="async" />
                 </td>
                 <td class="col-other">{{ r.职业 }}</td>
                 <td class="col-other">{{ r.种族 }}</td>

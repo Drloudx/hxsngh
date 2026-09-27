@@ -71,7 +71,7 @@
       >
         <div class="prophecy-card-header">
           <div class="prophecy-header-left">
-            <img :src="'/Foretell/' + item.Icon + '.png'" class="prophecy-icon" />
+            <img :src="'/Foretell/' + item.Icon + '.png'" class="prophecy-icon" loading="lazy" decoding="async" />
             <span class="prophecy-name" :style="{ color: getStepConfig(item.Step).color }">{{ item.Name }}</span>
           </div>
           <div class="prophecy-header-right">
@@ -95,7 +95,7 @@
         <div v-if="item.IDs === 'YY00011_005'" class="clover-calculator-box">
           <div class="calculator-header" @click="toggleCalculator">
             <div class="calculator-header-left">
-              <img src="/Foretell/D00002_000.png" class="calc-header-clover-icon" />
+              <img src="/Foretell/D00002_000.png" class="calc-header-clover-icon" loading="lazy" decoding="async" />
               <span class="calculator-title">四叶草数量计算器</span>
             </div>
             <img src="/ui/up.svg" class="calc-arrow-icon" :class="{ 'expanded-flip': !calculatorExpanded }" />
@@ -106,7 +106,7 @@
             <div class="calc-added-list">
               <div v-for="(cItem, idx) in addedCalcItems" :key="idx" class="calc-added-item">
                 <div class="calc-item-left">
-                  <img :src="'/Foretell/' + cItem.Icon + '.png'" class="calc-item-icon" />
+                  <img :src="'/Foretell/' + cItem.Icon + '.png'" class="calc-item-icon" loading="lazy" decoding="async" />
                   <div class="calc-item-text">
                     <div class="calc-item-line1">
                       <span class="calc-item-name" :style="{ color: getStepConfig(cItem.Step).color }">{{ cItem.Name }}</span>
@@ -139,7 +139,7 @@
             <!-- 底部预估收益 -->
             <div class="calculator-footer">
               <div class="calc-result-box">
-                <img src="/Foretell/D00002_000.png" class="calc-footer-clover-icon" />
+                <img src="/Foretell/D00002_000.png" class="calc-footer-clover-icon" loading="lazy" decoding="async" />
                 <span class="calc-result-text">预估四叶草数量：<strong class="calc-result-number">{{ calculatedClovers }}</strong></span>
               </div>
               <button class="calc-reset-btn" @click="resetCalcItems">重置</button>
@@ -169,7 +169,7 @@
               @click="selectProphecy(p)"
             >
               <div class="item-left">
-                <img :src="'/Foretell/' + p.Icon + '.png'" class="sel-icon" />
+                <img :src="'/Foretell/' + p.Icon + '.png'" class="sel-icon" loading="lazy" decoding="async" />
                 <div class="sel-text">
                   <div class="sel-line1">
                     <span class="sel-name" :style="{ color: getStepConfig(p.Step).color }">{{ p.Name }}</span>

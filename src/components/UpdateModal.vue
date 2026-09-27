@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onUnmounted, ref } from 'vue'
-import { setSkipUpdateDate } from '../utils/version'
+import { setSkipUpdateVersion } from '../utils/version'
 import { formatFileSize } from '../utils/fileSize'
 
 const props = defineProps({
@@ -44,8 +44,9 @@ const startDownload = () => {
   window.__downloadUrl = props.updateInfo.apkUrl
 }
 
-const skipUpdateToday = () => {
-  setSkipUpdateDate()
+// 只忽略「这一个」版本；下次发新版本仍会提示（旧的按天忽略会连带静默热更，已废弃）
+const skipThisVersion = () => {
+  setSkipUpdateVersion(props.updateInfo?.version)
   emit('close')
 }
 
@@ -94,7 +95,7 @@ onUnmounted(() => {
       </div>
 
       <div class="modal-footer update-footer">
-        <button class="update-skip-btn" @click="skipUpdateToday">今日不提醒</button>
+        <button class="update-skip-btn" @click="skipThisVersion">跳过此版本</button>
 
         <button class="modal-btn-confirm" @click="startDownload" v-if="downloadStatus === 'idle'">更新</button>
         <button class="modal-btn-confirm" @click="startDownload" v-else-if="downloadStatus === 'complete'">重新更新</button>

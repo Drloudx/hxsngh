@@ -8,7 +8,7 @@ import BackToTop from './components/BackToTop.vue'
 import PrivacyModal from './components/PrivacyModal.vue'
 import AboutModal from './components/AboutModal.vue'
 import HotUpdateModal from './components/HotUpdateModal.vue'
-import { fetchLatestRelease, compareVersions, isUpdateSkippedToday } from './utils/version'
+import { fetchLatestRelease, compareVersions, isUpdateSkippedThisVersion } from './utils/version'
 import { imageMatcher } from './utils/imageMatcher'
 import { exportData, importData } from './utils/dataTransfer'
 import NavigationMenu from './components/NavigationMenu.vue'
@@ -26,6 +26,37 @@ const handleGlobalClick = (e) => {
   if (!e.target.closest('.settings-container')) isSettingsOpen.value = false
   if (!e.target.closest('.sponsor-container')) isSponsorOpen.value = false
   if (!e.target.closest('.title-dropdown-trigger') && !e.target.closest('.nav-fab-btn')) isMenuOpen.value = false
+}
+
+/**
+ * 图片扩展名回退：.png ↔ .webp
+ *
+ * 背景：`public/` 下这些目录的图**部分已转 WebP、部分保留 PNG**
+ * （转换按"至少省 15%"决定，已有高压缩 WebP 重编码反而变大，故意跳过）。
+ * 而路径是 `模板字符串 + .png` 拼出来的（54 处），写死任一扩展名都会对另一部分死链。
+ *
+ * 做法：不碰那 54 处模板，改用一个**全局捕获阶段**的 error 监听：
+ * 图片 404 时若同一路径存在另一种扩展名，就换过去重试一次。
+ * 这样 `.png` / `.webp` 两种写法都能正确显示，无需运行时探测、无需改动视图代码。
+ *
+ * 注意：capture=true 才能捕获到资源加载错误 —— error 事件在 img 上**不冒泡**。
+ */
+const IMAGE_EXT_DIRS = /^\/(Equip|AreaBlock|RoleCard|RoleDraw|Skill|Header|lime|Shop|DungeonRelics|GodStone|Relics|Rune|Foretell|ParagonPrefix|Bond)\//
+const SWAP_EXT = { '.png': '.webp', '.webp': '.png' }
+
+const handleImageError = (e) => {
+  const el = e.target
+  if (!el || el.tagName !== 'IMG') return
+  if (el.dataset.extSwapped === '1') return          // 每种扩展名只试一次，避免死循环
+  const current = el.getAttribute('src') || ''
+  if (!current.startsWith('/') || !IMAGE_EXT_DIRS.test(current)) return
+  const dot = current.lastIndexOf('.')
+  if (dot < 0) return
+  const ext = current.slice(dot).toLowerCase()
+  const alt = SWAP_EXT[ext]
+  if (!alt) return
+  el.dataset.extSwapped = '1'
+  el.src = current.slice(0, dot) + alt
 }
 
 onMounted(() => {
@@ -60,8 +91,10 @@ onMounted(() => {
     const hotPath = window.location.href.includes('files/www/') || window.location.href.includes('/data/')
     const hasNativeBridge = typeof window.NativeAnalytics?.acceptPrivacyAndInitialize === 'function'
     isInApp.value = cap || attr || hotPath || hasNativeBridge
-    if (isInApp.value && !isUpdateSkippedToday()) {
-      setTimeout(() => checkUpdate(true), 2000)
+    // APK 检查不再用「按天忽略」当闸门 —— 那个开关会连带静默掉热更新（见 version.js 注释）。
+    // 是否重复弹窗改由「是否已忽略过这个版本」在 checkUpdate 内部判断。
+    if (isInApp.value) {
+      setTimeout(() => checkUpdate(true), 1200)
     }
   }
   checkShell()
@@ -88,6 +121,8 @@ onMounted(() => {
   }
 
   window.addEventListener('click', handleGlobalClick)
+  // 捕获阶段：img 的 error 事件不冒泡，必须用 capture
+  window.addEventListener('error', handleImageError, true)
 
   // ===== 侧滑/物理返回键全局弹窗拦截处理 =====
   const modalSelectors = [
@@ -148,36 +183,173 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('click', handleGlobalClick)
+  window.removeEventListener('error', handleImageError, true)
   delete window.onAndroidBack
 })
 
 const isSettingsOpen = ref(false)
-const isDarkMode = ref(false)
+// 深色模式持久化：挂载前就按 localStorage 定好初始值。
+// 首帧的防白闪由 index.html 里的内联脚本负责（这里挂载时再补一次确保一致）。
+const DARK_MODE_KEY = 'recruit_tool_darkMode'
+const isDarkMode = ref(localStorage.getItem(DARK_MODE_KEY) === 'true')
 const universalFileInput = ref(null)
 
 // ===== 通用导入导出（合并所有视图数据） =====
+/** 生成备份数据（导出文件与复制文本共用同一份内容） */
+const buildBackupData = () => {
+  const rawCards = readStoredArray('talent_manager_data', { strict: true })
+  const compactTM = rawCards.map(card => ({
+    charId: card?.baseInfo?.id || card?.charId,
+    talentPages: (card?.talentPages || []).map(page => ({
+      slots: (page?.slots || []).map(slot => slot?.talent ? { id: slot.talent.uid } : (slot?.id ? { id: slot.id } : null))
+    }))
+  })).filter(card => typeof card.charId === 'string' && card.charId)
+  return [
+    { _type: 'lime', data: readStoredArray('my_owned_limes', { strict: true }) },
+    { _type: 'talent-manage', data: compactTM },
+    { _type: 'fruit-record', data: readStoredArray('fruit_record_data', { strict: true }) }
+  ]
+}
+
 const exportAllData = () => {
   try {
-    const rawCards = readStoredArray('talent_manager_data', { strict: true })
-    const compactTM = rawCards.map(card => ({
-      charId: card?.baseInfo?.id || card?.charId,
-      talentPages: (card?.talentPages || []).map(page => ({
-        slots: (page?.slots || []).map(slot => slot?.talent ? { id: slot.talent.uid } : (slot?.id ? { id: slot.id } : null))
-      }))
-    })).filter(card => typeof card.charId === 'string' && card.charId)
-    const mergedData = [
-      { _type: 'lime', data: readStoredArray('my_owned_limes', { strict: true }) },
-      { _type: 'talent-manage', data: compactTM },
-      { _type: 'fruit-record', data: readStoredArray('fruit_record_data', { strict: true }) }
-    ]
-    exportData(mergedData, `full_backup_${new Date().toISOString().slice(0, 10)}.json`)
+    exportData(buildBackupData(), `full_backup_${new Date().toISOString().slice(0, 10)}.json`)
   } catch (error) {
     showMessage('导出失败', error.message, 'error')
   }
 }
 
-const triggerUniversalImport = () => {
-  universalFileInput.value?.click()
+// ===== 数据管理弹窗（导出/导入各有文件与文本两条通道）=====
+// 手机端文件选择器常被宿主/文件管理器拒绝（宿主会弹「无法打开文件选择器」），
+// 文本通道不依赖系统组件，是手机上的主力通道。
+const showDataModal = ref(false)
+const showPasteBox = ref(false)
+const pasteImportText = ref('')
+const dataModalMessage = ref('')
+const dataModalMessageType = ref('info')
+
+const setDataModalMessage = (text, type = 'info') => {
+  dataModalMessage.value = text
+  dataModalMessageType.value = type
+}
+
+const openDataModal = () => {
+  showDataModal.value = true
+  showPasteBox.value = false
+  pasteImportText.value = ''
+  setDataModalMessage('')
+}
+
+const closeDataModal = () => {
+  showDataModal.value = false
+  showPasteBox.value = false
+  pasteImportText.value = ''
+  setDataModalMessage('')
+}
+
+/** 复制文本到剪贴板：优先 Clipboard API，失败退回 execCommand（旧 WebView） */
+const copyText = async (text) => {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text)
+      return true
+    }
+  } catch (e) {
+    // 继续走兜底方案
+  }
+  try {
+    const ta = document.createElement('textarea')
+    ta.value = text
+    ta.setAttribute('readonly', 'readonly')
+    ta.style.position = 'fixed'
+    ta.style.top = '-9999px'
+    ta.style.opacity = '0'
+    document.body.appendChild(ta)
+    ta.select()
+    ta.setSelectionRange(0, ta.value.length)
+    const ok = document.execCommand('copy')
+    document.body.removeChild(ta)
+    return ok
+  } catch (e) {
+    return false
+  }
+}
+
+/** 导出：文件导出 */
+const doExportFile = () => {
+  try {
+    exportData(buildBackupData(), `full_backup_${new Date().toISOString().slice(0, 10)}.json`)
+    setDataModalMessage('已生成备份文件，请在系统弹窗里选择保存或分享。', 'success')
+  } catch (error) {
+    setDataModalMessage('导出失败：' + error.message, 'error')
+  }
+}
+
+/** 导出：复制文本数据 */
+const doExportText = async () => {
+  try {
+    const json = JSON.stringify(buildBackupData())
+    const ok = await copyText(json)
+    if (ok) {
+      setDataModalMessage(`已复制备份文本（${json.length} 字符），可直接粘贴给别人或存到备忘录。`, 'success')
+    } else {
+      showPasteBox.value = true
+      pasteImportText.value = json
+      setDataModalMessage('自动复制被系统拒绝。备份文本已填在下方，请长按全选后手动复制。', 'error')
+    }
+  } catch (error) {
+    setDataModalMessage('导出失败：' + error.message, 'error')
+  }
+}
+
+/** 导入：文件导入 */
+const doImportFromFile = () => {
+  const input = universalFileInput.value
+  if (!input) {
+    setDataModalMessage('文件选择器未就绪，请改用「粘贴文本数据」。', 'error')
+    showPasteBox.value = true
+    return
+  }
+  // 重置 value：同一文件连续导入两次时，不重置不会触发 change
+  input.value = ''
+  // 不设 accept：部分安卓文件管理器/WebView 无法把 .json 解析成 MIME，会把文件过滤掉或直接打不开选择器。
+  // 数据合法性由 normalizeImportItem 在读取后校验，这里不做白名单限制。
+  input.removeAttribute('accept')
+  input.click()
+}
+
+/** 导入：读取剪贴板文本 */
+const doImportFromClipboard = async () => {
+  showPasteBox.value = true
+  try {
+    if (navigator.clipboard?.readText) {
+      const text = await navigator.clipboard.readText()
+      if (text && text.trim()) {
+        pasteImportText.value = text.trim()
+        setDataModalMessage('已读取剪贴板内容，点「确认导入」即可。')
+        return
+      }
+    }
+    setDataModalMessage('没能自动读取剪贴板（系统可能禁止），请在下方长按粘贴。')
+  } catch (e) {
+    setDataModalMessage('没能自动读取剪贴板（系统可能禁止），请在下方长按粘贴。')
+  }
+}
+
+/** 导入：提交粘贴内容 */
+const submitPasteImport = () => {
+  const text = pasteImportText.value.trim()
+  if (!text) {
+    setDataModalMessage('请先粘贴备份内容。', 'error')
+    return
+  }
+  try {
+    const count = applyImportData(JSON.parse(text))
+    closeDataModal()
+    showMessage('提示', `导入成功！共处理 ${count} 项数据`, 'success')
+  } catch (err) {
+    setDataModalMessage('导入失败：' + err.message, 'error')
+  }
 }
 
 const isValidDate = (value) => {
@@ -227,28 +399,37 @@ const normalizeImportItem = (item) => {
   throw new Error(`不支持的数据类型：${item._type || '未知'}`)
 }
 
+/** 把导入数据归一化后写入 localStorage（导入/粘贴两条路径共用），失败时回滚 */
+const applyImportData = (data) => {
+  if (!Array.isArray(data) && !(data && data._type)) {
+    throw new Error('数据格式错误：应为数组或包含 _type 的对象')
+  }
+  const sourceItems = Array.isArray(data) ? data : [data]
+  const normalizedItems = sourceItems.map(normalizeImportItem)
+  const previousValues = new Map(normalizedItems.map(item => [item.key, localStorage.getItem(item.key)]))
+  try {
+    normalizedItems.forEach(item => writeStoredJson(item.key, item.data))
+  } catch (writeError) {
+    previousValues.forEach((value, key) => {
+      if (value === null) localStorage.removeItem(key)
+      else localStorage.setItem(key, value)
+    })
+    throw writeError
+  }
+  normalizedItems.forEach(item => window.dispatchEvent(new CustomEvent(item.event)))
+  return normalizedItems.length
+}
+
 const handleUniversalImport = async (event) => {
   try {
     const data = await importData(event)
-    if (!Array.isArray(data) && !(data && data._type)) {
-      throw new Error('数据格式错误：应为数组或包含 _type 的对象')
-    }
-    const sourceItems = Array.isArray(data) ? data : [data]
-    const normalizedItems = sourceItems.map(normalizeImportItem)
-    const previousValues = new Map(normalizedItems.map(item => [item.key, localStorage.getItem(item.key)]))
-    try {
-      normalizedItems.forEach(item => writeStoredJson(item.key, item.data))
-    } catch (writeError) {
-      previousValues.forEach((value, key) => {
-        if (value === null) localStorage.removeItem(key)
-        else localStorage.setItem(key, value)
-      })
-      throw writeError
-    }
-    normalizedItems.forEach(item => window.dispatchEvent(new CustomEvent(item.event)))
-    showMessage('提示', `导入成功！共处理 ${normalizedItems.length} 项数据`, 'success')
+    const count = applyImportData(data)
+    closeDataModal()
+    showMessage('提示', `导入成功！共处理 ${count} 项数据`, 'success')
   } catch (err) {
-    showMessage('导入失败', '导入失败：' + err.message, 'error')
+    // 文件选择器打不开 / 读取失败时，把用户引到文本粘贴通道
+    showPasteBox.value = true
+    setDataModalMessage('文件导入失败：' + err.message + '（若选不了文件，请用「粘贴文本数据」）', 'error')
   }
 }
 
@@ -264,6 +445,8 @@ const toggleTheme = () => {
   } else {
     document.documentElement.classList.remove('dark-mode')
   }
+  // 写回持久化，刷新后保持主题
+  localStorage.setItem(DARK_MODE_KEY, String(isDarkMode.value))
 }
 
 const toggleGifs = () => {
@@ -370,6 +553,17 @@ const openPaymentModal = (type) => {
 const showPrivacyModal = ref(false)
 const showVersionAlert = ref(false)
 const versionAlertMessage = ref('')
+// 手动「检测更新」时的四版本对比数据（本地/远端 × 包体/热更）
+const versionDetail = ref(null)
+
+/** 点击对比面板里的「更新热更」 */
+const applyHotFromVersionPanel = () => {
+  const m = versionDetail.value?.hotManifest
+  if (!m) { showVersionAlert.value = false; return }
+  showVersionAlert.value = false
+  hotUpdateManifest.value = m
+  showHotUpdate.value = true
+}
 
 // 通用消息弹窗（替代 alert）
 const showMessageModal = ref(false)
@@ -390,17 +584,24 @@ const pageNames = {
   recruit: '指定招募',
   search: '综合检索',
   talent: '天赋筛选',
+  subskill: '支援筛选',
+  unique: '技能筛选',
+  equip: '装备筛选',
+  'fruit-record': '大果记录',
+  role: '角色图鉴',
   lime: '莱姆图鉴',
   prefix: '怪物加护',
-  foretell: '预言图鉴',
-  'dungeon-relics': '星界秘境遗物图鉴',
-  equip: '装备筛选',
   areablock: '地块图鉴',
+  foretell: '预言图鉴',
+  relics: '心得图鉴',
+  godstone: '神石图鉴',
+  rune: '符文图鉴',
+  'dungeon-relics': '星界秘境遗物图鉴',
+  'equip-prob': '金装刷取难易度',
+  gambleshop: '商人宝库概率',
+  'other-prob': '其他概率',
   'talent-manage': '天赋管理',
   guide: '新人攻略',
-  'fruit-record': '大果记录',
-  subskill: '支援筛选',
-  role: '角色图鉴',
   ranking: '热度排行'
 }
 
@@ -459,16 +660,19 @@ const hotUpdateManifest = ref(null)  // 预检测到的热更信息
 // 引用当前视图组件
 const viewRef = ref(null)
 
-// 检查热更新（静默检测，有更新才弹窗）
+// 检查热更新（静默检测，有更新就弹窗）
+// 注意：**不设人为延时**。原实现先 sleep 1500ms 再取清单，是「进软件好几秒才弹」的主因之一。
+// 启动后立刻发起，网络往返本身就是耗时，没必要再加等待。
 const checkForHotUpdate = async () => {
   if (!isInApp.value) { console.log('[HotUpdate] 非 App 环境，跳过'); return }
-  await new Promise(r => setTimeout(r, 1500))
   const m = await checkHotUpdate()
   console.log('[HotUpdate] 检测结果:', m ? '有更新 version=' + m.version + ' needApk=' + m._needsApkUpdate : '无更新')
   if (m) {
     if (m._needsApkUpdate) {
+      // 热更包跨了 base 版本（含原生改动），必须走 APK 更新；不弹热更弹窗
       checkUpdate(true)
     } else {
+      // 先弹窗、体积后补：packageSize 的 probe 是额外网络请求，不能让它拖住弹窗出现
       hotUpdateManifest.value = m
       showHotUpdate.value = true
     }
@@ -481,22 +685,63 @@ const onHotUpdateApplied = () => {
 }
 const checkUpdate = async (silent) => {
   try {
-    const info = await fetchLatestRelease()
-    // 优先用 localStorage 持久化的版本，避免 Java 异步注入未完成时读到 0.0.0
+    // 本地两个版本：包体（APK）与热更（Web 资源）
     const nativeVer = window.__APK_VERSION__
     if (nativeVer && nativeVer !== '0.0.0') localStorage.setItem('apk_cached_version', nativeVer)
     const cachedVer = localStorage.getItem('apk_cached_version')
-    const curVer = nativeVer || cachedVer || window.__APP_VERSION__ || '0.0.0'
-    const currentVer = curVer.replace(/^v?/, 'v')
-    if (compareVersions(info.version, currentVer) > 0) {
+    const localApkVer = (nativeVer || cachedVer || window.__APP_VERSION__ || '0.0.0').replace(/^v?/, 'v')
+    const localWebVer = (localStorage.getItem('local_web_version') || localApkVer).replace(/^v?/, 'v')
+
+    // 远端两个版本：APK Release 与热更清单
+    const info = await fetchLatestRelease()
+    const remoteApkVer = String(info.version || '').replace(/^v?/, 'v')
+
+    let hot = null
+    try { hot = await checkHotUpdate() } catch { hot = null }
+    const remoteWebVer = hot ? String(hot.version).replace(/^v?/, 'v') : localWebVer
+
+    const apkOutdated = compareVersions(remoteApkVer, localApkVer) > 0
+    const webOutdated = hot !== null && !hot._needsApkUpdate   // 有热更且不跨 base
+
+    const detail = {
+      localApkVer,
+      remoteApkVer,
+      localWebVer,
+      remoteWebVer,
+      apkOutdated,
+      webOutdated,
+      // 远程热更跨了 base，但 Release 里还没有对应 APK
+      apkNotPublished: hot !== null && hot._needsApkUpdate,
+      hotManifest: hot,
+    }
+    versionDetail.value = detail
+
+    if (silent) {
+      // 静默检查：只弹真正需要的那个弹窗，不弹对比面板
+      if (apkOutdated) {
+        if (isUpdateSkippedThisVersion(remoteApkVer)) {
+          console.log('[Update] ' + remoteApkVer + ' 已被用户跳过，静默不弹')
+          return
+        }
+        updateInfo.value = info
+        showUpdateModal.value = true
+      } else if (webOutdated) {
+        hotUpdateManifest.value = hot
+        showHotUpdate.value = true
+      }
+      return
+    }
+
+    // 手动检查：APK 有更新 → 直接进 APK 弹窗；否则展示版本对比
+    if (apkOutdated) {
       updateInfo.value = info
       showUpdateModal.value = true
-    } else if (!silent) {
-      versionAlertMessage.value = '当前已是最新版本'
-      showVersionAlert.value = true
+      return
     }
+    showVersionAlert.value = true
   } catch (e) {
     if (!silent) {
+      versionDetail.value = null
       versionAlertMessage.value = '检查更新失败: ' + e.message
       showVersionAlert.value = true
     }
@@ -519,7 +764,7 @@ const borderNoticeRead = () => {
     <div class="app-header">
       <div class="header-content">
       <div class="brand-status-section">
-        <img src="/logo1.png" alt="Logo" class="header-logo" />
+        <img src="/logo.webp" alt="Logo" class="header-logo" />
         <div class="title-dropdown-trigger" @click.stop="toggleModeDropdown">
           <h1 class="main-title">
             {{ currentModeInfo.name }}
@@ -588,20 +833,23 @@ const borderNoticeRead = () => {
               <img src="/ui/we.svg" class="item-icon" />
               <span>关于我们</span>
             </div>
-              <div class="dropdown-item" @click="exportAllData(); isSettingsOpen = false">
+              <div class="dropdown-item" @click="openDataModal(); isSettingsOpen = false">
               <img src="/ui/export .svg" class="item-icon" />
-              <span>导出数据</span>
-            </div>
-            <div class="dropdown-item" @click="triggerUniversalImport(); isSettingsOpen = false">
-              <img src="/ui/output.svg" class="item-icon" />
-              <span>导入数据</span>
+              <span>数据管理</span>
             </div>
           </div>
         </div>
 
 
 
-        <input type="file" ref="universalFileInput" @change="handleUniversalImport" accept=".json" style="display:none" />
+        <!-- 导入用文件输入：常驻 DOM（不能放在 v-if 下拉里），且必须 display:none -->
+        <input
+          type="file"
+          ref="universalFileInput"
+          class="universal-file-input"
+          hidden
+          @change="handleUniversalImport"
+        />
       </div>
       </div>
     </div>
@@ -731,7 +979,7 @@ const borderNoticeRead = () => {
           <p class="donate-hint" style="color: var(--text-sub); margin-bottom: 16px; font-size: 14px;">感谢您的慷慨赞助，资金将用于工具维护与功能开发！</p>
           <div class="donate-qrs" style="display: flex; justify-content: center; margin-top: 15px;">
             <div class="qr-item" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-              <img :src="paymentType === 'alipay' ? '/ui/Alipay.jpg' : '/ui/WeChatPay.png'" :alt="paymentType === 'alipay' ? '支付宝' : '微信支付'" style="width: 210px; height: auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);" />
+              <img :src="paymentType === 'alipay' ? '/ui/Alipay.webp' : '/ui/WeChatPay.webp'" :alt="paymentType === 'alipay' ? '支付宝' : '微信支付'" style="width: 210px; height: auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);" />
               <span style="font-size: 14px; font-weight: 600; color: var(--text-main); margin-top: 6px;">{{ paymentType === 'alipay' ? '支付宝扫码' : '微信扫码' }}</span>
             </div>
           </div>
@@ -745,13 +993,54 @@ const borderNoticeRead = () => {
     <div v-if="showVersionAlert" class="custom-modal-overlay" @click.self="showVersionAlert = false">
       <div class="custom-modal-card">
         <div class="modal-header">
-          <h3>系统提示</h3>
+          <h3>{{ versionDetail ? '版本检测' : '系统提示' }}</h3>
         </div>
         <div class="modal-body">
-          <p class="modal-title-text" style="color:var(--text-main);font-size:16px">{{ versionAlertMessage }}</p>
+          <!-- 有对比数据：展示 本地/远端 × 包体/热更 四个版本 -->
+          <template v-if="versionDetail">
+            <div class="version-grid">
+              <div class="version-grid-head"></div>
+              <div class="version-grid-head">本地版本</div>
+              <div class="version-grid-head">远端版本</div>
+
+              <div class="version-grid-label">包体版本</div>
+              <div class="version-grid-cell">{{ versionDetail.localApkVer }}</div>
+              <div class="version-grid-cell" :class="{ 'is-newer': versionDetail.apkOutdated }">
+                {{ versionDetail.remoteApkVer }}
+                <span v-if="versionDetail.apkOutdated" class="version-tag">可更新</span>
+              </div>
+
+              <div class="version-grid-label">热更版本</div>
+              <div class="version-grid-cell">{{ versionDetail.localWebVer }}</div>
+              <div class="version-grid-cell" :class="{ 'is-newer': versionDetail.webOutdated }">
+                {{ versionDetail.remoteWebVer }}
+                <span v-if="versionDetail.webOutdated" class="version-tag">可更新</span>
+              </div>
+            </div>
+
+            <p class="version-summary" :class="{ 'is-ok': !versionDetail.webOutdated && !versionDetail.apkNotPublished }">
+              <template v-if="versionDetail.apkNotPublished">
+                远端热更跨了包体大版本，但对应的安装包还没发布，请稍后再试。
+              </template>
+              <template v-else-if="versionDetail.webOutdated">
+                热更新有新版，点下方按钮立即更新。
+              </template>
+              <template v-else>
+                包体与热更均为最新版本。
+              </template>
+            </p>
+          </template>
+
+          <!-- 无对比数据（例如请求失败）：退回纯文本 -->
+          <p v-else class="modal-title-text" style="color:var(--text-main);font-size:16px">{{ versionAlertMessage }}</p>
         </div>
         <div class="modal-footer">
-          <button class="modal-btn-confirm" @click="showVersionAlert = false">确定</button>
+          <button
+            v-if="versionDetail && versionDetail.webOutdated"
+            class="modal-btn-confirm"
+            @click="applyHotFromVersionPanel"
+          >更新热更</button>
+          <button class="modal-btn-confirm" @click="showVersionAlert = false; versionDetail = null">确定</button>
         </div>
       </div>
     </div>
@@ -768,6 +1057,80 @@ const borderNoticeRead = () => {
         </div>
         <div class="modal-footer">
           <button class="modal-btn-confirm" @click="showMessageModal = false">确定</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 数据管理：导出（存文件 / 复制文本）+ 导入（选文件 / 粘贴文本）
+         手机端文件选择器常被宿主拒绝，故文本通道与文件通道并列提供 -->
+    <div v-if="showDataModal" class="custom-modal-overlay" @click.self="closeDataModal">
+      <div class="custom-modal-card import-modal-card">
+        <div class="modal-header">
+          <h3>数据管理</h3>
+          <button class="modal-close-x" @click="closeDataModal">✕</button>
+        </div>
+        <div class="modal-body">
+          <!-- ===== 导出 ===== -->
+          <div class="data-modal-section-title">
+            <span>导出备份</span>
+          </div>
+
+          <button class="import-method-btn" @click="doExportFile">
+            <img src="/ui/export .svg" class="import-method-icon" />
+            <span class="import-method-copy">
+              <span class="import-method-title">文件导出</span>
+              <span class="import-method-desc">生成 full_backup_日期.json 并保存/分享</span>
+            </span>
+          </button>
+
+          <button class="import-method-btn" @click="doExportText">
+            <img src="/ui/output.svg" class="import-method-icon" />
+            <span class="import-method-copy">
+              <span class="import-method-title">复制文本数据</span>
+              <span class="import-method-desc">把备份内容复制到剪贴板，自己发给别人或存备忘</span>
+            </span>
+          </button>
+
+          <!-- ===== 导入 ===== -->
+          <div class="data-modal-section-title">
+            <span>导入备份</span>
+          </div>
+
+          <button class="import-method-btn" @click="doImportFromFile">
+            <img src="/ui/output.svg" class="import-method-icon" />
+            <span class="import-method-copy">
+              <span class="import-method-title">文件导入</span>
+              <span class="import-method-desc">从手机文件里选 .json 备份</span>
+            </span>
+          </button>
+
+          <button class="import-method-btn" @click="doImportFromClipboard">
+            <img src="/ui/export .svg" class="import-method-icon" />
+            <span class="import-method-copy">
+              <span class="import-method-title">粘贴文本数据</span>
+              <span class="import-method-desc">直接读取剪贴板里的备份文本</span>
+            </span>
+          </button>
+
+          <!-- 粘贴区：自动读取失败时手填 -->
+          <div v-if="showPasteBox" class="paste-import-box">
+            <div class="paste-import-hint">
+              若没能自动读取剪贴板，请长按下面的输入框粘贴备份内容：
+            </div>
+            <textarea
+              v-model="pasteImportText"
+              class="paste-import-textarea"
+              rows="5"
+              placeholder='粘贴备份文本，例如：[{"_type":"lime","data":["LM01001"]}]'
+            ></textarea>
+            <button class="modal-btn-confirm paste-import-submit" :disabled="!pasteImportText.trim()" @click="submitPasteImport">
+              确认导入
+            </button>
+          </div>
+
+          <div v-if="dataModalMessage" class="data-modal-message" :class="dataModalMessageType">
+            {{ dataModalMessage }}
+          </div>
         </div>
       </div>
     </div>
@@ -1259,6 +1622,13 @@ body {
   filter: var(--icon-filter);
 }
 
+/* 导入用文件输入：必须 display:none —— 用 clip/opacity 隐藏时，部分浏览器
+   仍会画出原生「选择文件」控件（在弹窗里多出一个带 ✕ 的白框）。
+   display:none 的 input 依然可以被 JS click() 唤起选择器。 */
+.universal-file-input {
+  display: none;
+}
+
 .settings-dropdown, .mode-dropdown {
   position: absolute;
   top: 100%;
@@ -1361,6 +1731,170 @@ body {
 .feedback-content a { color: var(--primary); font-weight: bold; }
 .feedback-content .hint-text { font-size: 12px; color: var(--text-sub); margin-top: 20px; background: var(--bg); padding: 10px; border-radius: 8px; }
 html:not([data-app-shell="true"]) .app-only { display: none !important; }
+
+/* ===== 版本检测对比面板 ===== */
+.version-grid {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  gap: 1px;
+  background: var(--border-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 13px;
+}
+.version-grid-head {
+  background: var(--bg);
+  padding: 7px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-sub);
+  text-align: center;
+}
+.version-grid-label {
+  background: var(--bg);
+  padding: 9px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-sub);
+  white-space: nowrap;
+}
+.version-grid-cell {
+  background: var(--card-bg);
+  padding: 9px 10px;
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.version-grid-cell.is-newer {
+  color: var(--primary);
+  font-weight: 700;
+}
+.version-tag {
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--primary);
+  border-radius: 4px;
+  padding: 1px 5px;
+  white-space: nowrap;
+}
+.version-summary {
+  margin: 12px 0 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #d97706;
+  background: rgba(245, 158, 11, 0.1);
+  border-radius: 8px;
+  padding: 9px 12px;
+  overflow-wrap: anywhere;
+}
+.version-summary.is-ok {
+  color: #059669;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+/* ===== 导入数据弹窗 ===== */
+.import-modal-card { max-width: 440px; }
+.import-modal-card .modal-header { position: relative; }
+.modal-close-x {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--text-sub);
+  cursor: pointer;
+  padding: 6px 8px;
+}
+.modal-close-x:hover { color: var(--text-main); }
+.import-modal-card .modal-body {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 18px 18px 18px;
+}
+.data-modal-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-sub);
+  margin-top: 2px;
+}
+.data-modal-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-color);
+}
+.import-method-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.import-method-btn:hover { border-color: var(--primary); }
+/* 这些 ui/*.svg 是 fill="white" 的单色图标，必须套 --icon-filter 才能在浅色/
+   深色背景下可见（与 .item-icon / .btn-icon img 同一套规则），漏掉会「看不见图标」。 */
+.import-method-icon { width: 22px; height: 22px; flex-shrink: 0; filter: var(--icon-filter); }
+.import-method-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.import-method-title { font-size: 13px; font-weight: 600; color: var(--text-main); }
+.import-method-desc { font-size: 11px; color: var(--text-sub); line-height: 1.4; }
+.paste-import-box { display: flex; flex-direction: column; gap: 8px; }
+.paste-import-hint {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-sub);
+  overflow-wrap: anywhere;
+}
+.paste-import-textarea {
+  width: 100%;
+  min-height: 100px;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  line-height: 1.5;
+  color: var(--text-main);
+  outline: none;
+  box-sizing: border-box;
+  resize: vertical;
+  overflow-wrap: anywhere;
+}
+.paste-import-textarea:focus { border-color: var(--primary); }
+.paste-import-submit { align-self: flex-end; padding: 8px 20px; }
+.paste-import-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+.data-modal-message {
+  font-size: 12px;
+  line-height: 1.45;
+  padding: 8px 10px;
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--text-sub);
+}
+.data-modal-message.success { background: rgba(16, 185, 129, 0.12); color: #059669; }
+.data-modal-message.error { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+
 .donate-entry { border-top: 1px solid rgba(0, 0, 0, 0.06); margin-top: 4px; }
 .modal-close-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 18px; color: var(--text-sub); cursor: pointer; padding: 4px 8px; z-index: 2; }
 .modal-close-btn:hover { color: var(--text-main); }

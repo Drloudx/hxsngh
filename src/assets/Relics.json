@@ -374,7 +374,7 @@
   "SubRace": "",
   "MaxLevel": 3,
   "Effect": "造成滋润层数+1。",
-  "EffectI2": "Relics/Relics_Des_50",
+  "EffectI2": "Relics/Relics_Des_70",
   "Description": "",
   "DescriptionI2": "",
   "SpecifyRoleIDs": "M31301_000"
@@ -1381,7 +1381,7 @@
   "SubRace": "",
   "MaxLevel": 3,
   "Effect": "造成滋润层数+1。",
-  "EffectI2": "Relics/Relics_Des_50",
+  "EffectI2": "Relics/Relics_Des_70",
   "Description": "",
   "DescriptionI2": "",
   "SpecifyRoleIDs": "M14301_001"
@@ -2179,7 +2179,7 @@
   "SubRace": "",
   "MaxLevel": 3,
   "Effect": "造成滋润层数+1。",
-  "EffectI2": "Relics/Relics_Des_50",
+  "EffectI2": "Relics/Relics_Des_70",
   "Description": "",
   "DescriptionI2": "",
   "SpecifyRoleIDs": "M53301_000"

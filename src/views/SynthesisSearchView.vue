@@ -197,8 +197,7 @@
                 <div v-if="item.标签 === '专属' && item.SpecifyRoleIDs" class="talent-char-avatar-container">
                   <img
                     :src="`/Header/${item.SpecifyRoleIDs}.png`"
-                    class="talent-char-avatar-img game-sprite"
-                  />
+                    class="talent-char-avatar-img game-sprite" loading="lazy" decoding="async" />
                 </div>
                 <span class="talent-name" :style="{ color: getTalentStepConfig(item.step).color }">{{ item.name }}</span>
                 <div class="talent-tag-dropdown-wrapper">
@@ -256,11 +255,11 @@
                 <div class="talent-details-body">
                   <div class="talent-top-bar">
                     <div class="talent-char-avatar-container">
-                      <img :src="`/Header/${item.charId}.png`" class="talent-char-avatar-img game-sprite" />
+                      <img :src="`/Header/${item.charId}.png`" class="talent-char-avatar-img game-sprite" loading="lazy" decoding="async" />
                     </div>
                     <span class="talent-name" :style="{ color: getTalentStepConfig(item.step).color }">{{ item.name }}</span>
                     <div class="skill-mini-box">
-                      <img :src="`/Skill/${item.iconId}.png`" class="skill-mini-img" />
+                      <img :src="`/Skill/${item.iconId}.png`" class="skill-mini-img" loading="lazy" decoding="async" />
                     </div>
                     <span
                       class="talent-tag"
@@ -300,11 +299,11 @@
                 <div class="talent-details-body">
                   <div class="talent-top-bar">
                     <div class="talent-char-avatar-container">
-                      <img :src="`/Header/${item.charId}.png`" class="talent-char-avatar-img game-sprite" />
+                      <img :src="`/Header/${item.charId}.png`" class="talent-char-avatar-img game-sprite" loading="lazy" decoding="async" />
                     </div>
                     <span class="talent-name" :style="{ color: getTalentStepConfig(item.step).color }">{{ item.name }}</span>
                     <div class="skill-mini-box">
-                      <img :src="`/Skill/${item.iconId}.png`" class="skill-mini-img" />
+                      <img :src="`/Skill/${item.iconId}.png`" class="skill-mini-img" loading="lazy" decoding="async" />
                     </div>
                     <div class="top-bar-spacer" style="flex: 1;"></div>
                     <div class="talent-source-wrapper" @click="openSourceModal(item, 'unique')">
@@ -338,7 +337,7 @@
               <div class="detail-row-first">
                 <div class="detail-card-left">
                   <div class="equip-detail-icon-slot" :style="{ backgroundColor: getStepConfig(equip.Step).lightBg }">
-                    <img :src="`/Equip/${equip.IDs}.png`" :alt="equip.Name" class="equip-detail-icon game-sprite" />
+                    <img :src="`/Equip/${equip.IDs}.png`" :alt="equip.Name" class="equip-detail-icon game-sprite" loading="lazy" decoding="async" />
                   </div>
                   <div class="equip-detail-name" :style="{ color: getStepConfig(equip.Step).color }">
                     {{ equip.Name }}
@@ -348,7 +347,7 @@
                 <div class="detail-card-attributes">
                   <template v-for="attr in ATTRIBUTE_MAP" :key="attr.key">
                     <div v-if="equip[attr.key] > 0" class="base-attr-tag">
-                      <img :src="`/General/${attr.icon}`" class="attr-mini-icon game-sprite" />
+                      <img :src="`/General/${attr.icon}`" class="attr-mini-icon game-sprite" loading="lazy" decoding="async" />
                       <span>{{ equip[attr.key] }}</span>
                     </div>
                   </template>
@@ -381,8 +380,7 @@
               <div v-if="item.标签 === '专属' && item.SpecifyRoleIDs" class="talent-char-avatar-container">
                 <img
                   :src="`/Header/${item.SpecifyRoleIDs}.png`"
-                  class="talent-char-avatar-img game-sprite"
-                />
+                  class="talent-char-avatar-img game-sprite" loading="lazy" decoding="async" />
               </div>
               <span class="talent-name" :style="{ color: getTalentStepConfig(item.step).color }">{{ item.name }}</span>
               <div class="talent-tag-dropdown-wrapper">
@@ -434,11 +432,11 @@
               <div class="talent-details-body">
                 <div class="talent-top-bar">
                   <div class="talent-char-avatar-container">
-                    <img :src="`/Header/${item.charId}.png`" class="talent-char-avatar-img game-sprite" />
+                    <img :src="`/Header/${item.charId}.png`" class="talent-char-avatar-img game-sprite" loading="lazy" decoding="async" />
                   </div>
                   <span class="talent-name" :style="{ color: getTalentStepConfig(item.step).color }">{{ item.name }}</span>
                   <div class="skill-mini-box">
-                    <img :src="`/Skill/${item.iconId}.png`" class="skill-mini-img" />
+                    <img :src="`/Skill/${item.iconId}.png`" class="skill-mini-img" loading="lazy" decoding="async" />
                   </div>
                   <span
                     class="talent-tag"
@@ -472,11 +470,11 @@
               <div class="talent-details-body">
                 <div class="talent-top-bar">
                   <div class="talent-char-avatar-container">
-                    <img :src="`/Header/${item.charId}.png`" class="talent-char-avatar-img game-sprite" />
+                    <img :src="`/Header/${item.charId}.png`" class="talent-char-avatar-img game-sprite" loading="lazy" decoding="async" />
                   </div>
                   <span class="talent-name" :style="{ color: getTalentStepConfig(item.step).color }">{{ item.name }}</span>
                   <div class="skill-mini-box">
-                    <img :src="`/Skill/${item.iconId}.png`" class="skill-mini-img" />
+                    <img :src="`/Skill/${item.iconId}.png`" class="skill-mini-img" loading="lazy" decoding="async" />
                   </div>
                   <div class="top-bar-spacer" style="flex: 1;"></div>
                   <div class="talent-source-wrapper" @click="openSourceModal(item, 'unique')">
@@ -504,7 +502,7 @@
             <div class="detail-row-first">
               <div class="detail-card-left">
                 <div class="equip-detail-icon-slot" :style="{ backgroundColor: getStepConfig(equip.Step).lightBg }">
-                  <img :src="`/Equip/${equip.IDs}.png`" :alt="equip.Name" class="equip-detail-icon game-sprite" />
+                  <img :src="`/Equip/${equip.IDs}.png`" :alt="equip.Name" class="equip-detail-icon game-sprite" loading="lazy" decoding="async" />
                 </div>
                 <div class="equip-detail-name" :style="{ color: getStepConfig(equip.Step).color }">
                   {{ equip.Name }}
@@ -514,7 +512,7 @@
               <div class="detail-card-attributes">
                 <template v-for="attr in ATTRIBUTE_MAP" :key="attr.key">
                   <div v-if="equip[attr.key] > 0" class="base-attr-tag">
-                    <img :src="`/General/${attr.icon}`" class="attr-mini-icon game-sprite" />
+                    <img :src="`/General/${attr.icon}`" class="attr-mini-icon game-sprite" loading="lazy" decoding="async" />
                     <span>{{ equip[attr.key] }}</span>
                   </div>
                 </template>
@@ -616,7 +614,7 @@
             </div>
 
             <div class="modal-icon-center" :style="{ backgroundColor: getStepConfig(detailModal.data.Step).lightBg }">
-              <img :src="`/Equip/${detailModal.data.IDs}.png`" class="relic-detail-img game-sprite" />
+              <img :src="`/Equip/${detailModal.data.IDs}.png`" class="relic-detail-img game-sprite" loading="lazy" decoding="async" />
             </div>
 
             <div class="modal-tags-right">
@@ -651,8 +649,7 @@
               <template v-if="getActiveAttributes(detailModal.data)[i - 1]">
                 <img
                   :src="`/General/${getActiveAttributes(detailModal.data)[i - 1].icon}`"
-                  class="attr-grid-icon game-sprite"
-                />
+                  class="attr-grid-icon game-sprite" loading="lazy" decoding="async" />
                 <span class="attr-grid-val">
                   +{{ getAttrVal(detailModal.data, getActiveAttributes(detailModal.data)[i - 1].key, selectedStar) }}
                 </span>
@@ -734,7 +731,7 @@ import rawBonds from '@/assets/Bond.json'
 const ATTRIBUTE_MAP = [
   { key: 'STR', label: '力量', icon: 'mid_ico_attribute_0004.png' },
   { key: 'INT', label: '精神', icon: 'mid_ico_attribute_0002.png' },
-  { key: 'DEX', label: '敏捷', icon: 'mid_ico_attribute_0005.png' },
+  { key: 'DEX', label: '敏捷', icon: 'mid_ico_attribute_0005.webp' },
   { key: 'CONS', label: '生命', icon: 'mid_ico_attribute_0003.png' },
   { key: 'SPD', label: '速度', icon: 'mid_ico_attribute_0001.png' },
   { key: 'Luck', label: '幸运', icon: 'mid_ico_attribute_0010.png' },
@@ -2071,7 +2068,7 @@ const toggleInherit = () => {
 }
 
 const handleIconError = (e) => {
-  e.target.src = '/Header/M00000.png'
+  e.target.src = '/Header/M00000.webp'
 }
 </script>
 

@@ -142,7 +142,7 @@
           <div class="rune-card-top">
             <!-- 符文图标 -->
             <div class="rune-avatar-box" :style="{ background: getStepBg(rune.Step) }">
-              <img :src="getRuneIcon(rune.IDs)" :alt="rune.Name" class="rune-img game-sprite" />
+              <img :src="getRuneIcon(rune.IDs)" :alt="rune.Name" class="rune-img game-sprite" loading="lazy" decoding="async" />
             </div>
 
             <!-- 标题和品阶：拼上【效果/机制】 -->
@@ -202,7 +202,7 @@
         <div class="modal-body rune-modal-body">
           <div class="modal-avatar-area">
             <div class="modal-rune-avatar" :style="{ background: getStepBg(selectedRune.Step) }">
-              <img :src="getRuneIcon(selectedRune.IDs)" :alt="selectedRune.Name" class="game-sprite" />
+              <img :src="getRuneIcon(selectedRune.IDs)" :alt="selectedRune.Name" class="game-sprite" loading="lazy" decoding="async" />
             </div>
             <div class="modal-rune-main-info">
               <div class="modal-name-row">

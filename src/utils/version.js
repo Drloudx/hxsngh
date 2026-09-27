@@ -49,7 +49,28 @@ export const fetchLatestRelease = async () => {
 }
 
 /**
- * 设置跳过更新的日期
+ * 已忽略的 APK 版本记录。
+ *
+ * 为什么不用「按天」：原实现 setSkipUpdateDate() 写一个当天日期、isUpdateSkippedToday()
+ * 比较它，结果是**当天内所有更新检查全部静默**——包括热更新。用户点一次「今日不提醒」，
+ * 当天既收不到 APK 更新也收不到热更新，还会被误导为「已是最新版本」。
+ * 改成按版本记录：只有「用户忽略过的那个版本」不再打扰，出了新版本照样提示。
+ */
+export const setSkipUpdateVersion = (version) => {
+  if (!version) return
+  localStorage.setItem('update_skip_version', String(version).replace(/^v?/, 'v'))
+}
+
+export const getSkipUpdateVersion = () => localStorage.getItem('update_skip_version')
+
+export const isUpdateSkippedThisVersion = (version) => {
+  const skip = getSkipUpdateVersion()
+  if (!skip || !version) return false
+  return compareVersions(version, skip) <= 0
+}
+
+/**
+ * @deprecated 旧的按天忽略，只保留给可能的旧调用方；新代码请用 setSkipUpdateVersion。
  */
 export const setSkipUpdateDate = () => {
   const d = new Date()
@@ -58,8 +79,7 @@ export const setSkipUpdateDate = () => {
 }
 
 /**
- * 检查今天是否已跳过更新
- * @returns {boolean}
+ * @deprecated 见 setSkipUpdateDate。仅用于首启动兼容旧数据清理。
  */
 export const isUpdateSkippedToday = () => {
   const s = localStorage.getItem('update_skip_date')

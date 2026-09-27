@@ -8,7 +8,7 @@
           :class="{ active: currentShopType === 'gamble' }"
           @click="switchShopType('gamble')"
         >
-          <img src="/General/S10001_008.png" class="main-tab-icon game-sprite" @error="handleTabIconError" />
+          <img src="/General/S10001_008.webp" class="main-tab-icon game-sprite" @error="handleTabIconError" loading="lazy" decoding="async" />
           <div class="main-tab-text-group">
             <span class="main-tab-title">旅行商人</span>
           </div>
@@ -18,7 +18,7 @@
           :class="{ active: currentShopType === 'vault' }"
           @click="switchShopType('vault')"
         >
-          <img src="/General/S10001_016.png" class="main-tab-icon game-sprite" @error="handleTabIconError" />
+          <img src="/General/S10001_016.webp" class="main-tab-icon game-sprite" @error="handleTabIconError" loading="lazy" decoding="async" />
           <div class="main-tab-text-group">
             <span class="main-tab-title">黄金宝库</span>
           </div>
@@ -139,8 +139,7 @@
               v-if="item.iconPath"
               :src="item.iconPath"
               class="item-icon-img game-sprite"
-              @error="handleIconError(item)"
-            />
+              @error="handleIconError(item)" loading="lazy" decoding="async" />
             <span v-else class="item-icon-fallback-text" :style="{ color: getStepColor(item.step) }">
               {{ item.Type ? item.Type.slice(0, 2) : '物' }}
             </span>
@@ -339,7 +338,7 @@ const parseItemDisplay = (item) => {
   } else if (item.Type === '四叶草' || displayName.includes('四叶草')) {
     iconPath = '/Shop/D00002_000.png'
   } else if (displayName.includes('天赋果实')) {
-    iconPath = '/Shop/D00002_001.png'
+    iconPath = '/Shop/D00002_001.webp'
   }
 
   return {

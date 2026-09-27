@@ -121,14 +121,13 @@
                 <img
                   :src="`/Header/${item.charId}.png`"
                   class="talent-char-avatar-img game-sprite"
-                  @error="handleIconError"
-                />
+                  @error="handleIconError" loading="lazy" decoding="async" />
               </div>
 
               <span class="talent-name" :style="{ color: getTalentStepConfig(item.step).color }">{{ item.name }}</span>
 
               <div class="skill-mini-box" :title="`支援图标ID: ${item.iconId}`">
-                <img :src="`/Skill/${item.iconId}.png`" class="skill-mini-img" @error="handleIconError" />
+                <img :src="`/Skill/${item.iconId}.png`" class="skill-mini-img" @error="handleIconError" loading="lazy" decoding="async" />
               </div>
 
               <span
@@ -255,7 +254,7 @@ const toggleStarFilter = (star) => {
  * 图片加载失败的降级处理器
  */
 const handleIconError = (e) => {
-    e.target.src = '/Header/M00000.png'
+    e.target.src = '/Header/M00000.webp'
 }
 
 // 监听

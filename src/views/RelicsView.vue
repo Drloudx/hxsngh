@@ -155,8 +155,7 @@
           <img
             :src="`/Relics/${item.IDs}.png`"
             class="relic-card-icon game-sprite"
-            @error="handleRelicIconError"
-          />
+            @error="handleRelicIconError" loading="lazy" decoding="async" />
           <div class="relic-card-text">
             <div class="relic-card-line1">
               <span class="relic-card-name" :style="{ color: getStepConfig(item.Step).color }">
@@ -415,6 +414,7 @@ watch([searchQuery, subSearchQuery, selectedCharacter, selectedStep, activeCharT
 })
 
 const handleRelicIconError = (e) => {
+  // 兜底图保留 PNG：它体积已极小（0.5KB），转换器跳过；写成 .webp 会死链
   e.target.src = '/Relics/Mark.png'
 }
 

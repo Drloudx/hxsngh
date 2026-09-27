@@ -47,8 +47,7 @@
               <img 
                 :src="getPrefixIcon(getActiveStepItem(group)?.IDs)" 
                 class="prefix-icon-img game-sprite" 
-                @error="handleIconError(getPrefixIcon(getActiveStepItem(group)?.IDs))"
-              />
+                @error="handleIconError(getPrefixIcon(getActiveStepItem(group)?.IDs))" loading="lazy" decoding="async" />
             </div>
             <span class="prefix-name">{{ group[0].Name }}</span>
           </div>

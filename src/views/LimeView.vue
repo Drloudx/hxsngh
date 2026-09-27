@@ -71,7 +71,7 @@
           :style="{ backgroundColor: getStepConfig(lime.Step).lightBg }"
           @click="openDetailModal(lime)"
         >
-          <img :src="`/lime/${lime.IDs}.png`" :alt="lime.Name" class="lime-avatar-img" />
+          <img :src="`/lime/${lime.IDs}.png`" :alt="lime.Name" class="lime-avatar-img" loading="lazy" decoding="async" />
         </div>
 
         <div class="lime-card-name-label" :style="{ color: getStepConfig(lime.Step).color }">
@@ -114,7 +114,7 @@
 
         <div class="relic-modal-body">
           <div class="relic-detail-preview" :style="{ backgroundColor: getStepConfig(detailModal.data.Step).lightBg }">
-            <img :src="`/lime/${detailModal.data.IDs}.png`" class="relic-detail-img" />
+            <img :src="`/lime/${detailModal.data.IDs}.png`" class="relic-detail-img" loading="lazy" decoding="async" />
           </div>
 
           <div class="relic-details-grid grid-2-col">

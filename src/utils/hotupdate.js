@@ -145,7 +145,12 @@ export const checkHotUpdate = async () => {
       const newParts = pad4(manifest.version)
       const baseMatch = curParts[0] === newParts[0] && curParts[1] === newParts[1] && curParts[2] === newParts[2]
       manifest._needsApkUpdate = !baseMatch
-      manifest.packageSize = await probePackageSize(manifest)
+      // 体积探测（可能是一次额外的 HEAD/GET 请求）**不阻塞返回**：
+      // 先让调用方把「发现新版本」弹窗弹出来，体积算完再回填。
+      // 原先是 await，导致弹窗要等两轮网络往返才出现。
+      probePackageSize(manifest)
+        .then((size) => { manifest.packageSize = size })
+        .catch(() => { manifest.packageSize = 0 })
       console.log('[HotUpdate]  baseMatch:', baseMatch, 'needsApk:', manifest._needsApkUpdate)
       return manifest
     }

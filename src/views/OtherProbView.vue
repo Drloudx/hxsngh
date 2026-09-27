@@ -171,7 +171,7 @@
             >
               <div class="red-card-left">
                 <div class="red-equip-avatar-box">
-                  <img :src="`/Equip/${equip.IDs}.png`" :alt="equip.Name" class="red-equip-img game-sprite" />
+                  <img :src="`/Equip/${equip.IDs}.png`" :alt="equip.Name" class="red-equip-img game-sprite" loading="lazy" decoding="async" />
                 </div>
               </div>
               <div class="red-card-right">

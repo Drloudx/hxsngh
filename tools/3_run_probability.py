@@ -583,6 +583,15 @@ def worker(args):
                 slot_order = []
                 for _ in range(10):
                     slot_index = wpick(cur_slot_w)
+                    if slot_index < 0:
+                        # 权重耗尽（低难度行里 TrinketPossi/PartPossi 为 0，非零槽位可能少于
+                        # 装备件数）。wpick 此时返回 -1，若直接使用会写到 cur_slot_w[-1]
+                        # 并把多件装备塞进同一槽位。改为退回首个剩余可抽槽位。
+                        slot_index = next(
+                            (i for i, w in enumerate(cur_slot_w) if w > 0), None
+                        )
+                        if slot_index is None:
+                            break
                     slot_order.append(slot_index)
                     cur_slot_w[slot_index] = 0
 

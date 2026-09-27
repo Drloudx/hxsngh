@@ -55,3 +55,7 @@ dist/
 dist.zip*
 *.zip
 hotupdate.json
+
+# 本地备份（如 opencv.js 拆分前的 base64 版本，10MB+，不入库）
+# 注意：备份绝不能放在 public/ 下，否则会被 Vite 拷进 dist 并打进 APK/热更包
+.backup/

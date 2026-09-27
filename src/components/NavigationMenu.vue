@@ -23,42 +23,43 @@ const emit = defineEmits(['close'])
 const router = useRouter()
 const route = useRoute()
 
-// 14个工具和图鉴的定义
+// 三组菜单项定义（共 22 条，与 router 的 routes 一一对应）
+// 注意：/ranking（预告页）当前有意不入菜单，只能靠 URL 直达
 const categories = [
   {
     name: '核心工具',
     items: [
-      { id: 'recruit', name: '指定招募工具', path: '/recruit', icon: '/General/1.png' },
-      { id: 'search', name: '综合检索', path: '/search', icon: '/General/2.png' },
-      { id: 'talent', name: '天赋筛选工具', path: '/talent', icon: '/General/3.png' },
-      { id: 'subskill', name: '支援筛选工具', path: '/subskill', icon: '/General/4.png' },
-      { id: 'unique', name: '技能筛选工具', path: '/unique', icon: '/General/5.png' },
-      { id: 'equip', name: '装备筛选工具', path: '/equip', icon: '/General/6.png' },
-      { id: 'fruit-record', name: '大果记录', path: '/fruit-record', icon: '/General/21.png' }
+      { id: 'recruit', name: '指定招募工具', path: '/recruit', icon: '/General/1.webp' },
+      { id: 'search', name: '综合检索', path: '/search', icon: '/General/2.webp' },
+      { id: 'talent', name: '天赋筛选工具', path: '/talent', icon: '/General/3.webp' },
+      { id: 'subskill', name: '支援筛选工具', path: '/subskill', icon: '/General/4.webp' },
+      { id: 'unique', name: '技能筛选工具', path: '/unique', icon: '/General/5.webp' },
+      { id: 'equip', name: '装备筛选工具', path: '/equip', icon: '/General/6.webp' },
+      { id: 'fruit-record', name: '大果记录', path: '/fruit-record', icon: '/General/21.webp' }
     ]
   },
   {
     name: '图鉴',
     items: [
-      { id: 'role', name: '角色图鉴', path: '/role', icon: '/General/7.png' },
-      { id: 'lime', name: '莱姆图鉴', path: '/lime', icon: '/General/8.png' },
-      { id: 'prefix', name: '怪物加护', path: '/prefix', icon: '/General/9.png' },
-      { id: 'areablock', name: '地块图鉴', path: '/areablock', icon: '/General/10.png' },
-      { id: 'foretell', name: '预言图鉴', path: '/foretell', icon: '/General/11.png' },
-      { id: 'equip-prob', name: '金装刷取难易度', path: '/equip-prob', icon: '/General/20.png' },
-      { id: 'gambleshop', name: '商人/宝库概率', path: '/gambleshop', icon: '/General/16.png' },
-      { id: 'other-prob', name: '其他概率', path: '/other-prob', icon: '/General/17.png' },
-      { id: 'relics', name: '心得图鉴', path: '/relics', icon: '/General/15.png' },
-      { id: 'godstone', name: '神石图鉴', path: '/godstone', icon: '/General/18.png' },
-      { id: 'rune', name: '符文图鉴', path: '/rune', icon: '/General/19.png' },
-      { id: 'dungeon-relics', name: '星界秘境遗物图鉴', path: '/dungeon-relics', icon: '/General/12.png' }
+      { id: 'role', name: '角色图鉴', path: '/role', icon: '/General/7.webp' },
+      { id: 'lime', name: '莱姆图鉴', path: '/lime', icon: '/General/8.webp' },
+      { id: 'prefix', name: '怪物加护', path: '/prefix', icon: '/General/9.webp' },
+      { id: 'areablock', name: '地块图鉴', path: '/areablock', icon: '/General/10.webp' },
+      { id: 'foretell', name: '预言图鉴', path: '/foretell', icon: '/General/11.webp' },
+      { id: 'equip-prob', name: '金装刷取难易度', path: '/equip-prob', icon: '/General/20.webp' },
+      { id: 'gambleshop', name: '商人/宝库概率', path: '/gambleshop', icon: '/General/16.webp' },
+      { id: 'other-prob', name: '其他概率', path: '/other-prob', icon: '/General/17.webp' },
+      { id: 'relics', name: '心得图鉴', path: '/relics', icon: '/General/15.webp' },
+      { id: 'godstone', name: '神石图鉴', path: '/godstone', icon: '/General/18.webp' },
+      { id: 'rune', name: '符文图鉴', path: '/rune', icon: '/General/19.webp' },
+      { id: 'dungeon-relics', name: '星界秘境遗物图鉴', path: '/dungeon-relics', icon: '/General/12.webp' }
     ]
   },
   {
     name: '其他工具',
     items: [
-      { id: 'talent-manage', name: '天赋管理', path: '/talent-manage', icon: '/General/13.png' },
-      { id: 'guide', name: '新人攻略', path: '/guide', icon: '/General/14.png' }
+      { id: 'talent-manage', name: '天赋管理', path: '/talent-manage', icon: '/General/13.webp' },
+      { id: 'guide', name: '新人攻略', path: '/guide', icon: '/General/14.webp' }
     ]
   }
 ]
@@ -80,6 +81,57 @@ const handleNavigate = (path) => {
   }
   // 先让移动端菜单完成收起，再开始加载目标路由，避免菜单遮住加载状态。
   requestAnimationFrame(() => router.push(path))
+}
+
+/**
+ * 路由 chunk 预取。
+ *
+ * 背景：22 条路由全是 `() => import(...)` 懒加载，菜单点击后才开始下载 JS chunk，
+ * 所以切页总要先等一次网络往返（大页面 chunk 可达 200KB+）。
+ * 这里在 hover / touchstart（即"手指按下但还没抬起"）时提前把 chunk 拉下来，
+ * 真正 push 时命中已下载好的模块。
+ *
+ * 注意：`import.meta.glob` 的 key 是相对本文件的路径，故路由模块位于 `../views/`。
+ */
+const viewModules = import.meta.glob('../views/*.vue')
+
+// path → 模块加载函数。路由表用的是具名变量（如 SynthesisSearchView），
+// 这里按 path 末段映射到文件名，避免把 22 条 import 再抄一遍。
+const PATH_TO_FILE = {
+  '/recruit': 'RecruitView',
+  '/search': 'SynthesisSearchView',
+  '/talent': 'TalentView',
+  '/subskill': 'SubSkillView',
+  '/unique': 'UniqueView',
+  '/lime': 'LimeView',
+  '/prefix': 'PrefixView',
+  '/relics': 'RelicsView',
+  '/foretell': 'ForetellView',
+  '/dungeon-relics': 'DungeonRelicsView',
+  '/godstone': 'GodStoneView',
+  '/rune': 'RuneView',
+  '/equip': 'EquipView',
+  '/equip-prob': 'EquipProbView',
+  '/areablock': 'AreaBlockView',
+  '/gambleshop': 'GambleShopView',
+  '/other-prob': 'OtherProbView',
+  '/talent-manage': 'TalentManageView',
+  '/guide': 'GuideView',
+  '/fruit-record': 'FruitRecordView',
+  '/role': 'RoleView',
+  '/ranking': 'RankingView',
+}
+
+const prefetched = new Set()
+const prefetchRoute = (path) => {
+  if (!path || prefetched.has(path)) return
+  const file = PATH_TO_FILE[path]
+  if (!file) return
+  const load = viewModules[`../views/${file}.vue`]
+  if (!load) return
+  prefetched.add(path)          // 先标记，避免同一项被反复触发
+  // 不 await：预取失败不影响正常导航（真正 push 时还会再 import 一次）
+  Promise.resolve(load()).catch(() => { prefetched.delete(path) })
 }
 
 const handleClose = () => {
@@ -129,6 +181,8 @@ const formatGridItemName = (name) => {
                 class="side-item"
                 :class="{ active: isItemActive(item) }"
                 @click="handleNavigate(item.path)"
+                @mouseenter="prefetchRoute(item.path)"
+                @touchstart.passive="prefetchRoute(item.path)"
               >
                 <img :src="item.icon" class="icon-img" />
                 <span class="item-name">{{ item.name }}</span>
@@ -146,6 +200,8 @@ const formatGridItemName = (name) => {
                     class="side-item"
                     :class="{ active: isItemActive(item) }"
                     @click="handleNavigate(item.path)"
+                    @mouseenter="prefetchRoute(item.path)"
+                    @touchstart.passive="prefetchRoute(item.path)"
                   >
                     <img :src="item.icon" class="icon-img" />
                     <span class="item-name">{{ item.name }}</span>

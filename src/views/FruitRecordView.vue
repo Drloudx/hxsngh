@@ -6,7 +6,7 @@
         <!-- 统计1：总获取大果数量（差值累加） -->
         <div class="stat-card total-stat-card">
           <div class="stat-card-icon-wrap">
-            <img src="/Shop/D00002_001.png" class="fruit-icon-img pulse-anim" alt="大果" />
+            <img src="/Shop/D00002_001.webp" class="fruit-icon-img pulse-anim" alt="大果" loading="lazy" decoding="async" />
           </div>
           <div class="stat-card-info">
             <div class="stat-title-row">
@@ -22,7 +22,7 @@
         <!-- 统计2：每天平均数量 -->
         <div class="stat-card avg-stat-card">
           <div class="stat-card-icon-wrap">
-            <img src="/Shop/D00002_001.png" class="fruit-icon-img" alt="大果" />
+            <img src="/Shop/D00002_001.webp" class="fruit-icon-img" alt="大果" loading="lazy" decoding="async" />
           </div>
           <div class="stat-card-info">
             <div class="stat-title-row">
@@ -38,7 +38,7 @@
         <!-- 统计3：本周日均数量 -->
         <div class="stat-card week-avg-stat-card">
           <div class="stat-card-icon-wrap">
-            <img src="/Shop/D00002_001.png" class="fruit-icon-img" alt="大果" />
+            <img src="/Shop/D00002_001.webp" class="fruit-icon-img" alt="大果" loading="lazy" decoding="async" />
           </div>
           <div class="stat-card-info">
             <div class="stat-title-row">
@@ -97,7 +97,7 @@
       <div class="card-box today-input-card">
         <div class="card-header">
           <div class="header-left">
-            <img src="/Shop/D00002_001.png" class="header-fruit-icon" />
+            <img src="/Shop/D00002_001.webp" class="header-fruit-icon" loading="lazy" decoding="async" />
             <span class="card-main-title">今日大果记录</span>
             <span class="today-date-badge">{{ todayDateString }} ({{ todayWeekday }})</span>
           </div>
@@ -114,7 +114,7 @@
           <div class="input-main-row">
             <div class="input-main-header">
               <div class="input-label-group">
-                <img src="/Shop/D00002_001.png" class="label-fruit-img" />
+                <img src="/Shop/D00002_001.webp" class="label-fruit-img" loading="lazy" decoding="async" />
                 <span class="input-label-text">今日数量：</span>
               </div>
               <button
@@ -187,7 +187,7 @@
             <button class="quick-btn clear" :disabled="!todayInputCount" @click="todayInputCount = 0">清零</button>
           </div>
 
-          <!-- 可选备注 -->
+          <!-- 可选备注：今日卡片保持「只追加」，已保存的备注只读展示，输入框填本次新增内容 -->
           <div class="today-remark-row">
             <div v-if="todayRecord && todayRecord.remark" class="current-remark-tip">
               已记录：{{ todayRecord.remark }}
@@ -240,7 +240,7 @@
           <button v-if="searchQuery" class="clear-search-btn" @click="searchQuery = ''">✕</button>
         </div>
         <div class="data-manage-dropdown-btn-wrap">
-          <button class="tool-btn-sub" @click="showDataManageModal = true">
+          <button class="tool-btn-sub" @click="openDataManageModal">
             <span>数据管理</span>
           </button>
         </div>
@@ -314,11 +314,11 @@
 
             <div class="item-right-content">
               <div v-if="item.isPositive" class="item-count-badge gain">
-                <img src="/Shop/D00002_001.png" class="badge-fruit-icon" />
+                <img src="/Shop/D00002_001.webp" class="badge-fruit-icon" loading="lazy" decoding="async" />
                 <span class="badge-count-num">日均 +{{ item.formattedAvg }}</span>
               </div>
               <div v-else class="item-count-badge used">
-                <img src="/Shop/D00002_001.png" class="badge-fruit-icon" />
+                <img src="/Shop/D00002_001.webp" class="badge-fruit-icon" loading="lazy" decoding="async" />
                 <span class="badge-count-num used">日均 {{ Math.round(item.totalDiff / item.totalSpanDays) }}</span>
               </div>
             </div>
@@ -357,12 +357,12 @@
               </div>
               <!-- 有效获取（差值 > 0） -->
               <div v-else-if="item.status === 'gain'" class="item-count-badge gain">
-                <img src="/Shop/D00002_001.png" class="badge-fruit-icon" />
+                <img src="/Shop/D00002_001.webp" class="badge-fruit-icon" loading="lazy" decoding="async" />
                 <span class="badge-count-num">+{{ item.formattedGain }}</span>
               </div>
               <!-- 差值为负（消耗，不计入获取） -->
               <div v-else-if="item.status === 'used'" class="item-count-badge used">
-                <img src="/Shop/D00002_001.png" class="badge-fruit-icon" />
+                <img src="/Shop/D00002_001.webp" class="badge-fruit-icon" loading="lazy" decoding="async" />
                 <span class="badge-count-num used">{{ item.diff }}</span>
               </div>
               <!-- 差值为0 -->
@@ -391,7 +391,7 @@
       <!-- 空状态 -->
       <div v-else class="empty-state-box">
         <div class="empty-icon-wrap">
-          <img src="/Shop/D00002_001.png" class="empty-fruit-img" />
+          <img src="/Shop/D00002_001.webp" class="empty-fruit-img" loading="lazy" decoding="async" />
         </div>
         <div class="empty-title">{{ searchQuery ? '未找到匹配的打卡记录' : '暂无大果打卡记录' }}</div>
         <div class="empty-desc">
@@ -421,7 +421,7 @@
           <div class="modal-form-group">
             <label class="modal-form-label">当前数量：</label>
             <div class="modal-input-wrapper">
-              <img src="/Shop/D00002_001.png" class="modal-fruit-icon" />
+              <img src="/Shop/D00002_001.webp" class="modal-fruit-icon" loading="lazy" decoding="async" />
               <input
                 type="number"
                 v-model.number="customForm.count"
@@ -470,21 +470,42 @@
           </div>
 
           <div class="modal-form-group">
-            <label class="modal-form-label">备注说明（可选）：</label>
-            <div v-if="editingRecord && customForm.existingRemark" class="modal-current-remark">
+            <div class="modal-label-row">
+              <label class="modal-form-label">备注说明（可选）：</label>
+              <button
+                v-if="customForm.remark"
+                type="button"
+                class="modal-remark-clear-btn"
+                title="清空备注"
+                @click="customForm.remark = ''"
+              >清空</button>
+            </div>
+            <!-- 只读展示已保存的备注，便于对照原始值；输入框已预填，可直接改或清空删除 -->
+            <div v-if="customForm.existingRemark" class="modal-current-remark">
               当前备注：{{ customForm.existingRemark }}
             </div>
-            <input
-              type="text"
+            <textarea
               v-model="customForm.remark"
-              placeholder="来源备注（如：商人*20、宝库*20）"
-              class="modal-text-input"
-              maxlength="50"
-            />
+              :placeholder="customForm.existingRemark
+                ? '修改后保存，清空则删除备注'
+                : '来源备注（如：商人*20、宝库*20）'"
+              class="modal-textarea"
+              rows="4"
+              maxlength="200"
+            ></textarea>
+            <div v-if="!customForm.existingRemark && !customForm.remark" class="modal-remark-hint">
+              当前无备注
+            </div>
+            <div v-else-if="customForm.existingRemark && !customForm.remark" class="modal-remark-hint is-warning">
+              保存后将删除该条备注
+            </div>
+            <div v-else-if="customForm.existingRemark && customForm.remark.trim() !== customForm.existingRemark" class="modal-remark-hint is-warning">
+              保存后将覆盖为上方内容
+            </div>
           </div>
 
           <div v-if="dateConflictWarning" class="modal-warning-tip">
-            ⚠️ 提示：该日期已有记录（当前数量：{{ dateConflictCount }}个），保存后数量会更新，备注会自动合并。
+            ⚠️ 提示：该日期已有记录（当前数量：{{ dateConflictCount }}个），保存后数量与备注都会被更新。
           </div>
         </div>
 
@@ -526,15 +547,29 @@
           <div class="data-manage-btn-list">
             <button class="manage-action-card-btn" @click="exportFruitData">
               <div class="manage-btn-text-box">
-                <span class="manage-btn-title">导出大果记录</span>
+                <span class="manage-btn-title">文件导出</span>
                 <span class="manage-btn-desc">将全部 {{ records.length }} 条打卡数据导出为 JSON 文件</span>
+              </div>
+            </button>
+
+            <button class="manage-action-card-btn" @click="copyFruitDataText">
+              <div class="manage-btn-text-box">
+                <span class="manage-btn-title">复制文本数据</span>
+                <span class="manage-btn-desc">把全部 {{ records.length }} 条打卡数据复制到剪贴板</span>
               </div>
             </button>
 
             <button class="manage-action-card-btn" @click="triggerFruitImport">
               <div class="manage-btn-text-box">
-                <span class="manage-btn-title">导入大果记录</span>
+                <span class="manage-btn-title">文件导入</span>
                 <span class="manage-btn-desc">从 JSON 文件导入打卡数据</span>
+              </div>
+            </button>
+
+            <button class="manage-action-card-btn" @click="openPasteImport">
+              <div class="manage-btn-text-box">
+                <span class="manage-btn-title">粘贴文本数据</span>
+                <span class="manage-btn-desc">选不了文件时用这个：读取剪贴板里的备份文本</span>
               </div>
             </button>
 
@@ -545,11 +580,36 @@
               </div>
             </button>
           </div>
+
+          <!-- 粘贴区：自动读取剪贴板失败时手填 -->
+          <div v-if="showPasteBox" class="paste-import-box">
+            <div class="paste-import-hint">
+              若没能自动读取剪贴板，请长按下面的输入框粘贴备份内容：
+            </div>
+            <textarea
+              v-model="pasteImportText"
+              class="paste-import-textarea"
+              rows="5"
+              placeholder='粘贴备份文本，例如：{"_type":"fruit-record","data":[{"date":"2026-09-26","count":175}]}'
+            ></textarea>
+            <button
+              class="modal-btn-confirm paste-import-submit"
+              :disabled="!pasteImportText.trim()"
+              @click="submitPasteImport"
+            >确认导入</button>
+          </div>
+
+          <div v-if="dataManageMessage" class="data-manage-message" :class="dataManageMessageType">
+            {{ dataManageMessage }}
+          </div>
+
+          <!-- 隐藏的文件输入：必须用 display:none 彻底移除渲染，
+               用 clip/opacity 方式在部分浏览器里仍会画出原生「选择文件」控件 -->
           <input
             type="file"
             ref="importFileInput"
-            accept=".json"
-            style="display: none"
+            class="fruit-import-file-input"
+            hidden
             @change="handleFruitImport"
           />
         </div>
@@ -589,7 +649,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { exportData, importData } from '../utils/dataTransfer'
 
 const STORAGE_KEY = 'fruit_record_data'
@@ -1317,6 +1377,7 @@ const saveTodayRecord = () => {
     records.value[existingIdx].count = count
     records.value[existingIdx].consumed = consumed
     records.value[existingIdx].spreadAcrossDays = todayInputSpreadAcrossDays.value
+    // 今日卡片保持追加合并：同来源累加、新来源追加
     records.value[existingIdx].remark = mergeRemarks(records.value[existingIdx].remark, incomingRemark)
   } else {
     records.value.unshift({
@@ -1344,14 +1405,16 @@ const saveTodayRecord = () => {
 const openAddCustomModal = () => {
   editingRecord.value = false
   const sorted = [...records.value].sort((a, b) => b.date.localeCompare(a.date))
+  // 默认日期为今天；若今天已有记录，备注同样预填（与编辑弹窗口径一致）
+  const todayExisting = records.value.find(r => r.date === todayDateString.value) || null
   customForm.value = {
     date: todayDateString.value,
     count: sorted.length > 0 ? sorted[0].count : 0,
     consumed: 0,
     spreadAcrossDays: true,
-    remark: '',
-    existingRemark: '',
-    existingConsumed: 0
+    remark: todayExisting?.remark || '',
+    existingRemark: todayExisting?.remark || '',
+    existingConsumed: getRecordConsumed(todayExisting)
   }
   customModalVisible.value = true
 }
@@ -1363,7 +1426,8 @@ const openEditModal = (item) => {
     count: item.count,
     consumed: getRecordConsumed(item),
     spreadAcrossDays: shouldSpreadAcrossDays(item),
-    remark: '',
+    // 预填现有备注，编辑态下输入框内容即最终备注（清空 = 删除备注）
+    remark: item.remark || '',
     existingRemark: item.remark || '',
     existingConsumed: getRecordConsumed(item)
   }
@@ -1391,6 +1455,15 @@ const dateConflictCount = computed(() => {
   return found ? found.count : 0
 })
 
+// 补录模式下切换日期时，把该日期已有记录的备注预填进输入框（编辑态日期锁定，不触发）
+watch(() => customForm.value.date, (newDate, oldDate) => {
+  if (editingRecord.value || !customModalVisible.value) return
+  if (newDate === oldDate) return
+  const found = records.value.find(r => r.date === newDate) || null
+  customForm.value.existingRemark = found?.remark || ''
+  customForm.value.remark = found?.remark || ''
+})
+
 const saveCustomRecord = () => {
   const { date, count, consumed: inputConsumed, spreadAcrossDays, remark } = customForm.value
   if (!date) {
@@ -1409,25 +1482,22 @@ const saveCustomRecord = () => {
     existingRecord,
     consumedWasEdited
   )
-  const sanitizedRemark = mergeRemarks(customForm.value.existingRemark, (remark || '').trim())
+  // 编辑与补录统一口径：输入框内容即最终备注，保存整体覆盖，清空即删除
+  const finalRemark = (remark || '').trim()
 
   const existingIdx = records.value.findIndex(r => r.date === date)
   if (existingIdx !== -1) {
     records.value[existingIdx].count = sanitizedCount
     records.value[existingIdx].consumed = sanitizedConsumed
     records.value[existingIdx].spreadAcrossDays = spreadAcrossDays !== false
-    if (!editingRecord.value) {
-      records.value[existingIdx].remark = mergeRemarks(records.value[existingIdx].remark, (remark || '').trim())
-    } else {
-      records.value[existingIdx].remark = sanitizedRemark
-    }
+    records.value[existingIdx].remark = finalRemark
   } else {
     records.value.push({
       date,
       count: sanitizedCount,
       consumed: sanitizedConsumed,
       spreadAcrossDays: spreadAcrossDays !== false,
-      remark: sanitizedRemark
+      remark: finalRemark
     })
   }
 
@@ -1466,6 +1536,53 @@ const toggleSortOrder = () => {
   sortOrder.value = sortOrder.value === 'desc' ? 'asc' : 'desc'
 }
 
+// ===== 数据管理弹窗：文件 + 文本 双通道 =====
+// 手机端文件选择器常被宿主/文件管理器拒绝，文本通道不依赖系统组件。
+const showPasteBox = ref(false)
+const pasteImportText = ref('')
+const dataManageMessage = ref('')
+const dataManageMessageType = ref('info')
+
+const setDataManageMessage = (text, type = 'info') => {
+  dataManageMessage.value = text
+  dataManageMessageType.value = type
+}
+
+const openDataManageModal = () => {
+  showDataManageModal.value = true
+  showPasteBox.value = false
+  pasteImportText.value = ''
+  setDataManageMessage('')
+}
+
+/** 复制文本到剪贴板：优先 Clipboard API，失败退回 execCommand（旧 WebView） */
+const copyText = async (text) => {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text)
+      return true
+    }
+  } catch (e) {
+    // 继续走兜底方案
+  }
+  try {
+    const ta = document.createElement('textarea')
+    ta.value = text
+    ta.setAttribute('readonly', 'readonly')
+    ta.style.position = 'fixed'
+    ta.style.top = '-9999px'
+    ta.style.opacity = '0'
+    document.body.appendChild(ta)
+    ta.select()
+    ta.setSelectionRange(0, ta.value.length)
+    const ok = document.execCommand('copy')
+    document.body.removeChild(ta)
+    return ok
+  } catch (e) {
+    return false
+  }
+}
+
 // 导入导出与清空
 const exportFruitData = () => {
   try {
@@ -1479,55 +1596,120 @@ const exportFruitData = () => {
   }
 }
 
+/** 复制文本导出 */
+const copyFruitDataText = async () => {
+  try {
+    const json = JSON.stringify({ _type: 'fruit-record', data: records.value })
+    const ok = await copyText(json)
+    if (ok) {
+      setDataManageMessage(`已复制 ${records.value.length} 天记录（${json.length} 字符），可粘贴给别人或存备忘录。`, 'success')
+    } else {
+      showPasteBox.value = true
+      pasteImportText.value = json
+      setDataManageMessage('自动复制被系统拒绝。数据已填在下方，请长按全选后手动复制。', 'error')
+    }
+  } catch (err) {
+    setDataManageMessage('导出失败：' + err.message, 'error')
+  }
+}
+
 const triggerFruitImport = () => {
-  importFileInput.value?.click()
+  const input = importFileInput.value
+  if (!input) {
+    setDataManageMessage('文件选择器未就绪，请改用「粘贴文本数据」。', 'error')
+    showPasteBox.value = true
+    return
+  }
+  // 重置 value：同一文件连续导入两次时，不重置不会触发 change
+  input.value = ''
+  // 不设 accept：部分安卓文件管理器无法把 .json 解析成 MIME，会过滤掉文件或打不开选择器
+  input.removeAttribute('accept')
+  input.click()
+}
+
+/** 把一批记录合并进当前数据（文件导入与粘贴导入共用） */
+const mergeRecords = (importedList) => {
+  if (!Array.isArray(importedList)) throw new Error('未识别的数据格式：缺少数据列表')
+  const dateMap = new Map()
+  records.value.forEach(r => dateMap.set(r.date, r))
+  importedList.forEach(item => {
+    if (item && item.date && typeof item.count === 'number') {
+      const existingRecord = dateMap.get(item.date)
+      const hasConsumed = Object.prototype.hasOwnProperty.call(item, 'consumed')
+      const normalizedRecord = {
+        date: item.date,
+        count: Math.max(0, Math.floor(item.count)),
+        spreadAcrossDays: typeof item.spreadAcrossDays === 'boolean'
+          ? item.spreadAcrossDays
+          : existingRecord?.spreadAcrossDays !== false,
+        remark: item.remark || ''
+      }
+      if (hasConsumed) {
+        normalizedRecord.consumed = Math.max(0, Math.floor(Number(item.consumed) || 0))
+      } else if (existingRecord && Object.prototype.hasOwnProperty.call(existingRecord, 'consumed')) {
+        normalizedRecord.consumed = getRecordConsumed(existingRecord)
+      }
+      dateMap.set(item.date, normalizedRecord)
+    }
+  })
+
+  records.value = Array.from(dateMap.values())
+  saveToLocalStorage()
+  syncTodayInput()
+}
+
+/** 从任意形态的导入数据里取出记录列表 */
+const extractFruitRecords = (result) => {
+  if (Array.isArray(result)) return result
+  if (result && result._type === 'fruit-record' && Array.isArray(result.data)) return result.data
+  if (result && Array.isArray(result.data)) return result.data
+  throw new Error('未识别的数据格式：缺少数据列表')
 }
 
 const handleFruitImport = async (event) => {
   try {
     const result = await importData(event)
-    let importedList = []
-    if (Array.isArray(result)) {
-      importedList = result
-    } else if (result && result._type === 'fruit-record' && Array.isArray(result.data)) {
-      importedList = result.data
-    } else if (result && Array.isArray(result.data)) {
-      importedList = result.data
-    } else {
-      throw new Error('未识别的数据格式：缺少数据列表')
-    }
-
-    // 合并数据
-    const dateMap = new Map()
-    records.value.forEach(r => dateMap.set(r.date, r))
-    importedList.forEach(item => {
-      if (item && item.date && typeof item.count === 'number') {
-        const existingRecord = dateMap.get(item.date)
-        const hasConsumed = Object.prototype.hasOwnProperty.call(item, 'consumed')
-        const normalizedRecord = {
-          date: item.date,
-          count: Math.max(0, Math.floor(item.count)),
-          spreadAcrossDays: typeof item.spreadAcrossDays === 'boolean'
-            ? item.spreadAcrossDays
-            : existingRecord?.spreadAcrossDays !== false,
-          remark: item.remark || ''
-        }
-        if (hasConsumed) {
-          normalizedRecord.consumed = Math.max(0, Math.floor(Number(item.consumed) || 0))
-        } else if (existingRecord && Object.prototype.hasOwnProperty.call(existingRecord, 'consumed')) {
-          normalizedRecord.consumed = getRecordConsumed(existingRecord)
-        }
-        dateMap.set(item.date, normalizedRecord)
-      }
-    })
-
-    records.value = Array.from(dateMap.values())
-    saveToLocalStorage()
-    syncTodayInput()
+    mergeRecords(extractFruitRecords(result))
     showToast(`导入成功！当前共 ${records.value.length} 天记录`)
     showDataManageModal.value = false
   } catch (err) {
-    showToast('导入失败：' + err.message)
+    showPasteBox.value = true
+    setDataManageMessage('文件导入失败：' + err.message + '（若选不了文件，请用「粘贴文本数据」）', 'error')
+  }
+}
+
+/** 打开粘贴导入：优先自动读取剪贴板 */
+const openPasteImport = async () => {
+  showPasteBox.value = true
+  setDataManageMessage('')
+  try {
+    if (navigator.clipboard?.readText) {
+      const text = await navigator.clipboard.readText()
+      if (text && text.trim()) {
+        pasteImportText.value = text.trim()
+        setDataManageMessage('已读取剪贴板内容，点「确认导入」即可。')
+        return
+      }
+    }
+    setDataManageMessage('没能自动读取剪贴板（系统可能禁止），请在下方长按粘贴。')
+  } catch (e) {
+    setDataManageMessage('没能自动读取剪贴板（系统可能禁止），请在下方长按粘贴。')
+  }
+}
+
+/** 提交粘贴内容 */
+const submitPasteImport = () => {
+  const text = pasteImportText.value.trim()
+  if (!text) {
+    setDataManageMessage('请先粘贴备份内容。', 'error')
+    return
+  }
+  try {
+    mergeRecords(extractFruitRecords(JSON.parse(text)))
+    showToast(`导入成功！当前共 ${records.value.length} 天记录`)
+    showDataManageModal.value = false
+  } catch (err) {
+    setDataManageMessage('导入失败：' + err.message, 'error')
   }
 }
 
@@ -2142,8 +2324,10 @@ onUnmounted(() => {
   border-radius: 7px;
   padding: 6px 10px;
   font-size: 12px;
-  line-height: 1.4;
+  line-height: 1.5;
   overflow-wrap: anywhere;
+  /* 长备注自动换行，不撑破弹窗 */
+  white-space: pre-wrap;
 }
 
 .modal-current-remark {
@@ -2807,7 +2991,8 @@ onUnmounted(() => {
   border: 1px solid var(--border-color);
   border-radius: 16px;
   width: 100%;
-  max-width: 420px;
+  /* 480px：让备注输入框有足够宽度显示长备注（原 420px 会明显偏窄） */
+  max-width: 480px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
@@ -2821,6 +3006,7 @@ onUnmounted(() => {
 }
 
 .modal-header {
+  position: relative;
   padding: 14px 18px;
   display: flex;
   align-items: center;
@@ -2836,12 +3022,25 @@ onUnmounted(() => {
 }
 
 .modal-close-x {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
   background: none;
   border: none;
+  border-radius: 6px;
   font-size: 16px;
+  line-height: 1;
   color: var(--text-sub);
   cursor: pointer;
-  padding: 4px;
+  padding: 0;
+}
+
+.modal-close-x:hover {
+  color: var(--text-main);
+  background: var(--dropdown-hover);
 }
 
 .modal-body {
@@ -2874,6 +3073,68 @@ onUnmounted(() => {
   color: var(--text-main);
   outline: none;
   box-sizing: border-box;
+}
+
+/* 标签行：左侧标签、右侧「清空」，让下面的备注框能占满整行 */
+.modal-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* 多行备注框：占满整行、固定高度、超高自动换行、可纵向拖拽调整 */
+.modal-textarea {
+  width: 100%;
+  min-height: 76px;
+  max-height: 200px;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1.5;
+  color: var(--text-main);
+  outline: none;
+  box-sizing: border-box;
+  resize: vertical;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.modal-textarea:focus {
+  border-color: var(--primary);
+}
+
+.modal-remark-clear-btn {
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-sub);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modal-remark-clear-btn:hover {
+  color: #dc2626;
+  border-color: #dc2626;
+}
+
+.modal-remark-hint {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-sub);
+  overflow-wrap: anywhere;
+}
+
+.modal-remark-hint.is-warning {
+  color: #d97706;
 }
 
 .modal-input-wrapper {
@@ -2985,6 +3246,79 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+/* 文件导入用的隐藏 input：必须 display:none —— 用 clip/opacity 隐藏时，
+   部分浏览器仍会画出原生「选择文件」控件（在弹窗里多出一个带 ✕ 的白框）。 */
+.fruit-import-file-input {
+  display: none;
+}
+
+/* 粘贴导入区 */
+.paste-import-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.paste-import-hint {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-sub);
+  overflow-wrap: anywhere;
+}
+
+.paste-import-textarea {
+  width: 100%;
+  min-height: 100px;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  line-height: 1.5;
+  color: var(--text-main);
+  outline: none;
+  box-sizing: border-box;
+  resize: vertical;
+  overflow-wrap: anywhere;
+}
+
+.paste-import-textarea:focus {
+  border-color: var(--primary);
+}
+
+.paste-import-submit {
+  align-self: flex-end;
+  padding: 8px 20px;
+}
+
+.paste-import-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.data-manage-message {
+  font-size: 12px;
+  line-height: 1.45;
+  padding: 8px 10px;
+  border-radius: 7px;
+  margin-top: 10px;
+  overflow-wrap: anywhere;
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--text-sub);
+}
+
+.data-manage-message.success {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+.data-manage-message.error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
 }
 
 .manage-action-card-btn {

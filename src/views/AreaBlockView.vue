@@ -85,8 +85,7 @@
                   <img
                     :src="`/AreaBlock/${spot.IDs}.png`"
                     :alt="spot.Name"
-                    class="spot-icon-img game-sprite"
-                  />
+                    class="spot-icon-img game-sprite" loading="lazy" decoding="async" />
                 </div>
               </div>
               <div class="spot-card-name" :style="{ color: getSpotColor(spot) }">
@@ -125,8 +124,7 @@
                     <img
                       :src="`/AreaBlock/${spot.IDs}.png`"
                       :alt="spot.Name"
-                      class="spot-icon-img game-sprite"
-                    />
+                      class="spot-icon-img game-sprite" loading="lazy" decoding="async" />
                   </div>
                 </div>
                 <div class="spot-card-name" :style="{ color: getSpotColor(spot) }">
@@ -167,8 +165,7 @@
             <div class="preview-img-container">
               <img 
                 :src="`/AreaBlock/${detailModal.data.IDs}.png`" 
-                class="relic-detail-img large-detail-img game-sprite" 
-              />
+                class="relic-detail-img large-detail-img game-sprite" loading="lazy" decoding="async" />
             </div>
             
             <!-- 绝对定位到右侧的地块轮廓 (特殊地块不显示) -->

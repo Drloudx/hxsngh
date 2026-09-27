@@ -15,7 +15,7 @@ const emit = defineEmits(['close'])
 
       <div class="modal-body about-body">
         <div class="author-section">
-          <img src="/ui/author_avatar.jpg" class="about-logo" />
+          <img src="/ui/author_avatar.webp" class="about-logo" />
           <h4 class="author-name">云汐渚梦</h4>
           <div class="social-links">
       <a href="https://www.taptap.cn/user/34448185?share_id=06714cbc47ff&utm_medium=share&utm_source=copylink" target="_blank" rel="noopener noreferrer" class="social-item taptap">

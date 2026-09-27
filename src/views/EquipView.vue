@@ -186,7 +186,7 @@
             class="equip-rough-icon-slot"
             :style="{ backgroundColor: getStepConfig(equip.Step).lightBg }"
           >
-            <img :src="`/Equip/${equip.IDs}.png`" :alt="equip.Name" class="equip-rough-icon game-sprite" />
+            <img :src="`/Equip/${equip.IDs}.png`" :alt="equip.Name" class="equip-rough-icon game-sprite" loading="lazy" decoding="async" />
           </div>
           <div class="equip-rough-name" :style="{ color: getStepConfig(equip.Step).color }">
             {{ equip.Name }}
@@ -209,7 +209,7 @@
                 class="equip-detail-icon-slot"
                 :style="{ backgroundColor: getStepConfig(equip.Step).lightBg }"
               >
-                <img :src="`/Equip/${equip.IDs}.png`" :alt="equip.Name" class="equip-detail-icon game-sprite" />
+                <img :src="`/Equip/${equip.IDs}.png`" :alt="equip.Name" class="equip-detail-icon game-sprite" loading="lazy" decoding="async" />
               </div>
               <div class="equip-detail-name" :style="{ color: getStepConfig(equip.Step).color }">
                 {{ equip.Name }}
@@ -219,7 +219,7 @@
             <div class="detail-card-attributes">
               <template v-for="attr in ATTRIBUTE_MAP" :key="attr.key">
                 <div v-if="equip[attr.key] > 0" class="base-attr-tag">
-                  <img :src="`/General/${attr.icon}`" class="attr-mini-icon game-sprite" />
+                  <img :src="`/General/${attr.icon}`" class="attr-mini-icon game-sprite" loading="lazy" decoding="async" />
                   <span>{{ equip[attr.key] }}</span>
                 </div>
               </template>
@@ -291,7 +291,7 @@
 
             <!-- 中间图标 -->
             <div class="modal-icon-center" :style="{ backgroundColor: getStepConfig(detailModal.data.Step).lightBg }">
-              <img :src="`/Equip/${detailModal.data.IDs}.png`" class="relic-detail-img game-sprite" />
+              <img :src="`/Equip/${detailModal.data.IDs}.png`" class="relic-detail-img game-sprite" loading="lazy" decoding="async" />
             </div>
 
             <!-- 右侧 2x2 网格标签 -->
@@ -329,8 +329,7 @@
               <template v-if="getActiveAttributes(detailModal.data)[i - 1]">
                 <img
                   :src="`/General/${getActiveAttributes(detailModal.data)[i - 1].icon}`"
-                  class="attr-grid-icon game-sprite"
-                />
+                  class="attr-grid-icon game-sprite" loading="lazy" decoding="async" />
                 <span class="attr-grid-val">
                   +{{ getAttrVal(detailModal.data, getActiveAttributes(detailModal.data)[i - 1].key, selectedStar) }}
                 </span>
@@ -406,7 +405,7 @@ bondsList.forEach(b => {
 const ATTRIBUTE_MAP = [
   { key: 'STR', name: '力量', icon: 'mid_ico_attribute_0004.png' },
   { key: 'INT', name: '精神', icon: 'mid_ico_attribute_0002.png' },
-  { key: 'DEX', name: '敏捷', icon: 'mid_ico_attribute_0005.png' },
+  { key: 'DEX', name: '敏捷', icon: 'mid_ico_attribute_0005.webp' },
   { key: 'CONS', name: '生命', icon: 'mid_ico_attribute_0003.png' },
   { key: 'SPD', name: '速度', icon: 'mid_ico_attribute_0001.png' },
   { key: 'Luck', name: '幸运', icon: 'mid_ico_attribute_0010.png' },

@@ -79,13 +79,12 @@
           <div v-if="item.标签 === '专属' && item.SpecifyRoleIDs" class="talent-char-avatar-container">
             <img
               :src="`/Header/${item.SpecifyRoleIDs}.png`"
-              class="talent-char-avatar-img game-sprite"
-            />
+              class="talent-char-avatar-img game-sprite" loading="lazy" decoding="async" />
           </div>
 
           <span class="talent-name" :style="{ color: getTalentStepConfig(item.step).color }">{{ item.name }}</span>
 
-<!--          <img :src="`/Skill/${item.iconId}.png`" class="talent-skill-icon-standalone" />-->
+<!--          <img :src="`/Skill/${item.iconId}.png`" class="talent-skill-icon-standalone" loading="lazy" decoding="async" />-->
 
           <div class="talent-tag-dropdown-wrapper">
             <span
@@ -285,13 +284,12 @@
                 <div v-if="t.标签 === '专属' && t.SpecifyRoleIDs" class="talent-char-avatar-container">
                   <img
                     :src="`/Header/${t.SpecifyRoleIDs}.png`"
-                    class="talent-char-avatar-img game-sprite"
-                  />
+                    class="talent-char-avatar-img game-sprite" loading="lazy" decoding="async" />
                 </div>
 
                 <span class="mtr-name" :style="{ color: getTalentStepConfig(t.step).color }">{{ t.name }}</span>
 
-<!--                <img :src="`/Skill/${t.iconId}.png`" class="talent-skill-icon-standalone" />-->
+<!--                <img :src="`/Skill/${t.iconId}.png`" class="talent-skill-icon-standalone" loading="lazy" decoding="async" />-->
 
                 <span class="mtr-tag">{{ t.标签 }}</span>
                 <span class="mtr-source">来源: {{ t.sourceLabel }}</span>

@@ -30,8 +30,7 @@
               <img
                 :src="imagesList[currentIndex]"
                 alt="新手攻略图"
-                class="strategy-preview-img"
-              />
+                class="strategy-preview-img" loading="lazy" decoding="async" />
               <div class="image-indicator">{{ currentIndex + 1 }} / {{ imagesList.length }}</div>
             </div>
 
@@ -57,7 +56,7 @@
               <div class="link-card-content-area">
                 <span class="link-title">{{ item.title }}</span>
                 <div v-if="item.img" class="link-img-slot" :class="{ 'placeholder-slot': item.img === '/misc/placeholder.png' }">
-                  <img v-if="item.img !== '/misc/placeholder.png'" :src="item.img" class="link-thumbnail" />
+                  <img v-if="item.img !== '/misc/placeholder.png'" :src="item.img" class="link-thumbnail" loading="lazy" decoding="async" />
                   <div v-else class="link-placeholder-box">
                     <span>(暂无预览图，改名即可显示)</span>
                   </div>
@@ -100,8 +99,7 @@
               transform: `translate(${translateX}px, ${translateY}px) scale(${scale})`,
               transition: isAnimating ? 'transform 0.2s ease-out' : 'none'
             }"
-            @dragstart.prevent
-          />
+            @dragstart.prevent loading="lazy" decoding="async" />
         </div>
 
         <button class="pure-nav-arrow expanded-arrow modal-arrow-right" @click.stop="nextExpandedImage">
@@ -122,10 +120,10 @@ defineProps({
 })
 
 const imagesList = [
-  '/misc/ylgl1.png',
-  '/misc/ylgl2.png',
-  '/misc/ylgl3.png',
-  '/misc/ylgl4.png'
+  '/misc/ylgl1.webp',
+  '/misc/ylgl2.webp',
+  '/misc/ylgl3.webp',
+  '/misc/ylgl4.webp'
 ]
 
 const guidesList = [

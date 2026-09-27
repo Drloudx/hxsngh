@@ -50,6 +50,24 @@ Hxsngh 是面向凉屋游戏《幻想少女公会》玩家的非官方助手工�
 - `android/app/src/main/java/.../MainActivity.java`：WebView 容器、热更新和原生桥接逻辑
 - `tools/`：数据表同步、图片提取清洗与装备掉落概率模拟工具套件（详见 [tools/README.md](tools/README.md)）
 
+## 开发文档
+
+接手本项目**先读 [docs/HANDOFF.md](docs/HANDOFF.md)**（当前状态、环境、常用命令、避坑），再读 [docs/SPEC.md](docs/SPEC.md)（22 个页面契约、数据链、来源边界）。
+
+| 文档 | 内容 |
+| --- | --- |
+| [docs/README.md](docs/README.md) | 文档导航 |
+| [docs/SPEC.md](docs/SPEC.md) | 项目总览、页面契约、共享模块、数据与来源、资源维护、验收 |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 目录职责、分层、应用外壳机制、构建与发布 |
+| [docs/UI_COMPONENT_LIBRARY.md](docs/UI_COMPONENT_LIBRARY.md) | 设计系统、公共组件 API、页面骨架模板、改动自查清单 |
+| [docs/KNOWN_BUGS_AND_FIXES.md](docs/KNOWN_BUGS_AND_FIXES.md) | 故障现象、根因与排查入口 |
+| [docs/HANDOFF.md](docs/HANDOFF.md) | 交接说明 |
+| [docs/technical/](docs/technical/) | 数据表契约、掉落概率模型、热更新协议、图片资源流水线 |
+| [docs/features/](docs/features/) | 指定招募、天赋管理、大果记录、概率类页面专题 |
+| [docs/dev-logs/](docs/dev-logs/) | 每日开发汇总 |
+
+> 游戏原始数据、反编译源码与拉取工具的说明不在本仓库内维护，见工作区 `游戏数据/README.md`。
+
 ## 本地运行
 
 环境要求：Node.js `20.19+` 或 `22.12+`，Python `3.10+`。

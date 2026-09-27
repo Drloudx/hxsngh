@@ -191,8 +191,7 @@
             :src="`/RoleCard/${char.id.replace(/^M/, 'MD')}.png`"
             :alt="char.displayName"
             class="role-avatar-img game-sprite"
-            @error="handleCardError"
-          />
+            @error="handleCardError" loading="lazy" decoding="async" />
         </div>
         <!-- Card Name Label: Wrapping allowed for long names -->
         <div class="role-card-name-label" :style="{ color: getStepConfig(char.step).color }">
@@ -230,8 +229,7 @@
             :src="`/RoleDraw/${selectedChar.id}_1__single_part1_1@1.png`"
             :alt="selectedChar.displayName"
             class="detail-portrait-img game-sprite"
-            @error="handleDrawError"
-          />
+            @error="handleDrawError" loading="lazy" decoding="async" />
         </div>
 
         <!-- 4 basic tags (Uniform color & less rounded) -->
@@ -269,7 +267,7 @@
 
             <div class="detail-card-attributes">
               <div v-for="attr in charBaseAttrs" :key="attr.key" class="base-attr-tag">
-                <img :src="`/General/${attr.icon}`" class="attr-mini-icon game-sprite" />
+                <img :src="`/General/${attr.icon}`" class="attr-mini-icon game-sprite" loading="lazy" decoding="async" />
                 <span>{{ attr.name }} {{ attr.value }}</span>
               </div>
             </div>
@@ -290,7 +288,7 @@
             >
               <div class="card-item-header">
                 <div class="card-item-icon-box">
-                  <img :src="`/Skill/${sk.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" />
+                  <img :src="`/Skill/${sk.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" loading="lazy" decoding="async" />
                 </div>
                 <div class="card-item-meta">
                   <span class="card-item-name">{{ sk.name }}</span>
@@ -311,7 +309,7 @@
             <div v-else class="detail-card-item">
               <div class="card-item-header">
                 <div class="card-item-icon-box">
-                  <img :src="`/Skill/${normalAttackDetail.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" />
+                  <img :src="`/Skill/${normalAttackDetail.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" loading="lazy" decoding="async" />
                 </div>
                 <div class="card-item-meta">
                   <span class="card-item-name">{{ normalAttackDetail.name }}</span>
@@ -329,7 +327,7 @@
             <div v-else class="detail-card-item">
               <div class="card-item-header">
                 <div class="card-item-icon-box">
-                  <img :src="`/Skill/${raceDetail.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" />
+                  <img :src="`/Skill/${raceDetail.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" loading="lazy" decoding="async" />
                 </div>
                 <div class="card-item-meta">
                   <span class="card-item-name">{{ raceDetail.name }}</span>
@@ -351,7 +349,7 @@
               >
                 <div class="card-item-header">
                   <div class="card-item-icon-box">
-                    <img :src="`/Skill/${sk.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" />
+                    <img :src="`/Skill/${sk.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" loading="lazy" decoding="async" />
                   </div>
                   <div class="card-item-meta">
                     <span class="card-item-name">{{ sk.name }}</span>
@@ -376,7 +374,7 @@
             >
               <div class="relic-header">
                 <div class="relic-title-left">
-                  <img :src="`/Relics/${relic.IDs}.png`" class="relic-icon game-sprite" @error="handleRelicIconError" />
+                  <img :src="`/Relics/${relic.IDs}.png`" class="relic-icon game-sprite" @error="handleRelicIconError" loading="lazy" decoding="async" />
                   <span class="relic-name" :style="{ color: getStepConfig(relic.Step).color }">{{ relic.Name }}</span>
                 </div>
                 <span class="relic-badge" :style="{ color: getStepConfig(relic.Step).color, borderColor: getStepConfig(relic.Step).color }">
@@ -428,7 +426,7 @@
                     class="clover-added-item"
                   >
                     <div class="clover-item-left">
-                      <img :src="`/Relics/${relic.IDs}.png`" class="clover-item-icon game-sprite" @error="handleRelicIconError" />
+                      <img :src="`/Relics/${relic.IDs}.png`" class="clover-item-icon game-sprite" @error="handleRelicIconError" loading="lazy" decoding="async" />
                       <div class="clover-item-text">
                         <div class="clover-item-line1">
                           <span class="clover-item-name" :style="{ color: getStepConfig(relic.Step).color }">{{ relic.Name }}</span>
@@ -1041,7 +1039,7 @@ const charBaseAttrs = computed(() => {
     { key: 'CONS', name: '生命', icon: 'mid_ico_attribute_0003.png', value: sums.CONS },
     { key: 'STR', name: '力量', icon: 'mid_ico_attribute_0004.png', value: sums.STR },
     { key: 'INT', name: '精神', icon: 'mid_ico_attribute_0002.png', value: sums.INT },
-    { key: 'DEX', name: '敏捷', icon: 'mid_ico_attribute_0005.png', value: sums.DEX },
+    { key: 'DEX', name: '敏捷', icon: 'mid_ico_attribute_0005.webp', value: sums.DEX },
     { key: 'SPD', name: '速度', icon: 'mid_ico_attribute_0001.png', value: sums.SPD },
     { key: 'Tough', name: '韧性', icon: 'mid_ico_attribute_0009.png', value: sums.Tough },
     { key: 'Weak', name: '弱点', icon: 'mid_ico_attribute_0008.png', value: sums.Weak },
@@ -1259,11 +1257,11 @@ const closeDetail = () => {
 
 // Image fallback handlers
 const handleCardError = (e) => {
-  e.target.src = '/Header/M00000.png'
+  e.target.src = '/Header/M00000.webp'
 }
 
 const handleDrawError = (e) => {
-  e.target.src = '/Header/M00000.png'
+  e.target.src = '/Header/M00000.webp'
 }
 
 const handleSkillIconError = (e) => {
@@ -1271,6 +1269,7 @@ const handleSkillIconError = (e) => {
 }
 
 const handleRelicIconError = (e) => {
+  // 兜底图保留 PNG：它体积已极小（0.5KB），转换器跳过；写成 .webp 会死链
   e.target.src = '/Relics/Mark.png'
 }
 </script>

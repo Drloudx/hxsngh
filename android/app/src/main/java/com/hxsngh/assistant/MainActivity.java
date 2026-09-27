@@ -688,7 +688,9 @@ public class MainActivity extends BridgeActivity {
                     zipInput.closeEntry();
                     continue;
                 }
-                if (name.endsWith("opencv.js")) {
+                // opencv 引擎（opencv.js + 外置 opencv_js.wasm）随 APK 内置，
+                // 不进热更包：两者必须成对，版本错配会导致 wasm 初始化失败。
+                if (name.endsWith("opencv.js") || name.endsWith("opencv_js.wasm")) {
                     zipInput.closeEntry();
                     continue;
                 }
@@ -791,6 +793,9 @@ public class MainActivity extends BridgeActivity {
         if (name.endsWith(".css")) return "text/css";
         if (name.endsWith(".html")) return "text/html";
         if (name.endsWith(".json")) return "application/json";
+        // wasm 必须是 application/wasm，否则 WebAssembly.instantiateStreaming 会拒绝，
+        // 只能退化到 arrayBuffer 编译（仍可用但更慢、更吃内存）。
+        if (name.endsWith(".wasm")) return "application/wasm";
         if (name.endsWith(".svg")) return "image/svg+xml";
         if (name.endsWith(".png")) return "image/png";
         if (name.endsWith(".jpg") || name.endsWith(".jpeg")) return "image/jpeg";

@@ -187,7 +187,7 @@
         >
           <div class="stone-card-left">
             <div class="stone-avatar-box" :style="{ background: getStepBg(stone.Step) }">
-              <img :src="getStoneIcon(stone.IDs)" :alt="stone.Name" class="stone-img game-sprite" />
+              <img :src="getStoneIcon(stone.IDs)" :alt="stone.Name" class="stone-img game-sprite" loading="lazy" decoding="async" />
             </div>
           </div>
 
@@ -221,7 +221,7 @@
         <div class="modal-body stone-modal-body">
           <div class="modal-avatar-area">
             <div class="modal-stone-avatar" :style="{ background: getStepBg(selectedStone.Step) }">
-              <img :src="getStoneIcon(selectedStone.IDs)" :alt="selectedStone.Name" class="game-sprite" />
+              <img :src="getStoneIcon(selectedStone.IDs)" :alt="selectedStone.Name" class="game-sprite" loading="lazy" decoding="async" />
             </div>
             <div class="modal-stone-main-info">
               <div class="modal-name-row">
