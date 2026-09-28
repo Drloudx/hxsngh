@@ -132,105 +132,30 @@ const guidesList = [
     title: '空白合集',
     list: [
       {
-        title: '加速流剑仙养成攻略',
-        url: 'https://www.taptap.cn/moment/823714731637345966',
-        img: '/misc/kb5.webp'
+        title: '【攻略】未战娜迦养成攻略',
+        url: 'https://www.taptap.cn/moment/852282647517335267',
+        img: '/misc/kb6.webp'
       },
       {
-        title: '【攻略】专天剑仙养成攻略(极简版)',
-        url: 'https://www.taptap.cn/moment/821847725967409310?share_id=0e595784f632&utm_medium=share&utm_source=copylink',
-        img: '/misc/kb1.webp'
-      },
-      {
-        title: '【攻略】万血流黄金女养成攻略',
-        url: 'https://www.taptap.cn/moment/824051956220690790',
-        img: '/misc/kb4.webp'
-      },
-      {
-        title: '新神飞升--净化史菇龙养成攻略',
-        url: 'https://www.taptap.cn/moment/822678573893552294',
-        img: '/misc/kb2.webp'
-      },
-      {
-        title: '【攻略】恶意冰邪队，从入门到入土',
-        url: 'https://www.taptap.cn/moment/794308378267487774?share_id=b780e41c234d&utm_medium=share&utm_source=copylink',
-        img: '/misc/kb3.webp'
+        title: '【攻略】五大水兔养成攻略',
+        url: 'https://www.taptap.cn/moment/852687875370650468',
+        img: '/misc/kb7.webp'
       }
     ]
   },
     {
-    author: '冰皇晶',
-    title: '冰皇晶',
+    author: '冰晶皇',
+    title: '冰晶皇',
     list: [
+      {
+        title: '【攻略】嗜血龙',
+        url: 'https://www.taptap.cn/moment/852608214364062852',
+        img: '/misc/bjh2.webp'
+      },
       {
         title: '【攻略】冰火队',
         url: 'https://www.taptap.cn/moment/825125419110893038',
         img: '/misc/bjh1.webp'
-      }
-    ]
-  },
-  {
-    author: '来年祈风信',
-    title: '来年祈风信',
-    list: [
-      {
-        title: '【攻略】低配火龙开荒攻略（精简版）',
-        url: 'https://www.taptap.cn/moment/822495039757225902',
-        img: '/misc/fx1.webp'
-      }
-    ]
-  },
-  {
-    author: '葱伴土豆泥',
-    title: '葱伴土豆泥合集',
-    list: [
-      {
-        title: '【攻略】公主飞升传（开篇）——超越巨灵的顶级开荒阵容！',
-        url: 'https://www.taptap.cn/moment/806995105993982429?share_id=7611f09abc16&utm_medium=share&utm_source=copylink',
-        img: '/misc/tdn1.webp'
-      },
-      {
-        title: '【攻略】平民焚决——热血巨灵枪',
-        url: 'https://www.taptap.cn/moment/789557923113075768?share_id=e6bcb3cc99f7&utm_medium=share&utm_source=copylink',
-        img: '/misc/tdn2.webp'
-      },
-      {
-        title: '【攻略】拉条自由！——水晶菇、彩贝无天赋单人自体五大拉条全队',
-        url: 'https://www.taptap.cn/moment/804366638940948955?share_id=28c7d780efee&utm_medium=share&utm_source=copylink',
-        img: '/misc/tdn3.webp'
-      }
-    ]
-  },
-  {
-    author: 'lanceyy',
-    title: 'lanceyy',
-    list: [
-      {
-        title: '【攻略】鼓舞幸运兔异化魔术 单拉人马/战祭/彩贝 双招财刷钱刷装',
-        url: 'https://www.taptap.cn/moment/790590727292715354?share_id=6e1ee8bd5815&utm_medium=share&utm_source=copylink',
-        img: '/misc/lan1.webp'
-      }
-    ]
-  },
-  {
-    author: '樱',
-    title: '樱',
-    list: [
-      {
-        title: '[攻略]新手也能轻松做到的单辅15大',
-        url: 'https://www.taptap.cn/moment/805570457490162232',
-        img: '/misc/ying1.webp'
-      }
-    ]
-  },
-  {
-    author: '纯爱战士虎鲸',
-    title: '纯爱战士虎鲸',
-    list: [
-      {
-        title: '冰剑攻略2.0震撼来袭',
-        url: 'https://www.taptap.cn/moment/819020737686798410?share_id=3e519b21d365&utm_medium=share&utm_source=copylink',
-        img: '/misc/hj1.webp'
       }
     ]
   }
@@ -458,7 +383,10 @@ const handleMouseUp = () => { isDragging = false }
 
 .link-img-slot {
   width: 100%;
-  height: 120px;
+  /* 高度交给图片自己决定（见 .link-thumbnail）：
+     固定高度 + object-fit 必然产生"裁切(cover)"或"留黑边(contain)"二选一，
+     让容器跟着图片比例走就两者都不会发生。min-height 只用于图未加载时的占位。 */
+  min-height: 160px;
   border-radius: 8px;
   overflow: hidden;
   background: var(--bg);
@@ -470,16 +398,21 @@ const handleMouseUp = () => { isDragging = false }
 }
 
 .link-img-slot.placeholder-slot {
+  min-height: 0;
   height: 32px;
   background: transparent;
   border: 1px dashed var(--border-color);
 }
 
+/* 缩略图完整可见：
+   `width:100% + height:auto`（且**不设 max-height**）让盒子比例恒等于原图比例，
+   于是既不被裁切、也不留黑边；不同比例的封面（720×640 / 1084×609 / 1264×710）都正常。
+   不再用 image-rendering: pixelated —— 这些是游戏截图不是像素画，
+   pixelated 在缩放时会产生锯齿块状感（顶部轮播图用的是默认平滑渲染）。 */
 .link-thumbnail {
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  image-rendering: pixelated;
+  height: auto;
 }
 
 .link-placeholder-box {
@@ -492,5 +425,5 @@ const handleMouseUp = () => { isDragging = false }
   justify-content: center;
 }
 
-@media (max-width: 600px) { .talent-card { padding: 14px; border-radius: 16px; } .image-slide-window { height: 170px; } .arrow-svg-icon { width: 20px; height: 20px; } .modal-arrow-color { width: 28px; height: 28px; } .modal-arrow-left { left: 6px; } .modal-arrow-right { right: 6px; } }
+@media (max-width: 600px) { .talent-card { padding: 14px; border-radius: 16px; } .image-slide-window { height: 170px; } .arrow-svg-icon { width: 20px; height: 20px; } .modal-arrow-color { width: 28px; height: 28px; } .modal-arrow-left { left: 6px; } .modal-arrow-right { right: 6px; } .link-img-slot { min-height: 0; } }
 </style>
