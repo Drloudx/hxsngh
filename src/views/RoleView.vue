@@ -191,7 +191,7 @@
             :src="`/RoleCard/${char.id.replace(/^M/, 'MD')}.png`"
             :alt="char.displayName"
             class="role-avatar-img game-sprite"
-            @error="handleCardError" loading="lazy" decoding="async" />
+            loading="lazy" decoding="async" />
         </div>
         <!-- Card Name Label: Wrapping allowed for long names -->
         <div class="role-card-name-label" :style="{ color: getStepConfig(char.step).color }">
@@ -229,7 +229,7 @@
             :src="`/RoleDraw/${selectedChar.id}_1__single_part1_1@1.png`"
             :alt="selectedChar.displayName"
             class="detail-portrait-img game-sprite"
-            @error="handleDrawError" loading="lazy" decoding="async" />
+            loading="lazy" decoding="async" />
         </div>
 
         <!-- 4 basic tags (Uniform color & less rounded) -->
@@ -1256,14 +1256,10 @@ const closeDetail = () => {
 }
 
 // Image fallback handlers
-const handleCardError = (e) => {
-  e.target.src = '/Header/M00000.webp'
-}
-
-const handleDrawError = (e) => {
-  e.target.src = '/Header/M00000.webp'
-}
-
+// 角色卡与立绘**不在这里兜底**：它们走 App.vue 的全局 handleImageError
+// （先换扩展名 .png↔.webp，再按身份退到该角色头像）。
+// 视图里自挂 @error 会先于 window 捕获执行，把 src 直接改成通用兜底图，
+// 导致全局换装失效 —— 213 张角色卡全显示同一张图就是这么来的。
 const handleSkillIconError = (e) => {
   e.target.src = '/Skill/TB00001.png'
 }

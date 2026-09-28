@@ -29,34 +29,91 @@ const handleGlobalClick = (e) => {
 }
 
 /**
- * 图片扩展名回退：.png ↔ .webp
+ * 图片扩展名回退 + 身份兜底：统一在这里做，视图**不要**再挂 @error
  *
  * 背景：`public/` 下这些目录的图**部分已转 WebP、部分保留 PNG**
  * （转换按"至少省 15%"决定，已有高压缩 WebP 重编码反而变大，故意跳过）。
  * 而路径是 `模板字符串 + .png` 拼出来的（54 处），写死任一扩展名都会对另一部分死链。
  *
- * 做法：不碰那 54 处模板，改用一个**全局捕获阶段**的 error 监听：
- * 图片 404 时若同一路径存在另一种扩展名，就换过去重试一次。
- * 这样 `.png` / `.webp` 两种写法都能正确显示，无需运行时探测、无需改动视图代码。
+ * 两个层级，顺序执行：
+ *   1. 换扩展名重试一次（.png ↔ .webp）—— 覆盖"图存在但扩展名写错"。
+ *   2. 仍然失败时按身份兜底 —— 角色卡 `RoleCard/MD<id>` 退回该角色的头像
+ *      `Header/<id>`（有辨识度），再不行才退通用占位图。
+ *
+ * ⚠️ 踩过的坑：视图里如果自己挂 `@error`，**元素上的监听会先于 window 捕获执行**，
+ * 于是 src 被视图改成通用兜底图、全局处理器看到已是 .webp 就放弃换装 ——
+ * 结果 213 张角色卡全部显示同一张兜底图（已修：RoleView 的 @error 已移除）。
  *
  * 注意：capture=true 才能捕获到资源加载错误 —— error 事件在 img 上**不冒泡**。
  */
 const IMAGE_EXT_DIRS = /^\/(Equip|AreaBlock|RoleCard|RoleDraw|Skill|Header|lime|Shop|DungeonRelics|GodStone|Relics|Rune|Foretell|ParagonPrefix|Bond)\//
 const SWAP_EXT = { '.png': '.webp', '.webp': '.png' }
+// 通用占位图（通用头像，任何角色都能退到它）
+const GENERIC_IMAGE_FALLBACK = '/Header/M00000.webp'
+
+/**
+ * 从图片路径里抽出"角色身份 ID"。
+ *
+ * 实测规则：常规身份就是 `M` + 数字；**唯一的合法后缀是 Header 的 `_NNN`（恰好三位）**，
+ * 如 `M11005_001`。而 `_1` / `_2` 是 RoleDraw 的姿势序号、`@1` 是分片号，都属于"非身份"，
+ * 必须砍掉，否则 `M11001_1__single_part1_1@1` 会被误判成 `M11001_1`。
+ *
+ *   RoleCard/MD11001                    → M11001
+ *   RoleCard/MD00000_2                  → M00000
+ *   RoleDraw/M11001_1__single_part1_1@1 → M11001
+ *   Header/M11005_001                   → M11005_001
+ */
+const extractRoleIdentity = (fileName) => {
+  // Header 的 `_NNN` 身份后缀，必须优先且精确匹配（三位数字）
+  const h = fileName.match(/^(M[A-Za-z]*\d+_\d{3})(?=$|[._@-])/)
+  if (h) return h[1].replace(/^MD/, 'M')
+  // 其余形态：先砍掉 `__` 之后的姿势尾巴与 `@` 分片号，再取 `M` + 数字
+  const cleaned = fileName.split('__')[0].split('@')[0]
+  const m = cleaned.match(/^(M[A-Za-z]*\d+)/)
+  if (!m) return ''
+  return m[1].replace(/^MD/, 'M')
+}
 
 const handleImageError = (e) => {
   const el = e.target
   if (!el || el.tagName !== 'IMG') return
-  if (el.dataset.extSwapped === '1') return          // 每种扩展名只试一次，避免死循环
   const current = el.getAttribute('src') || ''
   if (!current.startsWith('/') || !IMAGE_EXT_DIRS.test(current)) return
   const dot = current.lastIndexOf('.')
   if (dot < 0) return
+  const path = current.slice(0, dot)
   const ext = current.slice(dot).toLowerCase()
-  const alt = SWAP_EXT[ext]
-  if (!alt) return
-  el.dataset.extSwapped = '1'
-  el.src = current.slice(0, dot) + alt
+  const dir = path.slice(0, path.lastIndexOf('/'))
+  const fileName = path.slice(path.lastIndexOf('/') + 1)
+
+  // 第 1 层：换扩展名重试（每种扩展名只试一次，避免死循环）
+  if (el.dataset.extSwapped !== '1') {
+    const alt = SWAP_EXT[ext]
+    if (alt && alt !== ext) {
+      el.dataset.extSwapped = '1'
+      el.src = path + alt
+      return
+    }
+  }
+
+  // 第 2 层：按身份兜底（只试一次）—— 退回该角色**自己的**头像，比通用占位图有辨识度。
+  // 解析不出身份（如 RoleCard/Mark.png 这类非角色图）时不消费这次机会，直接落到第 3 层。
+  if (el.dataset.idFallback !== '1') {
+    const id = extractRoleIdentity(fileName)
+    if (id && /^M[A-Za-z]*\d/.test(id)) {
+      el.dataset.idFallback = '1'
+      if (dir === '/RoleCard' || dir === '/Header' || dir === '/RoleDraw') {
+        el.src = `/Header/${id}.webp`
+        return
+      }
+    }
+  }
+
+  // 第 3 层：通用占位图
+  if (el.dataset.genericFallback !== '1' && current !== GENERIC_IMAGE_FALLBACK) {
+    el.dataset.genericFallback = '1'
+    el.src = GENERIC_IMAGE_FALLBACK
+  }
 }
 
 onMounted(() => {
@@ -555,6 +612,38 @@ const showVersionAlert = ref(false)
 const versionAlertMessage = ref('')
 // 手动「检测更新」时的四版本对比数据（本地/远端 × 包体/热更）
 const versionDetail = ref(null)
+// 版本检测弹窗的状态：idle=已显示本地版本待用户点「检查更新」；checking=请求中
+const updateCheckStatus = ref('idle')
+
+/** 读取本地两个版本（弹窗打开时先展示，不必等网络） */
+const getLocalVersions = () => {
+  const nativeVer = window.__APK_VERSION__
+  if (nativeVer && nativeVer !== '0.0.0') localStorage.setItem('apk_cached_version', nativeVer)
+  const cachedVer = localStorage.getItem('apk_cached_version')
+  const apkRaw = (nativeVer || cachedVer || window.__APP_VERSION__ || '0.0.0').replace(/^v?/, 'v')
+  const webRaw = (localStorage.getItem('local_web_version') || apkRaw).replace(/^v?/, 'v')
+  return { localApkVer: apkRaw, localWebVer: webRaw }
+}
+
+/** 点设置里的「检测更新」：先开弹窗，由用户在弹窗里点「检查更新」再发请求 */
+const openUpdateCheck = () => {
+  const { localApkVer, localWebVer } = getLocalVersions()
+  updateCheckStatus.value = 'idle'
+  versionAlertMessage.value = ''
+  // 先填本地两行，远端留空 —— 用户马上能看到内容，不用干等网络
+  versionDetail.value = {
+    localApkVer,
+    remoteApkVer: '',
+    localWebVer,
+    remoteWebVer: '',
+    apkOutdated: false,
+    webOutdated: false,
+    apkNotPublished: false,
+    hotManifest: null,
+    pending: true
+  }
+  showVersionAlert.value = true
+}
 
 /** 点击对比面板里的「更新热更」 */
 const applyHotFromVersionPanel = () => {
@@ -692,12 +781,13 @@ const checkUpdate = async (silent) => {
     const localApkVer = (nativeVer || cachedVer || window.__APP_VERSION__ || '0.0.0').replace(/^v?/, 'v')
     const localWebVer = (localStorage.getItem('local_web_version') || localApkVer).replace(/^v?/, 'v')
 
-    // 远端两个版本：APK Release 与热更清单
-    const info = await fetchLatestRelease()
+    // 两个远端源**并行**请求：APK Release（Gitee API）与热更清单（Gitee raw）。
+    // 原先串行 await，用户点「检查更新」要等两轮往返；两个源互不依赖，并行即可砍掉一半等待。
+    const [info, hot] = await Promise.all([
+      fetchLatestRelease(),
+      checkHotUpdate().catch(() => null)
+    ])
     const remoteApkVer = String(info.version || '').replace(/^v?/, 'v')
-
-    let hot = null
-    try { hot = await checkHotUpdate() } catch { hot = null }
     const remoteWebVer = hot ? String(hot.version).replace(/^v?/, 'v') : localWebVer
 
     const apkOutdated = compareVersions(remoteApkVer, localApkVer) > 0
@@ -734,10 +824,12 @@ const checkUpdate = async (silent) => {
 
     // 手动检查：APK 有更新 → 直接进 APK 弹窗；否则展示版本对比
     if (apkOutdated) {
+      showVersionAlert.value = false
       updateInfo.value = info
       showUpdateModal.value = true
       return
     }
+    // 走到这里说明可能是从「检测更新」弹窗触发的手动检查，弹窗已经开着
     showVersionAlert.value = true
   } catch (e) {
     if (!silent) {
@@ -746,6 +838,14 @@ const checkUpdate = async (silent) => {
       showVersionAlert.value = true
     }
   }
+}
+
+/** 弹窗内点「检查更新」 */
+const runUpdateCheck = async () => {
+  updateCheckStatus.value = 'checking'
+  versionAlertMessage.value = ''
+  await checkUpdate(false)
+  updateCheckStatus.value = 'idle'
 }
 
 const noticeVersion = computed(() => {
@@ -821,7 +921,7 @@ const borderNoticeRead = () => {
               <img src="/ui/announcement.svg" class="item-icon" />
               <span>公告</span>
             </div>
-            <div class="dropdown-item app-only" @click="isSettingsOpen = true ; checkUpdate(false)">
+            <div class="dropdown-item app-only" @click="isSettingsOpen = true ; openUpdateCheck()">
               <img src="/ui/update.svg" class="item-icon" />
               <span>检测更新</span>
             </div>
@@ -1006,19 +1106,27 @@ const borderNoticeRead = () => {
               <div class="version-grid-label">包体版本</div>
               <div class="version-grid-cell">{{ versionDetail.localApkVer }}</div>
               <div class="version-grid-cell" :class="{ 'is-newer': versionDetail.apkOutdated }">
-                {{ versionDetail.remoteApkVer }}
+                {{ versionDetail.remoteApkVer || (versionDetail.pending ? '—' : '') }}
                 <span v-if="versionDetail.apkOutdated" class="version-tag">可更新</span>
               </div>
 
               <div class="version-grid-label">热更版本</div>
               <div class="version-grid-cell">{{ versionDetail.localWebVer }}</div>
               <div class="version-grid-cell" :class="{ 'is-newer': versionDetail.webOutdated }">
-                {{ versionDetail.remoteWebVer }}
+                {{ versionDetail.remoteWebVer || (versionDetail.pending ? '—' : '') }}
                 <span v-if="versionDetail.webOutdated" class="version-tag">可更新</span>
               </div>
             </div>
 
-            <p class="version-summary" :class="{ 'is-ok': !versionDetail.webOutdated && !versionDetail.apkNotPublished }">
+            <!-- 未检查 / 检查中：给过程反馈，别让用户干等 -->
+            <p v-if="versionDetail.pending && updateCheckStatus === 'checking'" class="version-summary checking">
+              <span class="check-spinner" aria-hidden="true"></span>正在检查更新，请稍候…
+            </p>
+            <p v-else-if="versionDetail.pending" class="version-summary">
+              点下方「检查更新」开始检测。
+            </p>
+
+            <p v-else class="version-summary" :class="{ 'is-ok': !versionDetail.webOutdated && !versionDetail.apkNotPublished }">
               <template v-if="versionDetail.apkNotPublished">
                 远端热更跨了包体大版本，但对应的安装包还没发布，请稍后再试。
               </template>
@@ -1035,11 +1143,24 @@ const borderNoticeRead = () => {
           <p v-else class="modal-title-text" style="color:var(--text-main);font-size:16px">{{ versionAlertMessage }}</p>
         </div>
         <div class="modal-footer">
+          <!-- 已检查出热更新：给「更新热更」 -->
           <button
-            v-if="versionDetail && versionDetail.webOutdated"
+            v-if="versionDetail && !versionDetail.pending && versionDetail.webOutdated"
             class="modal-btn-confirm"
             @click="applyHotFromVersionPanel"
           >更新热更</button>
+          <!-- 检查中：按钮禁用，避免重复点 -->
+          <button
+            v-if="versionDetail && versionDetail.pending && updateCheckStatus === 'checking'"
+            class="modal-btn-confirm btn-disabled"
+            disabled
+          >检查中…</button>
+          <!-- 还没检查：给「检查更新」 -->
+          <button
+            v-else-if="versionDetail && versionDetail.pending"
+            class="modal-btn-confirm"
+            @click="runUpdateCheck"
+          >检查更新</button>
           <button class="modal-btn-confirm" @click="showVersionAlert = false; versionDetail = null">确定</button>
         </div>
       </div>
@@ -1796,6 +1917,31 @@ html:not([data-app-shell="true"]) .app-only { display: none !important; }
 .version-summary.is-ok {
   color: #059669;
   background: rgba(16, 185, 129, 0.1);
+}
+/* 检查中：中性色 + 转圈，和「有更新」（橙）/「已最新」（绿）区分开 */
+.version-summary.checking {
+  color: var(--text-sub);
+  background: rgba(59, 130, 246, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.check-spinner {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border: 2px solid rgba(59, 130, 246, 0.25);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: checkSpin 0.7s linear infinite;
+}
+@keyframes checkSpin {
+  to { transform: rotate(360deg); }
+}
+.modal-btn-confirm.btn-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* ===== 导入数据弹窗 ===== */
