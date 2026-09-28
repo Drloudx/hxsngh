@@ -5,9 +5,19 @@
     "title": "",
     "lines": [
       "如果你在使用老的网址，请使用新网址<a href=\"https://hxsngh.yxzmy.top\" style=\"color:#3b82f6\">https://hxsngh.yxzmy.top</a>",
-      "APP下载地址：<a href=\"/hxsnghv1.0.20.apk\" download class=\"notice-link\" style=\"color:#3b82f6\">点击下载</a>",
+      "APP下载地址：<a href=\"/hxsnghv1.0.22.apk\" download class=\"notice-link\" style=\"color:#3b82f6\">点击下载</a>",
       "遇到问题请及时加群反馈>幻想少女公会助手交流反馈群：<a href=\"https://qun.qq.com/universal-share/share?ac=1&authKey=4xp%2BlCmM2Q2gVIvW6a14yOEVtT%2BPLsY9DwmNSDRVTBkp8xcNO%2FTRo%2FOksMb528aW&busi_data=eyJncm91cENvZGUiOiI5NjQ3Njg3OTkiLCJ0b2tlbiI6Im1abkR4eDNDb09HeDZtV2QvNi9ZOTlMNWRhQVQxSDVGK2hSUmlmdkd6bm9hNGRIYjZnWFB6QitBd1A5NVhscmMiLCJ1aW4iOiIxOTY1MTYxNjQzIn0%3D&data=CcXqRPXmezEwvtBwz950aSAyBxYHidOpffYEE8nD1EB-WDcAI-CLzvlLLIavd-lpEuHEP9fCXE5i5Sh3aGjUmw&svctype=4&tempid=h5_group_info\" style=\"color:#3b82f6\">964768799</a>",
       "设置“切换菜单模式”可以在{{顶部}}、{{底部}}、{{侧边}}导航进行切换"
+    ]
+  },
+  {
+    "date": "9.28",
+    "title": "内容更新",
+    "lines": [
+      "{{大果记录}}页面更新：备注现在可以{{修改和删除}}了！点历史记录的「编辑」，备注会自动填入输入框，改完保存即可；把备注清空再保存就是删除",
+      "{{大果记录}}的备注框改为多行输入，长备注可以自动换行；今日记录的备注仍然按「{{来源*数量}}」在原有基础上追加，不会覆盖",
+      "新增全局「{{数据管理}}」入口（设置菜单内），导出与导入各提供两条通道：{{文件导出 / 文件导入}} 与 {{复制文本数据 / 粘贴文本数据}}",
+      "手机端如果选不了文件，可以直接用{{复制文本数据}}，然后{{粘贴文本数据}}导入"
     ]
   },
   {
