@@ -251,3 +251,63 @@ node tools/verify-talent-dropdown.mjs --serve dist --route /search
 > **不能只靠 `transform` 制造层叠上下文而不给 `z-index`**。
 > 5.2 的同类风险是**任何"展示态与排序键共用同一字段"的列表**：切换展示会写回排序字段就会跳位。
 > 规则已写进 [ARCHITECTURE §6.2.1](ARCHITECTURE.md) 与 [SPEC §3.3](SPEC.md)。
+
+---
+
+## 6. 热更包条目带 `./` 前缀 → App 全量更新失败
+
+**现象**：App 内弹「热更新 / **更新失败** / **热更新包缺少 index.html**」，点「重试」无效，
+连续 3 次后只能暂时关闭。**所有用户都中招**，且换网络、清缓存都没用。
+
+**根因**：`tools/pack-hotupdate.mjs` 用
+
+```js
+run('tar', ['-a', '-c', '-f', zipPath, '-C', staging, '.'])
+```
+
+bsdtar 会把末尾的 `.` 展开成 `./`，于是 **zip 里 4555 个条目全部带 `./` 前缀** ——
+`index.html` 实际叫 `./index.html`。而前端是**按精确键名**取：
+
+```js
+// src/utils/hotupdate.js:250
+const indexData = unzipped['index.html']
+if (!indexData) throw new Error('热更新包缺少 index.html')
+```
+
+fflate 复现（与 App 同库）：
+
+```
+含 index.html   : false
+含 ./index.html : true      ← 前端取的是上面那个
+```
+
+**为什么校验没拦住（更值得记的部分）**：打包器自己有一条校验，但它**把名字归一化了**：
+
+```js
+names = tar 输出.map(s => s.replace(/^\.\//, ''))    // ← 恰好把 "./" 洗掉
+if (!names.includes('index.html')) throw ...
+```
+
+于是脚本"自认为通过"，把坏包放行上线。**校验与被校验的消费方不同构，等于没校验。**
+
+**修法（两处，缺一不可）**：
+
+1. `pack-hotupdate.mjs` 改为**逐个列出 `staging` 的顶层条目**再打包（条目名就是 `index.html`、`assets/…`）；
+   并把校验换成**用前端同一个库 `fflate`、按精确键名验**，另加"任何条目都不许带 `./` 前缀"的硬断言。
+2. `hotupdate.js` 加一句兜底：`unzipped['index.html'] || unzipped['./index.html']`。
+   带前缀的包其实是**合法包**（原生 `ZipInputStream` 能正确解出），判它"缺 index.html"属于**过度严格**。
+   > 注意这条兜底要等**下次发 APK** 才生效，救不了已经装机的用户 —— 所以第 1 条才是正解。
+
+**回归方式**（新增常驻工具，双向都要过）：
+
+```powershell
+node tools/verify-hotupdate-package.mjs                  # 好包 → "通过 —— 可以上传"
+node tools/verify-hotupdate-package.mjs .badpkg.zip      # 坏包 → "失败 N 项，不要上传"
+```
+
+工具与 `hotupdate.js` 用同一个 `fflate`、同一套判断，**刻意不做任何名字归一化**。
+
+> **同类风险**：所有"生成物 → 消费方"的校验都要问一句 **"我验的是不是消费方真正看到的那个东西？"**
+> 归一化、trim、大小写折叠这类"顺手做的清理"，最容易把真实差异洗掉。
+> 同类教训在本项目已有两例：§5.3 的程序化 `element.click()` 不触发 `:hover`（测出假通过）、
+> 本节的 `replace(/^\.\//,'')`（校验洗掉前缀）。
