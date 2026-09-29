@@ -17,6 +17,7 @@
  *   压缩走 Windows 自带 bsdtar（tar.exe）, 它打出的 zip 是标准格式且能做 zip64。
  */
 import { spawnSync } from 'node:child_process'
+import { zipSync, unzipSync } from 'fflate'
 import { existsSync, mkdirSync, readdirSync, statSync, rmSync, copyFileSync, readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join, extname, relative, isAbsolute } from 'node:path'
@@ -34,6 +35,8 @@ const OUT_DIR = outIdx >= 0 && argv[outIdx + 1]
   : ROOT
 const CHUNK_MB = 9
 const MB = 1024 * 1024
+// zip 条目的固定时间戳（见打包处注释）：让输出字节级可复现
+const FIXED_MTIME = Date.UTC(2020, 0, 1)
 
 // 热更包排除名单：opencv 引擎随 APK 内置（必须与 opencv.js 成对），APK 是下载包
 const EXCLUDE_NAMES = new Set(['opencv.js', 'opencv_js.wasm', 'opencv.js.base64.bak'])
@@ -46,11 +49,6 @@ const EXCLUDE_EXTS = new Set(['.apk'])
 const isStrayRootZip = (name, atRoot) => atRoot && extname(name).toLowerCase() === '.zip'
 
 const fmt = (n) => (n / MB).toFixed(2) + ' MB'
-const run = (cmd, args, opts = {}) => {
-  const r = spawnSync(cmd, args, { stdio: 'inherit', shell: false, ...opts })
-  if (r.error) throw r.error
-  if (r.status !== 0) throw new Error(`${cmd} 退出码 ${r.status}`)
-}
 
 if (DO_BUILD) {
   console.log('== 构建 ==')
@@ -114,24 +112,49 @@ let names = []
 try {
   if (!existsSync(join(staging, 'index.html'))) throw new Error('暂存目录缺少 index.html（必须在 zip 根层）')
 
-  // ---------- 3. 压缩 ----------
+  // ---------- 3. 压缩：走 fflate（与前端读包**同一个库**） ----------
   if (existsSync(zipPath)) rmSync(zipPath, { force: true })
 
-  console.log('\n== 压缩 ==')
-  // ⚠️ 必须**逐个列出顶层条目**，绝不能写 `-C staging .`
-  //    bsdtar 会把 `.` 展开成 `./`，于是包里每个条目都带 `./` 前缀，
-  //    `index.html` 变成 `./index.html` —— 而前端是 `unzipped['index.html']` 精确取键，
-  //    直接抛「热更新包缺少 index.html」（真实事故：2026-09-29 一次发版全量失败）。
-  //    逐个列出后条目名就是 `index.html` / `assets/...`，与前端期望一致。
-  const topEntries = readdirSync(staging)
-  run('tar', ['-a', '-c', '-f', zipPath, '-C', staging, ...topEntries])
+  console.log('\n== 压缩（fflate）==')
+  // ⚠️ 为什么不用 bsdtar（两次真实事故都出在它身上）：
+  //
+  // ① `tar -a -c -f x.zip -C staging .` 会把 `.` 展开成 `./`，
+  //    于是每个条目都带 `./` 前缀，`index.html` 变成 `./index.html`；
+  //    而前端是 `unzipped['index.html']` **按精确键名**取 → 抛「热更新包缺少 index.html」。
+  //    （修正为逐个列出顶层条目能解掉这条，但解不掉下面这条）
+  //
+  // ② bsdtar 在 Windows 上按**本地 ANSI 码页（GBK）**写文件名，且**不置 UTF-8 标志位（bit 11 / 0x800）**；
+  //    实测同一中文名：bsdtar → 字节 `b1b8d3c3` flag=0x0008（UTF-8 位 = false），
+  //    fflate → 字节 `e5a487e794a8` flag=0x0800（UTF-8 位 = true）。
+  //    JS 侧 fflate 按 CP437 解出乱码键但 index.html 是 ASCII 能过闸，
+  //    交给原生后 `java.util.zip.ZipInputStream` 按 UTF-8 解 GBK 字节失败 →
+  //    **`java.util.zip.ZipException: MALFORMED`**（App 弹「更新失败 / MALFORMED[1]」）。
+  //
+  // 所以改用 fflate 自己打包：同一个库、同一套编码约定，源头消除这两类问题。
+  // 顺带不再依赖外部 tar，输出也更可复现。
+  const entryData = {}
+  ;(function collect(dir, rel) {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = join(dir, e.name)
+      const r = rel ? `${rel}/${e.name}` : e.name
+      if (e.isDirectory()) { collect(p, r); continue }
+      if (!e.isFile()) continue
+      if (EXCLUDE_NAMES.has(e.name) || EXCLUDE_EXTS.has(extname(e.name))) continue
+      if (isStrayRootZip(e.name, rel === '')) continue
+      // 逐文件给**固定 mtime**：fflate 默认写 Date.now()，会让每次打包的 md5 都不同，
+      // 于是清单里的 md5 永远比实际包"慢一拍"。固定后输出字节级可复现
+      // （同一份内容 → 同一个 md5），校验才有意义。
+      // 取 2020-01-01T00:00:00Z：落在 zip 规范允许的 1980~2099 区间内。
+      entryData[r] = [new Uint8Array(readFileSync(p)), { mtime: FIXED_MTIME }]
+    }
+  })(staging, '')
+  writeFileSync(zipPath, zipSync(entryData, { level: 6 }))
   zipSize = statSync(zipPath).size
-  console.log(`  dist.zip = ${fmt(zipSize)}`)
+  console.log(`  dist.zip = ${fmt(zipSize)}（${Object.keys(entryData).length} 个文件）`)
 
   // ---------- 4. 校验：用**前端同一个库**按**精确键名**验，不做任何归一化 ----------
   // 之前的校验是 `tar -tf` 后 `.replace(/^\.\//,'')` 再比对 —— 恰好把 `./` 前缀洗掉，
   // 于是"自认为通过"，而 App 那边取不到 index.html。校验必须与消费方同构。
-  const { unzipSync } = await import('fflate')
   const unzipped = unzipSync(new Uint8Array(readFileSync(zipPath)))
   const entryNames = Object.keys(unzipped)
 
@@ -152,8 +175,36 @@ try {
   if (!(`assets/${hashMatch[1]}.js` in unzipped)) {
     throw new Error(`index.html 引用了 assets/${hashMatch[1]}.js，但 zip 里没有这个条目`)
   }
+
+  // 非 ASCII 条目名必须置「UTF-8 标志位（bit 11 / 0x800）」。
+  // 这是本次 MALFORMED 事故的核心：bsdtar 写 GBK 字节却不置该位，
+  // 原生 java.util.zip.ZipInputStream 按 UTF-8 解码失败 → ZipException: MALFORMED。
+  // fflate 的 zipSync 会正确置位，这里再断言一次，防止以后有人换回外部打包工具又踩回去。
+  const rawZip = readFileSync(zipPath)
+  const eocd = rawZip.lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]))
+  const badEncoding = []
+  if (eocd >= 0) {
+    let p = rawZip.readUInt32LE(eocd + 16)
+    const total = rawZip.readUInt16LE(eocd + 10)
+    for (let i = 0; i < total && rawZip.readUInt32LE(p) === 0x02014b50; i++) {
+      const flag = rawZip.readUInt16LE(p + 8)
+      const nameLen = rawZip.readUInt16LE(p + 28)
+      const raw = rawZip.subarray(p + 46, p + 46 + nameLen)
+      if (!(flag & 0x800) && [...raw].some((b) => b >= 0x80)) {
+        badEncoding.push(raw.toString('utf8'))
+      }
+      p += 46 + nameLen + rawZip.readUInt16LE(p + 30) + rawZip.readUInt16LE(p + 32)
+    }
+  }
+  if (badEncoding.length) {
+    throw new Error(
+      `有 ${badEncoding.length} 个含非 ASCII 字符的条目名**没有置 UTF-8 标志位**（如 ${badEncoding[0]}）。` +
+      `原生 java.util.zip 会因解码失败抛 ZipException: MALFORMED，App 弹「更新失败 / MALFORMED[1]」。`,
+    )
+  }
   names = entryNames
   console.log(`  ✓ 条目名无 "./" 前缀；有 index.html；入口 JS assets/${hashMatch[1]}.js 也在包里（fflate 实测）`)
+  console.log(`  ✓ 非 ASCII 条目名的 UTF-8 标志位均已正确置位`)
   console.log(`    条目 ${entryNames.length} 个`)
 } finally {
   rmSync(staging, { recursive: true, force: true })
