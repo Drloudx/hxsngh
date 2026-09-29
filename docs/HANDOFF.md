@@ -216,8 +216,15 @@ cmd /c npm run build
 | 弹窗关闭按钮定位 | `node tools/verify-modal-close.mjs --serve dist` | 真开弹窗量 X 坐标，断言落在卡片头部；追加 `--simulate-bug` 可反向复现「全局样式泄漏」bug |
 | 天赋品质下拉框 | `node tools/verify-talent-dropdown.mjs --serve dist --route /talent\|/search` | 扫描多个滚动位置量下拉框被裁多少 + 切换品质后列表顺序是否变化 + 来源弹窗角色行有无头像 + 真实悬停下的层叠顺序 |
 | **热更包出厂体检** | `node tools/verify-hotupdate-package.mjs` | ★ 用**前端同一个 fflate**按**精确键名**验包：条目不许带 `./` 前缀、`index.html` 与入口 JS 都必须在。**上传前必跑** |
+| **图片健康（含"全同图"）** | `node tools/verify-avatar-health.mjs --serve dist` | ★ 不只看裂图，还看**头像有没有全退成兜底图** —— `verify-image-health.mjs` 查不出这一类（图是"加载成功"的，只是整页同一张） |
 
 > ⚠️ **不要用 PowerShell 直接跑 `tools/*.ps1` 或 `npm`**：本机执行策略禁止 `.ps1`（`npm.ps1` 同样被挡）。
+>
+> ⚠️ **不要在任何 `<img>` 上挂 `@error` 做兜底。** 元素上的监听会把 src 直接改成兜底图，
+> 全局 `handleImageError` 的 `.png ↔ .webp` 换装就再也没机会执行 ——
+> WebP 化后多数图只有 `.webp`，于是**整页图片全退成同一张占位图**。
+> 这条已踩过两次（213 张角色卡、整页角色头像），兜底统一配在 `App.vue` 的 `DIR_FALLBACK`。
+> 改完图片相关代码请跑 `node tools/verify-avatar-health.mjs --serve dist`。
 > 因此发布/校验工具都写成 **Node (.mjs) 或 Python**，避开这个坑。
 
 工作区级的游戏数据处理命令（拉表/反编译/提图）见 `E:\Desktop\html\hsxngh\游戏数据\README.md`。

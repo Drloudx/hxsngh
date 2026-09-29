@@ -354,5 +354,74 @@ misc/幻想少女新手攻略20260623（群友制作 @雨落）.xlsx   ← 中�
 
 > **同类风险**：**"写 zip 的工具"与"读 zip 的运行时"不是同一个实现时，编码约定必须显式确认。**
 > Windows 上的 `tar`/`Compress-Archive` 都可能按本地码页写名字；只要包里有非 ASCII 文件名就会中招。
-> 本项目的包**确实有**：`misc/幻想少女新手攻略….xlsx`（攻略下载）与 `备用/`（未使用但仍在包里）。
+> 本项目的包**确实有**：`misc/幻想少女新手攻略….xlsx`（攻略下载）与 `备用/`（未使用但仍在包内）。
 > **不要为了"用系统自带工具更省事"把打包换回外部 tar。**
+
+---
+
+## 8. 整页图片全变成占位图（页面 `@error` 抢跑全局换装）
+
+**现象**：`/talent-manage`（天赋管理）里**每一行的角色头像都是同一张通用占位图**，连角色名都分不出来。
+`/subskill`、`/unique` 也有（实测 20 张头像里 10 张 / 6 张是占位图）。
+
+**根因**：**页面自己给 `<img>` 挂了 `@error`，抢在全局处理器之前把 src 换成兜底图。**
+
+`App.vue` 里有一个全局 `handleImageError`（capture 阶段监听 `window`），负责
+「`.png ↔ .webp` 换装 → 按身份退到该角色头像 → 按目录退兜底图」。
+而 2026-09-28 图片 WebP 化之后，`Header` 目录变成 **214 个 `.webp` / 仅 24 个 `.png`**，
+模板拼出来的 `/Header/{id}.png` **大量 404** —— 全靠这个全局换装救回来。
+
+但只要页面自己挂一句
+
+```js
+const handleIconError = (e) => { e.target.src = '/Header/M00000.webp' }
+```
+
+元素上的监听就会把 src 直接改成通用占位图，**全局换装再没有机会执行**
+（无论两个监听器谁先跑，最终 src 都被页面改写）。于是整页头像退化成同一张图。
+
+**影响面**（本次一共 6 个页面 / 7 处）：
+
+| 页面 | 旧写法 | 后果 |
+| --- | --- | --- |
+| `TalentManageView` | `@error` → `/Header/M00000.webp`（5 处） | 整页头像全同图 ← 用户报的 |
+| `SubSkillView` / `UniqueView` | 同上（头像 + 技能小图） | 约三~五成头像退占位 |
+| `RelicsView` / `RoleView` | `@error` → `/Relics/Mark.png` | `Relics` 有 347 个 `.webp`，`.png` 不存在的心得全退 Mark |
+| `RoleView` | `@error` → `/Skill/TB00001.png` | 同类（Skill 全 png，较少触发） |
+| `PrefixView` | `@error` 把路径记进 `failedIcons`，`getPrefixIcon` 之后 `return null` | `ParagonPrefix` **100% `.webp`**，`.png` 必 404 → 路径被记失败，**重渲染即丢图**（实测修复后图标 48 → **53** 个） |
+| `GambleShopView` | `@error` 直接 `item.iconPath = ''` | `iconPath` 按 `.png` 拼，`/Shop` 45/104 只有 `.webp` → 图标被换成文字 |
+
+**修法**：
+
+1. **兜底策略收归一处**：`App.vue` 新增按目录的兜底表，第 3 层不再一律退通用头像：
+
+   ```js
+   const DIR_FALLBACK = {
+     '/Header': '/Header/M00000.webp', '/RoleCard': '/Header/M00000.webp', '/RoleDraw': '/Header/M00000.webp',
+     '/Relics': '/Relics/Mark.png', '/Skill': '/Skill/TB00001.png',
+   }
+   ```
+2. **删掉 5 个页面里所有"覆盖 src"的 `@error`**（`TalentManageView` / `SubSkillView` / `UniqueView` / `RelicsView` / `RoleView`）
+   —— 各页原本想要的兜底图，`DIR_FALLBACK` 已经一一对应。
+3. `PrefixView` 删掉 `failedIcons` 那层状态：`getPrefixIcon` 始终返回路径，换装交给全局。
+4. `GambleShopView` 保留"退文字占位"的语义（比错误图片合适），但**自己先做一次换装**，
+   用**页面私有标记** `dataset.shopExtSwapped` 保证只试一次 ——
+   不能写"等全局先换我再判"，因为两个监听器的执行顺序是实现细节。
+
+**回归方式**：新增 `tools/verify-avatar-health.mjs`，判据是**"最终有没有退成兜底图"**：
+
+```powershell
+node tools/verify-avatar-health.mjs --serve dist
+# 修复前：[X] 支援筛选 退兜底 10、技能筛选 退兜底 6
+# 修复后：[OK] 全部 退兜底 0、裂图 0
+```
+
+> ⚠️ **为什么原有巡检没抓到**：`tools/verify-image-health.mjs` 统计的是 `naturalWidth === 0`（裂图）。
+> 而这里图片是**加载成功**的 —— 只是全都同一张。**"没裂图"不等于"图是对的"。**
+>
+> ⚠️ 探针的静态服务**缺文件必须真返回 404**。第一版为了 SPA 回退把 404 伪装成 `200 + index.html`，
+> 结果"404 监听"永远抓不到，测出来的结论是假的。
+
+> **同类风险**：**不要在视图里给 `<img>` 挂 `@error`。** 兜底是全局策略，按目录配在 `DIR_FALLBACK`。
+> 这条已经踩过两次（§ 之前的 213 张角色卡、本节的整页头像），`App.vue` 的注释里也写了 ——
+> 但**没有强制手段**，只能靠 review 与这个巡检脚本。

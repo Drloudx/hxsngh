@@ -573,14 +573,35 @@ window.addEventListener('error', handleImageError, true)
 ```
 
 - 图片 404 → 若路径落在 `IMAGE_EXT_DIRS` 白名单目录里 → `.png ↔ .webp` 换一次
-- `el.dataset.extSwapped === '1'` **防止无限循环**（两种扩展名都失败就交给 `@error` 兜底图）
+- `el.dataset.extSwapped === '1'` **防止无限循环**（两种扩展名都失败才继续往下走）
+- 再失败：角色类目录按**身份**退到该角色头像；最后按**目录**退兜底图（见下）
 - 实测 18 个页面 1330 张图 **裂图 0**，回退实际触发 **201 次**
 
-> ⚠️ 跑 `optimize_images.py --apply` **之后必须**依次跑这三个校验，缺一不可：
+**⚠️ 视图里不要给 `<img>` 挂 `@error` 做兜底（踩过两次，别再犯）**
+
+元素上的监听会把 `src` 直接改成兜底图，**全局换装就再也没机会执行** ——
+而 WebP 化后多数图只有 `.webp`，于是**整页图片全退成同一张占位图**。
+（第一次：213 张角色卡全同图；第二次：`/talent-manage` 等页面的角色头像全同图。）
+
+兜底策略统一配在 `App.vue` 的 `DIR_FALLBACK`，第 3 层按目录选图：
+
+```js
+const DIR_FALLBACK = {
+  '/Header': '/Header/M00000.webp', '/RoleCard': '/Header/M00000.webp', '/RoleDraw': '/Header/M00000.webp',
+  '/Relics': '/Relics/Mark.png', '/Skill': '/Skill/TB00001.png',
+}
+```
+
+> 例外只有一处：`GambleShopView` 的道具图标是"**退成文字占位**"而非换图（语义不同），
+> 它保留 `@error`，但**自己做一次扩展名换装**、且用**页面私有标记** `dataset.shopExtSwapped`
+> 保证只试一次 —— 不能写"等全局先换我再判"，两个监听器的执行顺序是实现细节。
+
+> ⚠️ 跑 `optimize_images.py --apply` **之后必须**依次跑这四个校验，缺一不可：
 > ```
 > python tools/check_asset_links.py                  # 静态死链（能抓到转换器误改兜底图常量）
 > python tools/audit_dynamic_refs.py --verify-webp    # 动态路径覆盖率（表驱动的离线解析）
 > node   tools/verify-image-health.mjs                # 真实浏览器逐页裂图统计
+> node   tools/verify-avatar-health.mjs --serve dist  # ★ 头像有没有全退成兜底图
 > ```
 > 已发生过一次真实事故：转换器把 `'/Relics/Mark.png'` 改成 `.webp`，而 `Mark` 只有 `.png`。
 
