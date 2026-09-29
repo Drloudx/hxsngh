@@ -39,6 +39,12 @@ const MB = 1024 * 1024
 const EXCLUDE_NAMES = new Set(['opencv.js', 'opencv_js.wasm', 'opencv.js.base64.bak'])
 const EXCLUDE_EXTS = new Set(['.apk'])
 
+// dist **根层**的 .zip 一律排除，并明确告警。
+// 真踩过：有人把整个 dist 压成 zip 放在 dist/ 里，若不排除，这坨 8.5 MB 会原样进热更包
+// （包体几乎翻倍，且用户白下 8.5 MB 无用数据）。根层本来就只该有 index.html / opencv / apk 等。
+// 只对根层生效 —— public/ 子目录里的 .zip 若是真资源仍照常打包。
+const isStrayRootZip = (name, atRoot) => atRoot && extname(name).toLowerCase() === '.zip'
+
 const fmt = (n) => (n / MB).toFixed(2) + ' MB'
 const run = (cmd, args, opts = {}) => {
   const r = spawnSync(cmd, args, { stdio: 'inherit', shell: false, ...opts })
@@ -69,6 +75,12 @@ console.log(`  需要排除且确实存在的: ${present.length ? '' : '(无)'}`
 skipped.forEach((s) => console.log(s))
 if (!present.includes('opencv.js')) console.warn('  ⚠ 未在 dist 根层发现 opencv.js，dist 可能不完整')
 if (present.some((n) => n.endsWith('.bak'))) console.warn('  ⚠ 发现 .bak 备份文件混进 dist，请检查 public/ 下是否有备份')
+const strayZips = distFiles.filter((e) => e.isFile() && isStrayRootZip(e.name, true))
+if (strayZips.length) {
+  console.warn('  ⚠ dist 根层发现 .zip（不是要发布的资源，已自动排除）：')
+  strayZips.forEach((e) => console.warn(`      - ${e.name} (${fmt(statSync(join(DIST, e.name)).size)})`))
+  console.warn('    这类文件通常是"把 dist 整个压一份"留下的；下次构建会被 emptyOutDir 清掉。')
+}
 if (!existsSync(join(DIST, 'index.html'))) throw new Error('dist/index.html 不存在')
 
 // ---------- 2. 组装待压缩目录（硬链接/拷贝可选，这里用拷贝保证干净） ----------
@@ -77,20 +89,21 @@ if (existsSync(staging)) rmSync(staging, { recursive: true, force: true })
 mkdirSync(staging, { recursive: true })
 
 // 递归复制，跳过排除项
-const walk = (srcDir, dstDir) => {
+const walk = (srcDir, dstDir, atRoot = false) => {
   for (const e of readdirSync(srcDir, { withFileTypes: true })) {
     const src = join(srcDir, e.name)
     const dst = join(dstDir, e.name)
     if (e.isDirectory()) {
       mkdirSync(dst, { recursive: true })
-      walk(src, dst)
+      walk(src, dst, false)
     } else if (e.isFile()) {
       if (EXCLUDE_NAMES.has(e.name) || EXCLUDE_EXTS.has(extname(e.name))) continue
+      if (isStrayRootZip(e.name, atRoot)) continue
       copyFileSync(src, dst)
     }
   }
 }
-walk(DIST, staging)
+walk(DIST, staging, true)
 
 // 暂存目录可能 13 MB+；用 try/finally 保证任何失败路径都会清掉，
 // 否则中断一次就在仓库根目录留下一坨垃圾。
