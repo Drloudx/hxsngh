@@ -142,6 +142,12 @@ cmd /c npm run build
   上传前跑 `node tools/verify-hotupdate-package.mjs`。
   > 教训：**校验不能顺手做名字归一化** —— 旧的校验 `replace(/^\.\//,'')` 恰好把前缀洗掉，
   > 于是脚本"自认为通过"，把坏包放行上线。
+- ⚠️ **中文文件名必须置 UTF-8 标志位**（同一次发版的第二个坑，报 `MALFORMED[1]`）。
+  bsdtar 在 Windows 上按 GBK 写名字且**不置 bit 11 / `0x800`**；JS 侧 `index.html` 是 ASCII 能过闸，
+  到原生 `java.util.zip` 按 UTF-8 解 GBK 字节失败 → **`ZipException: MALFORMED`**。
+  **打包已整体改用 fflate（`zipSync`）** —— 与前端读包同一个库，从源头消除编码不一致；
+  不要再换回外部 `tar` / `Compress-Archive`。打包器已有硬断言拦这一类。
+  > 包的 `mtime` 是固定值，所以 **同一份内容打包结果字节级可复现**（md5 稳定，不会"慢一拍"）。
 
 ### 4. 网页版与 App 版是两套统计，互斥
 

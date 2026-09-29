@@ -184,7 +184,8 @@ switchToWwwDir(wv);   // 带 nocache 参数重新加载 index.html
 | --- | --- | --- |
 | 检测不到更新 | `version` 没自增 / 清单被 CDN 缓存 | 控制台 `[HotUpdate] 远程最新版本` 与 `版本比较` 日志；清单 URL 已加 `?t=`，但 Gitee 侧仍可能有缓存 |
 | 「热更新下载地址不受信任」 | `downloadUrl` 主机不在白名单 | 检查是不是用了 Gitee 之外的地址 |
-| 「热更新包缺少 index.html」 | zip 里多了一层 `dist/` | `tar -tf dist.zip` 看首行 |
+| 「热更新包缺少 index.html」 | 条目名带了 `./` 前缀（`./index.html`），前端按精确键名取不到；或 zip 里多了一层 `dist/` | `node tools/verify-hotupdate-package.mjs`；或 `tar -tf dist.zip` 看首行 |
+| 「更新失败 / `MALFORMED[1]`」 | **有非 ASCII 条目名却没置 UTF-8 标志位**，原生 `java.util.zip` 解码失败 | 用 Bandizip 打开看中文目录名是否乱码；校验工具会直接报"未置 UTF-8 标志位" |
 | 「热更新包入口文件无效」 | `index.html` 里没有 `src="./assets/xxx.js"` | Vite 配置的 `base` 被改了？产物结构变了？ |
 | 「热更新安装超时，请重试」 | 原生线程卡住 / 磁盘满 | logcat 过滤 tag `HotUpdate` |
 | 更新成功后界面没变 | 非 HTML 资源 1 年强缓存 | 见 §2 推论；确认换的是 hash 文件名资源 |
@@ -196,31 +197,27 @@ switchToWwwDir(wv);   // 带 nocache 参数重新加载 index.html
 
 ### 7.1 热更新包
 
+> ⚠️ **不要再用 `Compress-Archive` / 外部 `tar` 手工压包。** 2026-09-29 连着两次发版全量失败都出在这里：
+> 一次是 `tar -C dir .` 让每个条目名带上 `./` 前缀，一次是 Windows 上的 `tar`/`Compress-Archive`
+> 按**本地 ANSI 码页**写中文名且不置 UTF-8 标志位（原生 `java.util.zip` 直接 `MALFORMED`）。
+> 详见 [KNOWN_BUGS §6 / §7](../KNOWN_BUGS_AND_FIXES.md)。
+
 ```powershell
-# 1. 构建
-cmd /c npm run build
+# 一条命令搞定：构建 + 排除 opencv/APK + 用 fflate 打包 + 分卷 + 算 md5
+node tools/pack-hotupdate.mjs --build
 
-# 2. 打 zip —— index.html 必须在根层！
-#    正确做法：进 dist 目录再压
-Compress-Archive -Path dist\* -DestinationPath dist.zip
-
-# 3. 剔除不该进热更包的大文件（如果 compress 前忘了删）
-#    dist/opencv.js 与 dist/*.apk 应排除，原生侧虽会跳过 opencv.js，
-#    但白白增加 11MB 下载量
-
-# 4. 分卷（单卷上限 9MB 硬编码在 build.py）
-python build.py .
-
-# 5. 上传 dist.zip.001 / .002 … 到 Gitee
-
-# 6. 回填 hotupdate.json 并提交
+# 上传前必须体检（与前端同库、按精确键名校验条目名与编码）
+node tools/verify-hotupdate-package.mjs
 ```
 
-`build.py` 的行为：
+打包器 `tools/pack-hotupdate.mjs` 的行为：
 
-- 固定切 `dist.zip`，单卷 `9 * 1024 * 1024` 字节，命名 `dist.zip.001`、`dist.zip.002`…
-- 不带参数会弹 Tkinter 目录选择框；带参数（如 `python build.py .`）直接执行。
-- 已 `reconfigure` stdout 为 UTF-8，避免 Windows 控制台 GBK 编码报错。
+- 用 **fflate `zipSync`** 打包 —— 与前端读包的库**完全相同**，条目名置 UTF-8 标志位；`index.html` 在 zip 根层。
+- 自动排除 `opencv.js` / `opencv_js.wasm` / `*.apk`，以及 dist 根层的杂散 `.zip`。
+- 逐文件固定 `mtime`，**同一份内容打包结果字节级可复现**（md5 稳定）。
+- 分卷 `9 * 1024 * 1024` 字节，命名 `dist.zip.001`、`dist.zip.002`…；单卷装得下时 `totalParts = 1`。
+- 输出 `hotupdate.suggested.json` 草案（`packageSize` / `totalParts` / `md5` 直接抄进清单）。
+- 内置校验：条目名无 `./` 前缀、`index.html` 存在且能匹配入口 JS、非 ASCII 名均已置 UTF-8 位。
 
 ### 7.2 `hotupdate.json` 回填示例
 

@@ -311,3 +311,48 @@ node tools/verify-hotupdate-package.mjs .badpkg.zip      # 坏包 → "失败 N 
 > 归一化、trim、大小写折叠这类"顺手做的清理"，最容易把真实差异洗掉。
 > 同类教训在本项目已有两例：§5.3 的程序化 `element.click()` 不触发 `:hover`（测出假通过）、
 > 本节的 `replace(/^\.\//,'')`（校验洗掉前缀）。
+
+---
+
+## 7. 热更包中文文件名编码错误 → 原生解压 `MALFORMED`
+
+**现象**：修完 §6 后重发，App 换了个错：**「更新失败 / MALFORMED[1]」**。
+同时用 Bandizip 打开包，`备用/` 目录显示成 `����`，里面的 svg 名字也是乱码。
+**用户自己用 Bandizip 压一份则完全正常** —— 这一条直接锁定了"是打包工具的问题"。
+
+**根因**：`pack-hotupdate.mjs` 当时用 **bsdtar** 打包。bsdtar 在 Windows 上按
+**本地 ANSI 码页（GBK）**写文件名，**且不置 UTF-8 标志位（通用位标志 bit 11 / `0x800`）**。
+实测同一个中文名：
+
+| 打包方式 | flag | UTF-8 位 | 名字原始字节 | 读出来 |
+| --- | --- | --- | --- | --- |
+| bsdtar | `0x0008` | **false** | `b1b8d3c3`（GBK「备用」） | `±¸ÓÃ/` 乱码 |
+| fflate | `0x0800` | **true** | `e5a487e794a8`（UTF-8） | `备用/` ✓ |
+
+失败链路：JS 侧 `fflate` 把 GBK 字节按 CP437 解成乱码键，但 `index.html` 是纯 ASCII 能过闸 →
+交给原生 → `java.util.zip.ZipInputStream` 按 UTF-8 解 GBK 字节失败 →
+**`java.util.zip.ZipException: MALFORMED`** → 原生经 `__hotInstallError` 回传 → 弹窗显示。
+
+**修法**：**改用 fflate 自己打包**（`zipSync`）—— 与前端读包**同一个库、同一套编码约定**，
+从源头消除"写的人"和"读的人"不一致：
+
+- 条目名正确置 UTF-8 标志位（已实测 9/9 非 ASCII 条目 `flag=0x800`）
+- 不再依赖外部 `tar`，跨平台行为一致
+- 无目录条目（原生 `MainActivity.java:698-702` 会自己建父目录，不需要）
+- 逐文件给**固定 `mtime`**（`FIXED_MTIME = 2020-01-01Z`）：fflate 默认写 `Date.now()`，
+  会让每次打包 md5 都变、清单里的 md5 永远"慢一拍"；固定后**输出字节级可复现**（实测两次打包 md5 相同）
+- 打包器新增硬断言：**任何含非 ASCII 的条目名都必须置 `0x800`**，否则直接报错不发包
+
+**回归方式**：`node tools/verify-hotupdate-package.mjs`，并用**独立实现**交叉验证
+（`.NET System.IO.Compression.ZipFile` 与手写中央目录解析器，刻意不用 fflate 自证）：
+
+```
+条目总数 4531；精确名 'index.html' 1 个；带 './' 前缀 0 个
+misc/幻想少女新手攻略20260623（群友制作 @雨落）.xlsx   ← 中文名正确
+备用/down-top.svg  ·  备用/下箭头2_svg.svg
+```
+
+> **同类风险**：**"写 zip 的工具"与"读 zip 的运行时"不是同一个实现时，编码约定必须显式确认。**
+> Windows 上的 `tar`/`Compress-Archive` 都可能按本地码页写名字；只要包里有非 ASCII 文件名就会中招。
+> 本项目的包**确实有**：`misc/幻想少女新手攻略….xlsx`（攻略下载）与 `备用/`（未使用但仍在包里）。
+> **不要为了"用系统自带工具更省事"把打包换回外部 tar。**
