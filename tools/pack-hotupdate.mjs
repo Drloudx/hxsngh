@@ -114,24 +114,47 @@ let names = []
 try {
   if (!existsSync(join(staging, 'index.html'))) throw new Error('暂存目录缺少 index.html（必须在 zip 根层）')
 
-  // ---------- 3. 压缩（bsdtar，必须进 staging 内压，保证 index.html 在根层） ----------
+  // ---------- 3. 压缩 ----------
   if (existsSync(zipPath)) rmSync(zipPath, { force: true })
 
   console.log('\n== 压缩 ==')
-  run('tar', ['-a', '-c', '-f', zipPath, '-C', staging, '.'])
+  // ⚠️ 必须**逐个列出顶层条目**，绝不能写 `-C staging .`
+  //    bsdtar 会把 `.` 展开成 `./`，于是包里每个条目都带 `./` 前缀，
+  //    `index.html` 变成 `./index.html` —— 而前端是 `unzipped['index.html']` 精确取键，
+  //    直接抛「热更新包缺少 index.html」（真实事故：2026-09-29 一次发版全量失败）。
+  //    逐个列出后条目名就是 `index.html` / `assets/...`，与前端期望一致。
+  const topEntries = readdirSync(staging)
+  run('tar', ['-a', '-c', '-f', zipPath, '-C', staging, ...topEntries])
   zipSize = statSync(zipPath).size
   console.log(`  dist.zip = ${fmt(zipSize)}`)
 
-  // 校验 zip 根层确有 index.html
-  const list = spawnSync('tar', ['-tf', zipPath], { encoding: 'utf8' })
-  names = (list.stdout || '').split('\n').map((s) => s.trim().replace(/^\.\//, '')).filter(Boolean)
-  if (!names.includes('index.html')) {
-    throw new Error('zip 根层没有 index.html，热更会报「缺少 index.html」')
+  // ---------- 4. 校验：用**前端同一个库**按**精确键名**验，不做任何归一化 ----------
+  // 之前的校验是 `tar -tf` 后 `.replace(/^\.\//,'')` 再比对 —— 恰好把 `./` 前缀洗掉，
+  // 于是"自认为通过"，而 App 那边取不到 index.html。校验必须与消费方同构。
+  const { unzipSync } = await import('fflate')
+  const unzipped = unzipSync(new Uint8Array(readFileSync(zipPath)))
+  const entryNames = Object.keys(unzipped)
+
+  const prefixed = entryNames.filter((n) => n.startsWith('./'))
+  if (prefixed.length) {
+    throw new Error(
+      `zip 里有 ${prefixed.length} 个条目带 "./" 前缀（如 ${prefixed[0] || './index.html'}）。` +
+      `前端用 fflate 按精确键名取 unzipped['index.html']，带前缀会直接报「热更新包缺少 index.html」。`,
+    )
   }
-  if (!names.some((n) => n.startsWith('assets/') && n.endsWith('.js'))) {
-    throw new Error('zip 里没有 assets/*.js，热更会报「缺少 JS 资源」')
+  if (!('index.html' in unzipped)) {
+    throw new Error('zip 根层没有 index.html（必须是精确条目名 index.html），热更会报「缺少 index.html」')
   }
-  console.log(`  ✓ 根层有 index.html；条目 ${names.length} 个，含 assets/*.js`)
+  // 与 hotupdate.js 完全相同的入口校验：能从 index.html 里匹配到 ./assets/<hash>.js
+  const html = new TextDecoder('utf-8').decode(unzipped['index.html'])
+  const hashMatch = html.match(/src="\.\/assets\/([^"]+)\.js"/)
+  if (!hashMatch) throw new Error('zip 里的 index.html 匹配不到 ./assets/<hash>.js，热更会报「入口文件无效」')
+  if (!(`assets/${hashMatch[1]}.js` in unzipped)) {
+    throw new Error(`index.html 引用了 assets/${hashMatch[1]}.js，但 zip 里没有这个条目`)
+  }
+  names = entryNames
+  console.log(`  ✓ 条目名无 "./" 前缀；有 index.html；入口 JS assets/${hashMatch[1]}.js 也在包里（fflate 实测）`)
+  console.log(`    条目 ${entryNames.length} 个`)
 } finally {
   rmSync(staging, { recursive: true, force: true })
 }

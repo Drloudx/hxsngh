@@ -247,7 +247,11 @@ export const applyHotUpdate = async (manifest, onProgress) => {
       else resolve(data)
     })
   })
-  const indexData = unzipped['index.html']
+  // ⚠️ 键名要按**精确名**取，但需兼容带 "./" 前缀的包：
+  // 部分打包方式（如 bsdtar 的 `-C dir .`）会把条目写成 "./index.html"。
+  // 这种包本身是合法的、原生 ZipInputStream 也能正确解出，不该被判成"缺 index.html"。
+  // 正式流程由 tools/pack-hotupdate.mjs 保证不带前缀；这里只是兜底，避免整包被误拒。
+  const indexData = unzipped['index.html'] || unzipped['./index.html']
   if (!indexData) throw new Error('热更新包缺少 index.html')
 
   const utf8 = new TextDecoder('utf-8').decode(indexData)
