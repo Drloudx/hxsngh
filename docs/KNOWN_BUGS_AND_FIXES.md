@@ -95,3 +95,159 @@ Select-String -Path src\App.vue -Pattern "^  '?[a-z-]+'?:"
 ```
 
 > **同类风险**：页面清单在本项目有 **4 份**（`router` 的 `routes`、`NavigationMenu` 的 `categories`、`App.vue` 的 `modes`、`App.vue` 的 `pageNames`），互不校验。新增页面务必四处都加，详见 [ARCHITECTURE §4.3](ARCHITECTURE.md)。
+
+---
+
+## 4. 弹窗关闭按钮（✕）跑到卡片外面
+
+**现象**：`/talent`「天赋来源」弹窗的 ✕ 不在标题栏右侧，而是掉到**卡片外面**、悬在视口右侧垂直居中处。
+弹窗越矮越明显（只匹配到一个角色时最刺眼）；矮弹窗上 X 越出卡片右缘，高弹窗上它恰好落在卡片范围内、看起来"像是对的"，因此长期没被发现。
+
+**根因**：`App.vue` 的 `<style>` **不是 scoped**，其中有一条**裸选择器**的全局规则：
+
+```css
+/* App.vue 全局样式，本意只服务「数据管理」弹窗 */
+.modal-close-x { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); ... }
+```
+
+而同文件另有一条 `.import-modal-card .modal-header { position: relative }` —— 两条**配套**，绝对定位本应相对那个 header。
+
+问题在于各页面自己的 scoped `.modal-close-x` **只声明 `background`/`border`/`font-size`/`color`/`cursor`，不声明 `position`**。
+scoped 规则因为多了 `[data-v-xxx]` 属性特异性更高，却**只在它声明过的属性上赢** —— `position`/`top`/`right` 照旧由全局规则提供。
+
+而页面的 `.modal-header` 和 `.modal-window` 都没有 `position`（static），于是绝对定位的最近定位祖先变成了
+`.modal-overlay`（`position: fixed`）→ X 被按**视口**定位：`right:12px` 贴视口右缘、`top:50%` 落在视口垂直中点。
+
+**实测**（390×844 视口，`--simulate-bug` 重新注入旧规则复现）：
+
+| | `position` | `top` | `right` | X 中心 | 判定 |
+| --- | --- | --- | --- | --- | --- |
+| 修复后 | `static` | `auto` | `auto` | (340, 382) —— 卡片头部内 | OK |
+| 旧规则 | `absolute` | `422px`（= 844 ÷ 2） | `12px` | (362.6, 422) —— 掉出头部、越出卡片右缘 | 复现 |
+
+**影响范围**：**8 个页面文件、20 个弹窗**（`TalentManageView` 9、`FruitRecordView` 4、`TalentView` 2、`ForetellView`/`UniqueView`/`SynthesisSearchView`/`SubSkillView`/`PrefixView` 各 1）—— 这些页面的 `.modal-close-x` 全都没声明 `position`。
+另 1 个在 `App.vue` 数据管理弹窗里，它本就带 `.import-modal-card`，**未受影响**。
+
+> `FruitRecordView` 的 `.modal-header` 恰好写了 `position: relative`，所以它的 X 落到了 header 上，看起来"差不多对" —— 这也是该 bug 长期没被发现的原因之一。
+
+**修法**：把全局规则收窄到它真正的作用域：
+
+```css
+.import-modal-card .modal-close-x { position: absolute; ... }
+.import-modal-card .modal-close-x:hover { ... }
+```
+
+页面里的 X 便回到 `.modal-header` 的 flex 布局 —— 各页**都已**写 `display:flex; align-items:center; justify-content:space-between`，本来就是按"X 是 header 第二个 flex 项"设计的。数据管理弹窗因仍带 `.import-modal-card` 前缀，行为不变。
+
+**回归方式**：
+
+```powershell
+node tools/verify-modal-close.mjs --serve dist                 # 期望「异常 0/3」
+node tools/verify-modal-close.mjs --serve dist --simulate-bug  # 期望「异常 3/3」（证明脚本抓得住这个 bug）
+```
+
+脚本自己起静态服务、真开弹窗量 `getBoundingClientRect`，断言 X 的视觉中心落在卡片头部区域内。
+`--simulate-bug` 会把旧规则重新注入，用来证明因果 —— 只会"通过"的检测等于没检测。
+
+> **同类风险**：这属于**全局样式泄漏**，不是孤例。`App.vue` 的 `<style>` 全站生效，任何裸类名都可能被页面"部分覆盖"。
+> 写全局样式**一律加父级前缀**；页面自定义关闭按钮时**不要依赖全局规则补 `position`**。
+> 同类泄漏已写进 [ARCHITECTURE §6.1](ARCHITECTURE.md) 与 [HANDOFF §4.8](HANDOFF.md)。
+
+---
+
+## 5. 天赋品质下拉框被裁掉 + 切换品质导致卡片跳位
+
+两个缺陷同处一屏（`/talent` 与 `/search` 的天赋卡片），一次修完，共用一套回归脚本。
+
+### 5.1 下拉框底部被滚动容器裁掉
+
+**现象**：卡片上的品质下拉框（`.tag-dropdown-menu`）在卡片靠近列表底部时被**从中间切断** ——
+第 3 项只剩半个字、第 4 项完全看不见。卡片越靠底裁得越多。
+
+**根因**：**绝对定位并不能逃出 `overflow` 裁剪**。下拉框的包含块是 `.talent-tag-dropdown-wrapper`
+（`position: relative`），它就在滚动容器**内部**；容器 `overflow-y: auto` 会裁掉一切溢出的后代
+（`z-index` 再高也没用，只有 `position: fixed` 才不受影响）。
+
+实测（390×844，`.talent-list` 底 = 829）：
+
+| 卡片位置 | 下拉框范围 | 结果 |
+| --- | --- | --- |
+| 贴 85% | `[676 → 810]` | 完整 |
+| 贴 95% | `[744 → 878]` | **裁掉 49px** |
+| 贴 100% | `[778 → 912]` | **裁掉 83px** |
+
+**修法**：展开前量一次空间，不够就给菜单加 `.drop-up`（`top:auto; bottom:100%`）改为向上弹。
+`measureDropUp()` **向上找最近的裁剪祖先**，不写死类名 —— 同样一个组件，`/talent` 的裁剪层是
+`.talent-list`，而 `/search` 的 `.talent-list` 没有 `overflow`，真正裁剪的是上层 `.app-content`。
+
+> ⚠️ 两个易错点：① 菜单高度要在 `await nextTick()` 之后量真实值，不能硬编码项高；
+> ② `event.currentTarget` **只在事件派发期间有效**，必须在 `await` 之前取出来，否则是 `null`。
+
+### 5.2 切换品质后卡片在列表里跳位
+
+**现象**：在一个多品质天赋的下拉框里换个品质，**整张卡片会在列表里移动到别的位置**
+（实测「强而有力」从 S 切到 A，序号 5 → 6，与「意志强韧」互换）。用户视角是"卡片被拉下去了"。
+
+**根因**：`switchQuality` 会写 `item.step`，而 `primarySortedTalents` 的 `sortRule` 正是按
+`getTalentStepConfig(t.step).weight` 排序 —— 切到较低品质 ⇒ 权重变小 ⇒ 卡片往下沉。
+`getCategoryOrder` 与 `selectedCharacter` 分桶读的 `SpecifyRoleIDs`/`Race`/`Class`/`Element` 同样被改写。
+
+**修法**：引入 `sortVariantOf(t) = t.qualities[0] || t`，**排序身份固定取组内默认（最高）品质**。
+分组时 `qualities` 已按权重降序排好，首项即默认品质，与 `activeIdx: 0` 一致。
+
+**顺带修的一处**：`switchQuality` 原本还会写 `item.uid`，而它是 `v-for` 的 `:key` ——
+改 key 会让 Vue **销毁重建整张卡片**（图片重新加载、下拉框闪一下）。已不再改写 `uid`。
+
+**回归方式**：
+
+```powershell
+node tools/verify-talent-dropdown.mjs --serve dist --route /talent
+node tools/verify-talent-dropdown.mjs --serve dist --route /search
+```
+
+脚本会：① 把目标卡片从列表中部逐档滑到底部，量下拉框被裁多少（期望 0px，且贴底时自动翻转）；
+② 切换品质后比对**整个列表的顺序**（期望完全不变）；③ 断言来源弹窗角色行有真实加载的头像；
+④ 用**真实鼠标悬停**打开下拉框，断言与下一张卡片重叠的区域里最上层元素是下拉项本身。
+
+### 5.3 下拉框被下一张卡片盖住（层叠上下文陷阱）
+
+**现象**：下拉框与下一张卡片重叠的那一段被**下一张卡片整体盖住** —— 最后一项只剩上半截，
+下一张卡片的标签压在它上面。用户视角是"卡片跑到下拉框上面了，下拉框不应该在上面吗"。
+
+**根因**：`.talent-card:hover { transform: translateY(-2px) }`。
+
+`transform` 会让元素成为**层叠上下文**。但卡片是 `position: static` ——
+所以它**仍按普通流绘制**，并不会像"定位元素"那样排到后面去。
+于是卡内 `.tag-dropdown-menu` 的 `z-index: 1000` 被**困在卡片自己的层叠上下文里**，
+而后面 DOM 顺序的兄弟卡片在普通流中绘制得更晚 → 把下拉框盖住。
+
+实测（1280×800，`永恒生命`，下拉框与下一张卡片重叠 22.2px）：
+
+| | 卡片计算样式 | 重叠区最上层元素 |
+| --- | --- | --- |
+| 修前 | `position:static` `transform:matrix(1,0,0,1,0,-2)` `z-index:auto` | `talent-tag-dropdown-wrapper`（**下一张卡片**的标签容器） |
+| 修后 | `position:relative` `transform:matrix(1,0,0,1,0,-2)` `z-index:30` | `tag-dropdown-item`（下拉项本身） |
+
+**修法**：悬停时**同时**给一个正的 `z-index`：
+
+```css
+.talent-card:hover {
+  transform: translateY(-2px);   /* 保留浮起手感 */
+  position: relative;            /* z-index 生效的前提 */
+  z-index: 30;                   /* 整体进入"正 z-index 层"，绘制晚于普通流 */
+}
+```
+
+> ⚠️ **为什么最初没查到**：第一版探针用 `element.click()` **程序化点击**，不触发 `:hover`，
+> 于是卡片没有 `transform`、没有层叠上下文，下拉框正常浮在上面 —— 测了个"通过"。
+> 现在脚本改用 `page.mouse.move()` + `page.mouse.click()` 做**真实悬停**才复现。
+> **能复现才有资格谈修复。**
+>
+> ⚠️ **触屏同样中招**：手机上点按后 `:hover` 会**粘住**不消失，所以移动端也一直是坏的。
+
+> **同类风险**：任何"列表项里放绝对定位浮层"的地方都会撞上 5.1 与 5.3 ——
+> `.modal-window` / `.custom-modal-card` 是 `position: fixed` 遮罩的子元素，不受影响；
+> 但**页面内联的下拉/气泡**要注意两点：① 包含块不能在 `overflow` 容器内；② 宿主卡片/条目
+> **不能只靠 `transform` 制造层叠上下文而不给 `z-index`**。
+> 5.2 的同类风险是**任何"展示态与排序键共用同一字段"的列表**：切换展示会写回排序字段就会跳位。
+> 规则已写进 [ARCHITECTURE §6.2.1](ARCHITECTURE.md) 与 [SPEC §3.3](SPEC.md)。

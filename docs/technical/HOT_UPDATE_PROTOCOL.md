@@ -97,7 +97,7 @@ const baseMatch = cur[0] === next[0] && cur[1] === next[1] && cur[2] === next[2]
 manifest._needsApkUpdate = !baseMatch
 ```
 
-**前三段相同 → 热更；前三段有变化 → 走 APK 更新弹窗**（`App.vue:468-475`）。
+**前三段相同 → 热更；前三段有变化 → 走 APK 更新弹窗**（`hotupdate.js` 的 `checkHotUpdate` 里算出的 `baseMatch`，落到 `manifest._needsApkUpdate`；`App.vue` 只消费这个标志做文案与分支）。
 
 这是刻意设计：前三段代表原生不兼容的大版本。
 

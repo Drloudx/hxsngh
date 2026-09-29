@@ -181,7 +181,7 @@ valueList[6] = skill.ExtraValue3  // {6}
 | `%%文字%%` | 黄 `#eab308` |
 
 - 也支持 `<a href="...">`，但**只放行站内相对路径与 https 外链**，其他一律丢弃。
-- 已读版本记录为 `date + '-' + title`（`App.vue:506-510`），改标题会导致**公告重新弹一次**。
+- 已读版本记录为 `date + '-' + title`（`App.vue` 里 `saved_notice_version` 的读写处），改标题会导致**公告重新弹一次**。
 
 ### 5.2 `data.json`（指定招募常驻池）
 

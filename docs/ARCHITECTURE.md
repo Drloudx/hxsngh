@@ -9,7 +9,7 @@
 - **技术栈**：Vue 3（Composition API + `<script setup>`）、Vite 8、Vue Router 4（**Hash 路由**）、原生 CSS（**不依赖任何 UI 框架**）、Capacitor 8（Android 原生壳）
 - **形态**：Web 单页应用 + Android App；两种形态共用同一份 `dist/`
 - **数据来源**：官方服务端接口 `POST /GameDataTable/FetchDataTable` 下发的配置表，构建期以 JSON 形式**静态打包进 bundle**（`src/assets/*.json`），运行时**无接口请求**（除热更清单与更新检查）
-- **图像识别**：本地 `opencv.js`（WebAssembly，约 10.96 MB）做模板匹配，用于「指定招募」截图识别
+- **图像识别**：本地 OpenCV WebAssembly 做模板匹配，用于「指定招募」截图识别。**引擎是外置的**：`public/opencv.js`（0.22 MB）+ `public/opencv_js.wasm`（7.68 MB），两者必须成对，且随 APK 内置、**不进热更包**（见 §5 与 [SPEC §六](SPEC.md)）
 - **在线地址**：<https://hxsngh.yxzmy.top>
 - **仓库**：<https://gitee.com/ccyconner/hxsngh>
 
@@ -27,13 +27,14 @@ vue-hxsngh/
 ├── hotupdate.json              # 热更清单（发布到 Gitee raw）
 ├── build.py                    # 热更包分卷脚本（Windows GUI/命令行双模）
 ├── public/                     # 静态资源，原样拷进 dist
-│   ├── opencv.js               # ★ 10.96 MB，随 APK 内置，不进热更包
+│   ├── opencv.js               # 0.22 MB 引擎加载器，随 APK 内置，不进热更包
+│   ├── opencv_js.wasm          # 7.68 MB 引擎主体（Gradle noCompress 'wasm'，必须 STORED）
 │   ├── Equip/ Bond/ AreaBlock/ RoleCard/ RoleDraw/ Header/
 │   ├── Relics/ Rune/ GodStone/ Foretell/ DungeonRelics/ lime/
 │   ├── ParagonPrefix/ Skill/ Shop/ General/ ui/ misc/ images/
 │   ├── fonts/                  # HarmonyOS Sans（本地字体）
 │   ├── gif/                    # 界面装饰 GIF
-│   └── hxsnghv1.0.20.apk       # App 下载分发包（网页版「点击下载」指向它）
+│   └── hxsnghv1.0.22.apk       # App 下载分发包（网页版「点击下载」指向它）
 ├── android/                    # Capacitor 安卓工程（源码入库）
 │   └── app/src/main/java/com/hxsngh/assistant/
 │       ├── MainActivity.java   # ★ WebView 容器 + 热更解压安装 + 资源拦截（约 950 行）
@@ -41,7 +42,7 @@ vue-hxsngh/
 │       └── UmengApplication.java # 友盟 U-App / U-APM 初始化
 ├── src/
 │   ├── main.js                 # 7 行：createApp + router + mount
-│   ├── App.vue                 # ★ 1555 行应用外壳（脚本 515 行 + 模板 270 行 + 全局样式 766 行）
+│   ├── App.vue                 # ★ 2200+ 行应用外壳（脚本 + 模板 + 全局样式；<style> 非 scoped）
 │   ├── router/index.js         # 22 条路由 + routeLoadingState
 │   ├── assets/*.json           # ★ 53 张服务端表 + 4 个本地文件（见 SPEC）
 │   ├── components/             # 7 个公共组件
@@ -97,14 +98,14 @@ vue-hxsngh/
 ### 4.1 路由与页面加载态
 
 - Hash 路由（`createWebHashHistory`），根路径 `/` 重定向到 `/recruit`。
-- 22 条路由全部**懒加载**（`() => import(...)`），见 `src/router/index.js:11-32`。
-- `routeLoadingState`（`router/index.js:4-9`）是一个模块级 `reactive`，由 `beforeEach` 置 `active=true`、`afterEach`/`onError` 置 `false`。`App.vue:616-625` 据它决定渲染**加载占位**还是 `<router-view>`。
+- 22 条路由全部**懒加载**（`() => import(...)`），见 `src/router/index.js` 的 `routes`。
+- `routeLoadingState`（`router/index.js` 顶部的模块级 `reactive`）由 `beforeEach` 置 `active=true`、`afterEach`/`onError` 置 `false`。`App.vue` 据它决定渲染**加载占位**还是 `<router-view>`。
   - 注意 `v-if`/`v-else` 结构：加载态激活时 `<router-view>` **整个被替换掉**，因此慢加载时页面组件会被卸载重建。
-- 页面组件通过 `:showGifs` 与 `:engineStatus` 两个 prop 接收外壳状态（`App.vue:624`）。
+- 页面组件通过 `:showGifs` 与 `:engineStatus` 两个 prop 接收外壳状态（`App.vue` 模板里的 `<router-view>` 处）。
 
 ### 4.2 应用外壳与全局弹窗编排
 
-`App.vue` 的 `onMounted`（`App.vue:31-147`）是全部启动逻辑的入口，时序为：
+`App.vue` 的 `onMounted` 是全部启动逻辑的入口，时序为：
 
 1. **图像识别引擎预热**：`imageMatcher.init()`，成功/失败写 `engineStatus`（`ready` / `error`）。
 2. 读取 `recruit_tool_showGifs` 恢复 GIF 显隐。
@@ -113,40 +114,45 @@ vue-hxsngh/
 5. App 内且未跳过更新时，2 秒后静默 `checkUpdate(true)`。
 6. 隐私政策：App 首次启动（`privacy_accepted !== 'true'`）延迟 500 ms 弹 `PrivacyModal`；网页版不强制，直接写入 `privacy_accepted`。
 7. 隐私就绪后：App 初始化友盟 → `checkNoticeAfterPrivacy()` → `checkForHotUpdate()`。
-8. 注册全局 `click` 监听关闭各下拉（`handleGlobalClick`，`App.vue:25-29`）。
-9. 注册 `window.onAndroidBack`（`App.vue:139-146`）：用一组选择器列表找当前可见弹窗，优先点关闭按钮、兜底点遮罩；返回 `true` 表示已消费。
+8. 注册全局 `click` 监听关闭各下拉（`handleGlobalClick`）。
+9. 注册 `window.onAndroidBack`：用一组选择器列表找当前可见弹窗，优先点关闭按钮、兜底点遮罩；返回 `true` 表示已消费。
 
 全局弹窗分为两类：
 
 - **独立组件**：`NoticeModal` / `UpdateModal` / `HotUpdateModal` / `PrivacyModal` / `AboutModal` / `BackToTop`。
-- **内联在 App.vue 模板里的通用弹窗**：反馈/建议、切换菜单模式、赞助二维码、版本提示（`showVersionAlert`）、通用消息（`showMessage`，`App.vue:379`）。这些都复用 `.custom-modal-overlay` + `.custom-modal-card` + `.modal-btn-confirm` 这套类名。
+- **内联在 App.vue 模板里的通用弹窗**：反馈/建议、切换菜单模式、赞助二维码、版本提示（`showVersionAlert`）、通用消息（`showMessage`）。这些都复用 `.custom-modal-overlay` + `.custom-modal-card` + `.modal-btn-confirm` 这套类名。
+  > ⚠️ **App.vue 的 `<style>` 不是 scoped**：里面任何裸类名选择器都会全站生效，而页面自己的 scoped 规则只在**它声明过的属性**上赢。已经因此出过一次弹窗关闭按钮错位的事故（见 [KNOWN_BUGS §4](KNOWN_BUGS_AND_FIXES.md)）。**写全局样式一律加父级前缀。**
 
 ### 4.3 导航菜单三模式
 
 `NavigationMenu.vue` 同时服务桌面端与移动端：
 
-- **桌面端**：`App.vue:611-613` 固定渲染 `<NavigationMenu :is-desktop="true" menu-mode="side" />`，走扁平列表 `desktopNavList`（`NavigationMenu.vue:67`）。
-- **移动端**：`App.vue:785` 渲染，由右下角悬浮按钮 `.nav-fab-btn` 控制 `isOpen`，模式由 `menuMode` 决定 —— `top`（标题栏下拉）/ `bottom`（底部抽屉）/ `side`（右侧抽屉）。模式存在 `localStorage.recruit_tool_menuMode`，默认 `top`（`App.vue:284`）。
+- **桌面端**：`App.vue` 模板里 `is-desktop="true"` 那处固定渲染 `<NavigationMenu :is-desktop="true" menu-mode="side" />`，走扁平列表 `desktopNavList`（`NavigationMenu.vue:67`）。
+- **移动端**：由右下角悬浮按钮 `.nav-fab-btn` 控制 `isOpen`，模式由 `menuMode` 决定 —— `top`（标题栏下拉）/ `bottom`（底部抽屉）/ `side`（右侧抽屉）。模式存在 `localStorage.recruit_tool_menuMode`，默认 `top`。
 - 菜单项定义在 `NavigationMenu.vue:27-64` 的 `categories`，分三组：核心工具（7）、图鉴（12）、其他工具（2）。
 - 高亮用 `routeLoadingState.active ? routeLoadingState.path : route.path`（`NavigationMenu.vue:69`），保证加载期间菜单已提前切到目标项。
 
 > **维护提醒（重要）**：**页面清单在本项目有 4 份独立定义**，新增页面必须全部登记：
 >
-> | # | 位置 | 作用 | 漏改后果 |
+> | # | 位置（**按符号名找，别记行号**） | 作用 | 漏改后果 |
 > | --- | --- | --- | --- |
-> | 1 | `src/router/index.js:34-58` 的 `routes` | 真正的路由 | 页面无法访问 |
-> | 2 | `src/components/NavigationMenu.vue:27-64` 的 `categories` | 导航菜单分组与图标 | 菜单里看不到入口 |
-> | 3 | `src/App.vue:290-313` 的 `modes` | **顶栏标题与加载态标题**（`currentModeInfo` 按 path 反查 `name`） | 顶栏标题退化为路由 meta 兜底值 |
-> | 4 | `src/App.vue:389-405` 的 `pageNames` | 百度统计的页面中文名 | 统计报表里显示英文路由名 |
+> | 1 | `src/router/index.js` 的 `routes` 数组 | 真正的路由 | 页面无法访问 |
+> | 2 | `src/components/NavigationMenu.vue` 的 `categories` | 导航菜单分组与图标 | 菜单里看不到入口 |
+> | 3 | `src/App.vue` 的 `const modes = [` | **顶栏标题与加载态标题**（`currentModeInfo` 按 path 反查 `name`） | 顶栏标题退化为路由 meta 兜底值 |
+> | 4 | `src/App.vue` 的 `const pageNames = {` | 百度统计的页面中文名 | 统计报表里显示英文路由名 |
 >
 > 四份清单**互不校验**，任何一处漏改都不会报错。已知漂移：`modes[21].name` 是「预告：角色/队伍热度排行」，而 `router` 的 `meta.title` 是「预告：热度排行」，两处文案已不一致。
+>
+> ⚠️ 这里原先记的是行号（`App.vue:290-313` / `389-405`），`App.vue` 由 1555 行涨到 2200+ 行后**全部失效**并误导了三份文档。**一律用符号名定位。**
 
 ### 4.4 主题与显示开关
 
-- 深色/浅色：`document.documentElement.classList.toggle('dark-mode')`，全部颜色走 CSS 变量，组件无需感知。状态变量 `isDarkMode`（`App.vue:155`）。
-  - 注意：`isDarkMode` **初始值恒为 `false`**，切换后不写 `localStorage`，刷新即回到浅色。
+- 深色/浅色：`document.documentElement.classList.toggle('dark-mode')`，全部颜色走 CSS 变量，组件无需感知。状态变量 `isDarkMode`。
+  - **已持久化**：键 `recruit_tool_darkMode`（常量 `DARK_MODE_KEY`），`'true'`/`'false'` 字符串。
+  - 首帧防白闪靠 `index.html` 里一段**内联脚本**——它在 module 之前读该键并加 `.dark-mode`。样式由 JS 注入，等 Vue 挂载再加 class 会先闪一帧浅色。**不要删掉那段内联脚本。**
+  > 这里曾写「切换后不写 localStorage，刷新即回到浅色」，那是**旧实现**，2026-09-28 已修，别再照旧描述改回去。
 - GIF 显隐：`showGifs`，持久化键 `recruit_tool_showGifs`，通过 prop 下发给所有页面。
-- 桌面端布局：`.main-layout-row` 是三栏结构（左侧栏 + 居中内容 + 右侧占位），左右两侧均为 `desktop-only`，目的是让内容区在宽屏下**真正居中**（`App.vue:609-630`）。
+- 桌面端布局：`.main-layout-row` 是三栏结构（左侧栏 + 居中内容 + 右侧占位），左右两侧均为 `desktop-only`，目的是让内容区在宽屏下**真正居中**。
 
 ### 4.5 数据流
 
@@ -170,33 +176,42 @@ vue-hxsngh/
 
 ### 4.7 本地状态与导入导出
 
-全部 `localStorage` 键（共 9 个）：
+全部 `localStorage` 键（实测 **16 个**，含 2 个已废弃/迁移用）：
 
 | 键 | 写入方 | 用途 |
 | --- | --- | --- |
 | `privacy_accepted` | `App.vue` | 隐私政策是否已同意 |
 | `saved_notice_version` | `App.vue` | 已读公告版本（`date-title`） |
-| `update_skip_date` | `utils/version.js` | 今日已跳过更新提示 |
 | `apk_cached_version` | `App.vue` | 缓存的 APK 版本号 |
-| `local_web_version` / `hotupdate_version` | `utils/hotupdate.js` | 当前生效的网页资源版本 |
 | `recruit_tool_menuMode` | `App.vue` | 移动端菜单模式 |
 | `recruit_tool_showGifs` | `App.vue` | GIF 显隐 |
-| `unowned_characters` | 角色相关页面 | 未拥有角色标记 |
+| `recruit_tool_darkMode` | `App.vue`（常量 `DARK_MODE_KEY`） | 深色模式持久化 |
+| `local_web_version` | `utils/hotupdate.js` | 当前生效的网页资源版本 |
+| `hotupdate_version` | `utils/hotupdate.js` | 同上（历史副本，与新键同步写） |
+| `update_skip_version` | `utils/version.js` | **按版本**跳过 APK 更新提示（现行） |
+| `unowned_characters` | `RecruitView.vue` | 未拥有角色标记（**不在通用备份内**） |
+| `foretell_clover_calc_items` | `ForetellView.vue` | 预言四叶草计算器（**不在通用备份内**） |
+| `my_owned_limes` | `LimeView.vue` | 莱姆拥有状态 |
 | `talent_manager_data` | `TalentManageView.vue` | 天赋管理本地库存 |
+| `fruit_record_data` | `FruitRecordView.vue` | 大果记录账本 |
+| ~~`update_skip_date`~~ | `utils/version.js` | **已废弃**（`@deprecated`，按天口径，连带静默热更，见 [SPEC §二·补](SPEC.md)） |
+| ~~`talent_sandbox_data`~~ | `TalentManageView.vue` | **历史键**，自动迁移进 `talent_manager_data` 后删除 |
 
 - `utils/storage.js` 只封装了 `readStoredArray`（带 `strict` 选项，损坏时抛错）与 `writeStoredJson` 两个函数。
-- **导入导出**：`App.vue` 的 `exportAllData()` / `handleUniversalImport()`（`App.vue:159-257`）合并各视图的本地数据，`utils/dataTransfer.js` 负责文件读写。导出为 JSON 文件，导入时按 `normalizeImportItem` 归一化并做日期合法性校验。
+- **导入导出**：`App.vue` 的 `exportAllData()` / `handleUniversalImport()` 合并各视图的本地数据，`utils/dataTransfer.js` 负责文件读写。导出为 JSON 文件，导入时按 `normalizeImportItem` 归一化并做日期合法性校验。
+  > ⚠️ 通用备份**只覆盖 3 类**：`talent_manager_data`、`my_owned_limes`、`fruit_record_data`。
+  > `unowned_characters` 与 `foretell_clover_calc_items` **不在范围内**（`FruitRecordView` 另有页内数据管理弹窗）。
 
 ### 4.8 统计
 
-- **网页版**：百度统计，`baiduSiteId`（`App.vue:388`）硬编码；`_setAutoPageview=false`，改为 `watch(route.fullPath)` 手动上报 `/app/<中文页面名>`（`pageNames` 映射）。
+- **网页版**：百度统计，`baiduSiteId` 硬编码；`_setAutoPageview=false`，改为 `watch(route.fullPath)` 手动上报 `/app/<中文页面名>`（`pageNames` 映射）。
 - **App 版**：友盟 U-App / U-APM，通过 `NativeAnalytics.acceptPrivacyAndInitialize()` 桥接，**仅在用户同意隐私政策后**初始化（原生侧 `UmengApplication.initializeAfterPrivacyConsent`）。
 - 两者互斥：`isInApp` 为真时不加载百度脚本，网页版不调用友盟。
 
 ### 4.9 原生返回键
 
 - 原生 `MainActivity.onBackPressed()` 调 `window.onAndroidBack()`；JS 返回 `true` 表示已关闭某个弹窗，返回 `false` 则交回原生（后退 WebView 历史）。
-- JS 侧用**选择器字符串列表**匹配可见弹窗（`App.vue:93-109`），带 `[class*="modal-overlay"]` 这类模糊匹配兜底。
+- JS 侧用**选择器字符串列表**匹配可见弹窗（`closeActiveModal` 里的那个数组），带 `[class*="modal-overlay"]` 这类模糊匹配兜底。
 - 这是个脆弱设计：新增弹窗必须使用列表里已有的类名体系，否则物理返回键会直接穿透。约定见 §6.2。
 
 ## 5. 构建与运行
@@ -231,7 +246,8 @@ vue-hxsngh/
 | `dist/assets/Equip-*.js` | 985 KB | `Equip.json` 全量内联 |
 | `dist/assets/Bond-*.js` | 544 KB | `Bond.json` |
 | `dist/assets/Talent-*.js` | 334 KB | `Talent.json` |
-| `dist/opencv.js` | 10.96 MB | 唯一的大块静态资源 |
+| `dist/opencv.js` | 0.22 MB | 引擎加载器（文本，压缩） |
+| `dist/opencv_js.wasm` | 7.68 MB | 引擎主体，**唯一的**大块静态资源；随 APK 内置、不进热更包 |
 
 构建会提示「Some chunks are larger than 500 kB」，属已知情况。可行的优化方向是把超大数据表改成 `public/` 下的运行时 `fetch`（如参考项目的 `fetchWithFallback` 模式），但那会引入首屏网络依赖与离线回退问题，属于架构级改动，**不要顺手做**。
 
@@ -239,7 +255,9 @@ vue-hxsngh/
 
 ### 6.1 样式组织
 
-- 全局样式在 `App.vue` 的**非 scoped `<style>`**（766 行）里；页面私有样式写各自组件的 `<style scoped>`。
+- 全局样式在 `App.vue` 的**非 scoped `<style>`**里（另有页面共用的第二段 `<style>`）；页面私有样式写各自组件的 `<style scoped>`。
+  > ⚠️ **非 scoped 意味着全站生效**：裸类名选择器会作用到所有页面。写全局样式**一律加父级前缀**，
+  > 否则会出现「页面 scoped 规则只覆盖了部分属性、其余属性被全局规则接管」的隐蔽错位。详见 [KNOWN_BUGS §4](KNOWN_BUGS_AND_FIXES.md)。
 - 亮色浅灰蓝（`--bg: #f8fafc`）/ 暗色深蓝灰（`--bg: #0f172a`），靠 `<html>` 上的 `.dark-mode` 类切换变量。
 - **禁止写死颜色**，一律用变量。
 
@@ -272,9 +290,47 @@ vue-hxsngh/
 
 ### 6.2 弹窗类名（强制）
 
-`App.vue:93-109` 用一个选择器字符串列表查找「当前可见弹窗」，供 Android 物理返回键消费。**新弹窗的类名必须含 `modal-overlay`**（有 `[class*="modal-overlay"]` 模糊匹配兜底），否则返回键会穿透弹窗直接退页面。
+`closeActiveModal` 用一个选择器字符串列表查找「当前可见弹窗」，供 Android 物理返回键消费。**新弹窗的类名必须含 `modal-overlay`**（有 `[class*="modal-overlay"]` 模糊匹配兜底），否则返回键会穿透弹窗直接退页面。
 
-关闭按钮要能被 `closeActiveModal`（`App.vue:121-136`）点到，它按顺序找 `.relic-modal-close`、`.image-modal-close`、`.close-btn`、`.modal-close-btn`、`.modal-close`、`button[class*="close"]`，都没有时才点遮罩。
+关闭按钮要能被 `closeActiveModal` 点到，它按顺序找 `.relic-modal-close`、`.image-modal-close`、`.close-btn`、`.modal-close-btn`、`.modal-close`、`button[class*="close"]`，都没有时才点遮罩。
+
+> ⚠️ **页面自己定义 `.modal-close-x` 时必须写全**（`background`/`border`/`font-size`/`color`/`cursor`）。
+> 不要指望它靠 `App.vue` 的全局规则定位 —— 全局那条只管「数据管理」弹窗，且已收窄为 `.import-modal-card .modal-close-x`。
+> 页面里的 X 靠 `.modal-header` 的 `display:flex; justify-content:space-between` 排到右侧，**所以 `.modal-header` 必须有这两条**。
+
+### 6.2.1 行内浮层（下拉框 / 气泡）会被滚动容器裁掉
+
+**绝对定位救不了你**：只要浮层的包含块（通常是 `position:relative` 的 wrapper）落在某个
+`overflow-y: auto` 的滚动容器**内部**，那么浮层超出该容器可见区的部分就会被裁掉 ——
+`z-index` 再高也没用，`position: fixed` 才不受影响。
+
+已出过的事：`.tag-dropdown-menu`（`top:100%` 向下展开）在卡片贴到列表底部时被
+`.talent-list`（`/talent`）或 `.app-content`（`/search`）从中间切断，最后一项完全看不见。
+
+**做法**：展开前**量一次空间**，不够就给浮层加一个 `.drop-up` 类改为 `bottom:100%` 向上弹
+（见 `TalentView.vue` 的 `measureDropUp` / `toggleTagDropdown`）。要点：
+
+- **向上找最近的裁剪祖先**，不要写死容器类名 —— 同样一个组件，`/talent` 的裁剪层是 `.talent-list`，
+  `/search` 的 `.talent-list` 却没有 `overflow`，真正裁剪的是上层的 `.app-content`。
+- 用 `await nextTick()` 等菜单渲染出来再量**真实高度**，不要硬编码每项高度。
+- 事件对象里的 `currentTarget` **只在事件派发期间有效**，必须在 `await` 之前取出来，否则拿到 `null`。
+- 回归：`node tools/verify-talent-dropdown.mjs --serve dist --route /talent|/search`
+
+**还有一半坑在层叠顺序上：宿主不能只靠 `transform` 制造层叠上下文。**
+
+`transform` 会让元素成为**层叠上下文**，但若该元素是 `position: static`，它**仍按普通流绘制** ——
+于是浮层的 `z-index` 被**困在宿主内部**，后面 DOM 顺序的兄弟元素反而盖住它。
+已出过的事：`.talent-card:hover { transform: translateY(-2px) }` 导致下拉框与下一张卡片重叠的那段
+被下一张卡片整个盖住。
+
+```css
+/* ✅ 浮起手感可以留，但必须同时给正 z-index，让宿主进入"正 z-index 层" */
+.talent-card:hover { transform: translateY(-2px); position: relative; z-index: 30; }
+```
+
+> ⚠️ 触屏上 `:hover` 在点按后会**粘住**，所以这不是"桌面才有的小毛病"。
+> ⚠️ 验证这类问题**必须用真实鼠标事件**（`page.mouse.move()` + `click()`）——
+> 程序化 `element.click()` 不触发 `:hover`，会测出一个假的"通过"。
 
 ### 6.3 页面骨架模板
 

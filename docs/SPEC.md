@@ -44,14 +44,17 @@
 
 ### 1.2 ★ 页面清单有四份，新增页面必须全部登记
 
-| # | 位置 | 作用 | 漏改后果 |
+| # | 位置（**按符号名找，别记行号**） | 作用 | 漏改后果 |
 | --- | --- | --- | --- |
-| 1 | `src/router/index.js:34-58` `routes` | 真正的路由 | 页面无法访问 |
-| 2 | `src/components/NavigationMenu.vue:27-64` `categories` | 菜单分组与图标 | 菜单里没有入口 |
-| 3 | `src/App.vue:290-313` `modes` | 顶栏标题与加载态标题 | 顶栏标题退化 |
-| 4 | `src/App.vue:389-405` `pageNames` | 百度统计中文名 | 统计显示英文名 |
+| 1 | `src/router/index.js` 的 `routes` 数组 | 真正的路由 | 页面无法访问 |
+| 2 | `src/components/NavigationMenu.vue` 的 `categories` | 菜单分组与图标 | 菜单里没有入口 |
+| 3 | `src/App.vue` 的 `const modes = [` | 顶栏标题与加载态标题 | 顶栏标题退化 |
+| 4 | `src/App.vue` 的 `const pageNames = {` | 百度统计中文名 | 统计显示英文名 |
 
 四份互不校验。**已知漂移**：`modes[21].name` 与 router 的 `meta.title` 文案不一致（「预告：角色/队伍热度排行」vs「预告：热度排行」）；`NavigationMenu` 的 `categories` 只有 21 条，`/ranking` 有意不入菜单。
+
+> 上面原先记的是行号（`App.vue:290-313` / `389-405`），`App.vue` 涨到 2200+ 行后**全部失效**。**一律用符号名定位**：
+> `Select-String -Path src\App.vue -Pattern "const modes = \[|const pageNames = \{"`
 
 > 历史上 4 号 `pageNames` 曾缺 7 条（`unique`/`relics`/`godstone`/`rune`/`equip-prob`/`gambleshop`/`other-prob`），**已于 2026-09-27 补齐至 22 条**，现与路由表一一对应。
 
@@ -225,7 +228,7 @@ UI 就显示「大小未知」。
 
 ### 3.2 综合检索 `/search`
 
-- **定位**：天赋 / 支援 / 主动技能 / 装备四路联合检索（全项目最大页面，3488 行）。
+- **定位**：天赋 / 支援 / 主动技能 / 装备四路联合检索（全项目最大页面，3500+ 行）。
 - **数据**：`Role` `Talent` `Sub_Skill` `Unique` `Equip` `Bond` + `configTableUtil` + `characterFilter` + `tagCategories`。
 - **交互**：`activeTab` 默认 `all`；四路各自 `limit` 20；主搜 + 次筛 + 三组标签；`IntersectionObserver` 加载更多。
 - **图片**：`/Header/`、`/Skill/`、`/Equip/`、`/General/`。
@@ -234,6 +237,7 @@ UI 就显示「大小未知」。
   - **`rareDropsMap` 是纯手工的「地图 → 稀有装备名」清单**（13 张图），最易随版本漂移。
   - `fullDatasets` 里 `relicList` / `noteList` 传空数组 —— 本页不组装心得。
   - 装备词条用 `parseBondInfo` 从 `"词条名[等级]"` 拆解，再查 `Bond.json`。
+  - **天赋品质下拉框**（`.tag-dropdown-menu`）：见 §3.3 的同名说明 —— 本页有两处（`all` 视图与 `talent` Tab 各一），逻辑与 `/talent` 一致，改动请**两处一起改**。
 
 ### 3.3 天赋筛选工具 `/talent`
 
@@ -242,6 +246,33 @@ UI 就显示「大小未知」。
 - **交互**：主搜/次筛/绑定角色/`showExclusiveTalent`；组合器 `selectedCombinations`；`PAGE_SIZE = 20`。
 - **图片**：`/Header/`。
 - **注意**：`JOB_KEYWORDS` / `RACE_KEYWORDS`（**空数组**）/ `ATTR_KEYWORDS` 是硬编码排序表；假人沉底。
+
+#### ★ 天赋品质下拉框（`.tag-dropdown-menu`）—— 两条硬约束，勿改回去
+
+同名天赋有多个品质时，卡片上是个下拉框（`item.qualities` 按权重降序，`activeIdx` 默认 0 = 最高品质）。
+`switchQuality` **只切换展示字段**，不改变这张卡在列表里的身份与位置。由此有两条必须守住的约束：
+
+1. **排序一律走 `sortVariantOf(t)`（= `t.qualities[0]`），不能读 `t.step`。**
+   `primarySortedTalents` 按 `step` 权重排序，而 `switchQuality` 会改 `item.step` ——
+   直接读 `t.step` 会导致「切到较低品质 → 权重变小 → 卡片在列表里往下跳」，
+   用户看到的是一张卡突然和别的卡换了位置。`getCategoryOrder` 与 `selectedCharacter` 分桶同理。
+2. **`switchQuality` 不得修改 `item.uid`。** 它是 `v-for` 的 `:key`，改了会让 Vue 销毁重建整张卡片
+   （图片重新加载、下拉框闪一下）。`uid` 是分组身份，与「当前看哪个品质」无关。
+
+**下拉框会被列表滚动容器裁掉。** 包含块 `.talent-tag-dropdown-wrapper` 在滚动容器内部，
+所以容器一旦 `overflow-y: auto` 就会裁掉溢出的下拉框（实测卡片贴底时最坏裁掉 49px，第 3 项只剩半个字）。
+因此 `toggleTagDropdown(item, $event)` 会**测量下方剩余空间**，不够就给菜单加 `.drop-up` 改为向上弹。
+> `$event` 必须传：`measureDropUp` 要用 `currentTarget`，且它只在事件派发期间有效，需在 `await nextTick()` **之前**取出。
+> 回归：`node tools/verify-talent-dropdown.mjs --serve dist --route /talent`
+> 注意 `/talent` 的裁剪层是 `.talent-list`，而 `/search` 的 `.talent-list` **没有** `overflow`，
+> 真正裁剪的是上层的 `.app-content` —— 所以 `measureDropUp` 是**向上找最近裁剪祖先**的通用实现，不要写死类名。
+
+**宿主卡片必须给正 `z-index`，否则下拉框会被下一张卡片盖住。**
+`.talent-card:hover { transform: translateY(-2px) }` 里的 `transform` 让卡片成为**层叠上下文**，
+而卡片是 `position: static`、**仍按普通流绘制** → 下拉框的 `z-index` 被困在卡片内，
+后面 DOM 顺序的兄弟卡片反而画在它上面。故悬停规则必须**同时**写 `position: relative; z-index: 30`。
+> 触屏点按后 `:hover` 会粘住，所以手机端一样中招。回归脚本用**真实鼠标事件**验证这一点
+> （程序化 `element.click()` 不触发 `:hover`，会测出假的"通过"）。
 
 ### 3.4 支援筛选工具 `/subskill`
 
@@ -496,7 +527,7 @@ UI 就显示「大小未知」。
 | 文件 | 漂移点 |
 | --- | --- |
 | `data.json` | 缺 `娜迦将军`、`蔷薇领主`；曾残留已下线的「法师波波」（2026-09-27 已删） |
-| `notices.json` | 最新条目停在 9.24，之后的实装未补公告；已读版本号含标题，**改标题会导致公告重弹** |
+| `notices.json` | 最新条目为 **9.29**（此前「9.24 之后未补公告」的问题已于 9.29 补齐）；已读版本号含标题，**改标题会导致公告重弹** |
 | `characterFilter.js` | `M31301_000` 已解封但以注释形式保留 |
 | `hotupdate.json` | 发布时手工回填，忘改 `version` 热更不触发 |
 | `src/App.vue` 的 `modes` | 与 router 的文案已不一致 |

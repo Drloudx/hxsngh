@@ -1,6 +1,6 @@
 # 项目交接说明文档（HANDOFF）
 
-> 更新时间：2026-09-27
+> 更新时间：2026-09-29
 > 项目路径：`E:\Desktop\html\hsxngh\vue-hxsngh`（Vue 3 + Vite 8 + vue-router 4 + Capacitor 8 / Android）
 > 适用对象：后续接手开发对话 / 工程师
 
@@ -42,6 +42,7 @@
 - 构建必须用 cmd /c npm run build（PowerShell 禁止执行 npm.ps1）
 - 数据/图片改动后必须重新构建才生效，因为数据是打包进 JS 的、运行时没有接口请求
 - 不要动 src\assets\data.json（手工维护的指定招募常驻池）和 notices.json（公告）
+  —— 这两个是**手工维护**的，自动同步脚本必须跳过它们。要加公告就往 `notices.json` 数组头部插一条（格式见 docs\technical\DATA_TABLES.md §5.1）
 - 新增页面要登记 4 处：router 的 routes、NavigationMenu 的 categories、App.vue 的 modes、App.vue 的 pageNames
 - 新弹窗类名必须含 modal-overlay，否则安卓返回键会穿透
 ```
@@ -51,17 +52,21 @@
 ## 一、当前项目状态概览
 
 1. **仓库**：`https://gitee.com/ccyconner/hxsngh`，主分支。本地改动按需推送，推送前按改动范围验收。
-2. **在线地址**：<https://hxsngh.yxzmy.top>（网页版）；Android 包见 `public/hxsnghv1.0.20.apk`。
-3. **版本号现状**（三处不一致，属历史遗留，改版时需一起确认）：
+2. **在线地址**：<https://hxsngh.yxzmy.top>（网页版）；Android 包见 `public/hxsnghv1.0.22.apk`。
+3. **版本号现状**（改版时需一起确认）：
 
    | 位置 | 值 |
    | --- | --- |
-   | `android/app/build.gradle` 的 `versionName` | `1.0.20` |
-   | `public/hxsnghv1.0.20.apk` 文件名 | `1.0.20` |
+   | `android/app/build.gradle` 的 `versionName` | `1.0.22`（`versionCode 1`） |
+   | `public/hxsnghv1.0.22.apk` 文件名 | `1.0.22` |
    | `hotupdate.json` 的 `version` | `1.0.20.2` |
    | 游戏数据对应的官方版本 | appVersion `1.0.2.6`（CDN 2026-09-24） |
 
-4. **构建状态**：2026-09-27 执行 `cmd /c npm run build` 通过，约 5.7 秒（Vite 会打印「chunks larger than 500 kB」警告，属已知情况）。
+   > ⚠️ `hotupdate.json` **在 `.gitignore` 里**（第 57 行）—— 它是发布时手工回填的本地文件，**不入库**，`git log` 里看不到它的变化，
+   > 因此**不能靠 git 判断热更版本是否已更新**。当前其 `version`（`1.0.20.2`）低于 APK（`1.0.22`），
+   > `checkHotUpdate` 会判为「远程不高于本地」直接返回，即 **1.0.22 之后任何只改网页的改动都不会推给用户**，除非回填本文件。
+
+4. **构建状态**：2026-09-29 执行 `cmd /c npm run build` 通过，约 8.9 秒（Vite 会打印「chunks larger than 500 kB」警告，属已知情况）。
 5. **数据状态**：`src/assets/` 已与官方服务端 53 张表对齐（52 张无差异，`Relics.json` 已更新），`public/` 补齐 Relics +13、Rune +10 张图。
 
 ---
@@ -89,7 +94,7 @@ cmd /c npm run build
 
 | 文件路径 | 核心职责 |
 | --- | --- |
-| `src/App.vue` | 应用外壳：1555 行。启动时序、全局弹窗编排、隐私/统计/热更/更新检查、导航模式、导入导出、**全站全局样式** |
+| `src/App.vue` | 应用外壳：2200+ 行。启动时序、全局弹窗编排、隐私/统计/热更/更新检查、导航模式、导入导出、**全站全局样式（非 scoped，会泄漏到所有页面）** |
 | `src/router/index.js` | 22 条懒加载路由 + `routeLoadingState` 模块级状态 |
 | `src/utils/configTableUtil.js` | ★ 唯一的角色数据组装入口：`Role.json` + 支援/技能/天赋/心得 → 完整角色对象 |
 | `src/utils/characterFilter.js` | 未实装角色屏蔽名单与可见性判定（`BLOCKED_CHARACTER_IDS` 手工维护） |
@@ -116,7 +121,7 @@ cmd /c npm run build
 
 ### 2. Android 的物理返回键靠 CSS 类名白名单
 
-`App.vue` 用选择器字符串列表找「当前可见弹窗」（`App.vue:93-109`），找到就点关闭按钮。**新弹窗类名必须含 `modal-overlay`**（有模糊匹配兜底），否则返回键会穿透弹窗直接退页面。详见 [ARCHITECTURE §6.2](ARCHITECTURE.md)。
+`App.vue` 用选择器字符串列表找「当前可见弹窗」（`closeActiveModal`），找到就点关闭按钮。**新弹窗类名必须含 `modal-overlay`**（有模糊匹配兜底），否则返回键会穿透弹窗直接退页面。详见 [ARCHITECTURE §6.2](ARCHITECTURE.md)。
 
 ### 3. 热更新只换网页资源，不动原生
 
@@ -140,14 +145,17 @@ cmd /c npm run build
 
 ### 6. 新增页面有**四份**清单要登记
 
-| # | 位置 | 作用 |
+| # | 位置（**按符号名找，不要记行号**） | 作用 |
 | --- | --- | --- |
-| 1 | `src/router/index.js:34-58` 的 `routes` | 真正的路由 |
-| 2 | `src/components/NavigationMenu.vue:27-64` 的 `categories` | 菜单分组与图标 |
-| 3 | `src/App.vue:290-313` 的 `modes` | 顶栏标题（`currentModeInfo` 按 path 反查） |
-| 4 | `src/App.vue:389-405` 的 `pageNames` | 百度统计中文名 |
+| 1 | `src/router/index.js` 的 `routes` 数组 | 真正的路由 |
+| 2 | `src/components/NavigationMenu.vue` 的 `categories` | 菜单分组与图标 |
+| 3 | `src/App.vue` 的 `const modes = [` | 顶栏标题（`currentModeInfo` 按 path 反查） |
+| 4 | `src/App.vue` 的 `const pageNames = {` | 百度统计中文名 |
 
 四份互不校验，漏改不会报错。
+
+> 这里原先写的是行号（`App.vue:290-313` / `389-405`），但 `App.vue` 从 1555 行长到 2200+ 行后**全部失效**，
+> 连带三份文档一起误导。**行号一律改用上面的符号名定位**（`Select-String -Pattern "const modes = \["`）。
 
 > 4 号 `pageNames` 原缺 7 条（`unique`、`relics`、`godstone`、`rune`、`equip-prob`、`gambleshop`、`other-prob`），**已于 2026-09-27 补齐到 22 条**，当前与 22 条路由完全对齐。
 > 仍存在的漂移：`modes[21].name` 是「预告：角色/队伍热度排行」，`router` 的 `meta.title` 是「预告：热度排行」，两处文案不一致（仅影响顶栏标题措辞）。
@@ -158,9 +166,21 @@ cmd /c npm run build
 | 文件 | 维护方式 | 已知风险 |
 | --- | --- | --- |
 | `src/assets/data.json` | **纯手工**，指定招募的常驻池角色 | 口径：常驻池、非限定或限定已入池、**排除异化**。当前缺 `娜迦将军`(M11307)、`蔷薇领主`(M13307)（二者都在 `Summon.json` 招募池内） |
-| `src/assets/notices.json` | 手工写公告 | 最新一条是 9.24，之后的功能改动没补公告 |
+| `src/assets/notices.json` | 手工写公告 | 最新一条为 9.29（此前「9.24 之后未补公告」已于 9.29 补齐） |
 | `src/utils/characterFilter.js` 的 `BLOCKED_CHARACTER_IDS` | 手工屏蔽未放出角色 | 当前仅屏蔽 `M53301_000`（[泳装]星界邪神） |
 | `hotupdate.json` | 发布时手工回填 | 忘记改 `version` 会导致热更不触发 |
+
+8. **`App.vue` 的 `<style>` 不是 scoped，裸类名会漏进每个页面**（2026-09-29 修过一次真实事故）
+
+   `App.vue` 的全站样式里，任何**不带父级前缀**的类名选择器都会对所有页面生效。
+   页面自己的 scoped 规则因为多了 `[data-v-xxx]` 属性，只在**它声明过的属性**上赢，没声明的照样被全局规则接管。
+
+   已出过的事：裸的 `.modal-close-x { position:absolute; right:12px; top:50% }` 本意只服务「数据管理」弹窗，
+   而 9 个页面各自的 scoped `.modal-close-x` **都不声明 `position`** → 绝对定位泄漏到约 20 个弹窗上，
+   X 以 `position:fixed` 的 `.modal-overlay` 为包含块，被摆到**视口**右侧垂直居中处，小弹窗上直接飞到卡片外面。
+
+   **写全局样式时一律加父级前缀**（`.import-modal-card .modal-close-x`）；
+   改动弹窗后用 `node tools/verify-modal-close.mjs --serve dist` 回归。详见 [KNOWN_BUGS §4](KNOWN_BUGS_AND_FIXES.md)。
 
 ---
 
@@ -179,6 +199,8 @@ cmd /c npm run build
 | 图片转 WebP | `python tools/optimize_images.py` | 默认只预估；`--apply` 才写盘并改写引用 |
 | 拆分 opencv wasm | `node tools/split-opencv-wasm.mjs` | 幂等；已拆分会直接提示无需处理 |
 | 验证识别链路 | `node tools/verify-opencv.mjs` | 真跑 `imageMatcher`，断言 26 模板就绪 + 真模板可被识别 |
+| 弹窗关闭按钮定位 | `node tools/verify-modal-close.mjs --serve dist` | 真开弹窗量 X 坐标，断言落在卡片头部；追加 `--simulate-bug` 可反向复现「全局样式泄漏」bug |
+| 天赋品质下拉框 | `node tools/verify-talent-dropdown.mjs --serve dist --route /talent\|/search` | 扫描多个滚动位置量下拉框被裁多少 + 切换品质后列表顺序是否变化 + 来源弹窗角色行有无头像 |
 
 > ⚠️ **不要用 PowerShell 直接跑 `tools/*.ps1` 或 `npm`**：本机执行策略禁止 `.ps1`（`npm.ps1` 同样被挡）。
 > 因此发布/校验工具都写成 **Node (.mjs) 或 Python**，避开这个坑。
@@ -249,7 +271,8 @@ node   tools/verify-dist-smoke.mjs   # 打 dist/ 冒烟：window.cv 就绪 + 无
 ## 七、后续可关注优化方向
 
 1. **`data.json` 口径补全**：把 `娜迦将军`、`蔷薇领主` 按常驻池口径确认后补入。
-2. **公告补更**：9.24 之后的实装（如「水圣剑」解除屏蔽）没有公告条目。
+2. ~~公告补更~~ —— **2026-09-29 已补 9.29 条目**（9.28 条目本就存在），当前最新为 9.29。
+   > ⚠️ 公告是**烙进 JS** 的（`notices.json` 被 `App.vue` import），改完必须重新构建；要推给已装 App 的用户还得走热更。
 3. ~~深色模式持久化~~ —— **2026-09-28 已修**（键 `recruit_tool_darkMode` + `index.html` 内联防白闪脚本）。
 4. **构建体积**：`data-equip-*.js` 986 KB、`data-bond-*.js` 544 KB。若要优化，考虑超大表走 `public/` + 运行时 `fetch` + 包内回退，但要一并解决离线可用性。
 5. **返回键白名单收敛**：`App.vue` 的选择器列表是历史堆积，理想做法是统一走 `overlayStack` 式的显式注册。
