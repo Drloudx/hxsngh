@@ -41,7 +41,7 @@
                 <img
                   :src="`/Header/${card.baseInfo.id}.png`"
                   class="char-header-avatar-img game-sprite"
-                  @error="handleIconError" loading="lazy" decoding="async" />
+                  loading="lazy" decoding="async" />
               </div>
               <span
                 :class="`wish-rarity-color-${getRarityNum(card.baseInfo.step)}`"
@@ -189,7 +189,7 @@
                     <img
                       :src="`/Header/${char.id}.png`"
                       class="char-header-avatar-img game-sprite"
-                      @error="handleIconError" loading="lazy" decoding="async" />
+                      loading="lazy" decoding="async" />
                   </div>
                   <span class="mcr-name">{{ char.displayName }}</span>
                 </div>
@@ -276,7 +276,7 @@
                 <img
                   :src="`/Header/${currentDetailChar?.id}.png`"
                   class="char-header-avatar-img game-sprite"
-                  @error="handleIconError" loading="lazy" decoding="async" />
+                  loading="lazy" decoding="async" />
               </div>
               <span :class="`wish-rarity-color-${getRarityNum(currentDetailChar?.step)}`" class="hero-name-span">
                 {{ currentDetailChar?.displayName }}
@@ -367,7 +367,7 @@
                 <img
                   :src="`/Header/${card.baseInfo.id}.png`"
                   class="char-header-avatar-img game-sprite"
-                  @error="handleIconError" loading="lazy" decoding="async" />
+                  loading="lazy" decoding="async" />
               </div>
               <span :class="`wish-rarity-color-${getRarityNum(card.baseInfo.step)}`" class="batch-char-name">{{ card.baseInfo.displayName }}</span>
               <span class="h-lbl batch-talent-num">{{ countTotalTalents(card) }}天赋</span>
@@ -408,7 +408,7 @@
                       <img
                         :src="`/Header/${entry.charId}.png`"
                         class="char-header-avatar-img game-sprite"
-                        @error="handleIconError" loading="lazy" decoding="async" />
+                        loading="lazy" decoding="async" />
                     </div>
                     <span :class="`wish-rarity-color-${entry.rarityNum}`" class="hero-name-span">{{ entry.charName }}</span>
                     <div class="hero-labels-container">
@@ -542,9 +542,12 @@ const activeSlotTracker = reactive({
   slotIdx: null
 })
 
-const handleIconError = (e) => {
-  e.target.src = '/Header/M00000.webp'
-}
+// ⚠️ 这里原先有个 `handleIconError` → `e.target.src = '/Header/M00000.webp'`，挂在头像上做 @error。
+// 但**元素上的 @error 会先于 window 捕获执行**，抢先把 src 换成兜底图，
+// 全局 handleImageError 就没机会做 `.png ↔ .webp` 换装 ——
+// WebP 化后 Header 只有 214 个 .webp / 24 个 .png，`.png` 大量 404，
+// 于是**整页头像全变成同一张占位图**（2026-09-29 用户实机反馈）。
+// 兜底策略已收归 App.vue 的 DIR_FALLBACK，页面不得再挂 @error。
 
 
 // 本地持久化

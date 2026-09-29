@@ -288,7 +288,7 @@
             >
               <div class="card-item-header">
                 <div class="card-item-icon-box">
-                  <img :src="`/Skill/${sk.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" loading="lazy" decoding="async" />
+                  <img :src="`/Skill/${sk.icon}.png`" class="card-item-icon game-sprite" loading="lazy" decoding="async" />
                 </div>
                 <div class="card-item-meta">
                   <span class="card-item-name">{{ sk.name }}</span>
@@ -309,7 +309,7 @@
             <div v-else class="detail-card-item">
               <div class="card-item-header">
                 <div class="card-item-icon-box">
-                  <img :src="`/Skill/${normalAttackDetail.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" loading="lazy" decoding="async" />
+                  <img :src="`/Skill/${normalAttackDetail.icon}.png`" class="card-item-icon game-sprite" loading="lazy" decoding="async" />
                 </div>
                 <div class="card-item-meta">
                   <span class="card-item-name">{{ normalAttackDetail.name }}</span>
@@ -327,7 +327,7 @@
             <div v-else class="detail-card-item">
               <div class="card-item-header">
                 <div class="card-item-icon-box">
-                  <img :src="`/Skill/${raceDetail.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" loading="lazy" decoding="async" />
+                  <img :src="`/Skill/${raceDetail.icon}.png`" class="card-item-icon game-sprite" loading="lazy" decoding="async" />
                 </div>
                 <div class="card-item-meta">
                   <span class="card-item-name">{{ raceDetail.name }}</span>
@@ -349,7 +349,7 @@
               >
                 <div class="card-item-header">
                   <div class="card-item-icon-box">
-                    <img :src="`/Skill/${sk.icon}.png`" class="card-item-icon game-sprite" @error="handleSkillIconError" loading="lazy" decoding="async" />
+                    <img :src="`/Skill/${sk.icon}.png`" class="card-item-icon game-sprite" loading="lazy" decoding="async" />
                   </div>
                   <div class="card-item-meta">
                     <span class="card-item-name">{{ sk.name }}</span>
@@ -374,7 +374,7 @@
             >
               <div class="relic-header">
                 <div class="relic-title-left">
-                  <img :src="`/Relics/${relic.IDs}.png`" class="relic-icon game-sprite" @error="handleRelicIconError" loading="lazy" decoding="async" />
+                  <img :src="`/Relics/${relic.IDs}.png`" class="relic-icon game-sprite" loading="lazy" decoding="async" />
                   <span class="relic-name" :style="{ color: getStepConfig(relic.Step).color }">{{ relic.Name }}</span>
                 </div>
                 <span class="relic-badge" :style="{ color: getStepConfig(relic.Step).color, borderColor: getStepConfig(relic.Step).color }">
@@ -426,7 +426,7 @@
                     class="clover-added-item"
                   >
                     <div class="clover-item-left">
-                      <img :src="`/Relics/${relic.IDs}.png`" class="clover-item-icon game-sprite" @error="handleRelicIconError" loading="lazy" decoding="async" />
+                      <img :src="`/Relics/${relic.IDs}.png`" class="clover-item-icon game-sprite" loading="lazy" decoding="async" />
                       <div class="clover-item-text">
                         <div class="clover-item-line1">
                           <span class="clover-item-name" :style="{ color: getStepConfig(relic.Step).color }">{{ relic.Name }}</span>
@@ -1256,18 +1256,12 @@ const closeDetail = () => {
 }
 
 // Image fallback handlers
-// 角色卡与立绘**不在这里兜底**：它们走 App.vue 的全局 handleImageError
-// （先换扩展名 .png↔.webp，再按身份退到该角色头像）。
-// 视图里自挂 @error 会先于 window 捕获执行，把 src 直接改成通用兜底图，
-// 导致全局换装失效 —— 213 张角色卡全显示同一张图就是这么来的。
-const handleSkillIconError = (e) => {
-  e.target.src = '/Skill/TB00001.png'
-}
-
-const handleRelicIconError = (e) => {
-  // 兜底图保留 PNG：它体积已极小（0.5KB），转换器跳过；写成 .webp 会死链
-  e.target.src = '/Relics/Mark.png'
-}
+// **所有图片兜底都不在这里做**：统一走 App.vue 的全局 handleImageError
+// （① .png↔.webp 换装 ② 角色卡/立绘按身份退到该角色头像 ③ 按目录退兜底图）。
+// 视图里自挂 @error 会先于 window 捕获执行，把 src 直接改成兜底图，
+// 导致全局换装失效。本项目因此踩过两次：213 张角色卡全同图、整页头像全同图。
+// 兜底策略（Skill → TB00001.png、Relics → Mark.png）已收归 App.vue 的 DIR_FALLBACK。
+// 注意 Mark.png / TB00001.png 保留 PNG：体积已极小，转换器跳过；写成 .webp 会死链。
 </script>
 
 <style scoped>

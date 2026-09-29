@@ -121,13 +121,13 @@
                 <img
                   :src="`/Header/${item.charId}.png`"
                   class="talent-char-avatar-img game-sprite"
-                  @error="handleIconError" loading="lazy" decoding="async" />
+                  loading="lazy" decoding="async" />
               </div>
 
               <span class="talent-name" :style="{ color: getTalentStepConfig(item.step).color }">{{ item.name }}</span>
 
               <div class="skill-mini-box" :title="`支援图标ID: ${item.iconId}`">
-                <img :src="`/Skill/${item.iconId}.png`" class="skill-mini-img" @error="handleIconError" loading="lazy" decoding="async" />
+                <img :src="`/Skill/${item.iconId}.png`" class="skill-mini-img" loading="lazy" decoding="async" />
               </div>
 
               <span
@@ -250,12 +250,11 @@ const toggleStarFilter = (star) => {
   }
 }
 
-/**
- * 图片加载失败的降级处理器
- */
-const handleIconError = (e) => {
-    e.target.src = '/Header/M00000.webp'
-}
+// ⚠️ 原先这里有 `handleIconError` → `/Header/M00000.webp`，挂在头像与技能小图上做 @error。
+// 但**元素上的 @error 会先于 window 捕获执行**，抢先把 src 换成兜底图，
+// 全局 handleImageError 就没机会做 `.png ↔ .webp` 换装 →
+// WebP 化后 Header 只剩 24 个 .png，整页头像全退成同一张占位图（2026-09-29 实机反馈）。
+// 兜底策略已收归 App.vue 的 DIR_FALLBACK，页面不得再挂 @error。
 
 // 监听
 watch(searchQuery, () => {

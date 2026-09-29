@@ -139,7 +139,7 @@
               v-if="item.iconPath"
               :src="item.iconPath"
               class="item-icon-img game-sprite"
-              @error="handleIconError(item)" loading="lazy" decoding="async" />
+              @error="handleIconError($event, item)" loading="lazy" decoding="async" />
             <span v-else class="item-icon-fallback-text" :style="{ color: getStepColor(item.step) }">
               {{ item.Type ? item.Type.slice(0, 2) : '物' }}
             </span>
@@ -500,7 +500,27 @@ const formatLevelText = (lvlStr) => {
   return lvlStr.split(',').map(l => (isGamble ? `第${l}轮` : `第${l}层`)).join(' / ')
 }
 
-const handleIconError = (item) => {
+// 道具图标兜底：**先自己换一次扩展名**，换装也失败才退成文字占位。
+//
+// 背景：`iconPath` 是按 `/Shop/${iconId}.png` 拼的，而 `/Shop` 是**混合扩展名**
+// （59 个 .png / 45 个 .webp），约四成 id 只有 .webp → `.png` 必然 404。
+// 旧实现一遇错就把 `item.iconPath` 清空 → 图标被换成文字，**明明有 .webp 也用不上**。
+//
+// 为什么不直接删掉这个 @error、交给 App.vue 的全局换装：
+// 本页的兜底是"文字占位"（比错误图片更合适），而全局兜底会退成通用头像图 —— 语义不同。
+// 也不能依赖"全局先换我再判"：两个监听器的执行顺序是实现细节。
+// 所以这里用一个**页面私有标记**自己做一次换装，与全局处理器互不干扰。
+const handleIconError = (e, item) => {
+  const img = e.target
+  const cur = img.getAttribute('src') || ''
+  if (img.dataset.shopExtSwapped !== '1') {
+    const dot = cur.lastIndexOf('.')
+    if (dot > 0) {
+      img.dataset.shopExtSwapped = '1'
+      img.src = cur.slice(0, dot) + (cur.slice(dot).toLowerCase() === '.png' ? '.webp' : '.png')
+      return
+    }
+  }
   item.iconPath = ''
 }
 

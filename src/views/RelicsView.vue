@@ -155,7 +155,7 @@
           <img
             :src="`/Relics/${item.IDs}.png`"
             class="relic-card-icon game-sprite"
-            @error="handleRelicIconError" loading="lazy" decoding="async" />
+            loading="lazy" decoding="async" />
           <div class="relic-card-text">
             <div class="relic-card-line1">
               <span class="relic-card-name" :style="{ color: getStepConfig(item.Step).color }">
@@ -413,10 +413,11 @@ watch([searchQuery, subSearchQuery, selectedCharacter, selectedStep, activeCharT
   displayLimit.value = PAGE_SIZE
 })
 
-const handleRelicIconError = (e) => {
-  // 兜底图保留 PNG：它体积已极小（0.5KB），转换器跳过；写成 .webp 会死链
-  e.target.src = '/Relics/Mark.png'
-}
+// ⚠️ 原先这里有 `handleRelicIconError` → `/Relics/Mark.png`，挂在心得图标上做 @error。
+// 但元素上的 @error 会先于 window 捕获执行，抢先把 src 换成 Mark.png，
+// 全局换装失效 → Relics 目录有 347 个 .webp，`.png` 存在时才有图，其余全退成 Mark.png。
+// 兜底已收归 App.vue 的 DIR_FALLBACK（`/Relics` → `Mark.png`，同样是这张图），页面不得再挂 @error。
+// 注意 Mark.png 保留 PNG：体积已极小（0.5KB），转换器跳过；写成 .webp 会死链。
 
 const initObserver = () => {
   observer = new IntersectionObserver((entries) => {

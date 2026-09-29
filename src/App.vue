@@ -29,20 +29,29 @@ const handleGlobalClick = (e) => {
 }
 
 /**
- * 图片扩展名回退 + 身份兜底：统一在这里做，视图**不要**再挂 @error
+ * 图片扩展名回退 + 身份兜底 + 按目录兜底：统一在这里做，视图**不要**再挂 @error
  *
  * 背景：`public/` 下这些目录的图**部分已转 WebP、部分保留 PNG**
  * （转换按"至少省 15%"决定，已有高压缩 WebP 重编码反而变大，故意跳过）。
  * 而路径是 `模板字符串 + .png` 拼出来的（54 处），写死任一扩展名都会对另一部分死链。
  *
- * 两个层级，顺序执行：
+ * 三个层级，顺序执行：
  *   1. 换扩展名重试一次（.png ↔ .webp）—— 覆盖"图存在但扩展名写错"。
  *   2. 仍然失败时按身份兜底 —— 角色卡 `RoleCard/MD<id>` 退回该角色的头像
- *      `Header/<id>`（有辨识度），再不行才退通用占位图。
+ *      `Header/<id>`（有辨识度）。
+ *   3. 再不行才退**按目录**的兜底图（见 DIR_FALLBACK），最后才是通用占位图。
  *
- * ⚠️ 踩过的坑：视图里如果自己挂 `@error`，**元素上的监听会先于 window 捕获执行**，
- * 于是 src 被视图改成通用兜底图、全局处理器看到已是 .webp 就放弃换装 ——
- * 结果 213 张角色卡全部显示同一张兜底图（已修：RoleView 的 @error 已移除）。
+ * ⚠️ 踩过的坑（踩过两次，别再犯）：视图里如果自己挂 `@error`，**元素上的监听会先于
+ * window 捕获执行**，于是 src 被视图改成兜底图、全局处理器看到已是兜底图就放弃换装 ——
+ * 结果**整页图片全变成同一张占位图**。
+ *   · 第一次：RoleView 的角色卡（213 张全同图）。
+ *   · 第二次（2026-09-29）：`/talent-manage`、`/subskill`、`/unique` 的角色头像
+ *     —— WebP 化后 Header 目录里 214 个是 `.webp`、只剩 24 个 `.png`，
+ *     模板拼出来的 `.png` 路径大量 404；页面自己的 `@error` 抢先退成通用头像，
+ *     于是**整页头像全一样、连角色名都分不出来**（用户实机截图反馈）。
+ *     同批还修了 `/prefix`（`ParagonPrefix` 目录 100% 是 `.webp`，`.png` 必然 404，
+ *     旧代码把该路径记进 `failedIcons` 后 `getPrefixIcon` 直接返回 null → 重渲染即丢图）。
+ * **所以：任何 `<img>` 都不要挂 `@error`。** 兜底策略改在这里按目录配。
  *
  * 注意：capture=true 才能捕获到资源加载错误 —— error 事件在 img 上**不冒泡**。
  */
@@ -50,6 +59,21 @@ const IMAGE_EXT_DIRS = /^\/(Equip|AreaBlock|RoleCard|RoleDraw|Skill|Header|lime|
 const SWAP_EXT = { '.png': '.webp', '.webp': '.png' }
 // 通用占位图（通用头像，任何角色都能退到它）
 const GENERIC_IMAGE_FALLBACK = '/Header/M00000.webp'
+/**
+ * 按目录的最终兜底图。
+ *
+ * 各页面原先各自 `@error` 到这些图（`/Relics/Mark.png`、`/Skill/TB00001.png`、
+ * `/Header/M00000.webp`），但那会打断换装。收拢到这里后：
+ * 页面不再挂 `@error`，兜底仍然"按目录选对图"，两全。
+ * 未列出的目录用 GENERIC_IMAGE_FALLBACK。
+ */
+const DIR_FALLBACK = {
+  '/Header': '/Header/M00000.webp',
+  '/RoleCard': '/Header/M00000.webp',
+  '/RoleDraw': '/Header/M00000.webp',
+  '/Relics': '/Relics/Mark.png',
+  '/Skill': '/Skill/TB00001.png',
+}
 
 /**
  * 从图片路径里抽出"角色身份 ID"。
@@ -109,10 +133,11 @@ const handleImageError = (e) => {
     }
   }
 
-  // 第 3 层：通用占位图
-  if (el.dataset.genericFallback !== '1' && current !== GENERIC_IMAGE_FALLBACK) {
+  // 第 3 层：按目录的兜底图（Relics → Mark.png、Skill → TB00001.png、角色类 → 通用头像）
+  const fallback = DIR_FALLBACK[dir] || GENERIC_IMAGE_FALLBACK
+  if (el.dataset.genericFallback !== '1' && current !== fallback) {
     el.dataset.genericFallback = '1'
-    el.src = GENERIC_IMAGE_FALLBACK
+    el.src = fallback
   }
 }
 

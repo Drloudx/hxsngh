@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="talent-container">
     <div class="talent-sticky-top">
       <!-- 顶部栏: 搜索框 -->
@@ -47,7 +47,7 @@
               <img 
                 :src="getPrefixIcon(getActiveStepItem(group)?.IDs)" 
                 class="prefix-icon-img game-sprite" 
-                @error="handleIconError(getPrefixIcon(getActiveStepItem(group)?.IDs))" loading="lazy" decoding="async" />
+                loading="lazy" decoding="async" />
             </div>
             <span class="prefix-name">{{ group[0].Name }}</span>
           </div>
@@ -190,12 +190,12 @@ const getActiveStepItem = (group) => {
   return group.find(item => item.Step === step) || group[0]
 }
 
-const failedIcons = ref(new Set())
-const handleIconError = (iconPath) => {
-  if (iconPath) {
-    failedIcons.value.add(iconPath)
-  }
-}
+// ⚠️ 原先这里有 `failedIcons` + `handleIconError`：`.png` 一旦 404 就把该路径记成"失败"，
+// `getPrefixIcon` 之后直接 `return null`。但 `ParagonPrefix` 目录是 **100% `.webp`**，
+// `.png` **必然** 404 —— 全局 handleImageError 本来会把扩展名换成 `.webp` 救回来，
+// 可路径已被记成失败，**任何一次重渲染都会把图标变成 null**。
+// 现在删掉这层状态：`getPrefixIcon` 始终返回 `.png` 路径，由全局处理器负责换装。
+// （模板里的 `validNumbers` 白名单已排除 '14'，返回的路径一定落在真实存在的 53 张图内。）
 
 const getPrefixIcon = (ids) => {
   if (!ids) return null
@@ -210,7 +210,6 @@ const getPrefixIcon = (ids) => {
   ]
   if (validNumbers.includes(lastTwo)) {
     const iconPath = `/ParagonPrefix/JH400${lastTwo}.png`
-    if (failedIcons.value.has(iconPath)) return null
     return iconPath
   }
   return null
