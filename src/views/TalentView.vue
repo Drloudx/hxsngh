@@ -94,7 +94,7 @@
                 borderColor: getTalentStepConfig(item.step).color,
                 backgroundColor: getTalentStepConfig(item.step).color + '15'
               }"
-              @click.stop="toggleTagDropdown(item)"
+              @click.stop="toggleTagDropdown(item, $event)"
             >
               {{ item.标签 }}
               <img
@@ -104,7 +104,7 @@
               />
             </span>
 
-            <div v-if="item.dropdownOpen" class="tag-dropdown-menu">
+            <div v-if="item.dropdownOpen" class="tag-dropdown-menu" :class="{ 'drop-up': item.dropUp }">
               <div
                 v-for="(q, qIdx) in item.qualities"
                 :key="q.uid"
@@ -167,9 +167,16 @@
                   :key="hero.id"
                   class="matched-hero-card"
                 >
-                  <span :class="`wish-rarity-color-${getRarityNum(hero.step)}`" class="hero-name-span">
-                    {{ hero.displayName }}
-                  </span>
+                  <div class="matched-hero-identity">
+                    <div class="talent-char-avatar-container">
+                      <img
+                        :src="`/Header/${hero.id}.png`"
+                        class="talent-char-avatar-img game-sprite" loading="lazy" decoding="async" />
+                    </div>
+                    <span :class="`wish-rarity-color-${getRarityNum(hero.step)}`" class="hero-name-span">
+                      {{ hero.displayName }}
+                    </span>
+                  </div>
 
                   <div class="hero-labels-container">
                     <span v-if="hero.class" class="h-lbl label-job">{{ hero.class }}</span>
@@ -317,9 +324,16 @@
               :key="hero.id"
               class="matched-hero-card"
             >
-              <span :class="`wish-rarity-color-${getRarityNum(hero.step)}`" class="hero-name-span">
-                {{ hero.displayName }}
-              </span>
+              <div class="matched-hero-identity">
+                <div class="talent-char-avatar-container">
+                  <img
+                    :src="`/Header/${hero.id}.png`"
+                    class="talent-char-avatar-img game-sprite" loading="lazy" decoding="async" />
+                </div>
+                <span :class="`wish-rarity-color-${getRarityNum(hero.step)}`" class="hero-name-span">
+                  {{ hero.displayName }}
+                </span>
+              </div>
 
               <div class="hero-labels-container">
                 <span v-if="hero.class" class="h-lbl label-job">{{ hero.class }}</span>
@@ -338,7 +352,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, onUnmounted, reactive } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted, reactive, nextTick } from 'vue'
 import * as configUtil from '@/utils/configTableUtil.js'
 import rawRoles from '@/assets/Role.json'
 import rawTalents from '@/assets/Talent.json'
@@ -525,20 +539,64 @@ const toggleModalFilterTag = (tag) => {
   }
 }
 
-const toggleTagDropdown = (item) => {
+/**
+ * 下拉框向上/向下展开的判定。
+ *
+ * 页面滚动容器 `.talent-list` 带 `overflow-y: auto`，它会**裁掉**溢出的绝对定位子元素 ——
+ * 下拉框的包含块 `.talent-tag-dropdown-wrapper` 就在这个容器内部，躲不开这层裁剪。
+ * 于是卡片靠近列表底部时，向下展开的下拉框会被从中间切断（实测最坏裁掉 49px，
+ * 第 3 项只剩半个字、第 4 项完全看不见）。空间不够就改为向上弹。
+ */
+const DROPDOWN_SAFE_GAP = 8
+
+const measureDropUp = (triggerEl, menuEl) => {
+  if (!triggerEl || !menuEl) return false
+  // 找最近的"会裁剪"的祖先：它才是真正切掉下拉框的那一层
+  let box = triggerEl.parentElement
+  while (box && box !== document.body) {
+    if (getComputedStyle(box).overflowY !== 'visible') break
+    box = box.parentElement
+  }
+  const limitBottom = (box && box !== document.body)
+    ? box.getBoundingClientRect().bottom
+    : window.innerHeight
+  const triggerBottom = triggerEl.getBoundingClientRect().bottom
+  return (limitBottom - triggerBottom) < (menuEl.offsetHeight + DROPDOWN_SAFE_GAP)
+}
+
+const toggleTagDropdown = async (item, event) => {
+  // ⚠️ currentTarget 只在事件派发期间有效，必须在 await 之前取出来
+  const triggerEl = event ? event.currentTarget : null
+  const willOpen = !item.dropdownOpen
+
   allTalents.value.forEach(t => {
     if (t !== item) {
       t.dropdownOpen = false
+      t.dropUp = false
     }
   })
-  item.dropdownOpen = !item.dropdownOpen
+
+  item.dropdownOpen = willOpen
+  if (!willOpen) {
+    item.dropUp = false
+    return
+  }
+
+  // 先按"向下展开"渲染一帧，量到真实高度再决定是否翻转
+  item.dropUp = false
+  await nextTick()
+  const menuEl = triggerEl && triggerEl.parentElement
+    ? triggerEl.parentElement.querySelector('.tag-dropdown-menu')
+    : null
+  item.dropUp = measureDropUp(triggerEl, menuEl)
 }
 
 const switchQuality = (item, qIdx) => {
   item.activeIdx = qIdx
   const selectedQuality = item.qualities[qIdx]
 
-  item.uid = selectedQuality.uid
+  // ⚠️ 这里刻意**不**改 item.uid：它是 v-for 的 :key，改了会让 Vue 销毁重建整张卡片
+  // （图片重新加载、下拉框闪一下）。uid 是分组身份，与"当前看哪个品质"无关。
   item.step = selectedQuality.step
   item.标签 = selectedQuality.标签
   item.sourceLabel = selectedQuality.sourceLabel
@@ -551,6 +609,7 @@ const switchQuality = (item, qIdx) => {
   item.Element = selectedQuality.Element
 
   item.dropdownOpen = false
+  item.dropUp = false
 }
 
 const closeAllDropdowns = () => {
@@ -702,11 +761,22 @@ const suggestedCharacters = computed(() => {
   })
 })
 
+/**
+ * ★ 排序身份固定取「组内默认（最高）品质」那一份，而不是当前展示的那一份。
+ *
+ * `switchQuality` 只改展示字段（step / 标签 / 效果 / 分类），但 `primarySortedTalents`
+ * 是按 `step` 权重排序的 —— 若直接读 `t.step`，用户一切换品质，该卡片的权重就变了，
+ * 卡片会在列表里跳到别的位置（实测「强而有力」S→A 会与「意志强韧」互换序号）。
+ * 所以排序一律走 `qualities[0]`：分组时它已按权重降序排好，就是默认品质。
+ */
+const sortVariantOf = (t) => (t && t.qualities && t.qualities.length ? t.qualities[0] : t)
+
 const getCategoryOrder = (t) => {
-  if (t.SpecifyRoleIDs) return 1  // 专属
-  if (t.Race) return 2            // 种族
-  if (t.Class) return 3           // 职业
-  if (t.Element) return 4         // 属性
+  const d = sortVariantOf(t)
+  if (d.SpecifyRoleIDs) return 1  // 专属
+  if (d.Race) return 2            // 种族
+  if (d.Class) return 3           // 职业
+  if (d.Element) return 4         // 属性
   return 5                        // 通用
 }
 
@@ -724,8 +794,8 @@ const primarySortedTalents = computed(() => {
     if (catA !== catB) {
       return catA - catB
     }
-    const wa = getTalentStepConfig(a.step).weight
-    const wb = getTalentStepConfig(b.step).weight
+    const wa = getTalentStepConfig(sortVariantOf(a).step).weight
+    const wb = getTalentStepConfig(sortVariantOf(b).step).weight
     return wb - wa
   }
 
@@ -743,26 +813,27 @@ const primarySortedTalents = computed(() => {
     const bucketGeneral = []
 
     baseList.forEach(t => {
-      if (t.SpecifyRoleIDs && t.SpecifyRoleIDs === charId) {
+      const d = sortVariantOf(t)
+      if (d.SpecifyRoleIDs && d.SpecifyRoleIDs === charId) {
         bucketExclusive.push(t)
       }
-      else if (t.Race && t.Race === subRace) {
+      else if (d.Race && d.Race === subRace) {
         bucketRace.push(t)
       }
-      else if (t.Class && t.Class === job) {
+      else if (d.Class && d.Class === job) {
         bucketJob.push(t)
       }
-      else if (t.Element && t.Element === attr) {
+      else if (d.Element && d.Element === attr) {
         bucketAttr.push(t)
       }
-      else if (!t.Race && !t.Class && !t.Element && !t.SpecifyRoleIDs) {
+      else if (!d.Race && !d.Class && !d.Element && !d.SpecifyRoleIDs) {
         bucketGeneral.push(t)
       }
     })
 
     const sortByQuality = (arr) => arr.sort((a, b) => {
-      const wa = getTalentStepConfig(a.step).weight
-      const wb = getTalentStepConfig(b.step).weight
+      const wa = getTalentStepConfig(sortVariantOf(a).step).weight
+      const wb = getTalentStepConfig(sortVariantOf(b).step).weight
       return wb - wa
     })
 
@@ -1141,6 +1212,14 @@ img.game-sprite {
   flex-direction: column;
 }
 
+/* 下方空间不够时改为向上展开 —— 否则会被 .talent-list 的 overflow:auto 裁掉底部 */
+.tag-dropdown-menu.drop-up {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
 .tag-dropdown-item {
   padding: 8px 12px;
   font-size: 13px;
@@ -1364,8 +1443,15 @@ img.game-sprite {
   transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
   flex-shrink: 0;
 }
+/* ⚠️ 悬停时的 `transform` 会让卡片成为**层叠上下文**，而卡片是 `position: static`，
+   于是它仍按"普通流"绘制 —— 结果卡内下拉框的 `z-index: 1000` 被**困在卡片内部**，
+   后面 DOM 顺序的兄弟卡片会把下拉框盖住（实测重叠 22px 处最上层是下一张卡的 tag 容器）。
+   同时给一个正的 `z-index`，卡片整体进入"正 z-index 层"（绘制顺序晚于普通流），
+   下拉框才真的浮在后续卡片之上。`position: relative` 是 `z-index` 生效的前提。 */
 .talent-card:hover {
   transform: translateY(-2px);
+  position: relative;
+  z-index: 30;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
@@ -1557,6 +1643,14 @@ img.game-sprite {
 }
 .matched-hero-card:hover {
   background-color: #f8fafc;
+}
+
+/* 头像 + 名字作为左侧一组，右侧留给职业/种族/属性标签 */
+.matched-hero-identity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
 }
 
 .hero-name-span {

@@ -1947,7 +1947,13 @@ html:not([data-app-shell="true"]) .app-only { display: none !important; }
 /* ===== 导入数据弹窗 ===== */
 .import-modal-card { max-width: 440px; }
 .import-modal-card .modal-header { position: relative; }
-.modal-close-x {
+/* ⚠️ 选择器必须带 .import-modal-card 前缀。
+   这里曾写成裸 `.modal-close-x`，而本 <style> 是非 scoped 的全局样式：
+   各页面自己的 scoped `.modal-close-x` 只声明颜色/字号等，**不声明 position**，
+   于是 `position:absolute` 泄漏到全站，X 以 .modal-overlay（position:fixed）为
+   包含块定位 → 跑到视口右侧垂直居中处，小弹窗上就飞到卡片外面。
+   收窄作用域后，页面里的 X 回到 .modal-header 的 flex 布局（space-between）里。 */
+.import-modal-card .modal-close-x {
   position: absolute;
   right: 12px;
   top: 50%;
@@ -1960,7 +1966,7 @@ html:not([data-app-shell="true"]) .app-only { display: none !important; }
   cursor: pointer;
   padding: 6px 8px;
 }
-.modal-close-x:hover { color: var(--text-main); }
+.import-modal-card .modal-close-x:hover { color: var(--text-main); }
 .import-modal-card .modal-body {
   text-align: left;
   display: flex;

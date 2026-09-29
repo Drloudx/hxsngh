@@ -207,7 +207,7 @@
                       color: getTalentStepConfig(item.step).color,
                       backgroundColor: getTalentStepConfig(item.step).color + '15'
                     }"
-                    @click.stop="toggleTagDropdown(item)"
+                    @click.stop="toggleTagDropdown(item, $event)"
                   >
                     {{ item.标签 }}
                     <img
@@ -216,7 +216,7 @@
                       :class="{ 'expanded-flip': !item.dropdownOpen }"
                     />
                   </span>
-                  <div v-if="item.dropdownOpen" class="tag-dropdown-menu">
+                  <div v-if="item.dropdownOpen" class="tag-dropdown-menu" :class="{ 'drop-up': item.dropUp }">
                     <div
                       v-for="(q, qIdx) in item.qualities"
                       :key="q.uid"
@@ -390,7 +390,7 @@
                     color: getTalentStepConfig(item.step).color,
                     backgroundColor: getTalentStepConfig(item.step).color + '15'
                   }"
-                  @click.stop="toggleTagDropdown(item)"
+                  @click.stop="toggleTagDropdown(item, $event)"
                 >
                   {{ item.标签 }}
                   <img
@@ -399,7 +399,7 @@
                     :class="{ 'expanded-flip': !item.dropdownOpen }"
                   />
                 </span>
-                <div v-if="item.dropdownOpen" class="tag-dropdown-menu">
+                <div v-if="item.dropdownOpen" class="tag-dropdown-menu" :class="{ 'drop-up': item.dropUp }">
                   <div
                     v-for="(q, qIdx) in item.qualities"
                     :key="q.uid"
@@ -554,9 +554,16 @@
               :key="hero.id"
               class="matched-hero-card"
             >
-              <span :class="`wish-rarity-color-${getRarityNum(hero.step)}`" class="hero-name-span">
-                {{ hero.displayName }}
-              </span>
+              <div class="matched-hero-identity">
+                <div class="talent-char-avatar-container">
+                  <img
+                    :src="`/Header/${hero.id}.png`"
+                    class="talent-char-avatar-img game-sprite" loading="lazy" decoding="async" />
+                </div>
+                <span :class="`wish-rarity-color-${getRarityNum(hero.step)}`" class="hero-name-span">
+                  {{ hero.displayName }}
+                </span>
+              </div>
               <div class="hero-labels-container">
                 <span v-if="hero.class" class="h-lbl label-job">{{ hero.class }}</span>
                 <span v-if="hero.type" class="h-lbl label-race">{{ hero.type }}</span>
@@ -1267,11 +1274,21 @@ const queryKeywords = computed(() => {
   return [qStr, subQStr].filter(Boolean)
 })
 
+/**
+ * ★ 排序身份固定取「组内默认（最高）品质」那一份，而不是当前展示的那一份。
+ *
+ * `switchQuality` 只改展示字段，但排序是按 `step` 权重做的 —— 若直接读 `t.step`，
+ * 用户一切换品质，该条目权重就变了，卡片会在列表里跳位。
+ * 分组时 `qualities` 已按权重降序排好（`highestQuality = qualities[0]`），故取首项即默认品质。
+ */
+const sortVariantOf = (t) => (t && t.qualities && t.qualities.length ? t.qualities[0] : t)
+
 const getCategoryOrder = (t) => {
-  if (t.SpecifyRoleIDs) return 1  // 专属
-  if (t.Race) return 2            // 种族
-  if (t.Class) return 3           // 职业
-  if (t.Element) return 4         // 属性
+  const d = sortVariantOf(t)
+  if (d.SpecifyRoleIDs) return 1  // 专属
+  if (d.Race) return 2            // 种族
+  if (d.Class) return 3           // 职业
+  if (d.Element) return 4         // 属性
   return 5                        // 通用
 }
 
@@ -1281,8 +1298,8 @@ const sortRule = (a, b) => {
   if (catA !== catB) {
     return catA - catB
   }
-  const wa = getTalentStepConfig(a.step).weight
-  const wb = getTalentStepConfig(b.step).weight
+  const wa = getTalentStepConfig(sortVariantOf(a).step).weight
+  const wb = getTalentStepConfig(sortVariantOf(b).step).weight
   return wb - wa
 }
 
@@ -1832,24 +1849,66 @@ watch(showSubSearch, (val) => {
 })
 
 // =================== 天赋卡片 Quality Dropdown ===================
-const toggleTagDropdown = (item) => {
-  item.dropdownOpen = !item.dropdownOpen
+/**
+ * 下拉框向上/向下展开的判定。
+ *
+ * 本页天赋列表所在的滚动容器带 `overflow-y: auto`，会**裁掉**溢出的绝对定位子元素
+ * （下拉框的包含块 `.talent-tag-dropdown-wrapper` 就在该容器内部，躲不开这层裁剪）。
+ * 条目靠近可视区底部时，向下展开的下拉框会被从中间切断 —— 空间不够就改为向上弹。
+ */
+const DROPDOWN_SAFE_GAP = 8
+
+const measureDropUp = (triggerEl, menuEl) => {
+  if (!triggerEl || !menuEl) return false
+  // 找最近的"会裁剪"的祖先：它才是真正切掉下拉框的那一层
+  let box = triggerEl.parentElement
+  while (box && box !== document.body) {
+    if (getComputedStyle(box).overflowY !== 'visible') break
+    box = box.parentElement
+  }
+  const limitBottom = (box && box !== document.body)
+    ? box.getBoundingClientRect().bottom
+    : window.innerHeight
+  const triggerBottom = triggerEl.getBoundingClientRect().bottom
+  return (limitBottom - triggerBottom) < (menuEl.offsetHeight + DROPDOWN_SAFE_GAP)
+}
+
+const toggleTagDropdown = async (item, event) => {
+  // ⚠️ currentTarget 只在事件派发期间有效，必须在 await 之前取出来
+  const triggerEl = event ? event.currentTarget : null
+  const willOpen = !item.dropdownOpen
+
+  item.dropdownOpen = willOpen
+  if (!willOpen) {
+    item.dropUp = false
+    return
+  }
+
+  // 先按"向下展开"渲染一帧，量到真实高度再决定是否翻转
+  item.dropUp = false
+  await nextTick()
+  const menuEl = triggerEl && triggerEl.parentElement
+    ? triggerEl.parentElement.querySelector('.tag-dropdown-menu')
+    : null
+  item.dropUp = measureDropUp(triggerEl, menuEl)
 }
 
 const switchQuality = (item, qIdx) => {
   const selectedQuality = item.qualities[qIdx]
   item.activeIdx = qIdx
+  // ⚠️ 刻意**不**改 item.uid：它是 v-for 的 :key，改了会让 Vue 销毁重建整张卡片。
+  // uid 是分组身份，与"当前看哪个品质"无关。
   item.step = selectedQuality.step
   item.标签 = selectedQuality.标签
   item.formattedEffect = selectedQuality.formattedEffect
   item.sourceLabel = selectedQuality.sourceLabel
-  item.uid = selectedQuality.uid
   item.SpecifyRoleIDs = selectedQuality.SpecifyRoleIDs
   item.Race = selectedQuality.Race
   item.Class = selectedQuality.Class
   item.Element = selectedQuality.Element
   item.iconId = selectedQuality.iconId
   item.dropdownOpen = false
+  item.dropUp = false
 }
 
 // =================== 弹窗交互方法 ===================
@@ -2458,8 +2517,15 @@ const handleIconError = (e) => {
   text-align: left;
 }
 
+/* ⚠️ 悬停时的 `transform` 会让卡片成为**层叠上下文**，而卡片是 `position: static`，
+   于是它仍按"普通流"绘制 —— 结果卡内下拉框的 `z-index` 被**困在卡片内部**，
+   后面 DOM 顺序的兄弟卡片会把下拉框盖住（实测重叠 22px 处最上层是下一张卡的 tag 容器）。
+   同时给一个正的 `z-index`，卡片整体进入"正 z-index 层"（绘制顺序晚于普通流），
+   下拉框才真的浮在后续卡片之上。`position: relative` 是 `z-index` 生效的前提。 */
 .talent-card:hover {
   transform: translateY(-2px);
+  position: relative;
+  z-index: 30;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   border-color: var(--primary-light, rgba(249,115,22,0.25));
 }
@@ -2561,6 +2627,14 @@ const handleIconError = (e) => {
   margin-top: 4px;
   padding: 4px 0;
   min-width: 60px;
+}
+
+/* 下方空间不够时改为向上展开 —— 否则会被列表滚动容器的 overflow:auto 裁掉底部 */
+.tag-dropdown-menu.drop-up {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: 4px;
 }
 
 .tag-dropdown-item {
@@ -2836,6 +2910,14 @@ const handleIconError = (e) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* 头像 + 名字作为左侧一组，右侧留给职业/种族/属性标签 */
+.matched-hero-identity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
 }
 
 .hero-name-span {
