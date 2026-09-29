@@ -233,10 +233,19 @@ node tools/verify-hotupdate-package.mjs
 
 **核对清单**：
 
-- [ ] `version` 严格大于线上当前值，且**前三段与 APK 版本一致**（否则会被判定为需要换 APK）。
+- [ ] `version` 严格大于**用户已安装的版本**（`local_web_version`），且**前三段与 APK 版本一致**
+      （否则会被判定为需要换 APK）。
+      > ⚠️ 比的**不是"你本地文件里写的数"，而是用户设备上 `local_web_version` 的现值** ——
+      > 它在上一次**成功安装**时被写成那一版的 `manifest.version`。
+      > 所以**漏改 version = 全体用户静默收不到这次更新**（不改就永远相等，`compareVersions` 返回 0）。
+      > 排查入口：控制台 `[HotUpdate] 本地生效的 Web 版本 / 远程最新版本 / 版本比较` 三行日志。
 - [ ] `totalParts` 等于实际分卷数。
-- [ ] `downloadUrl` 指向的路径下确实存在 `.001`、`.002`…
-- [ ] 实际分卷数与 `totalParts` 不符会导致漏下或 404。
+- [ ] `downloadUrl` 指向的路径下确实存在对应文件（`totalParts = 1` 时就是 `downloadUrl` 本身，
+      不拼 `.001`；`> 1` 时才需要 `.001`、`.002`…）。
+- [ ] 上传的是**本工具产出的** `dist.zip`，并已跑 `node tools/verify-hotupdate-package.mjs`
+      （不要用手工 `Compress-Archive` / 外部 `tar` 压的包，见 [KNOWN_BUGS §6/§7](../KNOWN_BUGS_AND_FIXES.md)）。
+- [ ] `packageSize` / `md5` 与**实际上传的那个文件**一致（前端不校验 md5、`packageSize` 仅用于显示，
+      所以对不上不会报错，但账目会失真，排查时容易被误导）。
 
 ### 7.3 APK 发布
 
