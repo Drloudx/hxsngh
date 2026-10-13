@@ -55,7 +55,7 @@ const handleGlobalClick = (e) => {
  *
  * 注意：capture=true 才能捕获到资源加载错误 —— error 事件在 img 上**不冒泡**。
  */
-const IMAGE_EXT_DIRS = /^\/(Equip|AreaBlock|RoleCard|RoleDraw|Skill|Header|lime|Shop|DungeonRelics|GodStone|Relics|Rune|Foretell|ParagonPrefix|Bond)\//
+const IMAGE_EXT_DIRS = /^\/(Equip|AreaBlock|RoleCard|RoleDraw|Skill|Header|lime|Shop|DungeonRelics|GodStone|Relics|Rune|Foretell|ParagonPrefix|Bond|Ingredient)\//
 const SWAP_EXT = { '.png': '.webp', '.webp': '.png' }
 // 通用占位图（通用头像，任何角色都能退到它）
 const GENERIC_IMAGE_FALLBACK = '/Header/M00000.webp'

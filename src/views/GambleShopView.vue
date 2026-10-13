@@ -313,6 +313,102 @@ const extractStep = (item) => {
   return ''
 }
 
+/**
+ * 品质 → 真实图标路径表。
+ *
+ * 图标来源全部是**游戏内真实素材**（从官方 bundle 提取），不再是 UI 色块：
+ *   · 宝箱：同一只箱子（岩晶宝箱 BX00011）按品质改色 → public/Shop/CHEST_<品质>.png
+ *   · 装备：各品质一件真实武器（优先取「剑」）→ public/Equip/*
+ *   · 符文：F1/F2/F3/F4 自带品质递进 → public/Rune/*
+ *   · 素材：角色升级材料（鱼/肉/蘑菇/植物/矿石/能量）→ public/Ingredient/*
+ */
+const CHEST_ICONS = {
+  C: '/Shop/CHEST_C.png',
+  B: '/Shop/CHEST_B.png',
+  A: '/Shop/CHEST_A.png',
+  S: '/Shop/CHEST_S.png',
+  SS: '/Shop/CHEST_SS.png',
+}
+
+const EQUIP_ICONS = {
+  C: '/Equip/Z00015_101.png',
+  B: '/Equip/Z00005_112.png',
+  A: '/Equip/Z00014_121.webp',
+  S: '/Equip/Z00000_171.webp',
+  SS: '/Equip/Z20002_141.png',
+}
+
+const RUNE_ICONS = {
+  C: '/Rune/F10001_001.webp',
+  B: '/Rune/F20001_001.webp',
+  A: '/Rune/F30001_001.webp',
+  S: '/Rune/F40001_001.webp',
+  SS: '/Rune/F40001_002.webp',
+}
+
+/**
+ * 素材（角色升级材料）按品质挑代表图。
+ *
+ * 素材表 Ingredient.json 共 19 种，本身带 Step（C/B/A/S），
+ * 每档都覆盖「鱼/肉/蘑菇/植物/矿石/能量」等类型；这里每档取一件辨识度最高的：
+ *   C 魔力结晶（经验）· B 黑背鱼（鱼类）· A 银鳕鱼（鱼类）· S 月光精华（能量）
+ * 缺 SS 档，沿用 S 档最强的「月光精华」。
+ */
+const INGREDIENT_ICONS = {
+  C: '/Ingredient/D10000_005.png',
+  B: '/Ingredient/D10001_001.png',
+  A: '/Ingredient/D10000_103.png',
+  S: '/Ingredient/D10000_304.png',
+  SS: '/Ingredient/D10000_304.png',
+}
+
+// 解析出的 step 若不在表内（如 '' 基础档），统一落到 C 档
+const iconByStep = (table, step) => table[step] || table.C
+
+/**
+ * 神石（GodStone）真实图标，按品质取代表。
+ * 表里 C/B/A/S 分别取《洁白 / 绯红 / 金黄 / 暗紫》神石。
+ */
+const GODSTONE_ICONS = {
+  C: '/GodStone/BS60001.png',
+  B: '/GodStone/BS61001.png',
+  A: '/GodStone/BS62001.png',
+  S: '/GodStone/BS62002.webp',
+  SS: '/GodStone/BS62002.webp',
+}
+
+/**
+ * 按类型取「真实图标」表；返回 undefined 表示该类型不走这套映射。
+ */
+const typeIconTable = (type) => {
+  switch (type) {
+    case '宝箱': return CHEST_ICONS
+    case '符文': return RUNE_ICONS
+    case '装备': return EQUIP_ICONS
+    case '素材': return INGREDIENT_ICONS
+    case '神石': return GODSTONE_ICONS
+    default: return null
+  }
+}
+
+/**
+ * `/Shop` 目录是**混合扩展名**（WebP 化后部分图标只有 `.webp`），
+ * 而具体道具的图标路径是按 `/Shop/${iconId}.png` 拼的 → 那些 id 必然 404，
+ * 再被全局兜底换成通用占位头像（「天赋果实」就是这么坏的）。
+ *
+ * 这里记录**只有 .webp 的 iconId**，由代码拼成 `.webp` 路径。
+ * 用「id 数组」而不是「路径映射表」，是为了让 `tools/check_asset_links.py`
+ * 的静态扫描不把它们当成真实字面量引用（否则会在 `.png` 上报假死链）。
+ * > 新增时记得核对 `public/Shop/` 里真实存在的扩展名。
+ */
+const SHOP_WEBP_ONLY_IDS = [
+  'D00002_001',          // 天赋果实
+  'D00005_003',
+  'D00005_021',
+  'D00010_021',
+  'cur_ico_rune_0003',
+]
+
 // 辅助：解析展示名称与图标路径，并应用品阶词映射
 const parseItemDisplay = (item) => {
   const content = item.Content || ''
@@ -328,17 +424,31 @@ const parseItemDisplay = (item) => {
   const step = extractStep(item)
   const displayName = mapStepTerms(rawName)
 
+  // 图标优先级：
+  // 1) 「随机 XX」这类**不指向具体道具**的条目 → 按类型 + 品质取真实图标
+  //    （原先这些会走 `/Shop/${iconId}.png`，而随机类没有 iconId，只能退成文字占位）
+  // 2) 具体道具（Content 里带 `ID,名称`）→ 仍用该道具自己的图（四叶草/天赋果实/结晶/传承石等）
+  const isRandom = rawName.startsWith('随机')
   let iconPath = ''
-  if (iconId) {
+
+  if (isRandom || !iconId) {
+    const table = typeIconTable(item.Type)
+    if (table) iconPath = iconByStep(table, step)
+  }
+  if (!iconPath && iconId) {
     iconPath = `/Shop/${iconId}.png`
-  } else if (item.Type === '宝箱') {
-    iconPath = '/Shop/mid_ico_chest_0001.png'
-  } else if (item.Type === '符文') {
-    iconPath = '/Shop/cur_ico_rune_0001.png'
-  } else if (item.Type === '四叶草' || displayName.includes('四叶草')) {
-    iconPath = '/Shop/D00002_000.png'
-  } else if (displayName.includes('天赋果实')) {
-    iconPath = '/Shop/D00002_001.webp'
+  }
+  if (!iconPath) {
+    // 兜底：仍无图时按类型给一张通用真实图
+    const table = typeIconTable(item.Type)
+    if (table) iconPath = iconByStep(table, step)
+    else if (item.Type === '四叶草' || displayName.includes('四叶草')) iconPath = '/Shop/D00002_000.png'
+    else if (displayName.includes('天赋果实')) iconPath = '/Shop/D00002_001.webp'
+  }
+  // 具体道具的 iconId 若只有 .webp，直接拼 .webp（详见 SHOP_WEBP_ONLY_IDS 注释）
+  if (iconPath.endsWith('.png')) {
+    const id = iconPath.slice(iconPath.lastIndexOf('/') + 1, -4)
+    if (SHOP_WEBP_ONLY_IDS.includes(id)) iconPath = `/Shop/${id}.webp`
   }
 
   return {
