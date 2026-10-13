@@ -348,7 +348,7 @@ const getHeaderBadges = (item) => {
     const bgs = item.AreaType.split(/[\s,，]+/).filter(Boolean)
     badges.push(...bgs)
   }
-  if (item.Block && item.Block !== '不限' && item.Block !== '能量') {
+  if (item.Block && item.Block !== '不限') {
     badges.push(item.Block)
   }
   if (badges.length === 0 && item.AreaType) {

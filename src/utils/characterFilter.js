@@ -11,7 +11,7 @@ export const HIDE_UNRELEASED_CHARACTERS = ref(true)
 // ==============================================
 export const BLOCKED_CHARACTER_IDS = [
   // 'M31301_000', // [泳装]圣剑之灵
-  'M53301_000', // [泳装]星界邪神
+  // 'M53301_000', // [泳装]星界邪神
 ]
 
 /**

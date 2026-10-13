@@ -161,6 +161,14 @@
  },
  {
   "Id": "LivelihoodRole_21",
+  "IDs": "S13308",
+  "Category": "普通",
+  "Name": "庆典管家",
+  "NameI2": "Npc_Name_21",
+  "Step": "S"
+ },
+ {
+  "Id": "LivelihoodRole_22",
   "IDs": "S13309",
   "Category": "普通",
   "Name": "花仙管家",

@@ -121,6 +121,18 @@
  },
  {
   "Id": "guild_customize_11",
+  "IDs": "GH20008",
+  "Name": "夏日公会",
+  "NameI2": "UI/Union_Costume_Name_GH20008",
+  "Step": "S",
+  "Type": "装扮",
+  "Description": "活动解锁",
+  "DescriptionI2": "UI/Union_Costume_Unlock_09",
+  "Fish": 0,
+  "EndTime": ""
+ },
+ {
+  "Id": "guild_customize_12",
   "IDs": "GH20012",
   "Name": "花园公会",
   "NameI2": "UI/Union_Costume_Name_GH20012",
@@ -132,7 +144,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_12",
+  "Id": "guild_customize_13",
   "IDs": "GH30001",
   "Name": "极寒公会",
   "NameI2": "UI/Union_Costume_Name_08",
@@ -144,7 +156,7 @@
   "EndTime": "2026/05/13 21:00"
  },
  {
-  "Id": "guild_customize_13",
+  "Id": "guild_customize_14",
   "IDs": "GH30002",
   "Name": "熔岩公会",
   "NameI2": "UI/Union_Costume_Name_14",
@@ -156,7 +168,7 @@
   "EndTime": "2026/08/12 21:00"
  },
  {
-  "Id": "guild_customize_14",
+  "Id": "guild_customize_15",
   "IDs": "GH20016",
   "Name": "赏月公会",
   "NameI2": "UI/Union_Costume_Name_GH20016",
@@ -168,7 +180,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_15",
+  "Id": "guild_customize_16",
   "IDs": "GH50001",
   "Name": "云端公会",
   "NameI2": "UI/Union_Costume_Name_GH50001",
@@ -180,7 +192,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_16",
+  "Id": "guild_customize_17",
   "IDs": "S13101",
   "Name": "长耳管家",
   "NameI2": "UI/Union_Costume_Name_09",
@@ -192,7 +204,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_17",
+  "Id": "guild_customize_18",
   "IDs": "S13301",
   "Name": "猫耳管家",
   "NameI2": "UI/Union_Costume_Name_10",
@@ -204,7 +216,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_18",
+  "Id": "guild_customize_19",
   "IDs": "S13302",
   "Name": "犬耳秘书",
   "NameI2": "UI/Union_Costume_Name_11",
@@ -216,7 +228,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_19",
+  "Id": "guild_customize_20",
   "IDs": "S21205",
   "Name": "奶牛管家",
   "NameI2": "UI/Union_Costume_Name_S21205",
@@ -228,7 +240,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_20",
+  "Id": "guild_customize_21",
   "IDs": "S13303",
   "Name": "古堡管家",
   "NameI2": "UI/Union_Costume_Name_S13303",
@@ -240,7 +252,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_21",
+  "Id": "guild_customize_22",
   "IDs": "S13306",
   "Name": "牛仔管家",
   "NameI2": "UI/Npc_Name_17",
@@ -252,7 +264,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_22",
+  "Id": "guild_customize_23",
   "IDs": "S13307",
   "Name": "树精管家",
   "NameI2": "UI/Npc_Name_20",
@@ -264,7 +276,19 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_23",
+  "Id": "guild_customize_24",
+  "IDs": "S13308",
+  "Name": "庆典管家",
+  "NameI2": "UI/Npc_Name_21",
+  "Step": "S",
+  "Type": "管家",
+  "Description": "活动解锁",
+  "DescriptionI2": "UI/Union_Costume_Unlock_09",
+  "Fish": 0,
+  "EndTime": ""
+ },
+ {
+  "Id": "guild_customize_25",
   "IDs": "S21203",
   "Name": "白羽管家",
   "NameI2": "UI/Union_Costume_Name_S21203",
@@ -276,7 +300,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_24",
+  "Id": "guild_customize_26",
   "IDs": "S13309",
   "Name": "花仙管家",
   "NameI2": "UI/Npc_Name_22",
@@ -288,7 +312,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_25",
+  "Id": "guild_customize_27",
   "IDs": "TX00000",
   "Name": "初始外框",
   "NameI2": "",
@@ -300,7 +324,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_26",
+  "Id": "guild_customize_28",
   "IDs": "TX00001",
   "Name": "云端外框",
   "NameI2": "UI/Union_Costume_Name_TX00001",
@@ -312,7 +336,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_27",
+  "Id": "guild_customize_29",
   "IDs": "TX10003",
   "Name": "西部外框",
   "NameI2": "UI/Union_Costume_Name_TX10003",
@@ -324,7 +348,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_28",
+  "Id": "guild_customize_30",
   "IDs": "TX10004",
   "Name": "草药外框",
   "NameI2": "UI/Union_Costume_Name_TX10004",
@@ -336,7 +360,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_29",
+  "Id": "guild_customize_31",
   "IDs": "TX10005",
   "Name": "蔷薇外框",
   "NameI2": "UI/Union_Costume_Name_TX10005",
@@ -348,7 +372,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_30",
+  "Id": "guild_customize_32",
   "IDs": "TX10006",
   "Name": "兔兔外框",
   "NameI2": "UI/Union_Costume_Name_TX10006",
@@ -360,7 +384,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_31",
+  "Id": "guild_customize_33",
   "IDs": "TX90001",
   "Name": "巨魔术士",
   "NameI2": "Role/Role_Name_M12303",
@@ -372,7 +396,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_32",
+  "Id": "guild_customize_34",
   "IDs": "TX90002",
   "Name": "蔷薇领主",
   "NameI2": "Role/Role_Name_M13307",
@@ -384,7 +408,7 @@
   "EndTime": ""
  },
  {
-  "Id": "guild_customize_33",
+  "Id": "guild_customize_35",
   "IDs": "TX90003",
   "Name": "灵机一动",
   "NameI2": "UI/Union_Costume_Name_TX90003",
