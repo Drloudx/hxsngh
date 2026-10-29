@@ -40,6 +40,27 @@
             </span>
           </div>
         </div>
+
+        <!-- 产出素材筛选：选项随所选地图动态变化（去掉「经验」） -->
+        <div v-if="ingredientFilterOptions.length" class="filter-row" style="align-items: flex-start;">
+          <span class="filter-label">素材</span>
+          <div class="filter-options">
+            <span
+              :class="['tag', selectedIngredient === 'all' ? 'active' : '']"
+              @click="selectedIngredient = 'all'"
+            >
+              全部
+            </span>
+            <span
+              v-for="ing in ingredientFilterOptions"
+              :key="ing"
+              :class="['tag', selectedIngredient === ing ? 'active' : '']"
+              @click="toggleIngredient(ing)"
+            >
+              {{ ing }}
+            </span>
+          </div>
+        </div>
       </div>
 
       <!-- 类型切换按键 (分段控制器风格，已移除“全部”按键，点击已激活Tab可取消) -->
@@ -312,6 +333,73 @@ const tagsExpanded = ref(false)
 const listContainer = ref(null)
 const displayMapLimit = ref(3) // 懒加载：初始仅渲染 3 张地图，随着滚动加载更多地图
 
+/**
+ * 产出素材筛选。
+ *
+ * 数据来自 `Area_Spot.json` 的 `IngredientLimit`（形如 "经验,矿石,能量"）。
+ * 注意：**「经验」不作为筛选项** —— 它几乎每个产出地块都有（253/254），
+ * 列出来既占位又没有区分度；但匹配时仍按完整的 IngredientLimit 判断，
+ * 所以选中「全部」时不会漏掉任何地块。
+ */
+const selectedIngredient = ref('all')
+// 「经验」以外的素材类别；顺序固定，避免切地图时标签乱跳
+const INGREDIENT_ORDER = ['植物', '矿石', '能量', '蘑菇', '肉类', '鱼类']
+
+const parseIngredientLimit = (limit) => {
+  if (!limit || limit === '无') return []
+  return String(limit)
+    .split(/[\s,，、]+/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+}
+
+/**
+ * 当前筛选范围（地图 + 关键词 + 类别）内地块实际出现过的素材类别。
+ * 这样「选了哪张图，就只显示那张图真有的素材」。
+ */
+const ingredientFilterOptions = computed(() => {
+  const pool = allSpots.value.filter((spot) => {
+    if (!spot || getSuffix(spot.IDs) === '015') return false
+    if (selectedMap.value !== 'all' && spot.AreaName !== selectedMap.value) return false
+    if (activeTab.value !== 'all') {
+      const config = getSpotConfig(spot)
+      if (!config || config.tab !== activeTab.value) return false
+    }
+    if (searchQuery.value) {
+      const query = searchQuery.value.toLowerCase()
+      const nameMatch = spot.Name && spot.Name.toLowerCase().includes(query)
+      const descMatch = spot.Description && spot.Description.toLowerCase().includes(query)
+      const suffixMatch = getSuffix(spot.IDs).includes(query)
+      if (!nameMatch && !descMatch && !suffixMatch) return false
+    }
+    return true
+  })
+
+  const found = new Set()
+  pool.forEach((spot) => {
+    parseIngredientLimit(spot.IngredientLimit).forEach((t) => {
+      if (t !== '经验') found.add(t)
+    })
+  })
+
+  // 已知类别按固定顺序排在前面，未知的新类别附在后面（不丢数据）
+  const known = INGREDIENT_ORDER.filter((t) => found.has(t))
+  const extra = [...found].filter((t) => !INGREDIENT_ORDER.includes(t)).sort()
+  return [...known, ...extra]
+})
+
+// 地图或类别切换后，若之前选中的素材在新范围里不存在，自动回到「全部」
+watch([selectedMap, activeTab, searchQuery], () => {
+  if (selectedIngredient.value === 'all') return
+  if (!ingredientFilterOptions.value.includes(selectedIngredient.value)) {
+    selectedIngredient.value = 'all'
+  }
+})
+
+const toggleIngredient = (ing) => {
+  selectedIngredient.value = selectedIngredient.value === ing ? 'all' : ing
+}
+
 // =================== 开发自用配置开关 ===================
 // 控制是否在主页面地块卡片上显示“概率”。
 const showProbability = ref(true)
@@ -453,6 +541,12 @@ const filteredSpots = computed(() => {
       const descMatch = spot.Description && spot.Description.toLowerCase().includes(query)
       const suffixMatch = getSuffix(spot.IDs).includes(query)
       if (!nameMatch && !descMatch && !suffixMatch) return false
+    }
+
+    // 产出素材筛选（按完整的 IngredientLimit 匹配，含「经验」）
+    if (selectedIngredient.value !== 'all') {
+      const tags = parseIngredientLimit(spot.IngredientLimit)
+      if (!tags.includes(selectedIngredient.value)) return false
     }
 
     return true
