@@ -59,6 +59,7 @@ const categories = [
     name: '其他工具',
     items: [
       { id: 'talent-manage', name: '天赋管理', path: '/talent-manage', icon: '/General/13.webp' },
+      { id: 'dex-calc', name: '图鉴等级计算', path: '/dex-calc', icon: '/General/20.webp' },
       { id: 'guide', name: '新人攻略', path: '/guide', icon: '/General/14.webp' }
     ]
   }

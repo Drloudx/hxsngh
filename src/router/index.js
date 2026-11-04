@@ -30,6 +30,7 @@ const GodStoneView = () => import('../views/GodStoneView.vue')
 const RuneView = () => import('../views/RuneView.vue')
 const EquipProbView = () => import('../views/EquipProbView.vue')
 const FruitRecordView = () => import('../views/FruitRecordView.vue')
+const DexCalcView = () => import('../views/DexCalcView.vue')
 
 const routes = [
   { path: '/', redirect: '/recruit' },
@@ -53,6 +54,7 @@ const routes = [
   { path: '/talent-manage', name: 'talent-manage', component: TalentManageView, meta: { title: '天赋管理', shortName: '库存' } },
   { path: '/guide', name: 'guide', component: GuideView, meta: { title: '新人攻略', shortName: '攻略' } },
   { path: '/fruit-record', name: 'fruit-record', component: FruitRecordView, meta: { title: '大果记录', shortName: '大果' } },
+  { path: '/dex-calc', name: 'dex-calc', component: DexCalcView, meta: { title: '图鉴等级计算', shortName: '图鉴' } },
   { path: '/role', name: 'role', component: RoleView, meta: { title: '角色图鉴', shortName: '角色' } },
   { path: '/ranking', name: 'ranking', component: RankingView, meta: { title: '预告：热度排行', shortName: '预告' } }
 ]

@@ -573,6 +573,7 @@ const modes = [
   { id: 'dungeon-relics', name: '星界秘境遗物图鉴', shortName: '遗物', path: '/dungeon-relics' },
   { id: 'guide', name: '新人攻略', shortName: '攻略', path: '/guide' },
   { id: 'fruit-record', name: '大果记录', shortName: '大果', path: '/fruit-record' },
+  { id: 'dex-calc', name: '图鉴等级计算', shortName: '图鉴', path: '/dex-calc' },
   { id: 'relics', name: '心得图鉴', shortName: '心得', path: '/relics' },
   { id: 'ranking', name: '预告：角色/队伍热度排行', shortName: '预告', path: '/ranking' }
 ]
@@ -702,6 +703,7 @@ const pageNames = {
   unique: '技能筛选',
   equip: '装备筛选',
   'fruit-record': '大果记录',
+  'dex-calc': '图鉴等级计算',
   role: '角色图鉴',
   lime: '莱姆图鉴',
   prefix: '怪物加护',

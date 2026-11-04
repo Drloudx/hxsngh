@@ -1,0 +1,398 @@
+{
+ "_comment": "由 tools/gen_dex_theory.py 生成，请勿手改",
+ "exp_table": [
+  [
+   1,
+   5,
+   200
+  ],
+  [
+   6,
+   10,
+   400
+  ],
+  [
+   11,
+   20,
+   600
+  ],
+  [
+   21,
+   30,
+   1000
+  ],
+  [
+   31,
+   40,
+   1500
+  ],
+  [
+   41,
+   45,
+   2000
+  ],
+  [
+   46,
+   50,
+   2500
+  ],
+  [
+   51,
+   55,
+   3000
+  ],
+  [
+   56,
+   60,
+   3500
+  ],
+  [
+   61,
+   65,
+   4000
+  ],
+  [
+   66,
+   70,
+   5000
+  ],
+  [
+   71,
+   75,
+   6000
+  ],
+  [
+   76,
+   80,
+   7000
+  ],
+  [
+   81,
+   9999,
+   8000
+  ]
+ ],
+ "sources": [
+  {
+   "key": "Role",
+   "label": "角色",
+   "dist": {
+    "C": 24,
+    "B": 40,
+    "A": 77,
+    "S": 73
+   },
+   "detail": [
+    {
+     "step": "C",
+     "count": 24,
+     "point": 20,
+     "upgradePoint": 10,
+     "starTimes": 4,
+     "collectExp": 480,
+     "starExp": 960,
+     "heritageRate": 0,
+     "heritageExpExpect": 0,
+     "heritageExpMax": 0
+    },
+    {
+     "step": "B",
+     "count": 40,
+     "point": 40,
+     "upgradePoint": 20,
+     "starTimes": 4,
+     "collectExp": 1600,
+     "starExp": 3200,
+     "heritageRate": 0,
+     "heritageExpExpect": 0,
+     "heritageExpMax": 0
+    },
+    {
+     "step": "A",
+     "count": 77,
+     "point": 120,
+     "upgradePoint": 60,
+     "starTimes": 3,
+     "collectExp": 9240,
+     "starExp": 13860,
+     "heritageRate": 0,
+     "heritageExpExpect": 0,
+     "heritageExpMax": 0
+    },
+    {
+     "step": "S",
+     "count": 73,
+     "point": 480,
+     "upgradePoint": 240,
+     "starTimes": 2,
+     "collectExp": 35040,
+     "starExp": 35040,
+     "heritageRate": 0,
+     "heritageExpExpect": 0,
+     "heritageExpMax": 0
+    }
+   ],
+   "collect": 46160,
+   "star": 53060,
+   "heritageExpect": 0,
+   "heritageMax": 0,
+   "deducted": 200,
+   "hasHeritage": false
+  },
+  {
+   "key": "Equip",
+   "label": "装备",
+   "dist": {
+    "C": 157,
+    "B": 351,
+    "A": 642,
+    "S": 468,
+    "SS": 16
+   },
+   "detail": [
+    {
+     "step": "C",
+     "count": 157,
+     "point": 20,
+     "upgradePoint": 10,
+     "starTimes": 3,
+     "collectExp": 3140,
+     "starExp": 4710,
+     "heritageRate": 0.00625,
+     "heritageExpExpect": 19.6,
+     "heritageExpMax": 3140
+    },
+    {
+     "step": "B",
+     "count": 351,
+     "point": 40,
+     "upgradePoint": 20,
+     "starTimes": 3,
+     "collectExp": 14040,
+     "starExp": 21060,
+     "heritageRate": 0.0125,
+     "heritageExpExpect": 175.5,
+     "heritageExpMax": 14040
+    },
+    {
+     "step": "A",
+     "count": 642,
+     "point": 120,
+     "upgradePoint": 60,
+     "starTimes": 3,
+     "collectExp": 77040,
+     "starExp": 115560,
+     "heritageRate": 0.025,
+     "heritageExpExpect": 1926.0,
+     "heritageExpMax": 77040
+    },
+    {
+     "step": "S",
+     "count": 468,
+     "point": 480,
+     "upgradePoint": 240,
+     "starTimes": 3,
+     "collectExp": 224640,
+     "starExp": 336960,
+     "heritageRate": 0.05,
+     "heritageExpExpect": 11232.0,
+     "heritageExpMax": 224640
+    },
+    {
+     "step": "SS",
+     "count": 16,
+     "point": 2400,
+     "upgradePoint": 1200,
+     "starTimes": 3,
+     "collectExp": 38400,
+     "starExp": 57600,
+     "heritageRate": 0,
+     "heritageExpExpect": 0,
+     "heritageExpMax": 38400
+    }
+   ],
+   "collect": 357260,
+   "star": 535890,
+   "heritageExpect": 13353.1,
+   "heritageMax": 357260,
+   "deducted": 0,
+   "hasHeritage": true
+  },
+  {
+   "key": "Rune",
+   "label": "符文",
+   "dist": {
+    "C": 32,
+    "B": 32,
+    "A": 32,
+    "S": 68
+   },
+   "detail": [
+    {
+     "step": "C",
+     "count": 32,
+     "point": 20,
+     "upgradePoint": 10,
+     "starTimes": 3,
+     "collectExp": 640,
+     "starExp": 960,
+     "heritageRate": 0,
+     "heritageExpExpect": 0,
+     "heritageExpMax": 0
+    },
+    {
+     "step": "B",
+     "count": 32,
+     "point": 40,
+     "upgradePoint": 20,
+     "starTimes": 3,
+     "collectExp": 1280,
+     "starExp": 1920,
+     "heritageRate": 0,
+     "heritageExpExpect": 0,
+     "heritageExpMax": 0
+    },
+    {
+     "step": "A",
+     "count": 32,
+     "point": 120,
+     "upgradePoint": 60,
+     "starTimes": 3,
+     "collectExp": 3840,
+     "starExp": 5760,
+     "heritageRate": 0,
+     "heritageExpExpect": 0,
+     "heritageExpMax": 0
+    },
+    {
+     "step": "S",
+     "count": 68,
+     "point": 480,
+     "upgradePoint": 240,
+     "starTimes": 3,
+     "collectExp": 32640,
+     "starExp": 48960,
+     "heritageRate": 0,
+     "heritageExpExpect": 0,
+     "heritageExpMax": 0
+    }
+   ],
+   "collect": 38400,
+   "star": 57600,
+   "heritageExpect": 0,
+   "heritageMax": 0,
+   "deducted": 0,
+   "hasHeritage": false
+  },
+  {
+   "key": "Lime",
+   "label": "莱姆",
+   "dist": {
+    "C": 8,
+    "B": 13,
+    "A": 18,
+    "S": 8,
+    "SS": 3
+   },
+   "detail": [
+    {
+     "step": "C",
+     "count": 8,
+     "point": 20,
+     "upgradePoint": 10,
+     "starTimes": 3,
+     "collectExp": 160,
+     "starExp": 240,
+     "heritageRate": 0,
+     "heritageExpExpect": 0,
+     "heritageExpMax": 0
+    },
+    {
+     "step": "B",
+     "count": 13,
+     "point": 40,
+     "upgradePoint": 20,
+     "starTimes": 3,
+     "collectExp": 520,
+     "starExp": 780,
+     "heritageRate": 0,
+     "heritageExpExpect": 0,
+     "heritageExpMax": 0
+    },
+    {
+     "step": "A",
+     "count": 18,
+     "point": 120,
+     "upgradePoint": 60,
+     "starTimes": 3,
+     "collectExp": 2160,
+     "starExp": 3240,
+     "heritageRate": 0,
+     "heritageExpExpect": 0,
+     "heritageExpMax": 0
+    },
+    {
+     "step": "S",
+     "count": 8,
+     "point": 480,
+     "upgradePoint": 240,
+     "starTimes": 3,
+     "collectExp": 3840,
+     "starExp": 5760,
+     "heritageRate": 0,
+     "heritageExpExpect": 0,
+     "heritageExpMax": 0
+    },
+    {
+     "step": "SS",
+     "count": 3,
+     "point": 2400,
+     "upgradePoint": 1200,
+     "starTimes": 3,
+     "collectExp": 7200,
+     "starExp": 10800,
+     "heritageRate": 0,
+     "heritageExpExpect": 0,
+     "heritageExpMax": 0
+    }
+   ],
+   "collect": 13880,
+   "star": 20820,
+   "heritageExpect": 0,
+   "heritageMax": 0,
+   "deducted": 0,
+   "hasHeritage": false
+  }
+ ],
+ "totals": {
+  "collect": 455700,
+  "star": 667370,
+  "heritageExpect": 13353.1,
+  "heritageMax": 357260,
+  "floor": 1123070,
+  "expect": 1136423.1,
+  "max": 1480330
+ },
+ "levels": {
+  "floor": [
+   196,
+   4070
+  ],
+  "expect": [
+   198,
+   1423.1000000000931
+  ],
+  "max": [
+   241,
+   1330
+  ]
+ },
+ "heritageRates": {
+  "C": 0.00625,
+  "B": 0.0125,
+  "A": 0.025,
+  "S": 0.05,
+  "SS": 0
+ },
+ "initialRoles": 5
+}
