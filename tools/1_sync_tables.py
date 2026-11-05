@@ -23,6 +23,10 @@ API_URL = "https://api.monster-girls-guild.chillyroom.com/GameDataTable/FetchDat
 VERSION_URL = "https://api.monster-girls-guild.chillyroom.com/App/CheckAppVersion"
 
 # 本地特有或模拟生成的文件，同步时不覆盖
+#   · notices.json                —— 手写公告
+#   · data.json                   —— 指定招募常驻池（改由 4_sync_summon_pool.py 自动维护）
+#   · map_equip_difficulties.json —— 概率模拟产物（3_run_probability.py）
+#   · simulation_exact_results.json —— 概率模拟产物（3_run_probability.py）
 LOCAL_ONLY_FILES = {
     "notices.json",
     "data.json",

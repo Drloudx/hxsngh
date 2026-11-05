@@ -30,10 +30,39 @@ python tools/2_extract_images.py
 >
 > *(注：已按需求剔除战斗模拟所需的角色小人序列帧图)*
 
+> ⚠️ **CDN 清单会过期，必须强制刷新**。脚本对 `.bundle` 有缓存（看到同名文件就跳过下载）。
+> 大版本更新后如果发现「新角色没图」，先删缓存再跑：
+> ```bash
+> # Windows PowerShell
+> Remove-Item 游戏数据\CDN\bundles\*.bundle -Force
+> python 游戏数据\工具\4_提取图片资源.py
+> ```
+> 判定依据：`Main.version` 里的版本号（如 `2026-11-04-1010`）应是当次更新日期。
+
+> ⚠️ **异化/皮肤角色卡图需要 `_NNN` 后缀**。`RE_ROLE_CARD` 正则必须写成 `^MD\d+(?:_\d+)?$`。
+> 写成 `^MD\d+$` 会漏掉全部异化角色（`MD11305_000` 这类），新皮肤卡图永远提取不到。
+> 2026-11-05（1.0.3.0）踩过这个坑，一次补了 71 张历史漏图。
+
 ---
 
 ### 第三步：跑测装备可刷掉落概率
 当有新地图上线或掉落权重调整时，跑测蒙特卡洛模拟并将结果写入 `simulation_exact_results.json` 与 `map_equip_difficulties.json`。
+
+> ⚠️ **脚本里的 `MAP_LEVELS` 是硬编码的地图清单**，新图上线时**必须先加进去**，否则 `--map all` 会跳过它：
+> ```python
+> # tools/3_run_probability.py 顶部
+> MAP_LEVELS = {
+>     ...
+>     '夏日海滩': 140,
+>     '无声沼泽': 130,   # ← 新图加这里（数值取 World_Map.json 的 InitialDiffi 附近可刷等级）
+> }
+> ```
+> 等级参考 `World_Map.json` 的 `InitialDiffi` 字段。
+
+> ⚠️ **大版本更新后必须重跑全量**，否则「装备概率」页会缺新地图：
+> ```bash
+> python tools/3_run_probability.py --map all --trials 2000000 --workers 8 --profile-mode area-spot-weighted
+> ```
 
 > ⚠️ **必须显式带 `--profile-mode area-spot-weighted`**。脚本的 `--profile-mode` 默认值是 `server-samples`（精确模式），它要求同时提供 `--block-samples` 地块样本，否则直接报错退出：
 > `error: 精确统计需要 --block-samples；近似统计请显式使用 --profile-mode area-spot-weighted`
@@ -60,6 +89,82 @@ python tools/2_extract_images.py
 
 ---
 
+### 第四步：同步「指定招募」常驻池（已自动化）
+
+`src/assets/data.json` 原先**纯手工维护**，每次更新都要人工比对补漏。现在改为从数据表自动推导：
+
+```bash
+python tools/4_sync_summon_pool.py            # 只比对，打印差异（不写盘）
+python tools/4_sync_summon_pool.py --apply    # 写入 data.json
+```
+
+> **口径**（与历史手工口径一致）
+> - 取 `Summon.json` 中 `IsUsual == 1`（常驻），且当前时间落在 `StartTime~EndTime` 内（空 = 常开）
+> - 排除 ID 含 `_` 的异化/皮肤版（不是独立招募条目）
+> - 稀有度映射：`S→3（传说）`、`A→2（史诗）`、`B→1（稀有）`、`C→0（普通）`
+> - **「种族」字段取 `Role.json` 的 `Type`（大类：生灵/魔灵/器灵/神灵/亡灵）**，
+>   不是 `Race`（细分种族，1.0.3.0 起才有的字段）
+>
+> **行为**：按角色名合并——保留原有顺序，新角色追加到末尾；
+> `data.json` 里有但池里没有的角色**只告警不删除**（人工确认后再删）。
+
+---
+
+### 附：图鉴等级理论值
+
+```bash
+python tools/gen_dex_theory.py    # 重新生成 src/assets/dex_theory.json
+```
+
+数据表更新后需重跑，否则「图鉴等级计算」页的上限值会落后。
+
+---
+
+## ✅ 新内容上线自查清单
+
+数据表是**自动同步**的，但页面里的筛选/白名单是**硬编码**的。每轮更新后按这张表逐项确认：
+
+> 💡 **2026-11-05 起地图已改为自动**：前端 4 处统一读 `src/config/maps.js`（从 `World_Map.json`
+> 自动推导），加新地图**不用改前端**。只有 `tools/3_run_probability.py` 的 `MAP_LEVELS`
+> 仍需手加（它是独立 Python 脚本），用下面的校验脚本兜底。
+
+### 新地图
+
+| 位置 | 要做什么 |
+| --- | --- |
+| **前端 4 个页面** | ✅ **不用改**（自动读 `src/config/maps.js`） |
+| `tools/3_run_probability.py` | ⚠️ **手动加** `MAP_LEVELS`，等级 = `InitialDiffi + 99` |
+| 跑概率模拟 | `python tools/3_run_probability.py --map <新图> --trials 2000000 --workers 8 --profile-mode area-spot-weighted` |
+| **校验** | `python tools/check_map_config.py` ← **必跑** |
+
+> **地图等级换算规则**：项目里的等级 = `World_Map.InitialDiffi + 99`
+> （由 15 张老图逐一核对得出）。例：新生平原 1→100、枯木丛林 121→220、无声沼泽 131→**230**。
+
+### 新增角色/皮肤
+
+| 检查点 | 说明 |
+| --- | --- |
+| `src/assets/data.json` | 用 `tools/4_sync_summon_pool.py --apply` 自动补 |
+| `public/RoleCard/MDxxxxx.png` | **含异化角色 `_NNN` 后缀**，注意正则 |
+| `public/Header/Mxxxxx.png` | 头像是 30×30 规格 |
+| `src/utils/characterFilter.js` | 未实装角色才加入 `BLOCKED_CHARACTER_IDS` |
+
+### 新加护词缀
+
+| 检查点 | 说明 |
+| --- | --- |
+| `src/views/PrefixView.vue` | `getPrefixIcon` 的 `validNumbers` 白名单**必须补新编号** |
+| `public/ParagonPrefix/JH400xx.png` | 图标统一取 `JH400` 系列（各稀有度共用一张图） |
+
+### 新增状态/词条
+
+| 检查点 | 说明 |
+| --- | --- |
+| `src/assets/Keyword.json` | 自动同步，无需手改 |
+| 图鉴页索引 | 若页面按固定范围渲染，需确认新条目在范围内 |
+
+---
+
 ## 📁 目录结构说明
 
 ```
@@ -67,6 +172,8 @@ tools/
 ├── 1_sync_tables.py          # [工具 1] 服务端数据表全自动拉取与同步
 ├── 2_extract_images.py       # [工具 2] CDN 热更包解密与全套图片提取
 ├── 3_run_probability.py      # [工具 3] 装备遇见率蒙特卡洛概率模拟器
+├── 4_sync_summon_pool.py     # [工具 4] 自动同步「指定招募」常驻池 → src/assets/data.json
+├── gen_dex_theory.py         # [数据] 生成图鉴等级理论值 → src/assets/dex_theory.json
 ├── optimize_images.py        # [资源] 大图转 WebP 并自动改写所有引用（默认只预估）
 ├── add_lazy_loading.py       # [资源] 给内容类 <img> 批量加 loading=lazy / decoding=async
 ├── check_asset_links.py      # [校验] 源码引用的 public/ 资源是否都存在（防改名死链）
