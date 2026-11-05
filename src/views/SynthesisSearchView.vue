@@ -2120,7 +2120,7 @@ const toggleInherit = () => {
 }
 
 const handleIconError = (e) => {
-  e.target.src = '/Header/M00000.webp'
+  e.target.src = '/Header/M00000.png'
 }
 </script>
 

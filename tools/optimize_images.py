@@ -1,6 +1,21 @@
 #!/usr/bin/env python3
 """把 public/ 下的「大图」转成 WebP，并把所有代码引用一并改名。
 
+╔══════════════════════════════════════════════════════════════════════════╗
+║  ⚠️  2026-11-05 起本项目已停用此脚本，统一只保留游戏原生 PNG。          ║
+║                                                                          ║
+║  停用理由（实测 2356 对同名 png/webp）：                                 ║
+║      PNG  3.44 MB  ->  WebP  2.50 MB   （仅省 0.94 MB / 27%）            ║
+║      占热更包比例仅 7.7%，收益太小。                                     ║
+║  而代价是：二次编码多一代画质损失、每次更新多一步转换+改写引用、          ║
+║  且历史上出过两次事故（Mark.png 被误改名成 .webp 导致死链；              ║
+║  ParagonPrefix 目录 100% webp 导致图标返回 null）。                       ║
+║                                                                          ║
+║  当前前端以 .png 为主，App.vue 的兜底图也写的是 .png。                   ║
+║  若坚持执行本脚本，跑完必须同步修改 App.vue 的 GENERIC_IMAGE_FALLBACK     ║
+║  与 DIR_FALLBACK，并重跑 check_asset_links.py。                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
 设计取舍（实测得出，见 docs）：
   * 只处理 >= --min-kb 的图（默认 20KB）。4400+ 张 1-2KB 的小雪碧图**不处理**：
     实测其调色板量化收益 0%、无损重压仅 4.5%，转 WebP 还会有 11% 反而变大。
@@ -114,6 +129,15 @@ def build_reference_index() -> dict[str, list[tuple[Path, int, str]]]:
 
 
 def main() -> int:
+    # ⚠️ 本项目 2026-11-05 起停用 WebP 转换，统一只保留 PNG。
+    print("=" * 72)
+    print("⚠️  本项目已停用 WebP 转换（2026-11-05）。")
+    print("    前端统一使用游戏原生 .png，兜底图也写 .png。")
+    print("    实测收益仅 0.94 MB / 7.7%，不值得多一代画质损失与流程复杂度。")
+    print("    详见 tools/README.md 的「图片瘦身」章节。")
+    print("=" * 72)
+    print()
+
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true", help="真正写入（默认只预估）")
     ap.add_argument("--restore", action="store_true", help="从 .backup/images 回滚")

@@ -58,7 +58,7 @@ const handleGlobalClick = (e) => {
 const IMAGE_EXT_DIRS = /^\/(Equip|AreaBlock|RoleCard|RoleDraw|Skill|Header|lime|Shop|DungeonRelics|GodStone|Relics|Rune|Foretell|ParagonPrefix|Bond|Ingredient)\//
 const SWAP_EXT = { '.png': '.webp', '.webp': '.png' }
 // 通用占位图（通用头像，任何角色都能退到它）
-const GENERIC_IMAGE_FALLBACK = '/Header/M00000.webp'
+const GENERIC_IMAGE_FALLBACK = '/Header/M00000.png'
 /**
  * 按目录的最终兜底图。
  *
@@ -68,9 +68,9 @@ const GENERIC_IMAGE_FALLBACK = '/Header/M00000.webp'
  * 未列出的目录用 GENERIC_IMAGE_FALLBACK。
  */
 const DIR_FALLBACK = {
-  '/Header': '/Header/M00000.webp',
-  '/RoleCard': '/Header/M00000.webp',
-  '/RoleDraw': '/Header/M00000.webp',
+  '/Header': '/Header/M00000.png',
+  '/RoleCard': '/Header/M00000.png',
+  '/RoleDraw': '/Header/M00000.png',
   '/Relics': '/Relics/Mark.png',
   '/Skill': '/Skill/TB00001.png',
 }
@@ -127,7 +127,7 @@ const handleImageError = (e) => {
     if (id && /^M[A-Za-z]*\d/.test(id)) {
       el.dataset.idFallback = '1'
       if (dir === '/RoleCard' || dir === '/Header' || dir === '/RoleDraw') {
-        el.src = `/Header/${id}.webp`
+        el.src = `/Header/${id}.png`
         return
       }
     }

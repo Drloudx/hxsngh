@@ -333,17 +333,17 @@ const CHEST_ICONS = {
 const EQUIP_ICONS = {
   C: '/Equip/Z00015_101.png',
   B: '/Equip/Z00005_112.png',
-  A: '/Equip/Z00014_121.webp',
-  S: '/Equip/Z00000_171.webp',
+  A: '/Equip/Z00014_121.png',
+  S: '/Equip/Z00000_171.png',
   SS: '/Equip/Z20002_141.png',
 }
 
 const RUNE_ICONS = {
-  C: '/Rune/F10001_001.webp',
-  B: '/Rune/F20001_001.webp',
-  A: '/Rune/F30001_001.webp',
-  S: '/Rune/F40001_001.webp',
-  SS: '/Rune/F40001_002.webp',
+  C: '/Rune/F10001_001.png',
+  B: '/Rune/F20001_001.png',
+  A: '/Rune/F30001_001.png',
+  S: '/Rune/F40001_001.png',
+  SS: '/Rune/F40001_002.png',
 }
 
 /**
@@ -373,8 +373,8 @@ const GODSTONE_ICONS = {
   C: '/GodStone/BS60001.png',
   B: '/GodStone/BS61001.png',
   A: '/GodStone/BS62001.png',
-  S: '/GodStone/BS62002.webp',
-  SS: '/GodStone/BS62002.webp',
+  S: '/GodStone/BS62002.png',
+  SS: '/GodStone/BS62002.png',
 }
 
 /**

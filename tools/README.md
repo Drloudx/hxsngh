@@ -213,21 +213,42 @@ node tools/pack-hotupdate.mjs --build          # 构建 + 打包 + 分卷 + 算 
 > 手工 `Compress-Archive` 的老流程仍在 `docs/HANDOFF.md §六` 有记录，但已不推荐：
 > 漏删 opencv 引擎会让热更包凭空多 7.9 MB，漏删 APK 多 24 MB。
 
-### 图片瘦身
+### 图片瘦身（⚠️ 已停用：本项目改为只保留 PNG）
+
+**结论：不再转 WebP。** 2026-11-05 实测后决定统一用游戏原生 PNG。
+
+实测数据（2356 对同名 png/webp）：
+
+| 项 | 数值 |
+| --- | --- |
+| PNG 合计 | 3.44 MB |
+| WebP 合计 | 2.50 MB |
+| 省下 | **0.94 MB（27%）** |
+| 占热更包比例 | **7.7%** |
+
+收益太小，而代价是：
+- 图片要二次编码，多一代画质损失（`PrefixView.vue` 曾因 webp 导致图标返回 null）
+- 每次更新都要多跑一次转换 + 改写引用，流程更复杂
+- 提取脚本（`4_提取图片资源.py`）天生只产 PNG，转 webp 是额外的后处理
+
+**当前状态**
+- 前端以 `.png` 为主；`Shop`、`images`、`General`、`Header` 等目录仍有 **310 个只有 `.webp` 无 `.png`** 的存量文件（早期转换遗留）。
+  这些**不能删**，删了图就彻底没了。
+- 全局兜底链（`App.vue` 的 `handleImageError`）保留 `.png ↔ .webp` 互换能力，兼容易这两种格式。
+
+**如果你确实想再跑一次转换**（不推荐）：
 
 ```bash
-python tools/optimize_images.py                          # 只预估，不写盘
-python tools/optimize_images.py --resize logo.png=128 --apply
+python tools/optimize_images.py            # 只预估，不写盘
+python tools/optimize_images.py --apply    # 执行
 ```
 
-- 只处理 **≥20 KB** 的大图；4400+ 张小雪碧图**故意不处理**（实测转 WebP 有 11% 反而变大）。
-- 默认**不改分辨率**（很多图在看图弹窗里会放大）；用 `--resize NAME=MAXEDGE` 单独指定。
-- 输出 `.webp` 且**换文件名**（App 端非 HTML 资源是 `immutable, max-age=31536000`，不改 URL 拿不到新图），
-  并自动改写代码引用；原图备份在 `.backup/images/`，可用 `--restore` 回滚。
-- 动态拼接路径的目录（`Equip`/`AreaBlock`/`General` 等）默认跳过，要处理加 `--include-dynamic`，
-  但**必须先把对应模板里的 `.png` 改成 `.webp`**。
+- 只处理 **≥20 KB** 的大图（当前仅 2 张 `AreaBlock` 地块达标），小图故意跳过（转 WebP 反而变大）
+- 输出 `.webp` 且换文件名，并自动改写代码引用；原图备份在 `.backup/images/`，`--restore` 可回滚
+- **跑完必须重新核对兜底图**：转换器曾把 `'/Relics/Mark.png'` 误改成 `.webp`，而 `Mark` 只有 `.png`
+- `App.vue` 的 `GENERIC_IMAGE_FALLBACK` / `DIR_FALLBACK` 目前写的是 `.png`，转换后要同步改
 
-### 资源校验（改名后必跑）
+### 资源校验（发布前必跑）
 
 ```bash
 python tools/check_asset_links.py         # 死链校验（字面量 + 动态拼接目录）
@@ -239,8 +260,6 @@ node tools/verify-load-optimizations.mjs  # 加载与体验优化校验（16 项
 ```
 
 死链**不会报错**，只会静默显示兜底图，所以必须静态校验。
-**转 WebP 之后前三项必须全跑** —— 已发生过一次真实事故：转换器把 `'/Relics/Mark.png'`
-误改成 `.webp`，而 `Mark` 只有 `.png`（体积太小被跳过），静态死链校验当场抓到。
 
 ### 换包（发 APK）
 

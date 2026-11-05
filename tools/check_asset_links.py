@@ -60,6 +60,14 @@ def main() -> int:
         except UnicodeDecodeError:
             continue
         for lineno, line in enumerate(text.splitlines(), 1):
+            # 跳过纯注释行：注释里常提到历史路径（如"原先这里有 /Header/xxx.webp"），
+            # 它们不是真实引用，扫描会把它们误报成死链。
+            stripped = line.lstrip()
+            if (stripped.startswith("//")
+                    or stripped.startswith("*")
+                    or stripped.startswith("/*")
+                    or stripped.startswith("<!--")):
+                continue
             for m in LITERAL_RE.finditer(line):
                 p = m.group(1)
                 # 含 ${...} 的是模板拼接，交给 DYNAMIC_RE 处理（这里抽不出文件名）
