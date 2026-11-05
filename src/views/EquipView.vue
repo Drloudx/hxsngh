@@ -393,6 +393,7 @@ import { ref, computed, watch } from 'vue'
 import equipData from '@/assets/Equip.json'
 import bondData from '@/assets/Bond.json'
 import { getCategoryByTag } from '@/utils/tagCategories'
+import { getMapOptions, getMapWeight as getMapWeightCfg } from '@/config/maps'
 
 // 构建词条快速检索 map
 const bondMap = new Map()
@@ -526,25 +527,8 @@ const typeOptions = [
   { label: '戒指', value: '戒指' }
 ]
 
-const mapOptions = [
-  { label: '全部', value: 'all' },
-  { label: '世界', value: '世界' },
-  { label: '新生平原', value: '新生平原' },
-  { label: '广袤草原', value: '广袤草原' },
-  { label: '铁血高地', value: '铁血高地' },
-  { label: '迷失森林', value: '迷失森林' },
-  { label: '幽暗密林', value: '幽暗密林' },
-  { label: '清凉沙滩', value: '清凉沙滩' },
-  { label: '遗忘之海', value: '遗忘之海' },
-  { label: '废弃矿洞', value: '废弃矿洞' },
-  { label: '洞穴深处', value: '洞穴深处' },
-  { label: '极寒冰原', value: '极寒冰原' },
-  { label: '荒凉戈壁', value: '荒凉戈壁' },
-  { label: '无尽荒漠', value: '无尽荒漠' },
-  { label: '熔岩通道', value: '熔岩通道' },
-  { label: '枯木丛林', value: '枯木丛林' },
-  { label: '夏日海滩', value: '夏日海滩' }
-]
+// 地图选项（唯一数据源：src/config/maps.js）
+const mapOptions = getMapOptions()
 
 const getStepConfig = (step) => {
   const map = {
@@ -816,27 +800,8 @@ const getStepWeight = (step) => {
   return weights[step] || 99
 }
 
-const getMapWeight = (map) => {
-  const weights = {
-    '世界': 1,
-    '新生平原': 2,
-    '广袤草原': 3,
-    '铁血高地': 4,
-    '迷失森林': 5,
-    '幽暗密林': 6,
-    '清凉沙滩': 7,
-    '遗忘之海': 8,
-    '废弃矿洞': 9,
-    '洞穴深处': 10,
-    '极寒冰原': 11,
-    '荒凉戈壁': 12,
-    '无尽荒漠': 13,
-    '熔岩通道': 14,
-    '枯木丛林': 15,
-    '夏日海滩': 16
-  }
-  return weights[map] || 99
-}
+// 地图排序权重（唯一数据源：src/config/maps.js）
+const getMapWeight = getMapWeightCfg
 
 const filteredEquips = computed(() => {
   const list = tagFilteredEquips.value

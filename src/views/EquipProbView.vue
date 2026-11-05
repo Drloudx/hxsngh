@@ -263,6 +263,7 @@ import rawBattleEvents from '@/assets/Battle_Event.json'
 import rawRoles from '@/assets/Role.json'
 import rawWorldMaps from '@/assets/World_Map.json'
 import simulationResults from '@/assets/simulation_exact_results.json'
+import { MAP_MAX_LEVEL } from '@/config/maps'
 
 const simulationMeta = simulationResults._meta || {}
 const probabilityDataPending = simulationMeta.sourceModel !== 'map_farm_sources_v3'
@@ -284,23 +285,8 @@ rawEquips.forEach((eq, index) => {
 })
 
 // 地图最高等级映射
-const maxLevels = {
-  '新生平原': 100,
-  '广袤草原': 110,
-  '迷失森林': 120,
-  '铁血高地': 130,
-  '清凉沙滩': 140,
-  '废弃矿洞': 140,
-  '幽暗密林': 160,
-  '荒凉戈壁': 170,
-  '洞穴深处': 180,
-  '遗忘之海': 200,
-  '无尽荒漠': 210,
-  '枯木丛林': 220,
-  '极寒冰原': 110,
-  '熔岩通道': 140,
-  '夏日海滩': 140
-}
+// 地图等级（唯一数据源：src/config/maps.js）
+const maxLevels = MAP_MAX_LEVEL
 
 const mapList = Object.keys(maxLevels).map(name => ({
   name,

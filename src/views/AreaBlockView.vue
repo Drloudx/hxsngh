@@ -294,28 +294,13 @@
 <script setup>
 import { ref, computed, watch, onMounted, nextTick } from 'vue'
 import areaSpotData from '../assets/Area_Spot.json'
+import { MAP_LIST, MAP_MAX_LEVEL } from '@/config/maps'
 
 // 提取完整数据
 const allSpots = ref(Array.isArray(areaSpotData) ? areaSpotData : (areaSpotData.DataTable || []))
 
-// 地图列表
-const mapList = [
-  '新生平原',
-  '广袤草原',
-  '铁血高地',
-  '迷失森林',
-  '幽暗密林',
-  '清凉沙滩',
-  '遗忘之海',
-  '废弃矿洞',
-  '洞穴深处',
-  '荒凉戈壁',
-  '无尽荒漠',
-  '极寒冰原',
-  '熔岩通道',
-  '枯木丛林',
-  '夏日海滩'
-]
+// 地图列表（唯一数据源：src/config/maps.js）
+const mapList = MAP_LIST
 
 // 子类别定义 (在全部展示模式下，地图大卡片内划分的二级标签)
 const categories = [
@@ -578,23 +563,8 @@ const getSpotProbability = (spot) => {
 }
 
 // 各地图对应的最高等级
-const mapMaxLevels = {
-  '新生平原': 100,
-  '广袤草原': 110,
-  '迷失森林': 120,
-  '铁血高地': 130,
-  '清凉沙滩': 140,
-  '废弃矿洞': 140,
-  '幽暗密林': 160,
-  '荒凉戈壁': 170,
-  '洞穴深处': 180,
-  '遗忘之海': 200,
-  '无尽荒漠': 210,
-  '枯木丛林': 220,
-  '极寒冰原': 110,
-  '熔岩通道': 140,
-  '夏日海滩': 140
-}
+// 地图等级（唯一数据源：src/config/maps.js）
+const mapMaxLevels = MAP_MAX_LEVEL
 
 // 时间系数分段
 const levelRanges = [
