@@ -724,6 +724,7 @@ import * as configUtil from '@/utils/configTableUtil.js'
 import BackToTop from '@/components/BackToTop.vue'
 import { getVisibleCharacters, isCharacterBlocked, isTalentVisible, getVisibleRaceNames, BLOCKED_CHARACTER_IDS } from '@/utils/characterFilter'
 import { getCategoryByTag, getPositiveCategoryByTag } from '@/utils/tagCategories'
+import { getMapWeight } from '@/config/maps'
 
 // 静态数据库导入
 import rawRoles from '@/assets/Role.json'
@@ -1514,8 +1515,7 @@ const getStepWeight = (step) => {
   return weights[step] || 99
 }
 
-// 地图排序权重（唯一数据源：src/config/maps.js）
-const getMapWeight = getMapWeightCfg
+// 地图排序权重来自 src/config/maps.js（上面已 import）
 
 // 汇总结果数
 const totalFilteredCount = computed(() => {
