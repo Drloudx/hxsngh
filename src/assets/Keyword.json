@@ -115,7 +115,7 @@
   "Id": "Keyword_15",
   "Name": "反伤",
   "NameI2": "Buff/Noun_Name_15",
-  "Description": "【正面】每层使攻击目标失去1点生命，每次生效层数最多不超过目标20%生命上限，多段攻击只生效1次，持续生效。",
+  "Description": "【正面】每层使攻击目标失去1点生命，每次生效层数最多不超过目标10%生命上限，多段攻击只生效1次，持续生效。",
   "DescriptionI2": "Buff/Noun_Des_15_new01",
   "StatusID": "T20009"
  },
@@ -657,6 +657,14 @@
  },
  {
   "Id": "Keyword_83",
+  "Name": "层数上限",
+  "NameI2": "Buff/Noun_Name_82",
+  "Description": "状态初始层数上限为999，最高可提升至9999。",
+  "DescriptionI2": "Buff/Noun_Des_82",
+  "StatusID": ""
+ },
+ {
+  "Id": "Keyword_84",
   "Name": "腐化等级",
   "NameI2": "Buff/Noun_Name_83",
   "Description": "每20级使战斗装备掉落数量+1，最多+2。\n每级使敌方角色受到全部伤害和失去生命-1。\n每级使敌方角色造成全部伤害和恢复+1。\n每级使敌方角色造成全部状态层数+1。\n每级使敌方角色行动回魔+1。",

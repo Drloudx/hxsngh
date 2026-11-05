@@ -32,11 +32,11 @@
   "NameI2": "Activity/Active_Name_03",
   "Type": "登录",
   "Duration": 42,
-  "StartTime": "2026/09/23 21:00",
-  "EndTime": "2026/11/04 21:00",
+  "StartTime": "2026/11/04 21:00",
+  "EndTime": "2026/12/15 21:00",
   "Description": "购买即可获得异化圣剑之灵",
   "DescriptionI2": "Activity/Active_Des_03",
-  "UniqueIDs": "M12205_001"
+  "UniqueIDs": "M22301_000"
  },
  {
   "Id": "activity_4",
@@ -58,11 +58,11 @@
   "NameI2": "Activity/Active_Name_05",
   "Type": "限时",
   "Duration": 42,
-  "StartTime": "2026/09/23 21:00",
-  "EndTime": "2026/11/04 21:00",
+  "StartTime": "2026/11/04 21:00",
+  "EndTime": "2026/12/15 21:00",
   "Description": "收集异界冰晶兑换超值奖励",
   "DescriptionI2": "Activity/Active_Des_05",
-  "UniqueIDs": "A00003_000"
+  "UniqueIDs": "A21001_000"
  },
  {
   "Id": "activity_6",
@@ -71,11 +71,11 @@
   "NameI2": "Activity/Active_Name_06",
   "Type": "限时",
   "Duration": 42,
-  "StartTime": "2026/09/23 21:00",
-  "EndTime": "2026/11/04 21:00",
+  "StartTime": "2026/11/04 21:00",
+  "EndTime": "2026/12/15 21:00",
   "Description": "完成活动挑战领取丰厚奖励",
   "DescriptionI2": "Activity/Active_Des_06",
-  "UniqueIDs": "A00003_000"
+  "UniqueIDs": "A21001_000"
  },
  {
   "Id": "activity_7",
@@ -84,8 +84,8 @@
   "NameI2": "Activity/Active_PeakMatch_Name",
   "Type": "限时",
   "Duration": 14,
-  "StartTime": "2026/09/29 21:00",
-  "EndTime": "2026/10/14 21:00",
+  "StartTime": "2026/11/11 21:00",
+  "EndTime": "2026/11/25 21:00",
   "Description": "通关即可获得限定公会管家与装扮",
   "DescriptionI2": "Activity/Active_Des_07",
   "UniqueIDs": "GH20008_001"
@@ -110,11 +110,11 @@
   "NameI2": "Activity/Active_Name_09",
   "Type": "限时",
   "Duration": 14,
-  "StartTime": "2026/10/07 21:00",
-  "EndTime": "2026/10/21 21:00",
+  "StartTime": "2026/11/18 21:00",
+  "EndTime": "2026/11/25 21:00",
   "Description": "消耗齿轮抽取丰厚奖品",
   "DescriptionI2": "Activity/Active_Des_09",
-  "UniqueIDs": "20261007"
+  "UniqueIDs": "20261118"
  },
  {
   "Id": "activity_10",
@@ -183,19 +183,32 @@
  },
  {
   "Id": "activity_15",
+  "IDs": "HD00014_001",
+  "Name": "万圣节快乐",
+  "NameI2": "Activity/Active_Name_12_001",
+  "Type": "限时",
+  "Duration": 7,
+  "StartTime": "2026/10/30 21:00",
+  "EndTime": "2026/11/06 21:00",
+  "Description": "签到三日领取南瓜糖果福袋",
+  "DescriptionI2": "Activity/Active_Des_13_001",
+  "UniqueIDs": "20261031"
+ },
+ {
+  "Id": "activity_16",
   "IDs": "HD00015",
   "Name": "果实丰收",
   "NameI2": "Activity/Active_Name_13",
   "Type": "限时",
   "Duration": 7,
-  "StartTime": "2026/09/23 21:00",
-  "EndTime": "2026/10/07 21:00",
+  "StartTime": "2026/11/04 21:00",
+  "EndTime": "2026/11/11 21:00",
   "Description": "活动期间天赋果实掉落概率翻倍",
   "DescriptionI2": "Activity/Active_Des_14",
   "UniqueIDs": ""
  },
  {
-  "Id": "activity_16",
+  "Id": "activity_17",
   "IDs": "HD00016",
   "Name": "果实培育",
   "NameI2": "Activity/Active_Name_16",
@@ -208,20 +221,20 @@
   "UniqueIDs": ""
  },
  {
-  "Id": "activity_17",
+  "Id": "activity_18",
   "IDs": "HD00017",
   "Name": "深渊赛",
   "NameI2": "",
   "Type": "限时",
   "Duration": 14,
-  "StartTime": "2026/09/09 21:00",
-  "EndTime": "2026/09/23 21:00",
+  "StartTime": "2026/12/02 21:00",
+  "EndTime": "2026/12/15 21:00",
   "Description": "",
   "DescriptionI2": "",
-  "UniqueIDs": "20260910"
+  "UniqueIDs": "20261202"
  },
  {
-  "Id": "activity_18",
+  "Id": "activity_19",
   "IDs": "HD00018",
   "Name": "庆典福利",
   "NameI2": "Activity/Active_Name_18",
@@ -234,7 +247,7 @@
   "UniqueIDs": "20260930"
  },
  {
-  "Id": "activity_19",
+  "Id": "activity_20",
   "IDs": "HD00019",
   "Name": "庆典每日礼",
   "NameI2": "Activity/Active_Name_19",
@@ -247,7 +260,7 @@
   "UniqueIDs": "20260924"
  },
  {
-  "Id": "activity_20",
+  "Id": "activity_21",
   "IDs": "HD00020",
   "Name": "累计充值",
   "NameI2": "Activity/Active_Name_20",
@@ -260,7 +273,7 @@
   "UniqueIDs": "20260924"
  },
  {
-  "Id": "activity_21",
+  "Id": "activity_22",
   "IDs": "HD00021",
   "Name": "首充重置",
   "NameI2": "Activity/Active_Name_21",
@@ -273,7 +286,7 @@
   "UniqueIDs": "20260924"
  },
  {
-  "Id": "activity_22",
+  "Id": "activity_23",
   "IDs": "HD00022",
   "Name": "好友助力",
   "NameI2": "Activity/Active_Name_22",
@@ -283,6 +296,19 @@
   "EndTime": "",
   "Description": "快去邀请其他会长领取助力奖励吧",
   "DescriptionI2": "Activity/Active_Des_22",
+  "UniqueIDs": ""
+ },
+ {
+  "Id": "activity_24",
+  "IDs": "HD00023",
+  "Name": "回归指南",
+  "NameI2": "Activity/Active_Name_23",
+  "Type": "限时",
+  "Duration": 14,
+  "StartTime": "",
+  "EndTime": "",
+  "Description": "欢迎回来！这里有总部精心准备的奖励",
+  "DescriptionI2": "Activity/Active_Des_23",
   "UniqueIDs": ""
  }
 ]

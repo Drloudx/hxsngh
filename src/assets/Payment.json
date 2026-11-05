@@ -287,6 +287,58 @@
  },
  {
   "Id": "payment_12",
+  "ProductId": "SC00013_501",
+  "IOS_Id": "",
+  "Type": "礼包",
+  "Name": "万圣节礼盒1",
+  "NameI2": "Shop/Shop_Name_DW05",
+  "Currency": "小鱼干",
+  "Cost": 6,
+  "RefreshPeriod": "每日",
+  "PurchaseLimit": 1,
+  "DiscountRate": 5,
+  "Reward1Type": "宝石",
+  "Reward1": "D00001_000,宝石",
+  "Reward1Num": 60,
+  "Reward2Type": "宝箱",
+  "Reward2": "BX00002,南瓜糖果",
+  "Reward2Num": 5,
+  "Reward3Type": "",
+  "Reward3": "",
+  "Reward3Num": 0,
+  "Reward4Type": "",
+  "Reward4": "",
+  "Reward4Num": 0,
+  "ResetTime": ""
+ },
+ {
+  "Id": "payment_13",
+  "ProductId": "SC00013_502",
+  "IOS_Id": "",
+  "Type": "礼包",
+  "Name": "万圣节礼盒2",
+  "NameI2": "Shop/Shop_Name_DW06",
+  "Currency": "小鱼干",
+  "Cost": 30,
+  "RefreshPeriod": "每周",
+  "PurchaseLimit": 5,
+  "DiscountRate": 5,
+  "Reward1Type": "宝石",
+  "Reward1": "D00001_000,宝石",
+  "Reward1Num": 300,
+  "Reward2Type": "宝箱",
+  "Reward2": "BX00002,南瓜糖果",
+  "Reward2Num": 25,
+  "Reward3Type": "",
+  "Reward3": "",
+  "Reward3Num": 0,
+  "Reward4Type": "",
+  "Reward4": "",
+  "Reward4Num": 0,
+  "ResetTime": ""
+ },
+ {
+  "Id": "payment_14",
   "ProductId": "SC00002_102",
   "IOS_Id": "",
   "Type": "礼包",
@@ -312,7 +364,7 @@
   "ResetTime": ""
  },
  {
-  "Id": "payment_13",
+  "Id": "payment_15",
   "ProductId": "SC00002_103",
   "IOS_Id": "",
   "Type": "礼包",
@@ -338,7 +390,7 @@
   "ResetTime": ""
  },
  {
-  "Id": "payment_14",
+  "Id": "payment_16",
   "ProductId": "SC00002_104",
   "IOS_Id": "",
   "Type": "礼包",
@@ -364,7 +416,7 @@
   "ResetTime": ""
  },
  {
-  "Id": "payment_15",
+  "Id": "payment_17",
   "ProductId": "SC00002_412",
   "IOS_Id": "",
   "Type": "礼包",
@@ -390,7 +442,7 @@
   "ResetTime": ""
  },
  {
-  "Id": "payment_16",
+  "Id": "payment_18",
   "ProductId": "SC00002_413",
   "IOS_Id": "",
   "Type": "礼包",
@@ -416,7 +468,7 @@
   "ResetTime": ""
  },
  {
-  "Id": "payment_17",
+  "Id": "payment_19",
   "ProductId": "SC00002_414",
   "IOS_Id": "",
   "Type": "礼包",
@@ -442,7 +494,7 @@
   "ResetTime": ""
  },
  {
-  "Id": "payment_18",
+  "Id": "payment_20",
   "ProductId": "SC00002_511",
   "IOS_Id": "",
   "Type": "礼包",
@@ -468,7 +520,7 @@
   "ResetTime": ""
  },
  {
-  "Id": "payment_19",
+  "Id": "payment_21",
   "ProductId": "SC00002_512",
   "IOS_Id": "",
   "Type": "礼包",
@@ -494,7 +546,7 @@
   "ResetTime": ""
  },
  {
-  "Id": "payment_20",
+  "Id": "payment_22",
   "ProductId": "SC00002_513",
   "IOS_Id": "",
   "Type": "礼包",
@@ -520,7 +572,7 @@
   "ResetTime": ""
  },
  {
-  "Id": "payment_21",
+  "Id": "payment_23",
   "ProductId": "SC00002_514",
   "IOS_Id": "",
   "Type": "礼包",
@@ -546,7 +598,7 @@
   "ResetTime": ""
  },
  {
-  "Id": "payment_22",
+  "Id": "payment_24",
   "ProductId": "SC00002_611",
   "IOS_Id": "",
   "Type": "补给",
@@ -572,7 +624,7 @@
   "ResetTime": ""
  },
  {
-  "Id": "payment_23",
+  "Id": "payment_25",
   "ProductId": "SC00002_612",
   "IOS_Id": "",
   "Type": "补给",
@@ -598,7 +650,7 @@
   "ResetTime": ""
  },
  {
-  "Id": "payment_24",
+  "Id": "payment_26",
   "ProductId": "SC00002_613",
   "IOS_Id": "",
   "Type": "补给",

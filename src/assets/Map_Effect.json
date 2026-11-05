@@ -167,7 +167,7 @@
   "Type": "简单",
   "Effect": "友方获得生命-{0}。",
   "EffectI2": "Map/Map_Effect_Des_AX10109",
-  "Value0": "关卡/5"
+  "Value0": "关卡/10"
  },
  {
   "Id": "map_effect_18",
@@ -267,7 +267,7 @@
   "Type": "普通",
   "Effect": "友方回合开始前受到{0}层泯灭和阻碍。",
   "EffectI2": "Map/Map_Effect_Des_25",
-  "Value0": "关卡/5"
+  "Value0": "关卡/2"
  },
  {
   "Id": "map_effect_28",

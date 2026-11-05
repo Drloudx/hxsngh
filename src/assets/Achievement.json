@@ -1186,6 +1186,21 @@
  },
  {
   "Id": "achievement_80",
+  "IDs": "CJ20103_00017",
+  "Name": "石板符文",
+  "NameI2": "Achievement/Ac_Name_CJ20103_00017",
+  "Step": "A",
+  "Type": "探索",
+  "Hidden": 0,
+  "Description": "收集{0}种石板符文。",
+  "DescriptionI2": "Achievement/Ac_Des_CJ20103_00017",
+  "Requirement": "4,6,8,10",
+  "RewardType": "货币",
+  "Reward": "D00001_000,宝石",
+  "RewardNum": "15,15,15,30"
+ },
+ {
+  "Id": "achievement_81",
   "IDs": "CJ20113_10001",
   "Name": "新生平原",
   "NameI2": "Achievement/Ac_Name_CJ20113_10001",
@@ -1200,7 +1215,7 @@
   "RewardNum": "15,15,15,30"
  },
  {
-  "Id": "achievement_81",
+  "Id": "achievement_82",
   "IDs": "CJ20113_20001",
   "Name": "迷失森林",
   "NameI2": "Achievement/Ac_Name_CJ20113_20001",
@@ -1215,7 +1230,7 @@
   "RewardNum": "15,15,15,30"
  },
  {
-  "Id": "achievement_82",
+  "Id": "achievement_83",
   "IDs": "CJ20113_20002",
   "Name": "幽暗密林",
   "NameI2": "Achievement/Ac_Name_CJ20113_20002",
@@ -1230,7 +1245,7 @@
   "RewardNum": "15,15,15,30"
  },
  {
-  "Id": "achievement_83",
+  "Id": "achievement_84",
   "IDs": "CJ20113_10002",
   "Name": "广袤草原",
   "NameI2": "Achievement/Ac_Name_CJ20113_10002",
@@ -1245,7 +1260,7 @@
   "RewardNum": "15,15,15,30"
  },
  {
-  "Id": "achievement_84",
+  "Id": "achievement_85",
   "IDs": "CJ20113_30001",
   "Name": "废弃矿洞",
   "NameI2": "Achievement/Ac_Name_CJ20113_30001",
@@ -1260,7 +1275,7 @@
   "RewardNum": "15,15,15,30"
  },
  {
-  "Id": "achievement_85",
+  "Id": "achievement_86",
   "IDs": "CJ20113_40001",
   "Name": "遗忘之海",
   "NameI2": "Achievement/Ac_Name_CJ20113_40001",
@@ -1275,7 +1290,7 @@
   "RewardNum": "15,15,15,30"
  },
  {
-  "Id": "achievement_86",
+  "Id": "achievement_87",
   "IDs": "CJ20113_40000",
   "Name": "清凉沙滩",
   "NameI2": "Achievement/Ac_Name_CJ20113_40000",
@@ -1290,7 +1305,7 @@
   "RewardNum": "15,15,15,30"
  },
  {
-  "Id": "achievement_87",
+  "Id": "achievement_88",
   "IDs": "CJ20113_30002",
   "Name": "洞穴深处",
   "NameI2": "Achievement/Ac_Name_CJ20113_30002",
@@ -1305,7 +1320,7 @@
   "RewardNum": "15,15,15,30"
  },
  {
-  "Id": "achievement_88",
+  "Id": "achievement_89",
   "IDs": "CJ20113_10003",
   "Name": "铁血高地",
   "NameI2": "Achievement/Ac_Name_CJ20113_10003",
@@ -1320,7 +1335,7 @@
   "RewardNum": "15,15,15,30"
  },
  {
-  "Id": "achievement_89",
+  "Id": "achievement_90",
   "IDs": "CJ20113_50001",
   "Name": "荒凉戈壁",
   "NameI2": "Achievement/Ac_Name_CJ20113_50001",
@@ -1335,7 +1350,7 @@
   "RewardNum": "15,15,15,30"
  },
  {
-  "Id": "achievement_90",
+  "Id": "achievement_91",
   "IDs": "CJ20113_50002",
   "Name": "无尽荒漠",
   "NameI2": "Achievement/Ac_Name_CJ20113_50002",
@@ -1350,7 +1365,7 @@
   "RewardNum": "15,15,15,30"
  },
  {
-  "Id": "achievement_91",
+  "Id": "achievement_92",
   "IDs": "CJ20113_20003",
   "Name": "枯木丛林",
   "NameI2": "Achievement/Ac_Name_CJ20113_20003",
@@ -1365,7 +1380,22 @@
   "RewardNum": "15,15,15,30"
  },
  {
-  "Id": "achievement_92",
+  "Id": "achievement_93",
+  "IDs": "CJ20113_21001",
+  "Name": "无声沼泽",
+  "NameI2": "Achievement/Ac_Name_CJ20113_21001",
+  "Step": "A",
+  "Type": "探索",
+  "Hidden": 0,
+  "Description": "击败无声沼泽第{0}关的目标。",
+  "DescriptionI2": "Achievement/Ac_Des_CJ20113_21001",
+  "Requirement": "20,40,60,80",
+  "RewardType": "货币",
+  "Reward": "D00001_000,宝石",
+  "RewardNum": "15,15,15,30"
+ },
+ {
+  "Id": "achievement_94",
   "IDs": "CJ20124_10000",
   "Name": "散落之物1",
   "NameI2": "Achievement/Ac_Name_CJ20124_10000",
@@ -1380,7 +1410,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_93",
+  "Id": "achievement_95",
   "IDs": "CJ20125_10000",
   "Name": "散落之物2",
   "NameI2": "Achievement/Ac_Name_CJ20125_10000",
@@ -1395,7 +1425,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_94",
+  "Id": "achievement_96",
   "IDs": "CJ20126_10000",
   "Name": "散落之物3",
   "NameI2": "Achievement/Ac_Name_CJ20126_10000",
@@ -1410,7 +1440,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_95",
+  "Id": "achievement_97",
   "IDs": "CJ20127_10000",
   "Name": "散落之物4",
   "NameI2": "Achievement/Ac_Name_CJ20127_10000",
@@ -1425,7 +1455,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_96",
+  "Id": "achievement_98",
   "IDs": "CJ20124_10001",
   "Name": "初始之地1",
   "NameI2": "Achievement/Ac_Name_CJ20124_10001",
@@ -1440,7 +1470,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_97",
+  "Id": "achievement_99",
   "IDs": "CJ20125_10001",
   "Name": "初始之地2",
   "NameI2": "Achievement/Ac_Name_CJ20125_10001",
@@ -1455,7 +1485,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_98",
+  "Id": "achievement_100",
   "IDs": "CJ20126_10001",
   "Name": "初始之地3",
   "NameI2": "Achievement/Ac_Name_CJ20126_10001",
@@ -1470,7 +1500,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_99",
+  "Id": "achievement_101",
   "IDs": "CJ20127_10001",
   "Name": "初始之地4",
   "NameI2": "Achievement/Ac_Name_CJ20127_10001",
@@ -1485,7 +1515,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_100",
+  "Id": "achievement_102",
   "IDs": "CJ20124_10002",
   "Name": "不灭之火1",
   "NameI2": "Achievement/Ac_Name_CJ20124_10002",
@@ -1500,7 +1530,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_101",
+  "Id": "achievement_103",
   "IDs": "CJ20125_10002",
   "Name": "不灭之火2",
   "NameI2": "Achievement/Ac_Name_CJ20125_10002",
@@ -1515,7 +1545,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_102",
+  "Id": "achievement_104",
   "IDs": "CJ20126_10002",
   "Name": "不灭之火3",
   "NameI2": "Achievement/Ac_Name_CJ20126_10002",
@@ -1530,7 +1560,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_103",
+  "Id": "achievement_105",
   "IDs": "CJ20127_10002",
   "Name": "不灭之火4",
   "NameI2": "Achievement/Ac_Name_CJ20127_10002",
@@ -1545,7 +1575,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_104",
+  "Id": "achievement_106",
   "IDs": "CJ20124_00001",
   "Name": "极寒之角1",
   "NameI2": "Achievement/Ac_Name_CJ20124_00001",
@@ -1560,7 +1590,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_105",
+  "Id": "achievement_107",
   "IDs": "CJ20125_00001",
   "Name": "极寒之角2",
   "NameI2": "Achievement/Ac_Name_CJ20125_00001",
@@ -1575,7 +1605,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_106",
+  "Id": "achievement_108",
   "IDs": "CJ20126_00001",
   "Name": "极寒之角3",
   "NameI2": "Achievement/Ac_Name_CJ20126_00001",
@@ -1590,7 +1620,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_107",
+  "Id": "achievement_109",
   "IDs": "CJ20127_00001",
   "Name": "极寒之角4",
   "NameI2": "Achievement/Ac_Name_CJ20127_00001",
@@ -1605,7 +1635,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_108",
+  "Id": "achievement_110",
   "IDs": "CJ20124_20001",
   "Name": "混乱之源1",
   "NameI2": "Achievement/Ac_Name_CJ20124_20001",
@@ -1620,7 +1650,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_109",
+  "Id": "achievement_111",
   "IDs": "CJ20125_20001",
   "Name": "混乱之源2",
   "NameI2": "Achievement/Ac_Name_CJ20125_20001",
@@ -1635,7 +1665,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_110",
+  "Id": "achievement_112",
   "IDs": "CJ20126_20001",
   "Name": "混乱之源3",
   "NameI2": "Achievement/Ac_Name_CJ20126_20001",
@@ -1650,7 +1680,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_111",
+  "Id": "achievement_113",
   "IDs": "CJ20127_20001",
   "Name": "混乱之源4",
   "NameI2": "Achievement/Ac_Name_CJ20127_20001",
@@ -1665,7 +1695,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_112",
+  "Id": "achievement_114",
   "IDs": "CJ20124_30001",
   "Name": "晶化之源1",
   "NameI2": "Achievement/Ac_Name_CJ20124_30001_New",
@@ -1680,7 +1710,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_113",
+  "Id": "achievement_115",
   "IDs": "CJ20125_30001",
   "Name": "晶化之源2",
   "NameI2": "Achievement/Ac_Name_CJ20125_30001_New",
@@ -1695,7 +1725,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_114",
+  "Id": "achievement_116",
   "IDs": "CJ20126_30001",
   "Name": "晶化之源3",
   "NameI2": "Achievement/Ac_Name_CJ20126_30001_New",
@@ -1710,7 +1740,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_115",
+  "Id": "achievement_117",
   "IDs": "CJ20127_30001",
   "Name": "晶化之源4",
   "NameI2": "Achievement/Ac_Name_CJ20127_30001_New",
@@ -1725,7 +1755,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_116",
+  "Id": "achievement_118",
   "IDs": "CJ20124_40001",
   "Name": "镇海之宝1",
   "NameI2": "Achievement/Ac_Name_CJ20124_40001",
@@ -1740,7 +1770,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_117",
+  "Id": "achievement_119",
   "IDs": "CJ20125_40001",
   "Name": "镇海之宝2",
   "NameI2": "Achievement/Ac_Name_CJ20125_40001",
@@ -1755,7 +1785,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_118",
+  "Id": "achievement_120",
   "IDs": "CJ20126_40001",
   "Name": "镇海之宝3",
   "NameI2": "Achievement/Ac_Name_CJ20126_40001",
@@ -1770,7 +1800,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_119",
+  "Id": "achievement_121",
   "IDs": "CJ20127_40001",
   "Name": "镇海之宝4",
   "NameI2": "Achievement/Ac_Name_CJ20127_40001",
@@ -1785,7 +1815,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_120",
+  "Id": "achievement_122",
   "IDs": "CJ20124_20002",
   "Name": "深渊之眼1",
   "NameI2": "Achievement/Ac_Name_CJ20124_20002",
@@ -1800,7 +1830,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_121",
+  "Id": "achievement_123",
   "IDs": "CJ20125_20002",
   "Name": "深渊之眼2",
   "NameI2": "Achievement/Ac_Name_CJ20125_20002",
@@ -1815,7 +1845,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_122",
+  "Id": "achievement_124",
   "IDs": "CJ20126_20002",
   "Name": "深渊之眼3",
   "NameI2": "Achievement/Ac_Name_CJ20126_20002",
@@ -1830,7 +1860,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_123",
+  "Id": "achievement_125",
   "IDs": "CJ20127_20002",
   "Name": "深渊之眼4",
   "NameI2": "Achievement/Ac_Name_CJ20127_20002",
@@ -1845,7 +1875,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_124",
+  "Id": "achievement_126",
   "IDs": "CJ20124_40000",
   "Name": "雷霆之怒1",
   "NameI2": "Achievement/Ac_Name_CJ20124_40000",
@@ -1860,7 +1890,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_125",
+  "Id": "achievement_127",
   "IDs": "CJ20125_40000",
   "Name": "雷霆之怒2",
   "NameI2": "Achievement/Ac_Name_CJ20125_40000",
@@ -1875,7 +1905,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_126",
+  "Id": "achievement_128",
   "IDs": "CJ20126_40000",
   "Name": "雷霆之怒3",
   "NameI2": "Achievement/Ac_Name_CJ20126_40000",
@@ -1890,7 +1920,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_127",
+  "Id": "achievement_129",
   "IDs": "CJ20127_40000",
   "Name": "雷霆之怒4",
   "NameI2": "Achievement/Ac_Name_CJ20127_40000",
@@ -1905,7 +1935,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_128",
+  "Id": "achievement_130",
   "IDs": "CJ20124_30002",
   "Name": "残存之物1",
   "NameI2": "Achievement/Ac_Name_CJ20124_30002_New",
@@ -1920,7 +1950,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_129",
+  "Id": "achievement_131",
   "IDs": "CJ20125_30002",
   "Name": "残存之物2",
   "NameI2": "Achievement/Ac_Name_CJ20125_30002_New",
@@ -1935,7 +1965,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_130",
+  "Id": "achievement_132",
   "IDs": "CJ20126_30002",
   "Name": "残存之物3",
   "NameI2": "Achievement/Ac_Name_CJ20126_30002_New",
@@ -1950,7 +1980,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_131",
+  "Id": "achievement_133",
   "IDs": "CJ20127_30002",
   "Name": "残存之物4",
   "NameI2": "Achievement/Ac_Name_CJ20127_30002_New",
@@ -1965,7 +1995,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_132",
+  "Id": "achievement_134",
   "IDs": "CJ20124_10003",
   "Name": "猩红之爪1",
   "NameI2": "Achievement/Ac_Name_CJ20124_10003",
@@ -1980,7 +2010,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_133",
+  "Id": "achievement_135",
   "IDs": "CJ20125_10003",
   "Name": "猩红之爪2",
   "NameI2": "Achievement/Ac_Name_CJ20125_10003",
@@ -1995,7 +2025,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_134",
+  "Id": "achievement_136",
   "IDs": "CJ20126_10003",
   "Name": "猩红之爪3",
   "NameI2": "Achievement/Ac_Name_CJ20126_10003",
@@ -2010,7 +2040,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_135",
+  "Id": "achievement_137",
   "IDs": "CJ20127_10003",
   "Name": "猩红之爪4",
   "NameI2": "Achievement/Ac_Name_CJ20127_10003",
@@ -2025,7 +2055,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_136",
+  "Id": "achievement_138",
   "IDs": "CJ20124_50001",
   "Name": "命定之人1",
   "NameI2": "Achievement/Ac_Name_CJ20124_50001",
@@ -2040,7 +2070,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_137",
+  "Id": "achievement_139",
   "IDs": "CJ20125_50001",
   "Name": "命定之人2",
   "NameI2": "Achievement/Ac_Name_CJ20125_50001",
@@ -2055,7 +2085,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_138",
+  "Id": "achievement_140",
   "IDs": "CJ20126_50001",
   "Name": "命定之人3",
   "NameI2": "Achievement/Ac_Name_CJ20126_50001",
@@ -2070,7 +2100,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_139",
+  "Id": "achievement_141",
   "IDs": "CJ20127_50001",
   "Name": "命定之人4",
   "NameI2": "Achievement/Ac_Name_CJ20127_50001",
@@ -2085,7 +2115,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_140",
+  "Id": "achievement_142",
   "IDs": "CJ20124_50002",
   "Name": "最强之盾1",
   "NameI2": "Achievement/Ac_Name_CJ20124_50002",
@@ -2100,7 +2130,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_141",
+  "Id": "achievement_143",
   "IDs": "CJ20125_50002",
   "Name": "最强之盾2",
   "NameI2": "Achievement/Ac_Name_CJ20125_50002",
@@ -2115,7 +2145,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_142",
+  "Id": "achievement_144",
   "IDs": "CJ20126_50002",
   "Name": "最强之盾3",
   "NameI2": "Achievement/Ac_Name_CJ20126_50002",
@@ -2130,7 +2160,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_143",
+  "Id": "achievement_145",
   "IDs": "CJ20127_50002",
   "Name": "最强之盾4",
   "NameI2": "Achievement/Ac_Name_CJ20127_50002",
@@ -2145,7 +2175,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_144",
+  "Id": "achievement_146",
   "IDs": "CJ20124_00002",
   "Name": "弑神之刃1",
   "NameI2": "Achievement/Ac_Name_CJ20124_00002",
@@ -2160,7 +2190,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_145",
+  "Id": "achievement_147",
   "IDs": "CJ20125_00002",
   "Name": "弑神之刃2",
   "NameI2": "Achievement/Ac_Name_CJ20125_00002",
@@ -2175,7 +2205,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_146",
+  "Id": "achievement_148",
   "IDs": "CJ20126_00002",
   "Name": "弑神之刃3",
   "NameI2": "Achievement/Ac_Name_CJ20126_00002",
@@ -2190,7 +2220,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_147",
+  "Id": "achievement_149",
   "IDs": "CJ20127_00002",
   "Name": "弑神之刃4",
   "NameI2": "Achievement/Ac_Name_CJ20127_00002",
@@ -2205,7 +2235,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_148",
+  "Id": "achievement_150",
   "IDs": "CJ20124_20003",
   "Name": "血吼之斧1",
   "NameI2": "Achievement/Ac_Name_CJ20124_20003",
@@ -2220,7 +2250,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_149",
+  "Id": "achievement_151",
   "IDs": "CJ20125_20003",
   "Name": "血吼之斧2",
   "NameI2": "Achievement/Ac_Name_CJ20125_20003",
@@ -2235,7 +2265,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_150",
+  "Id": "achievement_152",
   "IDs": "CJ20126_20003",
   "Name": "血吼之斧3",
   "NameI2": "Achievement/Ac_Name_CJ20126_20003",
@@ -2250,7 +2280,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_151",
+  "Id": "achievement_153",
   "IDs": "CJ20127_20003",
   "Name": "血吼之斧4",
   "NameI2": "Achievement/Ac_Name_CJ20127_20003",
@@ -2265,7 +2295,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_152",
+  "Id": "achievement_154",
   "IDs": "CJ20124_00003",
   "Name": "净水之瓶1",
   "NameI2": "Achievement/Ac_Name_CJ20124_00003",
@@ -2280,7 +2310,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_153",
+  "Id": "achievement_155",
   "IDs": "CJ20125_00003",
   "Name": "净水之瓶2",
   "NameI2": "Achievement/Ac_Name_CJ20125_00003",
@@ -2295,7 +2325,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_154",
+  "Id": "achievement_156",
   "IDs": "CJ20126_00003",
   "Name": "净水之瓶3",
   "NameI2": "Achievement/Ac_Name_CJ20126_00003",
@@ -2310,7 +2340,7 @@
   "RewardNum": "1"
  },
  {
-  "Id": "achievement_155",
+  "Id": "achievement_157",
   "IDs": "CJ20127_00003",
   "Name": "净水之瓶4",
   "NameI2": "Achievement/Ac_Name_CJ20127_00003",
@@ -2322,6 +2352,66 @@
   "Requirement": "99",
   "RewardType": "装备",
   "Reward": "Z00103_401,净水之瓶",
+  "RewardNum": "1"
+ },
+ {
+  "Id": "achievement_158",
+  "IDs": "CJ20124_21001",
+  "Name": "恶语之帽1",
+  "NameI2": "Achievement/Ac_Name_CJ20124_21001",
+  "Step": "S",
+  "Type": "探索",
+  "Hidden": 0,
+  "Description": "收集{0}种无声沼泽装备。",
+  "DescriptionI2": "Achievement/Ac_Des_CJ20124_21001",
+  "Requirement": "99",
+  "RewardType": "装备",
+  "Reward": "Z08001_401,恶语之帽",
+  "RewardNum": "1"
+ },
+ {
+  "Id": "achievement_159",
+  "IDs": "CJ20125_21001",
+  "Name": "恶语之帽2",
+  "NameI2": "Achievement/Ac_Name_CJ20125_21001",
+  "Step": "S",
+  "Type": "探索",
+  "Hidden": 0,
+  "Description": "收集{0}种1星无声沼泽装备。",
+  "DescriptionI2": "Achievement/Ac_Des_CJ20125_21001",
+  "Requirement": "99",
+  "RewardType": "装备",
+  "Reward": "Z08001_401,恶语之帽",
+  "RewardNum": "1"
+ },
+ {
+  "Id": "achievement_160",
+  "IDs": "CJ20126_21001",
+  "Name": "恶语之帽3",
+  "NameI2": "Achievement/Ac_Name_CJ20126_21001",
+  "Step": "S",
+  "Type": "探索",
+  "Hidden": 0,
+  "Description": "收集{0}种2星无声沼泽装备。",
+  "DescriptionI2": "Achievement/Ac_Des_CJ20126_21001",
+  "Requirement": "99",
+  "RewardType": "装备",
+  "Reward": "Z08001_401,恶语之帽",
+  "RewardNum": "1"
+ },
+ {
+  "Id": "achievement_161",
+  "IDs": "CJ20127_21001",
+  "Name": "恶语之帽4",
+  "NameI2": "Achievement/Ac_Name_CJ20127_21001",
+  "Step": "S",
+  "Type": "探索",
+  "Hidden": 0,
+  "Description": "收集{0}种3星无声沼泽装备。",
+  "DescriptionI2": "Achievement/Ac_Des_CJ20127_21001",
+  "Requirement": "99",
+  "RewardType": "装备",
+  "Reward": "Z08001_401,恶语之帽",
   "RewardNum": "1"
  }
 ]

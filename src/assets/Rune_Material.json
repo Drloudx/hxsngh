@@ -206,5 +206,18 @@
   "Resonance2": "基础效果+100%",
   "Resonance3": "双方全体目标获得滋润层数上限+50。",
   "Resonance3I2": "Runes/Runes_Resonance_CZ00016_002_New01"
+ },
+ {
+  "Id": "Rune_material_17",
+  "IDs": "CZ00017_001",
+  "Material": "石板",
+  "MaterialI2": "Runes/Runes_List_CZ00017",
+  "Effect": "剧毒",
+  "EffectI2": "Runes/Runes_Type_CZ00017",
+  "Resonance1": "受到伤害后对目标造成1层阻碍。",
+  "Resonance1I2": "Runes/Runes_Resonance_CZ00017_001",
+  "Resonance2": "基础效果+100%",
+  "Resonance3": "造成阻碍层数+1。",
+  "Resonance3I2": "Runes/Runes_Resonance_CZ00017_002"
  }
 ]

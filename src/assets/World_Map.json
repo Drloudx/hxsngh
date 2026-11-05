@@ -270,5 +270,22 @@
   "Desc": "来自异界的旅人在这里举办了热闹的庆典活动，快来看看吧！",
   "DescI2": "Map/Map_Text_16",
   "Element": "风系,水系,光系"
+ },
+ {
+  "Id": "world_map_17",
+  "IDs": "A21001",
+  "Name": "无声沼泽",
+  "NameI2": "Map/Map_Name_18",
+  "Type": "沼泽",
+  "InitialDiffi": 131,
+  "UnlockReqirement": 40,
+  "PreviousMap": "枯木丛林",
+  "ExoticOriginMap": "无声沼泽",
+  "MapEffect1": "阴湿",
+  "MapEffect2": "沼泽",
+  "MapEffect3": "无声",
+  "Desc": "腐烂泥潭中隐藏着致命的陷阱，擅闯者只会悄无声息地消失在其中。",
+  "DescI2": "Map/Map_Text_17",
+  "Element": "地系,水系,暗系"
  }
 ]

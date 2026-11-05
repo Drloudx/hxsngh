@@ -916,6 +916,36 @@
  },
  {
   "Id": "special_item_62",
+  "IDs": "D00013_GH20011",
+  "Name": "潜艇公会",
+  "NameI2": "UI/Union_Costume_Name_GH20011",
+  "Step": "S",
+  "Weight": 0,
+  "Element": "世界",
+  "AreaType": "世界",
+  "AreaName": "不限",
+  "Description": "使用后解锁相应装扮，已有装扮则改为获得100宝石。",
+  "DescriptionI2": "Items/Items_Des_D00013_001",
+  "Source": "",
+  "Type": "装扮"
+ },
+ {
+  "Id": "special_item_63",
+  "IDs": "D00013_GH40002",
+  "Name": "南瓜公会",
+  "NameI2": "UI/Union_Costume_Name_GH40002",
+  "Step": "S",
+  "Weight": 0,
+  "Element": "世界",
+  "AreaType": "世界",
+  "AreaName": "不限",
+  "Description": "使用后解锁相应装扮，已有装扮则改为获得100宝石。",
+  "DescriptionI2": "Items/Items_Des_D00013_001",
+  "Source": "",
+  "Type": "装扮"
+ },
+ {
+  "Id": "special_item_64",
   "IDs": "D00014_S13301",
   "Name": "猫耳管家",
   "NameI2": "UI/Union_Costume_Name_10",
@@ -930,7 +960,7 @@
   "Type": "管家"
  },
  {
-  "Id": "special_item_63",
+  "Id": "special_item_65",
   "IDs": "D00014_S13302",
   "Name": "犬耳秘书",
   "NameI2": "UI/Union_Costume_Name_11",
@@ -945,7 +975,7 @@
   "Type": "管家"
  },
  {
-  "Id": "special_item_64",
+  "Id": "special_item_66",
   "IDs": "D00014_S21205",
   "Name": "奶牛管家",
   "NameI2": "UI/Union_Costume_Name_S21205",
@@ -960,7 +990,7 @@
   "Type": "管家"
  },
  {
-  "Id": "special_item_65",
+  "Id": "special_item_67",
   "IDs": "D00014_S21203",
   "Name": "白羽管家",
   "NameI2": "UI/Union_Costume_Name_S21203",
@@ -975,7 +1005,7 @@
   "Type": "管家"
  },
  {
-  "Id": "special_item_66",
+  "Id": "special_item_68",
   "IDs": "D00014_S13303",
   "Name": "古堡管家",
   "NameI2": "UI/Union_Costume_Name_S13303",
@@ -990,7 +1020,7 @@
   "Type": "管家"
  },
  {
-  "Id": "special_item_67",
+  "Id": "special_item_69",
   "IDs": "D00014_S13306",
   "Name": "牛仔管家",
   "NameI2": "UI/Npc_Name_17",
@@ -1005,7 +1035,7 @@
   "Type": "管家"
  },
  {
-  "Id": "special_item_68",
+  "Id": "special_item_70",
   "IDs": "D00014_S13307",
   "Name": "树精管家",
   "NameI2": "UI/Npc_Name_20",
@@ -1020,7 +1050,7 @@
   "Type": "管家"
  },
  {
-  "Id": "special_item_69",
+  "Id": "special_item_71",
   "IDs": "D00014_S13308",
   "Name": "庆典管家",
   "NameI2": "UI/Npc_Name_21",
@@ -1035,7 +1065,7 @@
   "Type": "管家"
  },
  {
-  "Id": "special_item_70",
+  "Id": "special_item_72",
   "IDs": "D00014_S13304",
   "Name": "熊猫管家",
   "NameI2": "UI/Npc_Name_19",
@@ -1050,7 +1080,7 @@
   "Type": "管家"
  },
  {
-  "Id": "special_item_71",
+  "Id": "special_item_73",
   "IDs": "D00014_S13309",
   "Name": "花仙管家",
   "NameI2": "UI/Npc_Name_22",
@@ -1065,7 +1095,22 @@
   "Type": "管家"
  },
  {
-  "Id": "special_item_72",
+  "Id": "special_item_74",
+  "IDs": "D00014_S13310",
+  "Name": "魔偶管家",
+  "NameI2": "UI/Npc_Name_23",
+  "Step": "S",
+  "Weight": 0,
+  "Element": "世界",
+  "AreaType": "世界",
+  "AreaName": "不限",
+  "Description": "使用后解锁相应装扮，已有装扮则改为获得100宝石。",
+  "DescriptionI2": "Items/Items_Des_D00013_001",
+  "Source": "",
+  "Type": "管家"
+ },
+ {
+  "Id": "special_item_75",
   "IDs": "D00015_TX00001",
   "Name": "云端外框",
   "NameI2": "UI/Union_Costume_Name_TX00001",
@@ -1080,7 +1125,7 @@
   "Type": "外框"
  },
  {
-  "Id": "special_item_73",
+  "Id": "special_item_76",
   "IDs": "D00015_TX10001",
   "Name": "圣堂外框",
   "NameI2": "UI/Union_Costume_Name_TX10001",
@@ -1095,7 +1140,7 @@
   "Type": "外框"
  },
  {
-  "Id": "special_item_74",
+  "Id": "special_item_77",
   "IDs": "D00015_TX10002",
   "Name": "古堡外框",
   "NameI2": "UI/Union_Costume_Name_TX10002",
@@ -1110,7 +1155,7 @@
   "Type": "外框"
  },
  {
-  "Id": "special_item_75",
+  "Id": "special_item_78",
   "IDs": "D00015_TX10003",
   "Name": "西部外框",
   "NameI2": "UI/Union_Costume_Name_TX10003",
@@ -1125,7 +1170,7 @@
   "Type": "外框"
  },
  {
-  "Id": "special_item_76",
+  "Id": "special_item_79",
   "IDs": "D00015_TX10004",
   "Name": "草药外框",
   "NameI2": "UI/Union_Costume_Name_TX10004",
@@ -1140,7 +1185,7 @@
   "Type": "外框"
  },
  {
-  "Id": "special_item_77",
+  "Id": "special_item_80",
   "IDs": "D00015_TX10005",
   "Name": "蔷薇外框",
   "NameI2": "UI/Union_Costume_Name_TX10005",
@@ -1155,7 +1200,7 @@
   "Type": "外框"
  },
  {
-  "Id": "special_item_78",
+  "Id": "special_item_81",
   "IDs": "D00015_TX10006",
   "Name": "兔兔外框",
   "NameI2": "UI/Union_Costume_Name_TX10006",
@@ -1170,7 +1215,7 @@
   "Type": "外框"
  },
  {
-  "Id": "special_item_79",
+  "Id": "special_item_82",
   "IDs": "D00015_TX10007",
   "Name": "夏日外框",
   "NameI2": "UI/Union_Costume_Name_TX10007",
@@ -1185,7 +1230,22 @@
   "Type": "外框"
  },
  {
-  "Id": "special_item_80",
+  "Id": "special_item_83",
+  "IDs": "D00015_TX10008",
+  "Name": "沼泽外框",
+  "NameI2": "UI/Union_Costume_Name_TX10008",
+  "Step": "S",
+  "Weight": 0,
+  "Element": "世界",
+  "AreaType": "世界",
+  "AreaName": "不限",
+  "Description": "使用后解锁相应装扮，已有装扮则改为获得100宝石。",
+  "DescriptionI2": "Items/Items_Des_D00013_001",
+  "Source": "",
+  "Type": "外框"
+ },
+ {
+  "Id": "special_item_84",
   "IDs": "D00016_TX90001",
   "Name": "巨魔术士",
   "NameI2": "Role/Role_Name_M12303",
@@ -1200,7 +1260,7 @@
   "Type": "头像"
  },
  {
-  "Id": "special_item_81",
+  "Id": "special_item_85",
   "IDs": "D00016_TX90003",
   "Name": "灵机一动",
   "NameI2": "UI/Union_Costume_Name_TX90003",
@@ -1215,10 +1275,25 @@
   "Type": "头像"
  },
  {
-  "Id": "special_item_82",
+  "Id": "special_item_86",
   "IDs": "D00016_TX90004",
   "Name": "来笑一个",
   "NameI2": "UI/Union_Costume_Name_TX90004",
+  "Step": "S",
+  "Weight": 0,
+  "Element": "世界",
+  "AreaType": "世界",
+  "AreaName": "不限",
+  "Description": "使用后解锁相应装扮，已有装扮则改为获得100宝石。",
+  "DescriptionI2": "Items/Items_Des_D00013_001",
+  "Source": "",
+  "Type": "头像"
+ },
+ {
+  "Id": "special_item_87",
+  "IDs": "D00016_TX90005",
+  "Name": "呱！",
+  "NameI2": "UI/Union_Costume_Name_TX90005",
   "Step": "S",
   "Weight": 0,
   "Element": "世界",

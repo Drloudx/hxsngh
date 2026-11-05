@@ -1768,5 +1768,167 @@
       "difficulty": "very_easy",
       "difficultyName": "较易"
     }
+  },
+  "无声沼泽": {
+    "Z08001_401": {
+      "difficulty": "very_hard",
+      "difficultyName": "极难"
+    },
+    "Z08001_331": {
+      "difficulty": "rather_hard",
+      "difficultyName": "较难"
+    },
+    "Z08001_332": {
+      "difficulty": "rather_hard",
+      "difficultyName": "较难"
+    },
+    "Z08001_333": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z08001_324": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_325": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_326": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_321": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_322": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_323": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_341": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_343": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_342": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_344": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_345": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_346": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_301": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_302": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_303": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_304": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z08001_305": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z08001_306": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z08001_351": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_353": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_352": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_354": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_355": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_356": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_283": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_286": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z08001_282": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z08001_284": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_285": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_281": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_244": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_245": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_241": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_246": {
+      "difficulty": "normal",
+      "difficultyName": "一般"
+    },
+    "Z08001_243": {
+      "difficulty": "very_easy",
+      "difficultyName": "较易"
+    },
+    "Z08001_242": {
+      "difficulty": "rather_hard",
+      "difficultyName": "较难"
+    }
   }
 }

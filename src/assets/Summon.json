@@ -1264,9 +1264,9 @@
   "IDs": "M13307",
   "Name": "蔷薇领主",
   "Step": "S",
-  "IsUsual": 0,
-  "StartTime": "2026/8/13 3:00:00",
-  "EndTime": "2026/9/24 3:00:00"
+  "IsUsual": 1,
+  "StartTime": "",
+  "EndTime": ""
  },
  {
   "Id": "summon_142",
@@ -1285,5 +1285,68 @@
   "IsUsual": 0,
   "StartTime": "2026/9/24 3:00:00",
   "EndTime": "2026/11/5 3:00:00"
+ },
+ {
+  "Id": "summon_144",
+  "IDs": "M11116",
+  "Name": "蜥蜴战士",
+  "Step": "B",
+  "IsUsual": 1,
+  "StartTime": "",
+  "EndTime": ""
+ },
+ {
+  "Id": "summon_145",
+  "IDs": "M12107",
+  "Name": "蜥蜴射手",
+  "Step": "A",
+  "IsUsual": 1,
+  "StartTime": "",
+  "EndTime": ""
+ },
+ {
+  "Id": "summon_146",
+  "IDs": "M13208",
+  "Name": "无声萨满",
+  "Step": "A",
+  "IsUsual": 1,
+  "StartTime": "",
+  "EndTime": ""
+ },
+ {
+  "Id": "summon_147",
+  "IDs": "M14212",
+  "Name": "沼泽旅者",
+  "Step": "A",
+  "IsUsual": 1,
+  "StartTime": "",
+  "EndTime": ""
+ },
+ {
+  "Id": "summon_148",
+  "IDs": "M11211",
+  "Name": "沼泽花妖",
+  "Step": "A",
+  "IsUsual": 1,
+  "StartTime": "",
+  "EndTime": ""
+ },
+ {
+  "Id": "summon_149",
+  "IDs": "M12209",
+  "Name": "静谧猎手",
+  "Step": "S",
+  "IsUsual": 0,
+  "StartTime": "2026/11/05 3:00:00",
+  "EndTime": "2026/12/16 3:00:00"
+ },
+ {
+  "Id": "summon_150",
+  "IDs": "M14215",
+  "Name": "针绒少女",
+  "Step": "S",
+  "IsUsual": 1,
+  "StartTime": "",
+  "EndTime": ""
  }
 ]

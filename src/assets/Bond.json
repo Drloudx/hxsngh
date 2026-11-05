@@ -2461,6 +2461,246 @@
  },
  {
   "Id": "bond_124",
+  "IDs": "JN60511",
+  "Name": "破灭",
+  "NameI2": "Equipbond/Name_Skill_JN60511",
+  "BondNum": "2,4,6,8,10,12",
+  "BasicDescription": "回合开始前对敌方全体目标造成净化。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60511",
+  "EffectDescription": "回合开始前对敌方全体目标造成{0}层净化。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60511",
+  "BadgeIDs": "HZ00024",
+  "Value1": "1,2,3,4,5,6",
+  "Value2": "",
+  "Tag": "回合开始,净化",
+  "Score": 20,
+  "PositiveTags": "净化敌方",
+  "NegativeTags": "",
+  "Type": "基础",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_125",
+  "IDs": "JN60512",
+  "Name": "腐朽",
+  "NameI2": "Equipbond/Name_Skill_JN60512",
+  "BondNum": "2,4,6,8,10,12",
+  "BasicDescription": "回合开始前对敌方全体目标造成逆转。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60512",
+  "EffectDescription": "回合开始前对敌方全体目标造成{0}层逆转。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60512",
+  "BadgeIDs": "HZ00078",
+  "Value1": "2,4,6,8,10,12",
+  "Value2": "",
+  "Tag": "回合开始,逆转",
+  "Score": 20,
+  "PositiveTags": "逆转相关",
+  "NegativeTags": "",
+  "Type": "基础",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_126",
+  "IDs": "JN60513",
+  "Name": "死寂",
+  "NameI2": "Equipbond/Name_Skill_JN60513",
+  "BondNum": "2,4,6,8,10,12",
+  "BasicDescription": "回合开始前对敌方全体目标造成泯灭。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60513",
+  "EffectDescription": "回合开始前对敌方全体目标造成{0}层泯灭。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60513",
+  "BadgeIDs": "HZ00006",
+  "Value1": "1,2,3,4,5,6",
+  "Value2": "",
+  "Tag": "回合开始,泯灭",
+  "Score": 20,
+  "PositiveTags": "泯灭相关",
+  "NegativeTags": "",
+  "Type": "基础",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_127",
+  "IDs": "JN60514",
+  "Name": "恐吓",
+  "NameI2": "Equipbond/Name_Skill_JN60514",
+  "BondNum": "2,4,6,8,10,12",
+  "BasicDescription": "回合开始前对敌方全体目标造成恐惧。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60514",
+  "EffectDescription": "回合开始前对敌方全体目标造成{0}层恐惧。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60514",
+  "BadgeIDs": "HZ00035",
+  "Value1": "2,4,6,8,10,12",
+  "Value2": "",
+  "Tag": "回合开始,恐惧",
+  "Score": 20,
+  "PositiveTags": "恐惧相关",
+  "NegativeTags": "",
+  "Type": "基础",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_128",
+  "IDs": "JN60515",
+  "Name": "吸引",
+  "NameI2": "Equipbond/Name_Skill_JN60515",
+  "BondNum": "2,4,6,8,10,12",
+  "BasicDescription": "回合开始前对敌方全体目标造成诱导。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60515",
+  "EffectDescription": "回合开始前对敌方全体目标造成{0}层诱导。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60515",
+  "BadgeIDs": "HZ00031",
+  "Value1": "2,4,6,8,10,12",
+  "Value2": "",
+  "Tag": "回合开始,诱导",
+  "Score": 20,
+  "PositiveTags": "诱导相关",
+  "NegativeTags": "",
+  "Type": "基础",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_129",
+  "IDs": "JN60516",
+  "Name": "霜降",
+  "NameI2": "Equipbond/Name_Skill_JN60516",
+  "BondNum": "2,4,6,8,10,12",
+  "BasicDescription": "回合开始前对敌方全体目标造成冰冷。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60516",
+  "EffectDescription": "回合开始前对敌方全体目标造成{0}层冰冷。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60516",
+  "BadgeIDs": "HZ00008",
+  "Value1": "2,4,6,8,10,12",
+  "Value2": "",
+  "Tag": "回合开始,冰冷",
+  "Score": 20,
+  "PositiveTags": "冰冷相关",
+  "NegativeTags": "",
+  "Type": "基础",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_130",
+  "IDs": "JN60517",
+  "Name": "碎裂",
+  "NameI2": "Equipbond/Name_Skill_JN60517",
+  "BondNum": "2,4,6,8,10,12",
+  "BasicDescription": "回合开始前对敌方全体目标造成脆弱。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60517",
+  "EffectDescription": "回合开始前对敌方全体目标造成{0}层脆弱。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60517",
+  "BadgeIDs": "HZ00034",
+  "Value1": "2,4,6,8,10,12",
+  "Value2": "",
+  "Tag": "回合开始,脆弱",
+  "Score": 20,
+  "PositiveTags": "脆弱相关",
+  "NegativeTags": "",
+  "Type": "基础",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_131",
+  "IDs": "JN60518",
+  "Name": "拖延",
+  "NameI2": "Equipbond/Name_Skill_JN60518",
+  "BondNum": "2,4,6,8,10,12",
+  "BasicDescription": "回合开始前对敌方全体目标造成减速。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60518",
+  "EffectDescription": "回合开始前对敌方全体目标造成{0}层减速。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60518",
+  "BadgeIDs": "HZ00082",
+  "Value1": "2,4,6,8,10,12",
+  "Value2": "",
+  "Tag": "回合开始,减速",
+  "Score": 20,
+  "PositiveTags": "减速相关",
+  "NegativeTags": "",
+  "Type": "基础",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_132",
+  "IDs": "JN60519",
+  "Name": "碎刃",
+  "NameI2": "Equipbond/Name_Skill_JN60519",
+  "BondNum": "2,4,6,8,10,12",
+  "BasicDescription": "回合开始前对敌方全体目标造成剥离。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60519",
+  "EffectDescription": "回合开始前对敌方全体目标造成{0}层剥离。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60519",
+  "BadgeIDs": "HZ00009",
+  "Value1": "2,4,6,8,10,12",
+  "Value2": "",
+  "Tag": "回合开始,剥离",
+  "Score": 20,
+  "PositiveTags": "剥离相关",
+  "NegativeTags": "",
+  "Type": "基础",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_133",
+  "IDs": "JN60520",
+  "Name": "燎原",
+  "NameI2": "Equipbond/Name_Skill_JN60520",
+  "BondNum": "2,4,6,8,10,12",
+  "BasicDescription": "回合开始前对敌方全体目标造成灼烧。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60520",
+  "EffectDescription": "回合开始前对敌方全体目标造成{0}层灼烧。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60520",
+  "BadgeIDs": "HZ00004",
+  "Value1": "2,4,6,8,10,12",
+  "Value2": "",
+  "Tag": "回合开始,灼烧",
+  "Score": 20,
+  "PositiveTags": "灼烧相关",
+  "NegativeTags": "",
+  "Type": "基础",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_134",
+  "IDs": "JN60521",
+  "Name": "电锁",
+  "NameI2": "Equipbond/Name_Skill_JN60521",
+  "BondNum": "2,4,6,8,10,12",
+  "BasicDescription": "回合开始前对敌方全体目标造成感电。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60521",
+  "EffectDescription": "回合开始前对敌方全体目标造成{0}层感电。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60521",
+  "BadgeIDs": "HZ00007",
+  "Value1": "2,4,6,8,10,12",
+  "Value2": "",
+  "Tag": "回合开始,感电",
+  "Score": 20,
+  "PositiveTags": "感电相关",
+  "NegativeTags": "",
+  "Type": "基础",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_135",
+  "IDs": "JN60522",
+  "Name": "毒咒",
+  "NameI2": "Equipbond/Name_Skill_JN60522",
+  "BondNum": "2,4,6,8,10,12",
+  "BasicDescription": "回合开始前对敌方全体目标造成阻碍。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60522",
+  "EffectDescription": "回合开始前对敌方全体目标造成{0}层阻碍。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60522",
+  "BadgeIDs": "HZ00010",
+  "Value1": "2,4,6,8,10,12",
+  "Value2": "",
+  "Tag": "回合开始,阻碍",
+  "Score": 20,
+  "PositiveTags": "阻碍相关",
+  "NegativeTags": "",
+  "Type": "基础",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_136",
   "IDs": "JN10213",
   "Name": "天使",
   "NameI2": "Equipbond/Name_Skill_JN10213",
@@ -2480,7 +2720,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_125",
+  "Id": "bond_137",
   "IDs": "JN10111",
   "Name": "猎人",
   "NameI2": "Equipbond/Name_Skill_JN10111",
@@ -2500,7 +2740,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_126",
+  "Id": "bond_138",
   "IDs": "JN10215",
   "Name": "皇后",
   "NameI2": "Equipbond/Name_Skill_JN10215",
@@ -2520,7 +2760,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_127",
+  "Id": "bond_139",
   "IDs": "JN10212",
   "Name": "国王",
   "NameI2": "Equipbond/Name_Skill_JN10212",
@@ -2540,7 +2780,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_128",
+  "Id": "bond_140",
   "IDs": "JN10214",
   "Name": "统领",
   "NameI2": "Equipbond/Name_Skill_JN10214",
@@ -2560,7 +2800,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_129",
+  "Id": "bond_141",
   "IDs": "JN10217",
   "Name": "骑士",
   "NameI2": "Equipbond/Name_Skill_JN10217",
@@ -2580,7 +2820,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_130",
+  "Id": "bond_142",
   "IDs": "JN10216",
   "Name": "禁卫",
   "NameI2": "Equipbond/Name_Skill_JN10216",
@@ -2600,7 +2840,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_131",
+  "Id": "bond_143",
   "IDs": "JN10218",
   "Name": "疾风",
   "NameI2": "Equipbond/Name_Skill_JN10218_new01",
@@ -2620,7 +2860,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_132",
+  "Id": "bond_144",
   "IDs": "JN10219",
   "Name": "勇者",
   "NameI2": "Equipbond/Name_Skill_JN10219",
@@ -2640,7 +2880,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_133",
+  "Id": "bond_145",
   "IDs": "JN10220",
   "Name": "贤者",
   "NameI2": "Equipbond/Name_Skill_JN10220",
@@ -2660,7 +2900,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_134",
+  "Id": "bond_146",
   "IDs": "JN10221",
   "Name": "堡垒",
   "NameI2": "Equipbond/Name_Skill_JN10221",
@@ -2680,7 +2920,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_135",
+  "Id": "bond_147",
   "IDs": "JN10121",
   "Name": "驱除",
   "NameI2": "Equipbond/Name_Skill_JN10121",
@@ -2700,7 +2940,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_136",
+  "Id": "bond_148",
   "IDs": "JN60405",
   "Name": "侵蚀",
   "NameI2": "Equipbond/Name_Skill_JN60405",
@@ -2720,7 +2960,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_137",
+  "Id": "bond_149",
   "IDs": "JN10056",
   "Name": "黑洞",
   "NameI2": "Equipbond/Name_Skill_JN10056",
@@ -2740,7 +2980,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_138",
+  "Id": "bond_150",
   "IDs": "JN60157",
   "Name": "震慑",
   "NameI2": "Equipbond/Name_Skill_JN60157",
@@ -2760,7 +3000,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_139",
+  "Id": "bond_151",
   "IDs": "JN50601",
   "Name": "操控",
   "NameI2": "Equipbond/Name_Skill_JN50601",
@@ -2780,7 +3020,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_140",
+  "Id": "bond_152",
   "IDs": "JN60195",
   "Name": "寒潮",
   "NameI2": "Equipbond/Name_Skill_JN60195",
@@ -2800,7 +3040,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_141",
+  "Id": "bond_153",
   "IDs": "JN10609",
   "Name": "地震",
   "NameI2": "Equipbond/Name_Skill_JN10609",
@@ -2820,7 +3060,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_142",
+  "Id": "bond_154",
   "IDs": "JN60402",
   "Name": "陷落",
   "NameI2": "Equipbond/Name_Skill_JN60402",
@@ -2840,7 +3080,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_143",
+  "Id": "bond_155",
   "IDs": "JN00401",
   "Name": "撕裂",
   "NameI2": "Equipbond/Name_Skill_JN00401_new01",
@@ -2860,7 +3100,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_144",
+  "Id": "bond_156",
   "IDs": "JN60502",
   "Name": "烈火",
   "NameI2": "Equipbond/Name_Skill_JN60502",
@@ -2880,7 +3120,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_145",
+  "Id": "bond_157",
   "IDs": "JN10057",
   "Name": "雷云",
   "NameI2": "Equipbond/Name_Skill_JN10057",
@@ -2900,7 +3140,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_146",
+  "Id": "bond_158",
   "IDs": "JN10059",
   "Name": "虫群",
   "NameI2": "Equipbond/Name_Skill_JN10059",
@@ -2920,7 +3160,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_147",
+  "Id": "bond_159",
   "IDs": "JN10603",
   "Name": "洗涤",
   "NameI2": "Equipbond/Name_Skill_JN10603",
@@ -2940,7 +3180,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_148",
+  "Id": "bond_160",
   "IDs": "JN00601",
   "Name": "愈合",
   "NameI2": "Equipbond/Name_Skill_JN00601",
@@ -2960,7 +3200,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_149",
+  "Id": "bond_161",
   "IDs": "JN50002",
   "Name": "勇气",
   "NameI2": "Equipbond/Name_Skill_JN50002",
@@ -2980,7 +3220,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_150",
+  "Id": "bond_162",
   "IDs": "JN60200",
   "Name": "修复",
   "NameI2": "Equipbond/Name_Skill_JN60200",
@@ -3000,7 +3240,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_151",
+  "Id": "bond_163",
   "IDs": "JN10203",
   "Name": "斗士",
   "NameI2": "Equipbond/Name_Skill_JN10203",
@@ -3020,7 +3260,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_152",
+  "Id": "bond_164",
   "IDs": "JN10083",
   "Name": "适应",
   "NameI2": "Equipbond/Name_Skill_JN10083",
@@ -3040,7 +3280,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_153",
+  "Id": "bond_165",
   "IDs": "JN10084",
   "Name": "挫败",
   "NameI2": "Equipbond/Name_Skill_JN10084",
@@ -3060,7 +3300,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_154",
+  "Id": "bond_166",
   "IDs": "JN10086",
   "Name": "不屈",
   "NameI2": "Equipbond/Name_Skill_JN10086",
@@ -3080,7 +3320,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_155",
+  "Id": "bond_167",
   "IDs": "JN10187",
   "Name": "活性",
   "NameI2": "Equipbond/Name_Skill_JN10187",
@@ -3100,7 +3340,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_156",
+  "Id": "bond_168",
   "IDs": "JN50001",
   "Name": "永生",
   "NameI2": "Equipbond/Name_Skill_JN50001",
@@ -3120,7 +3360,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_157",
+  "Id": "bond_169",
   "IDs": "JN10176",
   "Name": "惩戒",
   "NameI2": "Equipbond/Name_Skill_JN10176",
@@ -3140,7 +3380,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_158",
+  "Id": "bond_170",
   "IDs": "JN10175",
   "Name": "抽离",
   "NameI2": "Equipbond/Name_Skill_JN10175",
@@ -3160,7 +3400,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_159",
+  "Id": "bond_171",
   "IDs": "JN10177",
   "Name": "虚无",
   "NameI2": "Equipbond/Name_Skill_JN10177",
@@ -3180,7 +3420,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_160",
+  "Id": "bond_172",
   "IDs": "JN10178",
   "Name": "深渊",
   "NameI2": "Equipbond/Name_Skill_JN10178",
@@ -3200,7 +3440,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_161",
+  "Id": "bond_173",
   "IDs": "JN10179",
   "Name": "诡术",
   "NameI2": "Equipbond/Name_Skill_JN10179",
@@ -3220,7 +3460,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_162",
+  "Id": "bond_174",
   "IDs": "JN10183",
   "Name": "臻冰",
   "NameI2": "Equipbond/Name_Skill_JN10183",
@@ -3240,7 +3480,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_163",
+  "Id": "bond_175",
   "IDs": "JN10184",
   "Name": "瓦解",
   "NameI2": "Equipbond/Name_Skill_JN10184",
@@ -3260,7 +3500,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_164",
+  "Id": "bond_176",
   "IDs": "JN10180",
   "Name": "流沙",
   "NameI2": "Equipbond/Name_Skill_JN10180",
@@ -3280,7 +3520,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_165",
+  "Id": "bond_177",
   "IDs": "JN10181",
   "Name": "千刃",
   "NameI2": "Equipbond/Name_Skill_JN10181",
@@ -3300,7 +3540,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_166",
+  "Id": "bond_178",
   "IDs": "JN10182",
   "Name": "焚烧",
   "NameI2": "Equipbond/Name_Skill_JN10182",
@@ -3320,7 +3560,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_167",
+  "Id": "bond_179",
   "IDs": "JN10186",
   "Name": "灌注",
   "NameI2": "Equipbond/Name_Skill_JN10186",
@@ -3340,7 +3580,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_168",
+  "Id": "bond_180",
   "IDs": "JN10185",
   "Name": "猛毒",
   "NameI2": "Equipbond/Name_Skill_JN10185",
@@ -3360,7 +3600,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_169",
+  "Id": "bond_181",
   "IDs": "JN10157",
   "Name": "平静",
   "NameI2": "Equipbond/Name_Skill_JN10157",
@@ -3380,7 +3620,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_170",
+  "Id": "bond_182",
   "IDs": "JN00804",
   "Name": "重生",
   "NameI2": "Equipbond/Name_Skill_JN00804",
@@ -3400,7 +3640,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_171",
+  "Id": "bond_183",
   "IDs": "JN00801",
   "Name": "振奋",
   "NameI2": "Equipbond/Name_Skill_JN00801",
@@ -3420,7 +3660,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_172",
+  "Id": "bond_184",
   "IDs": "JN60181",
   "Name": "信心",
   "NameI2": "Equipbond/Name_Skill_JN60181",
@@ -3440,7 +3680,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_173",
+  "Id": "bond_185",
   "IDs": "JN10161",
   "Name": "荣耀",
   "NameI2": "Equipbond/Name_Skill_JN10161",
@@ -3460,7 +3700,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_174",
+  "Id": "bond_186",
   "IDs": "JN10160",
   "Name": "慎重",
   "NameI2": "Equipbond/Name_Skill_JN10160",
@@ -3480,7 +3720,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_175",
+  "Id": "bond_187",
   "IDs": "JN10158",
   "Name": "贪婪",
   "NameI2": "Equipbond/Name_Skill_JN10158",
@@ -3500,7 +3740,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_176",
+  "Id": "bond_188",
   "IDs": "JN10159",
   "Name": "吞噬",
   "NameI2": "Equipbond/Name_Skill_JN10159",
@@ -3520,7 +3760,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_177",
+  "Id": "bond_189",
   "IDs": "JN10164",
   "Name": "吸收",
   "NameI2": "Equipbond/Name_Skill_JN10164",
@@ -3540,7 +3780,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_178",
+  "Id": "bond_190",
   "IDs": "JN10163",
   "Name": "掠夺",
   "NameI2": "Equipbond/Name_Skill_JN10163",
@@ -3560,7 +3800,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_179",
+  "Id": "bond_191",
   "IDs": "JN10165",
   "Name": "从容",
   "NameI2": "Equipbond/Name_Skill_JN10165",
@@ -3580,7 +3820,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_180",
+  "Id": "bond_192",
   "IDs": "JN10126",
   "Name": "圣光",
   "NameI2": "Equipbond/Name_Skill_JN10126",
@@ -3600,7 +3840,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_181",
+  "Id": "bond_193",
   "IDs": "JN10130",
   "Name": "枯萎",
   "NameI2": "Equipbond/Name_Skill_JN10130",
@@ -3620,7 +3860,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_182",
+  "Id": "bond_194",
   "IDs": "JN10127",
   "Name": "阴影",
   "NameI2": "Equipbond/Name_Skill_JN10127",
@@ -3640,7 +3880,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_183",
+  "Id": "bond_195",
   "IDs": "JN10205",
   "Name": "魔影",
   "NameI2": "Equipbond/Name_Skill_JN10205",
@@ -3660,7 +3900,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_184",
+  "Id": "bond_196",
   "IDs": "JN10129",
   "Name": "嘲讽",
   "NameI2": "Equipbond/Name_Skill_JN10129",
@@ -3680,7 +3920,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_185",
+  "Id": "bond_197",
   "IDs": "JN00405",
   "Name": "寒霜",
   "NameI2": "Equipbond/Name_Skill_JN00405",
@@ -3700,7 +3940,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_186",
+  "Id": "bond_198",
   "IDs": "JN60193",
   "Name": "破甲",
   "NameI2": "Equipbond/Name_Skill_JN60193",
@@ -3720,7 +3960,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_187",
+  "Id": "bond_199",
   "IDs": "JN60403",
   "Name": "迟缓",
   "NameI2": "Equipbond/Name_Skill_JN60403",
@@ -3740,7 +3980,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_188",
+  "Id": "bond_200",
   "IDs": "JN60180",
   "Name": "切割",
   "NameI2": "Equipbond/Name_Skill_JN60180",
@@ -3760,7 +4000,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_189",
+  "Id": "bond_201",
   "IDs": "JN00403",
   "Name": "火焰",
   "NameI2": "Equipbond/Name_Skill_JN00403_new01",
@@ -3780,7 +4020,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_190",
+  "Id": "bond_202",
   "IDs": "JN10128",
   "Name": "电弧",
   "NameI2": "Equipbond/Name_Skill_JN10128",
@@ -3800,7 +4040,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_191",
+  "Id": "bond_203",
   "IDs": "JN00312",
   "Name": "毒牙",
   "NameI2": "Equipbond/Name_Skill_JN00312_new01",
@@ -3820,7 +4060,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_192",
+  "Id": "bond_204",
   "IDs": "JN10131",
   "Name": "静心",
   "NameI2": "Equipbond/Name_Skill_JN10131",
@@ -3840,7 +4080,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_193",
+  "Id": "bond_205",
   "IDs": "JN10069",
   "Name": "热心",
   "NameI2": "Equipbond/Name_Skill_JN10069",
@@ -3860,7 +4100,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_194",
+  "Id": "bond_206",
   "IDs": "JN10206",
   "Name": "支援",
   "NameI2": "Equipbond/Name_Skill_JN10206",
@@ -3880,7 +4120,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_195",
+  "Id": "bond_207",
   "IDs": "JN10132",
   "Name": "明目",
   "NameI2": "Equipbond/Name_Skill_JN10132",
@@ -3900,7 +4140,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_196",
+  "Id": "bond_208",
   "IDs": "JN01102",
   "Name": "赐福",
   "NameI2": "Equipbond/Name_Skill_JN01102",
@@ -3920,7 +4160,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_197",
+  "Id": "bond_209",
   "IDs": "JN10072",
   "Name": "保护",
   "NameI2": "Equipbond/Name_Skill_JN10072",
@@ -3940,7 +4180,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_198",
+  "Id": "bond_210",
   "IDs": "JN10070",
   "Name": "推进",
   "NameI2": "Equipbond/Name_Skill_JN10070",
@@ -3960,7 +4200,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_199",
+  "Id": "bond_211",
   "IDs": "JN10071",
   "Name": "培育",
   "NameI2": "Equipbond/Name_Skill_JN10071",
@@ -3980,7 +4220,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_200",
+  "Id": "bond_212",
   "IDs": "JN00703",
   "Name": "珍珠",
   "NameI2": "Equipbond/Name_Skill_JN00703",
@@ -4000,7 +4240,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_201",
+  "Id": "bond_213",
   "IDs": "JN10073",
   "Name": "激发",
   "NameI2": "Equipbond/Name_Skill_JN10073",
@@ -4020,7 +4260,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_202",
+  "Id": "bond_214",
   "IDs": "JN10074",
   "Name": "诱饵",
   "NameI2": "Equipbond/Name_Skill_JN10074",
@@ -4040,7 +4280,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_203",
+  "Id": "bond_215",
   "IDs": "JN10122",
   "Name": "流水",
   "NameI2": "Equipbond/Name_Skill_JN10122",
@@ -4060,7 +4300,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_204",
+  "Id": "bond_216",
   "IDs": "JN10124",
   "Name": "回溯",
   "NameI2": "Equipbond/Name_Skill_JN10124",
@@ -4080,7 +4320,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_205",
+  "Id": "bond_217",
   "IDs": "JN10401",
   "Name": "重振",
   "NameI2": "Equipbond/Name_Skill_JN10401",
@@ -4100,7 +4340,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_206",
+  "Id": "bond_218",
   "IDs": "JN10064",
   "Name": "瞄准",
   "NameI2": "Equipbond/Name_Skill_JN10064",
@@ -4120,7 +4360,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_207",
+  "Id": "bond_219",
   "IDs": "JN50401",
   "Name": "嗜血",
   "NameI2": "Equipbond/Name_Skill_JN50401",
@@ -4140,7 +4380,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_208",
+  "Id": "bond_220",
   "IDs": "JN10058",
   "Name": "护体",
   "NameI2": "Equipbond/Name_Skill_JN10058",
@@ -4160,7 +4400,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_209",
+  "Id": "bond_221",
   "IDs": "JN00304",
   "Name": "和风",
   "NameI2": "Equipbond/Name_Skill_JN00304",
@@ -4180,7 +4420,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_210",
+  "Id": "bond_222",
   "IDs": "JN10060",
   "Name": "发育",
   "NameI2": "Equipbond/Name_Skill_JN10060",
@@ -4200,7 +4440,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_211",
+  "Id": "bond_223",
   "IDs": "JN10061",
   "Name": "感化",
   "NameI2": "Equipbond/Name_Skill_JN10061",
@@ -4220,7 +4460,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_212",
+  "Id": "bond_224",
   "IDs": "JN10063",
   "Name": "源泉",
   "NameI2": "Equipbond/Name_Skill_JN10063",
@@ -4240,7 +4480,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_213",
+  "Id": "bond_225",
   "IDs": "JN10062",
   "Name": "命种",
   "NameI2": "Equipbond/Name_Skill_JN10062",
@@ -4260,7 +4500,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_214",
+  "Id": "bond_226",
   "IDs": "JN60213",
   "Name": "异变",
   "NameI2": "Equipbond/Name_Skill_JN60213",
@@ -4280,7 +4520,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_215",
+  "Id": "bond_227",
   "IDs": "JN00308",
   "Name": "黑暗",
   "NameI2": "Equipbond/Name_Skill_JN00308",
@@ -4300,7 +4540,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_216",
+  "Id": "bond_228",
   "IDs": "JN10067",
   "Name": "噩梦",
   "NameI2": "Equipbond/Name_Skill_JN10067",
@@ -4320,7 +4560,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_217",
+  "Id": "bond_229",
   "IDs": "JN60202",
   "Name": "迷惑",
   "NameI2": "Equipbond/Name_Skill_JN60202",
@@ -4340,7 +4580,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_218",
+  "Id": "bond_230",
   "IDs": "JN00016",
   "Name": "冰雪",
   "NameI2": "Equipbond/Name_Skill_JN00016",
@@ -4360,7 +4600,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_219",
+  "Id": "bond_231",
   "IDs": "JN10403",
   "Name": "弱化",
   "NameI2": "Equipbond/Name_Skill_JN10403",
@@ -4380,7 +4620,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_220",
+  "Id": "bond_232",
   "IDs": "JN00305",
   "Name": "散播",
   "NameI2": "Equipbond/Name_Skill_JN00305",
@@ -4400,7 +4640,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_221",
+  "Id": "bond_233",
   "IDs": "JN60333",
   "Name": "风暴",
   "NameI2": "Equipbond/Name_Skill_JN60333",
@@ -4420,7 +4660,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_222",
+  "Id": "bond_234",
   "IDs": "JN10068",
   "Name": "点燃",
   "NameI2": "Equipbond/Name_Skill_JN10068",
@@ -4440,7 +4680,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_223",
+  "Id": "bond_235",
   "IDs": "JN00301",
   "Name": "雷霆",
   "NameI2": "Equipbond/Name_Skill_JN00301",
@@ -4460,7 +4700,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_224",
+  "Id": "bond_236",
   "IDs": "JN60227",
   "Name": "附着",
   "NameI2": "Equipbond/Name_Skill_JN60227",
@@ -4480,7 +4720,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_225",
+  "Id": "bond_237",
   "IDs": "JN50101",
   "Name": "驱散",
   "NameI2": "Equipbond/Name_Skill_JN50101",
@@ -4500,7 +4740,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_226",
+  "Id": "bond_238",
   "IDs": "JN10075",
   "Name": "调整",
   "NameI2": "Equipbond/Name_Skill_JN10075",
@@ -4520,7 +4760,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_227",
+  "Id": "bond_239",
   "IDs": "JN11203",
   "Name": "光羽",
   "NameI2": "Equipbond/Name_Skill_JN11203",
@@ -4540,7 +4780,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_228",
+  "Id": "bond_240",
   "IDs": "JN10110",
   "Name": "随行",
   "NameI2": "Equipbond/Name_Skill_JN10110",
@@ -4560,7 +4800,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_229",
+  "Id": "bond_241",
   "IDs": "JN11205",
   "Name": "汲血",
   "NameI2": "Equipbond/Name_Skill_JN11205",
@@ -4580,7 +4820,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_230",
+  "Id": "bond_242",
   "IDs": "JN10202",
   "Name": "鹰扬",
   "NameI2": "Equipbond/Name_Skill_JN10202",
@@ -4600,7 +4840,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_231",
+  "Id": "bond_243",
   "IDs": "JN10207",
   "Name": "锐意",
   "NameI2": "Equipbond/Name_Skill_JN10207",
@@ -4620,7 +4860,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_232",
+  "Id": "bond_244",
   "IDs": "JN11206",
   "Name": "盾矢",
   "NameI2": "Equipbond/Name_Skill_JN11206",
@@ -4640,7 +4880,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_233",
+  "Id": "bond_245",
   "IDs": "JN10208",
   "Name": "疾影",
   "NameI2": "Equipbond/Name_Skill_JN10208",
@@ -4660,7 +4900,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_234",
+  "Id": "bond_246",
   "IDs": "JN11204",
   "Name": "进阶",
   "NameI2": "Equipbond/Name_Skill_JN11204",
@@ -4680,7 +4920,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_235",
+  "Id": "bond_247",
   "IDs": "JN10210",
   "Name": "水箭",
   "NameI2": "Equipbond/Name_Skill_JN10210",
@@ -4700,7 +4940,7 @@
   "Step": "40"
  },
  {
-  "Id": "bond_236",
+  "Id": "bond_248",
   "IDs": "JN10209",
   "Name": "羽息",
   "NameI2": "Equipbond/Name_Skill_JN10209",
@@ -4720,7 +4960,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_237",
+  "Id": "bond_249",
   "IDs": "JN10211",
   "Name": "棘矢",
   "NameI2": "Equipbond/Name_Skill_JN10211",
@@ -4740,7 +4980,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_238",
+  "Id": "bond_250",
   "IDs": "JN10078",
   "Name": "审判",
   "NameI2": "Equipbond/Name_Skill_JN10078",
@@ -4760,7 +5000,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_239",
+  "Id": "bond_251",
   "IDs": "JN10135",
   "Name": "时光",
   "NameI2": "Equipbond/Name_Skill_JN10135",
@@ -4780,7 +5020,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_240",
+  "Id": "bond_252",
   "IDs": "JN10082",
   "Name": "暗羽",
   "NameI2": "Equipbond/Name_Skill_JN10082",
@@ -4800,7 +5040,7 @@
   "Step": "40"
  },
  {
-  "Id": "bond_241",
+  "Id": "bond_253",
   "IDs": "JN10077",
   "Name": "梦魇",
   "NameI2": "Equipbond/Name_Skill_JN10077",
@@ -4820,7 +5060,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_242",
+  "Id": "bond_254",
   "IDs": "JN10134",
   "Name": "戏耍",
   "NameI2": "Equipbond/Name_Skill_JN10134",
@@ -4840,7 +5080,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_243",
+  "Id": "bond_255",
   "IDs": "JN10080",
   "Name": "寒风",
   "NameI2": "Equipbond/Name_Skill_JN10080",
@@ -4860,7 +5100,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_244",
+  "Id": "bond_256",
   "IDs": "JN01503",
   "Name": "粉碎",
   "NameI2": "Equipbond/Name_Skill_JN01503",
@@ -4880,7 +5120,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_245",
+  "Id": "bond_257",
   "IDs": "JN60217",
   "Name": "麻痹",
   "NameI2": "Equipbond/Name_Skill_JN60217",
@@ -4900,7 +5140,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_246",
+  "Id": "bond_258",
   "IDs": "JN50201",
   "Name": "追猎",
   "NameI2": "Equipbond/Name_Skill_JN50201",
@@ -4920,7 +5160,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_247",
+  "Id": "bond_259",
   "IDs": "JN10079",
   "Name": "火花",
   "NameI2": "Equipbond/Name_Skill_JN10079",
@@ -4940,7 +5180,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_248",
+  "Id": "bond_260",
   "IDs": "JN10076",
   "Name": "电光",
   "NameI2": "Equipbond/Name_Skill_JN10076",
@@ -4960,7 +5200,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_249",
+  "Id": "bond_261",
   "IDs": "JN10081",
   "Name": "涂毒",
   "NameI2": "Equipbond/Name_Skill_JN10081",
@@ -4980,7 +5220,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_250",
+  "Id": "bond_262",
   "IDs": "JN10193",
   "Name": "清心",
   "NameI2": "Equipbond/Name_Skill_JN10193",
@@ -5000,7 +5240,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_251",
+  "Id": "bond_263",
   "IDs": "JN10195",
   "Name": "反制",
   "NameI2": "Equipbond/Name_Skill_JN10195_new01",
@@ -5020,7 +5260,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_252",
+  "Id": "bond_264",
   "IDs": "JN10192",
   "Name": "激昂",
   "NameI2": "Equipbond/Name_Skill_JN10192",
@@ -5040,7 +5280,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_253",
+  "Id": "bond_265",
   "IDs": "JN10194",
   "Name": "刚躯",
   "NameI2": "Equipbond/Name_Skill_JN10194",
@@ -5060,7 +5300,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_254",
+  "Id": "bond_266",
   "IDs": "JN10197",
   "Name": "奋战",
   "NameI2": "Equipbond/Name_Skill_JN10197",
@@ -5080,7 +5320,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_255",
+  "Id": "bond_267",
   "IDs": "JN10196",
   "Name": "庇护",
   "NameI2": "Equipbond/Name_Skill_JN10196",
@@ -5100,7 +5340,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_256",
+  "Id": "bond_268",
   "IDs": "JN10198",
   "Name": "影反",
   "NameI2": "Equipbond/Name_Skill_JN10198",
@@ -5120,7 +5360,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_257",
+  "Id": "bond_269",
   "IDs": "JN10222",
   "Name": "磨练",
   "NameI2": "Equipbond/Name_Skill_JN10222",
@@ -5140,7 +5380,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_258",
+  "Id": "bond_270",
   "IDs": "JN10200",
   "Name": "水浪",
   "NameI2": "Equipbond/Name_Skill_JN10200",
@@ -5160,7 +5400,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_259",
+  "Id": "bond_271",
   "IDs": "JN10199",
   "Name": "浴血",
   "NameI2": "Equipbond/Name_Skill_JN10199",
@@ -5180,7 +5420,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_260",
+  "Id": "bond_272",
   "IDs": "JN10201",
   "Name": "反噬",
   "NameI2": "Equipbond/Name_Skill_JN10201",
@@ -5200,7 +5440,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_261",
+  "Id": "bond_273",
   "IDs": "JN10136",
   "Name": "正义",
   "NameI2": "Equipbond/Name_Skill_JN10136",
@@ -5220,7 +5460,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_262",
+  "Id": "bond_274",
   "IDs": "JN10140",
   "Name": "逆袭",
   "NameI2": "Equipbond/Name_Skill_JN10140",
@@ -5240,7 +5480,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_263",
+  "Id": "bond_275",
   "IDs": "JN10137",
   "Name": "月光",
   "NameI2": "Equipbond/Name_Skill_JN10137",
@@ -5260,7 +5500,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_264",
+  "Id": "bond_276",
   "IDs": "JN10139",
   "Name": "降临",
   "NameI2": "Equipbond/Name_Skill_JN10139",
@@ -5280,7 +5520,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_265",
+  "Id": "bond_277",
   "IDs": "JN10089",
   "Name": "诱敌",
   "NameI2": "Equipbond/Name_Skill_JN10089",
@@ -5300,7 +5540,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_266",
+  "Id": "bond_278",
   "IDs": "JN00501_001",
   "Name": "低温",
   "NameI2": "Equipbond/Name_Skill_JN00501_001",
@@ -5320,7 +5560,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_267",
+  "Id": "bond_279",
   "IDs": "JN10088",
   "Name": "震碎",
   "NameI2": "Equipbond/Name_Skill_JN10088",
@@ -5340,7 +5580,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_268",
+  "Id": "bond_280",
   "IDs": "JN60404",
   "Name": "致残",
   "NameI2": "Equipbond/Name_Skill_JN60404",
@@ -5360,7 +5600,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_269",
+  "Id": "bond_281",
   "IDs": "JN60204",
   "Name": "破碎",
   "NameI2": "Equipbond/Name_Skill_JN60204",
@@ -5380,7 +5620,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_270",
+  "Id": "bond_282",
   "IDs": "JN60205",
   "Name": "炽热",
   "NameI2": "Equipbond/Name_Skill_JN60205",
@@ -5400,7 +5640,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_271",
+  "Id": "bond_283",
   "IDs": "JN10138",
   "Name": "静电",
   "NameI2": "Equipbond/Name_Skill_JN10138",
@@ -5420,7 +5660,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_272",
+  "Id": "bond_284",
   "IDs": "JN20011",
   "Name": "蛰咬",
   "NameI2": "Equipbond/Name_Skill_JN20011",
@@ -5440,7 +5680,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_273",
+  "Id": "bond_285",
   "IDs": "JN00302",
   "Name": "震击",
   "NameI2": "Equipbond/Name_Skill_JN00302",
@@ -5460,7 +5700,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_274",
+  "Id": "bond_286",
   "IDs": "JN01501",
   "Name": "顽石",
   "NameI2": "Equipbond/Name_Skill_JN01501",
@@ -5480,7 +5720,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_275",
+  "Id": "bond_287",
   "IDs": "JN00303",
   "Name": "恶意",
   "NameI2": "Equipbond/Name_Skill_JN00303",
@@ -5500,7 +5740,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_276",
+  "Id": "bond_288",
   "IDs": "JN10188",
   "Name": "混沌",
   "NameI2": "Equipbond/Name_Skill_JN10188",
@@ -5520,7 +5760,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_277",
+  "Id": "bond_289",
   "IDs": "JN10190",
   "Name": "世界",
   "NameI2": "Equipbond/Name_Skill_JN10190",
@@ -5540,7 +5780,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_278",
+  "Id": "bond_290",
   "IDs": "JN10189",
   "Name": "虚空",
   "NameI2": "Equipbond/Name_Skill_JN10189",
@@ -5560,7 +5800,27 @@
   "Step": "S"
  },
  {
-  "Id": "bond_279",
+  "Id": "bond_291",
+  "IDs": "JN60523",
+  "Name": "结界",
+  "NameI2": "Equipbond/Name_Skill_JN60523",
+  "BondNum": "2,4,6,8,10,12",
+  "BasicDescription": "受到负面状态层数减少。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60523",
+  "EffectDescription": "受到负面状态层数-{0}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60523",
+  "BadgeIDs": "HZ00081",
+  "Value1": "1,2,3,4,5,6",
+  "Value2": "",
+  "Tag": "负面状态,层数减少",
+  "Score": 40,
+  "PositiveTags": "通用效果",
+  "NegativeTags": "",
+  "Type": "基础",
+  "Step": "S"
+ },
+ {
+  "Id": "bond_292",
   "IDs": "JN10143",
   "Name": "群星",
   "NameI2": "Equipbond/Name_Skill_JN10143",
@@ -5580,7 +5840,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_280",
+  "Id": "bond_293",
   "IDs": "JN60330",
   "Name": "月亮",
   "NameI2": "Equipbond/Name_Skill_JN60330",
@@ -5600,7 +5860,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_281",
+  "Id": "bond_294",
   "IDs": "JN60329",
   "Name": "太阳",
   "NameI2": "Equipbond/Name_Skill_JN60329",
@@ -5620,7 +5880,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_282",
+  "Id": "bond_295",
   "IDs": "JN60182",
   "Name": "纯净",
   "NameI2": "Equipbond/Name_Skill_JN60182",
@@ -5640,7 +5900,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_283",
+  "Id": "bond_296",
   "IDs": "JN60203",
   "Name": "时间",
   "NameI2": "Equipbond/Name_Skill_JN60203",
@@ -5660,7 +5920,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_284",
+  "Id": "bond_297",
   "IDs": "JN10141",
   "Name": "领袖",
   "NameI2": "Equipbond/Name_Skill_JN10141",
@@ -5680,7 +5940,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_285",
+  "Id": "bond_298",
   "IDs": "JN10142",
   "Name": "黄金",
   "NameI2": "Equipbond/Name_Skill_JN10142",
@@ -5700,7 +5960,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_286",
+  "Id": "bond_299",
   "IDs": "JN10094",
   "Name": "可怖",
   "NameI2": "Equipbond/Name_Skill_JN10094",
@@ -5720,7 +5980,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_287",
+  "Id": "bond_300",
   "IDs": "JN10144",
   "Name": "专一",
   "NameI2": "Equipbond/Name_Skill_JN10144",
@@ -5740,7 +6000,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_288",
+  "Id": "bond_301",
   "IDs": "JN60210",
   "Name": "活血",
   "NameI2": "Equipbond/Name_Skill_JN60210",
@@ -5760,7 +6020,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_289",
+  "Id": "bond_302",
   "IDs": "JN01304",
   "Name": "铁壁",
   "NameI2": "Equipbond/Name_Skill_JN01304",
@@ -5780,7 +6040,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_290",
+  "Id": "bond_303",
   "IDs": "JN10090",
   "Name": "轻身",
   "NameI2": "Equipbond/Name_Skill_JN10090",
@@ -5800,7 +6060,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_291",
+  "Id": "bond_304",
   "IDs": "JN10091",
   "Name": "养分",
   "NameI2": "Equipbond/Name_Skill_JN10091",
@@ -5820,7 +6080,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_292",
+  "Id": "bond_305",
   "IDs": "JN10092",
   "Name": "坚定",
   "NameI2": "Equipbond/Name_Skill_JN10092",
@@ -5840,7 +6100,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_293",
+  "Id": "bond_306",
   "IDs": "JN60206",
   "Name": "潮湿",
   "NameI2": "Equipbond/Name_Skill_JN60206",
@@ -5860,7 +6120,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_294",
+  "Id": "bond_307",
   "IDs": "JN10093",
   "Name": "增殖",
   "NameI2": "Equipbond/Name_Skill_JN10093",
@@ -5880,7 +6140,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_295",
+  "Id": "bond_308",
   "IDs": "JN00010",
   "Name": "刃甲",
   "NameI2": "Equipbond/Name_Skill_JN00010",
@@ -5900,7 +6160,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_296",
+  "Id": "bond_309",
   "IDs": "JN00002",
   "Name": "幻象",
   "NameI2": "Equipbond/Name_Skill_JN00002",
@@ -5920,7 +6180,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_297",
+  "Id": "bond_310",
   "IDs": "JN00309",
   "Name": "寒冷",
   "NameI2": "Equipbond/Name_Skill_JN00309",
@@ -5940,7 +6200,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_298",
+  "Id": "bond_311",
   "IDs": "JN10095",
   "Name": "摧毁",
   "NameI2": "Equipbond/Name_Skill_JN10095_new01",
@@ -5960,7 +6220,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_299",
+  "Id": "bond_312",
   "IDs": "JN60188",
   "Name": "纠缠",
   "NameI2": "Equipbond/Name_Skill_JN60188",
@@ -5980,7 +6240,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_300",
+  "Id": "bond_313",
   "IDs": "JN00311",
   "Name": "肆虐",
   "NameI2": "Equipbond/Name_Skill_JN00311_new01",
@@ -6000,7 +6260,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_301",
+  "Id": "bond_314",
   "IDs": "JN00310",
   "Name": "燃烧",
   "NameI2": "Equipbond/Name_Skill_JN00310",
@@ -6020,7 +6280,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_302",
+  "Id": "bond_315",
   "IDs": "JN60223",
   "Name": "充能",
   "NameI2": "Equipbond/Name_Skill_JN60223",
@@ -6040,7 +6300,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_303",
+  "Id": "bond_316",
   "IDs": "JN00313",
   "Name": "污染",
   "NameI2": "Equipbond/Name_Skill_JN00313",
@@ -6060,7 +6320,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_304",
+  "Id": "bond_317",
   "IDs": "JN10097",
   "Name": "屏蔽",
   "NameI2": "Equipbond/Name_Skill_JN10097",
@@ -6080,7 +6340,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_305",
+  "Id": "bond_318",
   "IDs": "JN10096",
   "Name": "勇敢",
   "NameI2": "Equipbond/Name_Skill_JN10096",
@@ -6100,7 +6360,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_306",
+  "Id": "bond_319",
   "IDs": "JN10145",
   "Name": "大地",
   "NameI2": "Equipbond/Name_Skill_JN10145",
@@ -6120,7 +6380,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_307",
+  "Id": "bond_320",
   "IDs": "JN10098",
   "Name": "慧眼",
   "NameI2": "Equipbond/Name_Skill_JN10098",
@@ -6140,7 +6400,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_308",
+  "Id": "bond_321",
   "IDs": "JN02205",
   "Name": "避寒",
   "NameI2": "Equipbond/Name_Skill_JN02205",
@@ -6160,7 +6420,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_309",
+  "Id": "bond_322",
   "IDs": "JN00201",
   "Name": "锤炼",
   "NameI2": "Equipbond/Name_Skill_JN00201",
@@ -6180,7 +6440,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_310",
+  "Id": "bond_323",
   "IDs": "JN50204",
   "Name": "飞行",
   "NameI2": "Equipbond/Name_Skill_JN50204",
@@ -6200,7 +6460,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_311",
+  "Id": "bond_324",
   "IDs": "JN02206",
   "Name": "坚固",
   "NameI2": "Equipbond/Name_Skill_JN02206",
@@ -6220,7 +6480,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_312",
+  "Id": "bond_325",
   "IDs": "JN02203",
   "Name": "避火",
   "NameI2": "Equipbond/Name_Skill_JN02203",
@@ -6240,7 +6500,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_313",
+  "Id": "bond_326",
   "IDs": "JN10099",
   "Name": "绝缘",
   "NameI2": "Equipbond/Name_Skill_JN10099",
@@ -6260,7 +6520,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_314",
+  "Id": "bond_327",
   "IDs": "JN02207",
   "Name": "过滤",
   "NameI2": "Equipbond/Name_Skill_JN02207",
@@ -6280,7 +6540,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_315",
+  "Id": "bond_328",
   "IDs": "JN60199",
   "Name": "纪律",
   "NameI2": "Equipbond/Name_Skill_JN60199",
@@ -6300,7 +6560,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_316",
+  "Id": "bond_329",
   "IDs": "JN60198",
   "Name": "号令",
   "NameI2": "Equipbond/Name_Skill_JN60198",
@@ -6320,7 +6580,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_317",
+  "Id": "bond_330",
   "IDs": "JN50203",
   "Name": "团结",
   "NameI2": "Equipbond/Name_Skill_JN50203",
@@ -6340,7 +6600,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_318",
+  "Id": "bond_331",
   "IDs": "JN20001",
   "Name": "围猎",
   "NameI2": "Equipbond/Name_Skill_JN20001",
@@ -6360,7 +6620,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_319",
+  "Id": "bond_332",
   "IDs": "JN10191",
   "Name": "期望",
   "NameI2": "Equipbond/Name_Skill_JN10191",
@@ -6380,7 +6640,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_320",
+  "Id": "bond_333",
   "IDs": "JN10223",
   "Name": "集群",
   "NameI2": "Equipbond/Name_Skill_JN10223",
@@ -6400,7 +6660,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_321",
+  "Id": "bond_334",
   "IDs": "JN10224",
   "Name": "战阵",
   "NameI2": "Equipbond/Name_Skill_JN10224",
@@ -6420,7 +6680,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_322",
+  "Id": "bond_335",
   "IDs": "JN20106",
   "Name": "驱逐",
   "NameI2": "Equipbond/Name_Skill_JN20106",
@@ -6440,7 +6700,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_323",
+  "Id": "bond_336",
   "IDs": "JN20109",
   "Name": "腐坏",
   "NameI2": "Equipbond/Name_Skill_JN20109",
@@ -6460,7 +6720,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_324",
+  "Id": "bond_337",
   "IDs": "JN20108",
   "Name": "消散",
   "NameI2": "Equipbond/Name_Skill_JN20108",
@@ -6480,7 +6740,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_325",
+  "Id": "bond_338",
   "IDs": "JN20107",
   "Name": "惊吓",
   "NameI2": "Equipbond/Name_Skill_JN20107",
@@ -6500,7 +6760,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_326",
+  "Id": "bond_339",
   "IDs": "JN10162",
   "Name": "误导",
   "NameI2": "Equipbond/Name_Skill_JN10162",
@@ -6520,7 +6780,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_327",
+  "Id": "bond_340",
   "IDs": "JN10168",
   "Name": "碎冰",
   "NameI2": "Equipbond/Name_Skill_JN10168",
@@ -6540,7 +6800,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_328",
+  "Id": "bond_341",
   "IDs": "JN10172",
   "Name": "动摇",
   "NameI2": "Equipbond/Name_Skill_JN10172",
@@ -6560,7 +6820,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_329",
+  "Id": "bond_342",
   "IDs": "JN10166",
   "Name": "粘液",
   "NameI2": "Equipbond/Name_Skill_JN10166",
@@ -6580,7 +6840,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_330",
+  "Id": "bond_343",
   "IDs": "JN10171",
   "Name": "划伤",
   "NameI2": "Equipbond/Name_Skill_JN10171",
@@ -6600,7 +6860,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_331",
+  "Id": "bond_344",
   "IDs": "JN10167",
   "Name": "引燃",
   "NameI2": "Equipbond/Name_Skill_JN10167",
@@ -6620,7 +6880,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_332",
+  "Id": "bond_345",
   "IDs": "JN10173",
   "Name": "传导",
   "NameI2": "Equipbond/Name_Skill_JN10173",
@@ -6640,7 +6900,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_333",
+  "Id": "bond_346",
   "IDs": "JN10174",
   "Name": "扩散",
   "NameI2": "Equipbond/Name_Skill_JN10174",
@@ -6660,7 +6920,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_334",
+  "Id": "bond_347",
   "IDs": "JN20105",
   "Name": "舍身",
   "NameI2": "Equipbond/Name_Skill_JN20105",
@@ -6680,7 +6940,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_335",
+  "Id": "bond_348",
   "IDs": "JN20102",
   "Name": "寄托",
   "NameI2": "Equipbond/Name_Skill_JN20102",
@@ -6700,7 +6960,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_336",
+  "Id": "bond_349",
   "IDs": "JN01801",
   "Name": "英勇",
   "NameI2": "Equipbond/Name_Skill_JN01801",
@@ -6720,7 +6980,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_337",
+  "Id": "bond_350",
   "IDs": "JN10103",
   "Name": "遗志",
   "NameI2": "Equipbond/Name_Skill_JN10103",
@@ -6740,7 +7000,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_338",
+  "Id": "bond_351",
   "IDs": "JN60317",
   "Name": "战意",
   "NameI2": "Equipbond/Name_Skill_JN60317",
@@ -6760,7 +7020,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_339",
+  "Id": "bond_352",
   "IDs": "JN10102",
   "Name": "守护",
   "NameI2": "Equipbond/Name_Skill_JN10102",
@@ -6780,7 +7040,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_340",
+  "Id": "bond_353",
   "IDs": "JN10156",
   "Name": "扰动",
   "NameI2": "Equipbond/Name_Skill_JN10156",
@@ -6800,7 +7060,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_341",
+  "Id": "bond_354",
   "IDs": "JN10101",
   "Name": "代价",
   "NameI2": "Equipbond/Name_Skill_JN10101",
@@ -6820,7 +7080,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_342",
+  "Id": "bond_355",
   "IDs": "JN20201",
   "Name": "坚强",
   "NameI2": "Equipbond/Name_Skill_JN20201",
@@ -6840,7 +7100,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_343",
+  "Id": "bond_356",
   "IDs": "JN20104",
   "Name": "牺牲",
   "NameI2": "Equipbond/Name_Skill_JN20104",
@@ -6860,7 +7120,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_344",
+  "Id": "bond_357",
   "IDs": "JN20103",
   "Name": "希望",
   "NameI2": "Equipbond/Name_Skill_JN20103",
@@ -6880,7 +7140,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_345",
+  "Id": "bond_358",
   "IDs": "JN10169",
   "Name": "碎片",
   "NameI2": "Equipbond/Name_Skill_JN10169",
@@ -6900,7 +7160,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_346",
+  "Id": "bond_359",
   "IDs": "JN10112",
   "Name": "绝地",
   "NameI2": "Equipbond/Name_Skill_JN10112",
@@ -6920,7 +7180,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_347",
+  "Id": "bond_360",
   "IDs": "JN10113",
   "Name": "狂乱",
   "NameI2": "Equipbond/Name_Skill_JN10113",
@@ -6940,7 +7200,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_348",
+  "Id": "bond_361",
   "IDs": "JN60320",
   "Name": "亡命",
   "NameI2": "Equipbond/Name_Skill_JN60320",
@@ -6960,7 +7220,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_349",
+  "Id": "bond_362",
   "IDs": "JN10114",
   "Name": "癫狂",
   "NameI2": "Equipbond/Name_Skill_JN10114",
@@ -6980,7 +7240,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_350",
+  "Id": "bond_363",
   "IDs": "JN10170",
   "Name": "拼死",
   "NameI2": "Equipbond/Name_Skill_JN10170",
@@ -7000,7 +7260,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_351",
+  "Id": "bond_364",
   "IDs": "JN10115",
   "Name": "天命",
   "NameI2": "Equipbond/Name_Skill_JN10115",
@@ -7020,7 +7280,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_352",
+  "Id": "bond_365",
   "IDs": "JN60319",
   "Name": "镇定",
   "NameI2": "Equipbond/Name_Skill_JN60319",
@@ -7040,7 +7300,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_353",
+  "Id": "bond_366",
   "IDs": "JN10116",
   "Name": "神佑",
   "NameI2": "Equipbond/Name_Skill_JN10116",
@@ -7060,7 +7320,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_354",
+  "Id": "bond_367",
   "IDs": "JN10117",
   "Name": "躲藏",
   "NameI2": "Equipbond/Name_Skill_JN10117",
@@ -7080,7 +7340,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_355",
+  "Id": "bond_368",
   "IDs": "JN10118",
   "Name": "小心",
   "NameI2": "Equipbond/Name_Skill_JN10118",
@@ -7100,7 +7360,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_356",
+  "Id": "bond_369",
   "IDs": "JN10106",
   "Name": "暴击",
   "NameI2": "Equipbond/Name_Skill_JN10106",
@@ -7120,7 +7380,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_357",
+  "Id": "bond_370",
   "IDs": "JN10107",
   "Name": "穿刺",
   "NameI2": "Equipbond/Name_Skill_JN10107",
@@ -7140,7 +7400,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_358",
+  "Id": "bond_371",
   "IDs": "JN00003",
   "Name": "致命",
   "NameI2": "Equipbond/Name_Skill_JN00003",
@@ -7160,7 +7420,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_359",
+  "Id": "bond_372",
   "IDs": "JN10108",
   "Name": "夺命",
   "NameI2": "Equipbond/Name_Skill_JN10108",
@@ -7180,7 +7440,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_360",
+  "Id": "bond_373",
   "IDs": "JN10109",
   "Name": "施压",
   "NameI2": "Equipbond/Name_Skill_JN10109",
@@ -7200,7 +7460,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_361",
+  "Id": "bond_374",
   "IDs": "JN60020",
   "Name": "进攻协议",
   "NameI2": "Equipbond/Name_Skill_JN60020",
@@ -7220,7 +7480,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_362",
+  "Id": "bond_375",
   "IDs": "JN60629",
   "Name": "魔力强化",
   "NameI2": "Equipbond/Name_Skill_JN60629",
@@ -7240,7 +7500,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_363",
+  "Id": "bond_376",
   "IDs": "JN60628",
   "Name": "生命能量",
   "NameI2": "Equipbond/Name_Skill_JN60628",
@@ -7260,7 +7520,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_364",
+  "Id": "bond_377",
   "IDs": "JN60625",
   "Name": "迅捷攻击",
   "NameI2": "Equipbond/Name_Skill_JN60625",
@@ -7280,7 +7540,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_365",
+  "Id": "bond_378",
   "IDs": "JN60021",
   "Name": "防守协议",
   "NameI2": "Equipbond/Name_Skill_JN60021",
@@ -7300,7 +7560,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_366",
+  "Id": "bond_379",
   "IDs": "JN60627",
   "Name": "强韧防御",
   "NameI2": "Equipbond/Name_Skill_JN60627",
@@ -7320,7 +7580,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_367",
+  "Id": "bond_380",
   "IDs": "JN60099",
   "Name": "星界化身",
   "NameI2": "Equipbond/Name_Skill_JN60099",
@@ -7340,7 +7600,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_368",
+  "Id": "bond_381",
   "IDs": "JN60147",
   "Name": "守望誓言",
   "NameI2": "Equipbond/Name_Skill_JN60147",
@@ -7360,7 +7620,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_369",
+  "Id": "bond_382",
   "IDs": "JN60145",
   "Name": "巨人之心",
   "NameI2": "Equipbond/Name_Skill_JN60145",
@@ -7380,7 +7640,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_370",
+  "Id": "bond_383",
   "IDs": "JN60006",
   "Name": "神行千里",
   "NameI2": "Equipbond/Name_Skill_JN60006",
@@ -7400,7 +7660,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_371",
+  "Id": "bond_384",
   "IDs": "JN60002",
   "Name": "荣耀永恒",
   "NameI2": "Equipbond/Name_Skill_JN60002",
@@ -7420,7 +7680,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_372",
+  "Id": "bond_385",
   "IDs": "JN60026",
   "Name": "龙魂守护",
   "NameI2": "Equipbond/Name_Skill_JN60026",
@@ -7440,7 +7700,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_373",
+  "Id": "bond_386",
   "IDs": "JN60155",
   "Name": "命运馈赠",
   "NameI2": "Equipbond/Name_Skill_JN60155",
@@ -7460,7 +7720,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_374",
+  "Id": "bond_387",
   "IDs": "JN60379",
   "Name": "放松身心",
   "NameI2": "Equipbond/Name_Skill_JN60379",
@@ -7480,7 +7740,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_375",
+  "Id": "bond_388",
   "IDs": "JN60058",
   "Name": "深度失眠",
   "NameI2": "Equipbond/Name_Skill_JN60058",
@@ -7500,7 +7760,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_376",
+  "Id": "bond_389",
   "IDs": "JN31702",
   "Name": "魔能储备",
   "NameI2": "Equipbond/Name_Skill_JN31702",
@@ -7520,7 +7780,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_377",
+  "Id": "bond_390",
   "IDs": "JN60090",
   "Name": "魔力化身",
   "NameI2": "Equipbond/Name_Skill_JN60090",
@@ -7540,7 +7800,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_378",
+  "Id": "bond_391",
   "IDs": "JN61008",
   "Name": "蓄能装置",
   "NameI2": "Equipbond/Name_Skill_JN61008",
@@ -7560,7 +7820,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_379",
+  "Id": "bond_392",
   "IDs": "JN30205",
   "Name": "核心能源",
   "NameI2": "Equipbond/Name_Skill_JN30205",
@@ -7580,7 +7840,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_380",
+  "Id": "bond_393",
   "IDs": "JN30301",
   "Name": "无尽星空",
   "NameI2": "Equipbond/Name_Skill_JN30301",
@@ -7600,7 +7860,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_381",
+  "Id": "bond_394",
   "IDs": "JN60160",
   "Name": "悠闲时光",
   "NameI2": "Equipbond/Name_Skill_JN60160",
@@ -7620,7 +7880,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_382",
+  "Id": "bond_395",
   "IDs": "JN60012",
   "Name": "无尽魔力",
   "NameI2": "Equipbond/Name_Skill_JN60012",
@@ -7640,7 +7900,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_383",
+  "Id": "bond_396",
   "IDs": "JN60220",
   "Name": "魔力掌控",
   "NameI2": "Equipbond/Name_Skill_JN60220",
@@ -7660,7 +7920,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_384",
+  "Id": "bond_397",
   "IDs": "JN60064",
   "Name": "无声狩猎",
   "NameI2": "Equipbond/Name_Skill_JN60064",
@@ -7680,7 +7940,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_385",
+  "Id": "bond_398",
   "IDs": "JN60011",
   "Name": "无尽低语",
   "NameI2": "Equipbond/Name_Skill_JN60011",
@@ -7700,7 +7960,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_386",
+  "Id": "bond_399",
   "IDs": "JN60394",
   "Name": "射手专注",
   "NameI2": "Equipbond/Name_Skill_JN60394",
@@ -7720,7 +7980,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_387",
+  "Id": "bond_400",
   "IDs": "JN30501",
   "Name": "巨兽残魂",
   "NameI2": "Equipbond/Name_Skill_JN30501",
@@ -7740,7 +8000,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_388",
+  "Id": "bond_401",
   "IDs": "JN60416",
   "Name": "命运衡量",
   "NameI2": "Equipbond/Name_Skill_JN60416",
@@ -7760,7 +8020,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_389",
+  "Id": "bond_402",
   "IDs": "JN60645",
   "Name": "谨慎行事",
   "NameI2": "Equipbond/Name_Skill_JN60645",
@@ -7780,7 +8040,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_390",
+  "Id": "bond_403",
   "IDs": "JN60015",
   "Name": "难以察觉",
   "NameI2": "Equipbond/Name_Skill_JN60015",
@@ -7800,7 +8060,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_391",
+  "Id": "bond_404",
   "IDs": "JN60041",
   "Name": "魔力倾泻",
   "NameI2": "Equipbond/Name_Skill_JN60041",
@@ -7820,7 +8080,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_392",
+  "Id": "bond_405",
   "IDs": "JN60031",
   "Name": "蛮族之王",
   "NameI2": "Equipbond/Name_Skill_JN60031",
@@ -7840,7 +8100,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_393",
+  "Id": "bond_406",
   "IDs": "JN60162",
   "Name": "魔力增幅",
   "NameI2": "Equipbond/Name_Skill_JN60162",
@@ -7860,7 +8120,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_394",
+  "Id": "bond_407",
   "IDs": "JN60400",
   "Name": "魔力集中",
   "NameI2": "Equipbond/Name_Skill_JN60400",
@@ -7880,7 +8140,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_395",
+  "Id": "bond_408",
   "IDs": "JN20204",
   "Name": "齿轮过载",
   "NameI2": "Equipbond/Name_Skill_JN20204",
@@ -7900,7 +8160,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_396",
+  "Id": "bond_409",
   "IDs": "JN60429",
   "Name": "急速飞羽",
   "NameI2": "Equipbond/Name_Skill_JN60429",
@@ -7920,7 +8180,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_397",
+  "Id": "bond_410",
   "IDs": "JN60429_001",
   "Name": "极寒冰羽",
   "NameI2": "Equipbond/Name_Skill_JN60429_001",
@@ -7940,7 +8200,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_398",
+  "Id": "bond_411",
   "IDs": "JN30002",
   "Name": "森林守护",
   "NameI2": "Equipbond/Name_Skill_JN30002",
@@ -7960,7 +8220,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_399",
+  "Id": "bond_412",
   "IDs": "JN40004",
   "Name": "生命奇迹",
   "NameI2": "Equipbond/Name_Skill_JN40004",
@@ -7980,7 +8240,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_400",
+  "Id": "bond_413",
   "IDs": "JN60201",
   "Name": "慈爱之心",
   "NameI2": "Equipbond/Name_Skill_JN60201",
@@ -8000,7 +8260,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_401",
+  "Id": "bond_414",
   "IDs": "JN60662",
   "Name": "安安静静",
   "NameI2": "Equipbond/Name_Skill_JN60662",
@@ -8020,7 +8280,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_402",
+  "Id": "bond_415",
   "IDs": "JN60022",
   "Name": "严防死守",
   "NameI2": "Equipbond/Name_Skill_JN60022",
@@ -8040,7 +8300,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_403",
+  "Id": "bond_416",
   "IDs": "JN60623",
   "Name": "坚实屏障",
   "NameI2": "Equipbond/Name_Skill_JN60623",
@@ -8060,7 +8320,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_404",
+  "Id": "bond_417",
   "IDs": "JN60426",
   "Name": "遗迹禁制",
   "NameI2": "Equipbond/Name_Skill_JN60426",
@@ -8080,7 +8340,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_405",
+  "Id": "bond_418",
   "IDs": "JN60398",
   "Name": "抗魔结界",
   "NameI2": "Equipbond/Name_Skill_JN60398",
@@ -8100,7 +8360,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_406",
+  "Id": "bond_419",
   "IDs": "JN30502",
   "Name": "泰坦之力",
   "NameI2": "Equipbond/Name_Skill_JN30502",
@@ -8120,7 +8380,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_407",
+  "Id": "bond_420",
   "IDs": "JN40003",
   "Name": "崇高意志",
   "NameI2": "Equipbond/Name_Skill_JN40003",
@@ -8140,7 +8400,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_408",
+  "Id": "bond_421",
   "IDs": "JN60025",
   "Name": "彻底疯狂",
   "NameI2": "Equipbond/Name_Skill_JN60025",
@@ -8160,7 +8420,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_409",
+  "Id": "bond_422",
   "IDs": "JN60389",
   "Name": "怒气上涌",
   "NameI2": "Equipbond/Name_Skill_JN60389",
@@ -8180,7 +8440,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_410",
+  "Id": "bond_423",
   "IDs": "JN60385",
   "Name": "拼死抵抗",
   "NameI2": "Equipbond/Name_Skill_JN60385",
@@ -8200,7 +8460,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_411",
+  "Id": "bond_424",
   "IDs": "JN60355",
   "Name": "爱心涌现",
   "NameI2": "Equipbond/Name_Skill_JN60355",
@@ -8220,7 +8480,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_412",
+  "Id": "bond_425",
   "IDs": "JN60130",
   "Name": "保护弱小",
   "NameI2": "Equipbond/Name_Skill_JN60130",
@@ -8240,7 +8500,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_413",
+  "Id": "bond_426",
   "IDs": "JN60634",
   "Name": "爱心援助",
   "NameI2": "Equipbond/Name_Skill_JN60634",
@@ -8260,7 +8520,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_414",
+  "Id": "bond_427",
   "IDs": "JN60657",
   "Name": "欺负弱小",
   "NameI2": "Equipbond/Name_Skill_JN60657",
@@ -8280,7 +8540,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_415",
+  "Id": "bond_428",
   "IDs": "JN30902",
   "Name": "暗影之击",
   "NameI2": "Equipbond/Name_Skill_JN30902",
@@ -8300,7 +8560,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_416",
+  "Id": "bond_429",
   "IDs": "JN60604",
   "Name": "欺软怕硬",
   "NameI2": "Equipbond/Name_Skill_JN60604",
@@ -8320,7 +8580,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_417",
+  "Id": "bond_430",
   "IDs": "JN60076",
   "Name": "勇往直前",
   "NameI2": "Equipbond/Name_Skill_JN60076",
@@ -8340,7 +8600,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_418",
+  "Id": "bond_431",
   "IDs": "JN60038",
   "Name": "集火协议",
   "NameI2": "Equipbond/Name_Skill_JN60038",
@@ -8360,7 +8620,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_419",
+  "Id": "bond_432",
   "IDs": "JN60165",
   "Name": "最终宣告",
   "NameI2": "Equipbond/Name_Skill_JN60165",
@@ -8380,7 +8640,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_420",
+  "Id": "bond_433",
   "IDs": "JN60304",
   "Name": "居中爆破",
   "NameI2": "Equipbond/Name_Skill_JN60304",
@@ -8400,7 +8660,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_421",
+  "Id": "bond_434",
   "IDs": "JN60013",
   "Name": "远射追击",
   "NameI2": "Equipbond/Name_Skill_JN60013",
@@ -8420,7 +8680,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_422",
+  "Id": "bond_435",
   "IDs": "JN60112",
   "Name": "反复扰敌",
   "NameI2": "Equipbond/Name_Skill_JN60112",
@@ -8440,7 +8700,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_423",
+  "Id": "bond_436",
   "IDs": "JN60098",
   "Name": "弹量增加",
   "NameI2": "Equipbond/Name_Skill_JN60098",
@@ -8460,7 +8720,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_424",
+  "Id": "bond_437",
   "IDs": "JN60083",
   "Name": "风暴指引",
   "NameI2": "Equipbond/Name_Skill_JN60083",
@@ -8480,7 +8740,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_425",
+  "Id": "bond_438",
   "IDs": "JN60120",
   "Name": "矿石储备",
   "NameI2": "Equipbond/Name_Skill_JN60120",
@@ -8500,7 +8760,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_426",
+  "Id": "bond_439",
   "IDs": "JN60346",
   "Name": "花式剑术",
   "NameI2": "Equipbond/Name_Skill_JN60346",
@@ -8520,7 +8780,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_427",
+  "Id": "bond_440",
   "IDs": "JN60010",
   "Name": "金属风暴",
   "NameI2": "Equipbond/Name_Skill_JN60010",
@@ -8540,7 +8800,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_428",
+  "Id": "bond_441",
   "IDs": "JN40001",
   "Name": "随风而行",
   "NameI2": "Equipbond/Name_Skill_JN40001",
@@ -8560,7 +8820,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_429",
+  "Id": "bond_442",
   "IDs": "JN60419",
   "Name": "杂耍大师",
   "NameI2": "Equipbond/Name_Skill_JN60419",
@@ -8580,7 +8840,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_430",
+  "Id": "bond_443",
   "IDs": "JN60360",
   "Name": "过分慎重",
   "NameI2": "Equipbond/Name_Skill_JN60360",
@@ -8600,7 +8860,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_431",
+  "Id": "bond_444",
   "IDs": "JN60322",
   "Name": "狂袭肆虐",
   "NameI2": "Equipbond/Name_Skill_JN60322",
@@ -8620,7 +8880,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_432",
+  "Id": "bond_445",
   "IDs": "JN60418",
   "Name": "马戏表演",
   "NameI2": "Equipbond/Name_Skill_JN60418",
@@ -8640,7 +8900,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_433",
+  "Id": "bond_446",
   "IDs": "JN60126",
   "Name": "范围延展",
   "NameI2": "Equipbond/Name_Skill_JN60126",
@@ -8660,7 +8920,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_434",
+  "Id": "bond_447",
   "IDs": "JN60164",
   "Name": "无尽卡牌",
   "NameI2": "Equipbond/Name_Skill_JN60164",
@@ -8680,7 +8940,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_435",
+  "Id": "bond_448",
   "IDs": "JN60151",
   "Name": "穿透箭矢",
   "NameI2": "Equipbond/Name_Skill_JN60151",
@@ -8694,13 +8954,13 @@
   "Value2": "10,5,0",
   "Tag": "普通攻击,额外目标",
   "Score": 0,
-  "PositiveTags": "普通输出,追击输出",
+  "PositiveTags": "普通输出,追击输出,泳装淘气恶魔",
   "NegativeTags": "普通恢复,技能输出",
   "Type": "特殊",
   "Step": "A"
  },
  {
-  "Id": "bond_436",
+  "Id": "bond_449",
   "IDs": "JN60039",
   "Name": "延展横扫",
   "NameI2": "Equipbond/Name_Skill_JN60039",
@@ -8720,7 +8980,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_437",
+  "Id": "bond_450",
   "IDs": "JN60069",
   "Name": "分裂箭矢",
   "NameI2": "Equipbond/Name_Skill_JN60069",
@@ -8734,13 +8994,13 @@
   "Value2": "2,1,0",
   "Tag": "普通攻击,额外目标",
   "Score": 0,
-  "PositiveTags": "普通输出,常规冰蛛女王",
+  "PositiveTags": "普通输出,常规冰蛛女王,泳装淘气恶魔",
   "NegativeTags": "普通恢复,追击输出",
   "Type": "特殊",
   "Step": "A"
  },
  {
-  "Id": "bond_438",
+  "Id": "bond_451",
   "IDs": "JN40006",
   "Name": "法天象地",
   "NameI2": "Equipbond/Name_Skill_JN40006",
@@ -8760,7 +9020,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_439",
+  "Id": "bond_452",
   "IDs": "JN60059",
   "Name": "希望之光",
   "NameI2": "Equipbond/Name_Skill_JN60059",
@@ -8780,7 +9040,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_440",
+  "Id": "bond_453",
   "IDs": "JN60125",
   "Name": "群星坠落",
   "NameI2": "Equipbond/Name_Skill_JN60125",
@@ -8800,7 +9060,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_441",
+  "Id": "bond_454",
   "IDs": "JN60085",
   "Name": "猫猫急救",
   "NameI2": "Equipbond/Name_Skill_JN60085",
@@ -8820,7 +9080,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_442",
+  "Id": "bond_455",
   "IDs": "JN60057",
   "Name": "听声辨位",
   "NameI2": "Equipbond/Name_Skill_JN60057",
@@ -8840,7 +9100,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_443",
+  "Id": "bond_456",
   "IDs": "JN60093",
   "Name": "星光指引",
   "NameI2": "Equipbond/Name_Skill_JN60093",
@@ -8860,7 +9120,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_444",
+  "Id": "bond_457",
   "IDs": "JN50802",
   "Name": "目标锁定",
   "NameI2": "Equipbond/Name_Skill_JN50802",
@@ -8880,7 +9140,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_445",
+  "Id": "bond_458",
   "IDs": "JN60068",
   "Name": "战斗狂人",
   "NameI2": "Equipbond/Name_Skill_JN60068",
@@ -8900,7 +9160,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_446",
+  "Id": "bond_459",
   "IDs": "JN60102",
   "Name": "圣灵降临",
   "NameI2": "Equipbond/Name_Skill_JN60102",
@@ -8920,7 +9180,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_447",
+  "Id": "bond_460",
   "IDs": "JN60167",
   "Name": "我身为盾",
   "NameI2": "Equipbond/Name_Skill_JN60167",
@@ -8940,7 +9200,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_448",
+  "Id": "bond_461",
   "IDs": "JN60384",
   "Name": "流水结界",
   "NameI2": "Equipbond/Name_Skill_JN60384",
@@ -8960,7 +9220,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_449",
+  "Id": "bond_462",
   "IDs": "JN60103",
   "Name": "王者之势",
   "NameI2": "Equipbond/Name_Skill_JN60103",
@@ -8980,7 +9240,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_450",
+  "Id": "bond_463",
   "IDs": "JN60152",
   "Name": "迷失之雾",
   "NameI2": "Equipbond/Name_Skill_JN60152",
@@ -9000,7 +9260,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_451",
+  "Id": "bond_464",
   "IDs": "JN60312",
   "Name": "极寒降临",
   "NameI2": "Equipbond/Name_Skill_JN60312",
@@ -9020,7 +9280,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_452",
+  "Id": "bond_465",
   "IDs": "JN60309",
   "Name": "雷霆降临",
   "NameI2": "Equipbond/Name_Skill_JN60309",
@@ -9040,7 +9300,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_453",
+  "Id": "bond_466",
   "IDs": "JN30104",
   "Name": "肆意疯狂",
   "NameI2": "Equipbond/Name_Skill_JN30104",
@@ -9060,7 +9320,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_454",
+  "Id": "bond_467",
   "IDs": "JN60086",
   "Name": "缓慢消化",
   "NameI2": "Equipbond/Name_Skill_JN60086",
@@ -9080,7 +9340,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_455",
+  "Id": "bond_468",
   "IDs": "JN60624",
   "Name": "邪恶自食",
   "NameI2": "Equipbond/Name_Skill_JN60624",
@@ -9100,7 +9360,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_456",
+  "Id": "bond_469",
   "IDs": "JN60096",
   "Name": "描绘未来",
   "NameI2": "Equipbond/Name_Skill_JN60096",
@@ -9120,7 +9380,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_457",
+  "Id": "bond_470",
   "IDs": "JN60376",
   "Name": "神圣洗礼",
   "NameI2": "Equipbond/Name_Skill_JN60376",
@@ -9140,7 +9400,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_458",
+  "Id": "bond_471",
   "IDs": "JN60393",
   "Name": "王权号召",
   "NameI2": "Equipbond/Name_Skill_JN60393",
@@ -9160,7 +9420,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_459",
+  "Id": "bond_472",
   "IDs": "JN60345",
   "Name": "祖灵呼唤",
   "NameI2": "Equipbond/Name_Skill_JN60345",
@@ -9180,7 +9440,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_460",
+  "Id": "bond_473",
   "IDs": "JN60143",
   "Name": "海鲜盛宴",
   "NameI2": "Equipbond/Name_Skill_JN60143",
@@ -9200,7 +9460,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_461",
+  "Id": "bond_474",
   "IDs": "JN60611",
   "Name": "荆棘光环",
   "NameI2": "Equipbond/Name_Skill_JN60611",
@@ -9220,7 +9480,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_462",
+  "Id": "bond_475",
   "IDs": "JN60614",
   "Name": "意识模糊",
   "NameI2": "Equipbond/Name_Skill_JN60614",
@@ -9240,7 +9500,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_463",
+  "Id": "bond_476",
   "IDs": "JN60602",
   "Name": "群体嘲讽",
   "NameI2": "Equipbond/Name_Skill_JN60602",
@@ -9260,7 +9520,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_464",
+  "Id": "bond_477",
   "IDs": "JN60141",
   "Name": "冰雪不息",
   "NameI2": "Equipbond/Name_Skill_JN60141",
@@ -9280,7 +9540,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_465",
+  "Id": "bond_478",
   "IDs": "JN60603",
   "Name": "飓风护盾",
   "NameI2": "Equipbond/Name_Skill_JN60603",
@@ -9300,7 +9560,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_466",
+  "Id": "bond_479",
   "IDs": "JN60074",
   "Name": "源石之坚",
   "NameI2": "Equipbond/Name_Skill_JN60074",
@@ -9320,7 +9580,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_467",
+  "Id": "bond_480",
   "IDs": "JN60314",
   "Name": "冲锋破阵",
   "NameI2": "Equipbond/Name_Skill_JN60314",
@@ -9340,7 +9600,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_468",
+  "Id": "bond_481",
   "IDs": "JN60087",
   "Name": "加速再生",
   "NameI2": "Equipbond/Name_Skill_JN60087_new01",
@@ -9360,7 +9620,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_469",
+  "Id": "bond_482",
   "IDs": "JN60139",
   "Name": "细水长流",
   "NameI2": "Equipbond/Name_Skill_JN60139",
@@ -9380,7 +9640,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_470",
+  "Id": "bond_483",
   "IDs": "JN60370",
   "Name": "冰雪消融",
   "NameI2": "Equipbond/Name_Skill_JN60370",
@@ -9400,7 +9660,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_471",
+  "Id": "bond_484",
   "IDs": "JN60065",
   "Name": "树木屏障",
   "NameI2": "Equipbond/Name_Skill_JN60065",
@@ -9420,7 +9680,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_472",
+  "Id": "bond_485",
   "IDs": "JN60084",
   "Name": "遮影步法",
   "NameI2": "Equipbond/Name_Skill_JN60084",
@@ -9440,7 +9700,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_473",
+  "Id": "bond_486",
   "IDs": "JN60024",
   "Name": "生机迸发",
   "NameI2": "Equipbond/Name_Skill_JN60024",
@@ -9460,7 +9720,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_474",
+  "Id": "bond_487",
   "IDs": "JN00605",
   "Name": "晶化感染",
   "NameI2": "Equipbond/Name_Skill_JN00605",
@@ -9480,7 +9740,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_475",
+  "Id": "bond_488",
   "IDs": "JN30901",
   "Name": "视线诱导",
   "NameI2": "Equipbond/Name_Skill_JN30901",
@@ -9500,7 +9760,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_476",
+  "Id": "bond_489",
   "IDs": "JN30102",
   "Name": "波涛洗礼",
   "NameI2": "Equipbond/Name_Skill_JN30102",
@@ -9520,7 +9780,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_477",
+  "Id": "bond_490",
   "IDs": "JN60395",
   "Name": "静待时机",
   "NameI2": "Equipbond/Name_Skill_JN60395",
@@ -9540,7 +9800,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_478",
+  "Id": "bond_491",
   "IDs": "JN60386",
   "Name": "疏通经脉",
   "NameI2": "Equipbond/Name_Skill_JN60386",
@@ -9560,7 +9820,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_479",
+  "Id": "bond_492",
   "IDs": "JN60382",
   "Name": "甲壳硬化",
   "NameI2": "Equipbond/Name_Skill_JN60382",
@@ -9580,7 +9840,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_480",
+  "Id": "bond_493",
   "IDs": "JN60054",
   "Name": "魔力护盾",
   "NameI2": "Equipbond/Name_Skill_JN60054",
@@ -9600,7 +9860,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_481",
+  "Id": "bond_494",
   "IDs": "JN60302",
   "Name": "再生刃甲",
   "NameI2": "Equipbond/Name_Skill_JN60302",
@@ -9620,7 +9880,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_482",
+  "Id": "bond_495",
   "IDs": "JN60071",
   "Name": "时刻警惕",
   "NameI2": "Equipbond/Name_Skill_JN60071",
@@ -9640,7 +9900,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_483",
+  "Id": "bond_496",
   "IDs": "JN01202_001",
   "Name": "冰结装甲",
   "NameI2": "Equipbond/Name_Skill_JN01202_001",
@@ -9660,7 +9920,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_484",
+  "Id": "bond_497",
   "IDs": "JN60055",
   "Name": "森林祝福",
   "NameI2": "Equipbond/Name_Skill_JN60055",
@@ -9680,7 +9940,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_485",
+  "Id": "bond_498",
   "IDs": "JN60362",
   "Name": "液态金属",
   "NameI2": "Equipbond/Name_Skill_JN60362",
@@ -9700,7 +9960,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_486",
+  "Id": "bond_499",
   "IDs": "JN60417",
   "Name": "命运掠夺",
   "NameI2": "Equipbond/Name_Skill_JN60417",
@@ -9720,7 +9980,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_487",
+  "Id": "bond_500",
   "IDs": "JN60079",
   "Name": "时间推迟",
   "NameI2": "Equipbond/Name_Skill_JN60079",
@@ -9740,7 +10000,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_488",
+  "Id": "bond_501",
   "IDs": "JN60225",
   "Name": "腐朽光环",
   "NameI2": "Equipbond/Name_Skill_JN60225",
@@ -9760,7 +10020,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_489",
+  "Id": "bond_502",
   "IDs": "JN60350",
   "Name": "毒素注入",
   "NameI2": "Equipbond/Name_Skill_JN60350_new01",
@@ -9780,7 +10040,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_490",
+  "Id": "bond_503",
   "IDs": "JN60350_001",
   "Name": "刺骨伏击",
   "NameI2": "Equipbond/Name_Skill_JN60350_001",
@@ -9800,7 +10060,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_491",
+  "Id": "bond_504",
   "IDs": "JN30209",
   "Name": "永不言败",
   "NameI2": "Equipbond/Name_Skill_JN30209",
@@ -9820,7 +10080,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_492",
+  "Id": "bond_505",
   "IDs": "JN60618",
   "Name": "暗影时刻",
   "NameI2": "Equipbond/Name_Skill_JN60618",
@@ -9840,7 +10100,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_493",
+  "Id": "bond_506",
   "IDs": "JN60605",
   "Name": "排除弱者",
   "NameI2": "Equipbond/Name_Skill_JN60605",
@@ -9860,7 +10120,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_494",
+  "Id": "bond_507",
   "IDs": "JN60364",
   "Name": "深海诅咒",
   "NameI2": "Equipbond/Name_Skill_JN60364",
@@ -9880,7 +10140,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_495",
+  "Id": "bond_508",
   "IDs": "JN60028",
   "Name": "钢铁之心",
   "NameI2": "Equipbond/Name_Skill_JN60028",
@@ -9900,7 +10160,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_496",
+  "Id": "bond_509",
   "IDs": "JN60030",
   "Name": "防御破除",
   "NameI2": "Equipbond/Name_Skill_JN60030",
@@ -9920,7 +10180,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_497",
+  "Id": "bond_510",
   "IDs": "JN61007",
   "Name": "状态同化",
   "NameI2": "Equipbond/Name_Skill_JN61007",
@@ -9940,7 +10200,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_498",
+  "Id": "bond_511",
   "IDs": "JN30601",
   "Name": "群蜂飞舞",
   "NameI2": "Equipbond/Name_Skill_JN30601",
@@ -9960,7 +10220,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_499",
+  "Id": "bond_512",
   "IDs": "JN60056",
   "Name": "梦魇化身",
   "NameI2": "Equipbond/Name_Skill_JN60056",
@@ -9980,7 +10240,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_500",
+  "Id": "bond_513",
   "IDs": "JN60375",
   "Name": "尖刺攻击",
   "NameI2": "Equipbond/Name_Skill_JN60375",
@@ -10000,7 +10260,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_501",
+  "Id": "bond_514",
   "IDs": "JN60652",
   "Name": "防御积累",
   "NameI2": "Equipbond/Name_Skill_JN60652",
@@ -10020,7 +10280,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_502",
+  "Id": "bond_515",
   "IDs": "JN60397",
   "Name": "坚实信念",
   "NameI2": "Equipbond/Name_Skill_JN60397",
@@ -10040,7 +10300,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_503",
+  "Id": "bond_516",
   "IDs": "JN61013",
   "Name": "纯净之体",
   "NameI2": "Equipbond/Name_Skill_JN61013",
@@ -10060,7 +10320,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_504",
+  "Id": "bond_517",
   "IDs": "JN60436",
   "Name": "利刃扩散",
   "NameI2": "Equipbond/Name_Skill_JN60436",
@@ -10080,7 +10340,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_505",
+  "Id": "bond_518",
   "IDs": "JN20009_001",
   "Name": "凛冬战意",
   "NameI2": "Equipbond/Name_Skill_JN20009_001",
@@ -10100,7 +10360,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_506",
+  "Id": "bond_519",
   "IDs": "JN60622",
   "Name": "大地震击",
   "NameI2": "Equipbond/Name_Skill_JN60622",
@@ -10120,7 +10380,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_507",
+  "Id": "bond_520",
   "IDs": "JN60008",
   "Name": "微笑面对",
   "NameI2": "Equipbond/Name_Skill_JN60008",
@@ -10140,7 +10400,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_508",
+  "Id": "bond_521",
   "IDs": "JN60308",
   "Name": "水灵庇护",
   "NameI2": "Equipbond/Name_Skill_JN60308",
@@ -10160,7 +10420,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_509",
+  "Id": "bond_522",
   "IDs": "JN60129",
   "Name": "爆头一击",
   "NameI2": "Equipbond/Name_Skill_JN60129",
@@ -10180,7 +10440,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_510",
+  "Id": "bond_523",
   "IDs": "JN60337",
   "Name": "幸运时刻",
   "NameI2": "Equipbond/Name_Skill_JN60337",
@@ -10200,7 +10460,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_511",
+  "Id": "bond_524",
   "IDs": "JN30602",
   "Name": "能量汇聚",
   "NameI2": "Equipbond/Name_Skill_JN30602",
@@ -10220,7 +10480,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_512",
+  "Id": "bond_525",
   "IDs": "JN60154",
   "Name": "元素循环",
   "NameI2": "Equipbond/Name_Skill_JN60154",
@@ -10240,7 +10500,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_513",
+  "Id": "bond_526",
   "IDs": "JN60115",
   "Name": "灼热之触",
   "NameI2": "Equipbond/Name_Skill_JN60115",
@@ -10260,7 +10520,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_514",
+  "Id": "bond_527",
   "IDs": "JN60649",
   "Name": "医术积累",
   "NameI2": "Equipbond/Name_Skill_JN60649",
@@ -10280,7 +10540,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_515",
+  "Id": "bond_528",
   "IDs": "JN60396",
   "Name": "增益共享",
   "NameI2": "Equipbond/Name_Skill_JN60396",
@@ -10300,7 +10560,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_516",
+  "Id": "bond_529",
   "IDs": "JN60336",
   "Name": "恢复反哺",
   "NameI2": "Equipbond/Name_Skill_JN60336",
@@ -10320,7 +10580,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_517",
+  "Id": "bond_530",
   "IDs": "JN60222",
   "Name": "机甲启动",
   "NameI2": "Equipbond/Name_Skill_JN60222",
@@ -10340,7 +10600,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_518",
+  "Id": "bond_531",
   "IDs": "JN60163",
   "Name": "热身结束",
   "NameI2": "Equipbond/Name_Skill_JN60163",
@@ -10360,7 +10620,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_519",
+  "Id": "bond_532",
   "IDs": "JN60035",
   "Name": "临场爆发",
   "NameI2": "Equipbond/Name_Skill_JN60035",
@@ -10380,7 +10640,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_520",
+  "Id": "bond_533",
   "IDs": "JN60301",
   "Name": "盔甲具现",
   "NameI2": "Equipbond/Name_Skill_JN60301",
@@ -10400,7 +10660,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_521",
+  "Id": "bond_534",
   "IDs": "JN60656",
   "Name": "补充体力",
   "NameI2": "Equipbond/Name_Skill_JN60656",
@@ -10420,7 +10680,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_522",
+  "Id": "bond_535",
   "IDs": "JN60110",
   "Name": "补充能量",
   "NameI2": "Equipbond/Name_Skill_JN60110",
@@ -10440,7 +10700,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_523",
+  "Id": "bond_536",
   "IDs": "JN60303",
   "Name": "一鼓作气",
   "NameI2": "Equipbond/Name_Skill_JN60303",
@@ -10460,7 +10720,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_524",
+  "Id": "bond_537",
   "IDs": "JN60113",
   "Name": "箭矢回收",
   "NameI2": "Equipbond/Name_Skill_JN60113",
@@ -10480,7 +10740,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_525",
+  "Id": "bond_538",
   "IDs": "JN60390",
   "Name": "全军突击",
   "NameI2": "Equipbond/Name_Skill_JN60390",
@@ -10500,7 +10760,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_526",
+  "Id": "bond_539",
   "IDs": "JN60063",
   "Name": "麻痹药剂",
   "NameI2": "Equipbond/Name_Skill_JN60063",
@@ -10520,7 +10780,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_527",
+  "Id": "bond_540",
   "IDs": "JN60411",
   "Name": "恶意滋生",
   "NameI2": "Equipbond/Name_Skill_JN60411",
@@ -10540,7 +10800,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_528",
+  "Id": "bond_541",
   "IDs": "JN60430",
   "Name": "实验积累",
   "NameI2": "Equipbond/Name_Skill_JN60430",
@@ -10560,7 +10820,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_529",
+  "Id": "bond_542",
   "IDs": "JN60650",
   "Name": "法术积累",
   "NameI2": "Equipbond/Name_Skill_JN60650",
@@ -10580,7 +10840,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_530",
+  "Id": "bond_543",
   "IDs": "JN60399",
   "Name": "范围集中",
   "NameI2": "Equipbond/Name_Skill_JN60399",
@@ -10600,7 +10860,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_531",
+  "Id": "bond_544",
   "IDs": "JN60106_001",
   "Name": "冰刃飞舞",
   "NameI2": "Equipbond/Name_Skill_JN60106_001",
@@ -10620,7 +10880,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_532",
+  "Id": "bond_545",
   "IDs": "JN60161",
   "Name": "魔力循环",
   "NameI2": "Equipbond/Name_Skill_JN60161",
@@ -10640,7 +10900,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_533",
+  "Id": "bond_546",
   "IDs": "JN60104",
   "Name": "回音震荡",
   "NameI2": "Equipbond/Name_Skill_JN60104",
@@ -10660,7 +10920,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_534",
+  "Id": "bond_547",
   "IDs": "JN60428",
   "Name": "回音扩散",
   "NameI2": "Equipbond/Name_Skill_JN60428",
@@ -10680,7 +10940,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_535",
+  "Id": "bond_548",
   "IDs": "JN60601",
   "Name": "反击姿态",
   "NameI2": "Equipbond/Name_Skill_JN60601",
@@ -10700,7 +10960,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_536",
+  "Id": "bond_549",
   "IDs": "JN60432",
   "Name": "冰丝缠绕",
   "NameI2": "Equipbond/Name_Skill_JN60432",
@@ -10720,7 +10980,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_537",
+  "Id": "bond_550",
   "IDs": "JN60383",
   "Name": "群体预警",
   "NameI2": "Equipbond/Name_Skill_JN60383",
@@ -10740,7 +11000,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_538",
+  "Id": "bond_551",
   "IDs": "JN60034",
   "Name": "宁静之雨",
   "NameI2": "Equipbond/Name_Skill_JN60034",
@@ -10760,7 +11020,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_539",
+  "Id": "bond_552",
   "IDs": "JN60078",
   "Name": "唤醒号角",
   "NameI2": "Equipbond/Name_Skill_JN60078",
@@ -10780,27 +11040,27 @@
   "Step": "A"
  },
  {
-  "Id": "bond_540",
+  "Id": "bond_553",
   "IDs": "JN60351",
   "Name": "恶语伤人",
   "NameI2": "Equipbond/Name_Skill_JN60351",
   "BondNum": "2,3",
-  "BasicDescription": "根据造成负面状态层数是自身造成失去生命增加。",
-  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60351_new01",
-  "EffectDescription": "造成失去生命+{0}，每造成{1}层负面状态使自身造成失去生命额外+1。",
-  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60351_new01",
+  "BasicDescription": "释放单段攻击技能时对敌方目标造成全部状态层数和失去生命百分比增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN60351",
+  "EffectDescription": "释放单段攻击技能时对敌方目标造成全部状态层数+{0}%，造成失去生命+{1}%，但不能对友方目标造成状态。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN60351",
   "BadgeIDs": "HZ00088",
-  "Value1": "8,16",
-  "Value2": "40,20",
-  "Tag": "释放技能,负面状态",
+  "Value1": "100,200",
+  "Value2": "100,200",
+  "Tag": "释放技能,全部状态,层数增加,失去生命",
   "Score": 160,
-  "PositiveTags": "通用效果",
-  "NegativeTags": "",
+  "PositiveTags": "失血收益",
+  "NegativeTags": "多段技能[100]",
   "Type": "特殊",
   "Step": "SS"
  },
  {
-  "Id": "bond_541",
+  "Id": "bond_554",
   "IDs": "JN60111_001",
   "Name": "寒意涌现",
   "NameI2": "Equipbond/Name_Skill_JN60111_001",
@@ -10820,7 +11080,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_542",
+  "Id": "bond_555",
   "IDs": "JN60061_001",
   "Name": "冰冷之触",
   "NameI2": "Equipbond/Name_Skill_JN60061_001",
@@ -10840,7 +11100,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_543",
+  "Id": "bond_556",
   "IDs": "JN60391",
   "Name": "寒冰刺骨",
   "NameI2": "Equipbond/Name_Skill_JN60391",
@@ -10860,7 +11120,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_544",
+  "Id": "bond_557",
   "IDs": "JN60061",
   "Name": "锋利鹰爪",
   "NameI2": "Equipbond/Name_Skill_JN60061",
@@ -10880,7 +11140,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_545",
+  "Id": "bond_558",
   "IDs": "JN60082",
   "Name": "撕裂之风",
   "NameI2": "Equipbond/Name_Skill_JN60082",
@@ -10900,7 +11160,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_546",
+  "Id": "bond_559",
   "IDs": "JN60124",
   "Name": "火球爆炸",
   "NameI2": "Equipbond/Name_Skill_JN60124",
@@ -10920,7 +11180,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_547",
+  "Id": "bond_560",
   "IDs": "JN60111",
   "Name": "毒素爆发",
   "NameI2": "Equipbond/Name_Skill_JN60111",
@@ -10940,7 +11200,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_548",
+  "Id": "bond_561",
   "IDs": "JN60050",
   "Name": "药剂淬炼",
   "NameI2": "Equipbond/Name_Skill_JN60050",
@@ -10960,7 +11220,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_549",
+  "Id": "bond_562",
   "IDs": "JN60100_001",
   "Name": "冰蜂操纵",
   "NameI2": "Equipbond/Name_Skill_JN60100_001",
@@ -10980,7 +11240,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_550",
+  "Id": "bond_563",
   "IDs": "JN60107",
   "Name": "地灵操纵",
   "NameI2": "Equipbond/Name_Skill_JN60107",
@@ -11000,7 +11260,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_551",
+  "Id": "bond_564",
   "IDs": "JN60032",
   "Name": "风灵操纵",
   "NameI2": "Equipbond/Name_Skill_JN60032",
@@ -11020,7 +11280,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_552",
+  "Id": "bond_565",
   "IDs": "JN60149",
   "Name": "火灵操纵",
   "NameI2": "Equipbond/Name_Skill_JN60149",
@@ -11040,7 +11300,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_553",
+  "Id": "bond_566",
   "IDs": "JN60100",
   "Name": "毒蜂操纵",
   "NameI2": "Equipbond/Name_Skill_JN60100",
@@ -11060,7 +11320,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_554",
+  "Id": "bond_567",
   "IDs": "JN60060",
   "Name": "水灵操纵",
   "NameI2": "Equipbond/Name_Skill_JN60060",
@@ -11080,7 +11340,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_555",
+  "Id": "bond_568",
   "IDs": "JN60621",
   "Name": "魔能侵蚀",
   "NameI2": "Equipbond/Name_Skill_JN60621",
@@ -11100,7 +11360,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_556",
+  "Id": "bond_569",
   "IDs": "JN60620",
   "Name": "魔法反制",
   "NameI2": "Equipbond/Name_Skill_JN60620",
@@ -11120,7 +11380,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_557",
+  "Id": "bond_570",
   "IDs": "JN60651",
   "Name": "箭术积累",
   "NameI2": "Equipbond/Name_Skill_JN60651",
@@ -11140,7 +11400,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_558",
+  "Id": "bond_571",
   "IDs": "JN60106",
   "Name": "羽刃飞舞",
   "NameI2": "Equipbond/Name_Skill_JN60106",
@@ -11160,7 +11420,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_559",
+  "Id": "bond_572",
   "IDs": "JN30207",
   "Name": "无尽追击",
   "NameI2": "Equipbond/Name_Skill_JN30207",
@@ -11180,7 +11440,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_560",
+  "Id": "bond_573",
   "IDs": "JN30208",
   "Name": "幽暗星核",
   "NameI2": "Equipbond/Name_Skill_JN30208",
@@ -11200,7 +11460,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_561",
+  "Id": "bond_574",
   "IDs": "JN60358",
   "Name": "黑耀切割",
   "NameI2": "Equipbond/Name_Skill_JN60358",
@@ -11220,7 +11480,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_562",
+  "Id": "bond_575",
   "IDs": "JN30003",
   "Name": "群星震荡",
   "NameI2": "Equipbond/Name_Skill_JN30003",
@@ -11240,7 +11500,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_563",
+  "Id": "bond_576",
   "IDs": "JN60091",
   "Name": "反手教育",
   "NameI2": "Equipbond/Name_Skill_JN60091",
@@ -11260,7 +11520,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_564",
+  "Id": "bond_577",
   "IDs": "JN60073",
   "Name": "残影幻象",
   "NameI2": "Equipbond/Name_Skill_JN60073",
@@ -11280,7 +11540,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_565",
+  "Id": "bond_578",
   "IDs": "JN60049",
   "Name": "刻苦练习",
   "NameI2": "Equipbond/Name_Skill_JN60049",
@@ -11300,7 +11560,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_566",
+  "Id": "bond_579",
   "IDs": "JN60088",
   "Name": "狂野荆棘",
   "NameI2": "Equipbond/Name_Skill_JN60088",
@@ -11320,7 +11580,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_567",
+  "Id": "bond_580",
   "IDs": "JN60037",
   "Name": "鲜血意志",
   "NameI2": "Equipbond/Name_Skill_JN60037",
@@ -11340,7 +11600,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_568",
+  "Id": "bond_581",
   "IDs": "JN60048",
   "Name": "生命流失",
   "NameI2": "Equipbond/Name_Skill_JN60048",
@@ -11360,7 +11620,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_569",
+  "Id": "bond_582",
   "IDs": "JN60127_001",
   "Name": "冰牙箭矢",
   "NameI2": "Equipbond/Name_Skill_JN60127_001",
@@ -11380,7 +11640,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_570",
+  "Id": "bond_583",
   "IDs": "JN60159",
   "Name": "黄蜂之刺",
   "NameI2": "Equipbond/Name_Skill_JN60159",
@@ -11400,7 +11660,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_571",
+  "Id": "bond_584",
   "IDs": "JN60387",
   "Name": "生命吸收",
   "NameI2": "Equipbond/Name_Skill_JN60387",
@@ -11420,7 +11680,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_572",
+  "Id": "bond_585",
   "IDs": "JN30206",
   "Name": "蓄力反击",
   "NameI2": "Equipbond/Name_Skill_JN30206",
@@ -11440,7 +11700,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_573",
+  "Id": "bond_586",
   "IDs": "JN30201",
   "Name": "稳定结界",
   "NameI2": "Equipbond/Name_Skill_JN30201",
@@ -11460,7 +11720,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_574",
+  "Id": "bond_587",
   "IDs": "JN60647",
   "Name": "理智丧失",
   "NameI2": "Equipbond/Name_Skill_JN60647",
@@ -11480,7 +11740,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_575",
+  "Id": "bond_588",
   "IDs": "JN20010",
   "Name": "迅速繁殖",
   "NameI2": "Equipbond/Name_Skill_JN20010",
@@ -11500,7 +11760,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_576",
+  "Id": "bond_589",
   "IDs": "JN60042",
   "Name": "维生协议",
   "NameI2": "Equipbond/Name_Skill_JN60042",
@@ -11520,7 +11780,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_577",
+  "Id": "bond_590",
   "IDs": "JN60140",
   "Name": "岩刃撕裂",
   "NameI2": "Equipbond/Name_Skill_JN60140",
@@ -11540,7 +11800,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_578",
+  "Id": "bond_591",
   "IDs": "JN60053",
   "Name": "生命诅咒",
   "NameI2": "Equipbond/Name_Skill_JN60053",
@@ -11560,7 +11820,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_579",
+  "Id": "bond_592",
   "IDs": "JN60368",
   "Name": "蓄电外皮",
   "NameI2": "Equipbond/Name_Skill_JN60368",
@@ -11580,7 +11840,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_580",
+  "Id": "bond_593",
   "IDs": "JN61009",
   "Name": "孢子四溅",
   "NameI2": "Equipbond/Name_Skill_JN61009",
@@ -11600,7 +11860,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_581",
+  "Id": "bond_594",
   "IDs": "JN40008",
   "Name": "等价交换",
   "NameI2": "Equipbond/Name_Skill_JN40008",
@@ -11620,7 +11880,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_582",
+  "Id": "bond_595",
   "IDs": "JN60128",
   "Name": "魔力吸收",
   "NameI2": "Equipbond/Name_Skill_JN60128",
@@ -11640,7 +11900,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_583",
+  "Id": "bond_596",
   "IDs": "JN60369",
   "Name": "明心见性",
   "NameI2": "Equipbond/Name_Skill_JN60369",
@@ -11660,7 +11920,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_584",
+  "Id": "bond_597",
   "IDs": "JN60664",
   "Name": "废铁吸附",
   "NameI2": "Equipbond/Name_Skill_JN60664",
@@ -11680,7 +11940,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_585",
+  "Id": "bond_598",
   "IDs": "JN60080_001",
   "Name": "寒霜庇护",
   "NameI2": "Equipbond/Name_Skill_JN60080_001",
@@ -11700,7 +11960,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_586",
+  "Id": "bond_599",
   "IDs": "JN60128_001",
   "Name": "温度吸收",
   "NameI2": "Equipbond/Name_Skill_JN60128_001",
@@ -11720,7 +11980,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_587",
+  "Id": "bond_600",
   "IDs": "JN60348_001",
   "Name": "寒冰修复",
   "NameI2": "Equipbond/Name_Skill_JN60348_001",
@@ -11740,7 +12000,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_588",
+  "Id": "bond_601",
   "IDs": "JN30104_001",
   "Name": "风暴肆虐",
   "NameI2": "Equipbond/Name_Skill_JN30104_001",
@@ -11760,7 +12020,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_589",
+  "Id": "bond_602",
   "IDs": "JN60127",
   "Name": "生命抽取",
   "NameI2": "Equipbond/Name_Skill_JN60127",
@@ -11780,7 +12040,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_590",
+  "Id": "bond_603",
   "IDs": "JN60051",
   "Name": "炼狱欢愉",
   "NameI2": "Equipbond/Name_Skill_JN60051",
@@ -11800,7 +12060,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_591",
+  "Id": "bond_604",
   "IDs": "JN60633",
   "Name": "祖灵保佑",
   "NameI2": "Equipbond/Name_Skill_JN60633",
@@ -11820,7 +12080,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_592",
+  "Id": "bond_605",
   "IDs": "JN60348",
   "Name": "灵魂修复",
   "NameI2": "Equipbond/Name_Skill_JN60348",
@@ -11840,7 +12100,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_593",
+  "Id": "bond_606",
   "IDs": "JN60366",
   "Name": "洞察万物",
   "NameI2": "Equipbond/Name_Skill_JN60366",
@@ -11860,7 +12120,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_594",
+  "Id": "bond_607",
   "IDs": "JN60092",
   "Name": "完全净化",
   "NameI2": "Equipbond/Name_Skill_JN60092",
@@ -11880,7 +12140,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_595",
+  "Id": "bond_608",
   "IDs": "JN60377",
   "Name": "灵魂审判",
   "NameI2": "Equipbond/Name_Skill_JN60377",
@@ -11900,7 +12160,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_596",
+  "Id": "bond_609",
   "IDs": "JN60108",
   "Name": "魔力侵蚀",
   "NameI2": "Equipbond/Name_Skill_JN60108",
@@ -11920,7 +12180,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_597",
+  "Id": "bond_610",
   "IDs": "JN60365",
   "Name": "阴影侵蚀",
   "NameI2": "Equipbond/Name_Skill_JN60365",
@@ -11940,7 +12200,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_598",
+  "Id": "bond_611",
   "IDs": "JN60615",
   "Name": "噩梦成真",
   "NameI2": "Equipbond/Name_Skill_JN60615",
@@ -11960,7 +12220,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_599",
+  "Id": "bond_612",
   "IDs": "JN60414",
   "Name": "无尽噩梦",
   "NameI2": "Equipbond/Name_Skill_JN60414",
@@ -11980,7 +12240,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_600",
+  "Id": "bond_613",
   "IDs": "JN60643",
   "Name": "滋养生命",
   "NameI2": "Equipbond/Name_Skill_JN60643",
@@ -12000,7 +12260,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_601",
+  "Id": "bond_614",
   "IDs": "JN60660",
   "Name": "碎片重铸",
   "NameI2": "Equipbond/Name_Skill_JN60660",
@@ -12020,7 +12280,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_602",
+  "Id": "bond_615",
   "IDs": "JN60633_001",
   "Name": "冰冷侵蚀",
   "NameI2": "Equipbond/Name_Skill_JN60633_001",
@@ -12040,7 +12300,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_603",
+  "Id": "bond_616",
   "IDs": "JN60121",
   "Name": "冰寒刺骨",
   "NameI2": "Equipbond/Name_Skill_JN60121",
@@ -12060,7 +12320,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_604",
+  "Id": "bond_617",
   "IDs": "JN60148",
   "Name": "无尽寒冬",
   "NameI2": "Equipbond/Name_Skill_JN60148",
@@ -12080,7 +12340,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_605",
+  "Id": "bond_618",
   "IDs": "JN60648",
   "Name": "失血恍惚",
   "NameI2": "Equipbond/Name_Skill_JN60648",
@@ -12100,7 +12360,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_606",
+  "Id": "bond_619",
   "IDs": "JN60630",
   "Name": "血流不止",
   "NameI2": "Equipbond/Name_Skill_JN60630",
@@ -12120,7 +12380,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_607",
+  "Id": "bond_620",
   "IDs": "JN60089",
   "Name": "烈焰融化",
   "NameI2": "Equipbond/Name_Skill_JN60089",
@@ -12140,7 +12400,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_608",
+  "Id": "bond_621",
   "IDs": "JN60352",
   "Name": "腐蚀毒气",
   "NameI2": "Equipbond/Name_Skill_JN60352",
@@ -12160,7 +12420,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_609",
+  "Id": "bond_622",
   "IDs": "JN60378",
   "Name": "嫉恶如仇",
   "NameI2": "Equipbond/Name_Skill_JN60378",
@@ -12180,7 +12440,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_610",
+  "Id": "bond_623",
   "IDs": "JN60045",
   "Name": "清凉一夏",
   "NameI2": "Equipbond/Name_Skill_JN60045",
@@ -12200,7 +12460,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_611",
+  "Id": "bond_624",
   "IDs": "JN60347_001",
   "Name": "冰冷吸收",
   "NameI2": "Equipbond/Name_Skill_JN60347_001",
@@ -12220,7 +12480,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_612",
+  "Id": "bond_625",
   "IDs": "JN60637",
   "Name": "金属弹性",
   "NameI2": "Equipbond/Name_Skill_JN60637",
@@ -12240,7 +12500,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_613",
+  "Id": "bond_626",
   "IDs": "JN60347",
   "Name": "毒素吸收",
   "NameI2": "Equipbond/Name_Skill_JN60347",
@@ -12260,7 +12520,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_614",
+  "Id": "bond_627",
   "IDs": "JN60190",
   "Name": "运气调息",
   "NameI2": "Equipbond/Name_Skill_JN60190",
@@ -12280,7 +12540,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_615",
+  "Id": "bond_628",
   "IDs": "JN01201_001",
   "Name": "护身暖流",
   "NameI2": "Equipbond/Name_Skill_JN01201_001",
@@ -12300,7 +12560,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_616",
+  "Id": "bond_629",
   "IDs": "JN60640",
   "Name": "枯木逢春",
   "NameI2": "Equipbond/Name_Skill_JN60640",
@@ -12320,7 +12580,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_617",
+  "Id": "bond_630",
   "IDs": "JN60421",
   "Name": "神树甘露",
   "NameI2": "Equipbond/Name_Skill_JN60421",
@@ -12340,7 +12600,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_618",
+  "Id": "bond_631",
   "IDs": "JN60661",
   "Name": "湿润皮肤",
   "NameI2": "Equipbond/Name_Skill_JN60661",
@@ -12360,7 +12620,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_619",
+  "Id": "bond_632",
   "IDs": "JN60371",
   "Name": "滋润灵魂",
   "NameI2": "Equipbond/Name_Skill_JN60371",
@@ -12380,7 +12640,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_620",
+  "Id": "bond_633",
   "IDs": "JN60374",
   "Name": "碎片重组",
   "NameI2": "Equipbond/Name_Skill_JN60374",
@@ -12400,7 +12660,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_621",
+  "Id": "bond_634",
   "IDs": "JN60122",
   "Name": "落井下石",
   "NameI2": "Equipbond/Name_Skill_JN60122",
@@ -12420,7 +12680,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_622",
+  "Id": "bond_635",
   "IDs": "JN60132",
   "Name": "致命一击",
   "NameI2": "Equipbond/Name_Skill_JN60132",
@@ -12440,7 +12700,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_623",
+  "Id": "bond_636",
   "IDs": "JN60636",
   "Name": "异性相吸",
   "NameI2": "Equipbond/Name_Skill_JN60636",
@@ -12460,7 +12720,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_624",
+  "Id": "bond_637",
   "IDs": "JN60357",
   "Name": "同性相斥",
   "NameI2": "Equipbond/Name_Skill_JN60357",
@@ -12480,7 +12740,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_625",
+  "Id": "bond_638",
   "IDs": "JN60644",
   "Name": "独立行动",
   "NameI2": "Equipbond/Name_Skill_JN60644",
@@ -12500,7 +12760,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_626",
+  "Id": "bond_639",
   "IDs": "JN60072",
   "Name": "凶恶眼神",
   "NameI2": "Equipbond/Name_Skill_JN60072",
@@ -12520,7 +12780,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_627",
+  "Id": "bond_640",
   "IDs": "JN60657_001",
   "Name": "冰原狩猎",
   "NameI2": "Equipbond/Name_Skill_JN60657_001",
@@ -12540,7 +12800,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_628",
+  "Id": "bond_641",
   "IDs": "JN60109_001",
   "Name": "冰冷切割",
   "NameI2": "Equipbond/Name_Skill_JN60109_001",
@@ -12560,7 +12820,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_629",
+  "Id": "bond_642",
   "IDs": "JN20008_001",
   "Name": "霜狼赐福",
   "NameI2": "Equipbond/Name_Skill_JN20008_001",
@@ -12580,7 +12840,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_630",
+  "Id": "bond_643",
   "IDs": "JN30202_001",
   "Name": "寒冰侵蚀",
   "NameI2": "Equipbond/Name_Skill_JN30202_001",
@@ -12600,7 +12860,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_631",
+  "Id": "bond_644",
   "IDs": "JN60094",
   "Name": "追踪冰矢",
   "NameI2": "Equipbond/Name_Skill_JN60094",
@@ -12620,7 +12880,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_632",
+  "Id": "bond_645",
   "IDs": "JN60349_001",
   "Name": "冰雪狂热",
   "NameI2": "Equipbond/Name_Skill_JN60349_001",
@@ -12640,7 +12900,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_633",
+  "Id": "bond_646",
   "IDs": "JN60133",
   "Name": "破坏一击",
   "NameI2": "Equipbond/Name_Skill_JN60133",
@@ -12660,7 +12920,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_634",
+  "Id": "bond_647",
   "IDs": "JN60338",
   "Name": "疾速追击",
   "NameI2": "Equipbond/Name_Skill_JN60338_New01",
@@ -12680,7 +12940,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_635",
+  "Id": "bond_648",
   "IDs": "JN60047",
   "Name": "撕裂伤口",
   "NameI2": "Equipbond/Name_Skill_JN60047",
@@ -12700,7 +12960,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_636",
+  "Id": "bond_649",
   "IDs": "JN60150",
   "Name": "无孔不入",
   "NameI2": "Equipbond/Name_Skill_JN60150",
@@ -12720,7 +12980,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_637",
+  "Id": "bond_650",
   "IDs": "JN30202",
   "Name": "尖牙利齿",
   "NameI2": "Equipbond/Name_Skill_JN30202",
@@ -12740,7 +13000,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_638",
+  "Id": "bond_651",
   "IDs": "JN60606",
   "Name": "猎物追踪",
   "NameI2": "Equipbond/Name_Skill_JN60606",
@@ -12760,7 +13020,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_639",
+  "Id": "bond_652",
   "IDs": "JN60224",
   "Name": "雷霆意志",
   "NameI2": "Equipbond/Name_Skill_JN60224",
@@ -12780,7 +13040,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_640",
+  "Id": "bond_653",
   "IDs": "JN61010",
   "Name": "孢子附着",
   "NameI2": "Equipbond/Name_Skill_JN61010",
@@ -12800,7 +13060,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_641",
+  "Id": "bond_654",
   "IDs": "JN60109",
   "Name": "黄蜂蛰咬",
   "NameI2": "Equipbond/Name_Skill_JN60109",
@@ -12820,7 +13080,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_642",
+  "Id": "bond_655",
   "IDs": "JN60608",
   "Name": "生命蓄积",
   "NameI2": "Equipbond/Name_Skill_JN60608_new01",
@@ -12840,7 +13100,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_643",
+  "Id": "bond_656",
   "IDs": "JN60123",
   "Name": "屹立不倒",
   "NameI2": "Equipbond/Name_Skill_JN60123",
@@ -12860,7 +13120,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_644",
+  "Id": "bond_657",
   "IDs": "JN60077_001",
   "Name": "热身追击",
   "NameI2": "Equipbond/Name_Skill_JN60077_001",
@@ -12880,7 +13140,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_645",
+  "Id": "bond_658",
   "IDs": "JN60080",
   "Name": "热血不灭",
   "NameI2": "Equipbond/Name_Skill_JN60080",
@@ -12900,7 +13160,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_646",
+  "Id": "bond_659",
   "IDs": "JN60349",
   "Name": "嗜血狂热",
   "NameI2": "Equipbond/Name_Skill_JN60349",
@@ -12920,7 +13180,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_647",
+  "Id": "bond_660",
   "IDs": "JN30601_001",
   "Name": "唯快不破",
   "NameI2": "Equipbond/Name_Skill_JN30601_001",
@@ -12940,7 +13200,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_648",
+  "Id": "bond_661",
   "IDs": "JN60380",
   "Name": "盔甲吸收",
   "NameI2": "Equipbond/Name_Skill_JN60380",
@@ -12960,7 +13220,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_649",
+  "Id": "bond_662",
   "IDs": "JN60001",
   "Name": "脆弱防御",
   "NameI2": "Equipbond/Name_Skill_JN60001",
@@ -12980,7 +13240,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_650",
+  "Id": "bond_663",
   "IDs": "JN60075",
   "Name": "源石之重",
   "NameI2": "Equipbond/Name_Skill_JN60075",
@@ -13000,7 +13260,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_651",
+  "Id": "bond_664",
   "IDs": "JN60077",
   "Name": "谨慎追击",
   "NameI2": "Equipbond/Name_Skill_JN60077",
@@ -13020,7 +13280,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_652",
+  "Id": "bond_665",
   "IDs": "JN60423",
   "Name": "巨岩投掷",
   "NameI2": "Equipbond/Name_Skill_JN60423",
@@ -13040,7 +13300,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_653",
+  "Id": "bond_666",
   "IDs": "JN60144",
   "Name": "巨岩之躯",
   "NameI2": "Equipbond/Name_Skill_JN60144",
@@ -13060,7 +13320,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_654",
+  "Id": "bond_667",
   "IDs": "JN61012",
   "Name": "清风守护",
   "NameI2": "Equipbond/Name_Skill_JN61012",
@@ -13080,7 +13340,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_655",
+  "Id": "bond_668",
   "IDs": "JN60081",
   "Name": "争分夺秒",
   "NameI2": "Equipbond/Name_Skill_JN60081",
@@ -13100,7 +13360,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_656",
+  "Id": "bond_669",
   "IDs": "JN60609",
   "Name": "坚硬树皮",
   "NameI2": "Equipbond/Name_Skill_JN60609",
@@ -13120,7 +13380,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_657",
+  "Id": "bond_670",
   "IDs": "JN60420",
   "Name": "神树赐福",
   "NameI2": "Equipbond/Name_Skill_JN60420",
@@ -13140,7 +13400,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_658",
+  "Id": "bond_671",
   "IDs": "JN30403",
   "Name": "无尽生命",
   "NameI2": "Equipbond/Name_Skill_JN30403",
@@ -13160,7 +13420,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_659",
+  "Id": "bond_672",
   "IDs": "JN60424",
   "Name": "流水神力",
   "NameI2": "Equipbond/Name_Skill_JN60424",
@@ -13180,7 +13440,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_660",
+  "Id": "bond_673",
   "IDs": "JN60356",
   "Name": "大地护体",
   "NameI2": "Equipbond/Name_Skill_JN60356",
@@ -13200,7 +13460,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_661",
+  "Id": "bond_674",
   "IDs": "JN60135",
   "Name": "纯净之力",
   "NameI2": "Equipbond/Name_Skill_JN60135",
@@ -13220,7 +13480,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_662",
+  "Id": "bond_675",
   "IDs": "JN60134",
   "Name": "暗中偷袭",
   "NameI2": "Equipbond/Name_Skill_JN60134",
@@ -13240,7 +13500,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_663",
+  "Id": "bond_676",
   "IDs": "JN60305",
   "Name": "纯净无瑕",
   "NameI2": "Equipbond/Name_Skill_JN60305",
@@ -13260,7 +13520,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_664",
+  "Id": "bond_677",
   "IDs": "JN60131",
   "Name": "纯净之心",
   "NameI2": "Equipbond/Name_Skill_JN60131",
@@ -13280,7 +13540,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_665",
+  "Id": "bond_678",
   "IDs": "JN60638",
   "Name": "纯净心灵",
   "NameI2": "Equipbond/Name_Skill_JN60638",
@@ -13300,7 +13560,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_666",
+  "Id": "bond_679",
   "IDs": "JN60422",
   "Name": "无瑕羽刃",
   "NameI2": "Equipbond/Name_Skill_JN60422",
@@ -13320,7 +13580,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_667",
+  "Id": "bond_680",
   "IDs": "JN60381",
   "Name": "润物无声",
   "NameI2": "Equipbond/Name_Skill_JN60381",
@@ -13340,7 +13600,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_668",
+  "Id": "bond_681",
   "IDs": "JN60641",
   "Name": "伤口自愈",
   "NameI2": "Equipbond/Name_Skill_JN60641",
@@ -13360,7 +13620,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_669",
+  "Id": "bond_682",
   "IDs": "JN40007",
   "Name": "棱镜之主",
   "NameI2": "Equipbond/Name_Skill_JN40007",
@@ -13380,7 +13640,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_670",
+  "Id": "bond_683",
   "IDs": "JN60663",
   "Name": "如鲠在喉",
   "NameI2": "Equipbond/Name_Skill_JN60663",
@@ -13400,7 +13660,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_671",
+  "Id": "bond_684",
   "IDs": "JN60612",
   "Name": "荆棘撕裂",
   "NameI2": "Equipbond/Name_Skill_JN60612",
@@ -13420,7 +13680,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_672",
+  "Id": "bond_685",
   "IDs": "JN60619",
   "Name": "闪电链接",
   "NameI2": "Equipbond/Name_Skill_JN60619",
@@ -13440,7 +13700,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_673",
+  "Id": "bond_686",
   "IDs": "JN60372",
   "Name": "亲和自然",
   "NameI2": "Equipbond/Name_Skill_JN60372",
@@ -13460,7 +13720,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_674",
+  "Id": "bond_687",
   "IDs": "JN60311",
   "Name": "巨力震荡",
   "NameI2": "Equipbond/Name_Skill_JN60311",
@@ -13480,7 +13740,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_675",
+  "Id": "bond_688",
   "IDs": "JN60166_001",
   "Name": "冰霜之力",
   "NameI2": "Equipbond/Name_Skill_JN60166_001",
@@ -13500,7 +13760,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_676",
+  "Id": "bond_689",
   "IDs": "JN60116",
   "Name": "黏度提炼",
   "NameI2": "Equipbond/Name_Skill_JN60116",
@@ -13520,7 +13780,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_677",
+  "Id": "bond_690",
   "IDs": "JN60307",
   "Name": "翻云覆雨",
   "NameI2": "Equipbond/Name_Skill_JN60307",
@@ -13540,7 +13800,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_678",
+  "Id": "bond_691",
   "IDs": "JN60435",
   "Name": "无瑕守护",
   "NameI2": "Equipbond/Name_Skill_JN60435_New01",
@@ -13560,7 +13820,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_679",
+  "Id": "bond_692",
   "IDs": "JN40002",
   "Name": "元素永恒",
   "NameI2": "Equipbond/Name_Skill_JN40002",
@@ -13580,7 +13840,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_680",
+  "Id": "bond_693",
   "IDs": "JN61001",
   "Name": "实验保护",
   "NameI2": "Equipbond/Name_Skill_JN61001",
@@ -13600,7 +13860,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_681",
+  "Id": "bond_694",
   "IDs": "JN01300",
   "Name": "永恒精金",
   "NameI2": "Equipbond/Name_Skill_JN01300",
@@ -13620,7 +13880,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_682",
+  "Id": "bond_695",
   "IDs": "JN60105",
   "Name": "永不低落",
   "NameI2": "Equipbond/Name_Skill_JN60105",
@@ -13640,7 +13900,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_683",
+  "Id": "bond_696",
   "IDs": "JN60635",
   "Name": "快速降温",
   "NameI2": "Equipbond/Name_Skill_JN60635",
@@ -13660,7 +13920,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_684",
+  "Id": "bond_697",
   "IDs": "JN60118",
   "Name": "摇摇晃晃",
   "NameI2": "Equipbond/Name_Skill_JN60118",
@@ -13680,7 +13940,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_685",
+  "Id": "bond_698",
   "IDs": "JN01203_001",
   "Name": "冰冷隔绝",
   "NameI2": "Equipbond/Name_Skill_JN01203_001",
@@ -13700,7 +13960,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_686",
+  "Id": "bond_699",
   "IDs": "JN61001_001",
   "Name": "温度隔绝",
   "NameI2": "Equipbond/Name_Skill_JN61001_001",
@@ -13720,7 +13980,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_687",
+  "Id": "bond_700",
   "IDs": "JN60359",
   "Name": "千锤百炼",
   "NameI2": "Equipbond/Name_Skill_JN60359",
@@ -13740,7 +14000,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_688",
+  "Id": "bond_701",
   "IDs": "JN60070",
   "Name": "坚定不移",
   "NameI2": "Equipbond/Name_Skill_JN60070",
@@ -13760,7 +14020,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_689",
+  "Id": "bond_702",
   "IDs": "JN60007",
   "Name": "复苏之魂",
   "NameI2": "Equipbond/Name_Skill_JN60007",
@@ -13780,7 +14040,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_690",
+  "Id": "bond_703",
   "IDs": "JN02901",
   "Name": "菌化抗体",
   "NameI2": "Equipbond/Name_Skill_JN02901",
@@ -13800,7 +14060,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_691",
+  "Id": "bond_704",
   "IDs": "JN02204",
   "Name": "化为虚无",
   "NameI2": "Equipbond/Name_Skill_JN02204",
@@ -13820,7 +14080,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_692",
+  "Id": "bond_705",
   "IDs": "JN60413",
   "Name": "梦境深渊",
   "NameI2": "Equipbond/Name_Skill_JN60413",
@@ -13840,7 +14100,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_693",
+  "Id": "bond_706",
   "IDs": "JN30801",
   "Name": "魔王诅咒",
   "NameI2": "Equipbond/Name_Skill_JN30801",
@@ -13860,7 +14120,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_694",
+  "Id": "bond_707",
   "IDs": "JN60016",
   "Name": "温度骤降",
   "NameI2": "Equipbond/Name_Skill_JN60016",
@@ -13880,7 +14140,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_695",
+  "Id": "bond_708",
   "IDs": "JN60017",
   "Name": "撕裂魔域",
   "NameI2": "Equipbond/Name_Skill_JN60017",
@@ -13900,7 +14160,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_696",
+  "Id": "bond_709",
   "IDs": "JN60004",
   "Name": "熔岩魔域",
   "NameI2": "Equipbond/Name_Skill_JN60004",
@@ -13920,7 +14180,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_697",
+  "Id": "bond_710",
   "IDs": "JN60018",
   "Name": "瘟疫魔域",
   "NameI2": "Equipbond/Name_Skill_JN60018",
@@ -13940,7 +14200,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_698",
+  "Id": "bond_711",
   "IDs": "JN61011",
   "Name": "香气弥漫",
   "NameI2": "Equipbond/Name_Skill_JN61011",
@@ -13960,7 +14220,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_699",
+  "Id": "bond_712",
   "IDs": "JN60117",
   "Name": "孢子散播",
   "NameI2": "Equipbond/Name_Skill_JN60117",
@@ -13980,7 +14240,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_700",
+  "Id": "bond_713",
   "IDs": "JN30103",
   "Name": "绝对正义",
   "NameI2": "Equipbond/Name_Skill_JN30103",
@@ -14000,7 +14260,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_701",
+  "Id": "bond_714",
   "IDs": "JN60043",
   "Name": "洗心革面",
   "NameI2": "Equipbond/Name_Skill_JN60043",
@@ -14020,7 +14280,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_702",
+  "Id": "bond_715",
   "IDs": "JN00406",
   "Name": "幸运兔脚",
   "NameI2": "Equipbond/Name_Skill_JN00406",
@@ -14040,7 +14300,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_703",
+  "Id": "bond_716",
   "IDs": "JN60427",
   "Name": "屏息凝神",
   "NameI2": "Equipbond/Name_Skill_JN60427",
@@ -14060,7 +14320,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_704",
+  "Id": "bond_717",
   "IDs": "JN60137",
   "Name": "热血沸腾",
   "NameI2": "Equipbond/Name_Skill_JN60137",
@@ -14080,7 +14340,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_705",
+  "Id": "bond_718",
   "IDs": "JN60027",
   "Name": "风行之力",
   "NameI2": "Equipbond/Name_Skill_JN60027",
@@ -14100,7 +14360,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_706",
+  "Id": "bond_719",
   "IDs": "JN60166",
   "Name": "守株待兔",
   "NameI2": "Equipbond/Name_Skill_JN60166",
@@ -14120,7 +14380,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_707",
+  "Id": "bond_720",
   "IDs": "JN60138",
   "Name": "无尽贪欲",
   "NameI2": "Equipbond/Name_Skill_JN60138",
@@ -14140,7 +14400,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_708",
+  "Id": "bond_721",
   "IDs": "JN30210",
   "Name": "勇者祝福",
   "NameI2": "Equipbond/Name_Skill_JN30210",
@@ -14160,7 +14420,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_709",
+  "Id": "bond_722",
   "IDs": "JN60392",
   "Name": "王者气质",
   "NameI2": "Equipbond/Name_Skill_JN60392",
@@ -14180,7 +14440,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_710",
+  "Id": "bond_723",
   "IDs": "JN60019",
   "Name": "浴血奋战",
   "NameI2": "Equipbond/Name_Skill_JN60019",
@@ -14200,7 +14460,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_711",
+  "Id": "bond_724",
   "IDs": "JN60425",
   "Name": "海神祝福",
   "NameI2": "Equipbond/Name_Skill_JN60425",
@@ -14220,7 +14480,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_712",
+  "Id": "bond_725",
   "IDs": "JN60044",
   "Name": "控制解除",
   "NameI2": "Equipbond/Name_Skill_JN60044",
@@ -14240,7 +14500,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_713",
+  "Id": "bond_726",
   "IDs": "JN60607",
   "Name": "群狼狩猎",
   "NameI2": "Equipbond/Name_Skill_JN60607",
@@ -14260,7 +14520,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_714",
+  "Id": "bond_727",
   "IDs": "JN20008",
   "Name": "狼灵赐福",
   "NameI2": "Equipbond/Name_Skill_JN20008",
@@ -14280,7 +14540,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_715",
+  "Id": "bond_728",
   "IDs": "JN60626",
   "Name": "万众一心",
   "NameI2": "Equipbond/Name_Skill_JN60626",
@@ -14300,7 +14560,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_716",
+  "Id": "bond_729",
   "IDs": "JN60388",
   "Name": "密集阵形",
   "NameI2": "Equipbond/Name_Skill_JN60388",
@@ -14320,7 +14580,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_717",
+  "Id": "bond_730",
   "IDs": "JN60646",
   "Name": "进退有度",
   "NameI2": "Equipbond/Name_Skill_JN60646",
@@ -14340,7 +14600,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_718",
+  "Id": "bond_731",
   "IDs": "JN60610",
   "Name": "独木成林",
   "NameI2": "Equipbond/Name_Skill_JN60610",
@@ -14360,7 +14620,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_719",
+  "Id": "bond_732",
   "IDs": "JN60101",
   "Name": "翡翠守护",
   "NameI2": "Equipbond/Name_Skill_JN60101",
@@ -14380,7 +14640,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_720",
+  "Id": "bond_733",
   "IDs": "JN60136",
   "Name": "集群之力",
   "NameI2": "Equipbond/Name_Skill_JN60136",
@@ -14400,7 +14660,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_721",
+  "Id": "bond_734",
   "IDs": "JN20009",
   "Name": "呼唤狼灵",
   "NameI2": "Equipbond/Name_Skill_JN20009_new01",
@@ -14420,7 +14680,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_722",
+  "Id": "bond_735",
   "IDs": "JN60363",
   "Name": "意识转化",
   "NameI2": "Equipbond/Name_Skill_JN60363",
@@ -14440,7 +14700,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_723",
+  "Id": "bond_736",
   "IDs": "JN60142",
   "Name": "断剑重铸",
   "NameI2": "Equipbond/Name_Skill_JN60142",
@@ -14460,7 +14720,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_724",
+  "Id": "bond_737",
   "IDs": "JN60315",
   "Name": "气势攀升",
   "NameI2": "Equipbond/Name_Skill_JN60315",
@@ -14480,7 +14740,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_725",
+  "Id": "bond_738",
   "IDs": "JN60632",
   "Name": "狼灵守护",
   "NameI2": "Equipbond/Name_Skill_JN60632_new01",
@@ -14500,7 +14760,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_726",
+  "Id": "bond_739",
   "IDs": "JN60632_001",
   "Name": "冰冷之心",
   "NameI2": "Equipbond/Name_Skill_JN60632_001",
@@ -14520,7 +14780,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_727",
+  "Id": "bond_740",
   "IDs": "JN60373",
   "Name": "饥饿掠食",
   "NameI2": "Equipbond/Name_Skill_JN60373",
@@ -14540,7 +14800,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_728",
+  "Id": "bond_741",
   "IDs": "JN70001",
   "Name": "黑暗收割",
   "NameI2": "Equipbond/Name_Skill_JN70001",
@@ -14560,7 +14820,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_729",
+  "Id": "bond_742",
   "IDs": "JN60095_001",
   "Name": "击破连击",
   "NameI2": "Equipbond/Name_Skill_JN60095_001",
@@ -14580,7 +14840,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_730",
+  "Id": "bond_743",
   "IDs": "JN60095",
   "Name": "乘胜追击",
   "NameI2": "Equipbond/Name_Skill_JN60095",
@@ -14600,7 +14860,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_731",
+  "Id": "bond_744",
   "IDs": "JN60209",
   "Name": "灵魂铸剑",
   "NameI2": "Equipbond/Name_Skill_JN60209",
@@ -14620,7 +14880,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_732",
+  "Id": "bond_745",
   "IDs": "JN60654",
   "Name": "新手勇气",
   "NameI2": "Equipbond/Name_Skill_JN60654",
@@ -14640,7 +14900,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_733",
+  "Id": "bond_746",
   "IDs": "JN60655",
   "Name": "新手祝福",
   "NameI2": "Equipbond/Name_Skill_JN60655",
@@ -14660,7 +14920,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_734",
+  "Id": "bond_747",
   "IDs": "JN60318",
   "Name": "战意长存",
   "NameI2": "Equipbond/Name_Skill_JN60318",
@@ -14680,7 +14940,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_735",
+  "Id": "bond_748",
   "IDs": "JN60310",
   "Name": "战意寄托",
   "NameI2": "Equipbond/Name_Skill_JN60310",
@@ -14700,7 +14960,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_736",
+  "Id": "bond_749",
   "IDs": "JN60215",
   "Name": "恶意残存",
   "NameI2": "Equipbond/Name_Skill_JN60215",
@@ -14720,7 +14980,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_737",
+  "Id": "bond_750",
   "IDs": "JN60616",
   "Name": "虚弱诅咒",
   "NameI2": "Equipbond/Name_Skill_JN60616",
@@ -14740,7 +15000,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_738",
+  "Id": "bond_751",
   "IDs": "JN60097",
   "Name": "执念解脱",
   "NameI2": "Equipbond/Name_Skill_JN60097",
@@ -14760,7 +15020,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_739",
+  "Id": "bond_752",
   "IDs": "JN60062",
   "Name": "方向迷失",
   "NameI2": "Equipbond/Name_Skill_JN60062",
@@ -14780,7 +15040,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_740",
+  "Id": "bond_753",
   "IDs": "JN60617",
   "Name": "腐化诅咒",
   "NameI2": "Equipbond/Name_Skill_JN60617",
@@ -14800,7 +15060,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_741",
+  "Id": "bond_754",
   "IDs": "JN60665",
   "Name": "坚持到底",
   "NameI2": "Equipbond/Name_Skill_JN60665",
@@ -14820,7 +15080,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_742",
+  "Id": "bond_755",
   "IDs": "JN60354",
   "Name": "生命托付",
   "NameI2": "Equipbond/Name_Skill_JN60354",
@@ -14840,7 +15100,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_743",
+  "Id": "bond_756",
   "IDs": "JN60066",
   "Name": "魔力托付",
   "NameI2": "Equipbond/Name_Skill_JN60066",
@@ -14860,7 +15120,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_744",
+  "Id": "bond_757",
   "IDs": "JN60659",
   "Name": "意志托付",
   "NameI2": "Equipbond/Name_Skill_JN60659",
@@ -14880,7 +15140,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_745",
+  "Id": "bond_758",
   "IDs": "JN60052_001",
   "Name": "针锋相对",
   "NameI2": "Equipbond/Name_Skill_JN60052_001_new02",
@@ -14900,7 +15160,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_746",
+  "Id": "bond_759",
   "IDs": "JN60052",
   "Name": "狭路相逢",
   "NameI2": "Equipbond/Name_Skill_JN60052",
@@ -14920,7 +15180,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_747",
+  "Id": "bond_760",
   "IDs": "JN60114",
   "Name": "灵魂汲取",
   "NameI2": "Equipbond/Name_Skill_JN60114",
@@ -14940,7 +15200,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_748",
+  "Id": "bond_761",
   "IDs": "JN60653",
   "Name": "新手保护",
   "NameI2": "Equipbond/Name_Skill_JN60653",
@@ -14960,7 +15220,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_749",
+  "Id": "bond_762",
   "IDs": "JN60321",
   "Name": "先祖保佑",
   "NameI2": "Equipbond/Name_Skill_JN60321",
@@ -14980,7 +15240,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_750",
+  "Id": "bond_763",
   "IDs": "JN60046",
   "Name": "黑龙之魂",
   "NameI2": "Equipbond/Name_Skill_JN60046",
@@ -15000,7 +15260,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_751",
+  "Id": "bond_764",
   "IDs": "JN70002",
   "Name": "悄无声息",
   "NameI2": "Equipbond/Name_Skill_JN70002",
@@ -15020,7 +15280,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_752",
+  "Id": "bond_765",
   "IDs": "JN60639",
   "Name": "招招致命",
   "NameI2": "Equipbond/Name_Skill_JN60639",
@@ -15040,7 +15300,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_753",
+  "Id": "bond_766",
   "IDs": "JN60367",
   "Name": "深海潜行",
   "NameI2": "Equipbond/Name_Skill_JN60367",
@@ -15060,7 +15320,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_754",
+  "Id": "bond_767",
   "IDs": "JN60119",
   "Name": "烛光指引",
   "NameI2": "Equipbond/Name_Skill_JN60119",
@@ -15080,7 +15340,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_755",
+  "Id": "bond_768",
   "IDs": "JN70000_001",
   "Name": "极寒之匙",
   "NameI2": "Equipbond/Name_Skill_JN70000_001",
@@ -15100,7 +15360,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_756",
+  "Id": "bond_769",
   "IDs": "JN60158",
   "Name": "逢凶化吉",
   "NameI2": "Equipbond/Name_Skill_JN60158",
@@ -15120,7 +15380,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_757",
+  "Id": "bond_770",
   "IDs": "JN60014",
   "Name": "无人知晓",
   "NameI2": "Equipbond/Name_Skill_JN60014",
@@ -15140,7 +15400,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_758",
+  "Id": "bond_771",
   "IDs": "JN40005",
   "Name": "火焰归还",
   "NameI2": "Equipbond/Name_Skill_JN40005",
@@ -15160,7 +15420,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_759",
+  "Id": "bond_772",
   "IDs": "JN60433",
   "Name": "熔岩汇聚",
   "NameI2": "Equipbond/Name_Skill_JN60433",
@@ -15180,7 +15440,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_760",
+  "Id": "bond_773",
   "IDs": "JN60412",
   "Name": "天性本恶",
   "NameI2": "Equipbond/Name_Skill_JN60412",
@@ -15200,7 +15460,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_761",
+  "Id": "bond_774",
   "IDs": "JN60153",
   "Name": "黑暗汲取",
   "NameI2": "Equipbond/Name_Skill_JN60153",
@@ -15220,7 +15480,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_762",
+  "Id": "bond_775",
   "IDs": "JN60631",
   "Name": "结实耐用",
   "NameI2": "Equipbond/Name_Skill_JN60631",
@@ -15240,7 +15500,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_763",
+  "Id": "bond_776",
   "IDs": "JN60613",
   "Name": "全场焦点",
   "NameI2": "Equipbond/Name_Skill_JN60613",
@@ -15260,7 +15520,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_764",
+  "Id": "bond_777",
   "IDs": "JN60009",
   "Name": "迅捷箭矢",
   "NameI2": "Equipbond/Name_Skill_JN60009",
@@ -15280,7 +15540,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_765",
+  "Id": "bond_778",
   "IDs": "JN60067",
   "Name": "剑术大师",
   "NameI2": "Equipbond/Name_Skill_JN60067",
@@ -15300,7 +15560,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_766",
+  "Id": "bond_779",
   "IDs": "JN60005",
   "Name": "暂时加速",
   "NameI2": "Equipbond/Name_Skill_JN60005",
@@ -15320,7 +15580,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_767",
+  "Id": "bond_780",
   "IDs": "JN60437",
   "Name": "冲锋号令",
   "NameI2": "Equipbond/Name_Skill_JN60437",
@@ -15340,7 +15600,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_768",
+  "Id": "bond_781",
   "IDs": "JN60003",
   "Name": "不灭之火",
   "NameI2": "Equipbond/Name_Skill_JN60003",
@@ -15360,7 +15620,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_769",
+  "Id": "bond_782",
   "IDs": "JN60434",
   "Name": "魔眼凝视",
   "NameI2": "Equipbond/Name_Skill_JN60434",
@@ -15380,7 +15640,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_770",
+  "Id": "bond_783",
   "IDs": "JN60216",
   "Name": "韧性十足",
   "NameI2": "Equipbond/Name_Skill_JN60216",
@@ -15400,7 +15660,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_771",
+  "Id": "bond_784",
   "IDs": "JN70003",
   "Name": "恐惧收割",
   "NameI2": "Equipbond/Name_Skill_JN70003",
@@ -15420,7 +15680,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_772",
+  "Id": "bond_785",
   "IDs": "JN02001",
   "Name": "妙手空空",
   "NameI2": "Equipbond/Name_Skill_JN02001",
@@ -15440,7 +15700,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_773",
+  "Id": "bond_786",
   "IDs": "JN60323",
   "Name": "幽邃药剂",
   "NameI2": "Equipbond/Name_Skill_JN60323",
@@ -15460,7 +15720,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_774",
+  "Id": "bond_787",
   "IDs": "JN02002",
   "Name": "灵活反击",
   "NameI2": "Equipbond/Name_Skill_JN02002",
@@ -15480,7 +15740,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_775",
+  "Id": "bond_788",
   "IDs": "JN60324",
   "Name": "火焰戏法",
   "NameI2": "Equipbond/Name_Skill_JN60324",
@@ -15500,7 +15760,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_776",
+  "Id": "bond_789",
   "IDs": "JN60325",
   "Name": "防御激光",
   "NameI2": "Equipbond/Name_Skill_JN60325",
@@ -15520,7 +15780,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_777",
+  "Id": "bond_790",
   "IDs": "JN60326",
   "Name": "信念庇护",
   "NameI2": "Equipbond/Name_Skill_JN60326",
@@ -15540,7 +15800,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_778",
+  "Id": "bond_791",
   "IDs": "JN02011",
   "Name": "坚如磐石",
   "NameI2": "Equipbond/Name_Skill_JN02011",
@@ -15560,7 +15820,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_779",
+  "Id": "bond_792",
   "IDs": "JN02012",
   "Name": "磐石重击",
   "NameI2": "Equipbond/Name_Skill_JN02012",
@@ -15580,7 +15840,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_780",
+  "Id": "bond_793",
   "IDs": "JN60327",
   "Name": "烈性火药",
   "NameI2": "Equipbond/Name_Skill_JN60327",
@@ -15600,7 +15860,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_781",
+  "Id": "bond_794",
   "IDs": "JN02021",
   "Name": "先发制人",
   "NameI2": "Equipbond/Name_Skill_JN02021",
@@ -15620,7 +15880,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_782",
+  "Id": "bond_795",
   "IDs": "JN02022",
   "Name": "动摇意志",
   "NameI2": "Equipbond/Name_Skill_JN02022",
@@ -15640,7 +15900,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_783",
+  "Id": "bond_796",
   "IDs": "JN02023",
   "Name": "恐惧支配",
   "NameI2": "Equipbond/Name_Skill_JN02023",
@@ -15660,7 +15920,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_784",
+  "Id": "bond_797",
   "IDs": "JN60328",
   "Name": "闪耀之光",
   "NameI2": "Equipbond/Name_Skill_JN60328",
@@ -15680,7 +15940,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_785",
+  "Id": "bond_798",
   "IDs": "JN02024",
   "Name": "万众瞩目",
   "NameI2": "Equipbond/Name_Skill_JN02024",
@@ -15700,7 +15960,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_786",
+  "Id": "bond_799",
   "IDs": "JN60331",
   "Name": "烈阳审判",
   "NameI2": "Equipbond/Name_Skill_JN60331",
@@ -15720,7 +15980,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_787",
+  "Id": "bond_800",
   "IDs": "JN02025",
   "Name": "烈阳光辉",
   "NameI2": "Equipbond/Name_Skill_JN02025",
@@ -15740,7 +16000,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_788",
+  "Id": "bond_801",
   "IDs": "JN02133",
   "Name": "光芒四射",
   "NameI2": "Equipbond/Name_Skill_JN02133",
@@ -15760,7 +16020,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_789",
+  "Id": "bond_802",
   "IDs": "JN60332",
   "Name": "幽暗亵渎",
   "NameI2": "Equipbond/Name_Skill_JN60332",
@@ -15780,7 +16040,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_790",
+  "Id": "bond_803",
   "IDs": "JN02026",
   "Name": "幽暗阴影",
   "NameI2": "Equipbond/Name_Skill_JN02026",
@@ -15800,7 +16060,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_791",
+  "Id": "bond_804",
   "IDs": "JN02134",
   "Name": "月影重重",
   "NameI2": "Equipbond/Name_Skill_JN02134",
@@ -15820,7 +16080,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_792",
+  "Id": "bond_805",
   "IDs": "JN01802",
   "Name": "石化魔眼",
   "NameI2": "Equipbond/Name_Skill_JN01802",
@@ -15840,7 +16100,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_793",
+  "Id": "bond_806",
   "IDs": "JN02027",
   "Name": "粉碎魔眼",
   "NameI2": "Equipbond/Name_Skill_JN02027",
@@ -15860,7 +16120,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_794",
+  "Id": "bond_807",
   "IDs": "JN60029",
   "Name": "状态夺取",
   "NameI2": "Equipbond/Name_Skill_JN60029",
@@ -15880,7 +16140,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_795",
+  "Id": "bond_808",
   "IDs": "JN02028",
   "Name": "激昂之舞",
   "NameI2": "Equipbond/Name_Skill_JN02028",
@@ -15900,7 +16160,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_796",
+  "Id": "bond_809",
   "IDs": "JN30001",
   "Name": "神圣光辉",
   "NameI2": "Equipbond/Name_Skill_JN30001",
@@ -15920,7 +16180,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_797",
+  "Id": "bond_810",
   "IDs": "JN02031",
   "Name": "神圣庇护",
   "NameI2": "Equipbond/Name_Skill_JN02031",
@@ -15940,7 +16200,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_798",
+  "Id": "bond_811",
   "IDs": "JN30000",
   "Name": "坚韧不屈",
   "NameI2": "Equipbond/Name_Skill_JN30000",
@@ -15960,7 +16220,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_799",
+  "Id": "bond_812",
   "IDs": "JN60335",
   "Name": "阴影魔域",
   "NameI2": "Equipbond/Name_Skill_JN60335",
@@ -15980,7 +16240,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_800",
+  "Id": "bond_813",
   "IDs": "JN60023",
   "Name": "阴阳之力",
   "NameI2": "Equipbond/Name_Skill_JN60023",
@@ -16000,7 +16260,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_801",
+  "Id": "bond_814",
   "IDs": "JN60146",
   "Name": "巨灵之力",
   "NameI2": "Equipbond/Name_Skill_JN60146",
@@ -16020,7 +16280,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_802",
+  "Id": "bond_815",
   "IDs": "JN02033",
   "Name": "绝对力量",
   "NameI2": "Equipbond/Name_Skill_JN02033",
@@ -16040,7 +16300,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_803",
+  "Id": "bond_816",
   "IDs": "JN02141",
   "Name": "红莲之火",
   "NameI2": "Equipbond/Name_Skill_JN02141",
@@ -16060,7 +16320,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_804",
+  "Id": "bond_817",
   "IDs": "JN02149",
   "Name": "逐风之箭",
   "NameI2": "Equipbond/Name_Skill_JN02149",
@@ -16080,7 +16340,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_805",
+  "Id": "bond_818",
   "IDs": "JN60156",
   "Name": "命定之人",
   "NameI2": "Equipbond/Name_Skill_JN60156",
@@ -16100,7 +16360,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_806",
+  "Id": "bond_819",
   "IDs": "JN02101",
   "Name": "旅途中转",
   "NameI2": "Equipbond/Name_Skill_JN02101",
@@ -16120,7 +16380,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_807",
+  "Id": "bond_820",
   "IDs": "JN02102",
   "Name": "旅途传承",
   "NameI2": "Equipbond/Name_Skill_JN02102",
@@ -16140,7 +16400,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_808",
+  "Id": "bond_821",
   "IDs": "JN02103",
   "Name": "心狠手辣",
   "NameI2": "Equipbond/Name_Skill_JN02103",
@@ -16160,7 +16420,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_809",
+  "Id": "bond_822",
   "IDs": "JN02111",
   "Name": "烈日光环",
   "NameI2": "Equipbond/Name_Skill_JN02111",
@@ -16180,7 +16440,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_810",
+  "Id": "bond_823",
   "IDs": "JN02112",
   "Name": "遮挡风沙",
   "NameI2": "Equipbond/Name_Skill_JN02112",
@@ -16200,7 +16460,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_811",
+  "Id": "bond_824",
   "IDs": "JN02113",
   "Name": "顺风而行",
   "NameI2": "Equipbond/Name_Skill_JN02113",
@@ -16220,7 +16480,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_812",
+  "Id": "bond_825",
   "IDs": "JN02114",
   "Name": "锈迹斑斑",
   "NameI2": "Equipbond/Name_Skill_JN02114",
@@ -16240,7 +16500,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_813",
+  "Id": "bond_826",
   "IDs": "JN02115",
   "Name": "锈迹传递",
   "NameI2": "Equipbond/Name_Skill_JN02115",
@@ -16260,7 +16520,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_814",
+  "Id": "bond_827",
   "IDs": "JN02121",
   "Name": "不畏火焰",
   "NameI2": "Equipbond/Name_Skill_JN02121",
@@ -16280,7 +16540,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_815",
+  "Id": "bond_828",
   "IDs": "JN02122",
   "Name": "火焰修复",
   "NameI2": "Equipbond/Name_Skill_JN02122",
@@ -16300,7 +16560,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_816",
+  "Id": "bond_829",
   "IDs": "JN02123",
   "Name": "沙尘防护",
   "NameI2": "Equipbond/Name_Skill_JN02123",
@@ -16320,7 +16580,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_817",
+  "Id": "bond_830",
   "IDs": "JN02124",
   "Name": "狂沙漫布",
   "NameI2": "Equipbond/Name_Skill_JN02124",
@@ -16340,7 +16600,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_818",
+  "Id": "bond_831",
   "IDs": "JN02125",
   "Name": "重若千钧",
   "NameI2": "Equipbond/Name_Skill_JN02125",
@@ -16360,7 +16620,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_819",
+  "Id": "bond_832",
   "IDs": "JN02126",
   "Name": "沉重反击",
   "NameI2": "Equipbond/Name_Skill_JN02126",
@@ -16380,7 +16640,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_820",
+  "Id": "bond_833",
   "IDs": "JN02127",
   "Name": "炎火冲击",
   "NameI2": "Equipbond/Name_Skill_JN02127",
@@ -16400,7 +16660,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_821",
+  "Id": "bond_834",
   "IDs": "JN02128",
   "Name": "炎火灼伤",
   "NameI2": "Equipbond/Name_Skill_JN02128",
@@ -16420,7 +16680,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_822",
+  "Id": "bond_835",
   "IDs": "JN02129",
   "Name": "疾行如风",
   "NameI2": "Equipbond/Name_Skill_JN02129",
@@ -16440,7 +16700,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_823",
+  "Id": "bond_836",
   "IDs": "JN02130",
   "Name": "疾行躲避",
   "NameI2": "Equipbond/Name_Skill_JN02130",
@@ -16460,7 +16720,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_824",
+  "Id": "bond_837",
   "IDs": "JN02131",
   "Name": "幽灵缠绕",
   "NameI2": "Equipbond/Name_Skill_JN02131",
@@ -16480,7 +16740,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_825",
+  "Id": "bond_838",
   "IDs": "JN02132",
   "Name": "意志枯竭",
   "NameI2": "Equipbond/Name_Skill_JN02132",
@@ -16500,7 +16760,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_826",
+  "Id": "bond_839",
   "IDs": "JN02135",
   "Name": "尖刺汲取",
   "NameI2": "Equipbond/Name_Skill_JN02135",
@@ -16520,7 +16780,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_827",
+  "Id": "bond_840",
   "IDs": "JN02136",
   "Name": "尖刺生长",
   "NameI2": "Equipbond/Name_Skill_JN02136",
@@ -16540,7 +16800,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_828",
+  "Id": "bond_841",
   "IDs": "JN02034",
   "Name": "愿力祝福",
   "NameI2": "Equipbond/Name_Skill_JN02034",
@@ -16560,7 +16820,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_829",
+  "Id": "bond_842",
   "IDs": "JN02035",
   "Name": "许愿代价",
   "NameI2": "Equipbond/Name_Skill_JN02035",
@@ -16580,7 +16840,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_830",
+  "Id": "bond_843",
   "IDs": "JN02142",
   "Name": "烈焰焚身",
   "NameI2": "Equipbond/Name_Skill_JN02142",
@@ -16600,7 +16860,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_831",
+  "Id": "bond_844",
   "IDs": "JN02143",
   "Name": "烈焰护体",
   "NameI2": "Equipbond/Name_Skill_JN02143",
@@ -16620,7 +16880,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_832",
+  "Id": "bond_845",
   "IDs": "JN02144",
   "Name": "赤蝎之毒",
   "NameI2": "Equipbond/Name_Skill_JN02144",
@@ -16640,7 +16900,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_833",
+  "Id": "bond_846",
   "IDs": "JN02145",
   "Name": "沙暴操纵",
   "NameI2": "Equipbond/Name_Skill_JN02145",
@@ -16660,7 +16920,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_834",
+  "Id": "bond_847",
   "IDs": "JN02146",
   "Name": "沙漠领主",
   "NameI2": "Equipbond/Name_Skill_JN02146",
@@ -16680,7 +16940,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_835",
+  "Id": "bond_848",
   "IDs": "JN02147",
   "Name": "生命之泉",
   "NameI2": "Equipbond/Name_Skill_JN02147",
@@ -16700,7 +16960,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_836",
+  "Id": "bond_849",
   "IDs": "JN02148",
   "Name": "流沙埋葬",
   "NameI2": "Equipbond/Name_Skill_JN02148",
@@ -16720,7 +16980,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_837",
+  "Id": "bond_850",
   "IDs": "JN50701",
   "Name": "时间掌控",
   "NameI2": "Equipbond/Name_Skill_JN50701",
@@ -16740,7 +17000,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_838",
+  "Id": "bond_851",
   "IDs": "JN02032",
   "Name": "生死轮转",
   "NameI2": "Equipbond/Name_Skill_JN02032",
@@ -16760,7 +17020,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_839",
+  "Id": "bond_852",
   "IDs": "JN02151",
   "Name": "砂之守护",
   "NameI2": "Equipbond/Name_Skill_JN02151",
@@ -16780,7 +17040,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_840",
+  "Id": "bond_853",
   "IDs": "JN60660_002",
   "Name": "火焰余温",
   "NameI2": "Equipbond/Name_Skill_JN60660_002",
@@ -16800,7 +17060,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_841",
+  "Id": "bond_854",
   "IDs": "JN60120_002",
   "Name": "火岩储备",
   "NameI2": "Equipbond/Name_Skill_JN60120_002",
@@ -16820,7 +17080,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_842",
+  "Id": "bond_855",
   "IDs": "JN60119_002",
   "Name": "高温防护",
   "NameI2": "Equipbond/Name_Skill_JN60119_002",
@@ -16840,7 +17100,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_843",
+  "Id": "bond_856",
   "IDs": "JN60637_002",
   "Name": "耐热金属",
   "NameI2": "Equipbond/Name_Skill_JN60637_002",
@@ -16860,7 +17120,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_844",
+  "Id": "bond_857",
   "IDs": "JN60636_002",
   "Name": "热源追溯",
   "NameI2": "Equipbond/Name_Skill_JN60636_002",
@@ -16880,7 +17140,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_845",
+  "Id": "bond_858",
   "IDs": "JN60357_002",
   "Name": "热源排斥",
   "NameI2": "Equipbond/Name_Skill_JN60357_002",
@@ -16900,7 +17160,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_846",
+  "Id": "bond_859",
   "IDs": "JN60132_002",
   "Name": "爆破一击",
   "NameI2": "Equipbond/Name_Skill_JN60132_002",
@@ -16920,7 +17180,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_847",
+  "Id": "bond_860",
   "IDs": "JN60133_002",
   "Name": "燃烬一击",
   "NameI2": "Equipbond/Name_Skill_JN60133_002",
@@ -16940,7 +17200,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_848",
+  "Id": "bond_861",
   "IDs": "JN60140_002",
   "Name": "恐惧之焰",
   "NameI2": "Equipbond/Name_Skill_JN60140_002",
@@ -16960,7 +17220,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_849",
+  "Id": "bond_862",
   "IDs": "JN60044_002",
   "Name": "防火结界",
   "NameI2": "Equipbond/Name_Skill_JN60044_002",
@@ -16980,7 +17240,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_850",
+  "Id": "bond_863",
   "IDs": "JN60356_002",
   "Name": "火焰护体",
   "NameI2": "Equipbond/Name_Skill_JN60356_002",
@@ -17000,7 +17260,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_851",
+  "Id": "bond_864",
   "IDs": "JN60358_002",
   "Name": "赤焰灼烧",
   "NameI2": "Equipbond/Name_Skill_JN60358_002",
@@ -17020,7 +17280,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_852",
+  "Id": "bond_865",
   "IDs": "JN60612_002",
   "Name": "火焰荆棘",
   "NameI2": "Equipbond/Name_Skill_JN60612_002",
@@ -17040,7 +17300,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_853",
+  "Id": "bond_866",
   "IDs": "JN60611_002",
   "Name": "火焰光环",
   "NameI2": "Equipbond/Name_Skill_JN60611_002",
@@ -17060,7 +17320,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_854",
+  "Id": "bond_867",
   "IDs": "JN60028_002",
   "Name": "火焰之心",
   "NameI2": "Equipbond/Name_Skill_JN60028_002",
@@ -17080,7 +17340,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_855",
+  "Id": "bond_868",
   "IDs": "JN60359_002",
   "Name": "无惧烈焰",
   "NameI2": "Equipbond/Name_Skill_JN60359_002",
@@ -17100,7 +17360,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_856",
+  "Id": "bond_869",
   "IDs": "JN60022_002",
   "Name": "抗拒火焰",
   "NameI2": "Equipbond/Name_Skill_JN60022_002",
@@ -17120,7 +17380,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_857",
+  "Id": "bond_870",
   "IDs": "JN60398_002",
   "Name": "御火结界",
   "NameI2": "Equipbond/Name_Skill_JN60398_002",
@@ -17140,7 +17400,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_858",
+  "Id": "bond_871",
   "IDs": "JN60041_002",
   "Name": "火焰倾泻",
   "NameI2": "Equipbond/Name_Skill_JN60041_002",
@@ -17160,7 +17420,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_859",
+  "Id": "bond_872",
   "IDs": "JN60070_002",
   "Name": "驱散寒冷",
   "NameI2": "Equipbond/Name_Skill_JN60070_002",
@@ -17180,7 +17440,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_860",
+  "Id": "bond_873",
   "IDs": "JN60613_002",
   "Name": "烈焰长明",
   "NameI2": "Equipbond/Name_Skill_JN60613_002",
@@ -17200,7 +17460,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_861",
+  "Id": "bond_874",
   "IDs": "JN60096_002",
   "Name": "地狱绘图",
   "NameI2": "Equipbond/Name_Skill_JN60096_002",
@@ -17220,7 +17480,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_862",
+  "Id": "bond_875",
   "IDs": "JN60074_002",
   "Name": "燎原野火",
   "NameI2": "Equipbond/Name_Skill_JN60074_002",
@@ -17240,7 +17500,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_863",
+  "Id": "bond_876",
   "IDs": "JN60075_002",
   "Name": "侵略如火",
   "NameI2": "Equipbond/Name_Skill_JN60075_002",
@@ -17260,7 +17520,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_864",
+  "Id": "bond_877",
   "IDs": "JN60423_002",
   "Name": "熔岩蓄积",
   "NameI2": "Equipbond/Name_Skill_JN60423_002",
@@ -17280,7 +17540,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_865",
+  "Id": "bond_878",
   "IDs": "JN60144_002",
   "Name": "熔岩之躯",
   "NameI2": "Equipbond/Name_Skill_JN60144_002",
@@ -17300,7 +17560,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_866",
+  "Id": "bond_879",
   "IDs": "JN60123_002",
   "Name": "烈火神盾",
   "NameI2": "Equipbond/Name_Skill_JN60123_002",
@@ -17320,7 +17580,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_867",
+  "Id": "bond_880",
   "IDs": "JN30206_002",
   "Name": "炎魔怒火",
   "NameI2": "Equipbond/Name_Skill_JN30206_002",
@@ -17340,7 +17600,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_868",
+  "Id": "bond_881",
   "IDs": "JN40003_002",
   "Name": "大地核心",
   "NameI2": "Equipbond/Name_Skill_JN40003_002",
@@ -17360,7 +17620,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_869",
+  "Id": "bond_882",
   "IDs": "JN70003_002",
   "Name": "熔铸之火",
   "NameI2": "Equipbond/Name_Skill_JN70003_002",
@@ -17380,7 +17640,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_870",
+  "Id": "bond_883",
   "IDs": "JN60089_002",
   "Name": "烈焰燃烬",
   "NameI2": "Equipbond/Name_Skill_JN60089_002",
@@ -17400,7 +17660,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_871",
+  "Id": "bond_884",
   "IDs": "JN01300_002",
   "Name": "熔火淬炼",
   "NameI2": "Equipbond/Name_Skill_JN01300_002",
@@ -17420,7 +17680,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_872",
+  "Id": "bond_885",
   "IDs": "JN30201_002",
   "Name": "诸神黄昏",
   "NameI2": "Equipbond/Name_Skill_JN30201_002",
@@ -17440,7 +17700,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_873",
+  "Id": "bond_886",
   "IDs": "JN02301",
   "Name": "孕育生机",
   "NameI2": "Equipbond/Name_Skill_JN02301",
@@ -17460,7 +17720,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_874",
+  "Id": "bond_887",
   "IDs": "JN02302",
   "Name": "异化枯木",
   "NameI2": "Equipbond/Name_Skill_JN02302",
@@ -17480,7 +17740,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_875",
+  "Id": "bond_888",
   "IDs": "JN02303",
   "Name": "残能爆发",
   "NameI2": "Equipbond/Name_Skill_JN02303",
@@ -17500,7 +17760,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_876",
+  "Id": "bond_889",
   "IDs": "JN02311",
   "Name": "异常能量",
   "NameI2": "Equipbond/Name_Skill_JN02311",
@@ -17520,7 +17780,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_877",
+  "Id": "bond_890",
   "IDs": "JN02312",
   "Name": "临时保护",
   "NameI2": "Equipbond/Name_Skill_JN02312",
@@ -17540,7 +17800,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_878",
+  "Id": "bond_891",
   "IDs": "JN02313",
   "Name": "异变增殖",
   "NameI2": "Equipbond/Name_Skill_JN02313",
@@ -17560,7 +17820,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_879",
+  "Id": "bond_892",
   "IDs": "JN02314",
   "Name": "异变活化",
   "NameI2": "Equipbond/Name_Skill_JN02314",
@@ -17580,7 +17840,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_880",
+  "Id": "bond_893",
   "IDs": "JN02315",
   "Name": "异常侦测",
   "NameI2": "Equipbond/Name_Skill_JN02315",
@@ -17600,7 +17860,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_881",
+  "Id": "bond_894",
   "IDs": "JN02321",
   "Name": "枯木再生",
   "NameI2": "Equipbond/Name_Skill_JN02321",
@@ -17620,7 +17880,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_882",
+  "Id": "bond_895",
   "IDs": "JN02322",
   "Name": "生机掠夺",
   "NameI2": "Equipbond/Name_Skill_JN02322",
@@ -17640,7 +17900,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_883",
+  "Id": "bond_896",
   "IDs": "JN02323",
   "Name": "破甲利刃",
   "NameI2": "Equipbond/Name_Skill_JN02323",
@@ -17660,7 +17920,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_884",
+  "Id": "bond_897",
   "IDs": "JN02324",
   "Name": "金属重组",
   "NameI2": "Equipbond/Name_Skill_JN02324",
@@ -17680,7 +17940,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_885",
+  "Id": "bond_898",
   "IDs": "JN02325",
   "Name": "应激保护",
   "NameI2": "Equipbond/Name_Skill_JN02325",
@@ -17700,7 +17960,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_886",
+  "Id": "bond_899",
   "IDs": "JN02326",
   "Name": "尖锐意志",
   "NameI2": "Equipbond/Name_Skill_JN02326",
@@ -17720,7 +17980,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_887",
+  "Id": "bond_900",
   "IDs": "JN02327",
   "Name": "废物利用",
   "NameI2": "Equipbond/Name_Skill_JN02327",
@@ -17740,7 +18000,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_888",
+  "Id": "bond_901",
   "IDs": "JN02328",
   "Name": "废物退散",
   "NameI2": "Equipbond/Name_Skill_JN02328",
@@ -17760,7 +18020,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_889",
+  "Id": "bond_902",
   "IDs": "JN02329",
   "Name": "好运不断",
   "NameI2": "Equipbond/Name_Skill_JN02329",
@@ -17780,7 +18040,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_890",
+  "Id": "bond_903",
   "IDs": "JN02330",
   "Name": "厄运退散",
   "NameI2": "Equipbond/Name_Skill_JN02330",
@@ -17800,7 +18060,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_891",
+  "Id": "bond_904",
   "IDs": "JN02331",
   "Name": "防护分解",
   "NameI2": "Equipbond/Name_Skill_JN02331",
@@ -17820,7 +18080,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_892",
+  "Id": "bond_905",
   "IDs": "JN02332",
   "Name": "防护阻断",
   "NameI2": "Equipbond/Name_Skill_JN02332",
@@ -17840,7 +18100,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_893",
+  "Id": "bond_906",
   "IDs": "JN02333",
   "Name": "生命保护",
   "NameI2": "Equipbond/Name_Skill_JN02333",
@@ -17860,7 +18120,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_894",
+  "Id": "bond_907",
   "IDs": "JN02334",
   "Name": "生命归还",
   "NameI2": "Equipbond/Name_Skill_JN02334",
@@ -17880,7 +18140,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_895",
+  "Id": "bond_908",
   "IDs": "JN02340",
   "Name": "腐败气息",
   "NameI2": "Equipbond/Name_Skill_JN02340",
@@ -17900,7 +18160,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_896",
+  "Id": "bond_909",
   "IDs": "JN02341",
   "Name": "顽强生命",
   "NameI2": "Equipbond/Name_Skill_JN02341",
@@ -17920,7 +18180,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_897",
+  "Id": "bond_910",
   "IDs": "JN02342",
   "Name": "贪欲不止",
   "NameI2": "Equipbond/Name_Skill_JN02342",
@@ -17940,7 +18200,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_898",
+  "Id": "bond_911",
   "IDs": "JN02343",
   "Name": "生命汲取",
   "NameI2": "Equipbond/Name_Skill_JN02343",
@@ -17960,7 +18220,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_899",
+  "Id": "bond_912",
   "IDs": "JN02344",
   "Name": "奇迹庇护",
   "NameI2": "Equipbond/Name_Skill_JN02344",
@@ -17980,7 +18240,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_900",
+  "Id": "bond_913",
   "IDs": "JN02345",
   "Name": "灭法能量",
   "NameI2": "Equipbond/Name_Skill_JN02345",
@@ -18000,7 +18260,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_901",
+  "Id": "bond_914",
   "IDs": "JN02346",
   "Name": "绝魔体质",
   "NameI2": "Equipbond/Name_Skill_JN02346",
@@ -18020,7 +18280,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_902",
+  "Id": "bond_915",
   "IDs": "JN02347",
   "Name": "蔷薇领域",
   "NameI2": "Equipbond/Name_Skill_JN02347",
@@ -18040,7 +18300,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_903",
+  "Id": "bond_916",
   "IDs": "JN02348",
   "Name": "蔷薇汲血",
   "NameI2": "Equipbond/Name_Skill_JN02348",
@@ -18060,7 +18320,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_904",
+  "Id": "bond_917",
   "IDs": "JN02349",
   "Name": "电能炸弹",
   "NameI2": "Equipbond/Name_Skill_JN02349",
@@ -18080,7 +18340,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_905",
+  "Id": "bond_918",
   "IDs": "JN02350",
   "Name": "电能操纵",
   "NameI2": "Equipbond/Name_Skill_JN02350",
@@ -18100,7 +18360,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_906",
+  "Id": "bond_919",
   "IDs": "JN02351",
   "Name": "反击螺旋",
   "NameI2": "Equipbond/Name_Skill_JN02351",
@@ -18120,7 +18380,7 @@
   "Step": "SS"
  },
  {
-  "Id": "bond_907",
+  "Id": "bond_920",
   "IDs": "JN60379_000",
   "Name": "谨防走光",
   "NameI2": "Equipbond/Name_Skill_JN60379_000",
@@ -18140,7 +18400,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_908",
+  "Id": "bond_921",
   "IDs": "JN60374_000",
   "Name": "保持清醒",
   "NameI2": "Equipbond/Name_Skill_JN60374_000",
@@ -18160,7 +18420,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_909",
+  "Id": "bond_922",
   "IDs": "JN60663_000",
   "Name": "水雾幻象",
   "NameI2": "Equipbond/Name_Skill_JN60663_000",
@@ -18180,7 +18440,7 @@
   "Step": "C"
  },
  {
-  "Id": "bond_910",
+  "Id": "bond_923",
   "IDs": "JN60001_000",
   "Name": "湿润保护",
   "NameI2": "Equipbond/Name_Skill_JN60001_000",
@@ -18200,7 +18460,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_911",
+  "Id": "bond_924",
   "IDs": "JN60643_000",
   "Name": "丰富滋养",
   "NameI2": "Equipbond/Name_Skill_JN60643_000",
@@ -18220,7 +18480,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_912",
+  "Id": "bond_925",
   "IDs": "JN60383_000",
   "Name": "局部降雨",
   "NameI2": "Equipbond/Name_Skill_JN60383_000",
@@ -18240,7 +18500,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_913",
+  "Id": "bond_926",
   "IDs": "JN60382_000",
   "Name": "彻夜狂欢",
   "NameI2": "Equipbond/Name_Skill_JN60382_000",
@@ -18260,7 +18520,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_914",
+  "Id": "bond_927",
   "IDs": "JN60380_000",
   "Name": "水分吸收",
   "NameI2": "Equipbond/Name_Skill_JN60380_000",
@@ -18280,7 +18540,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_915",
+  "Id": "bond_928",
   "IDs": "JN60301_000",
   "Name": "防晒补水",
   "NameI2": "Equipbond/Name_Skill_JN60301_000",
@@ -18300,7 +18560,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_916",
+  "Id": "bond_929",
   "IDs": "JN60641_000",
   "Name": "水汽蒸发",
   "NameI2": "Equipbond/Name_Skill_JN60641_000",
@@ -18320,7 +18580,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_917",
+  "Id": "bond_930",
   "IDs": "JN60381_000",
   "Name": "水汽消融",
   "NameI2": "Equipbond/Name_Skill_JN60381_000",
@@ -18340,7 +18600,7 @@
   "Step": "B"
  },
  {
-  "Id": "bond_918",
+  "Id": "bond_931",
   "IDs": "JN60160_000",
   "Name": "戏水时光",
   "NameI2": "Equipbond/Name_Skill_JN60160_000",
@@ -18352,7 +18612,7 @@
   "BadgeIDs": "HZ00033",
   "Value1": "2,4,6",
   "Value2": "",
-  "Tag": "获得生命,滋润",
+  "Tag": "敌方战败,获得生命,滋润",
   "Score": 40,
   "PositiveTags": "回血效果,滋润相关",
   "NegativeTags": "",
@@ -18360,7 +18620,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_919",
+  "Id": "bond_932",
   "IDs": "JN60136_000",
   "Name": "凝水召唤",
   "NameI2": "Equipbond/Name_Skill_JN60136_000",
@@ -18380,7 +18640,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_920",
+  "Id": "bond_933",
   "IDs": "JN60378_000",
   "Name": "流水洗礼",
   "NameI2": "Equipbond/Name_Skill_JN60378_000",
@@ -18400,7 +18660,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_921",
+  "Id": "bond_934",
   "IDs": "JN60367_000",
   "Name": "隔绝阳光",
   "NameI2": "Equipbond/Name_Skill_JN60367_000",
@@ -18420,7 +18680,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_922",
+  "Id": "bond_935",
   "IDs": "JN60304_000",
   "Name": "集中蓄水",
   "NameI2": "Equipbond/Name_Skill_JN60304_000",
@@ -18440,7 +18700,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_923",
+  "Id": "bond_936",
   "IDs": "JN60143_000",
   "Name": "欢庆仪式",
   "NameI2": "Equipbond/Name_Skill_JN60143_000",
@@ -18460,7 +18720,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_924",
+  "Id": "bond_937",
   "IDs": "JN60302_000",
   "Name": "水润修复",
   "NameI2": "Equipbond/Name_Skill_JN60302_000",
@@ -18480,7 +18740,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_925",
+  "Id": "bond_938",
   "IDs": "JN60303_000",
   "Name": "乱打一气",
   "NameI2": "Equipbond/Name_Skill_JN60303_000",
@@ -18500,7 +18760,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_926",
+  "Id": "bond_939",
   "IDs": "JN40004_000",
   "Name": "精心呵护",
   "NameI2": "Equipbond/Name_Skill_JN40004_000",
@@ -18520,7 +18780,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_927",
+  "Id": "bond_940",
   "IDs": "JN60059_000",
   "Name": "呵护之光",
   "NameI2": "Equipbond/Name_Skill_JN60059_000",
@@ -18540,7 +18800,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_928",
+  "Id": "bond_941",
   "IDs": "JN60355_000",
   "Name": "泉水涌现",
   "NameI2": "Equipbond/Name_Skill_JN60355_000",
@@ -18560,7 +18820,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_929",
+  "Id": "bond_942",
   "IDs": "JN60619_000",
   "Name": "窒息水牢",
   "NameI2": "Equipbond/Name_Skill_JN60619_000",
@@ -18580,7 +18840,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_930",
+  "Id": "bond_943",
   "IDs": "JN60224_000",
   "Name": "流水意志",
   "NameI2": "Equipbond/Name_Skill_JN60224_000",
@@ -18600,7 +18860,7 @@
   "Step": "A"
  },
  {
-  "Id": "bond_931",
+  "Id": "bond_944",
   "IDs": "JN30502_000",
   "Name": "海洋之力",
   "NameI2": "Equipbond/Name_Skill_JN30502_000",
@@ -18620,7 +18880,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_932",
+  "Id": "bond_945",
   "IDs": "JN60376_000",
   "Name": "波涛汹涌",
   "NameI2": "Equipbond/Name_Skill_JN60376_000",
@@ -18640,7 +18900,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_933",
+  "Id": "bond_946",
   "IDs": "JN60377_000",
   "Name": "潮起潮落",
   "NameI2": "Equipbond/Name_Skill_JN60377_000",
@@ -18660,7 +18920,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_934",
+  "Id": "bond_947",
   "IDs": "JN60422_000",
   "Name": "水压增强",
   "NameI2": "Equipbond/Name_Skill_JN60422_000",
@@ -18674,13 +18934,13 @@
   "Value2": "",
   "Tag": "滋润,释放技能,技能次数",
   "Score": 80,
-  "PositiveTags": "滋润相关,泳装风行游侠[10],泳装淘气恶魔[10]",
+  "PositiveTags": "滋润相关,泳装风行游侠,泳装淘气恶魔",
   "NegativeTags": "",
   "Type": "特殊",
   "Step": "S"
  },
  {
-  "Id": "bond_935",
+  "Id": "bond_948",
   "IDs": "JN60384_000",
   "Name": "龙魂温养",
   "NameI2": "Equipbond/Name_Skill_JN60384_000",
@@ -18700,7 +18960,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_936",
+  "Id": "bond_949",
   "IDs": "JN60307_000",
   "Name": "海龙残魂",
   "NameI2": "Equipbond/Name_Skill_JN60307_000",
@@ -18720,7 +18980,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_937",
+  "Id": "bond_950",
   "IDs": "JN60308_000",
   "Name": "流水牢笼",
   "NameI2": "Equipbond/Name_Skill_JN60308_000",
@@ -18740,7 +19000,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_938",
+  "Id": "bond_951",
   "IDs": "JN60435_000",
   "Name": "夏日庆典",
   "NameI2": "Equipbond/Name_Skill_JN60435_000",
@@ -18760,7 +19020,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_939",
+  "Id": "bond_952",
   "IDs": "JN60305_000",
   "Name": "享受假日",
   "NameI2": "Equipbond/Name_Skill_JN60305_000",
@@ -18780,7 +19040,7 @@
   "Step": "S"
  },
  {
-  "Id": "bond_940",
+  "Id": "bond_953",
   "IDs": "JN60309_000",
   "Name": "甘露降临",
   "NameI2": "Equipbond/Name_Skill_JN60309_000",
@@ -18794,9 +19054,669 @@
   "Value2": "",
   "Tag": "净化,滋润",
   "Score": 160,
-  "PositiveTags": "滋润相关,净化自身,净化友方,净化敌方",
+  "PositiveTags": "滋润相关,净化自身,净化友方",
   "NegativeTags": "",
   "Type": "特殊",
   "Step": "SS"
+ },
+ {
+  "Id": "bond_954",
+  "IDs": "JN02401",
+  "Name": "硬化蛇皮",
+  "NameI2": "Equipbond/Name_Skill_JN02401",
+  "BondNum": "1,3,6",
+  "BasicDescription": "弱点暴露时受到阻碍后使自身获得韧性。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02401",
+  "EffectDescription": "弱点暴露时受到阻碍后使自身获得{0}点韧性。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02401",
+  "BadgeIDs": "HZ00010",
+  "Value1": "1,2,3",
+  "Value2": "",
+  "Tag": "弱点暴露,阻碍,获得韧性",
+  "Score": 10,
+  "PositiveTags": "阻碍相关,回韧效果",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "C"
+ },
+ {
+  "Id": "bond_955",
+  "IDs": "JN02402",
+  "Name": "残魂附体",
+  "NameI2": "Equipbond/Name_Skill_JN02402",
+  "BondNum": "1,3,6",
+  "BasicDescription": "友方战败后使攻击目标受到阻碍层数增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02402",
+  "EffectDescription": "友方战败后使攻击目标受到阻碍层数+{0}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02402",
+  "BadgeIDs": "HZ00010",
+  "Value1": "2,4,6",
+  "Value2": "",
+  "Tag": "友方战败,阻碍,层数增加",
+  "Score": 10,
+  "PositiveTags": "友方战败,阻碍相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "C"
+ },
+ {
+  "Id": "bond_956",
+  "IDs": "JN02411",
+  "Name": "重点关照",
+  "NameI2": "Equipbond/Name_Skill_JN02411",
+  "BondNum": "1,3,6",
+  "BasicDescription": "对后排目标造成阻碍层数增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02411",
+  "EffectDescription": "对后排目标造成阻碍层数+{0}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02411",
+  "BadgeIDs": "HZ00010",
+  "Value1": "1,2,3",
+  "Value2": "",
+  "Tag": "阻碍,层数增加",
+  "Score": 20,
+  "PositiveTags": "阻碍相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "B"
+ },
+ {
+  "Id": "bond_957",
+  "IDs": "JN02412",
+  "Name": "突然惊吓",
+  "NameI2": "Equipbond/Name_Skill_JN02412",
+  "BondNum": "1,3,6",
+  "BasicDescription": "首次进行攻击后对目标造成恐惧。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02412",
+  "EffectDescription": "首次进行攻击后对目标造成{0}层恐惧。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02412",
+  "BadgeIDs": "HZ00035",
+  "Value1": "10,20,30",
+  "Value2": "",
+  "Tag": "进行攻击,恐惧",
+  "Score": 20,
+  "PositiveTags": "恐惧相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "B"
+ },
+ {
+  "Id": "bond_958",
+  "IDs": "JN02413",
+  "Name": "清泉仪式",
+  "NameI2": "Equipbond/Name_Skill_JN02413",
+  "BondNum": "1,3,6",
+  "BasicDescription": "进行指定次数的行动后使自身造成滋润层数增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02413",
+  "EffectDescription": "进行{0}次行动后使自身造成滋润层数+{1}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02413",
+  "BadgeIDs": "HZ00033",
+  "Value1": "3,3,3",
+  "Value2": "2,4,6",
+  "Tag": "滋润,层数增加",
+  "Score": 20,
+  "PositiveTags": "滋润相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "B"
+ },
+ {
+  "Id": "bond_959",
+  "IDs": "JN02414",
+  "Name": "腐蚀爆炸",
+  "NameI2": "Equipbond/Name_Skill_JN02414",
+  "BondNum": "1,3,6",
+  "BasicDescription": "自身战败后使敌方阻碍目标失去生命。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02414",
+  "EffectDescription": "自身战败后使敌方阻碍目标失去{0}点生命。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02414",
+  "BadgeIDs": "HZ00202",
+  "Value1": "1,2,3",
+  "Value2": "",
+  "Tag": "自身战败,阻碍,失去生命",
+  "Score": 20,
+  "PositiveTags": "自身战败,阻碍相关,失血效果",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "B"
+ },
+ {
+  "Id": "bond_960",
+  "IDs": "JN02415",
+  "Name": "致命药剂",
+  "NameI2": "Equipbond/Name_Skill_JN02415",
+  "BondNum": "1,3,6",
+  "BasicDescription": "对阻碍目标造成全部伤害增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02415",
+  "EffectDescription": "对阻碍目标造成全部伤害+{0}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02415",
+  "BadgeIDs": "HZ00010",
+  "Value1": "1,2,3",
+  "Value2": "",
+  "Tag": "阻碍,进行攻击,伤害增加",
+  "Score": 20,
+  "PositiveTags": "阻碍相关,全局增伤",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "B"
+ },
+ {
+  "Id": "bond_961",
+  "IDs": "JN02431",
+  "Name": "诱人芬芳",
+  "NameI2": "Equipbond/Name_Skill_JN02431",
+  "BondNum": "1,3,6",
+  "BasicDescription": "行动开始前对敌方最近的几名目标造成诱导。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02431",
+  "EffectDescription": "行动开始前对敌方最近的{0}名目标造成{1}层诱导。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02431",
+  "BadgeIDs": "HZ00028",
+  "Value1": "1,2,3",
+  "Value2": "1,2,3",
+  "Tag": "行动开始,诱导",
+  "Score": 40,
+  "PositiveTags": "诱导相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_962",
+  "IDs": "JN02432",
+  "Name": "香气浓郁",
+  "NameI2": "Equipbond/Name_Skill_JN02432",
+  "BondNum": "1,3,6",
+  "BasicDescription": "根据成长层数使自身造成诱导层数增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02432",
+  "EffectDescription": "每拥有{0}层成长使自身造成诱导层数+{1}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02432",
+  "BadgeIDs": "HZ00028",
+  "Value1": "200,200,200",
+  "Value2": "1,2,3",
+  "Tag": "成长,诱导,层数增加",
+  "Score": 40,
+  "PositiveTags": "成长相关,诱导相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_963",
+  "IDs": "JN02421",
+  "Name": "药剂调配",
+  "NameI2": "Equipbond/Name_Skill_JN02421",
+  "BondNum": "1,3,6",
+  "BasicDescription": "释放技能后使本回合自身造成阻碍层数增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02421",
+  "EffectDescription": "释放技能后使本回合自身造成阻碍层数+{0}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02421",
+  "BadgeIDs": "HZ00010",
+  "Value1": "1,2,3",
+  "Value2": "",
+  "Tag": "释放技能,阻碍,层数增加",
+  "Score": 40,
+  "PositiveTags": "阻碍相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_964",
+  "IDs": "JN02422",
+  "Name": "药剂泄漏",
+  "NameI2": "Equipbond/Name_Skill_JN02422",
+  "BondNum": "1,3,6",
+  "BasicDescription": "行动开始前对敌方最近的几名目标造成阻碍。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02422",
+  "EffectDescription": "行动开始前对敌方最近的{0}名目标造成{1}层阻碍。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02422",
+  "BadgeIDs": "HZ00010",
+  "Value1": "1,2,3",
+  "Value2": "1,2,3",
+  "Tag": "行动开始,阻碍",
+  "Score": 40,
+  "PositiveTags": "阻碍相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_965",
+  "IDs": "JN02435",
+  "Name": "以毒攻毒",
+  "NameI2": "Equipbond/Name_Skill_JN02435",
+  "BondNum": "1,3,6",
+  "BasicDescription": "受到攻击时根据目标拥有阻碍层数使自身获得生命。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02435",
+  "EffectDescription": "受到攻击时目标每拥有{0}层阻碍使自身获得{1}点生命。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02435",
+  "BadgeIDs": "HZ00010",
+  "Value1": "60,60,60",
+  "Value2": "1,2,3",
+  "Tag": "受到攻击,阻碍,获得生命",
+  "Score": 40,
+  "PositiveTags": "阻碍相关,回血效果",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_966",
+  "IDs": "JN02427",
+  "Name": "剧毒引爆",
+  "NameI2": "Equipbond/Name_Skill_JN02427",
+  "BondNum": "1,3,6",
+  "BasicDescription": "对满层阻碍目标造成单段技能伤害百分比增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02427",
+  "EffectDescription": "对满层阻碍目标造成单段技能伤害+{0}%。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02427",
+  "BadgeIDs": "HZ00010",
+  "Value1": "25,50,75",
+  "Value2": "",
+  "Tag": "释放技能,阻碍,伤害增加",
+  "Score": 40,
+  "PositiveTags": "阻碍相关,技能输出",
+  "NegativeTags": "多段技能",
+  "Type": "特殊",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_967",
+  "IDs": "JN02428",
+  "Name": "衰败药剂",
+  "NameI2": "Equipbond/Name_Skill_JN02428",
+  "BondNum": "1,3,6",
+  "BasicDescription": "造成阻碍后使目标生命上限减少。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02428",
+  "EffectDescription": "造成阻碍后如果目标至少拥有{0}层阻碍则使目标生命上限-{1}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02428",
+  "BadgeIDs": "HZ00010",
+  "Value1": "250,250,250",
+  "Value2": "5,10,15",
+  "Tag": "阻碍,生命",
+  "Score": 40,
+  "PositiveTags": "阻碍相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_968",
+  "IDs": "JN02423",
+  "Name": "潮湿外皮",
+  "NameI2": "Equipbond/Name_Skill_JN02423",
+  "BondNum": "1,3,6",
+  "BasicDescription": "拥有滋润时使自身受到灼烧层数减少。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02423",
+  "EffectDescription": "拥有滋润时使自身受到灼烧层数-{0}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02423",
+  "BadgeIDs": "HZ00033",
+  "Value1": "6,12,18",
+  "Value2": "",
+  "Tag": "滋润,灼烧,层数减少",
+  "Score": 40,
+  "PositiveTags": "滋润相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_969",
+  "IDs": "JN02424",
+  "Name": "湿气缠身",
+  "NameI2": "Equipbond/Name_Skill_JN02424",
+  "BondNum": "1,3,6",
+  "BasicDescription": "行动结束后使自身获得滋润，但受到脆弱。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02424",
+  "EffectDescription": "行动结束后使自身获得{0}层滋润，但受到{1}层脆弱。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02424",
+  "BadgeIDs": "HZ00033",
+  "Value1": "4,8,12",
+  "Value2": "2,4,6",
+  "Tag": "行动结束,滋润,脆弱",
+  "Score": 0,
+  "PositiveTags": "滋润相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_970",
+  "IDs": "JN02429",
+  "Name": "结伴而行",
+  "NameI2": "Equipbond/Name_Skill_JN02429",
+  "BondNum": "1,3,6",
+  "BasicDescription": "回合开始前根据友方数量使自身获得坚韧。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02429",
+  "EffectDescription": "回合开始前每{0}点友方数量使自身获得{1}层坚韧。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02429",
+  "BadgeIDs": "HZ00204",
+  "Value1": "9,6,3",
+  "Value2": "1,1,1",
+  "Tag": "回合开始,友方数量,坚韧",
+  "Score": 40,
+  "PositiveTags": "友方数量,坚韧相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_971",
+  "IDs": "JN02430",
+  "Name": "成群结队",
+  "NameI2": "Equipbond/Name_Skill_JN02430",
+  "BondNum": "1,3,6",
+  "BasicDescription": "友方数量达到要求后使自身造成鼓舞层数增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02430",
+  "EffectDescription": "友方数量不低于{0}点时使自身造成鼓舞层数+{1}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02430",
+  "BadgeIDs": "HZ00204",
+  "Value1": "50,50,50",
+  "Value2": "1,2,3",
+  "Tag": "友方数量,鼓舞,层数增加",
+  "Score": 40,
+  "PositiveTags": "友方数量,鼓舞相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_972",
+  "IDs": "JN02442",
+  "Name": "虔诚血祭",
+  "NameI2": "Equipbond/Name_Skill_JN02442",
+  "BondNum": "1,3,6",
+  "BasicDescription": "行动结束后失去部分生命使自身造成全部伤害增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02442",
+  "EffectDescription": "行动结束后使自身失去生命上限{0}%的生命，并使自身造成全部伤害+{1}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02442",
+  "BadgeIDs": "HZ00083",
+  "Value1": "10,10,10",
+  "Value2": "1,2,3",
+  "Tag": "行动结束,伤害增加,失去生命",
+  "Score": 0,
+  "PositiveTags": "全局增伤",
+  "NegativeTags": "自身高血",
+  "Type": "特殊",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_973",
+  "IDs": "JN02443",
+  "Name": "鲜血固化",
+  "NameI2": "Equipbond/Name_Skill_JN02443",
+  "BondNum": "1,3,6",
+  "BasicDescription": "低生命时使自身受到失去生命减少。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02443",
+  "EffectDescription": "低生命时使自身受到失去生命-{0}，并在生命低于{1}点时效果翻倍。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02443",
+  "BadgeIDs": "HZ00072",
+  "Value1": "5,10,15",
+  "Value2": "20,20,20",
+  "Tag": "自身低血,失血抵抗",
+  "Score": 40,
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "A"
+ },
+ {
+  "Id": "bond_974",
+  "IDs": "JN02425",
+  "Name": "无声月光",
+  "NameI2": "Equipbond/Name_Skill_JN02425",
+  "BondNum": "1,3,6",
+  "BasicDescription": "造成泯灭后使友方全体目标获得韧性。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02425",
+  "EffectDescription": "造成泯灭后使友方全体目标获得{0}点韧性。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02425",
+  "BadgeIDs": "HZ00006",
+  "Value1": "1,2,3",
+  "Value2": "",
+  "Tag": "泯灭,获得韧性",
+  "Score": 80,
+  "PositiveTags": "回韧效果,泯灭相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "S"
+ },
+ {
+  "Id": "bond_975",
+  "IDs": "JN02426",
+  "Name": "无声侵染",
+  "NameI2": "Equipbond/Name_Skill_JN02426",
+  "BondNum": "1,3,6",
+  "BasicDescription": "释放技能时根据造成泯灭层数使目标行动回魔减少。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02426",
+  "EffectDescription": "释放技能时每造成{0}层泯灭使目标行动回魔-{1}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02426",
+  "BadgeIDs": "HZ00006",
+  "Value1": "150,100,50",
+  "Value2": "1,1,1",
+  "Tag": "回合开始,泯灭,层数增加",
+  "Score": 80,
+  "PositiveTags": "泯灭相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "S"
+ },
+ {
+  "Id": "bond_976",
+  "IDs": "JN02449",
+  "Name": "嗜血汲取",
+  "NameI2": "Equipbond/Name_Skill_JN02449",
+  "BondNum": "1,3,6",
+  "BasicDescription": "造成剥离后使自身获得部分层数的生命。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02449",
+  "EffectDescription": "造成剥离后使自身获得本次造成剥离层数{0}%的生命。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02449",
+  "BadgeIDs": "HZ00009",
+  "Value1": "10,20,30",
+  "Value2": "",
+  "Tag": "剥离,获得生命",
+  "Score": 80,
+  "PositiveTags": "剥离相关,回血效果",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "S"
+ },
+ {
+  "Id": "bond_977",
+  "IDs": "JN02450",
+  "Name": "玉石之力",
+  "NameI2": "Equipbond/Name_Skill_JN02450",
+  "BondNum": "1,3,6",
+  "BasicDescription": "造成剥离后使自身战斗点数增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02450",
+  "EffectDescription": "造成剥离后使自身战斗点数+{0}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02450",
+  "BadgeIDs": "HZ00009",
+  "Value1": "1,2,3",
+  "Value2": "",
+  "Tag": "剥离,攻击点数,防御点数",
+  "Score": 80,
+  "PositiveTags": "剥离相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "S"
+ },
+ {
+  "Id": "bond_978",
+  "IDs": "JN02440",
+  "Name": "同行诅咒",
+  "NameI2": "Equipbond/Name_Skill_JN02440",
+  "BondNum": "1,3,6",
+  "BasicDescription": "失去生命时同位置敌方目标失去生命。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02440",
+  "EffectDescription": "失去生命时同位置敌方目标失去{0}点生命，每回合最多生效{1}次。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02440",
+  "BadgeIDs": "HZ00076",
+  "Value1": "5,10,15",
+  "Value2": "10,10,10",
+  "Tag": "失去生命",
+  "Score": 80,
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "S"
+ },
+ {
+  "Id": "bond_979",
+  "IDs": "JN02441",
+  "Name": "诅咒恶化",
+  "NameI2": "Equipbond/Name_Skill_JN02441",
+  "BondNum": "1,3,6",
+  "BasicDescription": "造成阻碍后使同位置敌方目标受到失去生命增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02441",
+  "EffectDescription": "造成阻碍后使同位置敌方目标受到失去生命+{0}，并使自身失去{1}点生命。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02441",
+  "BadgeIDs": "HZ00010",
+  "Value1": "1,2,3",
+  "Value2": "1,1,1",
+  "Tag": "阻碍,失血收益",
+  "Score": 0,
+  "PositiveTags": "阻碍相关,失血收益",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "S"
+ },
+ {
+  "Id": "bond_980",
+  "IDs": "JN02447",
+  "Name": "神形百变",
+  "NameI2": "Equipbond/Name_Skill_JN02447",
+  "BondNum": "1,3,6",
+  "BasicDescription": "角色位于不同位置时分别使自身造成不同状态层数增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02447",
+  "EffectDescription": "位于前排、中排、后排时分别使自身造成即时、正面、负面状态层数+{0}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02447",
+  "BadgeIDs": "HZ00026",
+  "Value1": "2,4,6",
+  "Value2": "",
+  "Tag": "层数增加",
+  "Score": 80,
+  "PositiveTags": "",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "S"
+ },
+ {
+  "Id": "bond_981",
+  "IDs": "JN02448",
+  "Name": "环境适应",
+  "NameI2": "Equipbond/Name_Skill_JN02448",
+  "BondNum": "1,3,6",
+  "BasicDescription": "角色处于不同情况分别使自身受到全部伤害和失去生命减少。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02448",
+  "EffectDescription": "弱点暴露、低生命、拥有负面状态时分别使自身受到全部伤害-{0}，受到失去生命-{1}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02448",
+  "BadgeIDs": "HZ00039",
+  "Value1": "5,10,15",
+  "Value2": "5,10,15",
+  "Tag": "受伤减少,失血抵抗",
+  "Score": 80,
+  "PositiveTags": "自身暴露,自身低血,全局减伤",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "S"
+ },
+ {
+  "Id": "bond_982",
+  "IDs": "JN02433",
+  "Name": "不甘怨念",
+  "NameI2": "Equipbond/Name_Skill_JN02433",
+  "BondNum": "1,3,6",
+  "BasicDescription": "根据触发自身战败效果次数使友方攻击属性最高目标下次造成多段技能次数增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02433",
+  "EffectDescription": "自身每触发{0}次战败效果使除自身外的友方攻击属性最高目标下次造成多段技能次数+{1}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02433",
+  "BadgeIDs": "HZ00202",
+  "Value1": "15,10,5",
+  "Value2": "1,1,1",
+  "Tag": "自身战败,技能次数",
+  "Score": 80,
+  "PositiveTags": "自身战败",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "S"
+ },
+ {
+  "Id": "bond_983",
+  "IDs": "JN02434",
+  "Name": "决死诅咒",
+  "NameI2": "Equipbond/Name_Skill_JN02434",
+  "BondNum": "1,3,6",
+  "BasicDescription": "自身战败后消耗自身全部防护使敌方全体目标下次受到多段技能伤害增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02434",
+  "EffectDescription": "自身战败后消耗自身全部防护，每消耗{0}层防护使敌方全体目标下次受到多段技能伤害+{1}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02434",
+  "BadgeIDs": "HZ00202",
+  "Value1": "9,6,3",
+  "Value2": "1,1,1",
+  "Tag": "自身战败,防护,技能次数",
+  "Score": 0,
+  "PositiveTags": "自身战败,防护相关",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "S"
+ },
+ {
+  "Id": "bond_984",
+  "IDs": "JN02446",
+  "Name": "毁灭爆发",
+  "NameI2": "Equipbond/Name_Skill_JN02446",
+  "BondNum": "1,3,6",
+  "BasicDescription": "释放攻击技能时根据目标阻碍层数使本次造成伤害增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02446",
+  "EffectDescription": "释放攻击技能时目标每拥有{0}层阻碍使本次造成伤害+{1}，本次攻击未击败目标时本回合该效果失效。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02446",
+  "BadgeIDs": "HZ00083",
+  "Value1": "9,6,3",
+  "Value2": "1,1,1",
+  "Tag": "释放技能,伤害增加,阻碍",
+  "Score": 80,
+  "PositiveTags": "阻碍相关,全局增伤",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "S"
+ },
+ {
+  "Id": "bond_985",
+  "IDs": "JN02444",
+  "Name": "鲜花点缀",
+  "NameI2": "Equipbond/Name_Skill_JN02444",
+  "BondNum": "1,3,6",
+  "BasicDescription": "根据成长层数使自身幸运增加。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02444",
+  "EffectDescription": "每拥有{0}层成长使自身幸运+{1}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02444",
+  "BadgeIDs": "HZ00012",
+  "Value1": "20,15,10",
+  "Value2": "1,1,1",
+  "Tag": "成长,幸运",
+  "Score": 80,
+  "PositiveTags": "成长相关,堆叠幸运",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "S"
+ },
+ {
+  "Id": "bond_986",
+  "IDs": "JN02445",
+  "Name": "花神庇护",
+  "NameI2": "Equipbond/Name_Skill_JN02445",
+  "BondNum": "1,3,6",
+  "BasicDescription": "根据幸运使自身受到负面状态层数减少。",
+  "BasicDescriptionI2": "Equipbond/Name_Skillsimdes_JN02445",
+  "EffectDescription": "每{0}点幸运使自身受到负面状态层数-{1}。",
+  "EffectDescriptionI2": "Equipbond/Name_Skilldetaildes_JN02445",
+  "BadgeIDs": "HZ00026",
+  "Value1": "40,30,20",
+  "Value2": "1,1,1",
+  "Tag": "幸运,负面状态,层数减少",
+  "Score": 80,
+  "PositiveTags": "堆叠幸运",
+  "NegativeTags": "",
+  "Type": "特殊",
+  "Step": "S"
  }
 ]

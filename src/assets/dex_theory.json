@@ -78,9 +78,9 @@
    "label": "角色",
    "dist": {
     "C": 24,
-    "B": 40,
-    "A": 77,
-    "S": 73
+    "B": 41,
+    "A": 81,
+    "S": 78
    },
    "detail": [
     {
@@ -97,43 +97,43 @@
     },
     {
      "step": "B",
-     "count": 40,
+     "count": 41,
      "point": 40,
      "upgradePoint": 20,
      "starTimes": 4,
-     "collectExp": 1600,
-     "starExp": 3200,
+     "collectExp": 1640,
+     "starExp": 3280,
      "heritageRate": 0,
      "heritageExpExpect": 0,
      "heritageExpMax": 0
     },
     {
      "step": "A",
-     "count": 77,
+     "count": 81,
      "point": 120,
      "upgradePoint": 60,
      "starTimes": 3,
-     "collectExp": 9240,
-     "starExp": 13860,
+     "collectExp": 9720,
+     "starExp": 14580,
      "heritageRate": 0,
      "heritageExpExpect": 0,
      "heritageExpMax": 0
     },
     {
      "step": "S",
-     "count": 73,
+     "count": 78,
      "point": 480,
      "upgradePoint": 240,
      "starTimes": 2,
-     "collectExp": 35040,
-     "starExp": 35040,
+     "collectExp": 37440,
+     "starExp": 37440,
      "heritageRate": 0,
      "heritageExpExpect": 0,
      "heritageExpMax": 0
     }
    ],
-   "collect": 46160,
-   "star": 53060,
+   "collect": 49080,
+   "star": 56260,
    "heritageExpect": 0,
    "heritageMax": 0,
    "deducted": 200,
@@ -143,78 +143,78 @@
    "key": "Equip",
    "label": "装备",
    "dist": {
-    "C": 157,
-    "B": 351,
-    "A": 642,
-    "S": 468,
-    "SS": 16
+    "C": 163,
+    "B": 366,
+    "A": 681,
+    "S": 507,
+    "SS": 17
    },
    "detail": [
     {
      "step": "C",
-     "count": 157,
+     "count": 163,
      "point": 20,
      "upgradePoint": 10,
      "starTimes": 3,
-     "collectExp": 3140,
-     "starExp": 4710,
+     "collectExp": 3260,
+     "starExp": 4890,
      "heritageRate": 0.00625,
-     "heritageExpExpect": 19.6,
-     "heritageExpMax": 3140
+     "heritageExpExpect": 20.4,
+     "heritageExpMax": 3260
     },
     {
      "step": "B",
-     "count": 351,
+     "count": 366,
      "point": 40,
      "upgradePoint": 20,
      "starTimes": 3,
-     "collectExp": 14040,
-     "starExp": 21060,
+     "collectExp": 14640,
+     "starExp": 21960,
      "heritageRate": 0.0125,
-     "heritageExpExpect": 175.5,
-     "heritageExpMax": 14040
+     "heritageExpExpect": 183.0,
+     "heritageExpMax": 14640
     },
     {
      "step": "A",
-     "count": 642,
+     "count": 681,
      "point": 120,
      "upgradePoint": 60,
      "starTimes": 3,
-     "collectExp": 77040,
-     "starExp": 115560,
+     "collectExp": 81720,
+     "starExp": 122580,
      "heritageRate": 0.025,
-     "heritageExpExpect": 1926.0,
-     "heritageExpMax": 77040
+     "heritageExpExpect": 2043.0,
+     "heritageExpMax": 81720
     },
     {
      "step": "S",
-     "count": 468,
+     "count": 507,
      "point": 480,
      "upgradePoint": 240,
      "starTimes": 3,
-     "collectExp": 224640,
-     "starExp": 336960,
+     "collectExp": 243360,
+     "starExp": 365040,
      "heritageRate": 0.05,
-     "heritageExpExpect": 11232.0,
-     "heritageExpMax": 224640
+     "heritageExpExpect": 12168.0,
+     "heritageExpMax": 243360
     },
     {
      "step": "SS",
-     "count": 16,
+     "count": 17,
      "point": 2400,
      "upgradePoint": 1200,
      "starTimes": 3,
-     "collectExp": 38400,
-     "starExp": 57600,
+     "collectExp": 40800,
+     "starExp": 61200,
      "heritageRate": 0,
      "heritageExpExpect": 0,
-     "heritageExpMax": 38400
+     "heritageExpMax": 40800
     }
    ],
-   "collect": 357260,
-   "star": 535890,
-   "heritageExpect": 13353.1,
-   "heritageMax": 357260,
+   "collect": 383780,
+   "star": 575670,
+   "heritageExpect": 14414.4,
+   "heritageMax": 383780,
    "deducted": 0,
    "hasHeritage": true
   },
@@ -222,63 +222,63 @@
    "key": "Rune",
    "label": "符文",
    "dist": {
-    "C": 32,
-    "B": 32,
-    "A": 32,
-    "S": 68
+    "C": 34,
+    "B": 34,
+    "A": 34,
+    "S": 72
    },
    "detail": [
     {
      "step": "C",
-     "count": 32,
+     "count": 34,
      "point": 20,
      "upgradePoint": 10,
      "starTimes": 3,
-     "collectExp": 640,
-     "starExp": 960,
+     "collectExp": 680,
+     "starExp": 1020,
      "heritageRate": 0,
      "heritageExpExpect": 0,
      "heritageExpMax": 0
     },
     {
      "step": "B",
-     "count": 32,
+     "count": 34,
      "point": 40,
      "upgradePoint": 20,
      "starTimes": 3,
-     "collectExp": 1280,
-     "starExp": 1920,
+     "collectExp": 1360,
+     "starExp": 2040,
      "heritageRate": 0,
      "heritageExpExpect": 0,
      "heritageExpMax": 0
     },
     {
      "step": "A",
-     "count": 32,
+     "count": 34,
      "point": 120,
      "upgradePoint": 60,
      "starTimes": 3,
-     "collectExp": 3840,
-     "starExp": 5760,
+     "collectExp": 4080,
+     "starExp": 6120,
      "heritageRate": 0,
      "heritageExpExpect": 0,
      "heritageExpMax": 0
     },
     {
      "step": "S",
-     "count": 68,
+     "count": 72,
      "point": 480,
      "upgradePoint": 240,
      "starTimes": 3,
-     "collectExp": 32640,
-     "starExp": 48960,
+     "collectExp": 34560,
+     "starExp": 51840,
      "heritageRate": 0,
      "heritageExpExpect": 0,
      "heritageExpMax": 0
     }
    ],
-   "collect": 38400,
-   "star": 57600,
+   "collect": 40680,
+   "star": 61020,
    "heritageExpect": 0,
    "heritageMax": 0,
    "deducted": 0,
@@ -365,26 +365,26 @@
   }
  ],
  "totals": {
-  "collect": 455700,
-  "star": 667370,
-  "heritageExpect": 13353.1,
-  "heritageMax": 357260,
-  "floor": 1123070,
-  "expect": 1136423.1,
-  "max": 1480330
+  "collect": 487420,
+  "star": 713770,
+  "heritageExpect": 14414.4,
+  "heritageMax": 383780,
+  "floor": 1201190,
+  "expect": 1215604.4,
+  "max": 1584970
  },
  "levels": {
   "floor": [
-   196,
-   4070
+   206,
+   2190
   ],
   "expect": [
-   198,
-   1423.1000000000931
+   208,
+   604.3999999999069
   ],
   "max": [
-   241,
-   1330
+   254,
+   1970
   ]
  },
  "heritageRates": {

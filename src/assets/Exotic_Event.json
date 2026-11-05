@@ -2,11 +2,21 @@
  {
   "Id": "exotic_event_1",
   "ActicityIDs": "HD00005",
-  "OriginMapIDs": "A40000",
-  "UniqueIDs": "A00003_000",
-  "ExoticMapIDs": "A00003",
+  "OriginMapIDs": "A21001",
+  "UniqueIDs": "A21001_000",
+  "ExoticMapIDs": "A21001",
   "StartTime": "2025/3/29 21:00:00",
   "EndTime": "2025/4/30 21:00:00",
   "IsFirstReveal": 1
+ },
+ {
+  "Id": "exotic_event_2",
+  "ActicityIDs": "HD00005",
+  "OriginMapIDs": "A10002",
+  "UniqueIDs": "A00001_001",
+  "ExoticMapIDs": "A00001",
+  "StartTime": "2025/3/29 21:00:00",
+  "EndTime": "2025/4/30 21:00:00",
+  "IsFirstReveal": 0
  }
 ]
